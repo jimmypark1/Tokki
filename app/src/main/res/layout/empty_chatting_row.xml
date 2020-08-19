@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="true">
+
+    <RelativeLayout
+        android:id="@+id/addBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        android:focusable="false"
+        android:clickable="false">
+
+        <TextView
+            android:id="@+id/txtView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="12sp"
+            android:textColor="@color/colorBlack"
+            android:gravity="center"
+            android:text="사이에 추가"/>
+
+        <ImageView
+            android:id="@+id/leftLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_toLeftOf="@+id/txtView"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@color/colorBlack"/>
+
+        <ImageView
+            android:id="@+id/rightLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_toRightOf="@+id/txtView"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@color/colorBlack"/>
+    </RelativeLayout>
+</RelativeLayout>

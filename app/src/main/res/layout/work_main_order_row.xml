@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="27dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="7dp">
+
+        <TextView
+            android:id="@+id/episodeCountView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="총 999화 / 미완결"
+            android:textColor="#d1d1d1"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/orderBtn"
+            android:layout_width="30dp"
+            android:layout_height="26dp"
+            android:layout_toLeftOf="@+id/downArrowBtn"
+            android:layout_alignParentRight="true"
+            android:scaleType="center"
+            android:src="@drawable/aline"/>
+    </RelativeLayout>
+</RelativeLayout>

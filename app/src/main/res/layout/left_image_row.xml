@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/contentsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:layout_alignParentLeft="true">
+
+        <RelativeLayout
+            android:id="@+id/faceBGLayout"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/faceView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/caracter_b_icon"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_alignTop="@+id/faceBGLayout"
+            android:layout_toRightOf="@+id/faceBGLayout"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:text="홍길동"/>
+
+        <LinearLayout
+            android:id="@+id/contentsLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/nameView"
+            android:clipChildren="false"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="67dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/imageContentsView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_img_bg"
+                    android:scaleType="fitCenter" />
+
+                <ImageView
+                    android:id="@+id/deleteBtn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_alignRight="@+id/imageContentsView"
+                    android:layout_alignTop="@+id/imageContentsView"
+                    android:layout_marginTop="-12dp"
+                    android:layout_marginRight="-12dp"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:background="@drawable/delet_button"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/emptyBtn"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginLeft="5dp"
+                    android:focusable="false"
+                    android:clickable="false"/>
+
+                <TextView
+                    android:id="@+id/commentCountView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:layout_alignParentBottom="true"
+                    android:visibility="invisible"
+                    android:textColor="@color/colorBlack"
+                    android:text="0"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/addBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_below="@+id/contentsLayout"
+        android:focusable="false"
+        android:clickable="false">
+
+        <TextView
+            android:id="@+id/txtView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="12sp"
+            android:textColor="@color/colorBlack"
+            android:gravity="center"
+            android:text="사이에 추가"/>
+
+        <ImageView
+            android:id="@+id/leftLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_toLeftOf="@+id/txtView"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@color/colorBlack"/>
+
+        <ImageView
+            android:id="@+id/rightLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_toRightOf="@+id/txtView"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@color/colorBlack"/>
+    </RelativeLayout>
+</RelativeLayout>

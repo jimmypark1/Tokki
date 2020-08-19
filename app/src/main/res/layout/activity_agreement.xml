@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".UI.Activity.Login.AgreementActivity">
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="56dp"
+        android:background="@null"
+        android:onClick="onClickTopLeftBtn"
+        android:src="@drawable/back_button"/>
+
+    <ImageView
+        android:id="@+id/logoView"
+        android:layout_width="82dp"
+        android:layout_height="24.8dp"
+        android:layout_marginLeft="64dp"
+        android:layout_below="@+id/backBtn"
+        android:layout_marginTop="38.8dp"
+        android:background="@drawable/text_logo"/>
+
+    <TextView
+        android:id="@+id/subTitleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logoView"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="11.5dp"
+        android:textSize="22sp"
+        android:textColor="@color/colorBlack"
+        android:text="에 오신걸 환영합니다."/>
+
+    <LinearLayout
+        android:id="@+id/totalAgreeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/subTitleView"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginTop="76dp"
+        android:gravity="center_vertical"
+        android:onClick="onClickTotakCheckBtn"
+        android:background="#e8e8e8">
+        
+        <ImageView
+            android:id="@+id/totalCheckbox"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:background="@color/colorWhite"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:textSize="14sp"
+            android:textColor="@color/colorBlack"
+            android:text="모두 동의합니다."/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/agree1Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/totalAgreeLayout"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:padding="10dp"
+        android:onClick="onClickCheck1">
+
+        <ImageView
+            android:id="@+id/checkBtn1"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginLeft="6.7dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/check_box_non"/>
+
+        <TextView
+            android:id="@+id/check1TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/checkBtn1"
+            android:layout_marginLeft="14dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:text="개인정보 수집 및 이용 동의 (필수)"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="16dp"
+            android:background="@drawable/right_arrow_dark"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/agree2Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/agree1Layout"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginTop="7dp"
+        android:padding="10dp"
+        android:onClick="onClickCheck2">
+
+        <ImageView
+            android:id="@+id/checkBtn2"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginLeft="6.7dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/check_box_non"/>
+
+        <TextView
+            android:id="@+id/check2TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/checkBtn2"
+            android:layout_marginLeft="14dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:text="서비스 이용 약관 동의 (필수)"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="16dp"
+            android:background="@drawable/right_arrow_dark"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="26.3dp"
+        android:background="#e3e3e3"
+        android:textColor="#969696"
+        android:text="다음"
+        android:onClick="onClickRegisterBtn"/>
+
+</RelativeLayout>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Activity.Work.CreateWorkActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/writeSubTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:text="제목"/>
+
+            <EditText
+                android:id="@+id/inputTitleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/writeSubTitleView"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:hint="작품 제목을 입력하세요"/>
+
+            <RelativeLayout
+                android:id="@+id/photoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/round_gray_btn_bg"
+                android:layout_below="@+id/inputTitleView">
+
+                <ImageView
+                    android:id="@+id/coverImgView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
+
+                <LinearLayout
+                    android:id="@+id/coverImgBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:onClick="OnClickPhotoBtn">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:text="포스터"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/photo_bg_icon"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/writeSubTitle2View"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@+id/photoLayout"
+                android:text="줄거리"/>
+
+            <EditText
+                android:id="@+id/inputSynopsisView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/writeSubTitle2View"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:hint="@string/text_please_input_synopsis"/>
+
+            <ImageView
+                android:id="@+id/lineDivider"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/line_divider"
+                android:layout_below="@+id/inputSynopsisView"
+                android:layout_marginTop="40dp"/>
+
+            <LinearLayout
+                android:id="@+id/tagLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/lineDivider"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="태그"/>
+
+                <com.Whowant.Tokki.UI.Custom.TagEditText
+                    android:id="@+id/inputTagView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:hint="태그를 입력해주세요"/>
+
+<!--                <affan.ahmad.tags.TagsEditText-->
+<!--                    android:id="@+id/inputTagView"-->
+<!--                    android:animateLayoutChanges="true"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"/>-->
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/lineDivider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_divider"
+                android:layout_below="@+id/tagLayout"/>
+
+            <Spinner
+                android:id="@+id/genreSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_below="@+id/lineDivider2"/>
+
+            <ImageView
+                android:id="@+id/lineDivider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_divider"
+                android:layout_below="@+id/genreSpinner"/>
+
+            <Spinner
+                android:id="@+id/targetSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_below="@+id/lineDivider3"/>
+
+            <ImageView
+                android:id="@+id/lineDivider4"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/line_divider"
+                android:layout_below="@+id/targetSpinner"/>
+
+            <Button
+                android:id="@+id/okBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lineDivider4"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="20dp"
+                android:background="@drawable/common_selected_rounded_btn_bg"
+                android:onClick="OnClickOkBtn"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="저장"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

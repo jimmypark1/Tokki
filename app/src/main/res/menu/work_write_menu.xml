@@ -1,0 +1,15 @@
+<menu  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_btn2"
+        android:title="Excel"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_btn3"
+        android:title="미리보기"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_btn4"
+        android:title="전체삭제"
+        app:showAsAction="never" />
+</menu>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context="com.Whowant.Tokki.UI.Activity.Main.GenreRankingActivity">
+
+    <include
+        android:id="@+id/topLayout"
+        layout="@layout/top_bar"/>
+
+    <ImageView
+        android:id="@+id/lineView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignBottom="@+id/tabScrollLayout"
+        android:background="#e3e3e3"/>
+
+    <HorizontalScrollView
+        android:id="@+id/tabScrollLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/topLayout"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_below="@+id/topLayout"
+            android:orientation="horizontal"/>
+    </HorizontalScrollView>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabScrollLayout"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:dividerHeight="0dp"
+        android:divider="#00000000"/>
+</RelativeLayout>

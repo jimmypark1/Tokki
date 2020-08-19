@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/leftLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
+
+        <RelativeLayout
+            android:id="@+id/faceBGLayout"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/gray_face_bg"
+            android:layout_marginTop="15dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:src="@drawable/talk_pf_no_img"/>
+
+            <ImageView
+                android:id="@+id/faceView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_alignTop="@+id/faceBGLayout"
+            android:layout_toRightOf="@+id/faceBGLayout"
+            android:textSize="14sp"
+            android:text="홍길동"/>
+
+        <LinearLayout
+            android:id="@+id/contentsLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/nameView"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="7dp"
+            android:layout_toRightOf="@+id/faceBGLayout">
+
+            <RelativeLayout
+                android:id="@+id/contentsLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_weight="1"
+                android:background="@drawable/left_small_talk_new">
+
+                <TextView
+                    android:id="@+id/contentsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

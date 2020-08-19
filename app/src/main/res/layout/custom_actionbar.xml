@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:clipChildren="false"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="17dp"
+        android:ellipsize="end"
+        android:maxLength="15"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        android:singleLine="true"/>
+
+    <ImageButton
+        android:id="@+id/changeTitleBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/titleView"
+        android:layout_marginLeft="10dp"
+        android:background="@null"
+        android:src="@drawable/title_edit_icon"/>
+</RelativeLayout>

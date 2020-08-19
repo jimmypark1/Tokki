@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "694085031680",
+    "firebase_url": "https://panbook-30195.firebaseio.com",
+    "project_id": "panbook-30195",
+    "storage_bucket": "panbook-30195.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694085031680:android:5a8fae4a1e425940d1c5e5",
+        "android_client_info": {
+          "package_name": "com.Whowant.Penapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694085031680-eea3ao6vj072c7d69n187ivo65g2r3af.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Whowant.Penapp",
+            "certificate_hash": "0785b9f308145c575ab304d8c6200b7c7187bce5"
+          }
+        },
+        {
+          "client_id": "694085031680-370grt9h4vb6jt1u2a0aab6c74ev7qnp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Whowant.Penapp",
+            "certificate_hash": "873d1bb44a86bc89862a28dcc0b9f115079cbaee"
+          }
+        },
+        {
+          "client_id": "694085031680-rmn7k7b4n15c81pna9re7eqqusv27moi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpCzDymUV4cEWN9cd7aeDUhDbn0lu64ds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694085031680-rmn7k7b4n15c81pna9re7eqqusv27moi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "694085031680-clu0j5mtrtjrmtsilphebsbrrppha3a8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Whowant.PanBook"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

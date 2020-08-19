@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:background="#000000">
+
+    <TextView
+        android:id="@+id/contentsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/narration_bg"
+        android:visibility="gone"
+        android:layout_marginLeft="36.3dp"
+        android:layout_marginRight="36.3dp"
+        android:paddingLeft="38.7dp"
+        android:paddingRight="38.7dp"
+        android:paddingTop="8.3dp"
+        android:paddingBottom="8.3dp"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorWhite"/>
+
+    <TextView
+        android:id="@+id/commentCountView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_alignLeft="@+id/deleteBtn"
+        android:layout_alignBottom="@+id/contentsTextView"
+        android:maxLines="1"
+        android:visibility="gone"
+        android:textColor="@color/colorTextGray"
+        android:text="0"/>
+
+    <ImageView
+        android:id="@+id/deleteBtn"
+        android:layout_width="23dp"
+        android:layout_height="0dp"
+        android:layout_alignTop="@+id/contentsTextView"
+        android:layout_alignRight="@+id/contentsTextView"
+        android:layout_marginRight="-30dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:visibility="gone"
+        android:background="@drawable/delete_btn_bg"
+        android:src="@drawable/talk_delete"/>
+
+    <RelativeLayout
+        android:id="@+id/addBtn"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_below="@+id/contentsTextView"
+        android:gravity="center"
+        android:background="@drawable/common_gray_rounded_btn_bg"
+        android:text="사이에 추가"/>
+</RelativeLayout>

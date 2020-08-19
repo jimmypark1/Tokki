@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".UI.Activity.Work.LiteratureWriteActivity">
+
+    <ImageView
+        android:id="@+id/bgView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorDefaultBG"
+        android:scaleType="centerCrop"/>
+
+
+    <ListView
+        android:id="@+id/chattingListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/speakerSelectLayout"
+        android:dividerHeight="0dp"
+        android:divider="#00000000"/>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/dimLayerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/speakerSelectLayout"
+        android:background="#00000000">
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <RelativeLayout
+        android:id="@+id/speakerSelectLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/chattingLayout"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:paddingTop="15dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="15dp"
+        android:background="@color/colorWhite">
+
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:id="@+id/speakerAddLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical">
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/speakerAddView"
+                    layout="@layout/speaker_view"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/chattingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_above="@+id/bottomSettingLayout"
+        android:background="@color/colorWhite">
+
+        <ImageButton
+            android:id="@+id/contentsAddBtn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/selectionplus"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="onClickContentsAddBtn"/>
+
+        <Button
+            android:id="@+id/sendBtn"
+            android:layout_width="55dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/gray_btn_bg"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="등록"/>
+
+        <EditText
+            android:id="@+id/inputTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@+id/contentsAddBtn"
+            android:layout_toLeftOf="@+id/sendBtn"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomSettingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomLayout"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:orientation="horizontal"
+        android:background="@color/colorDefaultBG"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/bgSettingView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/bottom_box_icon1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:textColor="#b6b7b8"
+                android:textSize="16sp"
+                android:text="배경"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/imgSettingView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/bottom_box_icon2"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:textColor="#b6b7b8"
+                android:textSize="16sp"
+                android:text="이미지"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/videoSettingView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/bottom_box_icon3"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:textColor="#b6b7b8"
+                android:textSize="16sp"
+                android:text="동영상"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/soundSettingView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            >
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/bottom_box_icon4"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:textColor="#b6b7b8"
+                android:textSize="16sp"
+                android:text="음원"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/distractorView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/bottom_box_icon5"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:textColor="#b6b7b8"
+                android:textSize="16sp"
+                android:text="선택지"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"></LinearLayout>
+</RelativeLayout>

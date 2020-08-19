@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.Whowant.Tokki">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <application
+        android:name=".GlobalApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".UI.Activity.DrawerMenu.ContestDetailActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".UI.Activity.Admin.ContestListActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.DrawerMenu.ContestInputActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.DrawerMenu.ContestEventActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.EventPopupActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity
+            android:name=".UI.Activity.Login.TermsActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Carrot.TotalCarrotListActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Carrot.UsedCarrotListActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.MainTutorialActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity
+            android:name=".UI.Activity.Login.TutorialActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Login.RegisterCompleteActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Login.InputRecommendCodeActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.CarrotDoneActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Work.TagSelectActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Work.GenreSelectActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Work.CreateCharacterActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SplashActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UI.Activity.Admin.ReportDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Work.ReportSelectActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Admin.CommentManagementActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.ReportPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.darsh.multipleimageselect.activities.AlbumSelectActivity"
+            android:theme="@style/MultipleImageSelectTheme">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UI.Activity.Photopicker.SeesoGalleryInteractionActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Photopicker.SeesoGalleryActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.AgreementPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Main.PurchaseActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.CoinLogActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.ChatActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Main.FollowerActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.EditMyCommentPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Intro.TranslucentActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity
+            android:name=".UI.Popup.StarPointPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Admin.AproveWaitingEpisodeListActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.EpisodeAproveCancelPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Popup.MemberWithdrawActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Admin.MemberManagementActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Writer.FollowingWriterListActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Work.EpisodeCommentActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Work.WorkEditActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.InteractionPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Photopicker.InteractionPhotoPickerActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.InteractionBGSelectPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Popup.InteractionMediaSelectPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Work.InteractionWriteActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.InteractionSpeakerSelectActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Media.VideoPlayerActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.ChangeTitlePopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Popup.ProfilePhoneNumPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Popup.ProfileBirthdayPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Popup.ProfileGenderPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Popup.ProfileEmailPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Popup.ProfileNamePopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.Whowant.Tokki.PhotoProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/photo_file_paths" />
+        </provider>
+
+        <activity
+            android:name=".UI.Popup.ProfilePhotoPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Login.EmailAuthActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.MainBaseActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Intro.IntroActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.DrawerMenu.NoticeDetailActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.DrawerMenu.EventDetailActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.DrawerMenu.EventActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.MyActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.UserProfileActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.KeepActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Work.ChatCommentActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name=".UI.Popup.ChangePasswordPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Login.FindPasswordActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Work.ViewerActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Work.WorkMainActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.DrawerMenu.AlarmActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.DrawerMenu.NoticeActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SNS.Facebook.FacebookSignupActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SNS.Naver.NaverSignupActivity"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity
+            android:name=".SNS.KakaoTalk.KakaoSignupActivity"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity
+            android:name=".UI.Activity.Login.PanbookLoginActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Login.LoginActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.SearchActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Writer.WriterMainActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.RecommandRankingActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.NewRankingActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.GenreRankingActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Main.MainActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="@string/kakaolink_host"
+                    android:scheme="@string/kakao_scheme" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="workmain"
+                    android:scheme="panbook" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UI.Activity.Main.BestRankingActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Login.FindAccountActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.CommonPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Login.PersonalInfoActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Login.AgreementActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.TextEditPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Login.LoginSelectActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Work.EpisodePreviewActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.CoverMediaSelectPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Work.CreateWorkActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Work.WorkWriteMainActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Work.AddWriterActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Work.LiteratureListActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.DistractorPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.VideoPickerActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.BGImageSelectPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".Utils.cropper.CropImageActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Media.ThumbnailPreviewActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Photopicker.PhotoPickerActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.MediaSelectPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Popup.AddCharacterPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Work.LiteratureWriteActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".Service.FCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+    </application>
+
+</manifest>

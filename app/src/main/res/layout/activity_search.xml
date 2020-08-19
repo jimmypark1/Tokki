@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Activity.Main.SearchActivity"
+    android:background="@color/colorWhite">
+    
+    <RelativeLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:background="@null"
+            android:src="@drawable/back_button"
+            android:onClick="onClickBackBtn"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@+id/backBtn"
+            android:layout_toLeftOf="@+id/closeBtn">
+
+            <EditText
+                android:id="@+id/inputSearchTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:background="@null"
+                android:textColorHint="#e3e3e3"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:hint="검색어를 입력해 주세요."
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/closeBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:src="@drawable/pop_close"
+            android:onClick="onClickDeleteBtn"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_below="@+id/topLayout">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#e1e2e3"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/workTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:text="작품"
+                    android:onClick="onClickWorkTab"/>
+
+                <ImageView
+                    android:id="@+id/workSelectColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorPrimary"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/writerTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:textColor="#e3e3e3"
+                    android:textSize="16sp"
+                    android:text="작가"
+                    android:onClick="onClickWriterTab"/>
+
+                <ImageView
+                    android:id="@+id/writerSelectColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorPrimary"
+                    android:visibility="invisible"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tagTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:textColor="#e3e3e3"
+                    android:textSize="16sp"
+                    android:text="태그"
+                    android:onClick="onClickTagTab"/>
+
+                <ImageView
+                    android:id="@+id/tagSelectColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorPrimary"
+                    android:visibility="invisible"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/genreTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:textColor="#e3e3e3"
+                    android:textSize="16sp"
+                    android:text="장르"
+                    android:onClick="onClickGenreTab"/>
+
+                <ImageView
+                    android:id="@+id/genreSelectColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorPrimary"
+                    android:visibility="invisible"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLayout"
+        android:background="#f8f8f8">
+
+        <TextView
+            android:id="@+id/recommendTitleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            android:textSize="14sp"
+            android:textColor="@color/colorBlack"
+            android:text="이달의 추천작"/>
+
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/recommendTitleView"
+            android:dividerHeight="0dp"
+            android:divider="#00000000"
+            android:background="#f8f8f8"/>
+    </RelativeLayout>
+<!--    <TextView-->
+<!--        android:id="@+id/emptyView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:gravity="center"-->
+<!--        android:textColor="@color/colorTextGray"-->
+<!--        android:textSize="22sp"-->
+<!--        android:text="검색어를 입력해주세요."/>-->
+
+</RelativeLayout>

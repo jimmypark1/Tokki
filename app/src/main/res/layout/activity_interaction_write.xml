@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".UI.Activity.Work.InteractionWriteActivity">
+
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:clipChildren="false"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/back_button"/>
+
+        <ImageButton
+            android:id="@+id/rightBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="17dp"
+            android:background="@null"
+            android:onClick="onClickTopRightBtn"
+            android:src="@drawable/dot_menu"/>
+
+        <Button
+            android:id="@+id/emptyBtn"
+            android:layout_width="32dp"
+            android:layout_height="28dp"
+            android:layout_marginRight="7dp"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimary"
+            android:onClick="clickEditTitleBtn"
+            android:layout_toLeftOf="@+id/submitBtn"
+            android:layout_centerVertical="true"
+            android:background="@null"/>
+
+        <ImageButton
+            android:id="@+id/submitBtn"
+            android:layout_width="79dp"
+            android:layout_height="29.3dp"
+            android:background="@drawable/send_button"
+            android:layout_toLeftOf="@+id/rightBtn"
+            android:layout_centerVertical="true"
+            android:onClick="onClickSubmitBtn"
+            android:layout_marginRight="15dp"/>
+
+        <TextView
+            android:id="@+id/episodeNumView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/leftBtn"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="1화"/>
+
+        <LinearLayout
+            android:id="@+id/titleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/episodeNumView"
+            android:layout_toLeftOf="@+id/emptyBtn"
+            android:clipChildren="false"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/episodeTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
+                android:text="인생은 멀리서 보면 비극"/>
+
+            <TextView
+                android:id="@+id/editBtn"
+                android:layout_width="32dp"
+                android:layout_height="28dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:onClick="clickEditTitleBtn"
+                android:layout_toRightOf="@+id/episodeTitleView"
+                android:layout_centerVertical="true"
+                android:background="@drawable/info_edit_button"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topBarLayout"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabIndicatorColor="@color/colorPrimary"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLayout"/>
+
+</RelativeLayout>

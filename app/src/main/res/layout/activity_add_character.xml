@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Popup.AddCharacterPopup"
+    android:background="#b2000000">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/popup_bg"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_centerInParent="true">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorCommonGray">
+
+            <TextView
+                android:id="@+id/titleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:text="@string/text_add_character"/>
+
+            <ImageButton
+                android:id="@+id/closeBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/pop_close"
+                android:onClick="onClickCloseBtn"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/photoLayout"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/topLayout"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/faceView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/non_img"
+                android:layout_margin="5dp"
+                android:layout_centerInParent="true"/>
+
+            <ImageButton
+                android:id="@+id/photoButton"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/white_circle_bg"
+                android:src="@drawable/pro_icon1"
+                android:onClick="OnClickPhotoBtn"
+                />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/colorStrokeLayout"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignTop="@+id/photoLayout"
+            android:layout_marginLeft="25dp"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:id="@+id/strokeView"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="1dp"
+                android:background="@drawable/alpha_bg"/>
+
+            <ImageView
+                android:id="@+id/colorSettingView"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="1dp"
+                android:background="@color/colorPrimary"
+                android:onClick="onClickColorSettingView"/>
+        </RelativeLayout>
+
+
+        <EditText
+            android:id="@+id/inputNameView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/photoLayout"
+            android:textSize="14sp"
+            android:hint="이름"/>
+
+        <LinearLayout
+            android:id="@+id/textColorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/inputNameView"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/whiteBtn"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/deselected_add_person_btn"
+                android:gravity="center"
+                android:text="흰글자"
+                android:textColor="@color/colorWhite"
+                android:onClick="OnClickWhiteBtn"/>
+
+            <TextView
+                android:id="@+id/blackBtn"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/common_selected_rounded_btn_bg"
+                android:gravity="center"
+                android:text="검은글자"
+                android:textColor="@color/colorWhite"
+                android:onClick="OnClickBlackBtn"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/leftRightLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textColorLayout"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/leftBtn"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/deselected_add_person_btn"
+                android:gravity="center"
+                android:text="@string/text_left"
+                android:textColor="@color/colorWhite"
+                android:onClick="OnClickLeftBtn"/>
+
+            <TextView
+                android:id="@+id/rightBtn"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/selected_add_person_btn"
+                android:gravity="center"
+                android:text="@string/text_right"
+                android:textColor="@color/colorWhite"
+                android:onClick="OnClickRightBtn"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/leftRightLayout"
+            android:layout_margin="15dp">
+
+            <Button
+                android:id="@+id/addBtn"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="6"
+                android:background="@drawable/add_btn_bg"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:text="@string/text_add"
+                android:onClick="onClickAddBtn"/>
+
+            <Button
+                android:id="@+id/deleteBtn"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="4"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/black_btn_bg"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:text="@string/text_delete"
+                android:visibility="gone"
+                android:onClick="onClickDeleteBtn"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

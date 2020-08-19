@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff">
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
+        android:layout_centerHorizontal="true"
+        android:text="대도시의 사랑법"/>
+
+    <RelativeLayout
+        android:id="@+id/writerInfoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleView"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
+
+        <ImageView
+            android:id="@+id/faceView"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/talk_pf_no_img"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/faceView"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/writerNameView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textSize="15.3sp"
+                android:textColor="@color/colorBlack"
+                android:text="박상영"/>
+
+            <ImageView
+                android:layout_width="5.5dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="7.7dp"
+                android:layout_toRightOf="@+id/writerNameView"
+                android:layout_centerVertical="true"
+                android:background="@drawable/right_arrow_black"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/writerInfoLayout">
+
+        <LinearLayout
+            android:id="@+id/pointLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/icon_star"/>
+
+            <TextView
+                android:id="@+id/startPointView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="5.0"
+                android:textSize="14sp"
+                android:textColor="#d1d1d1"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="12dp"
+                android:src="@drawable/icon_wap_gray"/>
+
+            <TextView
+                android:id="@+id/tapCountView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:textSize="14sp"
+                android:text="999"
+                android:textColor="#d1d1d1"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="12dp"
+                android:src="@drawable/icon_speech_bubble_gray"/>
+
+            <TextView
+                android:id="@+id/commentCountView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:textSize="14sp"
+                android:text="999"
+                android:textColor="#d1d1d1"/>
+        </LinearLayout>
+        
+        <ImageView
+            android:layout_width="5.5dp"
+            android:layout_height="10dp"
+            android:layout_toRightOf="@+id/pointLayout"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/more_botton"/>
+    </RelativeLayout>
+</RelativeLayout>

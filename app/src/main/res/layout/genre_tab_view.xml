@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/bgView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/workTab"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:textColor="@color/colorTextGray"
+            android:textSize="14sp"
+            android:text="asdfasdfsafdf"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/workSelectColor"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignBottom="@+id/bgView"
+        android:layout_alignLeft="@+id/bgView"
+        android:layout_alignRight="@+id/bgView"
+        android:background="#e3e3e3"/>
+</RelativeLayout>

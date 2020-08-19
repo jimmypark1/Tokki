@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".UI.Activity.Login.PersonalInfoActivity">
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="36.7dp"
+        android:layout_height="36.7dp"
+        android:layout_marginTop="46.7dp"
+        android:layout_marginLeft="53dp"
+        android:onClick="onClickBackBtn"
+        android:background="@drawable/back_button"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/backBtn"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/logoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:layout_alignParentTop="true">
+
+                <ImageView
+                    android:id="@+id/logoView"
+                    android:layout_width="83dp"
+                    android:layout_height="130dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/tokki_simbol_logo"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/inputIdLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:layout_below="@+id/logoLayout"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"
+                    android:text="ID"/>
+
+                <EditText
+                    android:id="@+id/inputIDView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:textColor="@color/colorBlack"
+                    android:hint="ID 입력하기"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/inputPWLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/inputIdLayout"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:layout_marginTop="37dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"
+                    android:text="패스워드"/>
+
+                <EditText
+                    android:id="@+id/inputPWView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:imeOptions="actionGo"
+                    android:inputType="textPassword"
+                    android:textColor="@color/colorBlack"
+                    android:hint="PW 입력하기"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@+id/inputPWLayout"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/registerBtn"
+                    android:layout_width="206dp"
+                    android:layout_height="48dp"
+                    android:text="로그인"
+                    android:enabled="true"
+                    android:background="@drawable/common_btn_bg"
+                    android:textColor="#ffffff"
+                    android:onClick="onClickLoginBtn"/>
+
+                <TextView
+                    android:id="@+id/bottomTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="56.3dp"
+                    android:layout_marginBottom="25.7dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="Created by Whowant"/>
+            </LinearLayout>
+
+            <!--
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/inputPWLayout"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/text_find_id"
+                    android:onClick="onClickFindAccountBtn"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/text_find_pw"
+                    android:onClick="onClickFindPWBtn"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/text_register"
+                    android:onClick="onClickRegisterBtn"/>
+            </LinearLayout>
+            -->
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

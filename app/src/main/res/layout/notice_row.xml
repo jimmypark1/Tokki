@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <RelativeLayout
+        android:id="@+id/cardLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="23dp"
+        android:layout_marginTop="10dp"
+        android:padding="15dp"
+        android:background="@drawable/round_shadow_btn_white_bg">
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/dateView"
+            android:layout_marginRight="10dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="공지사항 제목입니다. 제목이 들어갈 공간입니다."/>
+
+        <TextView
+            android:id="@+id/dateView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2019.12.10 07:30"
+            android:layout_alignParentRight="true"
+            android:textColor="#d1d1d1"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/contentsView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/titleView"
+            android:layout_marginTop="11dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="14sp"
+            android:textColor="@color/colorBlack"
+            android:text="알림 내용이 들어갑니다.\n2줄까지 표시됩니다."/>
+        
+        <ImageView
+            android:id="@+id/arrowBtn"
+            android:layout_width="25dp"
+            android:layout_height="19dp"
+            android:layout_below="@+id/contentsView"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/down_arrow_btn"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/newIconView"
+        android:layout_width="13.3dp"
+        android:layout_height="13.3dp"
+        android:layout_alignLeft="@+id/cardLayout"
+        android:layout_alignTop="@+id/cardLayout"
+        android:visibility="invisible"
+        android:background="@drawable/small_google_circle"/>
+</RelativeLayout>

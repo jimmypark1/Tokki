@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff">
+
+    <LinearLayout
+        android:id="@+id/uperLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="29.3dp"
+        android:layout_marginTop="21.3dp">
+
+        <ImageView
+            android:id="@+id/faceView"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/talk_pf_no_img"/>
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="29.3dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/writerCommentView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/uperLayout"
+        android:layout_marginTop="2.3dp"
+        android:layout_marginRight="29dp"
+        android:layout_marginLeft="77.3dp"
+        android:maxLines="5"
+        android:textSize="14sp"
+        android:textColor="@color/colorBlack"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/writerCommentView"
+        android:layout_alignLeft="@+id/writerCommentView"
+        android:layout_marginTop="6.7dp"
+        android:layout_marginBottom="13.3dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/followingView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#d1d1d1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#d1d1d1"
+            android:text=" 팔로잉"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#d1d1d1"
+            android:text="   |  "/>
+
+        <TextView
+            android:id="@+id/followerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#d1d1d1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#d1d1d1"
+            android:text=" 팔로워"/>
+    </LinearLayout>
+</RelativeLayout>

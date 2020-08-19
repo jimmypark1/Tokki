@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+
+    <LinearLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="42.3dp"
+        android:paddingTop="35dp">
+
+        <ImageView
+            android:id="@+id/faceView"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@drawable/user_icon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/nameView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="홍길동"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/typeView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="일반회원"
+                android:textColor="#d1d1d1"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/deviderView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="32.5dp"
+        android:layout_marginTop="27.2dp"
+        android:background="#d1d1d1"
+        android:layout_below="@+id/topLayout"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/deviderView"
+        android:layout_above="@+id/buttonsLayout"
+        android:clipChildren="false"
+        android:layout_marginBottom="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
+
+            <TextView
+                android:id="@+id/noticeTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25.2dp"
+                android:layout_marginLeft="40.7dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#6d8fff"
+                android:text="NOTICE"/>
+
+            <TextView
+                android:id="@+id/noticeView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/noticeTitleView"
+                android:layout_marginLeft="40.7dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:paddingRight="20dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:background="?android:selectableItemBackground"
+                android:text="공지사항"/>
+
+            <ImageView
+                android:id="@+id/noticeNewIconView"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_alignLeft="@+id/noticeView"
+                android:layout_alignTop="@+id/noticeView"
+                android:visibility="invisible"
+                android:layout_marginLeft="-11dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/small_google_circle"/>
+
+            <TextView
+                android:id="@+id/eventView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/noticeView"
+                android:layout_marginLeft="40.7dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:background="?android:selectableItemBackground"
+                android:text="이벤트"/>
+
+            <ImageView
+                android:id="@+id/eventNewIconView"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_alignLeft="@+id/eventView"
+                android:layout_alignTop="@+id/eventView"
+                android:visibility="invisible"
+                android:layout_marginLeft="-11dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/small_google_circle"/>
+
+            <TextView
+                android:id="@+id/alarmView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/eventView"
+                android:layout_marginLeft="40.7dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:background="?android:selectableItemBackground"
+                android:text="알림"/>
+
+            <ImageView
+                android:id="@+id/alarmNewIconView"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_alignLeft="@+id/alarmView"
+                android:layout_alignTop="@+id/alarmView"
+                android:visibility="invisible"
+                android:layout_marginLeft="-11dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/small_google_circle"/>
+
+            <TextView
+                android:id="@+id/personalTermsView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/alarmView"
+                android:layout_marginLeft="40.7dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:background="?android:selectableItemBackground"
+                android:text="개인정보취급방침 보기"/>
+
+            <TextView
+                android:id="@+id/termsView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/personalTermsView"
+                android:layout_marginLeft="40.7dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:background="?android:selectableItemBackground"
+                android:text="이용약관 보기"/>
+
+            <RelativeLayout
+                android:id="@+id/managerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/termsView">
+
+                <TextView
+                    android:id="@+id/manageerTitleView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40.7dp"
+                    android:layout_marginTop="20.2dp"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#6d8fff"
+                    android:text="MANAGER"/>
+
+                <TextView
+                    android:id="@+id/memberManagementView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/manageerTitleView"
+                    android:layout_marginTop="11.2dp"
+                    android:layout_marginLeft="40.7dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:background="?android:selectableItemBackground"
+                    android:text="회원관리"/>
+
+                <TextView
+                    android:id="@+id/workManagementView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/memberManagementView"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:layout_marginLeft="40.7dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:background="?android:selectableItemBackground"
+                    android:text="작품관리"/>
+
+                <TextView
+                    android:id="@+id/commentManagementView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/workManagementView"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:layout_marginLeft="40.7dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:background="?android:selectableItemBackground"
+                    android:text="신고댓글 관리"/>
+
+                <TextView
+                    android:id="@+id/contestManagementView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/commentManagementView"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:layout_marginLeft="40.7dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:background="?android:selectableItemBackground"
+                    android:text="공모전 관리"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32.3dp"
+        android:layout_marginLeft="40.7dp"
+        android:layout_marginRight="32.3dp"
+        android:onClick="onClickLogoutBtn"
+        android:layout_above="@+id/bottomInfoLayout">
+
+        <TextView
+            android:id="@+id/logoutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="4dp"
+            android:textColor="#d1d1d1"
+            android:gravity="center"
+            android:text="로그아웃"/>
+        
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@drawable/hamburger_page_logout"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomInfoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="17.3dp"
+        android:paddingLeft="40.7dp"
+        android:paddingRight="33dp"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#b2b2b2"
+            android:text="(주)후원"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="12sp"
+            android:textColor="#b2b2b2"
+            android:text="사업장소재지 : 경기도 용인시 수지구 죽전로 152"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#b2b2b2"
+            android:text="글로컬산학협력관 207-1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#b2b2b2"
+            android:text="Tel/Fax : 031-896-8539\nE-mail : whowant@whowant.kr"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#b2b2b2"
+            android:text="Copyright (c) whowant All rights reserved."/>
+    </LinearLayout>
+</RelativeLayout>

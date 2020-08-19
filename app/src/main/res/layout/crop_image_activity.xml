@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <com.Whowant.Tokki.Utils.cropper.CropImageView
+        android:id="@+id/cropImageView"
+        android:layout_above="@+id/bottomLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:background="@null"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:gravity="left|center_vertical"
+            android:text="취소"/>
+
+        <Button
+            android:id="@+id/nextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingRight="20dp"
+            android:background="@null"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:gravity="right|center_vertical"
+            android:text="다음"/>
+
+        <ImageButton
+            android:id="@+id/rotateBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/crop_image_menu_rotate_left"/>
+    </RelativeLayout>
+</RelativeLayout>

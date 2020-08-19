@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/comment_bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dark_gradient_bg"
+    android:padding="10dp"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    android:onClick="onClickBottomBgView"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/x_button"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/starPointLayout"
+        android:layout_marginBottom="31dp"
+        android:onClick="clickCloseBtn"/>
+
+    <RelativeLayout
+        android:id="@+id/starPointLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/commentLayout"
+        android:background="@drawable/small_round_shadow_btn_white_bg">
+
+        <LinearLayout
+            android:id="@+id/starLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical">
+
+            <RatingBar
+                android:id="@+id/smallRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:clickable="false"
+                android:min="0"
+                android:max="5"
+                style="@style/myRatingBar"/>
+
+            <TextView
+                android:id="@+id/starPointView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:text="0.0"/>
+
+            <TextView
+                android:id="@+id/starCountView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/colorTextGray"
+                android:textSize="14sp"
+                android:text="(0명)"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/starLayout"
+            android:layout_alignLeft="@+id/starLayout"
+            android:layout_alignRight="@+id/starLayout"
+            android:layout_alignBottom="@+id/starLayout"
+            android:onClick="onClickStar"/>
+
+        <TextView
+            android:id="@+id/rightView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textSize="14sp"
+            android:text="별점주기"
+            android:textColor="#969696"
+            android:layout_toLeftOf="@+id/rightArrow"/>
+
+        <ImageView
+            android:id="@+id/rightArrow"
+            android:layout_width="8dp"
+            android:layout_height="13dp"
+            android:layout_marginRight="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/right_arrow_dark"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/commentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_above="@+id/nextEpisodeBtn"
+        android:background="@drawable/small_round_shadow_btn_white_bg"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:text="댓글"/>
+
+            <TextView
+                android:id="@+id/commentMoreView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:textColor="#d1d1d1"
+                android:textSize="14sp"
+                android:text="더보기"
+                android:layout_toLeftOf="@+id/rightArrow2"/>
+
+            <ImageView
+                android:id="@+id/rightArrow2"
+                android:layout_width="8dp"
+                android:layout_height="13dp"
+                android:layout_marginRight="3dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/more_botton"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/commentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="355dp"
+            android:layout_marginTop="1dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/noCommentView"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:text="댓글이 없습니다."
+                android:gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/nextEpisodeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/taglayout"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginRight="28dp"
+        android:maxLines="1"
+        android:padding="13dp"
+        android:background="@drawable/blue_stroke_btn_bg"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        android:text="다음회차 보기"/>
+</RelativeLayout>

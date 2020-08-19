@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Popup.DistractorPopup"
+    android:background="#b2000000">
+
+    <RelativeLayout
+        android:id="@+id/popupLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_white_card_bg"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_centerInParent="true">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/text_choce_distractor"/>
+
+            <ImageButton
+                android:id="@+id/closeBtn"
+                android:layout_width="26.7dp"
+                android:layout_height="26.7dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="24.7dp"
+                android:layout_marginTop="10.7dp"
+                android:layout_marginBottom="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/pop_close"
+                android:onClick="onClickCloseBtn"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/lineView"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/topLayout"
+            android:background="#707070"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"/>
+
+        <LinearLayout
+            android:id="@+id/interaction1Layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lineView"
+            android:layout_marginLeft="44dp"
+            android:layout_marginRight="44dp"
+            android:layout_marginTop="36.6dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"
+                android:text="A"/>
+
+            <EditText
+                android:id="@+id/inputDistractor1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="11dp"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:hint="1. 선택지 추가"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/interaction2Layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/interaction1Layout"
+            android:layout_marginLeft="44dp"
+            android:layout_marginRight="44dp"
+            android:layout_marginTop="30.5dp"
+            android:layout_marginBottom="53.3dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"
+                android:text="B"/>
+
+            <EditText
+                android:id="@+id/inputDistractor2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:maxLines="1"
+                android:layout_marginLeft="11dp"
+                android:textSize="14sp"
+                android:hint="2. 선택지 추가"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="202dp"
+        android:layout_height="45dp"
+        android:background="@drawable/small_round_shadow_btn_white_bg"
+        android:layout_below="@+id/popupLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/text_add"
+        android:onClick="onClickAddBtn"/>
+
+</RelativeLayout>

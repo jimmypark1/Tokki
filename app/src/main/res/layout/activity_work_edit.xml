@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".UI.Activity.Work.WorkEditActivity">
+
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/back_button"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="작품 등록"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_below="@+id/topBarLayout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
+
+            <RelativeLayout
+                android:id="@+id/photoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:clipChildren="false">
+
+                <ImageView
+                    android:id="@+id/coverImgView"
+                    android:layout_width="150dp"
+                    android:layout_height="225dp"
+                    android:background="@drawable/round_white_card_bg"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="centerCrop"/>
+
+                <RelativeLayout
+                    android:id="@+id/coverImgBtn"
+                    android:layout_width="150dp"
+                    android:layout_height="225dp"
+                    android:layout_alignTop="@+id/coverImgView"
+                    android:layout_alignLeft="@+id/coverImgView"
+                    android:layout_alignRight="@+id/coverImgView"
+                    android:layout_alignBottom="@+id/coverImgView"
+                    android:orientation="vertical"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/poster_bg"
+                    android:onClick="OnClickPhotoBtn">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="포스터를\n등록 해주세요."/>
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="-10dp"
+                        android:layout_marginBottom="-10dp"
+                        android:src="@drawable/camera_icon"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/writeSubTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/photoLayout"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="31dp"
+                android:layout_marginLeft="70dp"
+                android:text="제목"/>
+
+            <EditText
+                android:id="@+id/inputTitleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/writeSubTitleView"
+                android:layout_marginLeft="65dp"
+                android:layout_marginRight="65dp"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:hint="제목을 입력해 주세요"/>
+
+            <TextView
+                android:id="@+id/writeSubTitle2View"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="70dp"
+                android:layout_below="@+id/inputTitleView"
+                android:text="줄거리"/>
+
+            <EditText
+                android:id="@+id/inputSynopsisView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/writeSubTitle2View"
+                android:layout_marginLeft="65dp"
+                android:layout_marginRight="65dp"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:hint="@string/text_please_input_synopsis"/>
+
+            <LinearLayout
+                android:id="@+id/genreLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:layout_below="@+id/inputSynopsisView">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="70dp"
+                    android:layout_marginRight="70dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="장르"/>
+
+                <EditText
+                    android:id="@+id/inputGenreView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="65dp"
+                    android:layout_marginRight="65dp"
+                    android:imeOptions="actionNext"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:singleLine="true"
+                    android:hint="3가지 장르를 선택해 주세요."/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tagLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/genreLayout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="70dp"
+                    android:layout_marginRight="70dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="태그"/>
+
+                <EditText
+                    android:id="@+id/inputTagView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="65dp"
+                    android:layout_marginRight="65dp"
+                    android:imeOptions="actionNext"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:singleLine="true"
+                    android:hint="태그를 입력해주세요"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/tagLayout"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="30dp"
+                android:paddingBottom="30dp">
+
+                <Button
+                    android:id="@+id/okBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="33dp"
+                    android:layout_marginRight="33dp"
+                    android:background="@color/colorPrimary"
+                    android:onClick="OnClickOkBtn"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14dp"
+                    android:text="저장"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+</RelativeLayout>

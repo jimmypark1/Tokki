@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".UI.Activity.Main.UserProfileActivity">
+
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/back_button"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="사용자 프로필"/>
+
+        <ImageButton
+            android:id="@+id/rightBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="17dp"
+            android:visibility="gone"
+            android:background="@null"
+            android:onClick="onClickTopRightBtn"
+            android:src="@drawable/dot_menu"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/photoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="?attr/selectableItemBackground"
+        android:layout_below="@+id/topBarLayout"
+        android:visibility="gone"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:onClick="onClickPhotoLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:text="사진"/>
+
+        <TextView
+            android:id="@+id/rightArrow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextGray"
+            android:text=">"/>
+
+        <ImageView
+            android:id="@+id/faceView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/rightArrow1"
+            android:background="@drawable/talk_pf_no_img"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/nameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:paddingLeft="38dp"
+        android:paddingRight="38dp"
+        android:layout_marginTop="35dp"
+        android:background="?attr/selectableItemBackground"
+        android:layout_below="@+id/photoLayout"
+        android:onClick="onClickNameLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:text="닉네임"/>
+
+        <ImageView
+            android:id="@+id/rightArrow2"
+            android:layout_width="7.6dp"
+            android:layout_height="12.4dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/more_botton"/>
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/rightArrow2"
+            android:layout_marginRight="17dp"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:textColor="#d1d1d1"
+            android:text="홍길동"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d1d1d1"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/emailLayout"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:paddingLeft="38dp"
+        android:paddingRight="38dp"
+        android:background="?attr/selectableItemBackground"
+        android:layout_below="@+id/nameLayout"
+        android:onClick="onClickEmailLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:text="이메일"/>
+
+        <ImageView
+            android:id="@+id/rightArrow3"
+            android:layout_width="7.6dp"
+            android:layout_height="12.4dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/more_botton"/>
+
+        <TextView
+            android:id="@+id/emailView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/rightArrow3"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:textColor="#d1d1d1"
+            android:text="abc@abc.com"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d1d1d1"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/genderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:paddingLeft="38dp"
+        android:paddingRight="38dp"
+        android:background="?attr/selectableItemBackground"
+        android:onClick="onClickGenderLayout"
+        android:layout_below="@+id/emailLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:text="성별"/>
+
+        <ImageView
+            android:id="@+id/rightArrow4"
+            android:layout_width="7.6dp"
+            android:layout_height="12.4dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/more_botton"/>
+
+        <TextView
+            android:id="@+id/genderView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/rightArrow4"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:textColor="#d1d1d1"
+            android:text=""/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d1d1d1"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/birthDayLayout"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:paddingLeft="38dp"
+        android:paddingRight="38dp"
+        android:onClick="onClickBirthdayLayout"
+        android:background="?attr/selectableItemBackground"
+        android:layout_below="@+id/genderLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:text="생년월일"/>
+
+        <ImageView
+            android:id="@+id/rightArrow5"
+            android:layout_width="7.6dp"
+            android:layout_height="12.4dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/more_botton"/>
+
+        <TextView
+            android:id="@+id/birthdayView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/rightArrow5"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:textColor="#d1d1d1"
+            android:text=""/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d1d1d1"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/phoneNumLayout"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:paddingLeft="38dp"
+        android:paddingRight="38dp"
+        android:onClick="onClickPhoneNumLayout"
+        android:background="?attr/selectableItemBackground"
+        android:layout_below="@+id/birthDayLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:text="전화번호"/>
+
+        <ImageView
+            android:id="@+id/rightArrow6"
+            android:layout_width="7.6dp"
+            android:layout_height="12.4dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/more_botton"/>
+
+        <TextView
+            android:id="@+id/phoneNumView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/rightArrow6"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:textColor="#d1d1d1"
+            android:text=""/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d1d1d1"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

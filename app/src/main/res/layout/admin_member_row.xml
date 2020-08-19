@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="21.3dp"
+    android:paddingRight="21.3dp"
+    android:background="#00000000">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/round_shadow_btn_white_bg">
+
+        <ImageView
+            android:id="@+id/faceView"
+            android:layout_width="51.2dp"
+            android:layout_height="51.2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/user_icon"/>
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/faceView"
+            android:layout_alignTop="@+id/faceView"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="8.4dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:text="달뮤가나"/>
+
+        <TextView
+            android:id="@+id/emailView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/nameView"
+            android:layout_toLeftOf="@+id/menuBtn"
+            android:layout_marginLeft="7.4dp"
+            android:layout_marginTop="15.7dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="14sp"
+            android:textColor="#d1d1d1"
+            android:text="asdfaf@asdf.com"/>
+
+        <LinearLayout
+            android:id="@+id/menuBtn"
+            android:layout_width="31.3dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="9dp"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="3dp"
+                android:layout_height="17dp"
+                android:src="@drawable/menu_dot"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameView"
+            android:layout_alignLeft="@+id/nameView"
+            android:layout_marginTop="7dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/v_icon3"/>
+
+            <TextView
+                android:id="@+id/workCountView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:textSize="13sp"
+                android:textColor="@color/colorBlack"
+                android:text="0"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:background="@drawable/v_icon4"/>
+
+            <TextView
+                android:id="@+id/commentCountView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:textSize="13sp"
+                android:textColor="@color/colorBlack"
+                android:text="0"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:textSize="13sp"
+                android:textColor="@color/colorBlack"
+                android:text="팔로워"/>
+
+            <TextView
+                android:id="@+id/followerCountView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:textSize="13sp"
+                android:textColor="@color/colorBlack"
+                android:text="0"/>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

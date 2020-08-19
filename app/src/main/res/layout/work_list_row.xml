@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp">
+
+    <RelativeLayout
+        android:id="@+id/thumbnailLayout"
+        android:layout_width="96dp"
+        android:layout_height="72dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/thumbnailView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/videoTimeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#92000000"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:padding="2dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="9sp"
+            android:text="00:21"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/writerNameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="14sp"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/thumbnailLayout"
+        android:layout_toLeftOf="@+id/writerNameView"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"/>
+
+    <TextView
+        android:id="@+id/synopsisView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/thumbnailLayout"
+        android:layout_below="@+id/titleView"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="6dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/colorBlack"
+        android:text=""/>
+</RelativeLayout>

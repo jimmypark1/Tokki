@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Activity.Login.LoginActivity"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="100dp"
+            android:textSize="40sp"
+            android:textColor="@color/colorWhite"
+            android:text="Penbook"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_above="@+id/snsLoginBtn"
+            android:layout_marginLeft="25dp"
+            android:background="@drawable/wthie_btn_bg"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:text="Penbook"
+            android:onClick="onClickPenbookBtn"/>
+
+        <Button
+            android:id="@+id/snsLoginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/sns_login_btn_bg"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:text="SNS 로그인"
+            android:onClick="onClickSNSBtn"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Activity.Login.LoginSelectActivity">
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:text="PanBook"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:id="@+id/inputIdLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_below="@+id/titleView"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="ID"/>
+
+        <EditText
+            android:id="@+id/inputIDView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:layout_weight="8"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/inputPWLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputIdLayout"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="패스워드"/>
+
+        <EditText
+            android:id="@+id/inputPWView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:imeOptions="actionGo"
+            android:inputType="textPassword"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/localAccountLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputPWLayout"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="@string/text_find_id"
+            android:onClick="onClickFindAccountBtn"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="@string/text_find_pw"
+            android:onClick="onClickFindPWBtn"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/text_register"
+            android:onClick="onClickRegisterBtn"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/registerBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="20dp"
+
+        android:layout_below="@+id/localAccountLayout"
+        android:text="로그인"
+        android:background="@drawable/round_square_btn_bg"
+        android:textColor="@color/colorWhite"
+        android:onClick="onClickLoginBtn"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/kakaoBtn"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="7dp"
+        android:text="@string/text_find_account"
+        android:onClick="onClickFindAccountBtn"/>
+
+    <LinearLayout
+        android:id="@+id/kakaoBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/naverBtn"
+        android:onClick="onClickKakaoLoginBtn"
+        android:background="@drawable/kakao_btn_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="12dp"
+            android:src="@drawable/sns_icon1"/>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="#e9d31a"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="KaKaoTalk 로그인"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/naverBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/daumBtn"
+        android:onClick="onClickNaverLoginBtn"
+        android:background="@drawable/naver_btn_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="12dp"
+            android:src="@drawable/sns_icon2"/>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="#32a80f"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:text="Naver 로그인"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/daumBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/facebookBtn"
+        android:onClick="onClickDaumLoginBtn"
+        android:background="@drawable/daum_btn_bg"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="12dp"
+            android:src="@drawable/sns_icon3"/>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="#e5e6e7"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="Daum 로그인"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/facebookBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/twitterBtn"
+        android:onClick="onClickFacebookLoginBtn"
+        android:background="@drawable/facebook_btn_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="12dp"
+            android:src="@drawable/sns_icon4"/>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="#344a86"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:text="Facebook 로그인"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/twitterBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_alignParentBottom="true"
+        android:onClick="onClickTwitterLoginBtn"
+        android:background="@drawable/twitter_btn_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="12dp"
+            android:src="@drawable/sns_icon5"/>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="#3597d2"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:text="Twitter 로그인"/>
+    </LinearLayout>
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/instaBtn"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="25dp"-->
+<!--        android:layout_marginRight="25dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:onClick="onClickInstagramLoginBtn"-->
+<!--        android:background="@drawable/insta_btn_bg"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:orientation="horizontal">-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="25dp"-->
+<!--            android:layout_margin="12dp"-->
+<!--            android:src="@drawable/sns_icon6"/>-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="1dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_marginTop="1dp"-->
+<!--            android:layout_marginBottom="1dp"-->
+<!--            android:background="#882f9e"/>-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textColor="@color/colorWhite"-->
+<!--            android:text="Instagram 로그인"/>-->
+<!--    </LinearLayout>-->
+</RelativeLayout>

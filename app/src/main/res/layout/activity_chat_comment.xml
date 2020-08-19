@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".UI.Activity.Work.ChatCommentActivity">
+
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/back_button"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="토키 톡"/>
+
+        <ImageButton
+            android:id="@+id/rightBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="17dp"
+            android:background="@null"
+            android:visibility="invisible"
+            android:onClick="onClickTopRightBtn"
+            android:src="@drawable/dot_menu"/>
+    </RelativeLayout>
+
+    <ExpandableListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBarLayout"
+        android:layout_above="@+id/inputLayout"
+        android:dividerHeight="0dp"
+        android:divider="#00000000"
+        android:groupIndicator="@null"/>
+
+    <LinearLayout
+        android:id="@+id/emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/inputLayout"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextGray"
+            android:textSize="20sp"
+            android:text="대화가 없습니다"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/inputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite">
+
+        <Button
+            android:id="@+id/sendBtn"
+            android:layout_width="58.3dp"
+            android:layout_height="30dp"
+            android:background="@drawable/comment_enter_btn_gray"
+            android:layout_alignRight="@+id/inputTextView"
+            android:textSize="16sp"
+            android:textColor="@color/colorWhite"
+            android:text="등록"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="OnClickSendBtn"
+            android:layout_centerVertical="true"/>
+
+        <EditText
+            android:id="@+id/inputTextView"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/edittext_gray_bg"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="15dp"
+            android:hint="톡을 남겨주세요!"
+            android:textSize="14sp"
+            android:textColor="@color/colorBlack"
+            android:layout_toRightOf="@+id/contentsAddBtn"/>
+    </RelativeLayout>
+</RelativeLayout>

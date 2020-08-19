@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff">
+
+    <RelativeLayout
+        android:id="@+id/countLayout"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/levelIllustView"
+        android:layout_marginBottom="-16dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/round_shadow_carrot_bg">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/carrotCountView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/countView"
+                android:textSize="36sp"
+                android:layout_marginRight="2dp"
+                android:textColor="#ff884a"
+                android:textStyle="bold"
+                android:text="9000"/>
+
+            <TextView
+                android:id="@+id/countView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="26dp"
+                android:layout_marginRight="25dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
+                android:text="개"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/colorBlack"
+                android:layout_alignRight="@+id/countView"
+                android:layout_below="@+id/countView"
+                android:text="응원 받은 작품이에요!"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    
+    <ImageView
+        android:id="@+id/levelIllustView"
+        android:layout_width="109.6dp"
+        android:layout_height="103.8dp"
+        android:background="@drawable/carrot_illust_level_2"
+        android:layout_alignLeft="@+id/countLayout"
+        android:layout_marginTop="29.3dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="16dp"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f7f7f7"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/levelIllustView"/>
+
+</RelativeLayout>

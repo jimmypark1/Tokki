@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Activity.Work.EpisodeCommentActivity">
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/inputLayout"/>
+
+    <LinearLayout
+        android:id="@+id/emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/inputLayout"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextGray"
+            android:textSize="20sp"
+            android:text="댓글이 없습니다"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/inputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite">
+
+        <Button
+            android:id="@+id/sendBtn"
+            android:layout_width="55dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/gray_btn_bg"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:onClick="OnClickSendBtn"
+            android:text="등록"/>
+
+        <EditText
+            android:id="@+id/inputTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/sendBtn"
+            android:bufferType="spannable"/>
+    </RelativeLayout>
+</RelativeLayout>
