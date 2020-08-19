@@ -1,9 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".UI.Activity.Login.TermsActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="25.7dp"
+        android:background="@null"
+        android:onClick="onClickBackBtn"
+        android:src="@drawable/back_button" />
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/backBtn"
+        android:layout_marginTop="22.8dp"
+        android:layout_marginLeft="60dp"
+        android:textSize="18sp"
+        android:textColor="@color/colorBlack"
+        android:text="개인정보 수집 정책"/>
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="26.3dp"
+        android:layout_marginBottom="21.7dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_below="@+id/titleView"
+        android:layout_above="@+id/nextBtn"
+        android:visibility="invisible"/>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="26.3dp"
+        android:layout_marginBottom="21.7dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_below="@+id/titleView"
+        android:layout_above="@+id/nextBtn">
+
+        <TextView
+            android:id="@+id/temrsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:text="@string/service_agreement"/>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="26.3dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:background="@color/colorPrimary"
+        android:onClick="onClickBackBtn"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp"
+        android:text="다음"/>
+</RelativeLayout>

@@ -1,6 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".UI.Activity.Login.AgreementActivity">
 
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="10dp"
+        android:layout_height="18dp"
+        android:background="@drawable/back_button"
+        android:layout_marginTop="25.7dp"
+        android:layout_marginLeft="64.3dp"/>
+
+    <ImageView
+        android:id="@+id/logoView"
+        android:layout_width="82dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="38.8dp"
+        android:layout_below="@+id/backBtn"
+        android:background="@drawable/text_logo"/>
+
+    <TextView
+        android:id="@+id/welcomTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11.5dp"
+        android:layout_marginLeft="64dp"
+        android:layout_below="@+id/logoView"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        android:text="에 오신걸 환영합니다."/>
+
+    <LinearLayout
+        android:id="@+id/allCheckLayout"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:layout_marginLeft="47dp"
+        android:layout_marginRight="47dp"
+        android:layout_marginTop="76.3dp"
+        android:layout_below="@+id/welcomTextView"
+        android:background="#e8e8e8"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/allCheckView"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@color/colorWhite"
+            android:layout_marginLeft="17dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:letterSpacing="-0.05"
+            android:lineSpacingExtra="3sp"
+            android:textSize="17sp"
+            android:textColor="@color/colorBlack"
+            android:text="모두 동의합니다."/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/serviceTermsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/allCheckLayout"
+        android:layout_marginLeft="47dp"
+        android:layout_marginRight="47dp"
+        android:layout_marginTop="27dp">
+
+        <ImageView
+            android:id="@+id/serviceTermsCheckView"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:background="@drawable/check_box_non"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="9dp"
+            android:textSize="14sp"
+            android:layout_toRightOf="@+id/serviceTermsCheckView"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorBlack"
+            android:text="서비스 이용 약관 동의(필수)"/>
+        
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="7.5dp"
+            android:background="@drawable/more"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/personalTermsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/serviceTermsLayout"
+        android:layout_marginLeft="47dp"
+        android:layout_marginRight="47dp"
+        android:layout_marginTop="27dp">
+
+        <ImageView
+            android:id="@+id/personalTermsCheckView"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:background="@drawable/check_box_non"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="9dp"
+            android:textSize="14sp"
+            android:layout_toRightOf="@+id/personalTermsCheckView"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorBlack"
+            android:text="개인정보 수집 및 이용 동의(필수)"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="7.5dp"
+            android:background="@drawable/more"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/markettingTermsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/personalTermsLayout"
+        android:layout_marginLeft="47dp"
+        android:layout_marginRight="47dp"
+        android:layout_marginTop="27dp">
+
+        <ImageView
+            android:id="@+id/markettingTermsCheckView"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:background="@drawable/check_box_non"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="9dp"
+            android:textSize="14sp"
+            android:layout_toRightOf="@+id/markettingTermsCheckView"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorBlack"
+            android:text="마케팃 정보 수신 동의(필수)"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="7.5dp"
+            android:background="@drawable/more"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginBottom="26.3dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/square_btn_bg"
+        android:textColor="@color/colorWhite"
+        android:text="다음"
+        android:onClick="onClickRegisterBtn"/>
+</RelativeLayout>

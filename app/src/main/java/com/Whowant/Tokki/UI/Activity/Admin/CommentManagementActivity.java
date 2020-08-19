@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -24,12 +23,8 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Work.ChatCommentActivity;
-import com.Whowant.Tokki.UI.Activity.Work.EpisodeCommentActivity;
-import com.Whowant.Tokki.UI.Popup.ReportPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.CommentVO;
-import com.Whowant.Tokki.VO.UserInfoVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 

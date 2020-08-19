@@ -1,58 +1,67 @@
 {
   "project_info": {
-    "project_number": "694085031680",
-    "firebase_url": "https://panbook-30195.firebaseio.com",
-    "project_id": "panbook-30195",
-    "storage_bucket": "panbook-30195.appspot.com"
+    "project_number": "577754310291",
+    "firebase_url": "https://tokki-58d0d.firebaseio.com",
+    "project_id": "tokki-58d0d",
+    "storage_bucket": "tokki-58d0d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:694085031680:android:5a8fae4a1e425940d1c5e5",
+        "mobilesdk_app_id": "1:577754310291:android:9fd5562f4a57479fd24f66",
         "android_client_info": {
-          "package_name": "com.Whowant.Penapp"
+          "package_name": "com.Whowant.Tokki"
         }
       },
       "oauth_client": [
         {
-          "client_id": "694085031680-eea3ao6vj072c7d69n187ivo65g2r3af.apps.googleusercontent.com",
+          "client_id": "577754310291-7dka41cimd42bo6vp5o3d23dbaabom7p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.Whowant.Penapp",
+            "package_name": "com.Whowant.Tokki",
+            "certificate_hash": "9ff3368d75dcc979864becdb2afc77036a00f964"
+          }
+        },
+        {
+          "client_id": "577754310291-616gsb055hmse60phb81etv6amjgnbuu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Whowant.Tokki",
+            "certificate_hash": "050cac1518d2ecd2547ed5e601f1dea48adc6777"
+          }
+        },
+        {
+          "client_id": "577754310291-c7sktojtm7fk7smjoo0pj9qfr9noribt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Whowant.Tokki",
             "certificate_hash": "0785b9f308145c575ab304d8c6200b7c7187bce5"
           }
         },
         {
-          "client_id": "694085031680-370grt9h4vb6jt1u2a0aab6c74ev7qnp.apps.googleusercontent.com",
+          "client_id": "577754310291-mfv0ku0moaffue3fl5pleg574rla1v78.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.Whowant.Penapp",
+            "package_name": "com.Whowant.Tokki",
             "certificate_hash": "873d1bb44a86bc89862a28dcc0b9f115079cbaee"
           }
         },
         {
-          "client_id": "694085031680-rmn7k7b4n15c81pna9re7eqqusv27moi.apps.googleusercontent.com",
+          "client_id": "577754310291-bou0d0d2lcdo7k529i7qg7778b9bf6fr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCpCzDymUV4cEWN9cd7aeDUhDbn0lu64ds"
+          "current_key": "AIzaSyA8AKOWfdZhMV0ttNGDdeJcs_W37omFYkg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "694085031680-rmn7k7b4n15c81pna9re7eqqusv27moi.apps.googleusercontent.com",
+              "client_id": "577754310291-bou0d0d2lcdo7k529i7qg7778b9bf6fr.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "694085031680-clu0j5mtrtjrmtsilphebsbrrppha3a8.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.Whowant.PanBook"
-              }
             }
           ]
         }

@@ -1,10 +1,483 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".UI.Activity.Work.CreateCharacterActivity">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/back_button"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="등장인물 만들기"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBarLayout"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
+
+            <RelativeLayout
+                android:id="@+id/exampleLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="27dp"
+                android:layout_marginRight="27dp"
+                android:layout_marginTop="15.7dp"
+                android:clipChildren="false">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <EditText
+                        android:id="@+id/inputNameView"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:imeOptions="actionDone"
+                        android:layout_marginTop="46dp"
+                        android:layout_marginRight="20dp"
+                        android:textColor="@color/colorBlack"
+                        android:gravity="center"
+                        android:hint="홍길동"/>
+
+                    <RelativeLayout
+                        android:id="@+id/prevBalloonView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="5dp"
+                        android:layout_below="@+id/inputNameView"
+                        android:layout_toLeftOf="@+id/faceView"
+                        android:layout_marginRight="7dp"
+                        android:layout_marginTop="11.3dp"
+                        android:layout_marginBottom="40dp"
+                        android:onClick="onClickColorSettingView"
+                        android:background="@drawable/right_chat_bg">
+
+                        <TextView
+                            android:id="@+id/prevTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="미리보기"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="16sp"/>
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/faceView"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_toRightOf="@+id/inputNameView"
+                        android:layout_marginTop="40dp"
+                        android:onClick="OnClickPhotoBtn"
+                        android:background="@drawable/caracter_c_icon"/>
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_alignRight="@+id/faceView"
+                        android:layout_alignBottom="@+id/faceView"
+                        android:layout_marginRight="-20dp"
+                        android:layout_marginBottom="-20dp"
+                        android:onClick="OnClickPhotoBtn"
+                        android:background="@drawable/camera_icon"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/secondLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/exampleLayout"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="27dp"
+                android:layout_marginRight="27dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_shadow_btn_white_bg">
+
+                    <TextView
+                        android:id="@+id/leftTitleView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8.7dp"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorBlack"
+                        android:layout_centerHorizontal="true"
+                        android:text="등장인물 이름 색상"/>
+
+                    <ImageView
+                        android:id="@+id/leftDevider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="8.5dp"
+                        android:background="#29000000"
+                        android:layout_below="@+id/leftTitleView"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/leftDevider"
+                        android:padding="20dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/nameBlackLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:textColor="@color/colorBlack"
+                                android:text="블랙"/>
+
+                            <RadioButton
+                                android:id="@+id/nameBlackCheckbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:clickable="false"
+                                android:checked="true"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/nameWhiteLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:textColor="@color/colorBlack"
+                                android:text="화이트"/>
+
+                            <RadioButton
+                                android:id="@+id/nameWhiteCheckbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:clickable="false"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_shadow_btn_white_bg">
+
+                    <TextView
+                        android:id="@+id/rightTitleView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8.7dp"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorBlack"
+                        android:layout_centerHorizontal="true"
+                        android:text="말풍선 위치"/>
+
+                    <ImageView
+                        android:id="@+id/rightDevider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="8.5dp"
+                        android:background="#29000000"
+                        android:layout_below="@+id/rightTitleView"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rightDevider"
+                        android:padding="20dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/leftLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:textColor="@color/colorBlack"
+                                android:text="왼쪽"/>
+
+                            <RadioButton
+                                android:id="@+id/leftCheckbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:clickable="false"
+                                android:checked="true"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/rightLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:textColor="@color/colorBlack"
+                                android:text="오른쪽"/>
+
+                            <RadioButton
+                                android:id="@+id/rightCheckbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:clickable="false"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/balloonColorLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/secondLayout"
+                android:layout_marginLeft="27dp"
+                android:layout_marginRight="27dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_shadow_btn_white_bg">
+
+                <TextView
+                    android:id="@+id/balloonTitleView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8.7dp"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerHorizontal="true"
+                    android:text="말풍선 색상"/>
+
+                <ImageView
+                    android:id="@+id/balloonDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="8.5dp"
+                    android:background="#29000000"
+                    android:layout_below="@+id/balloonTitleView"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/balloonDivider"
+                    android:padding="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/currentColorView"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:onClick="onClickColorSettingView"
+                            android:background="@drawable/round_translucent_bg"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:layout_marginLeft="7.3dp"
+                            android:textColor="@color/colorBlack"
+                            android:text="현재 컬러"/>
+                    </LinearLayout>
+
+                    <Button
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="18dp"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorPrimary"
+                        android:text="다른 컬러 선택"
+                        android:onClick="onClickColorSettingView"
+                        android:background="@drawable/color_select_btn_bg"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/textColorLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/balloonColorLayout"
+                android:layout_marginLeft="27dp"
+                android:layout_marginRight="27dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_shadow_btn_white_bg">
+
+                <TextView
+                    android:id="@+id/textColorTitleView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8.7dp"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerHorizontal="true"
+                    android:text="말풍선 텍스트 색상"/>
+
+                <ImageView
+                    android:id="@+id/textColorDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="8.5dp"
+                    android:background="#29000000"
+                    android:layout_below="@+id/textColorTitleView"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textColorDivider"
+                    android:padding="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/textBlackLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorBlack"
+                            android:text="블랙"/>
+
+                        <RadioButton
+                            android:id="@+id/textBlackCheckbox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:checked="true"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/textWhiteLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorBlack"
+                            android:text="화이트"/>
+
+                        <RadioButton
+                            android:id="@+id/textWhiteCheckbox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/bottomLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textColorLayout"
+                android:gravity="bottom"
+                android:layout_alignParentBottom="true"
+                android:paddingLeft="27dp"
+                android:paddingRight="27dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="26.3dp">
+
+                <Button
+                    android:id="@+id/deleteBtn"
+                    android:layout_width="115dp"
+                    android:layout_height="50dp"
+                    android:textSize="14sp"
+                    android:textColor="#969696"
+                    android:layout_marginRight="7dp"
+                    android:visibility="gone"
+                    android:text="삭제"
+                    android:background="@drawable/round_square_shadow_btn_bg"/>
+
+                <Button
+                    android:id="@+id/addBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp"
+                    android:text="만들기"
+                    android:onClick="onClickAddBtn"
+                    android:background="@drawable/blue_stroke_btn_bg"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

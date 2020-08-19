@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff">
 
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="10dp"
+        android:layout_height="18dp"
+        android:background="@drawable/back_button"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="59.7dp"/>
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/backBtn"
+        android:layout_marginTop="23dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:textSize="18sp"
+        android:textColor="@color/colorBlack"
+        android:text="광고 목적의 메일 마케팅 수신 약관"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleView"
+        android:layout_above="@+id/nextBtn"
+        android:layout_marginTop="26.3dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="21.7dp">
+
+        <TextView
+            android:id="@+id/contentsView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10.3sp"
+            android:textColor="@color/colorBlack"
+            android:text="@string/service_agreement"/>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginBottom="26.3dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/square_btn_bg"
+        android:textColor="@color/colorWhite"
+        android:text="다음"/>
+
+</RelativeLayout>

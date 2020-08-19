@@ -1,6 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f1f1f1">
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/colorWhite">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/back_button"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="작가"/>
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topBarLayout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/myInfoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="14.3dp"
+                android:layout_marginRight="14.3dp"
+                android:background="@drawable/round_shadow_btn_white_bg">
+
+                <ImageView
+                    android:id="@+id/profileImgView"
+                    android:layout_width="74dp"
+                    android:layout_height="75dp"
+                    android:src="@drawable/user_icon"
+                    android:layout_marginLeft="26.7dp"
+                    android:layout_marginTop="17dp"/>
+
+                <LinearLayout
+                    android:id="@+id/nameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/profileImgView"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="35dp"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/nameView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLength="5"
+                            android:ellipsize="end"
+                            android:layout_toRightOf="@+id/profileImgView"
+                            android:textSize="22sp"
+                            android:textColor="@color/colorBlack"
+                            android:text="홍길동"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/followerLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.5"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/followerView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textColor="@color/colorBlack"
+                            android:text="9999"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="팔로워"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/followingLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.5"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/followingView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textColor="@color/colorBlack"
+                            android:text="9999"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorBlack"
+                            android:text="팔로잉"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/descView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profileImgView"
+                    android:layout_marginTop="19dp"
+                    android:layout_marginLeft="27dp"
+                    android:layout_marginRight="27dp"
+                    android:layout_marginBottom="15dp"
+                    android:textColor="@color/colorBlack"
+                    android:text="자기 소개를 입력해 주세요.\n자기소개 줄수 제한은 없이 원하는 만큼의 내용을 다 적을 수 있도록 하기\n하단 마진 값 57 으로 XD 에서 설정\nㅇㅁㄴㅇㄹㅁㅁㄴㅇㄹㅁㄹㄴㅁㅇ"/>
+
+                <TextView
+                    android:id="@+id/followBtn"
+                    android:layout_width="102dp"
+                    android:layout_height="31dp"
+                    android:background="@drawable/round_blue_btn_bg"
+                    android:layout_toLeftOf="@+id/tokkiTokBtn"
+                    android:gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="13sp"
+                    android:text="팔로우"
+                    android:layout_below="@+id/descView"
+                    android:layout_marginBottom="11.3dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="8.7dp"/>
+
+                <TextView
+                    android:id="@+id/tokkiTokBtn"
+                    android:layout_width="102dp"
+                    android:layout_height="38dp"
+                    android:background="@drawable/round_shadow_btn_white_bg"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="13sp"
+                    android:text="토키 Tok"
+                    android:layout_below="@+id/descView"
+                    android:layout_marginBottom="11.3dp"
+                    android:layout_marginRight="11.3dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/workLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14.3dp"
+                android:layout_marginRight="14.3dp"
+                android:layout_below="@+id/myInfoLayout"
+                android:layout_marginBottom="100dp"
+                android:background="@drawable/round_shadow_btn_white_bg">
+
+                <LinearLayout
+                    android:id="@+id/myWorkTitleLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="27dp"
+                    android:layout_marginTop="15.3dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+품
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorBlack"
+                        android:textStyle="bold"
+                        android:text="작품"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/myWorkRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/myWorkTitleLayout"
+                    android:padding="20dp"
+                    android:layout_marginTop="5dp"/>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

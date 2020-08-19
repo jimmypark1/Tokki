@@ -6,26 +6,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
-import com.Whowant.Tokki.UI.Adapter.MainCardListAdapter;
-import com.Whowant.Tokki.UI.Adapter.MainRecommendAdapter;
-import com.Whowant.Tokki.UI.Adapter.MyWorkRecyclerAdapter;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.CarrotVO;
-import com.Whowant.Tokki.VO.WorkVO;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.Timer;

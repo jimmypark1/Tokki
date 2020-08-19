@@ -10,11 +10,8 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Login.PersonalInfoActivity;
-import com.Whowant.Tokki.UI.Activity.Login.RegisterCompleteActivity;
 import com.Whowant.Tokki.UI.Activity.Login.TutorialActivity;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
-import com.Whowant.Tokki.UI.Fragment.Main.CoinChargeFragment;
 
 public class TutorialFragment extends Fragment {
     private int nIndex = 0;

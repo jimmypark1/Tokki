@@ -1,6 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".UI.Activity.Login.PersonalInfoActivity">
 
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="64.3dp"
+        android:layout_marginTop="25.7dp"
+        android:background="@null"
+        android:onClick="onClickBackBtn"
+        android:src="@drawable/back_button" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/backBtn"
+        android:layout_marginTop="31.5dp"
+        android:layout_marginBottom="26.3dp"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/logoView"
+                android:layout_width="82dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="64dp"
+                android:background="@drawable/text_logo"/>
+
+            <TextView
+                android:id="@+id/welcomTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11.5dp"
+                android:layout_marginLeft="64dp"
+                android:layout_below="@+id/logoView"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:text="에 오신걸 환영합니다."/>
+
+            <LinearLayout
+                android:id="@+id/inputNameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/welcomTextView"
+                android:layout_marginTop="30.7dp"
+                android:layout_marginLeft="64dp"
+                android:layout_marginRight="64dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="닉네임"/>
+
+                <EditText
+                    android:id="@+id/inputNameView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:textSize="16sp"
+                    android:background="@null"
+                    android:textColor="@color/colorBlack"
+                    android:hint="홍길동"/>
+
+                <ImageView
+                    android:id="@+id/inputNicknameLineView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="7dp"
+                    android:background="#d1d1d1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/inputPhoneNumLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/inputNameLayout"
+                android:layout_marginTop="26.3dp"
+                android:layout_marginLeft="64dp"
+                android:layout_marginRight="64dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="휴대폰 번호"/>
+
+                <EditText
+                    android:id="@+id/inputPhoneNumView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:inputType="number"
+                    android:textSize="16sp"
+                    android:background="@null"/>
+
+                <ImageView
+                    android:id="@+id/inputPhoneNumLineView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#d1d1d1"
+                    android:layout_marginTop="7dp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/inputEmailLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/inputPhoneNumLayout"
+                android:layout_marginTop="26.3dp"
+                android:layout_marginLeft="64dp"
+                android:layout_marginRight="64dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="이메일"/>
+
+                <EditText
+                    android:id="@+id/inputEmailView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:textSize="16sp"
+                    android:background="@null"/>
+
+                <ImageView
+                    android:id="@+id/inputEmailLineView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#d1d1d1"
+                    android:layout_marginTop="7dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/inputBirthLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/inputEmailLayout"
+                android:layout_marginTop="26.3dp"
+                android:layout_marginLeft="64dp"
+                android:layout_marginRight="64dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="생년월일"/>
+
+                <TextView
+                    android:id="@+id/inputBirthView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:onClick="onClickBirthdayView"
+                    android:textSize="16sp"
+                    android:background="@null"/>
+
+                <ImageView
+                    android:id="@+id/inputBirthLineView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#d1d1d1"
+                    android:layout_marginTop="7dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/genderLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="64dp"
+                android:layout_marginRight="64dp"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/inputBirthLayout"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/maleCheckLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorBlack"
+                        android:text="남"/>
+
+                    <ImageView
+                        android:id="@+id/maleCheck"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_marginLeft="6.7dp"
+                        android:background="@drawable/check_box_non"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/femaleCheckLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="42.3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorBlack"
+                        android:text="여"/>
+
+                    <ImageView
+                        android:id="@+id/femaleCheck"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_marginLeft="6.7dp"
+                        android:background="@drawable/check_box_non"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/emptyLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="64dp"
+                android:layout_marginRight="64dp"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/genderLayout"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/registerBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="33dp"
+                android:layout_marginRight="33dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/square_btn_bg"
+                android:textColor="@color/colorWhite"
+                android:text="다음"
+                android:onClick="onClickRegisterBtn"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,6 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/bgView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/round_shadow_btn_white_bg">
+
+        <ImageView
+            android:id="@+id/faceView"
+            android:layout_width="51dp"
+            android:layout_height="51dp"
+            android:layout_marginLeft="12.4dp"
+            android:layout_marginTop="9.7dp"
+            android:background="@drawable/user_profile_pic"/>
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/faceView"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:text="홍길동"/>
+
+        <TextView
+            android:id="@+id/dateTimeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/nameView"
+            android:layout_marginTop="1dp"
+            android:layout_toRightOf="@+id/nameView"
+            android:layout_marginLeft="15dp"
+            android:gravity="right"
+            android:textColor="#d1d1d1"
+            android:textSize="12sp"
+            android:text="2019.09.18"/>
+
+        <TextView
+            android:id="@+id/episodeNumView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/dateTimeView"
+            android:layout_alignTop="@+id/dateTimeView"
+            android:layout_toLeftOf="@+id/reportBtn"
+            android:layout_marginRight="15dp"
+            android:ellipsize="middle"
+            android:layout_marginLeft="7dp"
+            android:textColor="#d1d1d1"
+            android:textSize="14sp"
+            android:text="16화"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/commentView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameView"
+            android:layout_alignLeft="@+id/nameView"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:text="댓글 내용"/>
+
+        <LinearLayout
+            android:id="@+id/likeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="20.7dp"
+            android:layout_below="@+id/commentView"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="19dp"
+            android:layout_marginRight="26dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="invisible"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@drawable/badge_complete">
+
+            <TextView
+                android:id="@+id/likeCountView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="999"
+                android:textSize="12sp"/>
+
+            <ImageView
+                android:id="@+id/thumbIconView"
+                android:layout_width="12.3dp"
+                android:layout_height="11.4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/like_box"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/arrowBtn"
+            android:layout_width="10dp"
+            android:layout_height="7dp"
+            android:layout_alignLeft="@+id/faceView"
+            android:layout_below="@+id/faceView"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="21dp"
+            android:scaleType="center"
+            android:src="@drawable/down_arrow_img"/>
+
+        <TextView
+            android:id="@+id/replyBtn"
+            android:layout_width="41dp"
+            android:layout_height="20.7dp"
+            android:background="@drawable/badge_writing"
+            android:layout_toRightOf="@+id/arrowBtn"
+            android:layout_alignTop="@+id/likeLayout"
+            android:layout_marginRight="7dp"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:textColor="#969696"
+            android:text="답글"/>
+
+        <TextView
+            android:id="@+id/reportBtn"
+            android:layout_width="41dp"
+            android:layout_height="20.7dp"
+            android:background="@drawable/badge_writing"
+            android:layout_toRightOf="@+id/replyBtn"
+            android:layout_alignTop="@+id/likeLayout"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:textColor="#969696"
+            android:text="신고"/>
+
+    </RelativeLayout>
+</RelativeLayout>

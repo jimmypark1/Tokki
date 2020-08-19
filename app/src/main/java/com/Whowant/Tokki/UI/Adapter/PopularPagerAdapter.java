@@ -19,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
 public class PopularPagerAdapter extends RecyclerView.Adapter<PopularPagerAdapter.RecommendCardHolder>{
     private ArrayList<WorkVO> itemsList;

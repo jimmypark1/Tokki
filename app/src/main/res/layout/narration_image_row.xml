@@ -1,6 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:clipChildren="true">
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imageContentsView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_img_bg"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:id="@+id/commentCountView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/deleteBtn"
+        android:layout_alignBottom="@+id/imageContentsView"
+        android:maxLines="1"
+        android:textColor="@color/colorTextGray"
+        android:text="0"/>
+
+    <ImageView
+        android:id="@+id/deleteBtn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignTop="@+id/imageContentsView"
+        android:layout_alignRight="@+id/imageContentsView"
+        android:layout_marginLeft="-12dp"
+        android:layout_marginTop="-12dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:src="@drawable/delet_button"/>
+
+    <RelativeLayout
+        android:id="@+id/addBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_below="@+id/imageContentsView"
+        android:focusable="false"
+        android:clickable="false">
+
+        <TextView
+            android:id="@+id/txtView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="12sp"
+            android:textColor="@color/colorBlack"
+            android:gravity="center"
+            android:text="사이에 추가"/>
+
+        <ImageView
+            android:id="@+id/leftLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_toLeftOf="@+id/txtView"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@color/colorBlack"/>
+
+        <ImageView
+            android:id="@+id/rightLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_toRightOf="@+id/txtView"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@color/colorBlack"/>
+    </RelativeLayout>
+</RelativeLayout>

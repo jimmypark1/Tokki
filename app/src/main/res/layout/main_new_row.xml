@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/contentsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="23dp"
+        android:layout_marginBottom="3dp">
+
+        <ImageView
+            android:id="@+id/coverImgView"
+            android:layout_width="77.4dp"
+            android:layout_height="120dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/no_poster"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/coverImgView"
+            android:layout_marginLeft="15.7dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="19sp"
+            android:textColor="@color/colorBlack"
+            android:letterSpacing="-0.05"
+            android:text="제목"/>
+
+        <TextView
+            android:id="@+id/dateView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/titleView"
+            android:layout_marginTop="4dp"
+            android:layout_below="@+id/titleView"
+            android:textColor="#d1d1d1"
+            android:textSize="13sp"
+            android:text="2020.06.17"/>
+
+        <TextView
+            android:id="@+id/writerNameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/dateView"
+            android:layout_alignTop="@+id/dateView"
+            android:layout_marginLeft="6dp"
+            android:textColor="#d1d1d1"
+            android:textSize="13sp"
+            android:text="By 윤달곰"/>
+
+        <TextView
+            android:id="@+id/descView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/titleView"
+            android:layout_marginRight="20dp"
+            android:layout_below="@+id/dateView"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorBlack"
+            android:ellipsize="end"
+            android:textSize="13sp"
+            android:maxLines="2"
+            android:text="가나다라마바사하자차카타파하가마다라마바사아자차ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㅇㄴ"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d1d1d1"
+            android:layout_alignBottom="@+id/coverImgView"/>
+    </RelativeLayout>
+</RelativeLayout>

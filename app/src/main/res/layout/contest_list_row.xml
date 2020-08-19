@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/userNameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="33.3dp"
+        android:layout_marginTop="15.2dp"
+        android:textSize="17sp"
+        android:textColor="@color/colorBlack"
+        android:text="1. 김작가"/>
+
+    <TextView
+        android:id="@+id/workTitleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/userNameView"
+        android:layout_marginTop="17.5dp"
+        android:layout_marginLeft="17.7dp"
+        android:textSize="13.7sp"
+        android:textColor="@color/colorBlack"
+        android:text="작품 : 김작가의 하루"/>
+
+    <TextView
+        android:id="@+id/contestCodeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/workTitleView"
+        android:layout_alignLeft="@+id/workTitleView"
+        android:layout_marginTop="3.7dp"
+        android:textSize="11sp"
+        android:textColor="#d1d1d1"
+        android:text="접수 번호 : 2002340"/>
+
+    <TextView
+        android:id="@+id/dateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contestCodeView"
+        android:layout_alignLeft="@+id/workTitleView"
+        android:layout_marginTop="3dp"
+        android:textSize="11sp"
+        android:textColor="#d1d1d1"
+        android:text="접수 번호 : 2002340"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/dateView"
+        android:layout_marginTop="16.2dp"
+        android:layout_marginLeft="33.3dp"
+        android:layout_marginRight="33.3dp"
+        android:background="#d1d1d1"/>
+</RelativeLayout>

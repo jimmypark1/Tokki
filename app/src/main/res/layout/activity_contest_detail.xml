@@ -1,10 +1,290 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.Activity.DrawerMenu.ContestDetailActivity">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/back_button"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="공모전 접수 정보"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topBarLayout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="33.7dp"
+            android:paddingRight="33.7dp">
+
+            <TextView
+                android:id="@+id/subTitleView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="47.2dp"
+                android:textSize="11sp"
+                android:textColorHint="#d1d1d1"
+                android:text="응모자 개인정보"/>
+
+            <ImageView
+                android:id="@+id/lineView1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#d1d1d1"
+                android:layout_below="@+id/subTitleView1"
+                android:layout_marginTop="7.8dp"/>
+
+            <LinearLayout
+                android:id="@+id/nameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lineView1"
+                android:layout_marginTop="20.8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15.7sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="성명"/>
+
+                <TextView
+                    android:id="@+id/nameView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textSize="15.7sp"
+                    android:textColor="@color/colorBlack"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/birthdayLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nameLayout"
+                android:layout_marginTop="35.3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15.7sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="생년월일"/>
+
+                <TextView
+                    android:id="@+id/birthdayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textSize="15.7sp"
+                    android:textColor="@color/colorBlack"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/phoneNumLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/birthdayLayout"
+                android:layout_marginTop="35.3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15.7sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="휴대폰 번호"/>
+
+                <TextView
+                    android:id="@+id/phoneNumView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textSize="15.7sp"
+                    android:textColor="@color/colorBlack"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/emailLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/phoneNumLayout"
+                android:layout_marginTop="35.3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15.7sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="이메일"/>
+
+                <TextView
+                    android:id="@+id/emailView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textSize="15.7sp"
+                    android:textColor="@color/colorBlack"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/careearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/emailLayout"
+                android:layout_marginTop="35.3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15.7sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="출판 / 연재 이력"/>
+
+                <TextView
+                    android:id="@+id/careearView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textSize="15.7sp"
+                    android:textColor="@color/colorBlack"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/subTitleView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="65.3dp"
+                android:layout_below="@+id/careearLayout"
+                android:textSize="11sp"
+                android:textColorHint="#d1d1d1"
+                android:text="작품 정보"/>
+
+            <ImageView
+                android:id="@+id/lineView2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#d1d1d1"
+                android:layout_below="@+id/subTitleView2"
+                android:layout_marginTop="7.8dp"/>
+
+            <LinearLayout
+                android:id="@+id/workTitleLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lineView2"
+                android:layout_marginTop="16.5dp"
+                android:onClick="onClickWorkView"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:textSize="15.7sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="작품"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="31dp"
+                    android:layout_weight="6"
+                    android:orientation="horizontal"
+                    android:background="@drawable/round_blue_stroke_btn_bg"
+                    android:paddingLeft="16.5dp"
+                    android:paddingRight="16.5dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/workTitleView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="15.7sp"
+                        android:textColor="@color/colorBlack"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"/>
+                    
+                    <ImageView
+                        android:layout_width="7dp"
+                        android:layout_height="11dp"
+                        android:background="@drawable/blue_right_arrow"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/subTitleView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/workTitleLayout"
+                android:layout_marginTop="27.7dp"
+                android:textSize="15.7sp"
+                android:textColor="@color/colorBlack"
+                android:text="등장인물 소개"/>
+
+            <TextView
+                android:id="@+id/characterView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subTitleView3"
+                android:layout_marginTop="15.3dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="13.3sp"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:id="@+id/subTitleView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subTitleView3"
+                android:layout_marginTop="37.7dp"
+                android:textSize="15.7sp"
+                android:textColor="@color/colorBlack"
+                android:text="시놉시스"/>
+
+            <TextView
+                android:id="@+id/synopsisView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subTitleView4"
+                android:layout_marginTop="15.3dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="58dp"
+                android:textSize="13.3sp"
+                android:textColor="@color/colorBlack"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

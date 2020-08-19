@@ -45,7 +45,7 @@ public class MainRecommendAdapter extends RecyclerView.Adapter<MainRecommendAdap
         if(strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
             Glide.with(mContext)
                     .asBitmap() // some .jpeg files are actually gif
-                    .load(R.drawable.no_poster)
+                    .load(R.drawable.no_poster_horizontal)
                     .apply(new RequestOptions().override(800, 800))
                     .into(holder.coverView);
             return;
@@ -55,7 +55,7 @@ public class MainRecommendAdapter extends RecyclerView.Adapter<MainRecommendAdap
 
         Glide.with(mContext)
                 .asBitmap() // some .jpeg files are actually gif
-                .placeholder(R.drawable.no_poster)
+                .placeholder(R.drawable.no_poster_horizontal)
                 .load(strImgUrl)
                 .into(holder.coverView);
     }

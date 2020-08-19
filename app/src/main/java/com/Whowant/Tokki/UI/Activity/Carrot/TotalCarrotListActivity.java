@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Popup.InteractionSpeakerSelectActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.CarrotVO;
 

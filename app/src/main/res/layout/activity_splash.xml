@@ -1,9 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SplashActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/imgLayout">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:gravity="right">
+
+            <ImageView
+                android:id="@+id/logoView"
+                android:layout_width="125dp"
+                android:layout_height="38dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="38dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/text_logo"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="38dp"
+                android:layout_marginTop="26dp"
+                android:layout_below="@+id/logoView"
+                android:textColor="#5a9aff"
+                android:textSize="16sp"
+                android:text="Created by whowant"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/imgLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-100dp"
+        android:layout_marginBottom="-10dp"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintDimensionRatio="1000:1185"
+            android:orientation="horizontal"
+            android:background="@drawable/simbol_logo"
+            android:gravity="bottom"
+            tools:ignore="MissingConstraints"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>

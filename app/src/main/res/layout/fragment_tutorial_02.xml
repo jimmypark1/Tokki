@@ -1,6 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff">
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/logoView"
+        android:layout_width="79dp"
+        android:layout_height="24dp"
+        android:background="@drawable/text_logo"
+        android:layout_marginLeft="46.3dp"
+        android:layout_marginTop="48.8dp"/>
+
+    <TextView
+        android:id="@+id/txtView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logoView"
+        android:layout_marginTop="24dp"
+        android:layout_alignLeft="@+id/txtView1"
+        android:textSize="30sp"
+        android:textColor="@color/colorBlack"
+        android:text="채팅소설"/>
+
+    <TextView
+        android:id="@+id/txtView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="46.3dp"
+        android:layout_marginTop="7dp"
+        android:layout_below="@+id/txtView3"
+        android:textSize="30sp"
+        android:textColor="#6d8fff"
+        android:text="커뮤니티"/>
+
+    <TextView
+        android:id="@+id/txtView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtView1"
+        android:layout_toRightOf="@+id/txtView1"
+        android:textSize="30sp"
+        android:textColor="@color/colorBlack"
+        android:text="의 장"/>
+
+    <TextView
+        android:id="@+id/txtView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtView1"
+        android:layout_marginTop="15.3dp"
+        android:layout_alignLeft="@+id/txtView3"
+        android:textSize="12sp"
+        android:textColor="#b2b2b2"
+        android:text="소설을 읽고 별점과 댓글로\n리뷰를 남겨 소통해 보세요."/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txtView4"
+        android:layout_above="@+id/nextBtn">
+
+        <RelativeLayout
+            android:layout_width="235dp"
+            android:layout_height="295dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/pager1"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginBottom="45.2dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/circle_navi_off"/>
+
+            <ImageView
+                android:id="@+id/pager2"
+                android:layout_width="8dp"
+                android:layout_height="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginBottom="45.2dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/pager1"
+                android:background="@drawable/cicle_navi_now"/>
+
+            <ImageView
+                android:id="@+id/pager3"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginBottom="45.2dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/pager2"
+                android:background="@drawable/circle_navi_off"/>
+
+            <ImageView
+                android:layout_width="235dp"
+                android:layout_height="295dp"
+                android:background="@drawable/illust_2"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/nextBtn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginBottom="10.7dp"
+        android:gravity="center"
+        android:layout_above="@+id/beforeBtn"
+        android:background="@drawable/square_btn_bg"
+        android:textColor="@color/colorWhite"
+        android:text="다음 읽기"/>
+
+    <TextView
+        android:id="@+id/beforeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:visibility="invisible"
+        android:layout_marginBottom="26.3dp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/white_stroke_btn_bg"
+        android:textColor="@color/colorBlack"
+        android:text="이전 화면"/>
+</RelativeLayout>

@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:background="@drawable/blue_gradient_bg">
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/logoView"
+            android:layout_width="141.8dp"
+            android:layout_height="168.2dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/new_logo_c"/>
+
+        <ImageView
+            android:id="@+id/bubbleView"
+            android:layout_width="98dp"
+            android:layout_height="89.7dp"
+            android:layout_toRightOf="@+id/logoView"
+            android:layout_alignTop="@+id/logoView"
+            android:layout_marginTop="-41.9dp"
+            android:layout_marginLeft="-26.4dp"
+            android:clipChildren="true"
+            android:background="@drawable/speech_bubble"/>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logoView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25.3dp"
+            android:letterSpacing="-0.05"
+            android:lineSpacingExtra="11sp"
+            android:gravity="center"
+            android:textSize="28sp"
+            android:textColor="@color/colorWhite"
+            android:text="가입이\n완료되었습니다!"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16.3dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/textView1"
+            android:textSize="15sp"
+            android:textColor="@color/colorWhite"
+            android:text="지금 바로 토키를 즐기러 가볼까요?"/>
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="68.3dp"
+            android:background="@drawable/round_wthie_btn_bg"
+            android:paddingTop="21dp"
+            android:paddingBottom="21dp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:orientation="horizontal"
+            android:onClick="onClickOKBtn"
+            android:gravity="center">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:textColor="#6d8fff"
+                android:text="토키보러 가기"/>
+            
+            <ImageView
+                android:layout_width="16.3dp"
+                android:layout_height="26.5dp"
+                android:background="@drawable/arrow"
+                android:layout_marginLeft="12.2dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

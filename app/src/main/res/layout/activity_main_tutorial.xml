@@ -1,9 +1,337 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Activity.Main.MainTutorialActivity">
+    tools:context=".UI.Activity.Main.MainTutorialActivity"
+    android:clipChildren="false"
+    android:background="#b2000000"
+    android:onClick="onClickTutorial">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:clipChildren="false">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16.6dp"
+            android:background="@null"
+            android:src="@drawable/menu_white"/>
+
+        <ImageView
+            android:layout_width="26.4dp"
+            android:layout_height="20.7dp"
+            android:background="@drawable/top_left_arrow"
+            android:layout_toRightOf="@+id/leftBtn"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="25dp"/>
+
+        <ImageButton
+            android:id="@+id/rightBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="17.5dp"
+            android:background="@null"
+            android:src="@drawable/search_icon_white"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/topRightArrow"
+        android:layout_width="23.4dp"
+        android:layout_height="17dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/top_right_arrow"
+        android:layout_marginRight="47dp"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60.4dp"
+        android:layout_marginTop="48.3dp"
+        android:fontFamily="@font/kcc_font"
+        android:textColor="@color/colorWhite"
+        android:lineSpacingExtra="2dp"
+        android:textSize="22sp"
+        android:text="이벤트 내용, 공지사항을\n확인해볼 수 있어요!"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="22sp"
+        android:fontFamily="@font/kcc_font"
+        android:text="작품 검색"
+        android:layout_below="@+id/topRightArrow"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"/>
+
+    <RelativeLayout
+        android:id="@+id/firstLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topBarLayout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/imgLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintDimensionRatio="3:2"
+                android:padding="0dp"
+                android:orientation="vertical">
+            </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/middleArrow"
+        android:layout_width="28dp"
+        android:layout_height="23dp"
+        android:layout_above="@+id/secondLayout"
+        android:layout_marginBottom="-13dp"
+        android:background="@drawable/middle_arrow"
+        android:layout_marginLeft="37dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textColor="@color/colorWhite"
+        android:layout_toRightOf="@+id/middleArrow"
+        android:layout_alignTop="@+id/middleArrow"
+        android:fontFamily="@font/kcc_font"
+        android:layout_marginTop="-10dp"
+        android:layout_marginLeft="5dp"
+        android:text="시즌별로 인기작이 업데이트 돼요!"/>
+
+    <LinearLayout
+        android:id="@+id/secondLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firstLayout"
+        android:layout_marginTop="21dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/headerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="23dp"
+                android:textColor="@android:color/white"
+                android:letterSpacing="-0.05"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="인기작"/>
+
+            <TextView
+                android:id="@+id/btnMore"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="28dp"
+                android:gravity="center_vertical"
+                android:visibility="invisible"
+                android:text="더보기 >"
+                android:textColor="@color/colorTextGray" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@+id/bottomLayout">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/bottomText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/arrowView1"
+                android:layout_above="@+id/arrowView1"
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/kcc_font"
+                android:textSize="22sp"
+                android:textColor="@color/colorWhite"
+                android:text="메인 홈"/>
+
+            <ImageView
+                android:id="@+id/arrowView1"
+                android:layout_width="17.7dp"
+                android:layout_height="22.3dp"
+                android:background="@drawable/bottom_arrow_1"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/bottomText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/arrowView2"
+                android:layout_marginLeft="-3dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/kcc_font"
+                android:layout_above="@+id/arrowView2"
+                android:textSize="22sp"
+                android:textColor="@color/colorWhite"
+                android:text="보관함"/>
+
+            <ImageView
+                android:id="@+id/arrowView2"
+                android:layout_width="17.7dp"
+                android:layout_height="22.3dp"
+                android:background="@drawable/bottom_arrow_1"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/bottomText3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/arrowView3"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/kcc_font"
+                android:textSize="22sp"
+                android:textColor="@color/colorWhite"
+                android:text="작품쓰기"/>
+
+            <ImageView
+                android:id="@+id/arrowView3"
+                android:layout_width="20.5dp"
+                android:layout_height="27.5dp"
+                android:background="@drawable/bottom_arrow_2"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="2dp"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/bottomText4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/arrowView4"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="-5dp"
+                android:fontFamily="@font/kcc_font"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:lineSpacingExtra="-5sp"
+                android:textColor="@color/colorWhite"
+                android:text="마이\n페이지"/>
+
+            <ImageView
+                android:id="@+id/arrowView4"
+                android:layout_width="17.7dp"
+                android:layout_height="22.3dp"
+                android:background="@drawable/bottom_arrow_2"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52.3dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/homeImgView"
+                android:layout_width="36.7dp"
+                android:layout_height="36.7dp"
+                android:background="@drawable/ic_home_on"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/storageImgView"
+                android:layout_width="20dp"
+                android:layout_height="21.7dp"
+                android:background="@drawable/icon_storage_white"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/writeImgView"
+                android:layout_width="20dp"
+                android:layout_height="21.7dp"
+                android:background="@drawable/icon_pencil_white"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/myImgView"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:background="@drawable/icon_my_page_white"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,6 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="28.3dp"
+    android:paddingRight="28.3dp">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/dateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13.3sp"
+        android:textColor="#d1d1d1"
+        android:text="2020.05.03"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/dateView">
+
+        <TextView
+            android:id="@+id/usedDescView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:textColor="@color/colorBlack"
+            android:maxLines="2"
+            android:ellipsize="middle"
+            android:textSize="13.3sp"
+            android:text="임달 작가의 '고양이가 로또를 선물...' 작품에 응원"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical|right">
+
+            <TextView
+                android:id="@+id/carrotCountView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|right"
+                android:layout_toLeftOf="@+id/countView"
+                android:maxLines="1"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="#ff5700"
+                android:text="-1000"/>
+
+            <TextView
+                android:id="@+id/countView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:textSize="16.7sp"
+                android:textColor="#ff5700"
+                android:text=" 개"/>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

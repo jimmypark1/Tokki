@@ -3,7 +3,6 @@ package com.Whowant.Tokki.UI.Popup;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Build;
@@ -17,19 +16,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
-import com.Whowant.Tokki.UI.Activity.Work.EpisodeCommentActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.OnKeyboardVisibilityListener;
 
@@ -79,13 +74,18 @@ public class CarrotDoneActivity extends AppCompatActivity implements OnKeyboardV
         carrotCountView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                carrotInputView.setVisibility(View.VISIBLE);
-                carrotInputView.setText("" + nCarrotCount);
-                carrotCountView.setVisibility(View.INVISIBLE);
-                carrotInputView.requestFocus();
-                carrotInputView.setSelection(carrotInputView.getText().toString().length());
-                imm.showSoftInput(carrotInputView, InputMethodManager.SHOW_FORCED);
-                bInputVisible = true;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        carrotInputView.setVisibility(View.VISIBLE);
+                        carrotInputView.setText("" + nCarrotCount);
+                        carrotCountView.setVisibility(View.INVISIBLE);
+                        carrotInputView.requestFocus();
+                        carrotInputView.setSelection(carrotInputView.getText().toString().length());
+                        imm.showSoftInput(carrotInputView, InputMethodManager.SHOW_FORCED);
+                        bInputVisible = true;
+                    }
+                });
             }
         });
 
@@ -125,7 +125,8 @@ public class CarrotDoneActivity extends AppCompatActivity implements OnKeyboardV
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(carrotInputView.getText().length() == 0) {
+                String carrot = carrotInputView.getText().toString();
+                if(carrot.length() == 0) {
                     carrotInputView.setText("0");
                     carrotInputView.setSelection(1);
                 } else {
@@ -134,8 +135,11 @@ public class CarrotDoneActivity extends AppCompatActivity implements OnKeyboardV
 
                     if(nCount > nCurrentCarrot) {
                         carrotInputView.setText("" + nCurrentCarrot);
-                        carrotInputView.setSelection(carrotInputView.getText().toString().length());
+                    } else if(carrot.length() > 1 && carrot.startsWith("0")) {
+                        carrotInputView.setText("" + nCount);
                     }
+
+                    carrotInputView.setSelection(carrotInputView.getText().toString().length());
                 }
             }
 
@@ -318,6 +322,7 @@ public class CarrotDoneActivity extends AppCompatActivity implements OnKeyboardV
 
                             if(resultObject.getString("RESULT").equals("SUCCESS")) {
                                 nCurrentCarrot = resultObject.getInt("CURRENT_CARROT");
+                                nCurrentCarrot = 5000;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -338,6 +343,8 @@ public class CarrotDoneActivity extends AppCompatActivity implements OnKeyboardV
     }
 
     public void onClickDonationBtn(View view) {
+        imm.hideSoftInputFromWindow(carrotInputView.getWindowToken(), 0);
+        nCarrotCount = Integer.valueOf(carrotInputView.getText().toString());
         if(nCarrotCount == 0) {
             Toast.makeText(CarrotDoneActivity.this, "응원할 당근을 선택해 주세요.", Toast.LENGTH_SHORT).show();
             return;

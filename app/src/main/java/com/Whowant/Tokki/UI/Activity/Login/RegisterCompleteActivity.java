@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 
 public class RegisterCompleteActivity extends AppCompatActivity {
 

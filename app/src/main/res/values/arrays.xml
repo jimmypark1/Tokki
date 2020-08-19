@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="KEEP_MENU">
+        <item>이름순</item>
+        <item>업데이트순</item>
+    </string-array>
+
+    <string-array name="READ_MENU">
+        <item>이름순</item>
+        <item>업데이트순</item>
+        <item>최근읽은순</item>
+    </string-array>
+
+    <string-array name="ORDER_MENU">
+        <item>인기순</item>
+        <item>최신순</item>
+    </string-array>
+
+</resources>

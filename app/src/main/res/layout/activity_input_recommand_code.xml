@@ -1,6 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff">
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/carrotLogoView"
+        android:layout_width="88dp"
+        android:layout_height="93dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/carrot_in_circle"
+        android:layout_marginTop="75.4dp"/>
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/carrotLogoView"
+        android:layout_marginTop="46.1dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="22sp"
+        android:textColor="@color/colorBlack"
+        android:text="추천인 코드"/>
+
+    <LinearLayout
+        android:id="@+id/inputCodeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleView"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="72dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+
+        <EditText
+            android:id="@+id/inputCode1View"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textSize="19sp"
+            android:maxLength="4"
+            android:textColor="@color/colorBlack"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="28sp"
+            android:textColor="@color/colorBlack"
+            android:text="-"/>
+
+        <EditText
+            android:id="@+id/inputCode2View"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="center"
+            android:textSize="19sp"
+            android:maxLength="4"
+            android:textColor="@color/colorBlack"
+            android:layout_weight="2"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="28sp"
+            android:textColor="@color/colorBlack"
+            android:text="-"/>
+
+        <EditText
+            android:id="@+id/inputCode3View"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="center"
+            android:textSize="19sp"
+            android:maxLength="4"
+            android:textColor="@color/colorBlack"
+            android:layout_weight="2"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/lineView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="73dp"
+        android:layout_marginRight="73dp"
+        android:layout_below="@+id/inputCodeLayout"
+        android:background="#e1e1e1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="39dp"
+        android:layout_below="@+id/lineView"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:textColor="@color/colorBlack"
+        android:text="추천인 코드 입력시 추천인과\n회원가입 유저에게 당근이 지급됩니다."/>
+
+    <TextView
+        android:id="@+id/acceptRegisterBtn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginBottom="10.7dp"
+        android:gravity="center"
+        android:layout_above="@+id/justRegisterBtn"
+        android:background="@drawable/square_btn_bg"
+        android:textColor="@color/colorWhite"
+        android:onClick="onClickCodeBtn"
+        android:text="당근 받고 가입"/>
+
+    <TextView
+        android:id="@+id/justRegisterBtn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginBottom="26.3dp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/white_stroke_btn_bg"
+        android:textColor="@color/colorBlack"
+        android:onClick="onClickNextBtn"
+        android:text="그냥 가입"/>
+</RelativeLayout>

@@ -1,10 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Activity.Main.EventPopupActivity">
+    tools:context=".UI.Activity.Main.EventPopupActivity"
+    android:background="#b2000000">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
+        android:layout_above="@+id/popBodyLayout"
+        android:layout_alignRight="@+id/popBodyLayout"
+        android:background="@null"
+        android:src="@drawable/x_button"
+        android:onClick="onClickCloseBtn"/>
+
+    <RelativeLayout
+        android:id="@+id/popBodyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/colorWhite"
+        android:layout_marginLeft="37dp"
+        android:layout_marginRight="37dp">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_marginTop="18dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:clipToPadding="false"/>
+
+        <LinearLayout
+            android:id="@+id/checkLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:onClick="onClickRemoveBtn"
+            android:layout_below="@+id/viewPager"
+            android:layout_marginTop="21.7dp"
+            android:layout_marginBottom="11.5dp"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/checkBox"
+                android:layout_width="11dp"
+                android:layout_height="11dp"
+                android:background="@drawable/check_box_non"
+                android:scaleType="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="13.3sp"
+                android:text="오늘 하루 이 내용 보지 않기"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

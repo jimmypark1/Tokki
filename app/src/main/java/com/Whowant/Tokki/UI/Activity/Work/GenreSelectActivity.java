@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.Utils.CommonUtils;
-import com.Whowant.Tokki.VO.NoticeVO;
 
 import java.util.ArrayList;
 import java.util.List;

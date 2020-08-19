@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="52dp"
+    android:background="#ffffff">
 
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/leftBtn"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16.6dp"
+        android:background="@null"
+        android:onClick="onClickTopLeftBtn"
+        android:src="@drawable/hamburger_black"/>
+
+    <ImageButton
+        android:id="@+id/rightBtn"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="17.5dp"
+        android:background="@null"
+        android:onClick="onClickTopRightBtn"
+        android:src="@drawable/serch_icon_balck"/>
+
+    <ImageView
+        android:id="@+id/cenverLogoView"
+        android:layout_width="56.6dp"
+        android:layout_height="17.2dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/tokki_home_logo"/>
+
+    <LinearLayout
+        android:id="@+id/topEditLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:layout_width="52.3dp"
+            android:layout_height="19.7dp"
+            android:background="@drawable/top_edit_button"
+            android:onClick="onClickTopEditBtn"/>
+
+        <ImageButton
+            android:layout_width="52.3dp"
+            android:layout_height="19.7dp"
+            android:background="@drawable/top_delet_button"
+            android:onClick="onClickTopDelBtn"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@color/colorBlack"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>

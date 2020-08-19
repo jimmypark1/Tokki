@@ -1,9 +1,290 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".UI.Activity.Work.ReportSelectActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/back_button"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="댓글 신고"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBarLayout"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="8.7dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:onClick="onClickList1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:text="영리목적/홍보성"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onClickList1"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8.7dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="8.7dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:onClick="onClickList2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:text="욕설/인신공격"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickList2"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8.7dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="8.7dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:onClick="onClickList3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:text="불법정보"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickList3"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8.7dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="8.7dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:onClick="onClickList4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:text="개인정보노출"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickList4"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8.7dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="8.7dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:onClick="onClickList5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:text="음란성/선정성"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickList5"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8.7dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="8.7dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:onClick="onClickList6">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:text="같은 내용 도배"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickList6"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8.7dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="8.7dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:onClick="onClickList7">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:text="기타"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickList7"/>
+            </LinearLayout>
+        </LinearLayout>
+        
+        <EditText
+            android:id="@+id/reportReasonInputView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="38dp"
+            android:layout_marginRight="38dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:hint="신고 내용을 작성해주세요."
+            android:imeOptions="actionDone"
+            android:textColor="@color/colorBlack"/>
+    </LinearLayout>
+    
+    <Button
+        android:id="@+id/reportBtn"
+        android:layout_width="186.7dp"
+        android:layout_height="48dp"
+        android:background="@drawable/common_btn_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:textColor="@color/colorWhite"
+        android:text="신고하기"/>
+</RelativeLayout>

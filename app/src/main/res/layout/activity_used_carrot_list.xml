@@ -1,10 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".UI.Activity.Carrot.UsedCarrotListActivity">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/back_button"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="누적 사용 당근"/>
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBarLayout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="190.5dp"
+                android:layout_height="87.6dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/party_effect"/>
+
+            <RelativeLayout
+                android:id="@+id/carrotLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/round_shadow_btn_white_bg">
+                
+                <ImageView
+                    android:id="@+id/carrotImgView"
+                    android:layout_width="58.7dp"
+                    android:layout_height="58.7dp"
+                    android:layout_marginLeft="22.2dp"
+                    android:layout_marginTop="20.6dp"
+                    android:layout_marginBottom="20.4dp"
+                    android:background="@drawable/carrot_img"/>
+
+                <TextView
+                    android:id="@+id/carrotTxtView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="17.3dp"
+                    android:layout_marginRight="22.2dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="지금까지 사용한 누적획득 당근 갯수"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/carrotImgView"
+                    android:layout_below="@+id/carrotTxtView"
+                    android:layout_marginRight="22.2dp">
+
+                    <TextView
+                        android:id="@+id/countView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:textColor="#ff5700"
+                        android:text=" 개"/>
+
+                    <TextView
+                        android:id="@+id/carrotcountView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/countView"
+                        android:padding="0dp"
+                        android:gravity="center"
+                        android:layout_centerVertical="true"
+                        android:textSize="38.3sp"
+                        android:textStyle="bold"
+                        android:textColor="#ff5700"/>
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/recyclerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/carrotLayout"
+                android:layout_marginTop="7.7dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="22.3dp"
+                android:background="@drawable/round_shadow_btn_white_bg">
+
+                <TextView
+                    android:id="@+id/subTitleView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18.3dp"
+                    android:layout_marginLeft="22.7dp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16.7sp"
+                    android:text="사용한 당근 내역"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subTitleView"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="15dp"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
 
-</LinearLayout>
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLayout"
+        android:layout_above="@+id/bottomLineLayout"
+        android:dividerHeight="0dp"
+        android:divider="#00000000"/>
+
+    <TextView
+        android:id="@+id/emptyView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textColor="#d1d1d1"
+        android:text="등록된 작품이 없습니다!"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

@@ -6,8 +6,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.Whowant.Tokki.UI.Fragment.Login.TutorialFragment;
-import com.Whowant.Tokki.UI.Fragment.Main.MyFollowerFragment;
-import com.Whowant.Tokki.UI.Fragment.Main.MyFollowingFragment;
 
 public class TutorialPagerAdapter extends FragmentPagerAdapter {
     private TutorialFragment tutorial1;

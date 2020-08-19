@@ -1,15 +1,12 @@
 package com.Whowant.Tokki.UI.Activity.Work;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,11 +15,6 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
-import com.Whowant.Tokki.UI.Activity.Main.ChatActivity;
-import com.Whowant.Tokki.UI.Activity.Main.MainBaseActivity;
-import com.Whowant.Tokki.UI.Activity.Main.SearchActivity;
-import com.Whowant.Tokki.UI.Popup.ReportPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 
 import java.util.ArrayList;
