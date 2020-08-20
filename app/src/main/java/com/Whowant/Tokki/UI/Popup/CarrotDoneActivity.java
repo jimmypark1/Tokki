@@ -129,6 +129,7 @@ public class CarrotDoneActivity extends AppCompatActivity implements OnKeyboardV
                 if(carrot.length() == 0) {
                     carrotInputView.setText("0");
                     carrotInputView.setSelection(1);
+                    carrotCountView.setText("0");
                 } else {
                     String strCarrotCount = carrotInputView.getText().toString();
                     int nCount = Integer.valueOf(strCarrotCount);
@@ -140,6 +141,7 @@ public class CarrotDoneActivity extends AppCompatActivity implements OnKeyboardV
                     }
 
                     carrotInputView.setSelection(carrotInputView.getText().toString().length());
+                    carrotCountView.setText(carrotInputView.getText().toString());
                 }
             }
 
@@ -344,7 +346,7 @@ public class CarrotDoneActivity extends AppCompatActivity implements OnKeyboardV
 
     public void onClickDonationBtn(View view) {
         imm.hideSoftInputFromWindow(carrotInputView.getWindowToken(), 0);
-        nCarrotCount = Integer.valueOf(carrotInputView.getText().toString());
+        nCarrotCount = Integer.valueOf(carrotCountView.getText().toString());
         if(nCarrotCount == 0) {
             Toast.makeText(CarrotDoneActivity.this, "응원할 당근을 선택해 주세요.", Toast.LENGTH_SHORT).show();
             return;

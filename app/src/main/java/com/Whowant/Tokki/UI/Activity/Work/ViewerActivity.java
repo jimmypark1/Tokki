@@ -88,6 +88,9 @@ public class ViewerActivity extends AppCompatActivity {
     private CChattingArrayAdapter aa;
     private float fX;
     private float fY;
+    private boolean bLong = false;
+    private boolean bShowingAutoscroll = false;
+    private Timer uiTimer = null;
 
     private int nEpisodeIndex;
     private int nBGColor;
@@ -182,21 +185,90 @@ public class ViewerActivity extends AppCompatActivity {
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     fX = motionEvent.getX();
                     fY = motionEvent.getY();
-                    if(autoScrollTimer != null) {
-                        autoScrollTimer.cancel();
-                        autoScrollTimer = null;
-                        Toast.makeText(ViewerActivity.this, "자동스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+
+                    if(bShowingAutoscroll) {
+                        autoScrollLayout.setVisibility(View.INVISIBLE);
+                        bShowingAutoscroll = false;
+
+                        if(autoScrollTimer != null) {
+                            autoScrollTimer.cancel();
+                            autoScrollTimer = null;
+                            Toast.makeText(ViewerActivity.this, "자동스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                        return false;
                     }
+
+
+                    bLong = true;
+
+                    if(uiTimer != null) {
+                        uiTimer.cancel();
+                        uiTimer = null;
+                    }
+
+                    uiTimer = new Timer();
+                    uiTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(bLong) {
+                                        bLong = false;
+                                        bShowingAutoscroll = true;
+                                        if(autoScrollTimer != null) {
+                                            autoScrollTimer.cancel();
+                                            autoScrollTimer = null;
+                                        }
+
+                                        autoScrollLayout.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            });
+                        }
+                    }, 1000);
                 } else if(motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
                     float fEndX = motionEvent.getX();
                     float fEndY = motionEvent.getY();
 
+                    bLong = false;
+                    if(uiTimer != null) {
+                        uiTimer.cancel();
+                        uiTimer = null;
+                    }
+
                     if(fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
                         return false;
                     } else {
-                        setNextChat();
+                        if(!bShowingAutoscroll)
+                            setNextChat();
+                    }
+                } else if(motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
+                    float fEndX = motionEvent.getX();
+                    float fEndY = motionEvent.getY();
+
+                    if(fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
+                        bLong = false;
+                        if(uiTimer != null) {
+                            uiTimer.cancel();
+                            uiTimer = null;
+                        }
+                        return false;
                     }
                 }
+                return false;
+            }
+        });
+
+        bgView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if(autoScrollTimer != null) {
+                    autoScrollTimer.cancel();
+                    autoScrollTimer = null;
+                }
+
+                autoScrollLayout.setVisibility(View.VISIBLE);
                 return false;
             }
         });
