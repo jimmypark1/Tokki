@@ -129,7 +129,7 @@
                 android:layout_alignLeft="@id/titleLayout"
                 android:layout_below="@+id/titleLayout"
                 android:textSize="13sp"
-                android:text="by 작가명"/>
+                android:text="By 작가명"/>
 
             <LinearLayout
                 android:id="@+id/pointLayout"

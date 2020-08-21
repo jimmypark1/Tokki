@@ -36,6 +36,7 @@ import okhttp3.OkHttpClient;
 
 public class ContestListActivity extends AppCompatActivity {
     private ListView listView;
+    private LinearLayout emptyLayout;
     private ArrayList<ContestVO> contestList;
     private CContestArrayAdapter aa;
 
@@ -45,11 +46,12 @@ public class ContestListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contest_list);
 
         listView = findViewById(R.id.listView);
+        emptyLayout = findViewById(R.id.emptyLayout);
         getContestData();
     }
 
     private void getContestData() {
-        CommonUtils.showProgressDialog(this, "공모전목록을 가져오고있습니다.");
+        CommonUtils.showProgressDialog(this, "공모전 목록을 가져오고 있습니다.");
 
         new Thread(new Runnable() {
             @Override
@@ -64,6 +66,14 @@ public class ContestListActivity extends AppCompatActivity {
 
                         aa = new CContestArrayAdapter(ContestListActivity.this, R.layout.contest_list_row, contestList);
                         listView.setAdapter(aa);
+
+                        if(contestList.size() == 0) {
+                            setNoSubmit();
+                            return;
+                        }
+
+                        listView.setVisibility(View.VISIBLE);
+                        emptyLayout.setVisibility(View.INVISIBLE);
 
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -112,5 +122,10 @@ public class ContestListActivity extends AppCompatActivity {
 
             return convertView;
         }
+    }
+
+    private void setNoSubmit() {
+        listView.setVisibility(View.INVISIBLE);
+        emptyLayout.setVisibility(View.VISIBLE);
     }
 }

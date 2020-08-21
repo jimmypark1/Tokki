@@ -141,7 +141,7 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
                 Glide.with(NewRankingActivity.this)
                         .asBitmap() // some .jpeg files are actually gif
                         .load(strImgUrl)
-                        .apply(new RequestOptions().override(800, 800))
+                        .apply(new RequestOptions().centerCrop())
                         .into(coverView);
             }
 

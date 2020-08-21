@@ -219,7 +219,7 @@ public class GenreRankingActivity extends AppCompatActivity implements AdapterVi
             if(strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
                 Glide.with(GenreRankingActivity.this)
                         .asBitmap() // some .jpeg files are actually gif
-                        .load(R.drawable.no_poster)
+                        .load(R.drawable.no_poster_vertical)
                         .apply(new RequestOptions().override(800, 800))
                         .into(coverView);
             } else {
@@ -229,9 +229,9 @@ public class GenreRankingActivity extends AppCompatActivity implements AdapterVi
 
                 Glide.with(GenreRankingActivity.this)
                         .asBitmap() // some .jpeg files are actually gif
-                        .placeholder(R.drawable.no_poster)
+                        .placeholder(R.drawable.no_poster_vertical)
                         .load(strImgUrl)
-                        .apply(new RequestOptions().override(800, 800))
+                        .apply(new RequestOptions().centerCrop())
                         .into(coverView);
             }
 

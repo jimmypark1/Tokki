@@ -2462,7 +2462,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                         nAddIndex = -1;
                         aa.notifyDataSetChanged();
                     } else {
-                        Toast.makeText(getActivity(), "내용을 추가하시면 선택하신 사이에 추가 됩니다.\n취소하시려면 버튼을 다시한번 눌러주세요.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "내용을 추가하시면 선택하신 사이에 추가 됩니다.\n취소하시려면 버튼을 다시 한 번 눌러주세요.", Toast.LENGTH_LONG).show();
                         nAddIndex = position;
                         aa.notifyDataSetChanged();
                     }

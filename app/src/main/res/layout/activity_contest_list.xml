@@ -39,4 +39,22 @@
         android:layout_below="@+id/topBarLayout"
         android:dividerHeight="0dp"
         android:divider="#00000000"/>
+
+    <LinearLayout
+        android:id="@+id/emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBarLayout"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <TextView
+            android:id="@+id/noSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextGray"
+            android:textSize="20sp"
+            android:text="접수된 공모전이 없습니다"/>
+    </LinearLayout>
 </RelativeLayout>

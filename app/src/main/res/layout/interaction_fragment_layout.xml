@@ -98,23 +98,29 @@
             android:layout_width="28.3dp"
             android:layout_height="28.3dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginBottom="9dp"
-            android:layout_centerVertical="true"
             android:src="@drawable/plus_button_black"
             android:background="?attr/selectableItemBackground"
-            android:onClick="onClickContentsAddBtn"/>
+            android:onClick="onClickContentsAddBtn"
+            android:layout_alignBottom="@+id/inputTextView"/>
 
         <EditText
             android:id="@+id/inputTextView"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
             android:background="@drawable/edittext_gray_bg"
-            android:paddingRight="60dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="21dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="60dp"
+            android:inputType="textMultiLine"
+            android:isScrollContainer="true"
+            android:maxHeight="74dp"
+            android:minHeight="31dp"
+            android:hint="대화를 입력하세요"
             android:textSize="14sp"
             android:textColor="@color/colorBlack"
             android:layout_toRightOf="@+id/contentsAddBtn"/>
@@ -122,16 +128,14 @@
         <Button
             android:id="@+id/sendBtn"
             android:layout_width="58.3dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="21dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/common_btn_disable_bg"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_alignRight="@+id/inputTextView"
+            android:layout_alignBottom="@+id/inputTextView"
+            android:minHeight="30dp"
             android:textColor="#fff"
             android:textSize="14sp"
-            android:text="등록"
-            android:layout_centerVertical="true"/>
+            android:text="등록"/>
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

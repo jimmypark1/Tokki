@@ -14,12 +14,17 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.FileObserver;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -120,6 +125,11 @@ public class ViewerActivity extends AppCompatActivity {
     private Timer autoScrollTimer = null;
     private int   nAutoLevel = -1;
     private LinearLayout autoScrollLayout;
+    private RelativeLayout autoScrollLevel1Btn, autoScrollLevel2Btn, autoScrollLevel3Btn;
+
+    // Animation animation, animation2;
+
+    boolean isSlideUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +165,12 @@ public class ViewerActivity extends AppCompatActivity {
         TextView titleView = findViewById(R.id.titleView);
         titleView.setText(workVO.getEpisodeList().get(nEpisodeIndex).getStrTitle());
 
+
+//        animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate);
+        autoScrollLevel1Btn = findViewById(R.id.autoScrollLevel1Btn);
+        autoScrollLevel2Btn = findViewById(R.id.autoScrollLevel2Btn);
+        autoScrollLevel3Btn = findViewById(R.id.autoScrollLevel3Btn);
+
         autoScrollLayout = findViewById(R.id.autoScrollLayout);
         bgView = findViewById(R.id.bgView);
         chattingListView = findViewById(R.id.listView);
@@ -165,6 +181,8 @@ public class ViewerActivity extends AppCompatActivity {
             }
         });
 
+        isSlideUp = false;
+
         chattingListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -174,14 +192,33 @@ public class ViewerActivity extends AppCompatActivity {
                 }
 
                 autoScrollLayout.setVisibility(View.VISIBLE);
-                
+
+//                if (isSlideUp)
+//                {
+//                    slide(autoScrollLevel1Btn, 0, 1500);
+//                    slide(autoScrollLevel2Btn, 0, 1000);
+//                    slide(autoScrollLevel3Btn, 0, 500);
+//                }
+//                else
+//                {
+//                    slide(autoScrollLevel1Btn, 1500, 0);
+//                    slide(autoScrollLevel2Btn, 1000, 0);
+//                    slide(autoScrollLevel3Btn, 500, 0);
+//
+//                }
+//
+//                isSlideUp = !isSlideUp;
+
                 return false;
             }
         });
 
-        chattingListView.setOnTouchListener(new View.OnTouchListener() {
+        chattingListView.setOnTouchListener(new View.OnTouchListener()
+        {
+
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     fX = motionEvent.getX();
                     fY = motionEvent.getY();
@@ -193,7 +230,7 @@ public class ViewerActivity extends AppCompatActivity {
                         if(autoScrollTimer != null) {
                             autoScrollTimer.cancel();
                             autoScrollTimer = null;
-                            Toast.makeText(ViewerActivity.this, "자동스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
                         }
                         return false;
                     }
@@ -269,6 +306,23 @@ public class ViewerActivity extends AppCompatActivity {
                 }
 
                 autoScrollLayout.setVisibility(View.VISIBLE);
+
+//                if (isSlideUp)
+//                {
+//                    slide(autoScrollLevel1Btn, 0, 1500);
+//                    slide(autoScrollLevel2Btn, 0, 1000);
+//                    slide(autoScrollLevel3Btn, 0, 500);
+//                }
+//                else
+//                {
+//                    slide(autoScrollLevel1Btn, 1500, 0);
+//                    slide(autoScrollLevel2Btn, 1000, 0);
+//                    slide(autoScrollLevel3Btn, 500, 0);
+//
+//                }
+//
+//                isSlideUp = !isSlideUp;
+
                 return false;
             }
         });
@@ -300,9 +354,38 @@ public class ViewerActivity extends AppCompatActivity {
         bottomSheetBehavior = BottomSheetBehavior.from(photoSelectBottomSheet);
     }
 
+    FileObserver fileObserver = new FileObserver(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Screenshots") {
+        @Override
+        public void onEvent(int event, @Nullable String path) {
+            if (event == FileObserver.CREATE) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ViewerActivity.this, "캡쳐 후 불법 유포 시 처벌받을 수 있습니다.", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+        }
+    };
+
+    public void slide(View view, int x, int y)
+    {
+        TranslateAnimation animation = new TranslateAnimation(
+                0,
+                0,
+                x,
+                y);
+        animation.setDuration(500);
+        animation.setFillAfter(true);
+        view.startAnimation(animation);
+    }
+
     @Override
     public void onPause() {
         super.onPause();
+
+        fileObserver.stopWatching();
 
         if(mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
@@ -336,6 +419,8 @@ public class ViewerActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         getInteraction();
+
+        fileObserver.startWatching();
 
 //        commentList = new ArrayList<>();
 //        getCommentData();

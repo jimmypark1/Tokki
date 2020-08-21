@@ -143,7 +143,7 @@ public class SeesoGalleryActivity extends AppCompatActivity {
     }
 
     private void getGalleryData() {
-        CommonUtils.showProgressDialog(SeesoGalleryActivity.this, "Seeso 갤러리 데이터를 가져오고 있습니다.");
+        CommonUtils.showProgressDialog(SeesoGalleryActivity.this, "토키 갤러리 데이터를 가져오고 있습니다.");
 
         new Thread(new Runnable() {
             @Override

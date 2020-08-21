@@ -52,7 +52,7 @@ public class RecentListAdapter extends RecyclerView.Adapter<RecentListAdapter.Wi
                 Glide.with(mContext)
                         .asBitmap() // some .jpeg files are actually gif
                         .load(R.drawable.no_poster)
-                        .apply(new RequestOptions().override(800, 800))
+                        .apply(new RequestOptions().centerCrop())
                         .into(holder.coverView);
                 return;
             } else if(!strImgUrl.startsWith("http")) {
@@ -63,7 +63,7 @@ public class RecentListAdapter extends RecyclerView.Adapter<RecentListAdapter.Wi
                     .asBitmap() // some .jpeg files are actually gif
                     .placeholder(R.drawable.no_poster)
                     .load(strImgUrl)
-                    .apply(new RequestOptions().override(800, 800))
+                    .apply(new RequestOptions().centerCrop())
                     .into(holder.coverView);
     }
 

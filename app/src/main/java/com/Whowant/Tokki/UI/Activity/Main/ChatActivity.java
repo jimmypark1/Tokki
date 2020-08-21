@@ -36,7 +36,9 @@ import android.widget.Toast;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Work.EpisodeCommentActivity;
 import com.Whowant.Tokki.UI.Activity.Work.ReportSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Writer.WriterMainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WriterChatVO;
 import com.bumptech.glide.Glide;
@@ -55,6 +57,7 @@ public class ChatActivity extends AppCompatActivity {
     private ExpandableListView listView;
     private LinearLayout emptyLayout;
     private EditText inputTextView;
+    private ImageView faceView;
 
     private String strWriterID;
 
@@ -72,7 +75,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_comment);
+        setContentView(R.layout.activity_chat_tokkitalk);
 
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
@@ -80,6 +83,7 @@ public class ChatActivity extends AppCompatActivity {
         emptyLayout = findViewById(R.id.emptyLayout);
         inputTextView = findViewById(R.id.inputTextView);
         sendBtn = findViewById(R.id.sendBtn);
+        faceView = findViewById(R.id.faceView);
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -124,6 +128,7 @@ public class ChatActivity extends AppCompatActivity {
                 return false;
             }
         });
+
 
 //        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 //            @Override
@@ -227,7 +232,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void getCommentData() {
-        CommonUtils.showProgressDialog(this, "댓글 목록을 가져오고 있습니다. 잠시만 기다려주세요.");
+        CommonUtils.showProgressDialog(this, "목록을 가져오고 있습니다. 잠시만 기다려주세요.");
         commentList.clear();
         subCommentList.clear();
 
@@ -246,7 +251,7 @@ public class ChatActivity extends AppCompatActivity {
                         CommonUtils.hideProgressDialog();
 
                         if(resultArray == null) {
-                            Toast.makeText(ChatActivity.this, "댓글 목록을 가져오는데 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChatActivity.this, "목록을 가져오는데 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                             setNoComment();
                             return;
                         }
@@ -437,8 +442,8 @@ public class ChatActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     if(vo.getUserID().equals(pref.getString("USER_ID", "Guest")) || pref.getString("ADMIN", "N").equals("Y")) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
-                        builder.setTitle("댓글 삭제 알림");
-                        builder.setMessage("댓글을 정말 삭제하시겠습니까?");
+                        builder.setTitle("톡 삭제 알림");
+                        builder.setMessage("톡을 정말 삭제하시겠습니까?");
                         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
@@ -456,8 +461,8 @@ public class ChatActivity extends AppCompatActivity {
                         alertDialog.show();
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
-                        builder.setTitle("댓글 신고 알림");
-                        builder.setMessage("댓글을 정말 신고하시겠습니까?");
+                        builder.setTitle("톡 신고 알림");
+                        builder.setMessage("톡을 정말 신고하시겠습니까?");
                         builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
@@ -507,6 +512,16 @@ public class ChatActivity extends AppCompatActivity {
             } else {
                 arrowBtn.setBackgroundResource(R.drawable.down_arrow_btn);
             }
+
+            faceView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ChatActivity.this, WriterMainActivity.class);
+                    intent.putExtra("USER_ID", vo.getUserID());
+                    intent.putExtra("WRITER", false);
+                    startActivity(intent);
+                }
+            });
 
             arrowBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -588,8 +603,8 @@ public class ChatActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     if(vo.getUserID().equals(pref.getString("USER_ID", "Guest")) || pref.getString("ADMIN", "N").equals("Y")) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
-                        builder.setTitle("댓글 삭제 알림");
-                        builder.setMessage("댓글을 정말 삭제하시겠습니까?");
+                        builder.setTitle("톡 삭제 알림");
+                        builder.setMessage("톡을 정말 삭제하시겠습니까?");
                         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
@@ -607,8 +622,8 @@ public class ChatActivity extends AppCompatActivity {
                         alertDialog.show();
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
-                        builder.setTitle("댓글 신고 알림");
-                        builder.setMessage("댓글을 정말 신고하시겠습니까?");
+                        builder.setTitle("톡 신고 알림");
+                        builder.setMessage("톡을 정말 신고하시겠습니까?");
                         builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
@@ -658,6 +673,16 @@ public class ChatActivity extends AppCompatActivity {
 
             replyBtn.setVisibility(View.GONE);
 
+            faceView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ChatActivity.this, WriterMainActivity.class);
+                    intent.putExtra("USER_ID", vo.getUserID());
+                    intent.putExtra("WRITER", false);
+                    startActivity(intent);
+                }
+            });
+
             return convertView;
         }
 
@@ -681,7 +706,7 @@ public class ChatActivity extends AppCompatActivity {
         String strComment = inputTextView.getText().toString();
 
         if(strComment.length() == 0) {
-            Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -690,7 +715,7 @@ public class ChatActivity extends AppCompatActivity {
             strParentName = null;
         } else {
             if(strComment.equals(strParentName) || strComment.equals(strParentName + " ")) {
-                Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -778,7 +803,7 @@ public class ChatActivity extends AppCompatActivity {
                         CommonUtils.hideProgressDialog();
 
                         if(bResult) {
-                            Toast.makeText(ChatActivity.this, "채팅이삭제 되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChatActivity.this, "채팅이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                             getCommentData();
                         } else {
                             Toast.makeText(ChatActivity.this, "채팅을 삭제하지 못했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
@@ -790,7 +815,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void requestSendComment(final String strComment) {
-        CommonUtils.showProgressDialog(this, "댓글을 전송하고 있습니다. 잠시만 기다려주세요.");
+        CommonUtils.showProgressDialog(this, "채팅을 전송하고 있습니다. 잠시만 기다려주세요.");
 
         new Thread(new Runnable() {
             @Override
@@ -811,7 +836,7 @@ public class ChatActivity extends AppCompatActivity {
                         CommonUtils.hideProgressDialog();
 
                         if(!bResult) {
-                            Toast.makeText(ChatActivity.this, "댓글 등록에 실패하였습니다. 잠시후 다시 이용해 주세요.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChatActivity.this, "등록에 실패하였습니다. 잠시후 다시 이용해 주세요.", Toast.LENGTH_SHORT).show();
                             return;
                         } else {
                             getCommentData();

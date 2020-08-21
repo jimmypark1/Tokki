@@ -628,7 +628,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     Glide.with(WorkMainActivity.this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(R.drawable.no_poster)
-                            .apply(new RequestOptions().override(800, 800))
+                            .apply(new RequestOptions().centerCrop())
                             .into(coverImgView);
                 } else {
                     if(!strImgUrl.startsWith("http")) {
@@ -639,7 +639,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                             .asBitmap() // some .jpeg files are actually gif
                             .placeholder(R.drawable.no_poster)
                             .load(strImgUrl)
-                            .apply(new RequestOptions().override(800, 800))
+                            .apply(new RequestOptions().centerCrop())
                             .into(coverImgView);
                 }
 

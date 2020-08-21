@@ -17,7 +17,7 @@
             android:id="@+id/faceView"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:background="@drawable/talk_pf_no_img"/>
+            android:background="@drawable/user_icon"/>
 
         <TextView
             android:id="@+id/nameView"

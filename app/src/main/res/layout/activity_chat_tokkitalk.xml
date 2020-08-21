@@ -29,7 +29,7 @@
             android:layout_centerInParent="true"
             android:textSize="20sp"
             android:textColor="@color/colorBlack"
-            android:text="댓글"/>
+            android:text="토키 톡"/>
 
         <ImageButton
             android:id="@+id/rightBtn"
@@ -64,11 +64,12 @@
         android:visibility="invisible">
 
         <TextView
+            android:id="@+id/noComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorTextGray"
             android:textSize="20sp"
-            android:text="댓글이 없습니다"/>
+            android:text="대화가 없습니다"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -103,7 +104,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:paddingLeft="15dp"
-            android:hint="댓글을 남겨주세요!"
+            android:hint="톡을 남겨주세요!"
             android:textSize="14sp"
             android:textColor="@color/colorBlack"
             android:layout_toRightOf="@+id/contentsAddBtn"/>

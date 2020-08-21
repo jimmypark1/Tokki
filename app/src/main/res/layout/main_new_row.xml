@@ -16,7 +16,8 @@
             android:layout_width="77.4dp"
             android:layout_height="120dp"
             android:scaleType="fitXY"
-            android:src="@drawable/no_poster"/>
+            android:src="@drawable/no_poster"
+            android:background="@drawable/big_poster_round_bg"/>
 
         <TextView
             android:id="@+id/titleView"
@@ -53,7 +54,7 @@
             android:layout_marginLeft="6dp"
             android:textColor="#d1d1d1"
             android:textSize="13sp"
-            android:text="By 윤달곰"/>
+            android:text="By 작가명"/>
 
         <TextView
             android:id="@+id/descView"
@@ -67,11 +68,11 @@
             android:ellipsize="end"
             android:textSize="13sp"
             android:maxLines="2"
-            android:text="가나다라마바사하자차카타파하가마다라마바사아자차ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㅇㄴ"/>
+            android:text="간략한 시나리오를 설명하는 칸입니다. 시나리오가 이렇게 저렇게 어쩌구 저쩌구"/>
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:background="#d1d1d1"
             android:layout_alignBottom="@+id/coverImgView"/>
     </RelativeLayout>

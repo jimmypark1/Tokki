@@ -908,6 +908,16 @@ public class EpisodeCommentActivity extends AppCompatActivity {
                         .into(faceView);
             }
 
+            faceView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(EpisodeCommentActivity.this, WriterMainActivity.class);
+                    intent.putExtra("USER_ID", vo.getUserID());
+                    intent.putExtra("WRITER", false);
+                    startActivity(intent);
+                }
+            });
+
             nameView.setText(vo.getUserName());
 //            String strTime = vo.getRegisterDate();
 //            strTime = strTime.substring(0, 10) + "\n" + strTime.substring(11, 16);
