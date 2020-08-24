@@ -183,36 +183,6 @@ public class ViewerActivity extends AppCompatActivity {
 
         isSlideUp = false;
 
-//        chattingListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                if(autoScrollTimer != null) {
-//                    autoScrollTimer.cancel();
-//                    autoScrollTimer = null;
-//                }
-//
-//                autoScrollLayout.setVisibility(View.VISIBLE);
-//
-//                if (isSlideUp)
-//                {
-//                    slide(autoScrollLevel1Btn, 0, 1500);
-//                    slide(autoScrollLevel2Btn, 0, 1000);
-//                    slide(autoScrollLevel3Btn, 0, 500);
-//                }
-//                else
-//                {
-//                    slide(autoScrollLevel1Btn, 1500, 0);
-//                    slide(autoScrollLevel2Btn, 1000, 0);
-//                    slide(autoScrollLevel3Btn, 500, 0);
-//
-//                }
-//
-//                isSlideUp = !isSlideUp;
-//
-//                return false;
-//            }
-//        });
-
         chattingListView.setOnTouchListener(new View.OnTouchListener()
         {
 
@@ -230,15 +200,15 @@ public class ViewerActivity extends AppCompatActivity {
 
 //                        autoScrollLayout.setVisibility(View.INVISIBLE);
                         bShowingAutoscroll = false;
-
-                        if(autoScrollTimer != null) {
-                            autoScrollTimer.cancel();
-                            autoScrollTimer = null;
-                            Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
-                        }
                         return false;
                     }
 
+                    if(autoScrollTimer != null) {
+                        autoScrollTimer.cancel();
+                        autoScrollTimer = null;
+                        Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
 
                     bLong = true;
 
@@ -1365,7 +1335,7 @@ public class ViewerActivity extends AppCompatActivity {
                     Glide.with(ViewerActivity.this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(characterVO.getImage())
-                            .placeholder(faceIndex)
+                            .placeholder(nPlaceHolder)
                             .apply(new RequestOptions().circleCrop())
                             .into(faceView);
                 } else if(characterVO.getStrImgFile() != null && !characterVO.getStrImgFile().equals("null")) {
@@ -1378,7 +1348,7 @@ public class ViewerActivity extends AppCompatActivity {
                     Glide.with(ViewerActivity.this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(strUrl)
-                            .placeholder(faceIndex)
+                            .placeholder(nPlaceHolder)
                             .apply(new RequestOptions().circleCrop())
                             .into(faceView);
                 } else {
