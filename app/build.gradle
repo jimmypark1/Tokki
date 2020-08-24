@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.Whowant.Tokki"
         minSdkVersion 23
-        targetSdkVersion 28
-        versionCode 6
-        versionName "1.0.05"
+        targetSdkVersion 29
+        versionCode 9
+        versionName "1.0.09"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -61,9 +61,12 @@ dependencies {
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.25.0'
     implementation group: 'com.kakao.sdk', name: 'kakaolink', version: '1.25.0'
 
+    //noinspection GradleCompatible
     implementation 'com.android.support:support-core-utils:28.0.0'
-    implementation 'com.android.support:customtabs:25.3.1'
-    implementation 'com.android.support:support-v4:25.3.1'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:customtabs:28.0.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.facebook.android:facebook-login:[5,6)'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.firebase:firebase-database:19.2.0'
@@ -81,6 +84,7 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.ycuwq.widgets:datepicker:1.3.1'
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    implementation 'com.google.firebase:firebase-dynamic-links:19.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

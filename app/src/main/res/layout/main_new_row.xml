@@ -16,8 +16,7 @@
             android:layout_width="77.4dp"
             android:layout_height="120dp"
             android:scaleType="fitXY"
-            android:src="@drawable/no_poster"
-            android:background="@drawable/big_poster_round_bg"/>
+            android:src="@drawable/no_poster"/>
 
         <TextView
             android:id="@+id/titleView"

@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -22,6 +23,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +59,10 @@ public class WorkEditActivity extends AppCompatActivity {
     private Uri      coverImgUri = null;
     private RelativeLayout coverImgBtn;
     private ArrayList<String> tagList, genreList;
+    private ImageView checkbox1, checkbox2;
+    private TextView unCompleteTitleview, completeTitleview;
+    private LinearLayout check1Layout, check2Layout;
+    private boolean bComplete = false;
 
     public static WorkVO workVO;
 
@@ -80,6 +86,34 @@ public class WorkEditActivity extends AppCompatActivity {
         inputTagView = findViewById(R.id.inputTagView);
         inputGenreView = findViewById(R.id.inputGenreView);
         coverImgBtn = findViewById(R.id.coverImgBtn);
+        checkbox1 = findViewById(R.id.checkbox1);
+        checkbox2 = findViewById(R.id.checkbox2);
+        unCompleteTitleview = findViewById(R.id.unCompleteTitleview);
+        completeTitleview = findViewById(R.id.completeTitleview);
+        check1Layout = findViewById(R.id.check1Layout);
+        check2Layout = findViewById(R.id.check2Layout);
+
+        checkbox1.setImageResource(R.drawable.check_box_on);
+        unCompleteTitleview.setTextColor(Color.BLACK);
+        completeTitleview.setTextColor(Color.BLACK);
+
+        check1Layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkbox1.setImageResource(R.drawable.check_box_on);
+                checkbox2.setImageResource(0);
+                bComplete = true;
+            }
+        });
+
+        check2Layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkbox1.setImageResource(0);
+                checkbox2.setImageResource(R.drawable.check_box_on);
+                bComplete = false;
+            }
+        });
 
         inputTitleView.setText(workVO.getTitle());
         inputSynopsisView.setText(workVO.getSynopsis());
@@ -433,6 +467,7 @@ public class WorkEditActivity extends AppCompatActivity {
                     .addFormDataPart("WRITER_ID", pref.getString("USER_ID", "Guest"))
                     .addFormDataPart("WORK_TITLE", inputTitleView.getText().toString())
                     .addFormDataPart("WORK_SYNOPSIS", inputSynopsisView.getText().toString())
+                    .addFormDataPart("WORK_COMPLETE", bComplete == true ? "Y" : "N")
                     .addFormDataPart("WORK_TARGET", "");
 
             String strTags = inputTagView.getText().toString();

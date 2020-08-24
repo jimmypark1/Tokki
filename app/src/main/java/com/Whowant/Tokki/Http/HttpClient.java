@@ -1564,6 +1564,7 @@ public class HttpClient {
                 characterVO.setStrImgFile(object.getString("CHARACTER_IMG"));
                 characterVO.setbBlackText(object.getString("BLACK_TEXT").equals("Y") ? true : false);
                 characterVO.setbBlackName(object.getString("BLACK_NAME").equals("Y") ? true : false);
+                characterVO.setIndex(i+1);
 
                 if(object.getString("BALLOON_COLOR") != null && !object.getString("BALLOON_COLOR").equals("null"))
                     characterVO.setStrBalloonColor(object.getString("BALLOON_COLOR"));
@@ -1626,6 +1627,32 @@ public class HttpClient {
             boolean bNoDelbtn = false;
             int nLastCharacterID = -1;
 
+            ArrayList<CharacterVO> characterArray = new ArrayList<>();
+            ArrayList<String> characterIDList = new ArrayList<>();
+
+            for(int i = 0 ; i < chatArray.length() ; i++) {
+                JSONObject object = chatArray.getJSONObject(i);
+                CharacterVO characterVO = new CharacterVO();
+
+                characterVO.setName(object.getString("CHARACTER_NAME"));
+                characterVO.setStrImgFile(object.getString("CHARACTER_IMAGE"));
+                characterVO.setnCharacterID(object.getInt("CHARACTER_ID"));
+                characterVO.setbBlackText(object.getString("BLACK_TEXT").equals("Y") ? true : false);
+                characterVO.setbBlackName(object.getString("BLACK_NAME").equals("Y") ? true : false);
+
+                if(object.getString("BALLOON_COLOR") != null && !object.getString("BALLOON_COLOR").equals("null"))
+                    characterVO.setStrBalloonColor(object.getString("BALLOON_COLOR"));
+                characterVO.setDirection(object.getInt("CHARACTER_DIRECTION"));
+
+                if(characterVO.getnCharacterID() == 0)
+                    continue;
+                else if(characterIDList.contains("" + characterVO.getnCharacterID()))
+                    continue;
+
+                characterVO.setIndex(characterIDList.size() + 1);
+                characterIDList.add("" + characterVO.getnCharacterID());
+            }
+
             for(int i = 0 ; i < chatArray.length() ; i++) {
                 JSONObject object = chatArray.getJSONObject(i);
                 ChatVO vo = new ChatVO();
@@ -1640,6 +1667,7 @@ public class HttpClient {
                 if(object.getString("BALLOON_COLOR") != null && !object.getString("BALLOON_COLOR").equals("null"))
                     characterVO.setStrBalloonColor(object.getString("BALLOON_COLOR"));
 
+                characterVO.setIndex(characterIDList.indexOf("" + characterVO.getnCharacterID())+1);
                 characterVO.setDirection(object.getInt("CHARACTER_DIRECTION"));
 
                 vo.setnEpisodeID(object.getInt("EPISODE_ID"));
@@ -3845,6 +3873,39 @@ public class HttpClient {
         builder.setType(MultipartBody.FORM)
                 .addFormDataPart("USER_ID", strUserID)
                 .addFormDataPart(strKey, strValue);
+
+        RequestBody requestBody = builder.build();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanbookUserProfile.jsp")
+                .post(requestBody)
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if(response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+            else
+                return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static boolean requestSendUserProfileImageDefault(OkHttpClient httpClient, String strUserID) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM)
+                .addFormDataPart("USER_ID", strUserID)
+                .addFormDataPart("USER_PHOTO", "null");
 
         RequestBody requestBody = builder.build();
 

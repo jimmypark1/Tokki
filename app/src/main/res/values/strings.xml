@@ -9,6 +9,7 @@
     <string name="text_edit_midea">미디어 편집</string>
     <string name="text_gallery">토키 갤러리</string>
     <string name="text_my_album">내 앨범</string>
+    <string name="text_default">기본 이미지로 변경</string>
     <string name="text_color">색상 변경</string>
     <string name="text_choce_distractor">선택지 추가</string>
     <string name="text_choice_interaction">분기를 선택하세요!</string>

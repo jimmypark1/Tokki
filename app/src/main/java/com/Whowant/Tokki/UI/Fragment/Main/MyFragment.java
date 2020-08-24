@@ -382,8 +382,11 @@ public class MyFragment extends Fragment {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == FROM_POPUP) {
                 bCamera = data.getBooleanExtra("CAMERA", false);
+                boolean bDefault = data.getBooleanExtra("DEFAULT", false);
 
-                if (!bCamera) {
+                if(bDefault) {
+                    requestSendPhotoDefault();
+                } else if (!bCamera) {
                     Intent intent = new Intent(getActivity(), PhotoPickerActivity.class);
                     intent.putExtra("TYPE", PhotoPickerActivity.TYPE_PROFILE);
                     startActivity(intent);
@@ -432,6 +435,27 @@ public class MyFragment extends Fragment {
         requestSendPhoto(strPhotoPath);
     }
 
+    private void requestSendPhotoDefault() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean bResult = HttpClient.requestSendUserProfileImageDefault(new OkHttpClient(), pref.getString("USER_ID", "Guest"));
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("USER_PHOTO", "");
+                        editor.commit();
+
+                        faceView.setImageResource(R.drawable.user_icon);
+                        ((MainActivity) getActivity()).setMenuPhoto();
+                    }
+                });
+            }
+        }).start();
+    }
+
     private void requestSendPhoto(String strPhotoPath) {
         CommonUtils.showProgressDialog(getActivity(), "데이터를 전송하고 있습니다.");
 
@@ -447,13 +471,11 @@ public class MyFragment extends Fragment {
 
                         if(bResult) {
                             String filename = strPhotoPath.substring(strPhotoPath.lastIndexOf("/")+1);
-
                             SharedPreferences.Editor editor = pref.edit();
                             editor.putString("USER_PHOTO", filename);
                             editor.commit();
 
                             String strPhoto = pref.getString("USER_PHOTO", "");
-
                             if(strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
                                 if(!strPhoto.startsWith("http"))
                                     strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
@@ -465,6 +487,9 @@ public class MyFragment extends Fragment {
                                         .placeholder(R.drawable.user_icon)
                                         .into(faceView);
 
+                                ((MainActivity) getActivity()).setMenuPhoto();
+                            } else {
+                                faceView.setImageResource(R.drawable.user_icon);
                                 ((MainActivity) getActivity()).setMenuPhoto();
                             }
                         } else {
@@ -652,7 +677,7 @@ public class MyFragment extends Fragment {
                 }
 
                 if(photoFile!=null) {
-                    Uri providerURI = FileProvider.getUriForFile(getActivity(), "com.Whowant.Penapp.PhotoProvider", photoFile);
+                    Uri providerURI = FileProvider.getUriForFile(getActivity(), "com.Whowant.Tokki.PhotoProvider", photoFile);
                     intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, providerURI);
                     startActivityForResult(intent, FROM_CAMERA);
                 }

@@ -34,4 +34,11 @@ public class ProfilePhotoPopup extends AppCompatActivity {
         setResult(RESULT_OK, oldIntent);
         finish();
     }
+
+    public void OnClickDefaultBtn(View view) {
+        oldIntent.putExtra("CAMERA", false);
+        oldIntent.putExtra("DEFAULT", true);
+        setResult(RESULT_OK, oldIntent);
+        finish();
+    }
 }

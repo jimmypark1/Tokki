@@ -143,6 +143,8 @@ public class KeepSubFragment extends Fragment implements AdapterView.OnItemClick
             }
         });
 
+        getKeepListData();
+
 //        workTabLayout.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -174,13 +176,17 @@ public class KeepSubFragment extends Fragment implements AdapterView.OnItemClick
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
+        if(keepList == null)
+            return;
+
         if (isVisibleToUser) {
             FirebaseAnalytics.getInstance(getContext()).setCurrentScreen(getActivity(), "KeepFragment", null);
             bVisible = true;
-            if (nMode == MODE_KEEP)
+            if (nMode == MODE_KEEP) {
                 getKeepListData();
-            else
+            } else {
                 getReadListData();
+            }
         } else {
             bVisible = false;
         }
@@ -250,6 +256,7 @@ public class KeepSubFragment extends Fragment implements AdapterView.OnItemClick
 
     private void getKeepListData() {
         CommonUtils.showProgressDialog(getActivity(), "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
+
         keepList.clear();
 
         new Thread(new Runnable() {

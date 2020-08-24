@@ -1298,12 +1298,47 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             } else {
                 if(vo.getImage() != null && !vo.getImage().equals("null")) {
                     int nImg = 0;
-                    if(i == 1 || i == 4 || i == 7) {
-                        nImg = R.drawable.caracter_a_icon;
-                    } else if(i == 2 || i == 5 || i == 8)
-                        nImg = R.drawable.caracter_b_icon;
-                    else
-                        nImg = R.drawable.caracter_c_icon;
+
+                    int newi = i % 10;
+                    switch(newi) {
+                        case 1:
+                            nImg = R.drawable.user_icon_01;
+                            break;
+                        case 2:
+                            nImg = R.drawable.user_icon_02;
+                            break;
+                        case 3:
+                            nImg = R.drawable.user_icon_03;
+                            break;
+                        case 4:
+                            nImg = R.drawable.user_icon_04;
+                            break;
+                        case 5:
+                            nImg = R.drawable.user_icon_05;
+                            break;
+                        case 6:
+                            nImg = R.drawable.user_icon_06;
+                            break;
+                        case 7:
+                            nImg = R.drawable.user_icon_07;
+                            break;
+                        case 8:
+                            nImg = R.drawable.user_icon_08;
+                            break;
+                        case 9:
+                            nImg = R.drawable.user_icon_09;
+                            break;
+                        case 0:
+                            nImg = R.drawable.user_icon_10;
+                            break;
+                    }
+
+//                    if(i == 1 || i == 4 || i == 7) {
+//                        nImg = R.drawable.caracter_a_icon;
+//                    } else if(i == 2 || i == 5 || i == 8)
+//                        nImg = R.drawable.caracter_b_icon;
+//                    else
+//                        nImg = R.drawable.caracter_c_icon;
 
                     Glide.with(this)
                             .asBitmap() // some .jpeg files are actually gif
@@ -2540,10 +2575,40 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             if(faceView != null) {
                 if(characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
                     int nPlaceHolder = 0;
-                    if(nDirection == 0)
-                        nPlaceHolder = R.drawable.caracter_a_icon;
-                    else
-                        nPlaceHolder = R.drawable.caracter_b_icon;
+
+                    int faceIndex = characterVO.getIndex() % 10;
+                    switch(faceIndex) {
+                        case 1:
+                            nPlaceHolder = R.drawable.user_icon_01;
+                            break;
+                        case 2:
+                            nPlaceHolder = R.drawable.user_icon_02;
+                            break;
+                        case 3:
+                            nPlaceHolder = R.drawable.user_icon_03;
+                            break;
+                        case 4:
+                            nPlaceHolder = R.drawable.user_icon_04;
+                            break;
+                        case 5:
+                            nPlaceHolder = R.drawable.user_icon_05;
+                            break;
+                        case 6:
+                            nPlaceHolder = R.drawable.user_icon_06;
+                            break;
+                        case 7:
+                            nPlaceHolder = R.drawable.user_icon_07;
+                            break;
+                        case 8:
+                            nPlaceHolder = R.drawable.user_icon_08;
+                            break;
+                        case 9:
+                            nPlaceHolder = R.drawable.user_icon_09;
+                            break;
+                        case 0:
+                            nPlaceHolder = R.drawable.user_icon_10;
+                            break;
+                    }
 
                     Glide.with(LiteratureWriteActivity.this)
                             .asBitmap() // some .jpeg files are actually gif

@@ -253,7 +253,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
 
                 if(photoFile!=null){
-                    Uri providerURI = FileProvider.getUriForFile(this, "com.Whowant.Penapp.PhotoProvider", photoFile);
+                    Uri providerURI = FileProvider.getUriForFile(this, "com.Whowant.Tokki.PhotoProvider", photoFile);
                     intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, providerURI);
                     startActivityForResult(intent, FROM_CAMERA);
                 }

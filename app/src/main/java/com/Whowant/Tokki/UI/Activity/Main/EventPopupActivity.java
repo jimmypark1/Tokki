@@ -59,6 +59,7 @@ public class EventPopupActivity extends AppCompatActivity {
         editor.putString("" + currentList.get(nIndex).getnEventID(), strToday);
         editor.commit();
 
+        currentList.remove(nIndex);
         eventList.remove(nIndex);
         if(eventList == null || eventList.size() == 0) {
             finish();

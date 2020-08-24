@@ -124,7 +124,7 @@ public class KeepFragment extends Fragment {
         tabLayout = inflaterView.findViewById(R.id.tabLayout);
         viewPager = inflaterView.findViewById(R.id.viewPager);
 
-        pagerAdapter = new KeepAdapter(getActivity().getSupportFragmentManager());
+        pagerAdapter = new KeepAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
