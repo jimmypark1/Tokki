@@ -13,11 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterMainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WriterVO;
@@ -69,6 +71,11 @@ public class MyFollowerFragment extends Fragment {          // 나를 팔로우 
             public void run() {
                 writerList.addAll(HttpClient.getMyFollowerList(new OkHttpClient(), strWriterID));
 //                String strMyID = pref.getString("USER_ID", "Guest");
+
+                if(writerList == null || writerList.size() == 0) {
+                    Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 for(int i = 0 ; i < writerList.size() ; i++) {
                     WriterVO vo = writerList.get(i);
                     if(vo.getStrWriterID().equals(strWriterID)) {

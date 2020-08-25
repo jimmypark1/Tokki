@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
@@ -80,6 +81,11 @@ public class KeepActivity extends AppCompatActivity implements AdapterView.OnIte
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
+                        
+                        if(keepList == null) {
+                            Toast.makeText(KeepActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
                         aa = new CKeepArrayAdapter(KeepActivity.this, R.layout.best_row, keepList);
                         listView.setAdapter(aa);

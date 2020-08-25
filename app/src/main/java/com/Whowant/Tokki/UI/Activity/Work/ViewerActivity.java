@@ -242,7 +242,7 @@ public class ViewerActivity extends AppCompatActivity {
                                 }
                             });
                         }
-                    }, 1000);
+                    }, 400);
                 } else if(motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
                     float fEndX = motionEvent.getX();
                     float fEndY = motionEvent.getY();
@@ -479,6 +479,11 @@ public class ViewerActivity extends AppCompatActivity {
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
+                        if(chattingList == null || chattingList.size() == 0) {
+                            Toast.makeText(ViewerActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         showingList.clear();
                         nameViewList.clear();
 
@@ -498,7 +503,7 @@ public class ViewerActivity extends AppCompatActivity {
                         aa.notifyDataSetChanged();
 
                         if(nShoingIndex <= 0)
-                            Toast.makeText(ViewerActivity.this, "화면을 터치하시면 내용이 진행됩니다.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ViewerActivity.this, "화면을 터치하시면 내용이 진행됩니다.", Toast.LENGTH_SHORT).show();
 
                         chattingListView.setSelection(aa.getCount() - 1);
                     }
@@ -566,6 +571,10 @@ public class ViewerActivity extends AppCompatActivity {
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
+                        if(chattingList == null) {
+                            Toast.makeText(ViewerActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         if(nLastOrder > 0 && nShoingIndex == 0) {
                             showingList.clear();
                             nameViewList.clear();

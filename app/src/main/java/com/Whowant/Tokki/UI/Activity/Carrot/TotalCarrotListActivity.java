@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
@@ -56,6 +57,10 @@ public class TotalCarrotListActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(usedCarrotList == null) {
+                            Toast.makeText(TotalCarrotListActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         if(usedCarrotList.size() > 0) {
                             CarrotVO vo = usedCarrotList.get(0);
                             carrotCountView.setText(CommonUtils.comma(vo.getnTotalPoint()));

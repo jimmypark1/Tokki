@@ -110,6 +110,27 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                             .setCropShape(CropImageView.CropShape.OVAL)
                             .setAspectRatio(1, 1)
                             .start(SeesoGalleryActivity.this);
+                } else if(nType == TYPE_CONTENTS_IMG || nType == TYPE_CONTENTS_IMG_NAR) {
+                    ThumbnailPreviewActivity.bImgCrop = true;
+                    ThumbnailPreviewActivity.bEdit = bEdit;
+                    ThumbnailPreviewActivity.nType = nType;
+                    ThumbnailPreviewActivity.nOrder = nOrder;
+
+                    CropImage.activity(uri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setActivityTitle("My Crop")
+                            .setCropShape(CropImageView.CropShape.RECTANGLE)
+                            .start(SeesoGalleryActivity.this);
+                } else if(nType == TYPE_BG) {
+                    ThumbnailPreviewActivity.bBGCrop = true;
+                    ThumbnailPreviewActivity.bEdit = bEdit;
+                    ThumbnailPreviewActivity.nOrder = nOrder;
+
+                    CropImage.activity(uri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setActivityTitle("My Crop")
+                            .setCropShape(CropImageView.CropShape.RECTANGLE)
+                            .start(SeesoGalleryActivity.this);
                 } else {
                     Intent intent = new Intent(SeesoGalleryActivity.this, LiteratureWriteActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

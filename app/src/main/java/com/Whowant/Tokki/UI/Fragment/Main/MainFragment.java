@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Login.InputRecommendCodeActivity;
 import com.Whowant.Tokki.UI.Activity.Main.SearchActivity;
 import com.Whowant.Tokki.UI.Adapter.MainCardListAdapter;
@@ -122,6 +124,10 @@ public class MainFragment extends Fragment {
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
+                        if(mainCardList == null) {
+                            Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         mainRecyclerView.setHasFixedSize(true);
 //                        mainRecyclerView.addItemDecoration(new SimpleDeviderItemDecoration(getActivity()));
                         MainCardListAdapter adapter = new MainCardListAdapter(getActivity(), mainCardList);

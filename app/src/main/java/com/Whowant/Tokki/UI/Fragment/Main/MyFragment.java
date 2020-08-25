@@ -41,6 +41,8 @@ import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.UI.Activity.Main.UserProfileActivity;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
+import com.Whowant.Tokki.UI.Activity.Writer.FollowingWriterListActivity;
+import com.Whowant.Tokki.UI.Activity.Writer.WriterMainActivity;
 import com.Whowant.Tokki.UI.Adapter.MyWorkRecyclerAdapter;
 import com.Whowant.Tokki.UI.Popup.ProfileEmailPopup;
 import com.Whowant.Tokki.UI.Popup.ProfilePhotoPopup;
@@ -564,6 +566,10 @@ public class MyFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(workList == null) {
+                            Toast.makeText(getActivity(), "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         adapter = new MyWorkRecyclerAdapter(getActivity(), workList);
                         myWorkRecyclerView.setAdapter(adapter);
                         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
@@ -630,8 +636,9 @@ public class MyFragment extends Fragment {
                         CommonUtils.hideProgressDialog();
 
                         try {
-                            if(resultObject == null)
+                            if(resultObject == null) {
                                 return;
+                            }
 
                             if(resultObject.getString("RESULT").equals("SUCCESS")) {
                                 nCurrentCarrot = resultObject.getInt("CURRENT_CARROT");

@@ -13,11 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Writer.FollowingWriterListActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterMainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WriterVO;
@@ -81,6 +83,11 @@ public class MyFollowingFragment extends Fragment {                 // 내가 �
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
+
+                        if(writerList == null || writerList.size() == 0) {
+                            Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
                         aa = new CFollowArrayAdapter(getActivity(), R.layout.follow_writer_row, writerList);
                         listView.setAdapter(aa);

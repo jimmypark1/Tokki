@@ -51,6 +51,7 @@ import androidx.core.content.ContextCompat;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Popup.BGImageSelectPopup;
@@ -345,6 +346,12 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     intent.putExtra("ORDER", position);
                     intent.putExtra("TEXT", vo.getContents());
                     startActivityForResult(intent, 1025);
+                } else if(nType == ChatVO.TYPE_IMAGE_NAR) {
+                    Intent intent = new Intent(LiteratureWriteActivity.this, MediaSelectPopup.class);
+                    intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG_NAR);
+                    intent.putExtra("EDIT", true);
+                    intent.putExtra("ORDER", position);
+                    startActivity(intent);
                 }
 
                 return false;
@@ -1192,6 +1199,11 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             public void run() {
                 characterList.addAll(HttpClient.getCharacterDataWithEpisodeID(new OkHttpClient(), "" + workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID()));
 
+                if(characterList == null || characterList.size() == 0) {
+                    Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 for(int i = 1 ; i < characterList.size() ; i++) {
                     nameList.add(characterList.get(i).getName());
                 }
@@ -1219,6 +1231,10 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     public void run() {
                         mProgressDialog.dismiss();
 
+                        if(chattingList == null || chattingList.size() == 0) {
+                            Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         for(int i = 0 ; i < chattingList.size() ; i++) {
                             ChatVO vo = chattingList.get(i);
 
@@ -2624,10 +2640,39 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     int nPlaceHolder = 0;
-                    if(nDirection == 0)
-                        nPlaceHolder = R.drawable.caracter_a_icon;
-                    else
-                        nPlaceHolder = R.drawable.caracter_b_icon;
+                    int faceIndex = characterVO.getIndex() % 10;
+                    switch(faceIndex) {
+                        case 1:
+                            nPlaceHolder = R.drawable.user_icon_01;
+                            break;
+                        case 2:
+                            nPlaceHolder = R.drawable.user_icon_02;
+                            break;
+                        case 3:
+                            nPlaceHolder = R.drawable.user_icon_03;
+                            break;
+                        case 4:
+                            nPlaceHolder = R.drawable.user_icon_04;
+                            break;
+                        case 5:
+                            nPlaceHolder = R.drawable.user_icon_05;
+                            break;
+                        case 6:
+                            nPlaceHolder = R.drawable.user_icon_06;
+                            break;
+                        case 7:
+                            nPlaceHolder = R.drawable.user_icon_07;
+                            break;
+                        case 8:
+                            nPlaceHolder = R.drawable.user_icon_08;
+                            break;
+                        case 9:
+                            nPlaceHolder = R.drawable.user_icon_09;
+                            break;
+                        case 0:
+                            nPlaceHolder = R.drawable.user_icon_10;
+                            break;
+                    }
                     Glide.with(LiteratureWriteActivity.this)
                             .asBitmap() // some .jpeg files are actually gif
                             .placeholder(nPlaceHolder)
@@ -2637,10 +2682,39 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 } else {
                     int nPlaceHolder = 0;
 
-                    if(nDirection == 0)
-                        nPlaceHolder = R.drawable.caracter_a_icon;
-                    else
-                        nPlaceHolder = R.drawable.caracter_b_icon;
+                    int faceIndex = characterVO.getIndex() % 10;
+                    switch(faceIndex) {
+                        case 1:
+                            nPlaceHolder = R.drawable.user_icon_01;
+                            break;
+                        case 2:
+                            nPlaceHolder = R.drawable.user_icon_02;
+                            break;
+                        case 3:
+                            nPlaceHolder = R.drawable.user_icon_03;
+                            break;
+                        case 4:
+                            nPlaceHolder = R.drawable.user_icon_04;
+                            break;
+                        case 5:
+                            nPlaceHolder = R.drawable.user_icon_05;
+                            break;
+                        case 6:
+                            nPlaceHolder = R.drawable.user_icon_06;
+                            break;
+                        case 7:
+                            nPlaceHolder = R.drawable.user_icon_07;
+                            break;
+                        case 8:
+                            nPlaceHolder = R.drawable.user_icon_08;
+                            break;
+                        case 9:
+                            nPlaceHolder = R.drawable.user_icon_09;
+                            break;
+                        case 0:
+                            nPlaceHolder = R.drawable.user_icon_10;
+                            break;
+                    }
                     Glide.with(LiteratureWriteActivity.this)
                             .asBitmap() // some .jpeg files
                             .load(nPlaceHolder)

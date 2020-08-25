@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Main.KeepActivity;
 import com.Whowant.Tokki.UI.Adapter.MyWorkRecyclerAdapter;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WorkVO;
@@ -74,6 +76,10 @@ public class MyKeepFragment extends Fragment {
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
+                        if(workList == null) {
+                            Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         adapter = new MyWorkRecyclerAdapter(getActivity(), workList);
                         myWorkRecyclerView.setAdapter(adapter);
                     }

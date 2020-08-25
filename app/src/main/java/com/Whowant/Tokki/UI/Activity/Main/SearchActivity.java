@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
@@ -155,6 +156,11 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
+                        if(recommendList == null) {
+                            Toast.makeText(SearchActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         if(recommendList.size() == 0) {
                             Toast.makeText(SearchActivity.this, "이달의 추천 목록을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
                         } else {
@@ -195,7 +201,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(searchList.size() == 0) {
+                        if(searchList == null || searchList.size() == 0) {
                             bSearch = false;
                             recommendTitleView.setVisibility(View.VISIBLE);
                             aa = new CSearchArrayAdapter(SearchActivity.this, R.layout.search_row, recommendList);

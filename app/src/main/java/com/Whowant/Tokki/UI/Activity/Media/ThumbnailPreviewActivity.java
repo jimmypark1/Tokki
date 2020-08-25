@@ -11,8 +11,10 @@ import android.widget.ImageView;
 
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CreateCharacterActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CreateWorkActivity;
+import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkEditActivity;
 import com.Whowant.Tokki.Utils.cropper.CropImageView;
 import com.bumptech.glide.Glide;
@@ -25,6 +27,12 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
     public static boolean bCover = false;
     public static boolean bModify = false;
     public static boolean bImgCrop = false;
+    public static boolean bBGCrop = false;
+
+    public static boolean bEdit = false;
+    public static int     nType;
+    public static int     nOrder;
+
 //    private OkHttpClient httpClient;
 
     @Override
@@ -37,7 +45,7 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
 
         final String resultUri = result.getUri().toString();
 
-        if(bCover || bModify) {
+        if(bCover || bModify || bImgCrop || bBGCrop) {
             Glide.with(this)
                     .asBitmap() // some .jpeg files are actually gif
                     .load(result.getUri())
@@ -69,6 +77,29 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
                     Intent intent = new Intent(ThumbnailPreviewActivity.this, WorkEditActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
+                } else if(bImgCrop) {
+                    Intent intent = new Intent(ThumbnailPreviewActivity.this, LiteratureWriteActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                    if(nType == PhotoPickerActivity.TYPE_BG) {
+                        intent.putExtra("BG_URI", resultUri.toString());
+                        intent.putExtra("EDIT", bEdit);
+                        intent.putExtra("ORDER", nOrder);
+                    } else if(nType == PhotoPickerActivity.TYPE_CONTENTS_IMG || nType == PhotoPickerActivity.TYPE_CONTENTS_IMG_NAR) {
+                        intent.putExtra("IMG_URI", resultUri.toString());
+                        intent.putExtra("EDIT", bEdit);
+                        intent.putExtra("TYPE", nType);
+                        intent.putExtra("ORDER", nOrder);
+                    }
+
+                    startActivity(intent);
+                } else if(bBGCrop) {
+                    Intent intent = new Intent(ThumbnailPreviewActivity.this, LiteratureWriteActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("BG_URI", resultUri.toString());
+                    intent.putExtra("EDIT", bEdit);
+                    intent.putExtra("ORDER", nOrder);
+                    startActivity(intent);
                 } else {
                     Intent intent = new Intent(ThumbnailPreviewActivity.this, CreateCharacterActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -99,13 +130,50 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     intent.putExtra("IMG_URI", resultUri);
                     startActivity(intent);
+                } else if(bImgCrop) {
+                    Intent intent = new Intent(ThumbnailPreviewActivity.this, LiteratureWriteActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                    if(nType == PhotoPickerActivity.TYPE_BG) {
+                        intent.putExtra("BG_URI", resultUri.toString());
+                        intent.putExtra("EDIT", bEdit);
+                        intent.putExtra("ORDER", nOrder);
+                    } else if(nType == PhotoPickerActivity.TYPE_CONTENTS_IMG || nType == PhotoPickerActivity.TYPE_CONTENTS_IMG_NAR) {
+                        intent.putExtra("IMG_URI", resultUri.toString());
+                        intent.putExtra("EDIT", bEdit);
+                        intent.putExtra("TYPE", nType);
+                        intent.putExtra("ORDER", nOrder);
+                    }
+
+                    startActivity(intent);
+                } else if(bBGCrop) {
+                    Intent intent = new Intent(ThumbnailPreviewActivity.this, LiteratureWriteActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("BG_URI", resultUri.toString());
+                    intent.putExtra("EDIT", bEdit);
+                    intent.putExtra("ORDER", nOrder);
+                    startActivity(intent);
                 } else {
                     Intent intent = new Intent(ThumbnailPreviewActivity.this, CreateCharacterActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    intent.putExtra("URI", resultUri);
                     startActivity(intent);
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        bProfile = false;
+        bCover = false;
+        bModify = false;
+        bImgCrop = false;
+        bBGCrop = false;
+
+        bEdit = false;
+        nType = -1;
+        nOrder = -1;
     }
 }

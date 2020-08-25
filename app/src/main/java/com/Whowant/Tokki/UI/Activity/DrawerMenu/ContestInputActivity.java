@@ -210,6 +210,9 @@ public class ContestInputActivity extends AppCompatActivity {
             public void run() {
                 SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
                 workList = HttpClient.GetAllWorkListWithIDForContest(new OkHttpClient(), pref.getString("USER_ID", "Guest"));
+                if(workList == null) {
+                    workList = new ArrayList<>();
+                }
 //                workList = HttpClient.GetAllWorkListWithIDForContest(new OkHttpClient(), "skyup");
                 runOnUiThread(new Runnable() {
                     @Override

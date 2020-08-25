@@ -236,8 +236,6 @@ public class MainActivity extends AppCompatActivity {
                         if(bResult) {
                             Toast.makeText(MainActivity.this, "출석체크로 5 당근을 적립하였습니다.", Toast.LENGTH_SHORT).show();
                         }
-
-
                     }
                 });
             }
@@ -276,6 +274,10 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(noticeList == null) {
+                            return;
+                        }
+
                         for(NoticeVO vo : noticeList) {
                             if(!vo.getbRead()) {
                                 noticeNewIconView.setVisibility(View.VISIBLE);
@@ -299,6 +301,10 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(eventList == null) {
+                            return;
+                        }
+
                         for(EventVO vo : eventList) {
                             if(!vo.isbRead()) {
                                 eventNewIconView.setVisibility(View.VISIBLE);

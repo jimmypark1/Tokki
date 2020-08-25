@@ -268,6 +268,11 @@ public class KeepSubFragment extends Fragment implements AdapterView.OnItemClick
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
+                        
+                        if(keepList == null) {
+                            Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
                         aa = new CKeepArrayAdapter(getActivity(), R.layout.best_row, keepList);
                         listView.setAdapter(aa);
@@ -296,6 +301,11 @@ public class KeepSubFragment extends Fragment implements AdapterView.OnItemClick
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
+
+                        if(keepList == null) {
+                            Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
                         aa = new CKeepArrayAdapter(getActivity(), R.layout.best_row, keepList);
                         listView.setAdapter(aa);

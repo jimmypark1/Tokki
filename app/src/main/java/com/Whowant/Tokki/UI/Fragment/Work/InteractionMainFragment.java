@@ -45,12 +45,14 @@ import androidx.fragment.app.Fragment;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryInteractionActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CreateCharacterActivity;
 import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.InteractionPhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Work.InteractionWriteActivity;
+import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.ViewerActivity;
 import com.Whowant.Tokki.UI.Popup.BGImageSelectPopup;
 import com.Whowant.Tokki.UI.Popup.DistractorPopup;
@@ -297,7 +299,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             .setPermissionListener(new PermissionListener() {
                                 @Override
                                 public void onPermissionGranted() {
-                                    Intent intent = new Intent(getActivity(), MediaSelectPopup.class);
+                                    Intent intent = new Intent(getActivity(), InteractionMediaSelectPopup.class);
                                     if(nType == ChatVO.TYPE_IMAGE) {
                                         intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG);
                                     } else {
@@ -1350,6 +1352,10 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 nameList.add("지문");
                 characterList.addAll(HttpClient.getCharacterDataWithEpisodeID(new OkHttpClient(), "" + InteractionWriteActivity.workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID()));
 
+                if(characterList == null || characterList.size() == 0) {
+                    Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 for(int i = 1 ; i < characterList.size() ; i++) {
                     nameList.add(characterList.get(i).getName());
                 }
@@ -1380,7 +1386,10 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
-//
+                        if(chattingList == null) {
+                            Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         if(chattingList.size() > 0) {
                             ChatVO vo = new ChatVO();
                             vo.setType(ChatVO.TYPE_EMPTY);

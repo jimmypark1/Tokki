@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Work.LiteratureListActivity;
 import com.Whowant.Tokki.UI.Adapter.MyWorkRecyclerAdapter;
 import com.Whowant.Tokki.VO.WorkVO;
 
@@ -87,6 +89,10 @@ public class MyWorkRecyclerFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(workList == null) {
+                            Toast.makeText(getActivity(), "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         adapter = new MyWorkRecyclerAdapter(getActivity(), workList);
                         myWorkRecyclerView.setAdapter(adapter);
                     }

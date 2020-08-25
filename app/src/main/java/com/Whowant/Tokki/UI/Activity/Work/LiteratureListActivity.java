@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -83,6 +84,11 @@ public class LiteratureListActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mProgressDialog.dismiss();
+
+                        if(workList == null) {
+                            Toast.makeText(LiteratureListActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
                         aa = new CWorkListAdapter(LiteratureListActivity.this, R.layout.work_list_row, workList);
                         listView.setAdapter(aa);

@@ -16,9 +16,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WriterVO;
 import com.bumptech.glide.Glide;
@@ -94,6 +96,12 @@ public class FollowingWriterListActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
+
+                        if(writerList == null || writerList.size() == 0) {
+                            Toast.makeText(FollowingWriterListActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         aa.notifyDataSetChanged();
 
                         if(writerList.size() > 0) {

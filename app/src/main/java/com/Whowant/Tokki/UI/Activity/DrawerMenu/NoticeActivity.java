@@ -17,6 +17,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
@@ -83,6 +84,10 @@ public class NoticeActivity extends AppCompatActivity {
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
+                        if(noticeList == null) {
+                            Toast.makeText(NoticeActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         aa = new CNoticeArrayAdapter(NoticeActivity.this, R.layout.notice_row, noticeList);
                         listView.setAdapter(aa);
 

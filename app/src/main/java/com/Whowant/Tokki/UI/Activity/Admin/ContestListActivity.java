@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
@@ -64,6 +65,10 @@ public class ContestListActivity extends AppCompatActivity {
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
+                        if(contestList == null) {
+                            Toast.makeText(ContestListActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         aa = new CContestArrayAdapter(ContestListActivity.this, R.layout.contest_list_row, contestList);
                         listView.setAdapter(aa);
 

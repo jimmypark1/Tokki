@@ -15,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WorkVO;
@@ -74,6 +76,11 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
+
+                        if(bestList == null) {
+                            Toast.makeText(NewRankingActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
                         aa = new CNewRankingArrayAdapter(NewRankingActivity.this, R.layout.best_row, bestList);
                         listView.setAdapter(aa);

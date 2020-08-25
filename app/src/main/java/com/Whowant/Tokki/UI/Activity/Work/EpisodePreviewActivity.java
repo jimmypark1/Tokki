@@ -197,6 +197,11 @@ public class EpisodePreviewActivity extends AppCompatActivity {
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
+                        if(chattingList == null) {
+                            Toast.makeText(EpisodePreviewActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         showingList.clear();
 
                         for(int i = 0 ; i <= nShoingIndex ; i++) {
@@ -219,9 +224,10 @@ public class EpisodePreviewActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 9090) {
 
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 nInteraction = data.getIntExtra("RESULT", 1);
                 bInteraction = true;
                 getEpisodeChatDataWithInteraction(nInteraction);
@@ -244,6 +250,12 @@ public class EpisodePreviewActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
+
+                        if(chattingList == null) {
+                            Toast.makeText(EpisodePreviewActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         if(bShoingPlus) {
                             nShoingIndex++;
                             bShoingPlus = false;

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Carrot.TotalCarrotListActivity;
 import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
 import com.Whowant.Tokki.UI.Activity.Main.ChatActivity;
 import com.Whowant.Tokki.UI.Activity.Main.FollowerActivity;
@@ -221,6 +222,10 @@ public class WriterMainActivity extends AppCompatActivity {                     
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(workList == null) {
+                            Toast.makeText(WriterMainActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         adapter = new MyWorkRecyclerAdapter(WriterMainActivity.this, workList);
                         recyclerView.setAdapter(adapter);
                         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(WriterMainActivity.this, 2);
@@ -274,6 +279,11 @@ public class WriterMainActivity extends AppCompatActivity {                     
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(resultObject == null) {
+                            Toast.makeText(WriterMainActivity.this, "서버와의 연결이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         try {
                             strPhoto = resultObject.getString("WRITER_PHOTO");
                             strName = resultObject.getString("WRITER_NAME");
