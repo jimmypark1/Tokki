@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,11 +65,11 @@ public class KeepSubFragment extends Fragment implements AdapterView.OnItemClick
         setHasOptionsMenu(true);
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.keep_menu, menu);
-//    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.keep_menu, menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -170,6 +172,26 @@ public class KeepSubFragment extends Fragment implements AdapterView.OnItemClick
 //        });
 
         return inflaterView;
+    }
+
+    public void reOrder(int pos) {
+        if(nMode == MODE_KEEP) {
+            if (pos == 0) {
+                strKeepOrder = "NAME";
+            } else if (pos == 1) {
+                strKeepOrder = "UPDATE";
+            }
+            getKeepListData();
+        } else {
+            if (pos == 0) {
+                strReadOrder = "NAME";
+            } else if (pos == 1) {
+                strReadOrder = "UPDATE";
+            } else if(pos == 2) {
+                strReadOrder = "READ";
+            }
+            getReadListData();
+        }
     }
 
     @Override

@@ -657,7 +657,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 shareBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String strURL = "http://175.123.253.231:8080/howmuch_web/StartApp.jsp?CMD=workmain&WORK_ID=" + workVO.getnWorkID();
+//                        String strURL = "http://175.123.253.231:8080/howmuch_web/StartApp.jsp?CMD=workmain&WORK_ID=" + workVO.getnWorkID();
+                        String strURL = "https://tokki.page.link/1ux2?CMD=workmain&WORK_ID=" + workVO.getnWorkID();
                         //String strURL = "panbook://workmain?WORK_ID=" + workVO.getnWorkID();
 
                         Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);

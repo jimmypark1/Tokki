@@ -2,6 +2,7 @@ package com.Whowant.Tokki.UI.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,13 +43,12 @@ public class PopularPagerAdapter extends RecyclerView.Adapter<PopularPagerAdapte
         WorkVO workVO = itemsList.get(nRealPosition);
         String strImgUrl = workVO.getCoverFile();
 
+        if(position >= 4) {
+            Log.d("asdf", "Asdf");
+        }
+
         if(strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
-            Glide.with(mContext)
-                    .asBitmap() // some .jpeg files are actually gif
-                    .load(R.drawable.no_poster)
-                    .apply(new RequestOptions().override(800, 800))
-                    .into(holder.coverView1);
-            return;
+            strImgUrl = "";
         } else if(!strImgUrl.startsWith("http")) {
             strImgUrl = CommonUtils.strDefaultUrl + "images/" + strImgUrl;
         }
@@ -71,12 +71,7 @@ public class PopularPagerAdapter extends RecyclerView.Adapter<PopularPagerAdapte
             strImgUrl = workVO.getCoverFile();
 
             if(strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
-                Glide.with(mContext)
-                        .asBitmap() // some .jpeg files are actually gif
-                        .load(R.drawable.no_poster)
-                        .apply(new RequestOptions().override(800, 800))
-                        .into(holder.coverView2);
-                return;
+                strImgUrl = "";
             } else if(!strImgUrl.startsWith("http")) {
                 strImgUrl = CommonUtils.strDefaultUrl + "images/" + strImgUrl;
             }

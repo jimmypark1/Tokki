@@ -105,6 +105,7 @@ public class ViewerActivity extends AppCompatActivity {
     private Timer timer;
     private boolean bNext = false;
     private float fStarPoint = 0;
+    private float fMyPoint = 0;
     private int   nStarCount = 0;
     private ArrayList<CommentVO> commentList;
     private int nInteraction = 0;
@@ -1486,6 +1487,7 @@ public class ViewerActivity extends AppCompatActivity {
 
                         fStarPoint = (float)resultObject.getDouble("STAR_POINT");
                         nStarCount = resultObject.getInt("STAR_COUNT");
+                        fMyPoint = (float)resultObject.getDouble("MY_POINT");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -1517,7 +1519,7 @@ public class ViewerActivity extends AppCompatActivity {
                                     return;
                                 }
 
-                                if(fStarPoint > 0) {
+                                if(fMyPoint > 0) {
                                     Toast.makeText(ViewerActivity.this, "이미 평가한 작품입니다.", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
@@ -1633,7 +1635,7 @@ public class ViewerActivity extends AppCompatActivity {
             return;
         }
 
-        if(fStarPoint > 0) {
+        if(fMyPoint > 0) {
             Toast.makeText(ViewerActivity.this, "이미 평가한 작품입니다.", Toast.LENGTH_SHORT).show();
             return;
         }

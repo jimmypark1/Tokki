@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -202,7 +203,8 @@ public class AproveWaitingEpisodeListActivity extends AppCompatActivity {
             if(convertView == null)
                 convertView = mLiInflater.inflate(R.layout.waiting_episode_row, parent, false);
 
-            if(position >= waitingVOList.size()-1)
+//            191개
+            if(position > waitingVOList.size()-1)
                 return convertView;
 
             WaitingVO vo = waitingVOList.get(position);

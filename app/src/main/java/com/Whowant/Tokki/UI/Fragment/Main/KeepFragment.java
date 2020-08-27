@@ -61,60 +61,6 @@ public class KeepFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.keep_menu, menu);
-//    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_more: {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("작품 정렬");
-
-                if(nMode == MODE_KEEP) {
-                    builder.setItems(getResources().getStringArray(R.array.KEEP_MENU), new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialog, int pos) {
-//                            if(pos == 0) {
-//                                strKeepOrder = "NAME";
-//                            } else if(pos == 1) {
-//                                strKeepOrder = "UPDATE";
-//                            }
-//
-//                            getKeepListData();
-                        }
-                    });
-                } else {
-                    builder.setItems(R.array.READ_MENU, new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialog, int pos) {
-//                            if(pos == 0) {
-//                                strReadOrder = "NAME";
-//                            } else if(pos == 1) {
-//                                strReadOrder = "UPDATE";
-//                            } else if(pos == 2) {
-//                                strReadOrder = "READ";
-//                            }
-//
-//                            getReadListData();
-                        }
-                    });
-                }
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-//                startActivity(new Intent(getActivity(), SearchActivity.class));
-            }
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -140,32 +86,20 @@ public class KeepFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("작품 정렬");
 
-        if(nMode == MODE_KEEP) {
+        if(viewPager.getCurrentItem() == 0) {
             builder.setItems(getResources().getStringArray(R.array.KEEP_MENU), new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int pos) {
-//                    if(pos == 0) {
-//                        strKeepOrder = "NAME";
-//                    } else if(pos == 1) {
-//                        strKeepOrder = "UPDATE";
-//                    }
-//
-//                    getKeepListData();
+                    KeepSubFragment fragment = (KeepSubFragment) pagerAdapter.getItem(0);
+                    fragment.reOrder(pos);
                 }
             });
         } else {
             builder.setItems(R.array.READ_MENU, new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int pos) {
-//                    if(pos == 0) {
-//                        strReadOrder = "NAME";
-//                    } else if(pos == 1) {
-//                        strReadOrder = "UPDATE";
-//                    } else if(pos == 2) {
-//                        strReadOrder = "READ";
-//                    }
-//
-//                    getReadListData();
+                    KeepSubFragment fragment = (KeepSubFragment) pagerAdapter.getItem(1);
+                    fragment.reOrder(pos);
                 }
             });
         }

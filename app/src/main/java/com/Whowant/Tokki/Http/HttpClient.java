@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -2262,7 +2263,6 @@ public class HttpClient {
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
-
             JSONArray waitingArr = resultObject.getJSONArray("WAITING_LIST");
 
             for(int i = 0 ; i < waitingArr.length() ; i++) {
@@ -2278,7 +2278,6 @@ public class HttpClient {
                 vo.setStrCoverImg(object.getString("COVER_IMG"));
                 vo.setnEpisodeOrder(object.getInt("EPISODE_ORDER"));
                 vo.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-
                 resultList.add(vo);
             }
         } catch (IOException e) {
@@ -3870,6 +3869,11 @@ public class HttpClient {
                         @Override
                         public void run() {
                             CommonUtils.hideProgressDialog();
+
+                            if(resultObject == null) {
+                                Toast.makeText(activity, "서버와의 연결이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
                             try {
                                 if(resultObject.getString("RESULT").equals("SUCCESS")) {            // 이미 소셜 가입이 되어있는 경우
