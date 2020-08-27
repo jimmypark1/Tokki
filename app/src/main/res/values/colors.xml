@@ -13,4 +13,15 @@
     <color name="colorBlack">#000000</color>
     <color name="colorInteraction">#e72031</color>
     <color name="colorTranlucent">#00000000</color>
+
+    <color name="colorLevel1">#c1d100</color>
+    <color name="colorLevel2">#85bd47</color>
+    <color name="colorLevel3">#7fc49d</color>
+    <color name="colorLevel4">#76c9da</color>
+    <color name="colorLevel5">#5a9aff</color>
+    <color name="colorLevel6">#765fff</color>
+    <color name="colorLevel7">#b773ff</color>
+    <color name="colorLevel8">#ff92af</color>
+    <color name="colorLevel9">#ff754a</color>
+    <color name="colorLevel10">#ff3159</color>
 </resources>

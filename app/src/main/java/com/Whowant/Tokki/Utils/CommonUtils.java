@@ -357,4 +357,43 @@ public class CommonUtils {
         return df.format(num);
     }
 
+    public static int getLevel(int nDonationCarrotCount) {
+        /*
+        lv1 : 0 ~ 200
+        lv2 : 201 ~ 400
+        lv3 : 401 ~ 600
+        lv4 : 601 ~ 800
+        lv5 : 801 ~ 1000
+        lv6 : 1001 ~ 2000
+        lv7 : 2001 ~ 4000
+        lv8 : 4001 ~ 6000
+        lv9 : 6001 ~ 8000
+        lv10 : 8001 ~
+         */
+        int nLevel = 1;
+
+        if(nDonationCarrotCount <= 200)
+            nLevel = 1;
+        else if(nDonationCarrotCount <= 400)
+            nLevel = 2;
+        else if(nDonationCarrotCount <= 600)
+            nLevel = 3;
+        else if(nDonationCarrotCount <= 800)
+            nLevel = 4;
+        else if(nDonationCarrotCount <= 1000)
+            nLevel = 5;
+        else if(nDonationCarrotCount <= 2000)
+            nLevel = 6;
+        else if(nDonationCarrotCount <= 4000)
+            nLevel = 7;
+        else if(nDonationCarrotCount <= 6000)
+            nLevel = 8;
+        else if(nDonationCarrotCount <= 8000)
+            nLevel = 9;
+        else
+            nLevel = 10;
+
+
+        return nLevel;
+    }
 }

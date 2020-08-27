@@ -102,7 +102,7 @@ public class WorkEditActivity extends AppCompatActivity {
             public void onClick(View view) {
                 checkbox1.setImageResource(R.drawable.check_box_on);
                 checkbox2.setImageResource(0);
-                bComplete = true;
+                bComplete = false;
             }
         });
 
@@ -111,7 +111,7 @@ public class WorkEditActivity extends AppCompatActivity {
             public void onClick(View view) {
                 checkbox1.setImageResource(0);
                 checkbox2.setImageResource(R.drawable.check_box_on);
-                bComplete = false;
+                bComplete = true;
             }
         });
 

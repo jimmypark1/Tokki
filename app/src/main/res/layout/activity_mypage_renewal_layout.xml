@@ -11,7 +11,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clipChildren="false">
 
             <RelativeLayout
                 android:id="@+id/myInfoLayout"
@@ -20,30 +21,94 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginLeft="14.3dp"
                 android:layout_marginRight="14.3dp"
+                android:clipChildren="false"
                 android:background="@drawable/round_shadow_btn_white_bg">
 
-                <ImageView
-                    android:id="@+id/profileImgView"
-                    android:layout_width="74dp"
-                    android:layout_height="75dp"
-                    android:src="@drawable/user_icon"
-                    android:layout_marginLeft="26.7dp"
-                    android:layout_marginTop="17dp"/>
-                
-                <ImageView
-                    android:layout_width="39dp"
-                    android:layout_height="38dp"
-                    android:layout_marginRight="-10dp"
-                    android:layout_marginBottom="-5dp"
-                    android:layout_alignRight="@+id/profileImgView"
-                    android:layout_alignBottom="@+id/profileImgView"
-                    android:background="@drawable/camera_icon"/>
+                <RelativeLayout
+                    android:id="@+id/profileImgLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:clipChildren="false"
+                    android:layout_marginLeft="26.7dp">
+
+                    <RelativeLayout
+                        android:id="@+id/levelIconView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/levelBGView"
+                        android:layout_alignRight="@+id/levelBGView"
+                        android:layout_marginTop="5dp"
+                        android:layout_centerHorizontal="true">
+
+                        <ImageView
+                            android:id="@+id/lv1IconView"
+                            android:layout_width="32.3dp"
+                            android:layout_height="12.9dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="-0.5dp"
+                            android:background="@drawable/icon_lv1"/>
+
+                        <ImageView
+                            android:id="@+id/lv5IconView"
+                            android:layout_width="35.7dp"
+                            android:layout_height="26.8dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="-2.2dp"
+                            android:visibility="gone"
+                            android:background="@drawable/icon_lv5"/>
+
+                        <ImageView
+                            android:id="@+id/lv10IconView"
+                            android:layout_width="55dp"
+                            android:layout_height="22.8dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="-0.3dp"
+                            android:visibility="gone"
+                            android:background="@drawable/icon_lv10"/>
+
+                        <ImageView
+                            android:id="@+id/emptyIconView"
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp"
+                            android:visibility="gone"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/levelBGView"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_below="@+id/levelIconView"
+                        android:background="@drawable/lv1_bg">
+
+                        <ImageView
+                            android:layout_width="65dp"
+                            android:layout_height="65dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/circle_bg"/>
+                        <ImageView
+                            android:id="@+id/profileImgView"
+                            android:layout_width="58dp"
+                            android:layout_height="58dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/user_icon"/>
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:layout_width="39dp"
+                        android:layout_height="38dp"
+                        android:layout_marginRight="-10dp"
+                        android:layout_marginBottom="-5dp"
+                        android:layout_alignRight="@+id/levelBGView"
+                        android:layout_alignBottom="@+id/levelBGView"
+                        android:background="@drawable/camera_icon"/>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/nameLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/profileImgView"
+                    android:layout_toRightOf="@+id/profileImgLayout"
                     android:orientation="horizontal"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="20dp"
@@ -62,7 +127,7 @@
                             android:layout_height="wrap_content"
                             android:maxLength="5"
                             android:ellipsize="end"
-                            android:layout_toRightOf="@+id/profileImgView"
+                            android:layout_toRightOf="@+id/profileImgLayout"
                             android:textSize="22sp"
                             android:textColor="@color/colorBlack"
                             android:text="홍길동"/>
@@ -132,7 +197,7 @@
                     android:id="@+id/descView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/profileImgView"
+                    android:layout_below="@+id/profileImgLayout"
                     android:layout_marginTop="19dp"
                     android:layout_marginLeft="27dp"
                     android:layout_marginRight="10dp"

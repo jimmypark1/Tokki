@@ -53,7 +53,6 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="30dp"
-            android:maxLength="8"
             android:maxLines="1"
             android:singleLine="true"
             android:layout_below="@+id/topLayout"

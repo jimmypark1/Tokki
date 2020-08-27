@@ -2115,6 +2115,7 @@ public class HttpClient {
                 vo.setStrWriterComment(object.getString("USER_COMMENT"));
                 vo.setnFollowcount(object.getInt("FOLLOW_COUNT"));
                 vo.setnFollowingCount(object.getInt("FOLLOWING_COUNT"));
+                vo.setnDonationCarrot(object.getInt("DONATION_CARROT"));
 
                 writerList.add(vo);
             }
@@ -2157,6 +2158,7 @@ public class HttpClient {
                 vo.setStrWriterComment(object.getString("USER_COMMENT"));
                 vo.setnFollowcount(object.getInt("FOLLOW_COUNT"));
                 vo.setnFollowingCount(object.getInt("FOLLOWING_COUNT"));
+                vo.setnDonationCarrot(object.getInt("DONATION_CARROT"));
 
                 writerList.add(vo);
             }

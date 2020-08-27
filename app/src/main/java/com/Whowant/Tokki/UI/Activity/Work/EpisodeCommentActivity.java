@@ -470,6 +470,7 @@ public class EpisodeCommentActivity extends AppCompatActivity {
                 vo.setLikeCount(object.getInt("LIKE_COUNT"));
                 vo.setStrWorkTitle(object.getString("WORK_TITLE"));
                 vo.setnEpisodeOrder(object.getInt("EPISODE_ORDER"));
+                vo.setnDonationCarrot(object.getInt("DONATION_CARROT"));
                 vo.setHasChild(false);
 
                 int nParentID = object.getInt("PARENT_ID");
@@ -501,6 +502,7 @@ public class EpisodeCommentActivity extends AppCompatActivity {
                 vo.setLikeCount(object.getInt("LIKE_COUNT"));
                 vo.setStrWorkTitle(object.getString("WORK_TITLE"));
                 vo.setnEpisodeOrder(object.getInt("EPISODE_ORDER"));
+                vo.setnDonationCarrot(object.getInt("DONATION_CARROT"));
 
                 int nParentID = object.getInt("PARENT_ID");
                 if(nParentID > -1) {
@@ -527,6 +529,7 @@ public class EpisodeCommentActivity extends AppCompatActivity {
                             subVO.setLikeCount(object.getInt("LIKE_COUNT"));
                             subVO.setStrWorkTitle(object.getString("WORK_TITLE"));
                             subVO.setnEpisodeOrder(object.getInt("EPISODE_ORDER"));
+                            subVO.setnDonationCarrot(object.getInt("DONATION_CARROT"));
                             subVO.setParentID(nParentID);
                             subList.add(subVO);
                             subCommentList.set(j, subList);
@@ -663,7 +666,6 @@ public class EpisodeCommentActivity extends AppCompatActivity {
             }
 
             CommentVO vo = commentList.get(groupPosition);
-
             RelativeLayout bgView = convertView.findViewById(R.id.bgView);
             ImageView faceView = convertView.findViewById(R.id.faceView);
             TextView nameView = convertView.findViewById(R.id.nameView);
@@ -676,6 +678,14 @@ public class EpisodeCommentActivity extends AppCompatActivity {
             ImageView arrowBtn = convertView.findViewById(R.id.arrowBtn);
             TextView reportBtn = convertView.findViewById(R.id.reportBtn);
             TextView replyBtn = convertView.findViewById(R.id.replyBtn);
+
+            ImageView emptyIconView = convertView.findViewById(R.id.emptyIconView);
+            ImageView lv1IconView = convertView.findViewById(R.id.lv1IconView);
+            ImageView lv5IconView = convertView.findViewById(R.id.lv5IconView);
+            ImageView lv10IconView = convertView.findViewById(R.id.lv10IconView);
+            RelativeLayout smallLv10View = convertView.findViewById(R.id.smallLv10View);
+            RelativeLayout levelBGView = convertView.findViewById(R.id.levelBGView);
+            TextView smallLvView = convertView.findViewById(R.id.smallLvView);
 
             if(vo.isHasChild()) {
                 arrowBtn.setVisibility(View.VISIBLE);
@@ -855,6 +865,76 @@ public class EpisodeCommentActivity extends AppCompatActivity {
                         setParent();
                     }
                 });
+            }
+
+            emptyIconView.setVisibility(View.GONE);
+            lv1IconView.setVisibility(View.GONE);
+            lv5IconView.setVisibility(View.GONE);
+            lv10IconView.setVisibility(View.GONE);
+            smallLv10View.setVisibility(View.GONE);
+
+            int nLevel = CommonUtils.getLevel(vo.getnDonationCarrot());
+            switch(nLevel) {
+                case 1:
+                    levelBGView.setBackgroundResource(R.drawable.lv1_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv1_bg);
+                    smallLvView.setText("LV.1");
+                    lv1IconView.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    levelBGView.setBackgroundResource(R.drawable.lv2_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv2_bg);
+                    smallLvView.setText("LV.2");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 3:
+                    levelBGView.setBackgroundResource(R.drawable.lv3_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv3_bg);
+                    smallLvView.setText("LV.3");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 4:
+                    levelBGView.setBackgroundResource(R.drawable.lv4_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv4_bg);
+                    smallLvView.setText("LV.4");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 5:
+                    levelBGView.setBackgroundResource(R.drawable.lv5_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv5_bg);
+                    smallLvView.setText("LV.5");
+                    lv5IconView.setVisibility(View.VISIBLE);
+                    break;
+                case 6:
+                    levelBGView.setBackgroundResource(R.drawable.lv6_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv6_bg);
+                    smallLvView.setText("LV.6");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 7:
+                    levelBGView.setBackgroundResource(R.drawable.lv7_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv7_bg);
+                    smallLvView.setText("LV.7");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 8:
+                    levelBGView.setBackgroundResource(R.drawable.lv8_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv8_bg);
+                    smallLvView.setText("LV.8");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 9:
+                    levelBGView.setBackgroundResource(R.drawable.lv9_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv9_bg);
+                    smallLvView.setText("LV.9");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 10:
+                    levelBGView.setBackgroundResource(R.drawable.lv10_bg);
+                    smallLvView.setVisibility(View.GONE);
+                    lv10IconView.setVisibility(View.VISIBLE);
+                    smallLv10View.setVisibility(View.VISIBLE);
+                    break;
             }
 
             return convertView;

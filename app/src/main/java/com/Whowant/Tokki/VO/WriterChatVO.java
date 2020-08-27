@@ -10,6 +10,7 @@ public class WriterChatVO {
     private String userPhoto;
     private String userID;
     private boolean hasChild;
+    private int    nUserDonationCarrot;
 
     public int getCommentID() {
         return commentID;
@@ -81,5 +82,13 @@ public class WriterChatVO {
 
     public void setHasChild(boolean hasChild) {
         this.hasChild = hasChild;
+    }
+
+    public int getnUserDonationCarrot() {
+        return nUserDonationCarrot;
+    }
+
+    public void setnUserDonationCarrot(int nUserDonationCarrot) {
+        this.nUserDonationCarrot = nUserDonationCarrot;
     }
 }

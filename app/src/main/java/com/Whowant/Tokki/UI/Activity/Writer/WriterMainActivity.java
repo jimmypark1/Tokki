@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.facebook.common.Common;
 
 
 import org.json.JSONException;
@@ -65,6 +67,11 @@ public class WriterMainActivity extends AppCompatActivity {                     
     private TextView chattingBtn;
     private int nFollowerCount;
     private int nFollowingCount;
+    private int nDonationCarrotCount = 0;
+    private int nLevel = 1;
+    private RelativeLayout levelBGView, smallLv10View;
+    private ImageView lv1IconView, lv5IconView, lv10IconView, emptyIconView;
+    private TextView smallLvView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +86,15 @@ public class WriterMainActivity extends AppCompatActivity {                     
         followBtn = findViewById(R.id.followBtn);
         chattingBtn = findViewById(R.id.tokkiTokBtn);
         recyclerView = findViewById(R.id.myWorkRecyclerView);
-
         followingLayout = findViewById(R.id.followingLayout);
         followerLayout = findViewById(R.id.followerLayout);
+        levelBGView = findViewById(R.id.levelBGView);
+        lv1IconView = findViewById(R.id.lv1IconView);
+        lv5IconView = findViewById(R.id.lv5IconView);
+        lv10IconView = findViewById(R.id.lv10IconView);
+        emptyIconView = findViewById(R.id.emptyIconView);
+        smallLv10View = findViewById(R.id.smallLv10View);
+        smallLvView = findViewById(R.id.smallLvView);
 
         strUserID = getIntent().getStringExtra("USER_ID");
         boolean bWriter = getIntent().getBooleanExtra("WRITER", false);
@@ -202,6 +215,76 @@ public class WriterMainActivity extends AppCompatActivity {                     
         finish();
     }
 
+    private void setLevelView() {
+        emptyIconView.setVisibility(View.GONE);
+        lv1IconView.setVisibility(View.GONE);
+        lv5IconView.setVisibility(View.GONE);
+        lv10IconView.setVisibility(View.GONE);
+        smallLv10View.setVisibility(View.GONE);
+        switch(nLevel) {
+            case 1:
+                levelBGView.setBackgroundResource(R.drawable.lv1_bg);
+                smallLvView.setBackgroundResource(R.drawable.lv1_bg);
+                smallLvView.setText("LV.1");
+                lv1IconView.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                levelBGView.setBackgroundResource(R.drawable.lv2_bg);
+                smallLvView.setBackgroundResource(R.drawable.lv2_bg);
+                smallLvView.setText("LV.2");
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                levelBGView.setBackgroundResource(R.drawable.lv3_bg);
+                smallLvView.setBackgroundResource(R.drawable.lv3_bg);
+                smallLvView.setText("LV.3");
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 4:
+                levelBGView.setBackgroundResource(R.drawable.lv4_bg);
+                smallLvView.setBackgroundResource(R.drawable.lv4_bg);
+                smallLvView.setText("LV.4");
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+                levelBGView.setBackgroundResource(R.drawable.lv5_bg);
+                smallLvView.setBackgroundResource(R.drawable.lv5_bg);
+                smallLvView.setText("LV.5");
+                lv5IconView.setVisibility(View.VISIBLE);
+                break;
+            case 6:
+                levelBGView.setBackgroundResource(R.drawable.lv6_bg);
+                smallLvView.setBackgroundResource(R.drawable.lv6_bg);
+                smallLvView.setText("LV.6");
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 7:
+                levelBGView.setBackgroundResource(R.drawable.lv7_bg);
+                smallLvView.setBackgroundResource(R.drawable.lv7_bg);
+                smallLvView.setText("LV.7");
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 8:
+                levelBGView.setBackgroundResource(R.drawable.lv8_bg);
+                smallLvView.setBackgroundResource(R.drawable.lv8_bg);
+                smallLvView.setText("LV.8");
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 9:
+                levelBGView.setBackgroundResource(R.drawable.lv9_bg);
+                smallLvView.setBackgroundResource(R.drawable.lv9_bg);
+                smallLvView.setText("LV.9");
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 10:
+                levelBGView.setBackgroundResource(R.drawable.lv10_bg);
+                smallLvView.setVisibility(View.GONE);
+                lv10IconView.setVisibility(View.VISIBLE);
+                smallLv10View.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -290,7 +373,7 @@ public class WriterMainActivity extends AppCompatActivity {                     
                             strUserComment = resultObject.getString("WRITER_COMMENT");
                             nFollowCount = resultObject.getInt("FOLLOW_COUNT");
                             bFollow = resultObject.getBoolean("FOLLOW");
-
+                            nDonationCarrotCount = resultObject.getInt("DONATION_CARROT");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -308,6 +391,9 @@ public class WriterMainActivity extends AppCompatActivity {                     
                         }
 
                         nameView.setText(strName);
+
+                        nLevel = CommonUtils.getLevel(nDonationCarrotCount);
+                        setLevelView();
 
                         if(strUserComment != null && !strUserComment.equals("null") && strUserComment.length() > 0)
                             descView.setText(strUserComment);

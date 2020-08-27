@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,6 +87,8 @@ public class MyFragment extends Fragment {
     private int nFollowingCount = 0;
     private int nCurrentCarrot = 0;
     private int nTotalUsedCarrot = 0;
+    private int nDonationCarrot = 0;
+    private int nLevel = 1;
     private int nTotalAcquireCarrot = 0;
     private String strRecommendCode = "";
     private boolean bVisible = false;
@@ -96,6 +99,8 @@ public class MyFragment extends Fragment {
     private ProgressBar totalCarrotProgressbar;
     private ImageButton copyRecommendCodeBtn;
 
+    private RelativeLayout levelBGView;
+    private ImageView lv1IconView, lv5IconView, lv10IconView, emptyIconView;
     private TextView currentCarrotCountView, cumulativeUsageCarrotCountView, totalCarrotCountView;
 
     private RecyclerView myWorkRecyclerView;
@@ -144,6 +149,11 @@ public class MyFragment extends Fragment {
         copyRecommendCodeBtn = inflaterView.findViewById(R.id.copyRecommendCodeBtn);
         tokkiTokBtn = inflaterView.findViewById(R.id.tokkiTokBtn);
         typeView = inflaterView.findViewById(R.id.typeView);
+        levelBGView = inflaterView.findViewById(R.id.levelBGView);
+        lv1IconView = inflaterView.findViewById(R.id.lv1IconView);
+        lv5IconView = inflaterView.findViewById(R.id.lv5IconView);
+        lv10IconView = inflaterView.findViewById(R.id.lv10IconView);
+        emptyIconView = inflaterView.findViewById(R.id.emptyIconView);
 
         LinearLayout usedMoreLayout = inflaterView.findViewById(R.id.usedMoreLayout);
         LinearLayout totalMoreLayout = inflaterView.findViewById(R.id.totalMoreLayout);
@@ -643,6 +653,7 @@ public class MyFragment extends Fragment {
                             if(resultObject.getString("RESULT").equals("SUCCESS")) {
                                 nCurrentCarrot = resultObject.getInt("CURRENT_CARROT");
                                 nTotalUsedCarrot = resultObject.getInt("USED_CARROT");
+                                nDonationCarrot = resultObject.getInt("DONATION_CARROT");
                                 nTotalAcquireCarrot = resultObject.getInt("ACQUIRE_CARROT");
                                 strRecommendCode = resultObject.getString("RECOMMEND_CODE");
                                 currentCarrotCountView.setText(CommonUtils.comma(nCurrentCarrot));
@@ -660,11 +671,63 @@ public class MyFragment extends Fragment {
                         if(strRecommendCode != null && strRecommendCode.length() > 0)
                             myRecommendCodeView.setText(strRecommendCode);
 
+                        nLevel = CommonUtils.getLevel(nDonationCarrot);
+                        setLevelView();
                         GetAllWorkList();
                     }
                 });
             }
         }).start();
+    }
+
+    private void setLevelView() {
+        emptyIconView.setVisibility(View.GONE);
+        lv1IconView.setVisibility(View.GONE);
+        lv5IconView.setVisibility(View.GONE);
+        lv10IconView.setVisibility(View.GONE);
+
+        switch(nLevel) {
+            case 1:
+                levelBGView.setBackgroundResource(R.drawable.lv1_bg);
+                lv1IconView.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                levelBGView.setBackgroundResource(R.drawable.lv2_bg);
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                levelBGView.setBackgroundResource(R.drawable.lv3_bg);
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 4:
+                levelBGView.setBackgroundResource(R.drawable.lv4_bg);
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+                levelBGView.setBackgroundResource(R.drawable.lv5_bg);
+                lv5IconView.setVisibility(View.VISIBLE);
+                break;
+            case 6:
+                levelBGView.setBackgroundResource(R.drawable.lv6_bg);
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 7:
+                levelBGView.setBackgroundResource(R.drawable.lv7_bg);
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 8:
+                levelBGView.setBackgroundResource(R.drawable.lv8_bg);
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 9:
+                levelBGView.setBackgroundResource(R.drawable.lv9_bg);
+                emptyIconView.setVisibility(View.VISIBLE);
+                break;
+            case 10:
+                levelBGView.setBackgroundResource(R.drawable.lv10_bg);
+                lv10IconView.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     public void takePhoto(){

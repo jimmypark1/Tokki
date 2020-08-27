@@ -21,6 +21,7 @@ public class CommentVO {
     private int    nCount;
     private int    nGroup;
     private boolean hasChild;
+    private int    nDonationCarrot;
 
     public CommentVO() {
 
@@ -185,5 +186,13 @@ public class CommentVO {
 
     public void setHasChild(boolean hasChild) {
         this.hasChild = hasChild;
+    }
+
+    public int getnDonationCarrot() {
+        return nDonationCarrot;
+    }
+
+    public void setnDonationCarrot(int nDonationCarrot) {
+        this.nDonationCarrot = nDonationCarrot;
     }
 }

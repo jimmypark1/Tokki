@@ -7,6 +7,7 @@ public class WriterVO {
     private String strWriterComment;
     private int    nFollowcount;
     private int    nFollowingCount;
+    private int    nDonationCarrot;
 
     public WriterVO() {
 
@@ -58,5 +59,13 @@ public class WriterVO {
 
     public void setnFollowingCount(int nFollowingCount) {
         this.nFollowingCount = nFollowingCount;
+    }
+
+    public int getnDonationCarrot() {
+        return nDonationCarrot;
+    }
+
+    public void setnDonationCarrot(int nDonationCarrot) {
+        this.nDonationCarrot = nDonationCarrot;
     }
 }

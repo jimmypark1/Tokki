@@ -600,4 +600,7 @@ public class ChatCommentActivity extends AppCompatActivity implements AdapterVie
         }).start();
     }
 
+    public void onClickTopLeftBtn(View view) {
+        finish();
+    }
 }

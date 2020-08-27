@@ -4,20 +4,134 @@
     android:layout_height="wrap_content"
     android:background="#fff">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/uperLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="29.3dp"
-        android:layout_marginTop="21.3dp">
+        android:layout_marginLeft="29.3dp">
 
-        <ImageView
-            android:id="@+id/faceView"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:background="@drawable/user_icon"/>
+        <RelativeLayout
+            android:id="@+id/profileImgLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:clipChildren="false">
+
+            <RelativeLayout
+                android:id="@+id/levelIconView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/levelBGView"
+                android:layout_alignRight="@+id/levelBGView"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/lv1IconView"
+                    android:layout_width="32.3dp"
+                    android:layout_height="12.9dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="-0.5dp"
+                    android:background="@drawable/icon_lv1"/>
+
+                <ImageView
+                    android:id="@+id/lv5IconView"
+                    android:layout_width="35.7dp"
+                    android:layout_height="26.8dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="-2.2dp"
+                    android:visibility="gone"
+                    android:background="@drawable/icon_lv5"/>
+
+                <ImageView
+                    android:id="@+id/lv10IconView"
+                    android:layout_width="55dp"
+                    android:layout_height="22.8dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="-0.3dp"
+                    android:visibility="gone"
+                    android:background="@drawable/icon_lv10"/>
+
+                <ImageView
+                    android:id="@+id/emptyIconView"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/levelBGView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/levelIconView"
+                android:background="@drawable/lv1_bg">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/circle_white_bg"/>
+                <ImageView
+                    android:id="@+id/faceView"
+                    android:layout_width="41.4dp"
+                    android:layout_height="41.4dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/user_icon"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignRight="@+id/levelBGView"
+                android:layout_alignBottom="@+id/levelBGView"
+                android:background="@drawable/circle_white_bg">
+
+                <TextView
+                    android:id="@+id/smallLvView"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:background="@drawable/lv1_bg"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textSize="6.2sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:text="LV.1"/>
+
+                <RelativeLayout
+                    android:id="@+id/smallLv10View"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:visibility="gone"
+                    android:background="@drawable/lv10_bg"
+                    android:layout_centerInParent="true"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/smallLv10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="4.1sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
+                        android:text="LV."/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/smallLv10"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="-2.5dp"
+                        android:gravity="center"
+                        android:textSize="8sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
+                        android:text="10"/>
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/nameView"
@@ -25,6 +139,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="29.3dp"
+            android:layout_toRightOf="@+id/profileImgLayout"
+            android:layout_alignBottom="@+id/profileImgLayout"
+            android:layout_marginBottom="15dp"
             android:maxLines="1"
             android:singleLine="true"
             android:ellipsize="end"
@@ -32,7 +149,7 @@
             android:textStyle="bold"
             android:textColor="@color/colorBlack"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/writerCommentView"
@@ -41,7 +158,7 @@
         android:layout_below="@+id/uperLayout"
         android:layout_marginTop="2.3dp"
         android:layout_marginRight="29dp"
-        android:layout_marginLeft="77.3dp"
+        android:layout_marginLeft="85.3dp"
         android:maxLines="5"
         android:textSize="14sp"
         android:textColor="@color/colorBlack"/>

@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,6 @@ public class MyFollowingFragment extends Fragment {                 // 내가 �
         emptyView = inflaterView.findViewById(R.id.emptyView);
         writerList = new ArrayList<WriterVO>();
         pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
-
         getWriterList();
 
         return inflaterView;
@@ -71,7 +71,6 @@ public class MyFollowingFragment extends Fragment {                 // 내가 �
             @Override
             public void run() {
                 writerList.addAll(HttpClient.getMyFollowingList(new OkHttpClient(), strUserID));
-//                String strMyID = pref.getString("USER_ID", "Guest");
                 for(int i = 0 ; i < writerList.size() ; i++) {
                     WriterVO vo = writerList.get(i);
                     if(vo.getStrWriterID().equals(strUserID)) {
@@ -84,7 +83,7 @@ public class MyFollowingFragment extends Fragment {                 // 내가 �
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(writerList == null || writerList.size() == 0) {
+                        if(writerList == null) {
                             Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -133,15 +132,24 @@ public class MyFollowingFragment extends Fragment {                 // 내가 �
             TextView writerCommentView = convertView.findViewById(R.id.writerCommentView);
             TextView followCountView = convertView.findViewById(R.id.followerView);
             TextView followingCountView = convertView.findViewById(R.id.followingView);
+            ImageView emptyIconView = convertView.findViewById(R.id.emptyIconView);
+            ImageView lv1IconView = convertView.findViewById(R.id.lv1IconView);
+            ImageView lv5IconView = convertView.findViewById(R.id.lv5IconView);
+            ImageView lv10IconView = convertView.findViewById(R.id.lv10IconView);
+            RelativeLayout smallLv10View = convertView.findViewById(R.id.smallLv10View);
+            RelativeLayout levelBGView = convertView.findViewById(R.id.levelBGView);
+            TextView smallLvView = convertView.findViewById(R.id.smallLvView);
 
             String strPhoto = vo.getStrWriterPhoto();
 
             if(!strPhoto.startsWith("http"))
                 strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
 
+
             Glide.with(getActivity())
                     .asBitmap() // some .jpeg files are actually gif
                     .load(strPhoto)
+                    .placeholder(R.drawable.user_icon)
                     .apply(new RequestOptions().circleCrop())
                     .into(faceView);
 
@@ -154,6 +162,76 @@ public class MyFollowingFragment extends Fragment {                 // 내가 �
             writerCommentView.setText(strComment);
             followCountView.setText(CommonUtils.getPointCount(vo.getnFollowcount()));
             followingCountView.setText(CommonUtils.getPointCount(vo.getnFollowingCount()));
+
+            emptyIconView.setVisibility(View.GONE);
+            lv1IconView.setVisibility(View.GONE);
+            lv5IconView.setVisibility(View.GONE);
+            lv10IconView.setVisibility(View.GONE);
+            smallLv10View.setVisibility(View.GONE);
+
+            int nLevel = CommonUtils.getLevel(vo.getnDonationCarrot());
+            switch(nLevel) {
+                case 1:
+                    levelBGView.setBackgroundResource(R.drawable.lv1_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv1_bg);
+                    smallLvView.setText("LV.1");
+                    lv1IconView.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    levelBGView.setBackgroundResource(R.drawable.lv2_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv2_bg);
+                    smallLvView.setText("LV.2");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 3:
+                    levelBGView.setBackgroundResource(R.drawable.lv3_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv3_bg);
+                    smallLvView.setText("LV.3");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 4:
+                    levelBGView.setBackgroundResource(R.drawable.lv4_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv4_bg);
+                    smallLvView.setText("LV.4");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 5:
+                    levelBGView.setBackgroundResource(R.drawable.lv5_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv5_bg);
+                    smallLvView.setText("LV.5");
+                    lv5IconView.setVisibility(View.VISIBLE);
+                    break;
+                case 6:
+                    levelBGView.setBackgroundResource(R.drawable.lv6_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv6_bg);
+                    smallLvView.setText("LV.6");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 7:
+                    levelBGView.setBackgroundResource(R.drawable.lv7_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv7_bg);
+                    smallLvView.setText("LV.7");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 8:
+                    levelBGView.setBackgroundResource(R.drawable.lv8_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv8_bg);
+                    smallLvView.setText("LV.8");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 9:
+                    levelBGView.setBackgroundResource(R.drawable.lv9_bg);
+                    smallLvView.setBackgroundResource(R.drawable.lv9_bg);
+                    smallLvView.setText("LV.9");
+                    emptyIconView.setVisibility(View.VISIBLE);
+                    break;
+                case 10:
+                    levelBGView.setBackgroundResource(R.drawable.lv10_bg);
+                    smallLvView.setVisibility(View.GONE);
+                    lv10IconView.setVisibility(View.VISIBLE);
+                    smallLv10View.setVisibility(View.VISIBLE);
+                    break;
+            }
 
             return convertView;
         }
