@@ -402,7 +402,7 @@ public class WorkWriteMainActivity_old extends AppCompatActivity {              
                                         if(workVO.getnInteractionEpisodeID() == vo.getnEpisodeID()) {       // 삭제하려는게 인터렉션 시작 회차라면
                                             AlertDialog.Builder builder = new AlertDialog.Builder(WorkWriteMainActivity_old.this);
                                             builder.setTitle("인터렉션 회차 삭제");
-                                            builder.setMessage("인터렉션이 시작된 회차를 삭제하면 이후 작성된 모든 회차가 삭제 됩니다. 삭제 하시겠습니까?");
+                                            builder.setMessage("인터렉션이 시작된 회차를 삭제하면 이후 작성된 모든 회차가 삭제됩니다. 삭제하시겠습니까?");
                                             builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int id) {
@@ -421,7 +421,7 @@ public class WorkWriteMainActivity_old extends AppCompatActivity {              
                                         } else {
                                             AlertDialog.Builder builder = new AlertDialog.Builder(WorkWriteMainActivity_old.this);
                                             builder.setTitle("회차 삭제");
-                                            builder.setMessage("회차를 삭제하면 작성했던 모든 내용이 삭제됩니다. 삭제 하시겠습니까?");
+                                            builder.setMessage("회차를 삭제하면 작성했던 모든 내용이 삭제됩니다. 삭제하시겠습니까?");
                                             builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int id) {

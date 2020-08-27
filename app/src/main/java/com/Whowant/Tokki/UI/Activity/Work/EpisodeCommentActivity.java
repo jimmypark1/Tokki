@@ -1300,10 +1300,10 @@ public class EpisodeCommentActivity extends AppCompatActivity {
                         CommonUtils.hideProgressDialog();
 
                         if(bResult) {
-                            Toast.makeText(EpisodeCommentActivity.this, "댓글이 삭제 되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EpisodeCommentActivity.this, "댓글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                             getCommentData();
                         } else {
-                            Toast.makeText(EpisodeCommentActivity.this, "댓글을 삭제하지 못했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(EpisodeCommentActivity.this, "댓글을 삭제하지 못했습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

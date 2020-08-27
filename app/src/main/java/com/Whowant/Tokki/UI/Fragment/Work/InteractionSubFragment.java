@@ -522,7 +522,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
             case 2:
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("회차 삭제");
-                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제 하시겠습니까?");
+                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -600,7 +600,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
             case R.id.action_btn4:
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("회차 삭제");
-                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제 하시겠습니까?");
+                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -643,7 +643,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
 
                                 chattingList.clear();
                                 aa.notifyDataSetChanged();
-                                Toast.makeText(getActivity(), "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "삭제되었습니다.", Toast.LENGTH_LONG).show();
 
                                 getCharacterData(true);
                             } else {
@@ -1309,7 +1309,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                             if(resultObject.getString("RESULT").equals("SUCCESS")) {
                                 characterList.remove(nIndex);
                                 resetCharacterLayout();
-                                Toast.makeText(getActivity(), "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "삭제되었습니다.", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(getActivity(), "등장인물 삭제를 실패하였습니다.", Toast.LENGTH_LONG).show();
                             }
@@ -2344,7 +2344,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                         if(nType == ChatVO.TYPE_DISTRACTOR) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setTitle("분기 삭");
-                            builder.setMessage("분기를 삭제하시면 분기 이후의 모든 회차 및 채팅 정보가 삭제됩니다.\n정말로 삭제 하시겠습니까?");
+                            builder.setMessage("분기를 삭제하시면 분기 이후의 모든 회차 및 채팅 정보가 삭제됩니다.\n정말로 삭제하시겠습니까?");
                             builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
@@ -2504,7 +2504,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                             CommonUtils.hideProgressDialog();
 
                             if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                Toast.makeText(interactionWriteActivity, "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(interactionWriteActivity, "삭되었습니다.", Toast.LENGTH_LONG).show();
                                 getActivity().finish();
                             } else {
                                 Toast.makeText(interactionWriteActivity, "작품 등록을 실패하였습니다.", Toast.LENGTH_LONG).show();
@@ -2544,7 +2544,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                                 chattingList.remove(nIndex);
                                 aa.notifyDataSetChanged();
 //                                chattingListView.setSelection(aa.getCount() - 1);
-                                Toast.makeText(interactionWriteActivity, "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(interactionWriteActivity, "삭제되었습니다.", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(interactionWriteActivity, "작품 등록을 실패하였습니다.", Toast.LENGTH_LONG).show();
                             }

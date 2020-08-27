@@ -1,15 +1,14 @@
 package com.Whowant.Tokki.UI.Activity.Main;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Adapter.FlowerAdapter;
 import com.Whowant.Tokki.UI.Adapter.PopularAdapter;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.google.android.material.tabs.TabLayout;

@@ -512,7 +512,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     case R.id.action_btn4:
                         AlertDialog.Builder builder = new AlertDialog.Builder(LiteratureWriteActivity.this);
                         builder.setTitle("회차 삭제");
-                        builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제 하시겠습니까?");
+                        builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
                         builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
@@ -617,7 +617,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             case R.id.action_btn4:
                 AlertDialog.Builder builder = new AlertDialog.Builder(LiteratureWriteActivity.this);
                 builder.setTitle("회차 삭제");
-                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제 하시겠습니까?");
+                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -943,7 +943,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         @Override
                         public void run() {
                             mProgressDialog.dismiss();
-                            Toast.makeText(LiteratureWriteActivity.this, "작품 등록을 실패하였습니다.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LiteratureWriteActivity.this, "등록을 실패하였습니다.", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -1045,7 +1045,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             if(resultObject != null && resultObject.getString("RESULT").equals("SUCCESS")) {
                                 characterList.remove(nIndex);
                                 resetCharacterLayout();
-                                Toast.makeText(LiteratureWriteActivity.this, "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LiteratureWriteActivity.this, "삭제되었습니다.", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(LiteratureWriteActivity.this, "등장인물 삭제를 실패하였습니다.", Toast.LENGTH_LONG).show();
                             }
@@ -1081,7 +1081,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                 chattingList.clear();
                                 aa.notifyDataSetChanged();
 
-                                Toast.makeText(LiteratureWriteActivity.this, "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LiteratureWriteActivity.this, "삭제되었습니다.", Toast.LENGTH_LONG).show();
 
                                 getCharacterData();
                             } else {
@@ -1122,7 +1122,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                 chattingList.remove(nIndex);
                                 aa.notifyDataSetChanged();
 //                                chattingListView.setSelection(aa.getCount() - 1);
-                                Toast.makeText(LiteratureWriteActivity.this, "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LiteratureWriteActivity.this, "삭제되었습니다.", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(LiteratureWriteActivity.this, "작품 등록을 실패하였습니다.", Toast.LENGTH_LONG).show();
                             }

@@ -32,7 +32,7 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
-public class PopularFragment extends Fragment {
+public class PopularFragment extends Fragment implements AdapterView.OnItemClickListener {
     private Context mContext;
     private ListView listView;
     private TextView emptyView;
@@ -57,6 +57,8 @@ public class PopularFragment extends Fragment {
         listView = inflaterView.findViewById(R.id.listView);
         emptyView = inflaterView.findViewById(R.id.emptyView);
         getGenreRankingData();
+
+        listView.setOnItemClickListener(this);
 
         return inflaterView;
     }
@@ -108,6 +110,15 @@ public class PopularFragment extends Fragment {
             }
         }).start();
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            WorkVO vo = workList.get(position);
+            Intent intent = new Intent(getActivity(), WorkMainActivity.class);
+            intent.putExtra("WORK_ID", vo.getnWorkID());
+            startActivity(intent);
+    }
+
 
     public class CGenreRankingArrayAdapter extends ArrayAdapter<Object>
     {
