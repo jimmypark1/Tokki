@@ -380,7 +380,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         new Thread(new Runnable() {
             @Override
             public void run() {
-                workVO = HttpClient.getWorkWithID(new OkHttpClient(), strWorkID, pref.getString("USER_ID", "Guest"));
+                workVO = HttpClient.getWriterWorkWithID(new OkHttpClient(), strWorkID, pref.getString("USER_ID", "Guest"), bDesc);
 
                 runOnUiThread(new Runnable() {
                     @Override
