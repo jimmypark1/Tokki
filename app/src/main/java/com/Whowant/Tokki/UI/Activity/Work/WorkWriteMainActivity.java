@@ -237,7 +237,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         new Thread(new Runnable() {
             @Override
             public void run() {
-                workVO = HttpClient.getWorkWithID(new OkHttpClient(), strWorkID, pref.getString("USER_ID", "Guest"), bDesc);
+                workVO = HttpClient.getWriterWorkWithID(new OkHttpClient(), strWorkID, pref.getString("USER_ID", "Guest"), bDesc);
 
                 int nEpisodeCount = 0;
                 boolean bComplete = false;

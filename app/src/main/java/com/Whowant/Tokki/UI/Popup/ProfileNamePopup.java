@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -30,6 +32,27 @@ public class ProfileNamePopup extends AppCompatActivity {
         inputNameView = findViewById(R.id.inputNameView);
         inputNameView.setText(strName);
         inputNameView.setSelection(strName.length());
+
+        inputNameView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(inputNameView.getText().toString().length() > 8) {
+                    String strTemp = inputNameView.getText().toString().substring(0, 8);
+                    inputNameView.setText(strTemp);
+                    inputNameView.setSelection(strTemp.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     public void onClickCloseBtn(View view) {

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.GenreRankingActivity;
 import com.Whowant.Tokki.UI.Activity.Main.NewRankingActivity;
+import com.Whowant.Tokki.UI.Activity.Main.PopularActivity;
 import com.Whowant.Tokki.UI.Custom.PopularDecoration;
 import com.Whowant.Tokki.VO.MainCardVO;
 
@@ -125,15 +126,8 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             itemRowHolder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, GenreRankingActivity.class));
-//                    if(position == 0)
-//                        mContext.startActivity(new Intent(mContext, BestRankingActivity.class));
-//                    else if(position == 1)
-//                        mContext.startActivity(new Intent(mContext, GenreRankingActivity.class));
-//                    else if(position == 2)
-//                        mContext.startActivity(new Intent(mContext, NewRankingActivity.class));
-//                    else if(position == 3)
-//                        mContext.startActivity(new Intent(mContext, RecommandRankingActivity.class));
+//                    mContext.startActivity(new Intent(mContext, GenreRankingActivity.class));
+                    mContext.startActivity(new Intent(mContext, PopularActivity.class));
                 }
             });
         } else {                                    // 최신작

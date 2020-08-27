@@ -357,7 +357,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         @Override
                         public void run() {
                             CommonUtils.hideProgressDialog();
-                            CommonUtils.makeText(WorkMainActivity.this, "작품 정보가 없습니다..", Toast.LENGTH_LONG).show();
+                            CommonUtils.makeText(WorkMainActivity.this, "작품 정보가 없습니다.", Toast.LENGTH_LONG).show();
                         }
                     });
 

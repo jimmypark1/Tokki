@@ -2390,6 +2390,101 @@ public class HttpClient {
             workVO.setbDistractor(resultObject.getString("DISTRACTOR").equals("Y") ? true : false);
             workVO.setnTarget(resultObject.getInt("TARGET"));
             workVO.setnDonationCarrot(resultObject.getInt("CARROT_DONATION"));
+            workVO.setbComplete(resultObject.getString("COMPLETE").equals("Y") ? true : false);
+
+            ArrayList<EpisodeVO> episodeList = new ArrayList<>();
+
+            if(resultObject.has("EPISODE_LIST")) {
+                JSONArray episodeArray = resultObject.getJSONArray("EPISODE_LIST");
+
+                if(!bDesc) {
+                    for(int i = 0 ; i < episodeArray.length() ; i++) {
+                        JSONObject object = episodeArray.getJSONObject(i);
+                        EpisodeVO vo = new EpisodeVO();
+
+                        vo.setnEpisodeID(object.getInt("EPISODE_ID"));
+                        vo.setStrTitle(object.getString("EPISODE_TITLE"));
+                        vo.setDistractor(object.getString("DISTRACTOR").equals("N") ? false : true);
+                        vo.setStrDate(object.getString("CREATED_DATE"));
+                        vo.setnOrder(object.getInt("EPISODE_ORDER"));
+                        vo.setnHitsCount(object.getInt("HITS_COUNT"));
+                        vo.setnTapCount(object.getInt("TAB_COUNT"));
+                        vo.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                        vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                        vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                        vo.setStrSubmit(object.getString("WORK_SUBMIT"));
+
+                        episodeList.add(vo);
+                    }
+                } else {
+                    for(int i = episodeArray.length() - 1 ; i >= 0 ; i --) {
+                        JSONObject object = episodeArray.getJSONObject(i);
+                        EpisodeVO vo = new EpisodeVO();
+
+                        vo.setnEpisodeID(object.getInt("EPISODE_ID"));
+                        vo.setStrTitle(object.getString("EPISODE_TITLE"));
+                        vo.setDistractor(object.getString("DISTRACTOR").equals("N") ? false : true);
+                        vo.setStrDate(object.getString("CREATED_DATE"));
+                        vo.setnOrder(object.getInt("EPISODE_ORDER"));
+                        vo.setnHitsCount(object.getInt("HITS_COUNT"));
+                        vo.setnTapCount(object.getInt("TAB_COUNT"));
+                        vo.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                        vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                        vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                        vo.setStrSubmit(object.getString("WORK_SUBMIT"));
+
+                        episodeList.add(vo);
+                    }
+                }
+
+                workVO.setEpisodeList(episodeList);
+            } else {
+                workVO.setEpisodeList(episodeList);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            workVO = null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            workVO = null;
+        }
+
+        return workVO;
+    }
+
+    public static WorkVO getWriterWorkWithID(OkHttpClient httpClient, String strWorkID, String strUserID, boolean bDesc) {                              // 모든 작품 목록 가져오기
+        WorkVO workVO = null;
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWriterWorkWithID&WORK_ID=" + strWorkID + "&USER_ID=" + strUserID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if(response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            workVO = new WorkVO();
+            workVO.setWorkID(resultObject.getInt("WORK_ID"));
+            workVO.setCreatedDate(resultObject.getString("CREATED_DATE"));
+            workVO.setStrSynopsis(resultObject.getString("WORK_SYNOPSIS"));
+            workVO.setWriteID(resultObject.getString("WRITER_ID"));
+            workVO.setStrWriterName(resultObject.getString("WRITER_NAME"));
+            workVO.setStrWriterPhoto(resultObject.getString("WRITER_PHOTO"));
+            workVO.setTitle(resultObject.getString("WORK_TITLE"));
+            workVO.setCoverFile(resultObject.getString("WORK_COVER_IMG"));
+            workVO.setnHitsCount(resultObject.getInt("HITS_COUNT"));
+            workVO.setnTapCount(resultObject.getInt("TAB_COUNT"));
+            workVO.setfStarPoint((float)resultObject.getDouble("STAR_POINT"));
+            workVO.setnKeepcount(resultObject.getInt("KEEP_COUNT"));
+            workVO.setnCommentCount(resultObject.getInt("COMMENT_COUNT"));
+            workVO.setbDistractor(resultObject.getString("DISTRACTOR").equals("Y") ? true : false);
+            workVO.setnTarget(resultObject.getInt("TARGET"));
+            workVO.setnDonationCarrot(resultObject.getInt("CARROT_DONATION"));
+            workVO.setbComplete(resultObject.getString("COMPLETE").equals("Y") ? true : false);
 
             ArrayList<EpisodeVO> episodeList = new ArrayList<>();
 

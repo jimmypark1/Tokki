@@ -21,9 +21,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UI.Activity.DrawerMenu.ContestDetailActivity"
+
+        <activity android:name=".UI.Activity.Main.PopularActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".UI.Activity.DrawerMenu.ContestDetailActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.Activity.Admin.ContestListActivity"
             android:configChanges="screenSize|orientation"

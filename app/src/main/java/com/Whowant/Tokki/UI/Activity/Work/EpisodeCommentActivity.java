@@ -73,7 +73,7 @@ public class EpisodeCommentActivity extends AppCompatActivity {
     private int nParentID = -1;
     private int nParentChatID = -1;
     private boolean showLogin = false;
-    private int nOrder = 1;                 // 1 : 인기순, 2 : 최신순
+    private int nOrder = 2;                 // 1 : 인기순, 2 : 최신순
     private Button sendBtn;
 
     private InputMethodManager imm;

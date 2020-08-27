@@ -80,6 +80,9 @@ public class WorkEditActivity extends AppCompatActivity {
             Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
         }
 
+        TextView titleView = findViewById(R.id.titleView);
+        titleView.setText("작품 수정");
+
         inputTitleView = findViewById(R.id.inputTitleView);
         inputSynopsisView = findViewById(R.id.inputSynopsisView);
         coverImgView = findViewById(R.id.coverImgView);
@@ -100,23 +103,24 @@ public class WorkEditActivity extends AppCompatActivity {
         check1Layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkbox1.setImageResource(R.drawable.check_box_on);
-                checkbox2.setImageResource(0);
                 bComplete = false;
+                setComplete();
             }
         });
 
         check2Layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkbox1.setImageResource(0);
-                checkbox2.setImageResource(R.drawable.check_box_on);
                 bComplete = true;
+                setComplete();
             }
         });
 
         inputTitleView.setText(workVO.getTitle());
         inputSynopsisView.setText(workVO.getSynopsis());
+
+        bComplete = workVO.isbComplete();
+        setComplete();
 
         if(workVO.getCoverFile() != null && workVO.getCoverFile().length() > 0) {
             coverImgBtn.setVisibility(View.INVISIBLE);
@@ -180,6 +184,16 @@ public class WorkEditActivity extends AppCompatActivity {
         });
 
         getTagData();
+    }
+
+    private void setComplete() {
+        if(bComplete) {
+            checkbox2.setImageResource(R.drawable.check_box_on);
+            checkbox1.setImageResource(0);
+        } else {
+            checkbox1.setImageResource(R.drawable.check_box_on);
+            checkbox2.setImageResource(0);
+        }
     }
 
     public void onClickTopLeftBtn(View veiw) {
