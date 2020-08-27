@@ -1,11 +1,13 @@
 package com.Whowant.Tokki.UI.Fragment.Main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -17,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.GenreRankingActivity;
+import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.Whowant.Tokki.VO.WriterVO;
@@ -29,7 +32,7 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
-public class PopularFragment extends Fragment {
+public class PopularFragment extends Fragment implements AdapterView.OnItemClickListener {
     private Context mContext;
     private ListView listView;
     private TextView emptyView;
@@ -54,6 +57,8 @@ public class PopularFragment extends Fragment {
         listView = inflaterView.findViewById(R.id.listView);
         emptyView = inflaterView.findViewById(R.id.emptyView);
         getGenreRankingData();
+
+        listView.setOnItemClickListener(this);
 
         return inflaterView;
     }
@@ -95,6 +100,15 @@ public class PopularFragment extends Fragment {
             }
         }).start();
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            WorkVO vo = workList.get(position);
+            Intent intent = new Intent(getActivity(), WorkMainActivity.class);
+            intent.putExtra("WORK_ID", vo.getnWorkID());
+            startActivity(intent);
+    }
+
 
     public class CGenreRankingArrayAdapter extends ArrayAdapter<Object>
     {

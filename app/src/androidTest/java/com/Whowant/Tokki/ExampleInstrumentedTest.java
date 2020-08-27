@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.Whowant.Penapp", appContext.getPackageName());
+        assertEquals("com.Whowant.Tokki", appContext.getPackageName());
     }
 }
