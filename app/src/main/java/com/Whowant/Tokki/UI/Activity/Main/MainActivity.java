@@ -251,6 +251,11 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(list == null) {
+                            Toast.makeText(MainActivity.this, "서버와의 통신이 실패했습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         for(AlarmVO vo : list) {
                             if(!vo.isbRead()) {
                                 alarmNewIconView.setVisibility(View.VISIBLE);
@@ -275,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(noticeList == null) {
+                            Toast.makeText(MainActivity.this, "서버와의 통신이 실패했습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 

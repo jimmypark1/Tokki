@@ -479,7 +479,7 @@ public class ViewerActivity extends AppCompatActivity {
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(chattingList == null || chattingList.size() == 0) {
+                        if(chattingList == null) {
                             Toast.makeText(ViewerActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -538,7 +538,6 @@ public class ViewerActivity extends AppCompatActivity {
             public void run() {
                 int nEpisodeID = workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID();
                 boolean bResult = HttpClient.setEpisodeInteraction(new OkHttpClient(), workVO.getnWorkID(), pref.getString("USER_ID", "Guest"), nIteraction);
-//                chattingList = HttpClient.getChatDataWithEpisodeIDAndInteraction(new OkHttpClient(), "" + nEpisodeID, pref.getString());
 
                 runOnUiThread(new Runnable() {
                     @Override

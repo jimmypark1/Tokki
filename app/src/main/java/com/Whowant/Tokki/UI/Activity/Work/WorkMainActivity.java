@@ -280,6 +280,17 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 JSONObject resultObject = HttpClient.isKeepWork(new OkHttpClient(), pref.getString("USER_ID", "Guest"), "" + nWorkID);
 
                 try {
+                    if(resultObject == null) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                CommonUtils.hideProgressDialog();
+                                Toast.makeText(WorkMainActivity.this, "서버와의 통신이 실패했습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return;
+                    }
+
                     if(resultObject.getString("RESULT").equals("SUCCESS"))
                         bKeep = true;
 
@@ -357,7 +368,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         @Override
                         public void run() {
                             CommonUtils.hideProgressDialog();
-                            CommonUtils.makeText(WorkMainActivity.this, "작품 정보가 없습니다.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(WorkMainActivity.this, "서버와의 통신이 실패했습니다.", Toast.LENGTH_SHORT).show();
                         }
                     });
 

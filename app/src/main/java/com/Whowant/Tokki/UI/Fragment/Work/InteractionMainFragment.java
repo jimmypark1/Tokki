@@ -1352,7 +1352,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 nameList.add("지문");
                 characterList.addAll(HttpClient.getCharacterDataWithEpisodeID(new OkHttpClient(), "" + InteractionWriteActivity.workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID()));
 
-                if(characterList == null || characterList.size() == 0) {
+                if(characterList == null) {
                     Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }

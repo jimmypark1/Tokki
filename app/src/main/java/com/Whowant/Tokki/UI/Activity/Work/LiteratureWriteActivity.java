@@ -1199,7 +1199,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             public void run() {
                 characterList.addAll(HttpClient.getCharacterDataWithEpisodeID(new OkHttpClient(), "" + workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID()));
 
-                if(characterList == null || characterList.size() == 0) {
+                if(characterList == null) {
                     Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -1231,7 +1231,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     public void run() {
                         mProgressDialog.dismiss();
 
-                        if(chattingList == null || chattingList.size() == 0) {
+                        if(chattingList == null) {
                             Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -1305,6 +1305,42 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             TextView nameView = view.findViewById(R.id.nameView);
             ImageView selectedView = view.findViewById(R.id.selectedView);
 
+            int nImg = 0;
+
+            int newi = i % 10;
+            switch(newi) {
+                case 1:
+                    nImg = R.drawable.user_icon_01;
+                    break;
+                case 2:
+                    nImg = R.drawable.user_icon_02;
+                    break;
+                case 3:
+                    nImg = R.drawable.user_icon_03;
+                    break;
+                case 4:
+                    nImg = R.drawable.user_icon_04;
+                    break;
+                case 5:
+                    nImg = R.drawable.user_icon_05;
+                    break;
+                case 6:
+                    nImg = R.drawable.user_icon_06;
+                    break;
+                case 7:
+                    nImg = R.drawable.user_icon_07;
+                    break;
+                case 8:
+                    nImg = R.drawable.user_icon_08;
+                    break;
+                case 9:
+                    nImg = R.drawable.user_icon_09;
+                    break;
+                case 0:
+                    nImg = R.drawable.user_icon_10;
+                    break;
+            }
+
             if(i == 0) {
                 faceView.setImageResource(R.drawable.narration_button);
                 nameView.setText("지문");
@@ -1313,49 +1349,6 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 nSelectedCharacterIndex = 0;
             } else {
                 if(vo.getImage() != null && !vo.getImage().equals("null")) {
-                    int nImg = 0;
-
-                    int newi = i % 10;
-                    switch(newi) {
-                        case 1:
-                            nImg = R.drawable.user_icon_01;
-                            break;
-                        case 2:
-                            nImg = R.drawable.user_icon_02;
-                            break;
-                        case 3:
-                            nImg = R.drawable.user_icon_03;
-                            break;
-                        case 4:
-                            nImg = R.drawable.user_icon_04;
-                            break;
-                        case 5:
-                            nImg = R.drawable.user_icon_05;
-                            break;
-                        case 6:
-                            nImg = R.drawable.user_icon_06;
-                            break;
-                        case 7:
-                            nImg = R.drawable.user_icon_07;
-                            break;
-                        case 8:
-                            nImg = R.drawable.user_icon_08;
-                            break;
-                        case 9:
-                            nImg = R.drawable.user_icon_09;
-                            break;
-                        case 0:
-                            nImg = R.drawable.user_icon_10;
-                            break;
-                    }
-
-//                    if(i == 1 || i == 4 || i == 7) {
-//                        nImg = R.drawable.caracter_a_icon;
-//                    } else if(i == 2 || i == 5 || i == 8)
-//                        nImg = R.drawable.caracter_b_icon;
-//                    else
-//                        nImg = R.drawable.caracter_c_icon;
-
                     Glide.with(this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(vo.getImage())
@@ -1369,14 +1362,6 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     if(!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
-                    int nImg = 0;
-                    if(i == 1 || i == 4 || i == 7) {
-                        nImg = R.drawable.caracter_a_icon;
-                    } else if(i == 2 || i == 5 || i == 8)
-                        nImg = R.drawable.caracter_b_icon;
-                    else
-                        nImg = R.drawable.caracter_c_icon;
-
                     Glide.with(LiteratureWriteActivity.this)
                             .asBitmap() // some .jpeg files are actually gif
                             .placeholder(nImg)
@@ -1384,14 +1369,6 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             .apply(new RequestOptions().circleCrop())
                             .into(faceView);
                 } else {
-                    int nImg = 0;
-                    if(i == 1 || i == 4 || i == 7) {
-                        nImg = R.drawable.caracter_a_icon;
-                    } else if(i == 2 || i == 5 || i == 8)
-                        nImg = R.drawable.caracter_b_icon;
-                    else
-                        nImg = R.drawable.caracter_c_icon;
-
                     faceView.setImageResource(nImg);
                 }
 

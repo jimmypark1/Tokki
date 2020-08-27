@@ -77,6 +77,10 @@ public class ChangeTitlePopup extends AppCompatActivity {
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
+                        if(bResult == false) {
+                            Toast.makeText(ChangeTitlePopup.this, "서버와의 통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         oldIntent.putExtra("TITLE", strTitle);
                         setResult(RESULT_OK, oldIntent);
                         finish();
