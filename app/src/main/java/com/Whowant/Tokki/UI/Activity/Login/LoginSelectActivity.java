@@ -127,17 +127,12 @@ public class LoginSelectActivity extends AppCompatActivity {
         String strUserID = pref.getString("USER_ID", "Guest");
         String strUserPW = pref.getString("USER_PW", "");
 
-        strUserID = "aksid377@naver.com";
-        strUserPW = "null";
-        nRegisterSNS = 2;
-
         if(nRegisterSNS == 0) {
             if(strUserID.length() > 0 && strUserPW.length() > 0) {
                 requestPanbookLogin(strUserID, strUserPW);
             }
         } else {
             String strSNSID = pref.getString("SNS_ID", "");
-            strSNSID = "172420961";
             if(strSNSID.length() > 0) {             // 소셜 로그인 이라면
                 requestSNSLogin(strUserID, strSNSID, false);
             }
