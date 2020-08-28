@@ -60,7 +60,7 @@ public class WorkEditActivity extends AppCompatActivity {
     private RelativeLayout coverImgBtn;
     private ArrayList<String> tagList, genreList;
     private ImageView checkbox1, checkbox2;
-    private TextView unCompleteTitleview, completeTitleview;
+    private TextView unCompleteTitleview, completeTitleview, completeTitleView;
     private LinearLayout check1Layout, check2Layout;
     private boolean bComplete = false;
 
@@ -91,6 +91,7 @@ public class WorkEditActivity extends AppCompatActivity {
         coverImgBtn = findViewById(R.id.coverImgBtn);
         checkbox1 = findViewById(R.id.checkbox1);
         checkbox2 = findViewById(R.id.checkbox2);
+        completeTitleView = findViewById(R.id.completeTitleView);
         unCompleteTitleview = findViewById(R.id.unCompleteTitleview);
         completeTitleview = findViewById(R.id.completeTitleview);
         check1Layout = findViewById(R.id.check1Layout);
@@ -99,6 +100,7 @@ public class WorkEditActivity extends AppCompatActivity {
         checkbox1.setImageResource(R.drawable.check_box_on);
         unCompleteTitleview.setTextColor(Color.BLACK);
         completeTitleview.setTextColor(Color.BLACK);
+        completeTitleView.setTextColor(Color.BLACK);
 
         check1Layout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -72,6 +72,7 @@
         android:layout_below="@+id/deviderView"
         android:layout_above="@+id/buttonsLayout"
         android:clipChildren="false"
+        android:scrollbars="none"
         android:layout_marginBottom="20dp">
 
         <RelativeLayout

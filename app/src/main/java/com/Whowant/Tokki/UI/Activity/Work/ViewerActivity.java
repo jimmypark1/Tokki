@@ -1666,11 +1666,11 @@ public class ViewerActivity extends AppCompatActivity {
         nAutoLevel = nLevel;
         int nRepeat = 0;
         if(nAutoLevel == 1) {
-            nRepeat = 3000;
-        } else if(nAutoLevel == 2) {
             nRepeat = 2000;
-        } else if(nAutoLevel == 3) {
+        } else if(nAutoLevel == 2) {
             nRepeat = 1000;
+        } else if(nAutoLevel == 3) {
+            nRepeat = 800;
         }
 
         autoScrollTimer = new Timer();

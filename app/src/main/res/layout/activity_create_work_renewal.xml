@@ -99,10 +99,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/photoLayout"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textColor="@color/colorBlack"
                 android:layout_marginTop="31dp"
                 android:layout_marginLeft="70dp"
+                android:textStyle="bold"
                 android:text="제목"/>
 
             <EditText
@@ -112,22 +113,22 @@
                 android:layout_below="@+id/writeSubTitleView"
                 android:layout_marginLeft="65dp"
                 android:layout_marginRight="65dp"
-                android:layout_marginTop="10dp"
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
-                android:hint="제목을 입력해 주세요"/>
+                android:hint="제목을 입력하세요"/>
 
             <TextView
                 android:id="@+id/writeSubTitle2View"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textColor="@color/colorBlack"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="70dp"
                 android:layout_below="@+id/inputTitleView"
+                android:textStyle="bold"
                 android:text="줄거리"/>
 
             <EditText
@@ -137,7 +138,6 @@
                 android:layout_below="@+id/writeSubTitle2View"
                 android:layout_marginLeft="65dp"
                 android:layout_marginRight="65dp"
-                android:layout_marginTop="10dp"
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"
                 android:singleLine="true"
@@ -159,6 +159,7 @@
                     android:layout_marginRight="70dp"
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"
+                    android:textStyle="bold"
                     android:text="장르"/>
 
                 <EditText
@@ -173,7 +174,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"
                     android:singleLine="true"
-                    android:hint="3가지 장르를 선택해 주세요."/>
+                    android:hint="3가지 장르를 선택해주세요"/>
             </LinearLayout>
 
             <LinearLayout
@@ -191,6 +192,7 @@
                     android:layout_marginRight="70dp"
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"
+                    android:textStyle="bold"
                     android:text="태그"/>
 
                 <EditText
@@ -205,7 +207,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"
                     android:singleLine="true"
-                    android:hint="태그를 입력해주세요"/>
+                    android:hint="태그를 선택해주세요"/>
             </LinearLayout>
 
             <TextView
@@ -215,7 +217,7 @@
                 android:layout_below="@+id/tagLayout"
                 android:layout_marginLeft="70dp"
                 android:layout_marginTop="19dp"
-                android:textSize="13.3sp"
+                android:textSize="16sp"
                 android:textColor="#d1d1d1"
                 android:textStyle="bold"
                 android:text="완결 상태"/>
