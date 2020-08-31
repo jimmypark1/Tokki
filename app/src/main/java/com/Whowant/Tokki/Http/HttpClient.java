@@ -1166,6 +1166,8 @@ public class HttpClient {
                 workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
                 workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                 workVO.setnTarget(object.getInt("TARGET"));
 
@@ -1213,6 +1215,8 @@ public class HttpClient {
                 workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
                 workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                 workVO.setnTarget(object.getInt("TARGET"));
 
@@ -1260,6 +1264,8 @@ public class HttpClient {
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
                 workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+//                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+//                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
                 workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                 workVO.setnTarget(object.getInt("TARGET"));
 
@@ -1308,6 +1314,8 @@ public class HttpClient {
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
                 workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
                 workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                 workVO.setnTarget(object.getInt("TARGET"));
 
@@ -1402,6 +1410,8 @@ public class HttpClient {
                 workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
                 workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                 workVO.setnTarget(object.getInt("TARGET"));
 
@@ -1433,6 +1443,8 @@ public class HttpClient {
                 workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
                 workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                 workVO.setnTarget(object.getInt("TARGET"));
 
@@ -1493,6 +1505,8 @@ public class HttpClient {
                 workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
                 workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                 workVO.setnTarget(object.getInt("TARGET"));
 
@@ -2475,6 +2489,7 @@ public class HttpClient {
             workVO.setStrWriterPhoto(resultObject.getString("WRITER_PHOTO"));
             workVO.setTitle(resultObject.getString("WORK_TITLE"));
             workVO.setCoverFile(resultObject.getString("WORK_COVER_IMG"));
+            workVO.setStrThumbFile(resultObject.getString("WORK_COVER_THUMBNAIL"));
             workVO.setnHitsCount(resultObject.getInt("HITS_COUNT"));
             workVO.setnTapCount(resultObject.getInt("TAB_COUNT"));
             workVO.setfStarPoint((float)resultObject.getDouble("STAR_POINT"));
@@ -2483,6 +2498,7 @@ public class HttpClient {
             workVO.setbDistractor(resultObject.getString("DISTRACTOR").equals("Y") ? true : false);
             workVO.setnTarget(resultObject.getInt("TARGET"));
             workVO.setnDonationCarrot(resultObject.getInt("CARROT_DONATION"));
+            workVO.setbPosterThumbnail(resultObject.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
             workVO.setbComplete(resultObject.getString("COMPLETE").equals("Y") ? true : false);
 
             ArrayList<EpisodeVO> episodeList = new ArrayList<>();

@@ -25,7 +25,9 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
     public static CropImageView.CropResult result;
     public static boolean bProfile = false;
     public static boolean bCover = false;
+    public static boolean bCoverThumb = false;
     public static boolean bModify = false;
+    public static boolean bModifyThumb = false;
     public static boolean bImgCrop = false;
     public static boolean bBGCrop = false;
 
@@ -45,7 +47,7 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
 
         final String resultUri = result.getUri().toString();
 
-        if(bCover || bModify || bImgCrop || bBGCrop) {
+        if(bCover || bModify || bImgCrop || bBGCrop || bCoverThumb || bModifyThumb) {
             Glide.with(this)
                     .asBitmap() // some .jpeg files are actually gif
                     .load(result.getUri())
@@ -72,10 +74,24 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
                     Intent intent = new Intent(ThumbnailPreviewActivity.this, CreateWorkActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
+                } else if(bCoverThumb) {
+                    bCoverThumb = false;
+                    Intent intent = new Intent(ThumbnailPreviewActivity.this, CreateWorkActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("THUMBNAIL", true);
+                    intent.putExtra("IMG_URI", resultUri);
+                    startActivity(intent);
                 } else if(bModify) {
                     bModify = false;
                     Intent intent = new Intent(ThumbnailPreviewActivity.this, WorkEditActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                } else if(bModifyThumb) {
+                    bModifyThumb = false;
+                    Intent intent = new Intent(ThumbnailPreviewActivity.this, WorkEditActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("IMG_URI", resultUri);
+                    intent.putExtra("THUMBNAIL", true);
                     startActivity(intent);
                 } else if(bImgCrop) {
                     Intent intent = new Intent(ThumbnailPreviewActivity.this, LiteratureWriteActivity.class);
@@ -124,13 +140,27 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     intent.putExtra("IMG_URI", resultUri);
                     startActivity(intent);
+                } else if(bCoverThumb) {
+                    bCoverThumb = false;
+                    Intent intent = new Intent(ThumbnailPreviewActivity.this, CreateWorkActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("THUMBNAIL", true);
+                    intent.putExtra("IMG_URI", resultUri);
+                    startActivity(intent);
                 } else if(bModify) {
                     bModify = false;
                     Intent intent = new Intent(ThumbnailPreviewActivity.this, WorkEditActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     intent.putExtra("IMG_URI", resultUri);
                     startActivity(intent);
-                } else if(bImgCrop) {
+                } else if(bModifyThumb) {
+                    bModifyThumb = false;
+                    Intent intent = new Intent(ThumbnailPreviewActivity.this, WorkEditActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("THUMBNAIL", true);
+                    intent.putExtra("IMG_URI", resultUri);
+                    startActivity(intent);
+                }else if(bImgCrop) {
                     Intent intent = new Intent(ThumbnailPreviewActivity.this, LiteratureWriteActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -156,6 +186,7 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(ThumbnailPreviewActivity.this, CreateCharacterActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("URI", resultUri);
                     startActivity(intent);
                 }
             }

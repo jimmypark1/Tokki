@@ -43,8 +43,8 @@ public class ContestEventActivity extends AppCompatActivity {
     }
     
     public void onClickOKBtn(View view) {
-        Toast.makeText(this, "접수 기간이 아닙니다.", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "접수 기간이 아닙니다.", Toast.LENGTH_SHORT).show();
 
-//        startActivity(new Intent(ContestEventActivity.this, ContestInputActivity.class));
+        startActivity(new Intent(ContestEventActivity.this, ContestInputActivity.class));
     }
 }

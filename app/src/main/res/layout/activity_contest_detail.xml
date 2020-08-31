@@ -268,8 +268,8 @@
                 android:id="@+id/subTitleView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/subTitleView3"
-                android:layout_marginTop="37.7dp"
+                android:layout_below="@+id/characterView"
+                android:layout_marginTop="17.7dp"
                 android:textSize="15.7sp"
                 android:textColor="@color/colorBlack"
                 android:text="시놉시스"/>

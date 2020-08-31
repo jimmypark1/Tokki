@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -58,11 +59,13 @@ public class CropImageActivity extends AppCompatActivity
      * Persist URI image to crop URI if specific permissions are required
      */
     private Uri mCropImageUri;
+    private TextView thumbnailTitleView;
 
     /**
      * the options that were set for the crop image
      */
     private CropImageOptions mOptions;
+    public static boolean bThumbnail = false;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -70,7 +73,14 @@ public class CropImageActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crop_image_activity);
 
+        thumbnailTitleView = findViewById(R.id.thumbnailTitleView);
         mCropImageView = findViewById(R.id.cropImageView);
+
+        if(bThumbnail) {
+            thumbnailTitleView.setVisibility(View.VISIBLE);
+        } else {
+            thumbnailTitleView.setVisibility(View.INVISIBLE);
+        }
 
         Bundle bundle = getIntent().getBundleExtra(CropImage.CROP_IMAGE_EXTRA_BUNDLE);
         mCropImageUri = bundle.getParcelable(CropImage.CROP_IMAGE_EXTRA_SOURCE);
@@ -230,6 +240,7 @@ public class CropImageActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         // handle result of pick image chooser
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_CANCELED) {
                 // User cancelled the picker. We don't have anything to crop
@@ -293,7 +304,7 @@ public class CropImageActivity extends AppCompatActivity
     @Override
     public void onCropImageComplete(CropImageView view, CropImageView.CropResult result) {
         ThumbnailPreviewActivity.result = result;
-
+        bThumbnail = false;
         startActivity(new Intent(CropImageActivity.this, ThumbnailPreviewActivity.class));
     }
 
@@ -350,6 +361,7 @@ public class CropImageActivity extends AppCompatActivity
     protected void setResult(Uri uri, Exception error, int sampleSize) {
         int resultCode = error == null ? RESULT_OK : CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE;
         setResult(resultCode, getResultIntent(uri, error, sampleSize));
+        bThumbnail = false;
         finish();
     }
 
@@ -358,6 +370,7 @@ public class CropImageActivity extends AppCompatActivity
      */
     protected void setResultCancel() {
         setResult(RESULT_CANCELED);
+        bThumbnail = false;
         finish();
     }
 

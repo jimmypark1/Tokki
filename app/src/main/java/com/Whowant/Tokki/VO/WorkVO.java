@@ -11,6 +11,7 @@ public class WorkVO {
     private String strTitle;                                // 작품 제목
     private String strSynopsis;                             // 작품 줄거리
     private String strCoverFile;                            // 커버 이미지 파일명
+    private String strThumbFile;                            // 커버 써멘일 파일명
     private String strCreatedDate;                          // 작품 생성일
     private String strUpdateDate;                           // 작품 수정읾
     private int    nHitsCount;
@@ -22,6 +23,7 @@ public class WorkVO {
     private boolean bComplete;                              // 완결 여부
     private int    nInteractionEpisodeID;                   // 분기된 에피소드 아이디
     private int    nDonationCarrot;                         // 응원 받은 당근
+    private boolean bPosterThumbnail;
 
     private boolean bDistractor = false;                    // 분기 설정 했는지 여부
 
@@ -187,5 +189,21 @@ public class WorkVO {
 
     public void setStrUpdateDate(String strUpdateDate) {
         this.strUpdateDate = strUpdateDate;
+    }
+
+    public String getStrThumbFile() {
+        return strThumbFile;
+    }
+
+    public void setStrThumbFile(String strThumbFile) {
+        this.strThumbFile = strThumbFile;
+    }
+
+    public boolean isbPosterThumbnail() {
+        return bPosterThumbnail;
+    }
+
+    public void setbPosterThumbnail(boolean bPosterThumbnail) {
+        this.bPosterThumbnail = bPosterThumbnail;
     }
 }

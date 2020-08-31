@@ -11,6 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <TextView
+        android:id="@+id/thumbnailTitleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:visibility="invisible"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:text="섬네일 설정"/>
+
     <RelativeLayout
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"

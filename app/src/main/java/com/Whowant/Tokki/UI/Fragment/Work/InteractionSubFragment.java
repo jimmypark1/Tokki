@@ -1952,6 +1952,11 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
         @Override
         public View getView(final int position, View convertView, ViewGroup parent)
         {
+            if(position >= chattingList.size()) {
+                convertView = mLiInflater.inflate(R.layout.empty_chatting_row, parent, false);
+                return convertView;
+            }
+
             ChatVO chatVO = chattingList.get(position);
             CharacterVO characterVO = chatVO.getCharacterVO();
 

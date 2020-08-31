@@ -356,13 +356,26 @@ public class AproveWaitingEpisodeListActivity extends AppCompatActivity {
                     public void run() {
                         Intent intent = new Intent(AproveWaitingEpisodeListActivity.this, ViewerActivity.class);
                         ViewerActivity.workVO = workVO;
-                        intent.putExtra("EPISODE_INDEX", vo.getnEpisodeOrder() - 1);
+                        intent.putExtra("EPISODE_ID", vo.getnEpisodeID());
+                        intent.putExtra("EPISODE_INDEX", getEpisodeIndex(workVO, vo));
                         intent.putExtra("PREVIEW", true);
                         startActivity(intent);
                     }
                 });
             }
         }).start();
+    }
+
+    private int getEpisodeIndex(WorkVO workVO, WaitingVO vo) {
+        int nEpisodeID = vo.getnEpisodeID();
+
+        for(int i = 0 ; i < workVO.getEpisodeList().size() ; i++) {
+            int currentEpisodeID = workVO.getEpisodeList().get(i).getnEpisodeID();
+            if(currentEpisodeID == nEpisodeID)
+                return i;
+        }
+
+        return 0;
     }
 //    public void onClickSearchBtn(View view) {
 //        requestSearch();

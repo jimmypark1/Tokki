@@ -942,6 +942,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            e.printStackTrace();
                             mProgressDialog.dismiss();
                             Toast.makeText(LiteratureWriteActivity.this, "등록을 실패하였습니다.", Toast.LENGTH_LONG).show();
                         }
@@ -1103,6 +1104,10 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         new Thread(new Runnable() {
             @Override
             public void run() {
+                if(nIndex >= chattingList.size()) {
+                    return;
+                }
+
                 ChatVO vo = chattingList.get(nIndex);
                 JSONObject resultObject = HttpClient.requestDeleteMessage(new OkHttpClient(), nEpisodeID, vo.getnChatID(), vo.getnOrder());
 
@@ -2142,6 +2147,11 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         @Override
         public View getView(final int position, View convertView, ViewGroup parent)
         {
+            if(position >= chattingList.size()) {
+                convertView = mLiInflater.inflate(R.layout.empty_chatting_row, parent, false);
+                return convertView;
+            }
+
             ChatVO chatVO = chattingList.get(position);
             CharacterVO characterVO = chatVO.getCharacterVO();
 
@@ -2569,7 +2579,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 if(characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
                     int nPlaceHolder = 0;
 
-                    int faceIndex = characterVO.getIndex() % 10;
+                    int faceIndex = getCharacterIndex(characterVO) % 10;
                     switch(faceIndex) {
                         case 1:
                             nPlaceHolder = R.drawable.user_icon_01;
@@ -2617,7 +2627,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     int nPlaceHolder = 0;
-                    int faceIndex = characterVO.getIndex() % 10;
+                    int faceIndex = getCharacterIndex(characterVO) % 10;
                     switch(faceIndex) {
                         case 1:
                             nPlaceHolder = R.drawable.user_icon_01;
@@ -2659,7 +2669,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 } else {
                     int nPlaceHolder = 0;
 
-                    int faceIndex = characterVO.getIndex() % 10;
+                    int faceIndex = getCharacterIndex(characterVO) % 10;
                     switch(faceIndex) {
                         case 1:
                             nPlaceHolder = R.drawable.user_icon_01;
@@ -2735,6 +2745,20 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
             return convertView;
         }
+    }
+
+    private int getCharacterIndex(CharacterVO vo) {
+        int characterID = vo.getnCharacterID();
+
+        for(int i = 1 ; i < characterList.size() ; i++) {
+            CharacterVO characterVO = characterList.get(i);
+            if(characterVO == null)
+                return 1;
+            if(characterVO.getnCharacterID() == characterID)
+                return i;
+        }
+
+        return 1;
     }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {

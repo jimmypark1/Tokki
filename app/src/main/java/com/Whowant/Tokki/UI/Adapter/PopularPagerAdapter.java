@@ -41,7 +41,13 @@ public class PopularPagerAdapter extends RecyclerView.Adapter<PopularPagerAdapte
     public void onBindViewHolder(RecommendCardHolder holder, int position) {
         int nRealPosition = position * 2;
         WorkVO workVO = itemsList.get(nRealPosition);
-        String strImgUrl = workVO.getCoverFile();
+
+        String strImgUrl = "";
+
+        if(workVO.getStrThumbFile() != null && !workVO.getStrThumbFile().equals("null"))
+            strImgUrl = workVO.getStrThumbFile();
+        else
+            strImgUrl = workVO.getCoverFile();
 
         if(position >= 4) {
             Log.d("asdf", "Asdf");

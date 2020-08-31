@@ -283,28 +283,53 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         writerNameView.setText(workVO.getStrWriterName());
 
         coverImgView.setClipToOutline(true);
-        Glide.with(this)
-                .asBitmap() // some .jpeg files are actually gif
-                .placeholder(R.drawable.no_poster_horizontal)
-                .load(CommonUtils.strDefaultUrl + "images/" + workVO.getCoverFile())
-                .into(coverImgView);
+
+        if(workVO.getStrThumbFile() != null && !workVO.getStrThumbFile().equals("null")) {
+            Glide.with(this)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .placeholder(R.drawable.no_poster_horizontal)
+                    .load(CommonUtils.strDefaultUrl + "images/" + workVO.getStrThumbFile())
+                    .into(coverImgView);
+        } else {
+            Glide.with(this)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .placeholder(R.drawable.no_poster_horizontal)
+                    .load(CommonUtils.strDefaultUrl + "images/" + workVO.getCoverFile())
+                    .into(coverImgView);
+        }
+
 
         if(workVO.getEpisodeList() != null) {
             int nOrder = 0;
             int nOldOrder = 0;
+            if(bDesc) {
+                nOldOrder = workVO.getEpisodeList().size()+1;
+            }
 
             for(int i = 0 ; i < workVO.getEpisodeList().size() ; i++) {
                 EpisodeVO vo = workVO.getEpisodeList().get(i);
                 nOrder = vo.getnOrder();
 
-                if(nOldOrder == nOrder-1) {
-                    nOldOrder = nOrder;
-                    newEpsisodeBtn.setText("새로운 회차 쓰기");
+                if(!bDesc) {
+                    if(nOldOrder == nOrder-1) {
+                        nOldOrder = nOrder;
+                        newEpsisodeBtn.setText("새로운 회차 쓰기");
+                    } else {
+                        nOrder = nOldOrder+1;
+                        newEpsisodeBtn.setText(nOrder + "회차 쓰기");
+                        break;
+                    }
                 } else {
-                    nOrder = nOldOrder+1;
-                    newEpsisodeBtn.setText(nOrder + "회차 쓰기");
-                    break;
+                    if(nOldOrder == nOrder+1) {
+                        nOldOrder = nOrder;
+                        newEpsisodeBtn.setText("새로운 회차 쓰기");
+                    } else {
+                        nOrder = nOldOrder-1;
+                        newEpsisodeBtn.setText(nOrder + "회차 쓰기");
+                        break;
+                    }
                 }
+
             }
 
             aa = new EpisodeAdapter(WorkWriteMainActivity.this, showingList);
@@ -460,6 +485,9 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
         @Override
         public void onBindViewHolder(EpisodeViewHolder holder, int position) {
+            if(position >= showingList.size())
+                return;
+
             if(position == 0) {
                 TextView episodeCountView = holder.itemView.findViewById(R.id.episodeCountView);
                 episodeCountView.setText(showingList.get(position));

@@ -1,10 +1,6 @@
 package com.Whowant.Tokki.UI.Activity.DrawerMenu;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,11 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
-import com.Whowant.Tokki.UI.Activity.Work.EpisodeCommentActivity;
-import com.Whowant.Tokki.UI.Activity.Work.LiteratureListActivity;
 import com.Whowant.Tokki.UI.Custom.MyDatePickerDialogFragment;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WorkVO;

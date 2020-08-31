@@ -80,6 +80,7 @@ import okhttp3.OkHttpClient;
 
 public class ViewerActivity extends AppCompatActivity {
     public static WorkVO workVO;
+    private int  nEpisodeIndex;
     private ArrayList<ChatVO> chattingList;
     private ArrayList<ChatVO> showingList;
     private int nShoingIndex = -1;
@@ -97,7 +98,6 @@ public class ViewerActivity extends AppCompatActivity {
     private boolean bShowingAutoscroll = false;
     private Timer uiTimer = null;
 
-    private int nEpisodeIndex;
     private int nBGColor;
 
     private SharedPreferences pref;
@@ -149,6 +149,7 @@ public class ViewerActivity extends AppCompatActivity {
         nBGColor = getResources().getColor(R.color.colorDefaultBG);
         pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
 
+//        nEpidoseID = getIntent().getIntExtra("EPISODE_ID", 0);
         nEpisodeIndex = getIntent().getIntExtra("EPISODE_INDEX", 0);
         bInteraction = getIntent().getBooleanExtra("INTERACTION", false);
         bPreview = getIntent().getBooleanExtra("PREVIEW", false);
@@ -166,8 +167,6 @@ public class ViewerActivity extends AppCompatActivity {
         TextView titleView = findViewById(R.id.titleView);
         titleView.setText(workVO.getEpisodeList().get(nEpisodeIndex).getStrTitle());
 
-
-//        animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate);
         autoScrollLevel1Btn = findViewById(R.id.autoScrollLevel1Btn);
         autoScrollLevel2Btn = findViewById(R.id.autoScrollLevel2Btn);
         autoScrollLevel3Btn = findViewById(R.id.autoScrollLevel3Btn);
@@ -741,11 +740,11 @@ public class ViewerActivity extends AppCompatActivity {
 //                        }
 //                    });
 
-//            Glide.with(ViewerActivity.this)
-//                    .asBitmap() // some .jpeg files are actually gif
-//                    .load(strImg)
-//                    .transition(BitmapTransitionOptions.withCrossFade(300))
-//                    .into(bgView);
+            Glide.with(ViewerActivity.this)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .load(strImg)
+                    .transition(BitmapTransitionOptions.withCrossFade(300))
+                    .into(bgView);
 
             return;
         } else if(vo.getType() == ChatVO.TYPE_CHANGE_BG_COLOR){
@@ -1235,37 +1234,40 @@ public class ViewerActivity extends AppCompatActivity {
             } else if(nType == ChatVO.TYPE_CHANGE_BG) {
                 convertView = mLiInflater.inflate(R.layout.change_bg_row, parent, false);
 
-                if(chatVO.getContentsUri() != null) {
-                    if(strCurrentBg.equals(chatVO.getContentsUri().toString()))
-                        return convertView;
+                if(bScrolling || bFirst) {
+                    if(chatVO.getContentsUri() != null) {
+                        if(strCurrentBg.equals(chatVO.getContentsUri().toString()))
+                            return convertView;
 
-                    strCurrentBg = chatVO.getContentsUri().toString();
-                    Glide.with(ViewerActivity.this)
-                            .asBitmap() // some .jpeg files are actually gif
-                            .load(chatVO.getContentsUri())
-                            .transition(BitmapTransitionOptions.withCrossFade(300))
-                            .into(bgView);
+                        strCurrentBg = chatVO.getContentsUri().toString();
+                        Glide.with(ViewerActivity.this)
+                                .asBitmap() // some .jpeg files are actually gif
+                                .load(chatVO.getContentsUri())
+                                .transition(BitmapTransitionOptions.withCrossFade(300))
+                                .into(bgView);
 
-                    resetNameViewsColor();
-                } else if(chatVO.getStrContentsFile() != null) {
-                    String strUrl = chatVO.getStrContentsFile();
+                        resetNameViewsColor();
+                    } else if(chatVO.getStrContentsFile() != null) {
+                        String strUrl = chatVO.getStrContentsFile();
 
-                    if(strCurrentBg.equals(strUrl))
-                        return convertView;
+                        if(strCurrentBg.equals(strUrl))
+                            return convertView;
 
-                    strCurrentBg = strUrl;
+                        strCurrentBg = strUrl;
 //                    strUrl = strUrl.replaceAll(" ", "");
-                    if(!strUrl.startsWith("http"))
-                        strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
+                        if(!strUrl.startsWith("http"))
+                            strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
-                    Glide.with(ViewerActivity.this)
-                            .asBitmap() // some .jpeg files are actually gif
-                            .load(strUrl)
-                            .transition(BitmapTransitionOptions.withCrossFade(300))
-                            .into(bgView);
+                        Glide.with(ViewerActivity.this)
+                                .asBitmap() // some .jpeg files are actually gif
+                                .load(strUrl)
+                                .transition(BitmapTransitionOptions.withCrossFade(300))
+                                .into(bgView);
 
-                    resetNameViewsColor();
+                        resetNameViewsColor();
+                    }
                 }
+
 
 //                if(bScrolling || bFirst) {
 //                    bFirst = false;

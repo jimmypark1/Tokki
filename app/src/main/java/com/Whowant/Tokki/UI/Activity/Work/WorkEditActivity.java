@@ -30,11 +30,15 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryActivity;
 import com.Whowant.Tokki.UI.Popup.CoverMediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
+import com.Whowant.Tokki.Utils.cropper.CropImage;
+import com.Whowant.Tokki.Utils.cropper.CropImageActivity;
+import com.Whowant.Tokki.Utils.cropper.CropImageView;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.bumptech.glide.Glide;
 import com.gun0912.tedpermission.PermissionListener;
@@ -56,12 +60,21 @@ public class WorkEditActivity extends AppCompatActivity {
     private EditText inputGenreView;
     //    private TagEditText inputTagView;
     private ImageView coverImgView;
+    private Uri      originCoverImgUri = null;
     private Uri      coverImgUri = null;
+    private Uri      posterThumbUri = null;
+    private Uri      galleryThumbUri = null;
     private RelativeLayout coverImgBtn;
     private ArrayList<String> tagList, genreList;
     private ImageView checkbox1, checkbox2;
     private TextView unCompleteTitleview, completeTitleview, completeTitleView;
     private LinearLayout check1Layout, check2Layout;
+
+    private RelativeLayout posterThumbnailLayout, galleryThumbnailLayout;
+    private ImageView posterThumbnailView, galleryThumbnailView, posterCheckView, galleryCheckView;
+    private TextView posterThumbnailTextView, galleryThumbnailTextView;
+    private int nThumbnail = 0;     // 0 = 안함, 1 = 포스터를 썸네일로, 2 = 갤러리에서 썸네일 고르기
+
     private boolean bComplete = false;
 
     public static WorkVO workVO;
@@ -96,6 +109,14 @@ public class WorkEditActivity extends AppCompatActivity {
         completeTitleview = findViewById(R.id.completeTitleview);
         check1Layout = findViewById(R.id.check1Layout);
         check2Layout = findViewById(R.id.check2Layout);
+        posterThumbnailLayout = findViewById(R.id.posterThumbnailLayout);
+        galleryThumbnailLayout = findViewById(R.id.galleryThumbnailLayout);
+        posterThumbnailView = findViewById(R.id.posterThumbnailView);
+        galleryThumbnailView = findViewById(R.id.galleryThumbnailView);
+        posterCheckView = findViewById(R.id.posterCheckView);
+        galleryCheckView = findViewById(R.id.galleryCheckView);
+        posterThumbnailTextView = findViewById(R.id.posterThumbnailTextView);
+        galleryThumbnailTextView = findViewById(R.id.galleryThumbnailTextView);
 
         checkbox1.setImageResource(R.drawable.check_box_on);
         unCompleteTitleview.setTextColor(Color.BLACK);
@@ -124,8 +145,10 @@ public class WorkEditActivity extends AppCompatActivity {
         bComplete = workVO.isbComplete();
         setComplete();
 
-        if(workVO.getCoverFile() != null && workVO.getCoverFile().length() > 0) {
+        if(workVO.getCoverFile() != null && workVO.getCoverFile().length() > 0 && !workVO.getCoverFile().equals("null")) {
+            coverImgView.setClipToOutline(true);
             coverImgBtn.setVisibility(View.INVISIBLE);
+            originCoverImgUri = Uri.parse(CommonUtils.strDefaultUrl + "images/" + workVO.getCoverFile());
             Glide.with(this)
                     .asBitmap() // some .jpeg files are actually gif
                     .placeholder(R.drawable.no_poster)
@@ -185,6 +208,40 @@ public class WorkEditActivity extends AppCompatActivity {
             }
         });
 
+        if(workVO.getStrThumbFile() != null && !workVO.getStrThumbFile().equals("null")) {
+            if(workVO.isbPosterThumbnail()) {           // 포스터에서 썸네일 고름
+                galleryThumbUri = null;
+                posterThumbUri = Uri.parse(workVO.getStrThumbFile());
+                galleryThumbnailLayout.setBackgroundResource(R.drawable.round_shadow_btn_white_bg);
+                galleryCheckView.setImageResource(0);
+                galleryThumbnailView.setImageResource(0);
+                galleryThumbnailTextView.setTextColor(Color.parseColor("#d1d1d1"));
+
+                posterThumbnailLayout.setBackgroundResource(R.drawable.round_wthie_black_stroke_bg);
+                posterCheckView.setImageResource(R.drawable.blue_check_view);
+                posterThumbnailView.setClipToOutline(true);
+                Glide.with(this)
+                        .load(CommonUtils.strDefaultUrl + "images/" + workVO.getStrThumbFile())
+                        .into(posterThumbnailView);
+                posterThumbnailTextView.setTextColor(Color.parseColor("#000000"));
+            } else  {    // 갤러리에서 썸네일 고름
+                posterThumbUri = null;
+                galleryThumbUri = Uri.parse(workVO.getStrThumbFile());
+                posterThumbnailLayout.setBackgroundResource(R.drawable.round_shadow_btn_white_bg);
+                posterCheckView.setImageResource(0);
+                posterThumbnailView.setImageResource(0);
+                posterThumbnailTextView.setTextColor(Color.parseColor("#d1d1d1"));
+
+                galleryThumbnailLayout.setBackgroundResource(R.drawable.round_wthie_black_stroke_bg);
+                galleryCheckView.setImageResource(R.drawable.blue_check_view);
+                galleryThumbnailView.setClipToOutline(true);
+                Glide.with(this)
+                        .load(CommonUtils.strDefaultUrl + "images/" + workVO.getStrThumbFile())
+                        .into(galleryThumbnailView);
+                galleryThumbnailTextView.setTextColor(Color.parseColor("#000000"));
+            }
+        }
+
         getTagData();
     }
 
@@ -206,20 +263,67 @@ public class WorkEditActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        String imgUri = intent.getStringExtra("IMG_URI");
-        if(imgUri == null) {
-            return;
-        }
+        boolean bThumbnail = intent.getBooleanExtra("THUMBNAIL", false);
 
-        coverImgUri = Uri.parse(imgUri);
+        if(bThumbnail) {
+            String imgUri = intent.getStringExtra("IMG_URI");
 
-        if(imgUri != null) {
-            coverImgView.setClipToOutline(true);
-            coverImgBtn.setVisibility(View.INVISIBLE);
-            Glide.with(this)
-                    .asBitmap() // some .jpeg files are actually gif
-                    .load(coverImgUri)
-                    .into(coverImgView);
+            if(nThumbnail == 1) {           // 포스터에서 썸네일 고름
+                galleryThumbUri = null;
+                posterThumbUri = Uri.parse(imgUri);
+                galleryThumbnailLayout.setBackgroundResource(R.drawable.round_shadow_btn_white_bg);
+                galleryCheckView.setImageResource(0);
+                galleryThumbnailView.setImageResource(0);
+                galleryThumbnailTextView.setTextColor(Color.parseColor("#d1d1d1"));
+
+                posterThumbnailLayout.setBackgroundResource(R.drawable.round_wthie_black_stroke_bg);
+                posterCheckView.setImageResource(R.drawable.blue_check_view);
+                posterThumbnailView.setClipToOutline(true);
+                Glide.with(this)
+                        .load(posterThumbUri)
+                        .into(posterThumbnailView);
+                posterThumbnailTextView.setTextColor(Color.parseColor("#000000"));
+            } else if(nThumbnail == 2) {    // 갤러리에서 썸네일 고름
+                posterThumbUri = null;
+                galleryThumbUri = Uri.parse(imgUri);
+                posterThumbnailLayout.setBackgroundResource(R.drawable.round_shadow_btn_white_bg);
+                posterCheckView.setImageResource(0);
+                posterThumbnailView.setImageResource(0);
+                posterThumbnailTextView.setTextColor(Color.parseColor("#d1d1d1"));
+
+                galleryThumbnailLayout.setBackgroundResource(R.drawable.round_wthie_black_stroke_bg);
+                galleryCheckView.setImageResource(R.drawable.blue_check_view);
+                galleryThumbnailView.setClipToOutline(true);
+                Glide.with(this)
+                        .load(galleryThumbUri)
+                        .into(galleryThumbnailView);
+                galleryThumbnailTextView.setTextColor(Color.parseColor("#000000"));
+            }
+
+            nThumbnail = 0;
+        } else {
+            String imgUri = intent.getStringExtra("IMG_URI");
+            coverImgUri = Uri.parse(imgUri);
+            originCoverImgUri = coverImgUri;
+
+            if(imgUri != null) {
+                coverImgView.setClipToOutline(true);
+                coverImgBtn.setVisibility(View.INVISIBLE);
+                Glide.with(this)
+                        .asBitmap() // some .jpeg files are actually gif
+                        .load(coverImgUri)
+                        .into(coverImgView);
+
+                nThumbnail = 1;
+                ThumbnailPreviewActivity.bModifyThumb = true;
+                CropImageActivity.bThumbnail = true;
+                CropImage.activity(coverImgUri)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setActivityTitle("My Crop")
+                        .setCropShape(CropImageView.CropShape.RECTANGLE)
+                        .setAspectRatio(25, 20)
+                        .start(WorkEditActivity.this);
+            }
         }
     }
 
@@ -234,11 +338,17 @@ public class WorkEditActivity extends AppCompatActivity {
                     return;
                 else if (nType == 1) {
                     Intent intent = new Intent(WorkEditActivity.this, SeesoGalleryActivity.class);
-                    intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_IMG_MODIFY);
+                    if(nThumbnail == 0)
+                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_IMG_MODIFY);
+                    else
+                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_THUMBNAIL_MODIFY);
                     startActivity(intent);
                 } else if (nType == 2) {
                     Intent intent = new Intent(WorkEditActivity.this, PhotoPickerActivity.class);
-                    intent.putExtra("TYPE", PhotoPickerActivity.TYPE_COVER_IMG_MODIFY);
+                    if(nThumbnail == 0)
+                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_IMG_MODIFY);
+                    else
+                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_THUMBNAIL_MODIFY);
                     startActivity(intent);
                 }
             } else if(requestCode == 1010) {
@@ -446,6 +556,7 @@ public class WorkEditActivity extends AppCompatActivity {
     }
 
     public void OnClickPhotoBtn(View view) {
+        nThumbnail = 0;
         TedPermission.with(WorkEditActivity.this)
                 .setPermissionListener(permissionlistener)
                 .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -514,7 +625,33 @@ public class WorkEditActivity extends AppCompatActivity {
                 }
 
                 String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
-                builder.addFormDataPart(filename, filename, RequestBody.create(MultipartBody.FORM, sourceFile));
+                builder.addFormDataPart("COVER_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
+            }
+
+            if(posterThumbUri != null) {
+                strFilePath = CommonUtils.getRealPathFromURI(WorkEditActivity.this, posterThumbUri);
+                sourceFile = new File(strFilePath);
+
+                if(!sourceFile.exists()) {
+                    mProgressDialog.dismiss();
+                    Toast.makeText(WorkEditActivity.this, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+                builder.addFormDataPart("POSTER_THUMBNAIL_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
+            } else if(galleryThumbUri != null) {
+                strFilePath = CommonUtils.getRealPathFromURI(WorkEditActivity.this, galleryThumbUri);
+                sourceFile = new File(strFilePath);
+
+                if(!sourceFile.exists()) {
+                    mProgressDialog.dismiss();
+                    Toast.makeText(WorkEditActivity.this, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+                builder.addFormDataPart("GALLERY_THUMBNAIL_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
             }
 
             requestBody = builder.build();
@@ -581,5 +718,30 @@ public class WorkEditActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void onClickGalleryThumbnailBtn(View view) {
+        nThumbnail = 2;
+        TedPermission.with(WorkEditActivity.this)
+                .setPermissionListener(permissionlistener)
+                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .check();
+    }
+
+    public void onClickPosterThumbnailBtn(View view) {
+        if(coverImgUri == null && originCoverImgUri == null) {
+            Toast.makeText(this, "포스터 이미지를 설정하셔야 합니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        nThumbnail = 1;
+        ThumbnailPreviewActivity.bModifyThumb = true;
+        CropImageActivity.bThumbnail = true;
+        CropImage.activity(originCoverImgUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setActivityTitle("My Crop")
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .setAspectRatio(25, 20)
+                .start(WorkEditActivity.this);
     }
 }

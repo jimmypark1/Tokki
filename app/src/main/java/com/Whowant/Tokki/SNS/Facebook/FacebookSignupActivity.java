@@ -80,7 +80,8 @@ public class FacebookSignupActivity extends AppCompatActivity implements GetUser
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1010) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1010) {
             if (resultCode == Activity.RESULT_OK) {
                 Intent intent = new Intent(FacebookSignupActivity.this, AgreementActivity.class);
                 intent.putExtra("USER_EMAIL", strEmail);

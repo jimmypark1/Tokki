@@ -38,7 +38,7 @@ public class CommonUtils {
 
 //    public static String strDefaultUrl = "http://220.126.60.144:8080/howmuch_web/";
 //    public static String strDefaultUrl = "http://192.168.43.249:8080/howmuch_web/";
-//    public static String strDefaultUrl = "http://172.30.1.23:8080/howmuch_web/";
+//    public static String strDefaultUrl = "http://172.20.10.2:8080/howmuch_web/";
     public static String strDefaultUrl = "http://175.123.253.231:8080/howmuch_web/";
     public static Toast toast = null;
 

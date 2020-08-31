@@ -42,6 +42,8 @@ public class SeesoGalleryActivity extends AppCompatActivity {
     public static final int TYPE_PROFILE = 5;
     public static final int TYPE_COVER_IMG_MODIFY = 7;
     public static final int TYPE_CONTENTS_IMG_NAR = 8;          // 나레이션 이미지 추가
+    public static final int TYPE_COVER_THUMB_IMG = 9;
+    public static final int TYPE_THUMBNAIL_MODIFY = 10;
 
     private boolean bEdit = false;
     private int     nOrder = -1;
@@ -94,13 +96,31 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                             .setActivityTitle("My Crop")
                             .setCropShape(CropImageView.CropShape.RECTANGLE)
                             .start(SeesoGalleryActivity.this);
-                }  else if(nType == TYPE_COVER_IMG_MODIFY) {
+                } else if(nType == TYPE_COVER_THUMB_IMG) {
+                    ThumbnailPreviewActivity.bCoverThumb = true;
+
+                    CropImage.activity(uri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setActivityTitle("My Crop")
+                            .setCropShape(CropImageView.CropShape.RECTANGLE)
+                            .setAspectRatio(25, 20)
+                            .start(SeesoGalleryActivity.this);
+                } else if(nType == TYPE_COVER_IMG_MODIFY) {
                     ThumbnailPreviewActivity.bModify = true;
 
                     CropImage.activity(uri)
                             .setGuidelines(CropImageView.Guidelines.ON)
                             .setActivityTitle("My Crop")
                             .setCropShape(CropImageView.CropShape.RECTANGLE)
+                            .start(SeesoGalleryActivity.this);
+                } else if(nType == TYPE_THUMBNAIL_MODIFY) {
+                    ThumbnailPreviewActivity.bModifyThumb = true;
+
+                    CropImage.activity(uri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setActivityTitle("My Crop")
+                            .setCropShape(CropImageView.CropShape.RECTANGLE)
+                            .setAspectRatio(25, 20)
                             .start(SeesoGalleryActivity.this);
                 } else if(nType == TYPE_PROFILE) {
                     ThumbnailPreviewActivity.bProfile = true;

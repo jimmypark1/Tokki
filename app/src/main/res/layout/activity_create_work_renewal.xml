@@ -94,17 +94,32 @@
                 </RelativeLayout>
             </RelativeLayout>
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/writeSubTitleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/photoLayout"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"
                 android:layout_marginTop="31dp"
                 android:layout_marginLeft="70dp"
-                android:textStyle="bold"
-                android:text="제목"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:text="제목"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    android:text="*"/>
+            </LinearLayout>
+
 
             <EditText
                 android:id="@+id/inputTitleView"
@@ -113,23 +128,39 @@
                 android:layout_below="@+id/writeSubTitleView"
                 android:layout_marginLeft="65dp"
                 android:layout_marginRight="65dp"
+                android:layout_marginTop="10dp"
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
                 android:hint="제목을 입력하세요"/>
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/writeSubTitle2View"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="70dp"
                 android:layout_below="@+id/inputTitleView"
-                android:textStyle="bold"
-                android:text="줄거리"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:text="줄거리"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    android:text="*"/>
+            </LinearLayout>
+
 
             <EditText
                 android:id="@+id/inputSynopsisView"
@@ -138,6 +169,7 @@
                 android:layout_below="@+id/writeSubTitle2View"
                 android:layout_marginLeft="65dp"
                 android:layout_marginRight="65dp"
+                android:layout_marginTop="10dp"
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"
                 android:singleLine="true"
@@ -152,15 +184,28 @@
                 android:orientation="vertical"
                 android:layout_below="@+id/inputSynopsisView">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="70dp"
-                    android:layout_marginRight="70dp"
                     android:textSize="16sp"
-                    android:textColor="@color/colorBlack"
                     android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
                     android:text="장르"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    android:text="*"/>
+            </LinearLayout>
 
                 <EditText
                     android:id="@+id/inputGenreView"
@@ -185,15 +230,28 @@
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/genreLayout">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="70dp"
-                    android:layout_marginRight="70dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorBlack"
-                    android:textStyle="bold"
-                    android:text="태그"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorBlack"
+                        android:text="태그"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp"
+                        android:text=""/>
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/inputTagView"
@@ -207,14 +265,138 @@
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"
                     android:singleLine="true"
-                    android:hint="태그를 선택해주세요"/>
+                    android:hint="태그를 입력해주세요"/>
             </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/posterLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tagLayout">
+
+                <LinearLayout
+                    android:id="@+id/posterTitleView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="70dp"
+                    android:layout_marginTop="19dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorBlack"
+                        android:text="섬네일 등록"/>
+
+                    <ImageView
+                        android:layout_width="13.3dp"
+                        android:layout_height="14.3dp"
+                        android:background="@drawable/yellow_question"
+                        android:onClick="onClickQuestionBtn"
+                        android:layout_marginLeft="5.7dp"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/posterTitleView"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="65dp"
+                    android:layout_marginRight="65dp">
+
+                    <RelativeLayout
+                        android:id="@+id/posterThumbnailLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="130dp"
+                        android:layout_weight="1"
+                        android:onClick="onClickPosterThumbnailBtn"
+                        android:background="@drawable/round_shadow_btn_white_bg">
+
+                        <ImageView
+                            android:id="@+id/posterCheckView"
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/check_bg_img"/>
+
+                        <ImageView
+                            android:id="@+id/posterThumbnailView"
+                            android:layout_width="100dp"
+                            android:layout_height="52dp"
+                            android:layout_below="@+id/posterCheckView"
+                            android:background="@drawable/poster_sombnail"
+                            android:scaleType="centerCrop"
+                            android:layout_marginTop="3dp"
+                            android:layout_centerHorizontal="true"/>
+
+                        <TextView
+                            android:id="@+id/posterThumbnailTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/posterThumbnailView"
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center"
+                            android:layout_marginTop="3dp"
+                            android:textSize="12sp"
+                            android:textColor="#d1d1d1"
+                            android:lineSpacingExtra="2sp"
+                            android:text="포스터로\n섬네일 지정"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/galleryThumbnailLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="130dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
+                        android:onClick="onClickGalleryThumbnailBtn"
+                        android:background="@drawable/round_shadow_btn_white_bg">
+
+                        <ImageView
+                            android:id="@+id/galleryCheckView"
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/check_bg_img"/>
+
+                        <ImageView
+                            android:id="@+id/galleryThumbnailView"
+                            android:layout_width="100dp"
+                            android:layout_height="52dp"
+                            android:layout_below="@+id/galleryCheckView"
+                            android:background="@drawable/empty_thumbnail_img"
+                            android:layout_marginTop="3dp"
+                            android:scaleType="centerCrop"
+                            android:layout_centerHorizontal="true"/>
+
+                        <TextView
+                            android:id="@+id/galleryThumbnailTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/galleryThumbnailView"
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center"
+                            android:layout_marginTop="3dp"
+                            android:textSize="12sp"
+                            android:textColor="#d1d1d1"
+                            android:lineSpacingExtra="2sp"
+                            android:text="갤러리에서\n새로운 섬네일 지정"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/completeTitleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tagLayout"
+                android:layout_below="@+id/posterLayout"
                 android:layout_marginLeft="70dp"
                 android:layout_marginTop="19dp"
                 android:textSize="16sp"
@@ -279,10 +461,36 @@
                     android:text="완결"/>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/textLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/check2Layout"
+                android:layout_marginTop="41dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="70dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    android:text="*"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:text=" 항목은 필수 입력 항목입니다"/>
+            </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_below="@+id/tagLayout"/>
+                android:layout_height="100dp"
+                android:layout_below="@+id/textLayout"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
