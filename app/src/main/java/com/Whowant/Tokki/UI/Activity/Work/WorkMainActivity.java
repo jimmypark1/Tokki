@@ -619,7 +619,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
             } else if(position == 4) {
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_main_order_row, viewGroup, false);
             } else if(position > 4) {
-                v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_main_episode_row, viewGroup, false);
+                v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_read_episode_row, viewGroup, false);
             }
 
             WorkViewHolder vh = new WorkViewHolder(v);
@@ -963,23 +963,28 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         }
                     });
                 } else {
-//                    postAvailableView.setVisibility(View.VISIBLE);
-                    menuBtn.setVisibility(View.VISIBLE);
-
-                    if(vo.getStrSubmit().equals("N")) {
-                        postAvailableView.setText("제출대기");
-                        postAvailableView.setBackgroundResource(R.drawable.gray_tag_bg);
-                    } else if(vo.getStrSubmit().equals("W")) {
-                        postAvailableView.setText("승인대기");
-                        postAvailableView.setBackgroundResource(R.drawable.selected_add_person_btn);
-                    } else if(vo.getStrSubmit().equals("Y")) {
-                        postAvailableView.setText("게시중");
-                        postAvailableView.setBackgroundResource(R.drawable.common_selected_rounded_btn_bg);
-                    } else if(vo.getStrSubmit().equals("F")) {
-                        postAvailableView.setText("게시거절");
-                        postAvailableView.setBackgroundResource(R.drawable.aprove_cancel_bg);
+                    if(pref.getString("ADMIN", "N").equals("Y")) {
+                        postAvailableView.setVisibility(View.VISIBLE);
+                        if(vo.getStrSubmit().equals("N")) {
+                            postAvailableView.setText("제출대기");
+                            postAvailableView.setTextColor(Color.parseColor("#d1d1d1"));
+                            postAvailableView.setBackgroundResource(R.drawable.badge_writing);
+                        } else if(vo.getStrSubmit().equals("W")) {
+                            postAvailableView.setText("승인대기");
+                            postAvailableView.setTextColor(Color.parseColor("#ff5700"));
+                            postAvailableView.setBackgroundResource(R.drawable.badge_waiting);
+                        } else if(vo.getStrSubmit().equals("Y")) {
+                            postAvailableView.setText("게시중");
+                            postAvailableView.setTextColor(Color.parseColor("#6c8fff"));
+                            postAvailableView.setBackgroundResource(R.drawable.badge_complete);
+                        } else if(vo.getStrSubmit().equals("F")) {
+                            postAvailableView.setText("승인거절");
+                            postAvailableView.setTextColor(Color.parseColor("#000000"));
+                            postAvailableView.setBackgroundResource(R.drawable.badge_deny);
+                        }
                     }
 
+                    menuBtn.setVisibility(View.VISIBLE);
                     menuBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

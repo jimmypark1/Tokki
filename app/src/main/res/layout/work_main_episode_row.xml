@@ -23,6 +23,7 @@
                 android:id="@+id/episodeTitleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="83dp"
                 android:layout_marginLeft="20dp"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -34,16 +35,15 @@
                 android:id="@+id/postAvailableView"
                 android:layout_width="68dp"
                 android:layout_height="21dp"
-                android:layout_toRightOf="@+id/episodeTitleView"
+                android:layout_alignRight="@+id/episodeTitleView"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
+                android:layout_marginRight="-83dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:visibility="invisible"
                 android:background="@drawable/badge_waiting"
                 android:textSize="11sp"
                 android:textColor="#ff5700"
-                android:text="승인 거절"/>
+                android:text="승인 대기"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -149,8 +149,8 @@
 
     <ImageView
         android:id="@+id/menuBtn"
-        android:layout_width="25dp"
-        android:layout_height="20dp"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
         android:layout_marginRight="10dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"

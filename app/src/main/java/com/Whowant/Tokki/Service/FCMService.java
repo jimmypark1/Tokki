@@ -29,6 +29,10 @@ public class FCMService extends FirebaseMessagingService {
         if(!bAlarm)
             return;
 
+        if(pref.getString("USER_ID", "").length() == 0) {
+            return;
+        }
+
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         Intent introIntent = new Intent(getApplicationContext(), MainActivity.class);
 

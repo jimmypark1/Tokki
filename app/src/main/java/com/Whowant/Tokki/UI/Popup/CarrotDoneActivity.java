@@ -324,7 +324,7 @@ public class CarrotDoneActivity extends AppCompatActivity implements OnKeyboardV
 
                             if(resultObject.getString("RESULT").equals("SUCCESS")) {
                                 nCurrentCarrot = resultObject.getInt("CURRENT_CARROT");
-                                nCurrentCarrot = 5000;
+//                                nCurrentCarrot = 5000;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

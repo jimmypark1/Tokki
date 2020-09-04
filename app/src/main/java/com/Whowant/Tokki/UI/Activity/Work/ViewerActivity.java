@@ -57,7 +57,10 @@ import com.Whowant.Tokki.VO.CommentVO;
 import com.Whowant.Tokki.VO.EpisodeVO;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
+import com.bumptech.glide.load.resource.bitmap.VideoBitmapDecoder;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -90,7 +93,7 @@ public class ViewerActivity extends AppCompatActivity {
     private ListView chattingListView;
     private ImageView bgView;
     private Bitmap    bgBitmap;
-    //    private HashMap<String, Bitmap> bgBitmapList = new HashMap<>();
+    private HashMap<String, Bitmap> thumbBitmapList = new HashMap<>();
     private CChattingArrayAdapter aa;
     private float fX;
     private float fY;
@@ -1170,9 +1173,7 @@ public class ViewerActivity extends AppCompatActivity {
 
                 ImageView imageContentsView = convertView.findViewById(R.id.videoThumbnailView);
                 imageContentsView.setClipToOutline(true);
-
-                ImageView playBtn = convertView.findViewById(R.id.playBtn);
-                playBtn.setOnClickListener(new View.OnClickListener() {
+                imageContentsView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String strUrl = chatVO.getStrContentsFile();
@@ -1186,37 +1187,50 @@ public class ViewerActivity extends AppCompatActivity {
                 });
 
                 if(chatVO.getContentsUri() != null) {
-//                    try {
-//                        Bitmap thumbnailBitmap = CommonUtils.retriveVideoFrameFromVideo(ViewerActivity.this, chatVO.getContentsUri().getPath());
-//                        imageContentsView.setImageBitmap(thumbnailBitmap);
-//                    } catch (Throwable throwable) {
-//                        throwable.printStackTrace();
-//                    }
-
-                    Glide.with(ViewerActivity.this)
-                            .asBitmap() // some .jpeg files are actually gif
-                            .load(chatVO.getContentsUri())
-                            .apply(new RequestOptions().override(nWidth-50, nWidth-50))
-                            .into(imageContentsView);
+                    if(thumbBitmapList.containsKey(chatVO.getContentsUri().toString())) {
+//                        imageContentsView.setImageBitmap(thumbBitmapList.get(chatVO.getContentsUri().toString()));
+                        Glide.with(ViewerActivity.this)
+                                .load(thumbBitmapList.get(chatVO.getContentsUri().toString()))
+                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                .into(imageContentsView); 
+                    } else {
+                        try {
+                            Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(chatVO.getContentsUri());
+//                            Bitmap thumbnailBitmap = CommonUtils.retriveVideoFrameFromVideo(ViewerActivity.this, chatVO.getContentsUri().getPath());
+                            thumbBitmapList.put(chatVO.getContentsUri().toString(), thumbnailBitmap);
+                            Glide.with(ViewerActivity.this)
+                                    .load(thumbnailBitmap)
+                                    .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                    .into(imageContentsView);
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
                 } else if(chatVO.getStrContentsFile() != null) {
                     String strUrl = chatVO.getStrContentsFile();
-//                    strUrl = strUrl.replaceAll(" ", "");
 
                     if(!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
-//                    try {
-//                        Bitmap thumbnailBitmap = CommonUtils.retriveVideoFrameFromVideo(ViewerActivity.this, strUrl);
-//                        imageContentsView.setImageBitmap(thumbnailBitmap);
-//                    } catch (Throwable throwable) {
-//                        throwable.printStackTrace();
-//                    }
+                    if(thumbBitmapList.containsKey(strUrl)) {
+//                        imageContentsView.setImageBitmap(thumbBitmapList.get(strUrl));
+                        Glide.with(ViewerActivity.this)
+                                 .load(thumbBitmapList.get(strUrl))
+                                 .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                 .into(imageContentsView);
+                    } else {
+                        try {
+                            Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(Uri.parse(strUrl));
+                            thumbBitmapList.put(strUrl, thumbnailBitmap);
 
-                    Glide.with(ViewerActivity.this)
-                            .asBitmap() // some .jpeg files are actually gif
-                            .load(strUrl)
-                            .apply(new RequestOptions().override(nWidth-50, nWidth-50))
-                            .into(imageContentsView);
+                            Glide.with(ViewerActivity.this)
+                                    .load(thumbnailBitmap)
+                                    .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                    .into(imageContentsView);
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
                 }
 
                 RelativeLayout faceBGLayout = convertView.findViewById(R.id.faceBGLayout);

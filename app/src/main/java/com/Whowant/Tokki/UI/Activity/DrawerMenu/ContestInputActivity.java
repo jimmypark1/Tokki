@@ -237,6 +237,11 @@ public class ContestInputActivity extends AppCompatActivity {
     }
 
     public void onClickWorkList(View view) {
+        if(workList == null || workList.size() == 0) {
+            Toast.makeText(this, "5화 이상 등록한 작품이 있어야만 작품 선택할 수 있습니다.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("작품을 선택하세요.");
 

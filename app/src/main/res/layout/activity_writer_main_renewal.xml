@@ -267,16 +267,15 @@
                 <TextView
                     android:id="@+id/followBtn"
                     android:layout_width="102dp"
-                    android:layout_height="31dp"
-                    android:background="@drawable/round_blue_btn_bg"
+                    android:layout_height="38dp"
+                    android:background="@drawable/round_shadow_btn_white_bg"
                     android:layout_toLeftOf="@+id/tokkiTokBtn"
                     android:gravity="center"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="13sp"
                     android:text="팔로우"
                     android:layout_below="@+id/descView"
                     android:layout_marginBottom="11.3dp"
-                    android:layout_marginTop="2dp"
                     android:layout_marginRight="8.7dp"/>
 
                 <TextView

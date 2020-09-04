@@ -13,11 +13,13 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
@@ -26,11 +28,14 @@ import org.json.JSONObject;
 
 public class IntroActivity extends AppCompatActivity {
     private String strFCMToken;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         Thread.UncaughtExceptionHandler handler = Thread
                 .getDefaultUncaughtExceptionHandler();
@@ -77,7 +82,8 @@ public class IntroActivity extends AppCompatActivity {
             if(strUserID.length() > 0 && strUserPW.length() > 0 && !strUserID.equals("Guest")) {
                 requestPanbookLogin(strUserID, strUserPW);
             } else {
-                goToMain();
+                startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                finish();
             }
         } else {
             String strSNSID = pref.getString("SNS_ID", "");
@@ -85,7 +91,8 @@ public class IntroActivity extends AppCompatActivity {
             if(strSNSID.length() > 0 && !strUserID.equals("Guest")) {             // 소셜 로그인 이라면
                 requestSNSLogin(strUserID, strSNSID);
             } else {
-                goToMain();
+                startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                finish();
             }
         }
     }
@@ -234,7 +241,8 @@ public class IntroActivity extends AppCompatActivity {
                             CommonUtils.hideProgressDialog();
 
                             if(resultObject == null) {
-                                Toast.makeText(IntroActivity.this, "서버와의 연결이 원활하지 않습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(IntroActivity.this, "서버와의 연결이 원활하지 않습니다. 수동으로 로그인해 주세요.", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
                                 finish();
                                 return;
                             }
@@ -282,7 +290,7 @@ public class IntroActivity extends AppCompatActivity {
                                         }
                                     }, 500);
                                 } else {
-                                    Toast.makeText(IntroActivity.this, "로그인에 실패했습니다. ID와 패스워드를 다시 확인해 주세요.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(IntroActivity.this, "로그인에 실패했습니다. 수동으로 로그인해 주세요.", Toast.LENGTH_LONG).show();
                                     CommonUtils.resetUserInfo(pref);
 
                                     new Handler().postDelayed(new Runnable()
@@ -290,7 +298,8 @@ public class IntroActivity extends AppCompatActivity {
                                         @Override
                                         public void run()
                                         {
-                                            goToMain();
+                                            startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                                            finish();
                                         }
                                     }, 500);
                                 }
@@ -305,7 +314,8 @@ public class IntroActivity extends AppCompatActivity {
                                     @Override
                                     public void run()
                                     {
-                                        goToMain();
+                                        startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                                        finish();
                                     }
                                 }, 500);
                             }
@@ -322,7 +332,8 @@ public class IntroActivity extends AppCompatActivity {
                         @Override
                         public void run()
                         {
-                            goToMain();
+                            startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                            finish();
                         }
                     }, 500);
                 }

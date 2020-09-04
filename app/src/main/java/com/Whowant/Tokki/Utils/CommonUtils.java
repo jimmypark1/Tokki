@@ -32,13 +32,14 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 public class CommonUtils {
     private static ProgressDialog mProgressDialog;
 
 //    public static String strDefaultUrl = "http://220.126.60.144:8080/howmuch_web/";
 //    public static String strDefaultUrl = "http://192.168.43.249:8080/howmuch_web/";
-//    public static String strDefaultUrl = "http://172.20.10.2:8080/howmuch_web/";
+//    public static String strDefaultUrl = "http://192.168.200.129:8080/howmuch_web/";
     public static String strDefaultUrl = "http://175.123.253.231:8080/howmuch_web/";
     public static Toast toast = null;
 
@@ -86,8 +87,7 @@ public class CommonUtils {
             final String selection = "_id=?";
             final String[] selectionArgs = new String[] { split[1] };
 
-            return getDataColumn(context, contentUri, selection,
-                    selectionArgs);
+            return getDataColumn(context, contentUri, selection, selectionArgs);
         } else if ("content".equalsIgnoreCase(uri.getScheme())) {
             // Return the remote address
             if (isGooglePhotosUri(uri))
@@ -372,28 +372,49 @@ public class CommonUtils {
          */
         int nLevel = 1;
 
-        if(nDonationCarrotCount <= 200)
+        if(nDonationCarrotCount <= 500)
             nLevel = 1;
-        else if(nDonationCarrotCount <= 400)
-            nLevel = 2;
-        else if(nDonationCarrotCount <= 600)
-            nLevel = 3;
-        else if(nDonationCarrotCount <= 800)
-            nLevel = 4;
         else if(nDonationCarrotCount <= 1000)
-            nLevel = 5;
+            nLevel = 2;
         else if(nDonationCarrotCount <= 2000)
-            nLevel = 6;
+            nLevel = 3;
         else if(nDonationCarrotCount <= 4000)
-            nLevel = 7;
-        else if(nDonationCarrotCount <= 6000)
-            nLevel = 8;
+            nLevel = 4;
         else if(nDonationCarrotCount <= 8000)
+            nLevel = 5;
+        else if(nDonationCarrotCount <= 16000)
+            nLevel = 6;
+        else if(nDonationCarrotCount <= 32000)
+            nLevel = 7;
+        else if(nDonationCarrotCount <= 80000)
+            nLevel = 8;
+        else if(nDonationCarrotCount <= 300000)
             nLevel = 9;
         else
             nLevel = 10;
 
 
         return nLevel;
+    }
+
+    public static Bitmap getVideoThumbnail(Uri uri) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+
+        try {
+            retriever.setDataSource(uri.toString(), new HashMap<String, String>());
+            return retriever.getFrameAtTime(1000, MediaMetadataRetriever.OPTION_CLOSEST);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                retriever.release();
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
     }
 }

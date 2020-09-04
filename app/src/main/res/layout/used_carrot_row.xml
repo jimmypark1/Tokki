@@ -48,9 +48,12 @@
                 android:gravity="center_vertical|right"
                 android:layout_toLeftOf="@+id/countView"
                 android:maxLines="1"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="28sp"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:textColor="#ff5700"
+                android:autoSizeTextType="uniform"
                 android:text="-1000"/>
 
             <TextView

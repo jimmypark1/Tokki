@@ -51,8 +51,8 @@ public class TotalCarrotListActivity extends AppCompatActivity {
             @Override
             public void run() {
                 SharedPreferences pref = getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
-                usedCarrotList = HttpClient.getTotalCarrotList(new OkHttpClient(), pref.getString("USER_ID", "Guest"));
-//                usedCarrotList = HttpClient.getTotalCarrotList(new OkHttpClient(), "sjhy013");
+//                usedCarrotList = HttpClient.getTotalCarrotList(new OkHttpClient(), pref.getString("USER_ID", "Guest"));
+                usedCarrotList = HttpClient.getTotalCarrotList(new OkHttpClient(), "paul9045");
 
                 runOnUiThread(new Runnable() {
                     @Override

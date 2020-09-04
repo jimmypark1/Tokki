@@ -418,7 +418,7 @@ public class WriterMainActivity extends AppCompatActivity {                     
                             followBtn.setTextColor(ContextCompat.getColor(WriterMainActivity.this, R.color.colorPrimary));
                         } else {
                             followBtn.setText("팔로우");
-                            followBtn.setBackgroundResource(R.drawable.round_blue_btn_bg);
+                            followBtn.setBackgroundResource(R.drawable.round_shadow_btn_blue_bg);
                             followBtn.setTextColor(ContextCompat.getColor(WriterMainActivity.this, R.color.colorWhite));
                         }
 

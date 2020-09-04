@@ -519,7 +519,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                 });
 
             } else {
-                if(showingList.get(1).equals("EMPTY"))
+                if (showingList.get(1).equals("EMPTY"))
                     return;
 
                 int nIndex = position - 1;
@@ -541,188 +541,93 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
                 ImageView menuBtn = holder.itemView.findViewById(R.id.menuBtn);
 
-                if(pref.getString("ADMIN", "N").equals("N")) {
-                    menuBtn.setVisibility(View.VISIBLE);
-                    postAvailableView.setVisibility(View.VISIBLE);
+                postAvailableView.setVisibility(View.VISIBLE);
+                menuBtn.setVisibility(View.VISIBLE);
 
-                    if(vo.getStrSubmit().equals("N")) {
-                        postAvailableView.setText("제출대기");
-                        postAvailableView.setTextColor(Color.parseColor("#d1d1d1"));
-                        postAvailableView.setBackgroundResource(R.drawable.badge_writing);
-                    } else if(vo.getStrSubmit().equals("W")) {
-                        postAvailableView.setText("승인대기");
-                        postAvailableView.setTextColor(Color.parseColor("#ff5700"));
-                        postAvailableView.setBackgroundResource(R.drawable.badge_waiting);
-                    } else if(vo.getStrSubmit().equals("Y")) {
-                        postAvailableView.setText("게시중");
-                        postAvailableView.setTextColor(Color.parseColor("#6c8fff"));
-                        postAvailableView.setBackgroundResource(R.drawable.badge_complete);
-                    } else if(vo.getStrSubmit().equals("F")) {
-                        postAvailableView.setText("게시거절");
-                        postAvailableView.setTextColor(Color.parseColor("#000000"));
-                        postAvailableView.setBackgroundResource(R.drawable.badge_deny);
-                    }
-
-                    menuBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            PopupMenu popup = new PopupMenu(WorkWriteMainActivity.this, menuBtn);
-                            popup.getMenuInflater().inflate(R.menu.comment_admin_menu, popup.getMenu());
-                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                public boolean onMenuItemClick(MenuItem item) {
-                                    Intent intent = null;
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(WorkWriteMainActivity.this);
-                                    AlertDialog alertDialog = null;
-
-                                    switch(item.getItemId()) {
-                                        case R.id.delete:
-                                            requestDeleteEpisode(vo.getnEpisodeID());
-                                            break;
-                                        case R.id.comment:
-                                            intent = new Intent(WorkWriteMainActivity.this, EpisodeCommentActivity.class);
-                                            intent.putExtra("EPISODE_ID", vo.getnEpisodeID());
-                                            startActivity(intent);
-                                            break;
-                                        case R.id.aprove:
-                                            if(vo.getStrSubmit().equals("N")) {
-                                                Toast.makeText(WorkWriteMainActivity.this, "아직 작품이 제출되지 않았습니다.", Toast.LENGTH_SHORT).show();
-                                                return true;
-                                            } else if(vo.getStrSubmit().equals("Y")) {
-                                                Toast.makeText(WorkWriteMainActivity.this, "이미 게시된 작품입니다.", Toast.LENGTH_SHORT).show();
-                                                return true;
-                                            }
-
-                                            builder.setTitle("작품 게시 승인");
-                                            builder.setMessage("작품을 게시 상태로 전환하시겠습니까?");
-                                            builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                    requestWorkAprove(vo.getnEpisodeID());
-                                                }
-                                            });
-
-                                            builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                }
-                                            });
-
-                                            alertDialog = builder.create();
-                                            alertDialog.show();
-                                            break;
-                                        case R.id.cancel:
-                                            if(vo.getStrSubmit().equals("N")) {
-                                                Toast.makeText(WorkWriteMainActivity.this, "아직 작품이 제출되지 않았습니다.", Toast.LENGTH_SHORT).show();
-                                                return true;
-                                            }
-
-                                            intent = new Intent(WorkWriteMainActivity.this, EpisodeAproveCancelPopup.class);
-                                            intent.putExtra("EPISODE_ID", vo.getnEpisodeID());
-                                            startActivity(intent);
-
-                                            break;
-                                    }
-                                    return true;
-                                }
-                            });
-
-                            popup.show();//showing popup menu
-                        }
-                    });
-                } else {
-                    postAvailableView.setVisibility(View.VISIBLE);
-                    menuBtn.setVisibility(View.VISIBLE);
-
-                    if(vo.getStrSubmit().equals("N")) {
-                        postAvailableView.setText("제출대기");
-                        postAvailableView.setTextColor(Color.parseColor("#d1d1d1"));
-                        postAvailableView.setBackgroundResource(R.drawable.badge_writing);
-                    } else if(vo.getStrSubmit().equals("W")) {
-                        postAvailableView.setText("승인대기");
-                        postAvailableView.setTextColor(Color.parseColor("#ff5700"));
-                        postAvailableView.setBackgroundResource(R.drawable.badge_waiting);
-                    } else if(vo.getStrSubmit().equals("Y")) {
-                        postAvailableView.setText("게시중");
-                        postAvailableView.setTextColor(Color.parseColor("#6c8fff"));
-                        postAvailableView.setBackgroundResource(R.drawable.badge_complete);
-                    } else if(vo.getStrSubmit().equals("F")) {
-                        postAvailableView.setText("게시거절");
-                        postAvailableView.setTextColor(Color.parseColor("#000000"));
-                        postAvailableView.setBackgroundResource(R.drawable.badge_deny);
-                    }
-
-                    menuBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            PopupMenu popup = new PopupMenu(WorkWriteMainActivity.this, menuBtn);
-
-                            if(pref.getString("ADMIN", "N").equals("Y")) {
-                                popup.getMenuInflater().inflate(R.menu.work_write_admin_menu, popup.getMenu());
-                            } else
-                                popup.getMenuInflater().inflate(R.menu.comment_admin_menu, popup.getMenu());
-
-                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                public boolean onMenuItemClick(MenuItem item) {
-                                    Intent intent = null;
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(WorkWriteMainActivity.this);
-                                    AlertDialog alertDialog = null;
-
-                                    switch(item.getItemId()) {
-                                        case R.id.delete:
-                                            requestDeleteEpisode(vo.getnEpisodeID());
-                                            break;
-                                        case R.id.comment:
-                                            intent = new Intent(WorkWriteMainActivity.this, EpisodeCommentActivity.class);
-                                            intent.putExtra("EPISODE_ID", vo.getnEpisodeID());
-                                            startActivity(intent);
-                                            break;
-                                        case R.id.aprove:
-                                            if(vo.getStrSubmit().equals("N")) {
-                                                Toast.makeText(WorkWriteMainActivity.this, "아직 작품이 제출되지 않았습니다.", Toast.LENGTH_SHORT).show();
-                                                return true;
-                                            } else if(vo.getStrSubmit().equals("Y")) {
-                                                Toast.makeText(WorkWriteMainActivity.this, "이미 게시된 작품입니다.", Toast.LENGTH_SHORT).show();
-                                                return true;
-                                            }
-
-                                            builder.setTitle("작품 게시 승인");
-                                            builder.setMessage("작품을 게시 상태로 전환하시겠습니까?");
-                                            builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                    requestWorkAprove(vo.getnEpisodeID());
-                                                }
-                                            });
-
-                                            builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                }
-                                            });
-
-                                            alertDialog = builder.create();
-                                            alertDialog.show();
-                                            break;
-                                        case R.id.cancel:
-                                            if(vo.getStrSubmit().equals("N")) {
-                                                Toast.makeText(WorkWriteMainActivity.this, "아직 작품이 제출되지 않았습니다.", Toast.LENGTH_SHORT).show();
-                                                return true;
-                                            }
-
-                                            intent = new Intent(WorkWriteMainActivity.this, EpisodeAproveCancelPopup.class);
-                                            intent.putExtra("EPISODE_ID", vo.getnEpisodeID());
-                                            startActivity(intent);
-
-                                            break;
-                                    }
-                                    return true;
-                                }
-                            });
-
-                            popup.show();//showing popup menu
-                        }
-                    });
+                if (vo.getStrSubmit().equals("N")) {
+                    postAvailableView.setText("제출대기");
+                    postAvailableView.setTextColor(Color.parseColor("#d1d1d1"));
+                    postAvailableView.setBackgroundResource(R.drawable.badge_writing);
+                } else if (vo.getStrSubmit().equals("W")) {
+                    postAvailableView.setText("승인대기");
+                    postAvailableView.setTextColor(Color.parseColor("#ff5700"));
+                    postAvailableView.setBackgroundResource(R.drawable.badge_waiting);
+                } else if (vo.getStrSubmit().equals("Y")) {
+                    postAvailableView.setText("게시중");
+                    postAvailableView.setTextColor(Color.parseColor("#6c8fff"));
+                    postAvailableView.setBackgroundResource(R.drawable.badge_complete);
+                } else if (vo.getStrSubmit().equals("F")) {
+                    postAvailableView.setText("승인거절");
+                    postAvailableView.setTextColor(Color.parseColor("#000000"));
+                    postAvailableView.setBackgroundResource(R.drawable.badge_deny);
                 }
+
+                PopupMenu popup = new PopupMenu(WorkWriteMainActivity.this, menuBtn);
+
+                if (pref.getString("ADMIN", "N").equals("Y")) {
+                    popup.getMenuInflater().inflate(R.menu.work_write_admin_menu, popup.getMenu());
+                } else
+                    popup.getMenuInflater().inflate(R.menu.comment_admin_menu, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Intent intent = null;
+                        AlertDialog.Builder builder = new AlertDialog.Builder(WorkWriteMainActivity.this);
+                        AlertDialog alertDialog = null;
+
+                        switch (item.getItemId()) {
+                            case R.id.delete:
+                                requestDeleteEpisode(vo.getnEpisodeID());
+                                break;
+                            case R.id.comment:
+                                intent = new Intent(WorkWriteMainActivity.this, EpisodeCommentActivity.class);
+                                intent.putExtra("EPISODE_ID", vo.getnEpisodeID());
+                                startActivity(intent);
+                                break;
+                            case R.id.aprove:
+                                if (vo.getStrSubmit().equals("N")) {
+                                    Toast.makeText(WorkWriteMainActivity.this, "아직 작품이 제출되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                                    return true;
+                                } else if (vo.getStrSubmit().equals("Y")) {
+                                    Toast.makeText(WorkWriteMainActivity.this, "이미 게시된 작품입니다.", Toast.LENGTH_SHORT).show();
+                                    return true;
+                                }
+
+                                builder.setTitle("작품 게시 승인");
+                                builder.setMessage("작품을 게시 상태로 전환하시겠습니까?");
+                                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        requestWorkAprove(vo.getnEpisodeID());
+                                    }
+                                });
+
+                                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int id) {
+                                    }
+                                });
+
+                                alertDialog = builder.create();
+                                alertDialog.show();
+                                break;
+                            case R.id.cancel:
+                                if (vo.getStrSubmit().equals("N")) {
+                                    Toast.makeText(WorkWriteMainActivity.this, "아직 작품이 제출되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                                    return true;
+                                }
+
+                                intent = new Intent(WorkWriteMainActivity.this, EpisodeAproveCancelPopup.class);
+                                intent.putExtra("EPISODE_ID", vo.getnEpisodeID());
+                                startActivity(intent);
+
+                                break;
+                        }
+                        return true;
+                    }
+                });
+
+                popup.show();//showing popup menu
             }
         }
 
