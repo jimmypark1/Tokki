@@ -74,7 +74,10 @@ public class PopularPagerAdapter extends RecyclerView.Adapter<PopularPagerAdapte
             holder.secondLayout.setVisibility(View.VISIBLE);
             workVO = itemsList.get(nRealPosition+1);
 
-            strImgUrl = workVO.getCoverFile();
+            if(workVO.getStrThumbFile() != null && !workVO.getStrThumbFile().equals("null"))
+                strImgUrl = workVO.getStrThumbFile();
+            else
+                strImgUrl = workVO.getCoverFile();
 
             if(strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
                 strImgUrl = "";

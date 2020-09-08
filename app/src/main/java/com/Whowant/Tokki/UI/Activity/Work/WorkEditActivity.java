@@ -211,7 +211,7 @@ public class WorkEditActivity extends AppCompatActivity {
         if(workVO.getStrThumbFile() != null && !workVO.getStrThumbFile().equals("null")) {
             if(workVO.isbPosterThumbnail()) {           // 포스터에서 썸네일 고름
                 galleryThumbUri = null;
-                posterThumbUri = Uri.parse(workVO.getStrThumbFile());
+//                posterThumbUri = Uri.parse(workVO.getStrThumbFile());
                 galleryThumbnailLayout.setBackgroundResource(R.drawable.round_shadow_btn_white_bg);
                 galleryCheckView.setImageResource(0);
                 galleryThumbnailView.setImageResource(0);
@@ -226,7 +226,7 @@ public class WorkEditActivity extends AppCompatActivity {
                 posterThumbnailTextView.setTextColor(Color.parseColor("#000000"));
             } else  {    // 갤러리에서 썸네일 고름
                 posterThumbUri = null;
-                galleryThumbUri = Uri.parse(workVO.getStrThumbFile());
+//                galleryThumbUri = Uri.parse(workVO.getStrThumbFile());
                 posterThumbnailLayout.setBackgroundResource(R.drawable.round_shadow_btn_white_bg);
                 posterCheckView.setImageResource(0);
                 posterThumbnailView.setImageResource(0);

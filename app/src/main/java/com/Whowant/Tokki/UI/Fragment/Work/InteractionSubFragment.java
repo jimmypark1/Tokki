@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -81,6 +82,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -105,6 +107,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
     private ConstraintLayout bottomSettingLayout;
     private EditText inputTextView;
     private InputMethodManager imm;
+    private HashMap<String, Bitmap> thumbBitmapList = new HashMap<>();
 
     private ImageButton contentsAddBtn;
 
@@ -1358,6 +1361,20 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
         }).start();
     }
 
+    private int getCharacterIndex(CharacterVO vo) {
+        int characterID = vo.getnCharacterID();
+
+        for(int i = 1 ; i < characterList.size() ; i++) {
+            CharacterVO characterVO = characterList.get(i);
+            if(characterVO == null)
+                return 1;
+            if(characterVO.getnCharacterID() == characterID)
+                return i;
+        }
+
+        return 1;
+    }
+
     private void getEpisodeChatData() {
         new Thread(new Runnable() {
             @Override
@@ -1410,6 +1427,42 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
             TextView nameView = view.findViewById(R.id.nameView);
             ImageView selectedView = view.findViewById(R.id.selectedView);
 
+            int nImg = 0;
+
+            int newi = i % 10;
+            switch(newi) {
+                case 1:
+                    nImg = R.drawable.user_icon_01;
+                    break;
+                case 2:
+                    nImg = R.drawable.user_icon_02;
+                    break;
+                case 3:
+                    nImg = R.drawable.user_icon_03;
+                    break;
+                case 4:
+                    nImg = R.drawable.user_icon_04;
+                    break;
+                case 5:
+                    nImg = R.drawable.user_icon_05;
+                    break;
+                case 6:
+                    nImg = R.drawable.user_icon_06;
+                    break;
+                case 7:
+                    nImg = R.drawable.user_icon_07;
+                    break;
+                case 8:
+                    nImg = R.drawable.user_icon_08;
+                    break;
+                case 9:
+                    nImg = R.drawable.user_icon_09;
+                    break;
+                case 0:
+                    nImg = R.drawable.user_icon_10;
+                    break;
+            }
+
             if(i == 0) {
                 faceView.setImageResource(R.drawable.narration_button);
                 nameView.setText("지문");
@@ -1418,14 +1471,6 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                 nSelectedCharacterIndex = 0;
             } else {
                 if(vo.getImage() != null && !vo.getImage().equals("null")) {
-                    int nImg = 0;
-                    if(i == 1 || i == 4 || i == 7) {
-                        nImg = R.drawable.caracter_a_icon;
-                    } else if(i == 2 || i == 5 || i == 8)
-                        nImg = R.drawable.caracter_b_icon;
-                    else
-                        nImg = R.drawable.caracter_c_icon;
-
                     Glide.with(this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(vo.getImage())
@@ -1439,14 +1484,6 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                     if(!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
-                    int nImg = 0;
-                    if(i == 1 || i == 4 || i == 7) {
-                        nImg = R.drawable.caracter_a_icon;
-                    } else if(i == 2 || i == 5 || i == 8)
-                        nImg = R.drawable.caracter_b_icon;
-                    else
-                        nImg = R.drawable.caracter_c_icon;
-
                     Glide.with(getActivity())
                             .asBitmap() // some .jpeg files are actually gif
                             .placeholder(nImg)
@@ -1454,14 +1491,6 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                             .apply(new RequestOptions().circleCrop())
                             .into(faceView);
                 } else {
-                    int nImg = 0;
-                    if(i == 1 || i == 4 || i == 7) {
-                        nImg = R.drawable.caracter_a_icon;
-                    } else if(i == 2 || i == 5 || i == 8)
-                        nImg = R.drawable.caracter_b_icon;
-                    else
-                        nImg = R.drawable.caracter_c_icon;
-
                     faceView.setImageResource(nImg);
                 }
 
@@ -2264,7 +2293,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                 imageContentsView.setClipToOutline(true);
 
                 ImageView playBtn = convertView.findViewById(R.id.playBtn);
-                playBtn.setOnClickListener(new View.OnClickListener() {
+                imageContentsView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String strUrl = chatVO.getStrContentsFile();
@@ -2278,23 +2307,75 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                 });
 
                 if(chatVO.getContentsUri() != null) {
-                    Glide.with(getActivity())
-                            .asBitmap() // some .jpeg files are actually gif
-                            .load(chatVO.getContentsUri())
-                            .apply(new RequestOptions().override(nWidth-50, nWidth-50))
-                            .into(imageContentsView);
+                    if(thumbBitmapList.containsKey(chatVO.getContentsUri().toString())) {
+//                        imageContentsView.setImageBitmap(thumbBitmapList.get(chatVO.getContentsUri().toString()));
+                        Glide.with(getActivity())
+                                .load(thumbBitmapList.get(chatVO.getContentsUri().toString()))
+                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                .into(imageContentsView);
+                    } else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(chatVO.getContentsUri());
+                                thumbBitmapList.put(chatVO.getContentsUri().toString(), thumbnailBitmap);
+
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Glide.with(getActivity())
+                                                .load(thumbnailBitmap)
+                                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                                .into(imageContentsView);
+                                    }
+                                });
+                            }
+                        }).start();
+
+                        try {
+                            Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(chatVO.getContentsUri());
+//                            Bitmap thumbnailBitmap = CommonUtils.retriveVideoFrameFromVideo(ViewerActivity.this, chatVO.getContentsUri().getPath());
+                            thumbBitmapList.put(chatVO.getContentsUri().toString(), thumbnailBitmap);
+                            Glide.with(getActivity())
+                                    .load(thumbnailBitmap)
+                                    .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                    .into(imageContentsView);
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
                 } else if(chatVO.getStrContentsFile() != null) {
                     String strUrl = chatVO.getStrContentsFile();
-//                    strUrl = strUrl.replaceAll(" ", "");
 
                     if(!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
-                    Glide.with(getActivity())
-                            .asBitmap() // some .jpeg files are actually gif
-                            .load(strUrl)
-                            .apply(new RequestOptions().override(nWidth-50, nWidth-50))
-                            .into(imageContentsView);
+                    if(thumbBitmapList.containsKey(strUrl)) {
+//                        imageContentsView.setImageBitmap(thumbBitmapList.get(strUrl));
+                        Glide.with(getActivity())
+                                .load(thumbBitmapList.get(strUrl))
+                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                .into(imageContentsView);
+                    } else {
+                        final String finalUrl = strUrl;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(Uri.parse(finalUrl));
+                                thumbBitmapList.put(finalUrl, thumbnailBitmap);
+
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Glide.with(getActivity())
+                                                .load(thumbnailBitmap)
+                                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                                .into(imageContentsView);
+                                    }
+                                });
+                            }
+                        }).start();
+                    }
                 }
             } else if(nType == ChatVO.TYPE_DISTRACTOR) {
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
@@ -2409,13 +2490,42 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
 
             ImageView faceView = convertView.findViewById(R.id.faceView);
             if(faceView != null) {
-                if(characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
-                    int nPlaceHolder = 0;
-                    if(nDirection == 0)
-                        nPlaceHolder = R.drawable.caracter_a_icon;
-                    else
-                        nPlaceHolder = R.drawable.caracter_b_icon;
+                int nPlaceHolder = 0;
+                int faceIndex = getCharacterIndex(characterVO) % 10;
+                switch(faceIndex) {
+                    case 1:
+                        nPlaceHolder = R.drawable.user_icon_01;
+                        break;
+                    case 2:
+                        nPlaceHolder = R.drawable.user_icon_02;
+                        break;
+                    case 3:
+                        nPlaceHolder = R.drawable.user_icon_03;
+                        break;
+                    case 4:
+                        nPlaceHolder = R.drawable.user_icon_04;
+                        break;
+                    case 5:
+                        nPlaceHolder = R.drawable.user_icon_05;
+                        break;
+                    case 6:
+                        nPlaceHolder = R.drawable.user_icon_06;
+                        break;
+                    case 7:
+                        nPlaceHolder = R.drawable.user_icon_07;
+                        break;
+                    case 8:
+                        nPlaceHolder = R.drawable.user_icon_08;
+                        break;
+                    case 9:
+                        nPlaceHolder = R.drawable.user_icon_09;
+                        break;
+                    case 0:
+                        nPlaceHolder = R.drawable.user_icon_10;
+                        break;
+                }
 
+                if(characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
                     Glide.with(getActivity())
                             .asBitmap() // some .jpeg files are actually gif
                             .load(characterVO.getImage())
@@ -2429,11 +2539,6 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                     if(!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
-                    int nPlaceHolder = 0;
-                    if(nDirection == 0)
-                        nPlaceHolder = R.drawable.caracter_a_icon;
-                    else
-                        nPlaceHolder = R.drawable.caracter_b_icon;
                     Glide.with(getActivity())
                             .asBitmap() // some .jpeg files are actually gif
                             .placeholder(nPlaceHolder)
@@ -2441,12 +2546,6 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                             .apply(new RequestOptions().circleCrop())
                             .into(faceView);
                 } else {
-                    int nPlaceHolder = 0;
-
-                    if(nDirection == 0)
-                        nPlaceHolder = R.drawable.caracter_a_icon;
-                    else
-                        nPlaceHolder = R.drawable.caracter_b_icon;
                     Glide.with(getActivity())
                             .asBitmap() // some .jpeg files
                             .load(nPlaceHolder)

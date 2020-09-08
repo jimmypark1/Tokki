@@ -1194,6 +1194,24 @@ public class ViewerActivity extends AppCompatActivity {
                                 .apply(new RequestOptions().override(nWidth-50, nWidth-50))
                                 .into(imageContentsView); 
                     } else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(chatVO.getContentsUri());
+                                thumbBitmapList.put(chatVO.getContentsUri().toString(), thumbnailBitmap);
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Glide.with(ViewerActivity.this)
+                                                .load(thumbnailBitmap)
+                                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                                .into(imageContentsView);
+                                    }
+                                });
+                            }
+                        }).start();
+
                         try {
                             Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(chatVO.getContentsUri());
 //                            Bitmap thumbnailBitmap = CommonUtils.retriveVideoFrameFromVideo(ViewerActivity.this, chatVO.getContentsUri().getPath());
@@ -1219,17 +1237,24 @@ public class ViewerActivity extends AppCompatActivity {
                                  .apply(new RequestOptions().override(nWidth-50, nWidth-50))
                                  .into(imageContentsView);
                     } else {
-                        try {
-                            Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(Uri.parse(strUrl));
-                            thumbBitmapList.put(strUrl, thumbnailBitmap);
+                        final String finalUrl = strUrl;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(Uri.parse(finalUrl));
+                                thumbBitmapList.put(finalUrl, thumbnailBitmap);
 
-                            Glide.with(ViewerActivity.this)
-                                    .load(thumbnailBitmap)
-                                    .apply(new RequestOptions().override(nWidth-50, nWidth-50))
-                                    .into(imageContentsView);
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
-                        }
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Glide.with(ViewerActivity.this)
+                                                .load(thumbnailBitmap)
+                                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                                .into(imageContentsView);
+                                    }
+                                });
+                            }
+                        }).start();
                     }
                 }
 

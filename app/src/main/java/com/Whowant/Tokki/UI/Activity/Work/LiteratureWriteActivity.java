@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -92,6 +93,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -108,6 +110,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     public static WorkVO workVO;
     private ArrayList<CharacterVO> characterList;
     private ArrayList<ChatVO> chattingList;
+    private HashMap<String, Bitmap> thumbBitmapList = new HashMap<>();
 
     private LinearLayout speakerAddLayout;
     private ArrayList<String> nameList;
@@ -2458,8 +2461,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 ImageView imageContentsView = convertView.findViewById(R.id.videoThumbnailView);
                 imageContentsView.setClipToOutline(true);
 
-                ImageView playBtn = convertView.findViewById(R.id.playBtn);
-                playBtn.setOnClickListener(new View.OnClickListener() {
+//                ImageView playBtn = convertView.findViewById(R.id.playBtn);
+                imageContentsView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String strUrl = chatVO.getStrContentsFile();
@@ -2473,23 +2476,75 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 });
 
                 if(chatVO.getContentsUri() != null) {
-                    Glide.with(LiteratureWriteActivity.this)
-                            .asBitmap() // some .jpeg files are actually gif
-                            .load(chatVO.getContentsUri())
-                            .apply(new RequestOptions().override(nWidth-50, nWidth-50))
-                            .into(imageContentsView);
+                    if(thumbBitmapList.containsKey(chatVO.getContentsUri().toString())) {
+//                        imageContentsView.setImageBitmap(thumbBitmapList.get(chatVO.getContentsUri().toString()));
+                        Glide.with(LiteratureWriteActivity.this)
+                                .load(thumbBitmapList.get(chatVO.getContentsUri().toString()))
+                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                .into(imageContentsView);
+                    } else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(chatVO.getContentsUri());
+                                thumbBitmapList.put(chatVO.getContentsUri().toString(), thumbnailBitmap);
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Glide.with(LiteratureWriteActivity.this)
+                                                .load(thumbnailBitmap)
+                                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                                .into(imageContentsView);
+                                    }
+                                });
+                            }
+                        }).start();
+
+                        try {
+                            Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(chatVO.getContentsUri());
+//                            Bitmap thumbnailBitmap = CommonUtils.retriveVideoFrameFromVideo(ViewerActivity.this, chatVO.getContentsUri().getPath());
+                            thumbBitmapList.put(chatVO.getContentsUri().toString(), thumbnailBitmap);
+                            Glide.with(LiteratureWriteActivity.this)
+                                    .load(thumbnailBitmap)
+                                    .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                    .into(imageContentsView);
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
                 } else if(chatVO.getStrContentsFile() != null) {
                     String strUrl = chatVO.getStrContentsFile();
-//                    strUrl = strUrl.replaceAll(" ", "");
 
                     if(!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
-                    Glide.with(LiteratureWriteActivity.this)
-                            .asBitmap() // some .jpeg files are actually gif
-                            .load(strUrl)
-                            .apply(new RequestOptions().override(nWidth-50, nWidth-50))
-                            .into(imageContentsView);
+                    if(thumbBitmapList.containsKey(strUrl)) {
+//                        imageContentsView.setImageBitmap(thumbBitmapList.get(strUrl));
+                        Glide.with(LiteratureWriteActivity.this)
+                                .load(thumbBitmapList.get(strUrl))
+                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                .into(imageContentsView);
+                    } else {
+                        final String finalUrl = strUrl;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(Uri.parse(finalUrl));
+                                thumbBitmapList.put(finalUrl, thumbnailBitmap);
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Glide.with(LiteratureWriteActivity.this)
+                                                .load(thumbnailBitmap)
+                                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                                .into(imageContentsView);
+                                    }
+                                });
+                            }
+                        }).start();
+                    }
                 }
             } else if(nType == ChatVO.TYPE_DISTRACTOR) {
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
@@ -2576,43 +2631,42 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
             ImageView faceView = convertView.findViewById(R.id.faceView);
             if(faceView != null) {
+                int nPlaceHolder = 0;
+                int faceIndex = getCharacterIndex(characterVO) % 10;
+                switch(faceIndex) {
+                    case 1:
+                        nPlaceHolder = R.drawable.user_icon_01;
+                        break;
+                    case 2:
+                        nPlaceHolder = R.drawable.user_icon_02;
+                        break;
+                    case 3:
+                        nPlaceHolder = R.drawable.user_icon_03;
+                        break;
+                    case 4:
+                        nPlaceHolder = R.drawable.user_icon_04;
+                        break;
+                    case 5:
+                        nPlaceHolder = R.drawable.user_icon_05;
+                        break;
+                    case 6:
+                        nPlaceHolder = R.drawable.user_icon_06;
+                        break;
+                    case 7:
+                        nPlaceHolder = R.drawable.user_icon_07;
+                        break;
+                    case 8:
+                        nPlaceHolder = R.drawable.user_icon_08;
+                        break;
+                    case 9:
+                        nPlaceHolder = R.drawable.user_icon_09;
+                        break;
+                    case 0:
+                        nPlaceHolder = R.drawable.user_icon_10;
+                        break;
+                }
+
                 if(characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
-                    int nPlaceHolder = 0;
-
-                    int faceIndex = getCharacterIndex(characterVO) % 10;
-                    switch(faceIndex) {
-                        case 1:
-                            nPlaceHolder = R.drawable.user_icon_01;
-                            break;
-                        case 2:
-                            nPlaceHolder = R.drawable.user_icon_02;
-                            break;
-                        case 3:
-                            nPlaceHolder = R.drawable.user_icon_03;
-                            break;
-                        case 4:
-                            nPlaceHolder = R.drawable.user_icon_04;
-                            break;
-                        case 5:
-                            nPlaceHolder = R.drawable.user_icon_05;
-                            break;
-                        case 6:
-                            nPlaceHolder = R.drawable.user_icon_06;
-                            break;
-                        case 7:
-                            nPlaceHolder = R.drawable.user_icon_07;
-                            break;
-                        case 8:
-                            nPlaceHolder = R.drawable.user_icon_08;
-                            break;
-                        case 9:
-                            nPlaceHolder = R.drawable.user_icon_09;
-                            break;
-                        case 0:
-                            nPlaceHolder = R.drawable.user_icon_10;
-                            break;
-                    }
-
                     Glide.with(LiteratureWriteActivity.this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(characterVO.getImage())
@@ -2626,40 +2680,6 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     if(!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
-                    int nPlaceHolder = 0;
-                    int faceIndex = getCharacterIndex(characterVO) % 10;
-                    switch(faceIndex) {
-                        case 1:
-                            nPlaceHolder = R.drawable.user_icon_01;
-                            break;
-                        case 2:
-                            nPlaceHolder = R.drawable.user_icon_02;
-                            break;
-                        case 3:
-                            nPlaceHolder = R.drawable.user_icon_03;
-                            break;
-                        case 4:
-                            nPlaceHolder = R.drawable.user_icon_04;
-                            break;
-                        case 5:
-                            nPlaceHolder = R.drawable.user_icon_05;
-                            break;
-                        case 6:
-                            nPlaceHolder = R.drawable.user_icon_06;
-                            break;
-                        case 7:
-                            nPlaceHolder = R.drawable.user_icon_07;
-                            break;
-                        case 8:
-                            nPlaceHolder = R.drawable.user_icon_08;
-                            break;
-                        case 9:
-                            nPlaceHolder = R.drawable.user_icon_09;
-                            break;
-                        case 0:
-                            nPlaceHolder = R.drawable.user_icon_10;
-                            break;
-                    }
                     Glide.with(LiteratureWriteActivity.this)
                             .asBitmap() // some .jpeg files are actually gif
                             .placeholder(nPlaceHolder)
@@ -2667,41 +2687,6 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             .apply(new RequestOptions().circleCrop())
                             .into(faceView);
                 } else {
-                    int nPlaceHolder = 0;
-
-                    int faceIndex = getCharacterIndex(characterVO) % 10;
-                    switch(faceIndex) {
-                        case 1:
-                            nPlaceHolder = R.drawable.user_icon_01;
-                            break;
-                        case 2:
-                            nPlaceHolder = R.drawable.user_icon_02;
-                            break;
-                        case 3:
-                            nPlaceHolder = R.drawable.user_icon_03;
-                            break;
-                        case 4:
-                            nPlaceHolder = R.drawable.user_icon_04;
-                            break;
-                        case 5:
-                            nPlaceHolder = R.drawable.user_icon_05;
-                            break;
-                        case 6:
-                            nPlaceHolder = R.drawable.user_icon_06;
-                            break;
-                        case 7:
-                            nPlaceHolder = R.drawable.user_icon_07;
-                            break;
-                        case 8:
-                            nPlaceHolder = R.drawable.user_icon_08;
-                            break;
-                        case 9:
-                            nPlaceHolder = R.drawable.user_icon_09;
-                            break;
-                        case 0:
-                            nPlaceHolder = R.drawable.user_icon_10;
-                            break;
-                    }
                     Glide.with(LiteratureWriteActivity.this)
                             .asBitmap() // some .jpeg files
                             .load(nPlaceHolder)
