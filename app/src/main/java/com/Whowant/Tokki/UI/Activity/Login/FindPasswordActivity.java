@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Admin.AproveWaitingEpisodeListActivity;
+import com.Whowant.Tokki.UI.Activity.Work.GenreSelectActivity;
 import com.Whowant.Tokki.UI.Popup.ChangePasswordPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
@@ -54,10 +55,12 @@ public class FindPasswordActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(inputAuthNumView.getText().length() >= 6) {
                     registerBtn.setEnabled(true);
+                    registerBtn.setTextColor(ContextCompat.getColor(FindPasswordActivity.this, R.color.colorWhite));
                     registerBtn.setBackgroundResource(R.drawable.common_btn_bg);
                 } else {
                     registerBtn.setEnabled(false);
-                    registerBtn.setBackgroundResource(R.drawable.recommend_copy_btn);
+                    registerBtn.setBackgroundResource(R.drawable.common_btn_disable_bg);
+                    registerBtn.setTextColor(Color.parseColor("#969696"));
                 }
             }
 
@@ -110,8 +113,9 @@ public class FindPasswordActivity extends AppCompatActivity {
         }
 
         sendMailBtn.setText("재전송");
-        registerBtn.setBackgroundResource(R.drawable.round_square_btn_bg);
-        registerBtn.setEnabled(true);
+//        registerBtn.setBackgroundResource(R.drawable.common_btn_bg);
+//        registerBtn.setTextColor(ContextCompat.getColor(FindPasswordActivity.this, R.color.colorWhite));
+//        registerBtn.setEnabled(true);
 
         CommonUtils.showProgressDialog(FindPasswordActivity.this, "인증번호 전송을 요청하고 있습니다.");
 

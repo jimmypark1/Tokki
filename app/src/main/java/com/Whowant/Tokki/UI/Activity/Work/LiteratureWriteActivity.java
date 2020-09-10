@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -160,6 +161,9 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private boolean bSubmit = false;
     private Button sendBtn;
 
+    private ViewGroup viewGroup;
+    private SoftKeyboard softKeyboard;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,6 +175,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         } else {
             bSubmit = false;
         }
+
+        int nKeyboard = getResources().getConfiguration().keyboard;
 
         Thread.UncaughtExceptionHandler handler = Thread
                 .getDefaultUncaughtExceptionHandler();
@@ -257,30 +263,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
         resetCharacterLayout();
 
-        ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
-        SoftKeyboard softKeyboard = new SoftKeyboard(viewGroup, imm);
-
-        softKeyboard.setSoftKeyboardCallback(new SoftKeyboard.SoftKeyboardChanged() {
-            @Override
-            public void onSoftKeyboardHide() {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onSoftKeyboardShow() {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideBottomView();
-                    }
-                });
-            }
-        });
+        if(nKeyboard != 2)
+            setKeyboardEvent();
 
         chattingList = new ArrayList<>();
         aa = new CChattingArrayAdapter(LiteratureWriteActivity.this, R.layout.right_chatting_row, chattingList);
@@ -445,6 +429,49 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {           // BT 키보드 접속됨
+            removeKeyboardEvent();
+        }
+        else if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {     // BT 키보드 해제됨
+            setKeyboardEvent();
+        }
+    }
+
+    private void setKeyboardEvent() {
+        hideBottomView();
+        viewGroup = (ViewGroup) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0);
+        softKeyboard = new SoftKeyboard(viewGroup, imm);
+        softKeyboard.setSoftKeyboardCallback(new SoftKeyboard.SoftKeyboardChanged() {
+            @Override
+            public void onSoftKeyboardHide() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onSoftKeyboardShow() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideBottomView();
+                    }
+                });
+            }
+        });
+    }
+
+    private void removeKeyboardEvent() {
+        softKeyboard.setSoftKeyboardCallback(null);
     }
 
     @Override

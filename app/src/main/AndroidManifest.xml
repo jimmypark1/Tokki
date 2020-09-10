@@ -104,7 +104,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.Activity.Work.ReportSelectActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity
             android:name=".UI.Activity.Admin.CommentManagementActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -214,7 +215,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".UI.Activity.Work.InteractionWriteActivity"
-            android:configChanges="screenSize|orientation"
+            android:configChanges="screenSize|orientation|keyboard|keyboardHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.Popup.InteractionSpeakerSelectActivity"
@@ -532,7 +533,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".UI.Activity.Work.LiteratureWriteActivity"
-            android:configChanges="screenSize|orientation"
+            android:configChanges="screenSize|orientation|keyboard|keyboardHidden"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service

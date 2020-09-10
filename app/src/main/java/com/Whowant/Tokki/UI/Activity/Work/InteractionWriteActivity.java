@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,6 +95,24 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
             }
         }
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {           // BT 키보드 접속됨
+            InteractionMainFragment fragment = (InteractionMainFragment)pagerAdapter.getItem(0);
+            fragment.removeKeyboardEvent();
+            InteractionSubFragment fragment2 = (InteractionSubFragment)pagerAdapter.getItem(1);
+            fragment2.removeKeyboardEvent();
+        }
+        else if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {     // BT 키보드 해제됨
+            InteractionMainFragment fragment = (InteractionMainFragment)pagerAdapter.getItem(0);
+            fragment.setKeyboardEvent();
+            InteractionSubFragment fragment2 = (InteractionSubFragment)pagerAdapter.getItem(1);
+            fragment2.setKeyboardEvent();
+        }
     }
 
     @Override

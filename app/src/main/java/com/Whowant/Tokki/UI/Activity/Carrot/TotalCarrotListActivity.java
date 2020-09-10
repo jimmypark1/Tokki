@@ -51,8 +51,8 @@ public class TotalCarrotListActivity extends AppCompatActivity {
             @Override
             public void run() {
                 SharedPreferences pref = getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
-//                usedCarrotList = HttpClient.getTotalCarrotList(new OkHttpClient(), pref.getString("USER_ID", "Guest"));
-                usedCarrotList = HttpClient.getTotalCarrotList(new OkHttpClient(), "paul9045");
+                usedCarrotList = HttpClient.getTotalCarrotList(new OkHttpClient(), pref.getString("USER_ID", "Guest"));
+//                usedCarrotList = HttpClient.getTotalCarrotList(new OkHttpClient(), "paul9045");
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -113,9 +113,9 @@ public class TotalCarrotListActivity extends AppCompatActivity {
             } else if(vo.getType() == 20) {
                 strDesc = String.format("출석체크");
             } else if(vo.getType() == 3) {
-                strDesc = String.format("%s 작품 %d 회차 별점 주기", vo.getDonationWorkTitle(), vo.getDotaionEpisodeOrder()+1);
+                strDesc = String.format("%s 작품 %d 회차 별점 주기", vo.getDonationWorkTitle(), vo.getDotaionEpisodeOrder());
             } else if(vo.getType() == 4) {
-                strDesc = String.format("%s 작품 %d 회차 댓글 달기", vo.getDonationWorkTitle(), vo.getDotaionEpisodeOrder()+1);
+                strDesc = String.format("%s 작품 %d 회차 댓글 달기", vo.getDonationWorkTitle(), vo.getDotaionEpisodeOrder());
             }
 
             dateView.setText(vo.getUseDate().substring(0, 10));

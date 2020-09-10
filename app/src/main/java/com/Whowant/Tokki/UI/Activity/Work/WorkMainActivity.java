@@ -1096,6 +1096,13 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         int nPosition = getAdapterPosition();
                         if(nPosition > 4) {
                             int nIndex = nPosition - 5;
+
+                            EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
+                            if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+                                checkInteractionSelect(nIndex);
+                                return;
+                            }
+
                             Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
                             ViewerActivity.workVO = workVO;
                             intent.putExtra("EPISODE_INDEX", nIndex);

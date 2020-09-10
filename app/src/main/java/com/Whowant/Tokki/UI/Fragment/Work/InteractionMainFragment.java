@@ -153,6 +153,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     private ProgressBar oldPB;
     private boolean bSubmit = false;
     private Button sendBtn;
+    private ViewGroup viewGroup;
+    private SoftKeyboard softKeyboard;
 
     public static Fragment newInstance() {
         InteractionMainFragment fragment = new InteractionMainFragment();
@@ -251,31 +253,6 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         });
 
         resetCharacterLayout();
-
-        ViewGroup viewGroup = (ViewGroup) ((ViewGroup) getActivity().findViewById(android.R.id.content)).getChildAt(0);
-        SoftKeyboard softKeyboard = new SoftKeyboard(viewGroup, imm);
-
-        softKeyboard.setSoftKeyboardCallback(new SoftKeyboard.SoftKeyboardChanged() {
-            @Override
-            public void onSoftKeyboardHide() {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onSoftKeyboardShow() {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideBottomView();
-                    }
-                });
-            }
-        });
 
         chattingList = new ArrayList<>();
         aa = new CChattingArrayAdapter(interactionWriteActivity, R.layout.right_chatting_row, chattingList);
@@ -456,7 +433,43 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             alertDialog.show();
         }
 
+        int nKeyboard = getResources().getConfiguration().keyboard;
+        if(nKeyboard != 2) {
+            setKeyboardEvent();
+        }
+
         return inflaterView;
+    }
+
+    public void setKeyboardEvent() {
+        hideBottomView();
+        viewGroup = (ViewGroup) ((ViewGroup)getActivity().findViewById(android.R.id.content)).getChildAt(0);
+        softKeyboard = new SoftKeyboard(viewGroup, imm);
+        softKeyboard.setSoftKeyboardCallback(new SoftKeyboard.SoftKeyboardChanged() {
+            @Override
+            public void onSoftKeyboardHide() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onSoftKeyboardShow() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideBottomView();
+                    }
+                });
+            }
+        });
+    }
+
+    public void removeKeyboardEvent() {
+        softKeyboard.setSoftKeyboardCallback(null);
     }
 
 //    @Override
@@ -2324,15 +2337,17 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(chatVO.getContentsUri());
                                 thumbBitmapList.put(chatVO.getContentsUri().toString(), thumbnailBitmap);
 
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Glide.with(getActivity())
-                                                .load(thumbnailBitmap)
-                                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
-                                                .into(imageContentsView);
-                                    }
-                                });
+                                if(getActivity() != null) {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Glide.with(getActivity())
+                                                    .load(thumbnailBitmap)
+                                                    .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                                    .into(imageContentsView);
+                                        }
+                                    });
+                                }
                             }
                         }).start();
 
@@ -2368,15 +2383,17 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(Uri.parse(finalUrl));
                                 thumbBitmapList.put(finalUrl, thumbnailBitmap);
 
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Glide.with(getActivity())
-                                                .load(thumbnailBitmap)
-                                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
-                                                .into(imageContentsView);
-                                    }
-                                });
+                                if(getActivity() != null) {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Glide.with(getActivity())
+                                                    .load(thumbnailBitmap)
+                                                    .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                                    .into(imageContentsView);
+                                        }
+                                    });
+                                }
                             }
                         }).start();
                     }

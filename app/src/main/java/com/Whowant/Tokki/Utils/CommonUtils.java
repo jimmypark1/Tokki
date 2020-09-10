@@ -39,7 +39,7 @@ public class CommonUtils {
 
 //    public static String strDefaultUrl = "http://220.126.60.144:8080/howmuch_web/";
 //    public static String strDefaultUrl = "http://192.168.43.249:8080/howmuch_web/";
-//    public static String strDefaultUrl = "http://192.168.200.129:8080/howmuch_web/";
+//    public static String strDefaultUrl = "http://172.30.1.36:8080/howmuch_web/";
     public static String strDefaultUrl = "http://175.123.253.231:8080/howmuch_web/";
     public static Toast toast = null;
 
@@ -402,7 +402,8 @@ public class CommonUtils {
 
         try {
             retriever.setDataSource(uri.toString(), new HashMap<String, String>());
-            return retriever.getFrameAtTime(1000, MediaMetadataRetriever.OPTION_CLOSEST);
+            Bitmap thumbnailBitmap = retriever.getFrameAtTime(1000, MediaMetadataRetriever.OPTION_CLOSEST);
+            return thumbnailBitmap;
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (RuntimeException e) {
