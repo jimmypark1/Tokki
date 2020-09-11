@@ -271,6 +271,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 int nType = vo.getType();
 
                 if(nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_NARRATION) {
+                    nEditIndex = position;
                     Intent intent = new Intent(getActivity(), TextEditPopup.class);
                     intent.putExtra("TEXT", vo.getContents());
                     intent.putExtra("ORDER", position);
@@ -1764,7 +1765,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                         public void run() {
                             CommonUtils.hideProgressDialog();
 
-                            nEditIndex = -1;
+//                            nEditIndex = -1;
 
                             try {
                                 JSONObject resultObject = new JSONObject(strResult);
