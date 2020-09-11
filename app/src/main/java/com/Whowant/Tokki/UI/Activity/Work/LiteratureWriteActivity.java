@@ -1326,6 +1326,9 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         } else if(nEditIndex != -1) {
                             chattingListView.setSelection(nEditIndex);
                         }
+
+                        nAddIndex = -1;
+                        nEditIndex = -1;
                     }
                 });
             }
