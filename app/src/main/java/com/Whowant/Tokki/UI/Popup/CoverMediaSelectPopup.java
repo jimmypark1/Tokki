@@ -35,4 +35,10 @@ public class CoverMediaSelectPopup extends AppCompatActivity {
         setResult(RESULT_OK, oldIntent);
         finish();
     }
+
+    public void OnClickDeleteBtn(View view) {
+        oldIntent.putExtra("TYPE", 3);
+        setResult(RESULT_OK, oldIntent);
+        finish();
+    }
 }

@@ -73,7 +73,10 @@ public class WorkEditActivity extends AppCompatActivity {
     private RelativeLayout posterThumbnailLayout, galleryThumbnailLayout;
     private ImageView posterThumbnailView, galleryThumbnailView, posterCheckView, galleryCheckView;
     private TextView posterThumbnailTextView, galleryThumbnailTextView;
+    private int nCurrentThumbnail = 0;   // 0 = 안함, 1 = 포스터를 썸네일로, 2 = 갤러리에서 썸네일 고르기
     private int nThumbnail = 0;     // 0 = 안함, 1 = 포스터를 썸네일로, 2 = 갤러리에서 썸네일 고르기
+    private boolean isDeletePoster = false;
+    private boolean isDeleteThumbnail = false;
 
     private boolean bComplete = false;
 
@@ -154,6 +157,7 @@ public class WorkEditActivity extends AppCompatActivity {
                     .placeholder(R.drawable.no_poster)
                     .load(CommonUtils.strDefaultUrl + "images/" + workVO.getCoverFile())
                     .into(coverImgView);
+            isDeletePoster = false;
         }
 
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -210,11 +214,12 @@ public class WorkEditActivity extends AppCompatActivity {
 
         if(workVO.getStrThumbFile() != null && !workVO.getStrThumbFile().equals("null")) {
             if(workVO.isbPosterThumbnail()) {           // 포스터에서 썸네일 고름
+                nCurrentThumbnail = 1;
                 galleryThumbUri = null;
 //                posterThumbUri = Uri.parse(workVO.getStrThumbFile());
                 galleryThumbnailLayout.setBackgroundResource(R.drawable.round_shadow_btn_white_bg);
                 galleryCheckView.setImageResource(0);
-                galleryThumbnailView.setImageResource(0);
+                galleryThumbnailView.setImageResource(R.drawable.empty_thumbnail_img);
                 galleryThumbnailTextView.setTextColor(Color.parseColor("#d1d1d1"));
 
                 posterThumbnailLayout.setBackgroundResource(R.drawable.round_wthie_black_stroke_bg);
@@ -225,6 +230,7 @@ public class WorkEditActivity extends AppCompatActivity {
                         .into(posterThumbnailView);
                 posterThumbnailTextView.setTextColor(Color.parseColor("#000000"));
             } else  {    // 갤러리에서 썸네일 고름
+                nCurrentThumbnail = 2;
                 posterThumbUri = null;
 //                galleryThumbUri = Uri.parse(workVO.getStrThumbFile());
                 posterThumbnailLayout.setBackgroundResource(R.drawable.round_shadow_btn_white_bg);
@@ -269,13 +275,15 @@ public class WorkEditActivity extends AppCompatActivity {
             String imgUri = intent.getStringExtra("IMG_URI");
 
             if(nThumbnail == 1) {           // 포스터에서 썸네일 고름
+                nCurrentThumbnail = 1;
                 galleryThumbUri = null;
                 posterThumbUri = Uri.parse(imgUri);
                 galleryThumbnailLayout.setBackgroundResource(R.drawable.round_shadow_btn_white_bg);
                 galleryCheckView.setImageResource(0);
-                galleryThumbnailView.setImageResource(0);
+                galleryThumbnailView.setImageResource(R.drawable.empty_thumbnail_img);
                 galleryThumbnailTextView.setTextColor(Color.parseColor("#d1d1d1"));
 
+                isDeleteThumbnail = false;
                 posterThumbnailLayout.setBackgroundResource(R.drawable.round_wthie_black_stroke_bg);
                 posterCheckView.setImageResource(R.drawable.blue_check_view);
                 posterThumbnailView.setClipToOutline(true);
@@ -284,11 +292,12 @@ public class WorkEditActivity extends AppCompatActivity {
                         .into(posterThumbnailView);
                 posterThumbnailTextView.setTextColor(Color.parseColor("#000000"));
             } else if(nThumbnail == 2) {    // 갤러리에서 썸네일 고름
+                nCurrentThumbnail = 2;
                 posterThumbUri = null;
                 galleryThumbUri = Uri.parse(imgUri);
                 posterThumbnailLayout.setBackgroundResource(R.drawable.round_shadow_btn_white_bg);
                 posterCheckView.setImageResource(0);
-                posterThumbnailView.setImageResource(0);
+                galleryThumbnailView.setImageResource(R.drawable.poster_sombnail);
                 posterThumbnailTextView.setTextColor(Color.parseColor("#d1d1d1"));
 
                 galleryThumbnailLayout.setBackgroundResource(R.drawable.round_wthie_black_stroke_bg);
@@ -297,6 +306,7 @@ public class WorkEditActivity extends AppCompatActivity {
                 Glide.with(this)
                         .load(galleryThumbUri)
                         .into(galleryThumbnailView);
+                isDeleteThumbnail = false;
                 galleryThumbnailTextView.setTextColor(Color.parseColor("#000000"));
             }
 
@@ -313,6 +323,7 @@ public class WorkEditActivity extends AppCompatActivity {
                         .asBitmap() // some .jpeg files are actually gif
                         .load(coverImgUri)
                         .into(coverImgView);
+                isDeletePoster = false;
 
                 nThumbnail = 1;
                 ThumbnailPreviewActivity.bModifyThumb = true;
@@ -350,6 +361,36 @@ public class WorkEditActivity extends AppCompatActivity {
                     else
                         intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_THUMBNAIL_MODIFY);
                     startActivity(intent);
+                } else if(nType == 3) {
+                    if(nThumbnail == 0) {
+                        coverImgView.setImageResource(0);
+                        coverImgBtn.setVisibility(View.VISIBLE);
+                        originCoverImgUri = null;
+                        posterThumbnailView.setImageResource(R.drawable.empty_thumbnail_img);
+                        coverImgUri = null;
+                        posterThumbUri = null;
+
+
+                        posterThumbnailLayout.setBackgroundResource(R.drawable.round_shadow_btn_white_bg);
+                        posterCheckView.setImageResource(0);
+                        posterThumbnailTextView.setTextColor(Color.parseColor("#d1d1d1"));
+
+                        if(nCurrentThumbnail == 1) {
+                            isDeleteThumbnail = true;
+                            nCurrentThumbnail = 0;
+                        }
+                        isDeletePoster = true;
+                    } else {
+                        galleryThumbnailLayout.setBackgroundResource(R.drawable.round_shadow_btn_white_bg);
+                        galleryCheckView.setImageResource(0);
+                        galleryThumbnailView.setImageResource(R.drawable.poster_sombnail);
+                        galleryThumbnailTextView.setTextColor(Color.parseColor("#d1d1d1"));
+                        galleryThumbUri = null;
+                        isDeleteThumbnail = true;
+                        nCurrentThumbnail = 0;
+                    }
+
+                    nThumbnail = 0;
                 }
             } else if(requestCode == 1010) {
                 String strGenre = data.getStringExtra("GENRE");
@@ -595,7 +636,11 @@ public class WorkEditActivity extends AppCompatActivity {
                     .addFormDataPart("WORK_TITLE", inputTitleView.getText().toString())
                     .addFormDataPart("WORK_SYNOPSIS", inputSynopsisView.getText().toString())
                     .addFormDataPart("WORK_COMPLETE", bComplete == true ? "Y" : "N")
-                    .addFormDataPart("WORK_TARGET", "");
+                    .addFormDataPart("WORK_TARGET", "")
+                    .addFormDataPart("DELETE_THUMBNAIL", isDeleteThumbnail == true ? "Y" : "N")
+                    .addFormDataPart("DELETE_POSTER", isDeletePoster == true ? "Y" : "N");
+
+            //
 
             String strTags = inputTagView.getText().toString();
             if(strTags.length() > 0)

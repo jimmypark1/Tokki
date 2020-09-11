@@ -27,6 +27,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -160,6 +161,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private ProgressBar oldPB;
     private boolean bSubmit = false;
     private Button sendBtn;
+
+    private float fX, fY;
 
     private ViewGroup viewGroup;
     private SoftKeyboard softKeyboard;
@@ -429,6 +432,29 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }
+
+        chattingListView.setOnTouchListener(new View.OnTouchListener()
+        {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    fX = motionEvent.getX();
+                    fY = motionEvent.getY();
+                } else if(motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
+                    float fEndX = motionEvent.getX();
+                    float fEndY = motionEvent.getY();
+
+                    if(fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
+                        return false;
+                    } else {
+                        imm.hideSoftInputFromWindow(inputTextView.getWindowToken(), 0);
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -998,7 +1024,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         @Override
                         public void run() {
                             mProgressDialog.dismiss();
-                            nEditIndex = -1;
+//                            nEditIndex = -1;
 
                             try {
                                 JSONObject resultObject = new JSONObject(strResult);
