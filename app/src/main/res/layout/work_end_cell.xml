@@ -64,6 +64,7 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/colorTextGray"
                 android:textSize="14sp"
+                android:visibility="invisible"
                 android:text="(0명)"/>
         </LinearLayout>
 
