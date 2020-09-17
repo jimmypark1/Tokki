@@ -120,7 +120,7 @@ public class EventActivity extends AppCompatActivity implements AdapterView.OnIt
             intent.putExtra("EVENT_TITLE", vo.getStrEventTitle());
             intent.putExtra("EVENT_FILE", vo.getStrEventContentsFile());
             startActivity(intent);
-        } else if(vo.getnEventType() == 10) {
+        } else if(vo.getnEventType() == 10) {           // 콘테스트 이벤트
             Intent intent = new Intent(EventActivity.this, ContestEventActivity.class);
             intent.putExtra("EVENT_TITLE", vo.getStrEventTitle());
             intent.putExtra("IMG_URL", vo.getStrEventContentsFile());

@@ -36,6 +36,7 @@ public class TermsActivity extends AppCompatActivity {
             scrollView.setVisibility(View.INVISIBLE);
             webView.setVisibility(View.VISIBLE);
             webView.loadUrl("https://sites.google.com/view/tokki-app-privacypolicy");
+
         } else {
             titleView.setText("서비스 이용약관");
         }

@@ -337,6 +337,12 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
 
+                        EventVO snsEvent = new EventVO();
+                        snsEvent.setnEventID(-10);
+                        snsEvent.setnEventType(100);
+                        snsEvent.setbRead(true);
+                        eventList.add(0, snsEvent);
+
                         for(EventVO vo : eventList) {
                             if(!vo.isbRead()) {
                                 eventNewIconView.setVisibility(View.VISIBLE);
@@ -353,7 +359,12 @@ public class MainActivity extends AppCompatActivity {
                                 String strToday = sdf.format(date);
 
                                 String strDate = pref.getString("" + nEventID, "");
-                                if(strDate.length() == 0 || !strDate.equals(strToday)) {
+
+                                if(nEventID == -10 && strDate.length() == 0) {
+                                    EventPopupActivity.eventList = eventList;
+                                    startActivity(new Intent(MainActivity.this, EventPopupActivity.class));
+                                    break;
+                                } else if(strDate.length() == 0 || !strDate.equals(strToday)) {
                                     EventPopupActivity.eventList = eventList;
                                     startActivity(new Intent(MainActivity.this, EventPopupActivity.class));
                                     break;

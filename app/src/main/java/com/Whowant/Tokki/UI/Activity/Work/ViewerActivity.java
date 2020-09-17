@@ -329,8 +329,8 @@ public class ViewerActivity extends AppCompatActivity {
         aa = new CChattingArrayAdapter(this, R.layout.left_chatting_row, showingList);
         chattingListView.setAdapter(aa);
 
-        if(!bPreview)
-            sendViewing(nLastOrder);
+//        if(!bPreview)
+//            sendViewing(nLastOrder);
 
         RelativeLayout photoSelectBottomSheet = findViewById(R.id.comment_bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(photoSelectBottomSheet);
@@ -414,14 +414,16 @@ public class ViewerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(nShoingIndex >= 0) {
-            sendViewing(nShoingIndex);
-        }
-
         if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             return;
         }
+
+        if(nShoingIndex >= 0) {
+            sendViewing(nShoingIndex);
+            return;
+        } else
+            finish();
 
         super.onBackPressed();
     }
@@ -435,7 +437,10 @@ public class ViewerActivity extends AppCompatActivity {
     }
 
     public void onClickTopLeftBtn(View view) {
-        finish();
+        if(nShoingIndex >= 0) {
+            sendViewing(nShoingIndex);
+        } else
+            finish();
 //        Intent intent = new Intent(ViewerActivity.this, EpisodeCommentActivity.class);
 //        intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID());
 //        startActivity(intent);
@@ -457,6 +462,13 @@ public class ViewerActivity extends AppCompatActivity {
             public void run() {
                 EpisodeVO vo = workVO.getEpisodeList().get(nEpisodeIndex);
                 HttpClient.sendHitsWork(new OkHttpClient(), workVO.getnWorkID(), vo.getnEpisodeID(), pref.getString("USER_ID", "Guest"), nOrder);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                });
             }
         }).start();
     }

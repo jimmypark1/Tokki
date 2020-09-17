@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.Whowant.Tokki.UI.Fragment.Main.EventPopupFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.MyWorkRecyclerFragment;
+import com.Whowant.Tokki.UI.Fragment.Main.SNSPopupFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.WriterCommentFragment;
 import com.Whowant.Tokki.VO.EventVO;
 
@@ -27,7 +28,11 @@ public class EventPopupAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return new EventPopupFragment(eventList.get(position));
+        if(eventList.get(position).getnEventType() == 100) {
+            return new SNSPopupFragment(eventList.get(position));
+        } else {
+            return new EventPopupFragment(eventList.get(position));
+        }
     }
 
     @Override
