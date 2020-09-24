@@ -1421,6 +1421,11 @@ public class HttpClient {
             recommandVO.setAllItemInCard(recommandWorkList);
             mainCardList.add(recommandVO);
 
+            WorkVO carrotEvent = new WorkVO();
+            carrotEvent.setWorkID(-1);
+            carrotEvent.setCoverFile("-1");
+            recommandWorkList.add(0, carrotEvent);
+
             JSONArray bestRankingJsonArray = resultObject.getJSONArray("BEST_RANKING");
             MainCardVO bestRankingVO = new MainCardVO();
             ArrayList<WorkVO> bestWorkList = new ArrayList<>();

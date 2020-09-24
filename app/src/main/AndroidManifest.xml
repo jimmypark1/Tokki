@@ -23,8 +23,12 @@
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".UI.Activity.Main.PopularActivity"
+        <activity
+            android:name=".UI.Activity.DrawerMenu.CarrotEvent"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".UI.Activity.Main.PopularActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar"/>
 
@@ -96,9 +100,7 @@
         <activity
             android:name=".SplashActivity"
             android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".UI.Activity.Admin.ReportDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -285,7 +287,6 @@
             android:name=".UI.Activity.Intro.IntroActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -431,7 +432,6 @@
                 <data
                     android:host="workmain"
                     android:scheme="panbook" />
-
                 <data
                     android:host="tokki.page.link"
                     android:scheme="https" />

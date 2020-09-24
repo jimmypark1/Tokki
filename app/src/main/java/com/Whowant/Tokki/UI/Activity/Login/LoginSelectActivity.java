@@ -127,7 +127,7 @@ public class LoginSelectActivity extends AppCompatActivity {
         String strUserID = pref.getString("USER_ID", "Guest");
         String strUserPW = pref.getString("USER_PW", "");
 
-//        strUserID = "aksid377@naver.com";
+//        strUserID = "";
 //        strUserPW = "null";
 //        nRegisterSNS = 2;
 
@@ -137,7 +137,7 @@ public class LoginSelectActivity extends AppCompatActivity {
             }
         } else {
             String strSNSID = pref.getString("SNS_ID", "");
-//            strSNSID = "172420961";
+//            strSNSID = "";
             if(strSNSID.length() > 0) {             // 소셜 로그인 이라면
                 requestSNSLogin(strUserID, strSNSID, false);
             }

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.DrawerMenu.CarrotEvent;
 import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WorkVO;
@@ -42,11 +43,18 @@ public class MainRecommendAdapter extends RecyclerView.Adapter<MainRecommendAdap
         WorkVO workVO = itemsList.get(position);
         String strImgUrl = workVO.getCoverFile();
 
+        if (workVO.getnWorkID() == -1 && strImgUrl == "-1") {
+            Glide.with(mContext)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .load(R.drawable.carrot_event_banner)
+                    .into(holder.coverView);
+            return;
+        }
+
         if(strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
             Glide.with(mContext)
                     .asBitmap() // some .jpeg files are actually gif
                     .load(R.drawable.no_poster_horizontal)
-                    .apply(new RequestOptions().override(800, 800))
                     .into(holder.coverView);
             return;
         } else if(!strImgUrl.startsWith("http")) {
@@ -78,9 +86,16 @@ public class MainRecommendAdapter extends RecyclerView.Adapter<MainRecommendAdap
                 public void onClick(View v) {
                     int nPosition = getAdapterPosition();
                     WorkVO vo = itemsList.get(nPosition);
-                    Intent intent = new Intent(mContext, WorkMainActivity.class);
-                    intent.putExtra("WORK_ID", vo.getnWorkID());
-                    mContext.startActivity(intent);
+
+                    if (itemsList.get(nPosition).getnWorkID() == -1) {
+                        Intent intent = new Intent(mContext, CarrotEvent.class);
+                        mContext.startActivity(intent);
+                    }
+                    else {
+                        Intent intent = new Intent(mContext, WorkMainActivity.class);
+                        intent.putExtra("WORK_ID", vo.getnWorkID());
+                        mContext.startActivity(intent);
+                    }
                 }
             });
         }
