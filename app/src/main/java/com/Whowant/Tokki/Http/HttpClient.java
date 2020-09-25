@@ -31,7 +31,11 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import okhttp3.MediaType;
@@ -1421,10 +1425,35 @@ public class HttpClient {
             recommandVO.setAllItemInCard(recommandWorkList);
             mainCardList.add(recommandVO);
 
-            WorkVO carrotEvent = new WorkVO();
-            carrotEvent.setWorkID(-1);
-            carrotEvent.setCoverFile("-1");
-            recommandWorkList.add(0, carrotEvent);
+            // 2020.09.24 modified by sjy   //////////////////////////////////////
+            String strEndDay = "20201001235959";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date endDate = null;
+
+            try {
+                endDate = sdf.parse(strEndDay);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Date toDay = new Date();
+            Log.d("Date","Today = " + toDay.getTime() + ", EndDay = " + endDate.getTime());
+
+            if(toDay.getTime() <= endDate.getTime()) {
+                WorkVO carrotEvent = new WorkVO();
+                carrotEvent.setWorkID(-1);
+                carrotEvent.setCoverFile("-1");
+                recommandWorkList.add(0, carrotEvent);
+                ////////  Modify End //////////////////////////////////////
+            }
+//            Calendar endDay = Calendar.getInstance();
+//            endDay.setTime(endDate);
+//            Calendar todayCal = Calendar.getInstance();
+//            todayCal.setTime(toDay);
+
+
+
+
 
             JSONArray bestRankingJsonArray = resultObject.getJSONArray("BEST_RANKING");
             MainCardVO bestRankingVO = new MainCardVO();
@@ -1487,6 +1516,10 @@ public class HttpClient {
 //
 //            genreRankingVO.setAllItemInCard(genroWorkList);
 //            mainCardList.add(genreRankingVO);
+
+            /*
+            {"NEW_WORK":["value", "value", "value"]}
+             */
 
             JSONArray newJsonArray = resultObject.getJSONArray("NEW_WORK");
             MainCardVO newRankingVO = new MainCardVO();
@@ -2422,7 +2455,6 @@ public class HttpClient {
 
                         vo.setnEpisodeID(object.getInt("EPISODE_ID"));
                         vo.setStrTitle(object.getString("EPISODE_TITLE"));
-                        vo.setDistractor(object.getString("DISTRACTOR").equals("N") ? false : true);
                         vo.setStrDate(object.getString("CREATED_DATE"));
                         vo.setnOrder(object.getInt("EPISODE_ORDER"));
                         vo.setnHitsCount(object.getInt("HITS_COUNT"));

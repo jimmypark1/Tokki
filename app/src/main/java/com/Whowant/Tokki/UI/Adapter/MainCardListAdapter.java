@@ -31,6 +31,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
     private Activity mContext;
     private Timer timer;
     private int nCurrentItem = 0;
+    private final int TIMER_SEC = 2500;
 
     public MainCardListAdapter(Activity context, ArrayList<MainCardVO> itemsList) {
         this.mContext = context;
@@ -103,7 +104,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
                                 dotView.setBackgroundResource(R.drawable.white_dot);
                             }
                         }
-                        timer.cancel();
+
                         nCurrentItem = nPosition;
                         setTimer(singleSectionItems, itemRowHolder.recyclerView);
                     }
@@ -185,6 +186,11 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
     }
 
     private void setTimer(ArrayList singleSectionItems, RecyclerView recyclerView) {
+        if(timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -202,6 +208,6 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
                     }
                 });
             }
-        }, 5000, 5000);
+        }, TIMER_SEC, TIMER_SEC);
     }
 }

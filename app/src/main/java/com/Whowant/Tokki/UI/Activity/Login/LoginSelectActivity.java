@@ -80,11 +80,11 @@ public class LoginSelectActivity extends AppCompatActivity {
 
         mContext = this;
 
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("소셜 로그인");
-        }
+//        ActionBar actionBar = getSupportActionBar();
+//        if(actionBar != null) {
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//            actionBar.setTitle("소셜 로그인");
+//        }
 
 //        inputIDView = findViewById(R.id.inputIDView);
 //        inputPWView = findViewById(R.id.inputPWView);
@@ -242,7 +242,7 @@ public class LoginSelectActivity extends AppCompatActivity {
         startActivityForResult(new Intent(LoginSelectActivity.this, FacebookSignupActivity.class), 1000);
     }
 
-    public void onClickTwitterLoginBtn(View view) {
+    public void onClickGoogleLoginBtn(View view) {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()

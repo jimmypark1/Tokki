@@ -48,8 +48,7 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View inflaterView = inflater.inflate(R.layout.main_fragment, container, false);
         mainRecyclerView = inflaterView.findViewById(R.id.mainRecyclerView);

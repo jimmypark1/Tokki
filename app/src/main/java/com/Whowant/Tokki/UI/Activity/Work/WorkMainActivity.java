@@ -271,7 +271,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
         startActivity(intent);
     }
 
-    private void getKeepData() {
+    private void getKeepData() {            // 보관함에 담았는지 여부
         CommonUtils.showProgressDialog(WorkMainActivity.this, "작품 정보를 가져오고 있습니다.");
 
         new Thread(new Runnable() {
