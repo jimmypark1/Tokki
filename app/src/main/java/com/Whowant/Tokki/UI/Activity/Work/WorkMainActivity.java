@@ -910,6 +910,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 TextView startPointView = holder.itemView.findViewById(R.id.startPointView);
                 TextView hitsCountView = holder.itemView.findViewById(R.id.hitsCountView);
                 TextView commentCountView = holder.itemView.findViewById(R.id.commentCountView);
+                LinearLayout chatCountLayout = holder.itemView.findViewById(R.id.chatCountLayout);
+                TextView chatCountView = holder.itemView.findViewById(R.id.chatCountView);
 
                 episodeTitleView.setText(vo.getStrTitle());
 
@@ -934,6 +936,9 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 ImageView menuBtn = holder.itemView.findViewById(R.id.menuBtn);
 
                 if(!bModify && pref.getString("ADMIN", "N").equals("N")) {
+                    chatCountLayout.setVisibility(View.GONE);
+
+
                     menuBtn.setVisibility(View.VISIBLE);
                     postAvailableView.setVisibility(View.GONE);
 
@@ -963,6 +968,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         }
                     });
                 } else {
+                    chatCountLayout.setVisibility(View.VISIBLE);
                     if(pref.getString("ADMIN", "N").equals("Y")) {
                         postAvailableView.setVisibility(View.VISIBLE);
                         if(vo.getStrSubmit().equals("N")) {
@@ -983,6 +989,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                             postAvailableView.setBackgroundResource(R.drawable.badge_deny);
                         }
                     }
+
+                    chatCountView.setText("" + vo.getnChatCount());
 
                     menuBtn.setVisibility(View.VISIBLE);
                     menuBtn.setOnClickListener(new View.OnClickListener() {

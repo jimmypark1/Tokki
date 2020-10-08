@@ -338,7 +338,7 @@ public class MyFragment extends Fragment {
 //            @Override
 //            public void onClick(View view) {
 //                startActivity(new Intent(getActivity(), PurchaseActivity.class));
-//            }
+//            }`
 //        });
 
         faceView.setOnClickListener(new View.OnClickListener() {

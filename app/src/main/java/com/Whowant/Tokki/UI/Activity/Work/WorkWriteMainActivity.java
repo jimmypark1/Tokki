@@ -534,6 +534,8 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                 TextView startPointView = holder.itemView.findViewById(R.id.startPointView);
                 TextView hitsCountView = holder.itemView.findViewById(R.id.hitsCountView);
                 TextView commentCountView = holder.itemView.findViewById(R.id.commentCountView);
+//                LinearLayout chatCountLayout = holder.itemView.findViewById(R.id.chatCountLayout);
+                TextView chatCountView = holder.itemView.findViewById(R.id.chatCountView);
 
                 episodeTitleView.setText(vo.getStrTitle());
                 dateTimeView.setText(vo.getStrDate().substring(0, 10));
@@ -545,6 +547,8 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
                 postAvailableView.setVisibility(View.VISIBLE);
                 menuBtn.setVisibility(View.VISIBLE);
+
+                chatCountView.setText("" + vo.getnChatCount());
 
                 if (vo.getStrSubmit().equals("N")) {
                     postAvailableView.setText("제출대기");

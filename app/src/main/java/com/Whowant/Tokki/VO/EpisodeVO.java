@@ -15,6 +15,7 @@ public class EpisodeVO {                                   // 한 회차별 정�
     private float  fStarPoint;
     private int    nCommentCount;
     private String strSubmit;                               // N - 제출안됨, W - 승인대기, Y - 게시됨(승인됨)
+    private int    nChatCount;
 
     public EpisodeVO() {
 
@@ -114,5 +115,13 @@ public class EpisodeVO {                                   // 한 회차별 정�
 
     public void setnTapCount(int nTapCount) {
         this.nTapCount = nTapCount;
+    }
+
+    public int getnChatCount() {
+        return nChatCount;
+    }
+
+    public void setnChatCount(int nChatCount) {
+        this.nChatCount = nChatCount;
     }
 }

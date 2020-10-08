@@ -62,7 +62,6 @@ public class HttpClient {
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
-
             JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
 
             for(int i = 0 ; i < resultArray.length() ; i++) {
@@ -2463,6 +2462,8 @@ public class HttpClient {
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
+                        if(object.has("CHAT_COUNT"))
+                            vo.setnChatCount(object.getInt("CHAT_COUNT"));
 
                         episodeList.add(vo);
                     }
@@ -2482,6 +2483,8 @@ public class HttpClient {
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
+                        if(object.has("CHAT_COUNT"))
+                            vo.setnChatCount(object.getInt("CHAT_COUNT"));
 
                         episodeList.add(vo);
                     }
@@ -2559,6 +2562,8 @@ public class HttpClient {
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
+                        if(object.has("CHAT_COUNT"))
+                            vo.setnChatCount(object.getInt("CHAT_COUNT"));
 
                         episodeList.add(vo);
                     }
@@ -2578,6 +2583,8 @@ public class HttpClient {
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
+                        if(object.has("CHAT_COUNT"))
+                            vo.setnChatCount(object.getInt("CHAT_COUNT"));
 
                         episodeList.add(vo);
                     }

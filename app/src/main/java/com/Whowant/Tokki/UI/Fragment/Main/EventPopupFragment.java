@@ -55,11 +55,6 @@ public class EventPopupFragment extends Fragment {
             }
         });
 
-//        if(strEventID.equals("EVENT_1"))
-//            imgView.setImageResource(R.drawable.event2);
-//        else
-//            imgView.setImageResource(R.drawable.event1);
-
         return inflaterView;
     }
 }

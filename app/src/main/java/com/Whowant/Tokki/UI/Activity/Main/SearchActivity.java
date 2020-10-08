@@ -100,7 +100,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                             return true;
                         }
 
-                        getKeepListData();
+                        getSearchListData();
                         break;
                     default:
                         // 기본 엔터키 동작
@@ -184,7 +184,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         }).start();
     }
 
-    private void getKeepListData() {
+    private void getSearchListData() {
         searchList = new ArrayList<>();
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(inputSearchTextView.getWindowToken(), 0);
@@ -239,7 +239,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             return;
         }
 
-        getKeepListData();
+        getSearchListData();
     }
 
     public void onClickDeleteBtn(View view) {
@@ -254,7 +254,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             return;
         }
 
-        getKeepListData();
+        getSearchListData();
     }
 
     public void onClickTagTab(View view) {
@@ -265,7 +265,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             return;
         }
 
-        getKeepListData();
+        getSearchListData();
     }
 
     public void onClickGenreTab(View view) {
@@ -276,7 +276,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             return;
         }
 
-        getKeepListData();
+        getSearchListData();
     }
 
     private void setTab() {

@@ -26,14 +26,29 @@
         android:layout_marginLeft="37dp"
         android:layout_marginRight="37dp">
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/imgLayout"
             android:layout_width="match_parent"
-            android:layout_height="260dp"
-            android:layout_marginTop="18dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:clipToPadding="false"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintDimensionRatio="1000:800"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:clipToPadding="false"/>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/checkLayout"
@@ -42,7 +57,7 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:onClick="onClickRemoveBtn"
-            android:layout_below="@+id/viewPager"
+            android:layout_below="@+id/imgLayout"
             android:layout_marginTop="21.7dp"
             android:layout_marginBottom="11.5dp"
             android:layout_centerHorizontal="true">
