@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Popup.SlangPopup"
+    android:background="#b2000000">
+
+    <RelativeLayout
+        android:id="@+id/popupBodyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_popup_bg"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_centerInParent="true">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/titleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="알림"/>
+
+            <ImageButton
+                android:id="@+id/closeBtn"
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="19.3dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginBottom="17dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/pop_close"
+                android:onClick="onClickCloseBtn"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/topLayout"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#f0f0f0"/>
+
+        <ImageView
+            android:id="@+id/warnIconView"
+            android:layout_width="28dp"
+            android:layout_height="24.2dp"
+            android:layout_marginTop="15.5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/topLayout"
+            android:src="@drawable/caoution"/>
+
+        <TextView
+            android:id="@+id/contentsView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="9.5dp"
+            android:layout_below="@+id/warnIconView"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            android:text="죄송합니다. 회원님."/>
+
+        <TextView
+            android:id="@+id/slangView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentsView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textColor="#ff5700"
+            android:textSize="18sp"
+            android:text="욕설"/>
+
+        <ImageView
+            android:id="@+id/slangUnderlineView"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_below="@+id/slangView"
+            android:layout_alignLeft="@id/slangView"
+            android:layout_alignRight="@id/slangView"
+            android:background="#ff5700"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="30dp"
+            android:layout_below="@+id/slangUnderlineView"
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            android:text="은/는 금지어입니다.\n다른 표현은 없을까요?"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/okBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_white_btn_bg"
+        android:layout_below="@+id/popupBodyLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="80dp"
+        android:paddingLeft="80dp"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"
+        android:text="확인"
+        android:onClick="onClickCloseBtn"/>
+
+</RelativeLayout>

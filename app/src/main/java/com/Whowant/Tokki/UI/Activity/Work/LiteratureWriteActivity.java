@@ -59,8 +59,10 @@ import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Popup.BGImageSelectPopup;
 import com.Whowant.Tokki.UI.Popup.ChangeTitlePopup;
+import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.UI.Popup.DistractorPopup;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
+import com.Whowant.Tokki.UI.Popup.SlangPopup;
 import com.Whowant.Tokki.UI.Popup.TextEditPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
@@ -171,6 +173,10 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_renewal_layout);
+
+        if(CommonUtils.forbiddenWords == null || CommonUtils.forbiddenWords.size() == 0) {
+            // 서버와 통신하여 리스트 가져오기
+        }
 
         strTitle = getIntent().getStringExtra("EPISODE_TITLE");
         if(getIntent().getStringExtra("SUBMIT").equals("Y")) {
@@ -377,6 +383,18 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             @Override
             public void onClick(View view) {
                 String strContents = inputTextView.getText().toString();
+                CommonUtils.showProgressDialog(LiteratureWriteActivity.this, "서버와 통신중입니다. 잠시만 기다려주세요.");
+                String strFobiddenWords = CommonUtils.checkForbiddenWords(strContents);
+                if(strFobiddenWords.length() > 0) {
+                    CommonUtils.hideProgressDialog();
+                    Intent intent = new Intent(LiteratureWriteActivity.this, SlangPopup.class);
+                    intent.putExtra("SLANG", strFobiddenWords);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.cross_fade_in, R.anim.cross_fade_out);
+                    return;
+                }
+
+                CommonUtils.hideProgressDialog();
 
                 if(strContents.length() == 0) {
                     Toast.makeText(LiteratureWriteActivity.this, "내용을 입력하세요.", Toast.LENGTH_LONG).show();

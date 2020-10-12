@@ -58,21 +58,20 @@ public class LoginSelectActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private Context mContext;
-    private String name, snsID, email;
-    private Uri photoUrl;
-    private int snsNum;
+    private String name, snsID, email;                  // 회원가입 및 로그인에 필요한 정보 -> 이후 액티비티들에 extra bundle 로 전달하여 회원가입 처리에 사용한다
+    private Uri photoUrl;                               // 회원 사진 url
+    private int snsNum;                                 // sns 로그인 시의 SNS 값   0 - 펜북 회원가입, 1 - Kakaotalk, 2 - Naver, 3 - Daum, 4 - FAcebook, 5 - Google
 
 //    private EditText inputIDView;
 //    private EditText inputPWView;
-    private boolean bFinish = false;
+    private boolean bFinish = false;                    //  백버튼 두번 클릭에 사용하기 위한 flag
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_select_renewal);
 
-        Thread.UncaughtExceptionHandler handler = Thread
-                .getDefaultUncaughtExceptionHandler();
+        Thread.UncaughtExceptionHandler handler = Thread.getDefaultUncaughtExceptionHandler();                  // 앱 비정상 종료시 로그파일 남기기 위한 설정
 
         if (!(handler instanceof CustomUncaughtExceptionHandler)) {
             Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
@@ -80,62 +79,17 @@ public class LoginSelectActivity extends AppCompatActivity {
 
         mContext = this;
 
-//        ActionBar actionBar = getSupportActionBar();
-//        if(actionBar != null) {
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//            actionBar.setTitle("소셜 로그인");
-//        }
-
-//        inputIDView = findViewById(R.id.inputIDView);
-//        inputPWView = findViewById(R.id.inputPWView);
-//
-//        inputIDView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                if(event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-//                    if(event.getAction() == KeyEvent.ACTION_DOWN)
-//                        return true;
-//
-//                    inputPWView.requestFocus();
-//                    return true;
-//                }
-//
-//                return false;
-//            }
-//        });
-//
-//        inputPWView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                if(event == null)
-//                    return false;
-//
-//                if(event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-//                    if(event.getAction() == KeyEvent.ACTION_DOWN)
-//                        return true;
-//
-//                    requestLogin();
-//                    return true;
-//                }
-//
-//                return false;
-//            }
-//        });
-
+        // 로그인 이력이 있다면 자동 로그인 진행
         SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
         int nRegisterSNS = pref.getInt("REGISTER_SNS", 0);
         String strUserID = pref.getString("USER_ID", "Guest");
         String strUserPW = pref.getString("USER_PW", "");
 
-//        strUserID = "";
-//        strUserPW = "null";
-//        nRegisterSNS = 2;
-
-        if(nRegisterSNS == 0) {
+        if(nRegisterSNS == 0) {                 // SNS 로그인이 아닌 경우 자체 로그인(panbook login) 처리
             if(strUserID.length() > 0 && strUserPW.length() > 0) {
                 requestPanbookLogin(strUserID, strUserPW);
             }
-        } else {
+        } else {                                // SNS 로그인인 경우 SNS 로그인 처리
             String strSNSID = pref.getString("SNS_ID", "");
 //            strSNSID = "";
             if(strSNSID.length() > 0) {             // 소셜 로그인 이라면
@@ -164,7 +118,7 @@ public class LoginSelectActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private void initKakaotalkLogin() {
+    private void initKakaotalkLogin() {                         // kakao Login
         kakaoCallback = new SessionCallback();
         Session.getCurrentSession().addCallback(kakaoCallback);
         Session.getCurrentSession().checkAndImplicitOpen();
@@ -193,7 +147,7 @@ public class LoginSelectActivity extends AppCompatActivity {
         if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
             return;
         } else if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 1010) {
+            if (requestCode == 1010) {                              // SNS 로그인 시도시 회원가입 되어있지 않을 때 회원가입 여부를 묻는 팝업에서 OK 클릭했을 경우 들어오는 부분
                 Intent intent = new Intent(LoginSelectActivity.this, AgreementActivity.class);
                 intent.putExtra("SNS", snsNum);
                 intent.putExtra("SNS_ID", snsID);
@@ -202,12 +156,12 @@ public class LoginSelectActivity extends AppCompatActivity {
                 intent.putExtra("USER_PHOTO", photoUrl);
                 startActivity(intent);
 //                startActivity(new Intent(LoginSelectActivity.this, AgreementActivity.class));
-            } else if (requestCode == 1000) {
+            } else if (requestCode == 1000) {                       // Naver 로그인 결과를 받아오는 부분. RESULT_OK 라면 로그인 성공으로 MainActivity 로 이동
                 Intent intent = new Intent(LoginSelectActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-            } else if (requestCode == RC_SIGN_IN) {
+            } else if (requestCode == RC_SIGN_IN) {                 // 그 외의 경우는 구글 로그인 성공 했을 경우로 판단하여 Firebase Login 으로 이행
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
                 try {
                     GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -234,7 +188,7 @@ public class LoginSelectActivity extends AppCompatActivity {
         startActivityForResult(new Intent(LoginSelectActivity.this, NaverSignupActivity.class), 1000);
     }
 
-    public void onClickDaumLoginBtn(View view) {
+    public void onClickDaumLoginBtn(View view) {                    // XML 에서 GONE 처리된 부분으로 현재 사용하지 않음
 
     }
 
@@ -254,11 +208,6 @@ public class LoginSelectActivity extends AppCompatActivity {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-
-    public void onClickInstagramLoginBtn(View view) {
-
-    }
-
 
     /**
      * Google Login Callback
@@ -418,96 +367,11 @@ public class LoginSelectActivity extends AppCompatActivity {
         startActivity(new Intent(LoginSelectActivity.this, PanbookLoginActivity.class));
     }
 
-//    public void onClickLoginBtn(View view) {
-//        requestLogin();
-//    }
-//
-//    private void requestLogin() {
-//        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(inputIDView.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(inputPWView.getWindowToken(), 0);
-//
-//        String strID = inputIDView.getText().toString();
-//        String strPW = inputPWView.getText().toString();
-//
-//        if(strID.length() == 0) {
-//            Toast.makeText(LoginSelectActivity.this, "ID를 입력해주세요.", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//
-//        if(strPW.length() == 0) {
-//            Toast.makeText(LoginSelectActivity.this, "패스워드를 입력해주세요.", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//
-//        CommonUtils.showProgressDialog(LoginSelectActivity.this, "유저 정보를 확인하고 있습니다. 잠시만 기다려 주세요.");
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    final SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
-//                    JSONObject resultObject = HttpClient.requestPanbookLogin(new OkHttpClient(), strID, strPW, pref.getString("FCM_TOKEN", ""));
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            CommonUtils.hideProgressDialog();
-//
-//                            try {
-//                                if(resultObject.getString("RESULT").equals("SUCCESS")) {
-//                                    String strUserName = resultObject.getString("USER_NAME");
-//                                    String strUserEmail = resultObject.getString("USER_EMAIL");
-//                                    String strUserPhoto = resultObject.getString("USER_PHOTO");
-//                                    String strUserPhoneNum = resultObject.getString("USER_PHONENUM");
-//                                    int nRegisterSNS = resultObject.getInt("REGISTER_SNS");
-//                                    String strUserAdmin = resultObject.getString("USER_ADMIN");
-//                                    String strBirthday = resultObject.getString("USER_BIRTHDAY");
-//                                    int nGender = resultObject.getInt("USER_GENDER");
-//                                    int    nCoinCount = resultObject.getInt("COIN_COUNT");
-//
-//                                    SharedPreferences.Editor editor = pref.edit();
-//
-//                                    editor.putString("USER_ID", strID);
-//                                    editor.putString("USER_PW", strPW);
-//                                    editor.putString("USER_NAME", strUserName);
-//                                    editor.putString("USER_EMAIL", strUserEmail);
-//                                    editor.putString("USER_PHOTO", strUserPhoto);
-//                                    editor.putString("USER_PHONENUM", strUserPhoneNum);
-//                                    editor.putInt("REGISTER_SNS", nRegisterSNS);
-//                                    editor.putString("ADMIN", strUserAdmin);
-//                                    editor.putString("USER_BIRTHDAY", strBirthday);
-//                                    editor.putInt("USER_GENDER", nGender);
-//                                    editor.putInt("COIN_COUNT", nCoinCount);
-//
-//                                    editor.commit();
-//
-////                                    setResult(RESULT_OK);
-////                                    finish();
-//                                    Intent intent = new Intent(LoginSelectActivity.this, MainActivity.class);
-//                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                    startActivity(intent);
-//                                } else {
-//                                    Toast.makeText(LoginSelectActivity.this, "로그인에 실패했습니다. ID와 패스워드를 다시 확인해 주세요.", Toast.LENGTH_LONG).show();
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    });
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
-//    }
-
     public void onClickFindPWBtn(View view) {
         startActivity(new Intent(LoginSelectActivity.this, FindPasswordActivity.class));
     }
 
-    private void requestPanbookLogin(String strUserID, String strUserPW) {
+    private void requestPanbookLogin(String strUserID, String strUserPW) {                              // SNS 로그인이 아닌 일반 회원가입 시의 로그인 처리
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -571,7 +435,7 @@ public class LoginSelectActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void requestSNSLogin(String strUserID, String SNSID, boolean bRegi) {
+    private void requestSNSLogin(String strUserID, String SNSID, boolean bRegi) {                   // bRegi : 회원가입 단계에서 SNS 로그인 시도인지 확인하는 flag
         new Thread(new Runnable() {
             @Override
             public void run() {

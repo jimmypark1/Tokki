@@ -117,14 +117,6 @@ public class AgreementActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickPopBtn(View view) {
-        Intent intent = new Intent(AgreementActivity.this, CommonPopup.class);
-        intent.putExtra("TITLE", "개인정보 수집 정책");
-        intent.putExtra("CONTENTS", "약관이 들어갈 곳입니다.\n약관 약관 약관 \n 약관 약관 약관 약관 약관 약관 약관 약관 약관 약관 약관약관");
-        intent.putExtra("TWOBTN", false);
-        startActivity(intent);
-    }
-
     public void onClickCheck2(View view) {
         bCheck2 = !bCheck2;
 
@@ -160,7 +152,7 @@ public class AgreementActivity extends AppCompatActivity {
             return;
         }
 
-        Intent intent = new Intent(AgreementActivity.this, PersonalInfoActivity.class);
+        Intent intent = new Intent(AgreementActivity.this, PersonalInfoActivity.class);                 // 약관 동의시 개인정보 입력화면으로 이동
         intent.putExtra("SNS", nSNS);
         intent.putExtra("SNS_ID", strSNSID);
         intent.putExtra("USER_NAME", strNickName);

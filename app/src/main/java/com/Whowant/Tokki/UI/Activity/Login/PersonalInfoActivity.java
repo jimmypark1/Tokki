@@ -74,18 +74,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         strPhoneNum = getIntent().getStringExtra("USER_PHONENUM");
         strSNSID = getIntent().getStringExtra("SNS_ID");
 
-//        if(nSNS > 0) {
-//            LinearLayout inputPWLayout = findViewById(R.id.inputPWLayout);
-//            LinearLayout inputPWCheckLayout = findViewById(R.id.inputPWCheckLayout);
-//
-//            inputPWLayout.setVisibility(View.GONE);
-//            inputPWCheckLayout.setVisibility(View.GONE);
-//        }
-
-//        inputIDView = findViewById(R.id.inputIDView);
         inputNameView = findViewById(R.id.inputNameView);
-//        inputPWView = findViewById(R.id.inputPWView);
-//        inputPWCheckView = findViewById(R.id.inputPWCheckView);
         inputEmailView = findViewById(R.id.inputEmailView);
         inputPhonenumView = findViewById(R.id.inputPhoneNumView);
         inputBirthView = findViewById(R.id.inputBirthView);
@@ -112,7 +101,6 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
         inputBirthView.setFocusable(false);
         inputBirthView.setClickable(false);
-
         inputBirthView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,14 +124,6 @@ public class PersonalInfoActivity extends AppCompatActivity {
                     }
                 });
                 datePickerDialogFragment.show(getFragmentManager(), "DatePickerDialogFragment");
-//                DatePickerDialog dialog = new DatePickerDialog(PersonalInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
-//                    @Override
-//                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-//                        strBirthday = String.format("%d%02d%02d", year, (month+1), day);
-//                        inputBirthView.setText(strBirthday);
-//                    }
-//                }, nYear, nMonth, nDay);
-//                dialog.show();
             }
         });
 
@@ -175,15 +155,6 @@ public class PersonalInfoActivity extends AppCompatActivity {
             }
         });
         datePickerDialogFragment.show(getFragmentManager(), "DatePickerDialogFragment");
-
-//        DatePickerDialog dialog = new DatePickerDialog(PersonalInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-//                strBirthday = String.format("%d%02d%02d", year, (month+1), day);
-//                inputBirthView.setText(strBirthday);
-//            }
-//        }, nYear, nMonth, nDay);
-//        dialog.show();
     }
 
     private void initGenderViews() {
@@ -214,14 +185,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         strName = inputNameView.getText().toString();
         strEmail = inputEmailView.getText().toString();
         strPhoneNum = inputPhonenumView.getText().toString();
-//        String strPW1 = inputPWView.getText().toString();
-//        String strPW2 = inputPWCheckView.getText().toString();
         strBirthday = inputBirthView.getText().toString();
-
-//        if(strID.length() == 0) {
-//            Toast.makeText(PersonalInfoActivity.this, "ID를 입력해주세요.", Toast.LENGTH_LONG).show();
-//            return;
-//        }
 
         if(strName.length() == 0) {
             Toast.makeText(PersonalInfoActivity.this, "이름을 입력해주세요.", Toast.LENGTH_LONG).show();
@@ -238,21 +202,6 @@ public class PersonalInfoActivity extends AppCompatActivity {
             return;
         }
 
-//        if(nSNS == 0 && strPW1.length() == 0) {
-//            Toast.makeText(PersonalInfoActivity.this, "패스워드를 입력해주세요.", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//
-//        if(nSNS == 0 && strPW2.length() == 0) {
-//            Toast.makeText(PersonalInfoActivity.this, "패스워드를 다시 입력해주세요.", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//
-//        if(nSNS == 0 && !strPW2.equals(strPW1)) {
-//            Toast.makeText(PersonalInfoActivity.this, "패스워드가 서로 다릅니다. 입력해주세요.", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-
         if(strBirthday.length() < 6) {
             Toast.makeText(PersonalInfoActivity.this, "생년월일 6자리를 입력해주세요", Toast.LENGTH_LONG).show();
             return;
@@ -260,7 +209,6 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
         final HashMap<String, String> userInfoMap = new HashMap<>();
         userInfoMap.put("USER_ID", strID);
-//        userInfoMap.put("USER_PW", strPW1);
         userInfoMap.put("USER_NAME", strName);
         userInfoMap.put("USER_EMAIL", strEmail);
         userInfoMap.put("USER_PHONENUM", strPhoneNum);
@@ -336,11 +284,6 @@ public class PersonalInfoActivity extends AppCompatActivity {
                 }
             }
         }).start();
-//        CommonUtils.showProgressDialog(PersonalInfoActivity.this, "회원 가입 중입니다. 잠시만 기다려 주세요.");
-//        Intent intent = new Intent(PersonalInfoActivity.this, MainActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(intent);
     }
 
 

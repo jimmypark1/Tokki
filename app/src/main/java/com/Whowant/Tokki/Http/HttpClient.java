@@ -4094,4 +4094,34 @@ public class HttpClient {
 
         return false;
     }
+
+    public static boolean getforbiddenWordsFromServer(OkHttpClient httpClient) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "ForbiddenWords.jsp")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if(response.code() != 200)
+                return true;
+
+            CommonUtils.forbiddenWords = new ArrayList<>();
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            JSONArray resultArray = resultJsonObject.getJSONArray("SLANG_LIST");
+            for(int i = 0 ; i < resultArray.length() ; i++) {
+                JSONObject slangObject = (JSONObject)resultArray.get(i);
+                CommonUtils.forbiddenWords.add(slangObject.getString("SLANG"));
+            }
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
 }

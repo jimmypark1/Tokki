@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.ContestEventActivity;
+import com.Whowant.Tokki.UI.Activity.DrawerMenu.EventActivity;
+import com.Whowant.Tokki.UI.Activity.DrawerMenu.EventDetailActivity;
 import com.Whowant.Tokki.UI.Popup.InteractionSpeakerSelectActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.EventVO;
@@ -48,10 +50,22 @@ public class EventPopupFragment extends Fragment {
         imgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ContestEventActivity.class);
-                intent.putExtra("IMG_URL", eventVO.getStrEventContentsFile());
-                intent.putExtra("EVENT_TITLE", eventVO.getStrEventTitle());
-                getActivity().startActivity(intent);
+                if(eventVO.getnEventType() == 0) {               // 일반 이벤틈
+                    Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+                    intent.putExtra("EVENT_TITLE", eventVO.getStrEventTitle());
+                    intent.putExtra("EVENT_FILE", eventVO.getStrEventContentsFile());
+                    getActivity().startActivity(intent);
+                } else if(eventVO.getnEventType() == 10) {           // 콘테스트 이벤트
+                    Intent intent = new Intent(getActivity(), ContestEventActivity.class);
+                    intent.putExtra("EVENT_TITLE", eventVO.getStrEventTitle());
+                    intent.putExtra("IMG_URL", eventVO.getStrEventContentsFile());
+                    getActivity().startActivity(intent);
+                }
+
+//                Intent intent = new Intent(getActivity(), ContestEventActivity.class);
+//                intent.putExtra("IMG_URL", eventVO.getStrEventContentsFile());
+//                intent.putExtra("EVENT_TITLE", eventVO.getStrEventTitle());
+//                getActivity().startActivity(intent);
             }
         });
 

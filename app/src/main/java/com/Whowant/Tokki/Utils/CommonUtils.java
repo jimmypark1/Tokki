@@ -22,6 +22,9 @@ import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
+import com.Whowant.Tokki.Http.HttpClient;
+import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -31,8 +34,11 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+
+import okhttp3.OkHttpClient;
 
 public class CommonUtils {
     private static ProgressDialog mProgressDialog;
@@ -42,6 +48,8 @@ public class CommonUtils {
 //    public static String strDefaultUrl = "http://10.140.61.69:8080/howmuch_web/";
     public static String strDefaultUrl = "http://175.123.253.231:8080/howmuch_web/";
     public static Toast toast = null;
+    public static ArrayList<String> forbiddenWords = new ArrayList<>();
+    private static boolean isComplete = false;
 
     public static String getRealPathFromURI(final Context context, final Uri uri) {
         String strAuth = uri.getAuthority();
@@ -417,5 +425,45 @@ public class CommonUtils {
         }
 
         return null;
+    }
+
+    public static ArrayList<String> getForbiddenWords() {
+        isComplete = false;
+
+        if(forbiddenWords == null || forbiddenWords.size() == 0) {
+            while(true) {
+                if(isComplete)
+                    break;
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        isComplete = HttpClient.getforbiddenWordsFromServer(new OkHttpClient());
+                    }
+                }).start();
+
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return forbiddenWords;
+            // 통신
+        } else {
+            return forbiddenWords;
+        }
+    }
+
+    public static String checkForbiddenWords(String strKeyword) {
+        ArrayList<String> forbiddenList = getForbiddenWords();
+
+        for(String strForbiddenWord : forbiddenList) {
+            if(strKeyword.contains(strForbiddenWord))
+                return strForbiddenWord;
+        }
+
+        return "";
     }
 }

@@ -78,14 +78,11 @@ import okhttp3.OkHttpClient;
 import static com.kakao.util.helper.Utility.getPackageInfo;
 
 public class MainActivity extends AppCompatActivity {
-    //87:3d:1b:b4:4a:86:bc:89:86:2a:28:dc:c0:b9:f1:15:07:9c:ba:ee
-    //07:85:b9:f3:08:14:5c:57:5a:b3:04:d8:c6:20:0b:7c:71:87:bc:e5
-    private Toolbar toolbar;
-    private DrawerLayout drawer;
-    private ActionBarDrawerToggle drawerToggle;
+    private DrawerLayout drawer;                            // 서랍 메뉴
+    private ActionBarDrawerToggle drawerToggle;             // 메뉴 열기/닫기 를 관리하는 토글 객체
 
     private SharedPreferences pref;
-    private NavigationView navigationView;
+    private NavigationView navigationView;                  // 서랍 메뉴 관련된
     private String strUserID;
 
     private CustomViewPager viewPager;
@@ -107,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_renewal_layout);
-
-        String strKey  = getKeyHash(this);
 
         int nType = getIntent().getIntExtra("TYPE", -1);
         boolean bFirst = getIntent().getBooleanExtra("FIRST", false);
@@ -174,11 +169,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null)
-            actionBar.setDisplayHomeAsUpEnabled(true);
-
         drawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.app_name, R.string.app_name);
         drawer.addDrawerListener(drawerToggle);
 
@@ -808,22 +798,5 @@ public class MainActivity extends AppCompatActivity {
                 myImgView.setBackgroundResource(R.drawable.ic_mypage_on);
                 break;
         }
-    }
-
-    public static String getKeyHash(final Context context) {
-        PackageInfo packageInfo = getPackageInfo(context, PackageManager.GET_SIGNATURES);
-        if (packageInfo == null)
-            return null;
-
-        for (Signature signature : packageInfo.signatures) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
-            } catch (NoSuchAlgorithmException e) {
-                Log.w("Login", "Unable to get MessageDigest. signature=" + signature, e);
-            }
-        }
-        return null;
     }
 }
