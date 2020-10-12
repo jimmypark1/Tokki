@@ -187,10 +187,6 @@
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.Activity.Writer.FollowingWriterListActivity"
-            android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".UI.Activity.Work.EpisodeCommentActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar"
@@ -309,10 +305,6 @@
             android:name=".UI.Activity.Main.UserProfileActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".UI.Activity.Work.ChatCommentActivity"
-            android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -385,15 +377,7 @@
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.Activity.Main.RecommandRankingActivity"
-            android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".UI.Activity.Main.NewRankingActivity"
-            android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".UI.Activity.Main.GenreRankingActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -428,10 +412,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UI.Activity.Main.BestRankingActivity"
-            android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".UI.Activity.Login.FindAccountActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -458,10 +438,6 @@
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.Activity.Work.EpisodePreviewActivity"
-            android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".UI.Popup.CoverMediaSelectPopup"
             android:configChanges="screenSize|orientation"
             android:theme="@style/Theme.AppCompat.Translucent"
@@ -472,14 +448,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.Activity.Work.WorkWriteMainActivity"
-            android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".UI.Activity.Work.AddWriterActivity"
-            android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".UI.Activity.Work.LiteratureListActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

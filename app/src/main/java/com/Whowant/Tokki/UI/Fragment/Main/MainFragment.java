@@ -29,8 +29,8 @@ import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 
-public class MainFragment extends Fragment {
-    private ArrayList<MainCardVO> mainCardList;
+public class MainFragment extends Fragment {                                                            // 1번 탭 메인 페이지. RecyclerView 구조로 안에 다른 RecyclerView 로 이루어져 있음
+    private ArrayList<MainCardVO> mainCardList;                                                         // MainCardVO 가 한 줄 단위의 row 를 이룬다
     private RecyclerView mainRecyclerView;
     private SwipeRefreshLayout refreshLayout;
 
@@ -44,7 +44,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
     }
 
     @Override
@@ -91,23 +91,6 @@ public class MainFragment extends Fragment {
         } else {
             bVisible = false;
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.main, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                startActivity(new Intent(getActivity(), SearchActivity.class));
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void getMainData() {

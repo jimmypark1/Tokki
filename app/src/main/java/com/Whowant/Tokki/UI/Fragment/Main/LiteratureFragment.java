@@ -30,7 +30,7 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
-public class LiteratureFragment extends Fragment {
+public class LiteratureFragment extends Fragment {                                          // 3번탭 작성 시작하는 페이지
     private ArrayList<WorkVO> workList;
     private ListView listView;
     private TextView emptyView;
@@ -45,7 +45,7 @@ public class LiteratureFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
     }
 
     @Override
@@ -90,26 +90,6 @@ public class LiteratureFragment extends Fragment {
             bVisible = false;
         }
     }
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.work_list_menu, menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_btn1:              // 작가추가 클릭
-//                startActivity(new Intent(getActivity(), AddWriterActivity.class));
-//                return true;
-//            case R.id.action_btn2:              // 작품추가 클릭
-//                startActivity(new Intent(getActivity(), CreateWorkActivity.class));
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
 
     private void GetAllWorkList() {
         CommonUtils.showProgressDialog(getActivity(), "서버에서 작품 목록을 가져오고 있습니다. 잠시만 기다려주세요.");

@@ -44,7 +44,7 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
-public class KeepFragment extends Fragment {
+public class KeepFragment extends Fragment {                                    // 2번 탭 보관함 화면
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private KeepAdapter pagerAdapter;
@@ -113,7 +113,7 @@ public class KeepFragment extends Fragment {
         private KeepSubFragment keepSubFragment1;
         private KeepSubFragment keepSubFragment2;
 
-        public KeepAdapter(@NonNull FragmentManager fm) {
+        public KeepAdapter(@NonNull FragmentManager fm) {                               // 보관함 화면은 다시 두개의 fragment 로 나뉨. 1. 보관함, 2. 읽은 작품
             super(fm);
 
             keepSubFragment1 = new KeepSubFragment(MODE_KEEP);

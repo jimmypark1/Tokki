@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Main.GenreRankingActivity;
 import com.Whowant.Tokki.UI.Activity.Main.NewRankingActivity;
 import com.Whowant.Tokki.UI.Activity.Main.PopularActivity;
 import com.Whowant.Tokki.UI.Custom.PopularDecoration;
@@ -26,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapter.MainCardHolder> {
+public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapter.MainCardHolder> {                             // MainFragment 에 여러줄의 RecyclerView 를 표시하는 메인 Adapter
     private ArrayList<MainCardVO> mainCardList;
     private Activity mContext;
     private Timer timer;
@@ -39,7 +38,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
     }
 
     @Override
-    public MainCardHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public MainCardHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {                                   // 현재 3줄로 이루어져 있음. 0 - 추천작, 1 - 인기작, 2 - 최신작.  viewType 으로 구분하도록 되어있음
         View v = null;
 
         if(viewType == 0)
@@ -127,7 +126,6 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             itemRowHolder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    mContext.startActivity(new Intent(mContext, GenreRankingActivity.class));
                     mContext.startActivity(new Intent(mContext, PopularActivity.class));
                 }
             });
@@ -147,14 +145,6 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
                 @Override
                 public void onClick(View v) {
                     mContext.startActivity(new Intent(mContext, NewRankingActivity.class));
-//                    if(position == 0)
-//                        mContext.startActivity(new Intent(mContext, BestRankingActivity.class));
-//                    else if(position == 1)
-//                        mContext.startActivity(new Intent(mContext, GenreRankingActivity.class));
-//                    else if(position == 2)
-//                        mContext.startActivity(new Intent(mContext, NewRankingActivity.class));
-//                    else if(position == 3)
-//                        mContext.startActivity(new Intent(mContext, RecommandRankingActivity.class));
                 }
             });
         }

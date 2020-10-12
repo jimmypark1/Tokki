@@ -85,27 +85,27 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;                  // 서랍 메뉴 관련된
     private String strUserID;
 
-    private CustomViewPager viewPager;
-    private MainViewpagerAdapter mainPagerAdapter;
+    private CustomViewPager viewPager;                      // 좌우 플리킹 되지 않도록 만든 커스텀 뷰페이저
+    private MainViewpagerAdapter mainPagerAdapter;          // 메인 탭 4개를 오가는 뷰페이저 어댑터
 
-    private RelativeLayout managerLayout;
-    private TextView memberManagementView;
-    private TextView workManagementView;
-    private TextView commentManagementView, contestManagementView;
-    private boolean bFinish = false;
-    private ImageView cenverLogoView;
+    private RelativeLayout managerLayout;                   // 좌측 서랍메뉴에서 관리자만 볼 수 있는 관리자 전용 메뉴 layout
+    private TextView memberManagementView;                  // 관리자 메뉴 - 회원관리        
+    private TextView workManagementView;                    // 관리자 메뉴 - 작품관리        
+    private TextView commentManagementView, contestManagementView;          //  댓글관리, 공모전 관리
+    private boolean bFinish = false;                        // 백버튼 두번 클릭시 앱 종료시키기 위한 플래그
+    private ImageView centerLogoView;
     private ImageButton leftBtn;
     private ImageButton rightBtn;
     private TextView titleView;
-    private ImageView alarmNewIconView, noticeNewIconView, eventNewIconView;
-    private boolean bCreated = true;
+    private ImageView alarmNewIconView, noticeNewIconView, eventNewIconView;                // 서랍메뉴 에서 알림, 공지사항, 이벤트 등에 찍히는 빨간 점. 읽었는지 여부는 SharedPreference 에서 판단(애초에 없던 기능을 추가한거라 그렇게 구현함)
+    private boolean bCreated = true;                        // 이벤트 팝업이 생성되었는지를 가늠하는 플래그
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_renewal_layout);
 
-        int nType = getIntent().getIntExtra("TYPE", -1);
+        int nType = getIntent().getIntExtra("TYPE", -1);                                // FCM 메시지를 통해서 들어왔는지 여부를 판단하는 변수
         boolean bFirst = getIntent().getBooleanExtra("FIRST", false);
 
         Thread.UncaughtExceptionHandler handler = Thread
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
         }
 
-        cenverLogoView = findViewById(R.id.cenverLogoView);
+        centerLogoView = findViewById(R.id.cenverLogoView);
         leftBtn = findViewById(R.id.leftBtn);
         rightBtn = findViewById(R.id.rightBtn);
         titleView = findViewById(R.id.titleView);
@@ -138,24 +138,24 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageSelected(int position) {
+            public void onPageSelected(int position) {                                              // ViewPager 구조 이므로 화면이 전환될때 상단 메뉴의 상태 및 타이틀을 변경한다.
                 if(position == 0) {
-                    cenverLogoView.setVisibility(View.VISIBLE);
+                    centerLogoView.setVisibility(View.VISIBLE);
                     titleView.setText("");
                     rightBtn.setVisibility(View.VISIBLE);
                     rightBtn.setImageResource(R.drawable.serch_icon_balck);
                 } else if(position == 1) {
-                    cenverLogoView.setVisibility(View.INVISIBLE);
+                    centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("보관함");
                     rightBtn.setVisibility(View.VISIBLE);
                     rightBtn.setImageResource(R.drawable.dot_menu);
                 } else if(position == 2) {
-                    cenverLogoView.setVisibility(View.INVISIBLE);
+                    centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("작품쓰기");
                     rightBtn.setVisibility(View.VISIBLE);
                     rightBtn.setImageResource(R.drawable.icon_button_writing);
                 } else if(position == 3) {
-                    cenverLogoView.setVisibility(View.INVISIBLE);
+                    centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("마이 페이지");
                     rightBtn.setVisibility(View.VISIBLE);
                     rightBtn.setImageResource(R.drawable.gear_btn);
@@ -172,26 +172,14 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.app_name, R.string.app_name);
         drawer.addDrawerListener(drawerToggle);
 
-        if(nType > 0) {
+        if(nType > 0) {                                                                                         // FCM 클릭해서 앱 진입시 페이지 이동
             int nObjectID = getIntent().getIntExtra("OBJECT_ID", -1);
-            Intent intent;
-
-            switch(nType) {
-                case 1:                                 // 작품 상세화면으로 이동
-                    intent = new Intent(MainActivity.this, WorkMainActivity.class);
-                    intent.putExtra("WORK_ID", nObjectID);
-                    startActivity(intent);
-                    break;
-
-                case 2:                                 // 작품 상세화면으로 이동
-                    intent = new Intent(MainActivity.this, WorkMainActivity.class);
-                    intent.putExtra("WORK_ID", nObjectID);
-                    startActivity(intent);
-                    break;
-            }
+            Intent intent = new Intent(MainActivity.this, WorkMainActivity.class);
+            intent.putExtra("WORK_ID", nObjectID);
+            startActivity(intent);
         }
 
-        if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {
+        if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {                                               // 링크 클릭해서 앱 진입시 페이지 이동
             Uri uri = getIntent().getData();
 
             if(uri != null) {
@@ -205,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())
+        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent())                                              // firebase 다이나믹 링크 클릭해서 앱 진입시 페이지 이동
                 .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
                     @Override
                     public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
@@ -228,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
         initMenuViews();
 
-        if(bFirst) {
+        if(bFirst) {                                                                                                        // 앱 최초 실행으로 판단되면 튜토리얼 페이지 노출
             startActivity(new Intent(MainActivity.this, MainTutorialActivity.class));
         }
 
@@ -237,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
 //        editor.remove("5");
 //        editor.commit();
 
-        requestAttendance();
+        requestAttendance();                                                                                                            // 출석체크. 무조건 전송하고, 1일 지났는지 성공/실패 여부는 서버에서 판단
     }
 
     public void requestAttendance() {
@@ -258,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void getAlarmList() {
+    private void getAlarmList() {                                                                                                       // 통신 1 - 알림 목록 가져오기
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -286,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void getNoticeData() {
+    private void getNoticeData() {                                                                                                          // 통신 2 - 공지사항 가져오기
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -314,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void getEventData() {
+    private void getEventData() {                                                                                                               // 통신 3 - 이벤트 데이터 가져오기
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -341,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if(bCreated) {
-                            for(EventVO vo : eventList) {
+                            for(EventVO vo : eventList) {                                                                           // 하루동안 안보기 클릭했는지 여부 판단해서 이벤트 팝업 노출
                                 int nEventID = vo.getnEventID();
 
                                 Date date = new Date();
@@ -365,12 +353,6 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }).start();
-    }
-
-
-    public boolean isAttendanceToday() {
-        SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
-        return pref.getBoolean( getToday() , false );
     }
 
     public String getToday() {
@@ -424,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
         drawer.openDrawer(Gravity.LEFT);
     }
 
-    public void onClickTopRightBtn(View view) {
+    public void onClickTopRightBtn(View view) {                                                                                     // 페이지별로 우측 버튼 다르게 동작
         int nPosition = viewPager.getCurrentItem();
 
         if(nPosition == 0) {
@@ -440,26 +422,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initMenuViews() {
+    private void initMenuViews() {                                                                                  // 좌측 서랍메뉴 설정
         LinearLayout topLayout = navigationView.findViewById(R.id.topLayout);
         topLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean bLogin = CommonUtils.bLocinCheck(pref);
-
-                if(bLogin) {
-                    drawer.closeDrawer(GravityCompat.START);
-                    viewPager.setCurrentItem(3);
-                    resetBottomBar(3);
-                } else {
-                    Toast.makeText(MainActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this, LoginSelectActivity.class));
-                }
-
+                drawer.closeDrawer(GravityCompat.START);
+                viewPager.setCurrentItem(3);
+                resetBottomBar(3);
             }
         });
 
-        ImageView faceView = navigationView.findViewById(R.id.faceView);
+        ImageView faceView = navigationView.findViewById(R.id.faceView);                                        // 얼굴 사진
         String strPhoto = pref.getString("USER_PHOTO", "");
 
         if(strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
@@ -484,7 +458,7 @@ public class MainActivity extends AppCompatActivity {
         TextView typeView = navigationView.findViewById(R.id.typeView);
         String strAdmin = pref.getString("ADMIN", "N");
 
-        if(strAdmin.equals("Y")) {          // 관리자 라면
+        if(strAdmin.equals("Y")) {          // 관리자 라면 관리자 전용 메뉴 노출
             typeView.setText("관리자");
             managerLayout = navigationView.findViewById(R.id.managerLayout);
             managerLayout.setVisibility(View.VISIBLE);
@@ -614,6 +588,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // 코인 관련 부분은 모두 삭제하여 현재 사용하지 않음
 //        TextView coinLogView = navigationView.findViewById(R.id.coinLogView);
 //        coinLogView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -632,14 +607,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected void onNewIntent(Intent intent) {                                                         // 사진 설정등의 동작에 onNewIntent 를 많이 활용. 사진설정 시에 마이페이지 사진도 함께 변경하기 위한 부분
         super.onNewIntent(intent);
 
         String strUri = intent.getStringExtra("URI");
@@ -647,7 +616,7 @@ public class MainActivity extends AppCompatActivity {
         fragment.setImage(strUri);
     }
 
-    public void setMenuPhoto() {
+    public void setMenuPhoto() {                                                                            // 마이페이지에서 사진 설정시에 좌측 서랍의 사진도 함께 변경하기 위한 부분
         ImageView faceView = navigationView.findViewById(R.id.faceView);
         String strPhoto = pref.getString("USER_PHOTO", "");
 
@@ -704,21 +673,6 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-//        switch (item.getItemId()) {
-//            case R.id.action_search:
-//                startActivity(new Intent(MainActivity.this, SearchActivity.class));
-//                break;
-//        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void logout() {
         int nRegisterSNS = pref.getInt("REGISTER_SNS", 0);
 
@@ -733,25 +687,16 @@ public class MainActivity extends AppCompatActivity {
             LoginManager.getInstance().logOut();
         }
 
-//        initMenuViews();
         drawer.closeDrawer(Gravity.LEFT, true);
         Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
 
         viewPager.setCurrentItem(0);
-//        resetBottomBar(0);
 
         Intent intent = new Intent(MainActivity.this, LoginSelectActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
-    private void redirectLoginActivity() {
-        Intent intent = new Intent(MainActivity.this, LoginSelectActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-
 
     public void onClickNav1Btn(View view) {
         viewPager.setCurrentItem(0);

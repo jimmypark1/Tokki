@@ -42,15 +42,12 @@ public class TagSelectActivity extends AppCompatActivity {
         okBtn = findViewById(R.id.okBtn);
 
         strCurrentTag = getIntent().getStringExtra("TAG");
-
         getTagList();
     }
 
-    private void getTagList() {
+    private void getTagList() {                                             // tag 는 FlowLayout 이라는 Custom View 를 활용하여 add view 하여 사용
         tagList = new ArrayList<>();
-
         CommonUtils.showProgressDialog(TagSelectActivity.this, "서버와 통신중입니다. 잠시만 기다려주세요.");
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -84,8 +81,6 @@ public class TagSelectActivity extends AppCompatActivity {
 
                             String strGenre = tagList.get(i);
                             genreNameView.setText(strGenre);
-//                            if(i == tagList.size() - 1)
-//                                view.setBackgroundColor(Color.parseColor("#ff0000"));
 
                             tagsLayout.addView(view);
                             tagViewList.add(view);

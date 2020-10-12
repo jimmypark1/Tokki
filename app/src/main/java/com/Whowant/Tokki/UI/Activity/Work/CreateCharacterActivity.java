@@ -34,7 +34,7 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateCharacterActivity extends AppCompatActivity implements ColorPickerDialogListener  {
+public class CreateCharacterActivity extends AppCompatActivity implements ColorPickerDialogListener  {                                          // 대화창에서 캐릭터 생성화면
     public static ArrayList<String> nameList;
     public static CharacterVO characterVO = null;
 

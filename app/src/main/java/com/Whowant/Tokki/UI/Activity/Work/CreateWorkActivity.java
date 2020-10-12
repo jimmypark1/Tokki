@@ -51,7 +51,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class CreateWorkActivity extends AppCompatActivity {
+public class CreateWorkActivity extends AppCompatActivity {                                         // 새로운 작품 생성 화면
     private EditText inputTitleView;
     private EditText inputSynopsisView;
     private EditText inputTagView;
@@ -99,32 +99,6 @@ public class CreateWorkActivity extends AppCompatActivity {
         inputGenreView = findViewById(R.id.inputGenreView);
         coverImgBtn = findViewById(R.id.coverImgBtn);
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-
-//        genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                nSelectedGenreIndex = i;
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-//
-//        targetSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                nSelectedTargetIndex = i;
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-
         inputTitleView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -157,7 +131,7 @@ public class CreateWorkActivity extends AppCompatActivity {
             }
         });
 
-        inputTagView.setOnClickListener(new View.OnClickListener() {
+        inputTagView.setOnClickListener(new View.OnClickListener() {                                            // 태크 부분을 클릭하면 태크 선택창으로 이동
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CreateWorkActivity.this, TagSelectActivity.class);
@@ -166,7 +140,7 @@ public class CreateWorkActivity extends AppCompatActivity {
             }
         });
 
-        inputGenreView.setOnClickListener(new View.OnClickListener() {
+        inputGenreView.setOnClickListener(new View.OnClickListener() {                                          // 장르 부분을 클릭하면 장르 선택창으로 이동
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CreateWorkActivity.this, GenreSelectActivity.class);
@@ -174,27 +148,10 @@ public class CreateWorkActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1010);
             }
         });
-
-//        inputTagView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                switch (actionId) {
-//                    case EditorInfo.IME_ACTION_NEXT:
-//                        imm.hideSoftInputFromWindow(inputTagView.getWindowToken(), 0);
-//                        break;
-//                    default:
-//                        // 기본 엔터키 동작
-//                        return false;
-//                }
-//                return true;
-//            }
-//        });
-
-//        getGenreList();
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected void onNewIntent(Intent intent) {                                                             // 각종 사진 선택 시에 onNewIntent 로 선택된 사진 데이터 전달받음
         super.onNewIntent(intent);
 
         boolean bThumbnail = intent.getBooleanExtra("THUMBNAIL", false);
@@ -235,7 +192,7 @@ public class CreateWorkActivity extends AppCompatActivity {
             }
 
             nThumbnail = 0;
-        } else {
+        } else {                                                                                    // 사진 로그는 중인 부분. 선택한 사진을 Crop 하러 보낸다
             String imgUri = intent.getStringExtra("IMG_URI");
             coverImgUri = Uri.parse(imgUri);
 
@@ -261,10 +218,10 @@ public class CreateWorkActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {                                     //
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 1000) {
+            if (requestCode == 1000) {                                                                                      // 사진 선택을 위해 데이터 오가는 부분
                 int nType = data.getIntExtra("TYPE", 0);
 
                 if (nType == 0)
@@ -285,18 +242,18 @@ public class CreateWorkActivity extends AppCompatActivity {
                         intent.putExtra("TYPE", PhotoPickerActivity.TYPE_COVER_IMG);
                     startActivity(intent);
                 }
-            } else if(requestCode == 1010) {
+            } else if(requestCode == 1010) {                                                                            // 장르 선택시
                 String strGenre = data.getStringExtra("GENRE");
                 inputGenreView.setText(strGenre);
-            } else if(requestCode == 1020) {
+            } else if(requestCode == 1020) {                                                                            // 태그 선택시
                 String strTag = data.getStringExtra("TAG");
                 inputTagView.setText(strTag);
             }
         }
     }
 
-    public void onClickQuestionBtn(View view) {
-        Intent intent = new Intent(CreateWorkActivity.this, CommonPopup.class);
+    public void onClickQuestionBtn(View view) {                                                                         // 중간에 추가된 기능으로, 작품의 '포스터' 이미지가 아닌 '썸네일' 이미지를 업로드 하는 기능이 추가됨.
+        Intent intent = new Intent(CreateWorkActivity.this, CommonPopup.class);                         // 썸네일 이란 평소에 보이지는 않는 이미지 이나, '인기작' 혹은 '추천작' 에 올라가면 보이는 이미지로 일반적인 포스터와는 달리 가로로 약간 긴 형태의 이미지
         intent.putExtra("TITLE", "섬네일 등");
         intent.putExtra("CONTENTS", "이 기능은 메인 페이지의 인기작 섬네일을 등록하는 기능입니다.");
         intent.putExtra("TWOBTN", false);
@@ -322,11 +279,6 @@ public class CreateWorkActivity extends AppCompatActivity {
             Toast.makeText(CreateWorkActivity.this, "장르를 선택해주세요.", Toast.LENGTH_LONG).show();
             return;
         }
-
-//        if(coverImgUri == null) {
-//            Toast.makeText(CreateWorkActivity.this, "이미지를 선택해주세요.", Toast.LENGTH_LONG).show();
-//            return;
-//        }
 
         requestCreateWork();
     }

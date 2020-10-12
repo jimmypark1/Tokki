@@ -1,18 +1,12 @@
 package com.Whowant.Tokki.UI.Activity.Main;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.Whowant.Tokki.UI.Fragment.Main.EventPopupFragment;
-import com.Whowant.Tokki.UI.Fragment.Main.MyWorkRecyclerFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.SNSPopupFragment;
-import com.Whowant.Tokki.UI.Fragment.Main.WriterCommentFragment;
 import com.Whowant.Tokki.VO.EventVO;
 
 import java.util.ArrayList;

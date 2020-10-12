@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -42,8 +41,6 @@ import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.UI.Activity.Main.UserProfileActivity;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
-import com.Whowant.Tokki.UI.Activity.Writer.FollowingWriterListActivity;
-import com.Whowant.Tokki.UI.Activity.Writer.WriterMainActivity;
 import com.Whowant.Tokki.UI.Adapter.MyWorkRecyclerAdapter;
 import com.Whowant.Tokki.UI.Popup.ProfileEmailPopup;
 import com.Whowant.Tokki.UI.Popup.ProfilePhotoPopup;
@@ -68,16 +65,16 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
-public class MyFragment extends Fragment {
-    private TextView followingView;             // 내가 팔로우
-    private TextView followerView;                // 나를 팔로우
+public class MyFragment extends Fragment {                                                  // 4번탭 마이페이지
+    private TextView followingView;                                                         // 내가 팔로우
+    private TextView followerView;                                                          // 나를 팔로우
 
-    private ImageView faceView;
+    private ImageView faceView;                                                             // 프로필 사진
     private TextView editBtn;
-    private TextView nameView, typeView;
-    private TextView descView;
-    private TextView myRecommendCodeView, tokkiTokBtn;
-    private EditText inputDescView;
+    private TextView nameView, typeView;                                                    // 이름, 관리자 여부 표시하는 타입 뷰
+    private TextView descView;                                                              // 내 소개 글
+    private TextView myRecommendCodeView, tokkiTokBtn;                                      // 추천코드, 토키톡(채팅창) 버튼
+    private EditText inputDescView;                                                         // 내 소개 작성할때 표여지는 화면
 
     private SharedPreferences pref;
     private LinearLayout followingLayout;
@@ -85,11 +82,11 @@ public class MyFragment extends Fragment {
 
     private int nFollowerCount = 0;
     private int nFollowingCount = 0;
-    private int nCurrentCarrot = 0;
-    private int nTotalUsedCarrot = 0;
-    private int nDonationCarrot = 0;
-    private int nLevel = 1;
-    private int nTotalAcquireCarrot = 0;
+    private int nCurrentCarrot = 0;                                                         // 현재 당근 갯수
+    private int nTotalUsedCarrot = 0;                                                       // 총 당근 갯수
+    private int nDonationCarrot = 0;                                                        // 후원받은 당근 갯수
+    private int nLevel = 1;                                                                 // 당근 갯수에 따라 레벨 결정
+    private int nTotalAcquireCarrot = 0;                                                    // 얻은 당근 갯수
     private String strRecommendCode = "";
     private boolean bVisible = false;
     private boolean bEdit = false;
@@ -100,10 +97,10 @@ public class MyFragment extends Fragment {
     private ImageButton copyRecommendCodeBtn;
 
     private RelativeLayout levelBGView;
-    private ImageView lv1IconView, lv5IconView, lv10IconView, emptyIconView;
+    private ImageView lv1IconView, lv5IconView, lv10IconView, emptyIconView;                // 레벨에 따라 다른 아이콘을 보여주기 위한 이미지뷰
     private TextView currentCarrotCountView, cumulativeUsageCarrotCountView, totalCarrotCountView;
 
-    private RecyclerView myWorkRecyclerView;
+    private RecyclerView myWorkRecyclerView;                                                // 내가 작성한 글들 목록을 보여주는 리사이클러 뷰
     private MyWorkRecyclerAdapter adapter;
     private ArrayList<WorkVO> workList;
 
@@ -179,7 +176,7 @@ public class MyFragment extends Fragment {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {                               // 내 소개글 입력될 때 descView 에도 같은글을 설정하여 wrap_content 를 자연스럽게 보이게 한다
                 String strDesc = inputDescView.getText().toString();
                 descView.setText(strDesc);
             }
@@ -304,29 +301,6 @@ public class MyFragment extends Fragment {
             }
         });
 
-//        chattingBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), ChatActivity.class);
-//                intent.putExtra("WRITER_ID", pref.getString("USER_ID", ""));
-//                startActivity(intent);
-//            }
-//        });
-//
-//        workTabLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                clickTab(0);
-//            }
-//        });
-//
-//        keepTabLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                clickTab(1);
-//            }
-//        });
-//
 //        commentTabLayout.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -447,7 +421,7 @@ public class MyFragment extends Fragment {
         requestSendPhoto(strPhotoPath);
     }
 
-    private void requestSendPhotoDefault() {
+    private void requestSendPhotoDefault() {                                // 사진 초기화
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -513,7 +487,7 @@ public class MyFragment extends Fragment {
         }).start();
     }
 
-    private void reloadData() {
+    private void reloadData() {                                             // 마이 페이지 화면 갱신
         String strPhoto = pref.getString("USER_PHOTO", "");
 
         if(strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
@@ -758,7 +732,7 @@ public class MyFragment extends Fragment {
         }
     }
 
-    public File createImageFile() throws IOException{
+    public File createImageFile() throws IOException{                                   // 사진 촬영시 해당 사진이 담길 파일 생성
         String imgFileName = System.currentTimeMillis() + ".png";
         File imageFile= null;
         File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "Panbook");
@@ -798,31 +772,4 @@ public class MyFragment extends Fragment {
             }
         }).start();
     }
-
-
-//    private void clickTab(int nPosition) {
-//        workTabTextView.setTextColor(getResources().getColor(R.color.colorTextGray));
-//        keepTabTextView.setTextColor(getResources().getColor(R.color.colorTextGray));
-//        commentTabTextView.setTextColor(getResources().getColor(R.color.colorTextGray));
-//        workSelectColor.setBackgroundColor(0);
-//        keepSelecColor.setBackgroundColor(0);
-//        commentSelectColor.setBackgroundColor(0);
-//
-//        switch (nPosition) {
-//            case 0:
-//                workTabTextView.setTextColor(getResources().getColor(R.color.colorPrimary));
-//                workSelectColor.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-//                break;
-//            case 1:
-//                keepTabTextView.setTextColor(getResources().getColor(R.color.colorPrimary));
-//                keepSelecColor.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-//                break;
-//            case 2:
-//                commentTabTextView.setTextColor(getResources().getColor(R.color.colorPrimary));
-//                commentSelectColor.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-//                break;
-//        }
-//
-//        myViewPager.setCurrentItem(nPosition);
-//    }
 }

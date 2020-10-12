@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 
-public class ReportSelectActivity extends AppCompatActivity {
+public class ReportSelectActivity extends AppCompatActivity {                                       // 신고 화면
     private int nSelectedIndex = 1;
     private RadioButton radio1;
     private RadioButton radio2;

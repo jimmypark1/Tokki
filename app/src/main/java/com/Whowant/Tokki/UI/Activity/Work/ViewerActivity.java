@@ -81,7 +81,7 @@ import java.util.TimerTask;
 
 import okhttp3.OkHttpClient;
 
-public class ViewerActivity extends AppCompatActivity {
+public class ViewerActivity extends AppCompatActivity {                                 // 작품 보기 화면. 작성창과 매우 유사.
     public static WorkVO workVO;
     private int  nEpisodeIndex;
     private ArrayList<ChatVO> chattingList;

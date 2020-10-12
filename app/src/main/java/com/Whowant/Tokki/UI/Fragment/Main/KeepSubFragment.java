@@ -53,7 +53,6 @@ public class KeepSubFragment extends Fragment implements AdapterView.OnItemClick
     private String strKeepOrder = "UPDATE";
     private String strReadOrder = "UPDATE";
     private boolean bVisible = false;
-    private boolean bScroll = false;
 
     public KeepSubFragment(int mode) {
         nMode = mode;
@@ -62,61 +61,61 @@ public class KeepSubFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.keep_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_more: {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("작품 정렬");
-
-                if (nMode == MODE_KEEP) {
-                    builder.setItems(getResources().getStringArray(R.array.KEEP_MENU), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int pos) {
-                            if (pos == 0) {
-                                strKeepOrder = "NAME";
-                            } else if (pos == 1) {
-                                strKeepOrder = "UPDATE";
-                            }
-
-                            getKeepListData();
-                        }
-                    });
-                } else {
-                    builder.setItems(R.array.READ_MENU, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int pos) {
-                            if (pos == 0) {
-                                strReadOrder = "NAME";
-                            } else if (pos == 1) {
-                                strReadOrder = "UPDATE";
-                            } else if (pos == 2) {
-                                strReadOrder = "READ";
-                            }
-
-                            getReadListData();
-                        }
-                    });
-                }
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-//                startActivity(new Intent(getActivity(), SearchActivity.class));
-            }
-            break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.keep_menu, menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_more: {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                builder.setTitle("작품 정렬");
+//
+//                if (nMode == MODE_KEEP) {
+//                    builder.setItems(getResources().getStringArray(R.array.KEEP_MENU), new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int pos) {
+//                            if (pos == 0) {
+//                                strKeepOrder = "NAME";
+//                            } else if (pos == 1) {
+//                                strKeepOrder = "UPDATE";
+//                            }
+//
+//                            getKeepListData();
+//                        }
+//                    });
+//                } else {
+//                    builder.setItems(R.array.READ_MENU, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int pos) {
+//                            if (pos == 0) {
+//                                strReadOrder = "NAME";
+//                            } else if (pos == 1) {
+//                                strReadOrder = "UPDATE";
+//                            } else if (pos == 2) {
+//                                strReadOrder = "READ";
+//                            }
+//
+//                            getReadListData();
+//                        }
+//                    });
+//                }
+//
+//                AlertDialog alertDialog = builder.create();
+//                alertDialog.show();
+////                startActivity(new Intent(getActivity(), SearchActivity.class));
+//            }
+//            break;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -128,49 +127,7 @@ public class KeepSubFragment extends Fragment implements AdapterView.OnItemClick
         listView = inflaterView.findViewById(R.id.listView);
         emptyView = inflaterView.findViewById(R.id.emptyView);
         listView.setOnItemClickListener(this);
-
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-                if (scrollState == SCROLL_STATE_IDLE) {
-                    bScroll = false;
-                } else {
-                    bScroll = true;
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-
-            }
-        });
-
         getKeepListData();
-
-//        workTabLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(bScroll)
-//                    return;
-//
-//                nMode = MODE_KEEP;
-//                initTab(0);
-//                getKeepListData();
-//            }
-//        });
-//
-//        commentTabLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(bScroll)
-//                    return;
-//
-//                nMode = MODE_READ;
-//                initTab(1);
-//                getReadListData();
-//            }
-//        });
-
         return inflaterView;
     }
 
@@ -238,43 +195,43 @@ public class KeepSubFragment extends Fragment implements AdapterView.OnItemClick
 
     }
 
-    public void showMenus() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("작품 정렬");
-
-        if (nMode == MODE_KEEP) {
-            builder.setItems(getResources().getStringArray(R.array.KEEP_MENU), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int pos) {
-                    if (pos == 0) {
-                        strKeepOrder = "NAME";
-                    } else if (pos == 1) {
-                        strKeepOrder = "UPDATE";
-                    }
-
-                    getKeepListData();
-                }
-            });
-        } else {
-            builder.setItems(R.array.READ_MENU, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int pos) {
-                    if (pos == 0) {
-                        strReadOrder = "NAME";
-                    } else if (pos == 1) {
-                        strReadOrder = "UPDATE";
-                    } else if (pos == 2) {
-                        strReadOrder = "READ";
-                    }
-
-                    getReadListData();
-                }
-            });
-        }
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
+//    public void showMenus() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//        builder.setTitle("작품 정렬");
+//
+//        if (nMode == MODE_KEEP) {
+//            builder.setItems(getResources().getStringArray(R.array.KEEP_MENU), new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int pos) {
+//                    if (pos == 0) {
+//                        strKeepOrder = "NAME";
+//                    } else if (pos == 1) {
+//                        strKeepOrder = "UPDATE";
+//                    }
+//
+//                    getKeepListData();
+//                }
+//            });
+//        } else {
+//            builder.setItems(R.array.READ_MENU, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int pos) {
+//                    if (pos == 0) {
+//                        strReadOrder = "NAME";
+//                    } else if (pos == 1) {
+//                        strReadOrder = "UPDATE";
+//                    } else if (pos == 2) {
+//                        strReadOrder = "READ";
+//                    }
+//
+//                    getReadListData();
+//                }
+//            });
+//        }
+//
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
+//    }
 
     private void getKeepListData() {
         CommonUtils.showProgressDialog(getActivity(), "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");

@@ -20,18 +20,15 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Carrot.TotalCarrotListActivity;
 import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
 import com.Whowant.Tokki.UI.Activity.Main.ChatActivity;
 import com.Whowant.Tokki.UI.Activity.Main.FollowerActivity;
-import com.Whowant.Tokki.UI.Adapter.MyViewPagerAdapter;
 import com.Whowant.Tokki.UI.Adapter.MyWorkRecyclerAdapter;
 import com.Whowant.Tokki.UI.Popup.MemberWithdrawActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.facebook.common.Common;
 
 
 import org.json.JSONException;
@@ -41,8 +38,7 @@ import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 
-public class WriterMainActivity extends AppCompatActivity {                     // 작가 페이지
-    private TextView writerNameView;
+public class WriterMainActivity extends AppCompatActivity {                     // 작가 페이지                       // 마이페이지와 거의 동일한 구성으로 되어 있으나, 표시되는 대상이 '나' 가 아닌 '작가' 인점.  MyFragment 구조 참고
     private TextView followerView;
     private TextView followingView;
     private TextView followBtn;
@@ -54,8 +50,6 @@ public class WriterMainActivity extends AppCompatActivity {                     
     private ArrayList<WorkVO> workList;
     private MyWorkRecyclerAdapter adapter;
 
-//    private CustomViewPager myViewPager;
-    private MyViewPagerAdapter myViewPagerAdapter;
     private String strPhoto;
     private String strName = "";
     private String strUserComment;

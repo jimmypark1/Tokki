@@ -56,7 +56,7 @@ import java.util.HashMap;
 
 import okhttp3.OkHttpClient;
 
-public class EpisodeCommentActivity extends AppCompatActivity {
+public class EpisodeCommentActivity extends AppCompatActivity {                                             // 작품 회차별 댓글 페이지.
     private ExpandableListView listView;
     private LinearLayout emptyLayout;
     private EditText inputTextView;
@@ -64,8 +64,8 @@ public class EpisodeCommentActivity extends AppCompatActivity {
     private int nWorkID;
     private int nEpisodeID;
 
-    private ArrayList<CommentVO> commentList;
-    private ArrayList<ArrayList<CommentVO>> subCommentList = new ArrayList<>();
+    private ArrayList<CommentVO> commentList;                                                               // 댓글 목록
+    private ArrayList<ArrayList<CommentVO>> subCommentList = new ArrayList<>();                             // 대댓글 목록 - 댓글과 대댓글로 구분하여 ExpandibleListView 로 표현한다
     private CExpandableListviewAdapter expandableAdapter;
     private SharedPreferences pref;
 
@@ -84,8 +84,7 @@ public class EpisodeCommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_comment);
 
-        Thread.UncaughtExceptionHandler handler = Thread
-                .getDefaultUncaughtExceptionHandler();
+        Thread.UncaughtExceptionHandler handler = Thread.getDefaultUncaughtExceptionHandler();
 
         if (!(handler instanceof CustomUncaughtExceptionHandler)) {
             Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
@@ -138,9 +137,6 @@ public class EpisodeCommentActivity extends AppCompatActivity {
 
         commentList = new ArrayList<>();
         subCommentList = new ArrayList<>();
-//        aa = new CCommentArrayAdapter(this, R.layout.chat_comment_row, commentList);
-//        expandableAdapter = new CExpandableListviewAdapter()
-//        listView.setAdapter(aa);
 
         listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -148,77 +144,6 @@ public class EpisodeCommentActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                PopupMenu popup = new PopupMenu(EpisodeCommentActivity.this, view);
-//                CommentVO vo = commentList.get(position);
-//
-//                if(pref.getString("ADMIN", "N").equals("Y") || vo.getUserID().equals(pref.getString("USER_ID", "Guest")))
-//                    popup.getMenuInflater().inflate(R.menu.comment_admin_menu, popup.getMenu());
-//                else
-//                    popup.getMenuInflater().inflate(R.menu.comment_menu, popup.getMenu());
-//
-//                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//                    public boolean onMenuItemClick(MenuItem item) {
-//                        Intent intent = null;
-//
-//                        switch(item.getItemId()) {
-//                            case R.id.delete: {
-//                                AlertDialog.Builder builder = new AlertDialog.Builder(EpisodeCommentActivity.this);
-//                                builder.setTitle("댓글 삭제 알림");
-//                                builder.setMessage("댓글을 정말 삭제하시겠습니까?");
-//                                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        deleteComment(vo.getCommentID());
-//                                    }
-//                                });
-//
-//                                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                    }
-//                                });
-//
-//                                AlertDialog alertDialog = builder.create();
-//                                alertDialog.show();
-//                            }
-//                            break;
-//                            case R.id.report: {
-//                                AlertDialog.Builder builder = new AlertDialog.Builder(EpisodeCommentActivity.this);
-//                                builder.setTitle("댓글 신고 알림");
-//                                builder.setMessage("댓글을 정말 신고하시겠습니까?");
-//                                builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int id) {
-////                                        Intent intent = new Intent(EpisodeCommentActivity.this, ReportPopup.class);
-//                                        Intent intent = new Intent(EpisodeCommentActivity.this, ReportSelectActivity.class);
-//                                        intent.putExtra("COMMENT_ID", vo.getCommentID());
-//                                        startActivity(intent);
-//                                    }
-//                                });
-//
-//                                builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                    }
-//                                });
-//
-//                                AlertDialog alertDialog = builder.create();
-//                                alertDialog.show();
-//                            }
-//                            break;
-//                        }
-//                        return true;
-//                    }
-//                });
-//
-//                popup.show();//showing popup menu
-//                return true;
-//            }
-//        });
 
         getCommentData();
     }
@@ -229,47 +154,47 @@ public class EpisodeCommentActivity extends AppCompatActivity {
         showLogin =  false;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.keep_menu, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            case R.id.action_more:
-                AlertDialog.Builder builder = new AlertDialog.Builder(EpisodeCommentActivity.this);
-                builder.setItems(getResources().getStringArray(R.array.ORDER_MENU), new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int pos) {
-                        if(pos == 0) {
-                            nOrder = 1;
-                        } else if(pos == 1) {
-                            nOrder = 2;
-                        }
-
-                        getCommentData();
-                    }
-                });
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.keep_menu, menu);
+//
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch(item.getItemId()) {
+//            case android.R.id.home:
+//                finish();
+//                break;
+//            case R.id.action_more:
+//                AlertDialog.Builder builder = new AlertDialog.Builder(EpisodeCommentActivity.this);
+//                builder.setItems(getResources().getStringArray(R.array.ORDER_MENU), new DialogInterface.OnClickListener(){
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int pos) {
+//                        if(pos == 0) {
+//                            nOrder = 1;
+//                        } else if(pos == 1) {
+//                            nOrder = 2;
+//                        }
+//
+//                        getCommentData();
+//                    }
+//                });
+//
+//                AlertDialog alertDialog = builder.create();
+//                alertDialog.show();
+//                break;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     public void onClickTopLeftBtn(View view) {
         finish();
     }
 
-    public void onClickTopRightBtn(View view) {
+    public void onClickTopRightBtn(View view) {                                         // 우측 상단 메뉴 클릭하여 popup 메뉴 호출 -> 정렬
         PopupMenu popup = new PopupMenu(EpisodeCommentActivity.this, view);
         popup.getMenuInflater().inflate(R.menu.comment_order_menu, popup.getMenu());
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -341,15 +266,13 @@ public class EpisodeCommentActivity extends AppCompatActivity {
             public void run() {
                 JSONObject resultObject = null;
 
-                if(nEpisodeID > 0)
+                if(nEpisodeID > 0)                          // 에피소드 아이디가 있는 경우 회차별 댓글로 보고, 없는 경우 작품 자체의 댓글로 판단
                     resultObject = HttpClient.getEpisodeCommnet(new OkHttpClient(), nEpisodeID, nOrder, pref.getString("USER_ID", "Guest"));
                 else
                     resultObject = HttpClient.getWorkCommnet(new OkHttpClient(), nWorkID, nOrder, pref.getString("USER_ID", "Guest"));
 
                 final JSONObject result = resultObject;
-
                 JSONArray resultArray = null;
-
                 if(resultObject != null) {
                     try {
                         resultArray = resultObject.getJSONArray("COMMENT_LIST");
@@ -357,64 +280,7 @@ public class EpisodeCommentActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-//                    for(int i = 0 ; i < resultArray.length() ; i++) {
-//                        try {
-//                            JSONObject object = resultArray.getJSONObject(i);
-//                            CommentVO vo = new CommentVO();
-//
-//                            vo.setCommentID(object.getInt("COMMENT_ID"));
-//                            vo.setEpisodeID(object.getInt("EPISODE_ID"));
-//                            vo.setParentID(object.getInt("PARENT_ID"));
-//                            vo.setStrComment(object.getString("COMMENT"));
-//                            vo.setRegisterDate(object.getString("REGISTER_DATE"));
-//                            vo.setUserName(object.getString("USER_NAME"));
-//                            vo.setUserPhoto(object.getString("USER_PHOTO"));
-//                            vo.setUserID(object.getString("USER_ID"));
-//                            vo.setChatID(object.getInt("CHAT_ID"));
-//                            vo.setMyComment(object.getInt("MY_COMMENT") > 0 ? true : false);
-//                            vo.setLikeCount(object.getInt("LIKE_COUNT"));
-//                            vo.setStrWorkTitle(object.getString("WORK_TITLE"));
-//                            vo.setnEpisodeOrder(object.getInt("EPISODE_ORDER"));
-//
-//                            if(vo.getParentID() > -1)
-//                                subCommentList.add(vo);
-//                            else
-//                                commentList.add(vo);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-
-                    reOrderCommentList(resultArray);
-
-//                    if(resultObject != null && nOrder == 2) {
-//                        reOrderCommentList(resultArray);
-//                    } else {
-//                        commentList.clear();
-//                        for(int i = 0 ; i < resultArray.length() ; i++) {
-//                            try {
-//                                JSONObject object = resultArray.getJSONObject(i);
-//                                CommentVO vo = new CommentVO();
-//
-//                                vo.setCommentID(object.getInt("COMMENT_ID"));
-//                                vo.setEpisodeID(object.getInt("EPISODE_ID"));
-//                                vo.setParentID(object.getInt("PARENT_ID"));
-//                                vo.setStrComment(object.getString("COMMENT"));
-//                                vo.setRegisterDate(object.getString("REGISTER_DATE"));
-//                                vo.setUserName(object.getString("USER_NAME"));
-//                                vo.setUserPhoto(object.getString("USER_PHOTO"));
-//                                vo.setUserID(object.getString("USER_ID"));
-//                                vo.setChatID(object.getInt("CHAT_ID"));
-//                                vo.setMyComment(object.getInt("MY_COMMENT") > 0 ? true : false);
-//                                vo.setLikeCount(object.getInt("LIKE_COUNT"));
-//                                vo.setStrWorkTitle(object.getString("WORK_TITLE"));
-//                                vo.setnEpisodeOrder(object.getInt("EPISODE_ORDER"));
-//                                commentList.add(vo);
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    }
+                    reOrderCommentList(resultArray);                                                                    ///  대댓글 순서를 정리하는 펑션
                 }
 
                 runOnUiThread(new Runnable() {
@@ -543,61 +409,6 @@ public class EpisodeCommentActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-//        try {
-//            for(int i = 0 ; i < array.length() ; i++) {
-//                JSONObject object = array.getJSONObject(i);
-//                if(object.getInt("COMMENT_ID") == 0)
-//                    continue;
-//
-//                CommentVO vo = new CommentVO();
-//
-//                vo.setCommentID(object.getInt("COMMENT_ID"));
-//                vo.setEpisodeID(object.getInt("EPISODE_ID"));
-//                vo.setParentID(object.getInt("PARENT_ID"));
-//                vo.setStrComment(object.getString("COMMENT"));
-//                vo.setRegisterDate(object.getString("REGISTER_DATE"));
-//                vo.setUserName(object.getString("USER_NAME"));
-//                vo.setUserPhoto(object.getString("USER_PHOTO"));
-//                vo.setUserID(object.getString("USER_ID"));
-//                vo.setChatID(object.getInt("CHAT_ID"));
-//                vo.setMyComment(object.getInt("MY_COMMENT") > 0 ? true : false);
-//                vo.setLikeCount(object.getInt("LIKE_COUNT"));
-//                vo.setStrWorkTitle(object.getString("WORK_TITLE"));
-//                vo.setnEpisodeOrder(object.getInt("EPISODE_ORDER"));
-//
-//                int nParentID = object.getInt("PARENT_ID");
-//
-//                if(nParentID == -1) {
-//                    vo.setnGroup(vo.getCommentID());
-//                    commentList.add(vo);
-//                    parentIDList.add(vo.getCommentID());
-//                } else {
-//                    subCommentList.add(vo);
-//                }
-//            }
-//
-//            for(int i = 0 ; i < subCommentList.size() ; i++) {
-//                CommentVO vo = subCommentList.get(i);
-//                int nIndex = parentIDList.indexOf(vo.getParentID()) + 1;
-//                int nPlus = 0;
-//
-//                while(true) {
-//                    if(nIndex + nPlus == commentList.size())
-//                        break;
-//                    else if(commentList.get(nIndex + nPlus).getParentID() > -1 && commentList.get(nIndex + nPlus).getParentID() == vo.getParentID()) {
-//                        nPlus ++;
-//                        continue;
-//                    } else
-//                        break;
-//                }
-//
-//                commentList.add(nIndex + nPlus, vo);
-//                parentIDList.add(nIndex + nPlus, vo.getCommentID());
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
     }
 
     private void setNoComment() {

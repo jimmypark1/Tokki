@@ -35,7 +35,7 @@ import org.json.JSONObject;
 
 import okhttp3.OkHttpClient;
 
-public class InteractionWriteActivity extends AppCompatActivity implements ColorPickerDialogListener {
+public class InteractionWriteActivity extends AppCompatActivity implements ColorPickerDialogListener {                          // 작품에 인터렉션(분기)가 설정되어 있는경우 해당 화면에서 fragment 두개로 분기된 작품 내용을 각각 보여준다
     public static WorkVO workVO;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -60,9 +60,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interaction_write);
 
-        Thread.UncaughtExceptionHandler handler = Thread
-                .getDefaultUncaughtExceptionHandler();
-
+        Thread.UncaughtExceptionHandler handler = Thread.getDefaultUncaughtExceptionHandler();
         if (!(handler instanceof CustomUncaughtExceptionHandler)) {
             Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
         }
@@ -87,18 +85,16 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1100) {                    // 제목 변경
                 strTitle = data.getStringExtra("TITLE");
                 titleView.setText(strTitle);
             }
         }
-
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(Configuration newConfig) {                       // 블루투스 키보드가 연결되어 있는 경우 키보드 보여주기/감추기 이벤트를 해제한다. 해당 이벤트 때문에 에러 발생했었음
         super.onConfigurationChanged(newConfig);
 
         if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {           // BT 키보드 접속됨
@@ -106,8 +102,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
             fragment.removeKeyboardEvent();
             InteractionSubFragment fragment2 = (InteractionSubFragment)pagerAdapter.getItem(1);
             fragment2.removeKeyboardEvent();
-        }
-        else if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {     // BT 키보드 해제됨
+        } else if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {     // BT 키보드 해제됨
             InteractionMainFragment fragment = (InteractionMainFragment)pagerAdapter.getItem(0);
             fragment.setKeyboardEvent();
             InteractionSubFragment fragment2 = (InteractionSubFragment)pagerAdapter.getItem(1);
@@ -125,7 +120,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
     public void onResume() {
         super.onResume();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("ACTION_EXCEL_DONE");
+        filter.addAction("ACTION_EXCEL_DONE");                          // 엑셀로 작품 업로드 시에 활용하는 필터
         registerReceiver(mReceiver, filter);
     }
 
@@ -136,11 +131,11 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
     }
 
     @Override
-    public void onColorSelected(int dialogId, int color) {
+    public void onColorSelected(int dialogId, int color) {                  // 컬러 팔레트 Callback
         if(dialogId == 1000) {              // 왼쪽 fragment
             InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);
             mainFragment.onColorSelected(dialogId, color);
-        } else {
+        } else {                            // 오른쪽 fragment
             InteractionSubFragment subFragment = (InteractionSubFragment)pagerAdapter.getItem(1);
             subFragment.onColorSelected(dialogId, color);
         }

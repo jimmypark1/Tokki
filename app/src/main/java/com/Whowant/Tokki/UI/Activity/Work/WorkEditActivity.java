@@ -77,11 +77,9 @@ public class WorkEditActivity extends AppCompatActivity {
     private int nThumbnail = 0;     // 0 = 안함, 1 = 포스터를 썸네일로, 2 = 갤러리에서 썸네일 고르기
     private boolean isDeletePoster = false;
     private boolean isDeleteThumbnail = false;
-
     private boolean bComplete = false;
 
     public static WorkVO workVO;
-
     private ProgressDialog mProgressDialog;
 
     @Override

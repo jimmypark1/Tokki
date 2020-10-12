@@ -110,29 +110,27 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class LiteratureWriteActivity extends AppCompatActivity implements View.OnClickListener, ColorPickerDialogListener {
+public class LiteratureWriteActivity extends AppCompatActivity implements View.OnClickListener, ColorPickerDialogListener {                             // 작품 작성창
     public static WorkVO workVO;
-    private ArrayList<CharacterVO> characterList;
-    private ArrayList<ChatVO> chattingList;
-    private HashMap<String, Bitmap> thumbBitmapList = new HashMap<>();
+    private ArrayList<CharacterVO> characterList;                                                                           // 작품에 등장하는 캐릭터 리스트
+    private ArrayList<ChatVO> chattingList;                                                                                 // 작품 말풍선 리스트(실제 작품 내용)
+    private HashMap<String, Bitmap> thumbBitmapList = new HashMap<>();                                                      // 동영상 썸네일 이미지는 새로 로딩하지 않고 저장하고 사용
 
-    private LinearLayout speakerAddLayout;
-    private ArrayList<String> nameList;
-    private ArrayList<View> characterViewList;
-    private int nSelectedCharacterIndex = 0;                // 0 = 나레이
-    private boolean bShowMenu = false;
-    private ConstraintLayout bottomSettingLayout;
+    private LinearLayout speakerAddLayout;                                                                                  // 하단에 좌우 스크롤되는 등장인물 목록 화면
+    private ArrayList<String> nameList;                                                                                     // 등장인물 이름 리스트
+    private ArrayList<View> characterViewList;                                                                              // 등장인물들 view List
+    private int nSelectedCharacterIndex = 0;                                                                                // 0 = 나레이
+    private boolean bShowMenu = false;                                                                                      // 하단 메뉴가 보여지는지 여부
+    private ConstraintLayout bottomSettingLayout;                                                                           // 하단 메뉴 Layout
     private EditText inputTextView;
     private InputMethodManager imm;
-
     private ImageButton contentsAddBtn;
-
-    private ListView chattingListView;
+    private ListView chattingListView;                                                                                      // 대화가 보여지는 ListView
     private CChattingArrayAdapter aa;
 
-    private LinearLayout bgSettingView;
-    private LinearLayout imgSettingView;
-    private LinearLayout videoSettingView;
+    private LinearLayout bgSettingView;                                                                                     // 배경 첨부 버튼
+    private LinearLayout imgSettingView;                                                                                    // 이미지 첨부 버튼
+    private LinearLayout videoSettingView;                                                                                  // 동영상 첨부 버튼
     private LinearLayout distractorView;
     private LinearLayout soundSettingView;
 
@@ -146,8 +144,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private ImageView bgView;
 
     private int nEpisodeID;
-    private int nEpisodeIndex;
-    private int nAddIndex = -1;          // 사이에 추가하기 넘버
+    private int nInteractionIndex;              // 1회차, 2회차 등 회차의 순서
+    private int nAddIndex = -1;             // 사이에 추가하기 넘버
     private int nEditIndex = -1;            // 수정할때 넘버
     private ProgressDialog mProgressDialog;
 
@@ -158,13 +156,13 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private Timer timer;
-    private int nPlayingIndex = -1;
-    private ImageView oldPlayBtn;
+    private int nPlayingIndex = -1;                     // 동영상 재생/일시정지를 위한 현재 재생중인 영상의 순서
+    private ImageView oldPlayBtn;                       // 한개만 재생시키기 위해 다른 영상을 클릭하면 전 영상을 멈추기 위해 버튼 객체 저장
     private ProgressBar oldPB;
-    private boolean bSubmit = false;
+    private boolean bSubmit = false;                    // 회차가 제출(심사요청) 되었는지 여부
     private Button sendBtn;
 
-    private float fX, fY;
+    private float fX, fY;                               // 롱클릭 등을 위해 터치 좌표 저장
 
     private ViewGroup viewGroup;
     private SoftKeyboard softKeyboard;
@@ -186,46 +184,36 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         }
 
         int nKeyboard = getResources().getConfiguration().keyboard;
-
-        Thread.UncaughtExceptionHandler handler = Thread
-                .getDefaultUncaughtExceptionHandler();
-
+        Thread.UncaughtExceptionHandler handler = Thread.getDefaultUncaughtExceptionHandler();
         if (!(handler instanceof CustomUncaughtExceptionHandler)) {
             Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
         }
 
-        IntentFilter filter = new IntentFilter();
+        IntentFilter filter = new IntentFilter();                                                   // 엑셀 업로드 시 업로드 완료 이벤트를 받기위한 리시버 등록
         filter.addAction("ACTION_EXCEL_DONE");
         registerReceiver(mReceiver, filter);
 
         titleView = findViewById(R.id.episodeTitleView);
         episodeNumView = findViewById(R.id.episodeNumView);
-
         newFileList = new ArrayList<>();
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setCancelable(false);
-
         nEpisodeID = getIntent().getIntExtra("EPISODE_ID", -1);
-        nEpisodeIndex = getIntent().getIntExtra("EPISODE_INDEX", -1);
-
+        nInteractionIndex = getIntent().getIntExtra("EPISODE_INDEX", -1);
         titleView.setText(strTitle);
-        episodeNumView.setText((nEpisodeIndex+1) + "화");
-
+        episodeNumView.setText((nInteractionIndex+1) + "화");
         characterList = new ArrayList<>();
         nameList = new ArrayList<>();
         characterViewList = new ArrayList<>();
-
         characterList.add(null);
         nameList.add("지문");
-
         dimLayerLayout = findViewById(R.id.dimLayerLayout);
         LinearLayout speakerAddView = findViewById(R.id.speakerAddView);
         speakerAddView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
-//                startActivityForResult(new Intent(LiteratureWriteActivity.this, AddCharacterPopup.class), 1010);
                 startActivityForResult(new Intent(LiteratureWriteActivity.this, CreateCharacterActivity.class), 1010);
             }
         });
@@ -233,14 +221,12 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         nBgColor = ContextCompat.getColor(LiteratureWriteActivity.this, R.color.colorDefaultBG);
         bgColor = String.format("#%06X", (0xFFFFFF & nBgColor));
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-
         speakerAddLayout = findViewById(R.id.speakerAddLayout);
         bottomSettingLayout = findViewById(R.id.bottomSettingLayout);
         inputTextView = findViewById(R.id.inputTextView);
         contentsAddBtn = findViewById(R.id.contentsAddBtn);
         chattingListView = findViewById(R.id.chattingListView);
         bgView = findViewById(R.id.bgView);
-
         bgSettingView = findViewById(R.id.bgSettingView);
         imgSettingView = findViewById(R.id.imgSettingView);
         videoSettingView = findViewById(R.id.videoSettingView);
@@ -278,43 +264,40 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         chattingList = new ArrayList<>();
         aa = new CChattingArrayAdapter(LiteratureWriteActivity.this, R.layout.right_chatting_row, chattingList);
         chattingListView.setAdapter(aa);
-
         chattingListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {                       // 롱클릭시 동작
                 nEditIndex = position;
                 ChatVO vo = chattingList.get(position);
                 int nType = vo.getType();
-
-                if(nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_NARRATION) {
+                if(nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_NARRATION) {                                               // 일반 텍스트 채팅 혹은 나레이션 이라면 문구 수정창
                     Intent intent = new Intent(LiteratureWriteActivity.this, TextEditPopup.class);
                     intent.putExtra("TEXT", vo.getContents());
                     intent.putExtra("ORDER", position);
                     startActivityForResult(intent, 1050);
                 } else if(nType == ChatVO.TYPE_IMAGE || nType == ChatVO.TYPE_VIDEO) {
-                    TedPermission.with(LiteratureWriteActivity.this)
-                            .setPermissionListener(new PermissionListener() {
-                                @Override
-                                public void onPermissionGranted() {
-                                    Intent intent = new Intent(LiteratureWriteActivity.this, MediaSelectPopup.class);
-                                    if(nType == ChatVO.TYPE_IMAGE)
-                                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG);
-                                    else
-                                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_VIDEO);
+                    TedPermission.with(LiteratureWriteActivity.this).setPermissionListener(new PermissionListener() {   // 이미지 혹은 영상이라면 퍼미션 확인 후 이미지/영상 선택 화면으로
+                        @Override
+                        public void onPermissionGranted() {
+                            Intent intent = new Intent(LiteratureWriteActivity.this, MediaSelectPopup.class);
+                            if(nType == ChatVO.TYPE_IMAGE)
+                                intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG);
+                            else
+                                intent.putExtra("TYPE", PhotoPickerActivity.TYPE_VIDEO);
 
-                                    intent.putExtra("EDIT", true);
-                                    intent.putExtra("ORDER", position);
-                                    startActivityForResult(intent, 2000);
-                                }
+                            intent.putExtra("EDIT", true);
+                            intent.putExtra("ORDER", position);
+                            startActivityForResult(intent, 2000);
+                        }
 
-                                @Override
-                                public void onPermissionDenied(List<String> deniedPermissions) {
-                                    Toast.makeText(LiteratureWriteActivity.this, "권한을 허용해주셔야 사진 설정이 가능합니다.", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-                            .check();
-                } else if(nType == ChatVO.TYPE_SOUND) {
+                        @Override
+                        public void onPermissionDenied(List<String> deniedPermissions) {
+                            Toast.makeText(LiteratureWriteActivity.this, "권한을 허용해주셔야 사진 설정이 가능합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .check();
+                } else if(nType == ChatVO.TYPE_SOUND) {                                                                             // 음원파일 이라면 퍼미션 확인 후 음원파일 선택 화면으로
                     TedPermission.with(LiteratureWriteActivity.this)
                             .setPermissionListener(new PermissionListener() {
                                 @Override
@@ -331,18 +314,18 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             })
                             .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                             .check();
-                } else if(nType == ChatVO.TYPE_CHANGE_BG || nType == ChatVO.TYPE_CHANGE_BG_COLOR) {
+                } else if(nType == ChatVO.TYPE_CHANGE_BG || nType == ChatVO.TYPE_CHANGE_BG_COLOR) {                                 // 배경화면 변경이라면 해당 화면으로 이동
                     Intent intent = new Intent(LiteratureWriteActivity.this, BGImageSelectPopup.class);
                     intent.putExtra("EDIT", true);
                     intent.putExtra("ORDER", position);
                     startActivityForResult(intent, 1000);
-                } else if(nType == ChatVO.TYPE_DISTRACTOR) {
+                } else if(nType == ChatVO.TYPE_DISTRACTOR) {                                                                        // 분기 부분이라면 분기 팝업 호출
                     Intent intent = new Intent(LiteratureWriteActivity.this, DistractorPopup.class);
                     intent.putExtra("EDIT", true);
                     intent.putExtra("ORDER", position);
                     intent.putExtra("TEXT", vo.getContents());
                     startActivityForResult(intent, 1025);
-                } else if(nType == ChatVO.TYPE_IMAGE_NAR) {
+                } else if(nType == ChatVO.TYPE_IMAGE_NAR) {                                                                         // 나레이션 이미지 라면 이미지 선택 화면으로 이동
                     Intent intent = new Intent(LiteratureWriteActivity.this, MediaSelectPopup.class);
                     intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG_NAR);
                     intent.putExtra("EDIT", true);
@@ -360,14 +343,14 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         distractorView.setOnClickListener(this);
         soundSettingView.setOnClickListener(this);
 
-        if(nEpisodeIndex > -1) {
-            EpisodeVO episodeVO = workVO.getEpisodeList().get(nEpisodeIndex);
+        if(nInteractionIndex > -1) {                                                        // 이게 있다면 분기 설정된 회차이므로 분기 작성 화면으로 이동
+            EpisodeVO episodeVO = workVO.getEpisodeList().get(nInteractionIndex);
             if(episodeVO.getIsDistractor() == true) {
                 Intent intent = new Intent(LiteratureWriteActivity.this, InteractionWriteActivity.class);
                 InteractionWriteActivity.workVO = workVO;
                 intent.putExtra("TITLE", strTitle);
                 intent.putExtra("EPISODE_ID", nEpisodeID);
-                intent.putExtra("EPISODE_INDEX", nEpisodeIndex);
+                intent.putExtra("EPISODE_INDEX", nInteractionIndex);
                 startActivity(intent);
                 finish();
                 return;
@@ -383,18 +366,19 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             @Override
             public void onClick(View view) {
                 String strContents = inputTextView.getText().toString();
-                CommonUtils.showProgressDialog(LiteratureWriteActivity.this, "서버와 통신중입니다. 잠시만 기다려주세요.");
-                String strFobiddenWords = CommonUtils.checkForbiddenWords(strContents);
-                if(strFobiddenWords.length() > 0) {
-                    CommonUtils.hideProgressDialog();
-                    Intent intent = new Intent(LiteratureWriteActivity.this, SlangPopup.class);
-                    intent.putExtra("SLANG", strFobiddenWords);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.cross_fade_in, R.anim.cross_fade_out);
-                    return;
-                }
-
-                CommonUtils.hideProgressDialog();
+//                CommonUtils.showProgressDialog(LiteratureWriteActivity.this, "서버와 통신중입니다. 잠시만 기다려주세요.");
+//
+//                String strFobiddenWords = CommonUtils.checkForbiddenWords(strContents);
+//                if(strFobiddenWords.length() > 0) {
+//                    CommonUtils.hideProgressDialog();
+//                    Intent intent = new Intent(LiteratureWriteActivity.this, SlangPopup.class);
+//                    intent.putExtra("SLANG", strFobiddenWords);
+//                    startActivity(intent);
+//                    overridePendingTransition(R.anim.cross_fade_in, R.anim.cross_fade_out);
+//                    return;
+//                }
+//
+//                CommonUtils.hideProgressDialog();
 
                 if(strContents.length() == 0) {
                     Toast.makeText(LiteratureWriteActivity.this, "내용을 입력하세요.", Toast.LENGTH_LONG).show();
@@ -578,8 +562,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     case R.id.action_btn3:
                         intent = new Intent(LiteratureWriteActivity.this, ViewerActivity.class);
                         ViewerActivity.workVO = workVO;
-                        intent.putExtra("EPISODE_INDEX", nEpisodeIndex);
-                        intent.putExtra("INTERACTION", workVO.getEpisodeList().get(nEpisodeIndex).getIsDistractor());
+                        intent.putExtra("EPISODE_INDEX", nInteractionIndex);
+                        intent.putExtra("INTERACTION", workVO.getEpisodeList().get(nInteractionIndex).getIsDistractor());
                         intent.putExtra("PREVIEW", true);
                         startActivity(intent);
                         return true;
@@ -683,8 +667,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             case R.id.action_btn3:
                 intent = new Intent(LiteratureWriteActivity.this, ViewerActivity.class);
                 ViewerActivity.workVO = workVO;
-                intent.putExtra("EPISODE_INDEX", nEpisodeIndex);
-                intent.putExtra("INTERACTION", workVO.getEpisodeList().get(nEpisodeIndex).getIsDistractor());
+                intent.putExtra("EPISODE_INDEX", nInteractionIndex);
+                intent.putExtra("INTERACTION", workVO.getEpisodeList().get(nInteractionIndex).getIsDistractor());
                 intent.putExtra("PREVIEW", true);
                 startActivity(intent);
                 return true;
@@ -917,7 +901,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private void requestUploadMessage(final ChatVO chatVO, final boolean bEdit) {
         if(!bEdit)
             nEditIndex = -1;
-        if(mediaPlayer != null && mediaPlayer.isPlaying()) {
+        if(mediaPlayer != null && mediaPlayer.isPlaying()) {                // 영상 등 재생하는 부분이 있다면 올스톱
             mediaPlayer.stop();
             oldPlayBtn.setImageResource(R.drawable.talk_play1);
             oldPlayBtn = null;
@@ -985,9 +969,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
             sendObject.put("CHAT_ARRAY", chatArray);
             MultipartBody.Builder builder = new MultipartBody.Builder();
-
-            builder.setType(MultipartBody.FORM)
-                    .addFormDataPart("JSON_BODY", sendObject.toString());
+            builder.setType(MultipartBody.FORM).addFormDataPart("JSON_BODY", sendObject.toString());
 
             if(nType == 3 || nType == 4 || nType == 5 || nType == 8 || nType == 11) {
                 String strPath = chatVO.getStrContentsFile();
@@ -1067,7 +1049,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                         InteractionWriteActivity.workVO = workVO;
                                         intent.putExtra("TITLE", strTitle);
                                         intent.putExtra("EPISODE_ID", nEpisodeID);
-                                        intent.putExtra("EPISODE_INDEX", nEpisodeIndex);
+                                        intent.putExtra("EPISODE_INDEX", nInteractionIndex);
                                         intent.putExtra("SUBMIT", bSubmit);
                                         startActivity(intent);
                                         finish();
@@ -1100,7 +1082,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private void requestDeleteCharacter(final int nIndex) {
+    private void requestDeleteCharacter(final int nIndex) {                                 // 등장인물 삭제
         mProgressDialog.setMessage("서버와 통신중입니다. 잠시만 기다려주세요.");
         mProgressDialog.show();
 
@@ -1108,9 +1090,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             @Override
             public void run() {
                 CharacterVO vo = characterList.get(nIndex);
-
                 JSONObject resultObject = HttpClient.requestDeleteCharacter(new OkHttpClient(), vo.getnCharacterID());
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -1133,7 +1113,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         }).start();
     }
 
-    private void requestDeleteAllMessage() {
+    private void requestDeleteAllMessage() {                                                // 모든 대화 삭제
         mProgressDialog.setMessage("서버와 통신중입니다. 잠시만 기다려주세요.");
         mProgressDialog.show();
 
@@ -1171,7 +1151,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         }).start();
     }
 
-    private void requestDeleteMessage(final int nIndex) {
+    private void requestDeleteMessage(final int nIndex) {                               // 대화 한개 삭제
         mProgressDialog.setMessage("서버와 통신중입니다. 잠시만 기다려주세요.");
         mProgressDialog.show();
 
@@ -1214,7 +1194,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         }).start();
     }
 
-    private void requestEpisodeSubmit() {
+    private void requestEpisodeSubmit() {                                                                   // 심사 요청(제출)
         AlertDialog.Builder builder = new AlertDialog.Builder(LiteratureWriteActivity.this);
         builder.setTitle("회차 제출");
         builder.setMessage("회차를 제출하면 승인 대기 상태가 됩니다. 관리자가 회차를 승인한 이후부터 회차가 독자들에게 게시됩니다.\n회차를 제출하시겠습니까?");
@@ -1266,7 +1246,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         alertDialog.show();
     }
 
-    private void getCharacterData() {
+    private void getCharacterData() {                                           // 등장인물 데이터 가져오기
         mProgressDialog.setMessage("서버에서 작품 데이터를 가져오고 있습니다...");
         mProgressDialog.show();
         characterList.clear();
@@ -1276,7 +1256,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         new Thread(new Runnable() {
             @Override
             public void run() {
-                characterList.addAll(HttpClient.getCharacterDataWithEpisodeID(new OkHttpClient(), "" + workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID()));
+                characterList.addAll(HttpClient.getCharacterDataWithEpisodeID(new OkHttpClient(), "" + workVO.getEpisodeList().get(nInteractionIndex).getnEpisodeID()));
 
                 if(characterList == null) {
                     Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
@@ -1298,12 +1278,12 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         }).start();
     }
 
-    private void getEpisodeChatData() {
+    private void getEpisodeChatData() {                                         // 대화 데이터 가져오기
         new Thread(new Runnable() {
             @Override
             public void run() {
                 chattingList.clear();
-                chattingList.addAll(HttpClient.getChatDataWithEpisodeID(new OkHttpClient(), "" + workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID()));
+                chattingList.addAll(HttpClient.getChatDataWithEpisodeID(new OkHttpClient(), "" + workVO.getEpisodeList().get(nInteractionIndex).getnEpisodeID()));
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -1322,7 +1302,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                 InteractionWriteActivity.workVO = workVO;
                                 intent.putExtra("TITLE", strTitle);
                                 intent.putExtra("EPISODE_ID", nEpisodeID);
-                                intent.putExtra("EPISODE_INDEX", nEpisodeIndex);
+                                intent.putExtra("EPISODE_INDEX", nInteractionIndex);
                                 startActivity(intent);
                                 finish();
                                 return;
@@ -1503,7 +1483,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private void requestUpdateCharacter(final CharacterVO characterVO, final int nIndex) {
+    private void requestUpdateCharacter(final CharacterVO characterVO, final int nIndex) {                                  // 등장인물 수정
         mProgressDialog.setMessage("캐릭터를 생성중입니다");
         mProgressDialog.show();
 
@@ -1600,7 +1580,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private void requestCreateCharacter(final CharacterVO characterVO) {
+    private void requestCreateCharacter(final CharacterVO characterVO) {                                        // 등장인물 추가
         mProgressDialog.setMessage("캐릭터를 생성중입니다");
         mProgressDialog.show();
 
@@ -1699,7 +1679,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {                                 // 이미지 설정 등의 데이터가 거쳐감
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
@@ -1889,7 +1869,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         }
                     }
                 }).start();
-            } else if (requestCode == 1050) {
+            } else if (requestCode == 1050) {                                       // 일단 대화/나레이션 문구 수정
                 String strContents = data.getStringExtra("EDITED_TEXT");
                 int nOrder = data.getIntExtra("ORDER", -1);
                 nEditIndex = nOrder;
@@ -2128,7 +2108,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 break;
 
             case R.id.distractorView:
-                if(workVO.getEpisodeList().size() > nEpisodeIndex+1) {
+                if(workVO.getEpisodeList().size() > nInteractionIndex+1) {
                     Toast.makeText(this, "작품의 현재 마지막 화에서만 분기 생성이 가능합니다.", Toast.LENGTH_LONG).show();
                     finish();
                     return;
@@ -2165,7 +2145,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     }
 
     @Override
-    public void onColorSelected(int dialogId, int color) {
+    public void onColorSelected(int dialogId, int color) {                                      // 컬러 선택 콜백 - 배경 색 혹은 말풍선 색, 글씨 색등을 변경하는데 사용됨
         nBgColor = color;
         bgColor = String.format("#%06X", (0xFFFFFF & nBgColor));
         bgView.setBackgroundColor(nBgColor);
@@ -2236,32 +2216,32 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             int nWidth = (int)((float)chattingListView.getWidth() * (float)(1.7f/3.0f));
             int nDirection = 0;
 
-            if(nType == ChatVO.TYPE_TEXT) {
+            if(nType == ChatVO.TYPE_TEXT) {                                                                     // type 별로 각 리스트의 row 세팅 - 리펙토링 가장 필요한 부분. 내가할거임.   타입별로 거의 비슷함. 일반 대화만 주석 작성함.
                 nDirection = characterVO.getDirection();
 
-                if(nDirection == 0)             // left
+                if(nDirection == 0)             // left                                                                     // 좌우 구분하여 layout 할당
                     convertView = mLiInflater.inflate(R.layout.left_chatting_row, parent, false);
                 else
                     convertView = mLiInflater.inflate(R.layout.right_chatting_row, parent, false);
 
-                TextView nameView = convertView.findViewById(R.id.nameView);
+                TextView nameView = convertView.findViewById(R.id.nameView);                                                // 이름 설정
                 nameView.setText(characterVO.getName());
 
-                if(characterVO.isbBlackName())
+                if(characterVO.isbBlackName())                                                                              // 캐릭터 이름 검은색인지 흰색인지 구분
                     nameView.setTextColor(Color.parseColor("#000000"));
                 else
                     nameView.setTextColor(Color.parseColor("#ffffff"));
 
-                TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
+                TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);                                // 대화 내용 쓰기
                 contentsTextView.setText(chatVO.getContents());
 
-                if(characterVO.isbBlackText()) {
+                if(characterVO.isbBlackText()) {                                                                            // 글씨 색 검은색/흰색 설정
                     contentsTextView.setTextColor(getResources().getColor(R.color.colorBlack));
                 } else {
                     contentsTextView.setTextColor(getResources().getColor(R.color.colorWhite));
                 }
 
-                ImageView imageContentsView = convertView.findViewById(R.id.imageContentsView);
+                ImageView imageContentsView = convertView.findViewById(R.id.imageContentsView);                             // 이미지 있는경우 설정
 
                 if(chatVO.getContentsUri() != null) {
                     Glide.with(LiteratureWriteActivity.this)
@@ -2806,7 +2786,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private int getCharacterIndex(CharacterVO vo) {
+    private int getCharacterIndex(CharacterVO vo) {                                                 // 캐릭터 아이디로 몇번째 캐릭터인지 가져오는 함수
         int characterID = vo.getnCharacterID();
 
         for(int i = 1 ; i < characterList.size() ; i++) {
@@ -2822,7 +2802,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, Intent intent) {                                         // 엑셀 업로드 완료시 호출
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
