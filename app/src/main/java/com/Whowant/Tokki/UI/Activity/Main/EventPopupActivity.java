@@ -59,15 +59,7 @@ public class EventPopupActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-//                setRemoveText(position);
-                EventVO vo = eventList.get(position);
-//                EventVO vo = currentList.get(position);
-                if(vo.getnEventType() == 100) {
-                    confirmTextView.setText("다시 보지 않기");
-                } else {
-                    confirmTextView.setText("오늘 하루 이 내용 보지 않기");
-                }
-                //confirmTextView
+                setRemoveText(position);
             }
 
             @Override

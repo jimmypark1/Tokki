@@ -35,7 +35,6 @@ public class SoftKeyboard implements View.OnFocusChangeListener {               
         this.softKeyboardThread.start();
     }
 
-
     public void openSoftKeyboard() {
         if (!isKeyboardShow) {
             layoutBottom = getLayoutCoordinates();
