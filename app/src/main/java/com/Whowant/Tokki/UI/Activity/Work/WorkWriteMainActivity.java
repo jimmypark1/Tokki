@@ -42,7 +42,8 @@ import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 
-public class WorkWriteMainActivity extends AppCompatActivity {                       // 작품 페이지
+public class WorkWriteMainActivity extends AppCompatActivity {                       // 작품 작성 메인페이지.  한개의 작품의 회차들 목록을 표시.  변수명과 펑션명 보면 알 수 있음 ;)
+
     private String strWorkID;
     private WorkVO workVO;
 
@@ -93,7 +94,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         newEpsisodeBtn = findViewById(R.id.newEpsisodeBtn);
         listView = findViewById(R.id.listView);
 
-        coverImgView.setClipToOutline(true);
+        coverImgView.setClipToOutline(true);                    // 라운드 처리.  xml 에서 ImageView 의 Background 로 round 처리되어 있음 xml 을 주었을때, clipToOutline 을 true 로 설정해주면 해당 xml 밤위 밖으로 이미지를 표시하지 않음. 토키 코드에서 많이 사용함
     }
 
 //    @Override
@@ -135,7 +136,6 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
     @Override
     public void onResume() {
         super.onResume();
-
         getWorkInfo();
     }
 
@@ -372,7 +372,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         Log.d("asdf", "INIT End");
     }
 
-    public void OnClickNewEpisodeBtn(View view) {
+    public void OnClickNewEpisodeBtn(View view) {                                           // 하단의 회차 생성 버튼 클릭
         requestCreateEpisode();
     }
 
@@ -440,15 +440,6 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
                         intent.putExtra("EPISODE_INDEX", nOrder);
                         intent.putExtra("EPISODE_TITLE", strTitle);
-
-//                        if(workVO.getEpisodeList() != null && workVO.getEpisodeList().size() > 0) {
-//                            intent.putExtra("EPISODE_INDEX", nOrder);
-//                            intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(workVO.getEpisodeList().size() - 1).getStrTitle());
-//                        } else {
-//                            intent.putExtra("EPISODE_INDEX", 1);
-//                            intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(0).getStrTitle());
-//                        }
-
                         startActivity(intent);
                     }
                 });
@@ -469,9 +460,9 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         public EpisodeViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
             View v = null;
 
-            if(position == 0) {
+            if(position == 0) {                                                                                     // 첫번째 행은 서버에서 받아온 회차 정보가 아닌 몇개의 회차가 있는지, 정렬 설정 등으로 활용
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_order_row, viewGroup, false);
-            } else if(position == 1) {
+            } else if(position == 1) {                                                                              // 두번째 행부터 회차 목록 표시
                 if(showingList.get(1).equals("EMPTY")) {
                     v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.empty_row, viewGroup, false);
                 } else {
@@ -550,7 +541,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
                 chatCountView.setText("" + vo.getnChatCount());
 
-                if (vo.getStrSubmit().equals("N")) {
+                if (vo.getStrSubmit().equals("N")) {                                                        // 작품 제출상태(심사요청 상태) 표시. N(None), W(Waiting), Y(Yes), F(Failed) 로 구분하여 사용
                     postAvailableView.setText("제출대기");
                     postAvailableView.setTextColor(Color.parseColor("#d1d1d1"));
                     postAvailableView.setBackgroundResource(R.drawable.badge_writing);
@@ -573,7 +564,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                     public void onClick(View view) {
                         PopupMenu popup = new PopupMenu(WorkWriteMainActivity.this, menuBtn);
 
-                        if (pref.getString("ADMIN", "N").equals("Y")) {
+                        if (pref.getString("ADMIN", "N").equals("Y")) {                                 // 관리자인지 아닌지 여부에 따라 표출하는 팝업메뉴 다르게 사용
                             popup.getMenuInflater().inflate(R.menu.work_write_admin_menu, popup.getMenu());
                         } else
                             popup.getMenuInflater().inflate(R.menu.comment_admin_menu, popup.getMenu());
@@ -643,7 +634,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         }
 
         private void requestWorkAprove(final int nEpisodeID) {
-            CommonUtils.showProgressDialog(WorkWriteMainActivity.this, "회차 게시를 요청중입니다.");
+            CommonUtils.showProgressDialog(WorkWriteMainActivity.this, "회차 게시를 요청중입니다.");               // 게시 제출(심사 요청)
 
             new Thread(new Runnable() {
                 @Override

@@ -42,7 +42,6 @@ public class EventPopupActivity extends AppCompatActivity {
 
             if(vo.getnEventID() == -10 && strDate.length() == 0) {
                 currentList.add(vo);
-                confirmTextView.setText("다시 보지 않기");
             } else if(strDate.length() == 0 || !strDate.equals(strToday)) {
                 currentList.add(vo);
             }
@@ -60,8 +59,9 @@ public class EventPopupActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+//                setRemoveText(position);
                 EventVO vo = eventList.get(position);
-
+//                EventVO vo = currentList.get(position);
                 if(vo.getnEventType() == 100) {
                     confirmTextView.setText("다시 보지 않기");
                 } else {
@@ -93,8 +93,19 @@ public class EventPopupActivity extends AppCompatActivity {
         eventList.remove(nIndex);
         if(eventList == null || eventList.size() == 0) {
             finish();
+            return;
         }
 
         adapter.setEventList(eventList);
+        setRemoveText(nIndex);
+    }
+
+    private void setRemoveText(int nPosition) {
+        EventVO vo = currentList.get(nPosition);
+        if(vo.getnEventType() == 100) {
+            confirmTextView.setText("다시 보지 않기");
+        } else {
+            confirmTextView.setText("오늘 하루 이 내용 보지 않기");
+        }
     }
 }

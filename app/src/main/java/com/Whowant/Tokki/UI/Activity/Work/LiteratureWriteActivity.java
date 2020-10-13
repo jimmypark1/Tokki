@@ -112,30 +112,27 @@ import okhttp3.Response;
 
 public class LiteratureWriteActivity extends AppCompatActivity implements View.OnClickListener, ColorPickerDialogListener {                             // 작품 작성창
     public static WorkVO workVO;
-    private ArrayList<CharacterVO> characterList;                                                                           // 작품에 등장하는 캐릭터 리스트
-    private ArrayList<ChatVO> chattingList;                                                                                 // 작품 말풍선 리스트(실제 작품 내용)
-    private HashMap<String, Bitmap> thumbBitmapList = new HashMap<>();                                                      // 동영상 썸네일 이미지는 새로 로딩하지 않고 저장하고 사용
+    private ArrayList<CharacterVO> characterList;                                                                                                       // 작품에 등장하는 캐릭터 리스트
+    private ArrayList<ChatVO> chattingList;                                                                                                             // 작품 말풍선 리스트(실제 작품 내용)
+    private HashMap<String, Bitmap> thumbBitmapList = new HashMap<>();                                                                                  // 동영상 썸네일 이미지는 새로 로딩하지 않고 저장하고 사용
 
-    private LinearLayout speakerAddLayout;                                                                                  // 하단에 좌우 스크롤되는 등장인물 목록 화면
-    private ArrayList<String> nameList;                                                                                     // 등장인물 이름 리스트
-    private ArrayList<View> characterViewList;                                                                              // 등장인물들 view List
-    private int nSelectedCharacterIndex = 0;                                                                                // 0 = 나레이
-    private boolean bShowMenu = false;                                                                                      // 하단 메뉴가 보여지는지 여부
-    private ConstraintLayout bottomSettingLayout;                                                                           // 하단 메뉴 Layout
+    private LinearLayout speakerAddLayout;                                                                                                              // 하단에 좌우 스크롤되는 등장인물 목록 화면
+    private ArrayList<String> nameList;                                                                                                                 // 등장인물 이름 리스트
+    private ArrayList<View> characterViewList;                                                                                                          // 등장인물들 view List
+    private int nSelectedCharacterIndex = 0;                                                                                                            // 0 = 나레이
+    private boolean bShowMenu = false;                                                                                                                  // 하단 메뉴가 보여지는지 여부
+    private ConstraintLayout bottomSettingLayout;                                                                                                       // 하단 메뉴 Layout
     private EditText inputTextView;
     private InputMethodManager imm;
     private ImageButton contentsAddBtn;
-    private ListView chattingListView;                                                                                      // 대화가 보여지는 ListView
+    private ListView chattingListView;                                                                                                                  // 대화가 보여지는 ListView
     private CChattingArrayAdapter aa;
 
-    private LinearLayout bgSettingView;                                                                                     // 배경 첨부 버튼
-    private LinearLayout imgSettingView;                                                                                    // 이미지 첨부 버튼
-    private LinearLayout videoSettingView;                                                                                  // 동영상 첨부 버튼
+    private LinearLayout bgSettingView;                                                                                                                 // 배경 첨부 버튼
+    private LinearLayout imgSettingView;                                                                                                                // 이미지 첨부 버튼
+    private LinearLayout videoSettingView;                                                                                                              // 동영상 첨부 버튼
     private LinearLayout distractorView;
     private LinearLayout soundSettingView;
-
-    private CoordinatorLayout dimLayerLayout;
-    private ImageView addedImageView;
 
     private int    nBgColor;
     private String bgColor;
@@ -208,7 +205,6 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         characterViewList = new ArrayList<>();
         characterList.add(null);
         nameList.add("지문");
-        dimLayerLayout = findViewById(R.id.dimLayerLayout);
         LinearLayout speakerAddView = findViewById(R.id.speakerAddView);
         speakerAddView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -522,7 +518,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         requestEpisodeSubmit();
     }
 
-    public void onClickTopRightBtn(View view) {
+    public void onClickTopRightBtn(View view) {                                                             // 작품을 앱 안에서 작성하지 않고 미리 만들어둔 엑셀 파일로 업로드 하는 기능
         PopupMenu popup = new PopupMenu(LiteratureWriteActivity.this, view);
         popup.getMenuInflater().inflate(R.menu.work_write_menu, popup.getMenu());
 

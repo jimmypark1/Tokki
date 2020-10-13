@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SoftKeyboard implements View.OnFocusChangeListener {
+public class SoftKeyboard implements View.OnFocusChangeListener {                                               // 키보드 나타나고 사라질때를 감지하기 위한 SoftKeyboard 클래스
     private static final int CLEAR_FOCUS = 0;
 
     private ViewGroup layout;

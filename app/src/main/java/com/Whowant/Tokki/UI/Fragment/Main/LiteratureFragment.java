@@ -30,7 +30,7 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
-public class LiteratureFragment extends Fragment {                                          // 3번탭 작성 시작하는 페이지
+public class LiteratureFragment extends Fragment {                                          // 3번탭 작성 시작하는 페이지.
     private ArrayList<WorkVO> workList;
     private ListView listView;
     private TextView emptyView;
@@ -91,7 +91,8 @@ public class LiteratureFragment extends Fragment {                              
         }
     }
 
-    private void GetAllWorkList() {
+    private void GetAllWorkList() {                                                                                     // 내가 쓴 작품 목록을 리스트로 표시. 클릭하면 해당 작품 글을 작성/수정하러 이동.
+                                                                                                                        // MainActivity 에서 우측상단 버튼 클릭 시에는 새로운 작품을 생성하러 이동
         CommonUtils.showProgressDialog(getActivity(), "서버에서 작품 목록을 가져오고 있습니다. 잠시만 기다려주세요.");
         new Thread(new Runnable() {
             @Override

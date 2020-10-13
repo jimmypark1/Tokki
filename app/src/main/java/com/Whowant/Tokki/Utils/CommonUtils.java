@@ -40,18 +40,18 @@ import java.util.HashMap;
 
 import okhttp3.OkHttpClient;
 
-public class CommonUtils {
+public class CommonUtils {                                                                  // Const 등을 사용하지 않고 잡다한 static 변수 및 펑션등을 모아놓은 클래스
     private static ProgressDialog mProgressDialog;
 
 //    public static String strDefaultUrl = "http://220.126.60.144:8080/howmuch_web/";
 //    public static String strDefaultUrl = "http://192.168.43.249:8080/howmuch_web/";
 //    public static String strDefaultUrl = "http://10.140.61.69:8080/howmuch_web/";
-    public static String strDefaultUrl = "http://175.123.253.231:8080/howmuch_web/";
-    public static Toast toast = null;
-    public static ArrayList<String> forbiddenWords = new ArrayList<>();
-    private static boolean isComplete = false;
+    public static String strDefaultUrl = "http://175.123.253.231:8080/howmuch_web/";                        // 상용 서버 주소
+    public static Toast toast = null;                                                                       // 연속으로 Toast 를 띄울때 이걸 사용하면 딜레이 없이 토스트 사용 가능
+    public static ArrayList<String> forbiddenWords = new ArrayList<>();                                     // 비속어 필터
+    private static boolean isComplete = false;                                                              // forbiddenWords 를 서버에서 모두 받아왔는지 확인하는 flag. 신경 안써도 됨
 
-    public static String getRealPathFromURI(final Context context, final Uri uri) {
+    public static String getRealPathFromURI(final Context context, final Uri uri) {                         // 안드로이드의 파일 관련 정책이 자꾸 바뀌변서 추가된 펑션. 촬영한 사진의 URI 를 바탕으로 진짜 파일 경로를 얻어오는 펑션
         String strAuth = uri.getAuthority();
         // ExternalStorageProvider
         if (isExternalStorageDocument(uri) || isDownloadsDocument(uri)) {
@@ -107,7 +107,7 @@ public class CommonUtils {
         return null;
     }
 
-    public static String getPointCount(int nCount) {
+    public static String getPointCount(int nCount) {                                                                            // 1000 이 넘는 숫자는 1k 등으로 표시하기 위해 사용
         String strCount = "" + nCount;
 
         if(nCount >= 1000) {
@@ -120,7 +120,7 @@ public class CommonUtils {
         return strCount;
     }
 
-    public static void showProgressDialog(Context context, String strContents) {
+    public static void showProgressDialog(Context context, String strContents) {                                                // ProgressDialog 는 이걸 사용합니다. 리팩토링 예정(ProgressDialog 가 Deprecated 되었음;;)
         if(context == null)
             return;
 
@@ -151,7 +151,7 @@ public class CommonUtils {
         mProgressDialog = null;
     }
 
-    public static Toast makeText(Context context, String text, int time) {
+    public static Toast makeText(Context context, String text, int time) {                                                                      // 토스트 연속으로 띄울때 딜레이 없이 사용
         if(toast != null)
             toast.cancel();
 
@@ -233,7 +233,7 @@ public class CommonUtils {
         return StatusBarHeight + contentViewTop;
     }
 
-    public static void resetUserInfo(SharedPreferences pref) {
+    public static void resetUserInfo(SharedPreferences pref) {                                                              //  로그인 실패 등의 동작에서 회원정보 삭제
         SharedPreferences.Editor editor = pref.edit();
 
         editor.putString("USER_ID", "Guest");
@@ -249,7 +249,7 @@ public class CommonUtils {
         editor.commit();
     }
 
-    public static boolean bLocinCheck(SharedPreferences pref) {
+    public static boolean bLocinCheck(SharedPreferences pref) {                                                                             // 기존에는 로그인하지 않고 앱을 사용했기 때문에 사용한 펑션. 현재는 무조건 로그인을 해야 하므로 의미없는 펑션
         String strUserID = pref.getString("USER_ID", "Guest");
         String strUserName = pref.getString("USER_NAME", "Guest");
 
@@ -262,7 +262,7 @@ public class CommonUtils {
         return true;
     }
 
-    public static String strGetTime(String strDate) {
+    public static String strGetTime(String strDate) {                                                                                       // 댓글 등의 시간을 표시할때 ~~전 으로 표기하기 위한 펑션
         String strDuration = "";
 
         Date dateNow = new Date();
@@ -349,23 +349,23 @@ public class CommonUtils {
         return imgBitmap;
     }
 
-    public static String comma(String num) {
+    public static String comma(String num) {                                                            // String 으로 된 숫자로 콤마 찍기 위한 펑션
         int nNum = Integer.valueOf(num);
         DecimalFormat df = new DecimalFormat("#,##0");
         return df.format(nNum);
     }
 
-    public static String comma(Long num) {
+    public static String comma(Long num) {                                                              // Long 으로 된 숫자로 콤마 찍기 위한 펑션
         DecimalFormat df = new DecimalFormat("#,##0");
         return df.format(num);
     }
 
-    public static String comma(int num) {
+    public static String comma(int num) {                                                               // int 로 된 숫자로 콤마 찍기 위한 펑션. 현재는 이것만 사용중
         DecimalFormat df = new DecimalFormat("#,##0");
         return df.format(num);
     }
 
-    public static int getLevel(int nDonationCarrotCount) {
+    public static int getLevel(int nDonationCarrotCount) {                                              // 당근 갯수로 레벨 가져오기. 레벨 변동이 있을때는 이곳만 수정하면 됨
         /*
         lv1 : 0 ~ 200
         lv2 : 201 ~ 400
@@ -405,7 +405,7 @@ public class CommonUtils {
         return nLevel;
     }
 
-    public static Bitmap getVideoThumbnail(Uri uri) {
+    public static Bitmap getVideoThumbnail(Uri uri) {                                                                       // Video URL 로 동영상의 썸네일 추출. 추출한 이미지는 Viewer 등의 화면에서 따로 배열에 저장하여 캐시 처럼 사용해야 재로딩 없이 사용할 수 있음
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 
         try {
@@ -427,7 +427,7 @@ public class CommonUtils {
         return null;
     }
 
-    public static ArrayList<String> getForbiddenWords() {
+    public static ArrayList<String> getForbiddenWords() {                                                                   // 서버에서 비속어 필터링할 목록 가져오기. 한번 받아왔으면 그대로 리턴하도록 함
         isComplete = false;
 
         if(forbiddenWords == null || forbiddenWords.size() == 0) {

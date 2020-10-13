@@ -36,7 +36,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class ExcelReader {
+public class ExcelReader {                                                                              // 엑셀로 작품 업로드할때 사용하는 클래스
     private FileInputStream fis = null;
     private int nEpisodeID;
     private Activity mActivity;
@@ -77,9 +77,6 @@ public class ExcelReader {
 
                 for(int cellIndex = 0 ; cellIndex < 5 ; cellIndex ++) {
                     Cell currentCell = currentRow.getCell(cellIndex);
-//                    if(currentCell == null)
-//                        continue;
-
                     String strContents = "";
 
                     if(currentCell == null)

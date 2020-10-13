@@ -319,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
                         snsEvent.setnEventID(-10);
                         snsEvent.setnEventType(100);
                         snsEvent.setbRead(true);
-                        eventList.add(0, snsEvent);
+                        eventList.add(snsEvent);
 
                         for(EventVO vo : eventList) {
                             if(!vo.isbRead()) {

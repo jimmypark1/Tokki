@@ -171,7 +171,7 @@ public class MyFollowerFragment extends Fragment {          // 나를 팔로우 
             lv10IconView.setVisibility(View.GONE);
             smallLv10View.setVisibility(View.GONE);
 
-            int nLevel = CommonUtils.getLevel(vo.getnDonationCarrot());
+            int nLevel = CommonUtils.getLevel(vo.getnDonationCarrot());                                 // 당근 갯수에 따라 레벨 지정하여 사진 테두리 색상 및 모자(lv5IconView 등) 씌우는 부분
             switch(nLevel) {
                 case 1:
                     levelBGView.setBackgroundResource(R.drawable.lv1_bg);

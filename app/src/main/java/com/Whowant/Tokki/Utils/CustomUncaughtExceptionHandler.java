@@ -10,7 +10,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class CustomUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+public class CustomUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {                                // 앱 비정상 종료시 로그 남기기 위한 클래스
     private Thread.UncaughtExceptionHandler mHandler;
 
     public CustomUncaughtExceptionHandler() {
