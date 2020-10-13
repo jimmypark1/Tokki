@@ -3,4 +3,8 @@
     <item
         android:id="@+id/comment"
         android:title="댓글보기"/>
+
+    <item
+        android:id="@+id/report"
+        android:title="신고하기"/>
 </menu>

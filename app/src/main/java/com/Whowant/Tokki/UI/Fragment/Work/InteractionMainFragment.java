@@ -61,6 +61,7 @@ import com.Whowant.Tokki.UI.Popup.DistractorPopup;
 import com.Whowant.Tokki.UI.Popup.InteractionBGSelectPopup;
 import com.Whowant.Tokki.UI.Popup.InteractionMediaSelectPopup;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
+import com.Whowant.Tokki.UI.Popup.SlangPopup;
 import com.Whowant.Tokki.UI.Popup.TextEditPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.ExcelReader;
@@ -407,6 +408,20 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     Toast.makeText(getActivity(), "내용을 입력하세요.", Toast.LENGTH_LONG).show();
                     return;
                 }
+
+                CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다. 잠시만 기다려주세요.");
+
+                String strFobiddenWords = CommonUtils.checkForbiddenWords(strContents);
+                if(strFobiddenWords.length() > 0) {
+                    CommonUtils.hideProgressDialog();
+                    Intent intent = new Intent(getActivity(), SlangPopup.class);
+                    intent.putExtra("SLANG", strFobiddenWords);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.cross_fade_in, R.anim.cross_fade_out);
+                    return;
+                }
+
+                CommonUtils.hideProgressDialog();
 
                 ChatVO chatVO = new ChatVO();
 

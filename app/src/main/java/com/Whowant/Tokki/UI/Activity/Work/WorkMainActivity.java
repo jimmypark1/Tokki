@@ -935,7 +935,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 
                 ImageView menuBtn = holder.itemView.findViewById(R.id.menuBtn);
 
-                if(!bModify && pref.getString("ADMIN", "N").equals("N")) {
+                if(pref.getString("ADMIN", "N").equals("N")) {
                     chatCountLayout.setVisibility(View.GONE);
 
 
@@ -958,6 +958,28 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                             intent = new Intent(WorkMainActivity.this, EpisodeCommentActivity.class);
                                             intent.putExtra("EPISODE_ID", vo.getnEpisodeID());
                                             startActivity(intent);
+                                            break;
+                                        case R.id.report:
+                                            builder.setTitle("회차 신고 알림");
+                                            builder.setMessage("회차를 정말 신고하시겠습니까?");
+                                            builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    Intent intent = new Intent(WorkMainActivity.this, EpisodeReportSelectActivity.class);
+                                                    intent.putExtra("EPISODE_ID", vo.getnEpisodeID());
+                                                    startActivity(intent);
+                                                }
+                                            });
+
+                                            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                }
+                                            });
+
+                                            alertDialog = builder.create();
+                                            alertDialog.show();
+
                                             break;
                                     }
                                     return true;

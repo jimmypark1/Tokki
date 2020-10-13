@@ -422,7 +422,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
                         initViews();
 
-                        Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);
+                        Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);                              // 회차 생성 클릭하여 회차 생성하면서 작성창으로 이동
                         LiteratureWriteActivity.workVO = workVO;
                         intent.putExtra("EPISODE_ID", nEpisodeID);
 
@@ -434,6 +434,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                 nOrder = i;
                                 strTitle = vo.getStrTitle();
                                 intent.putExtra("SUBMIT", vo.getStrSubmit());
+                                intent.putExtra("EXCEL_UPLOADED", vo.isExcelUploaded());
                                 break;
                             }
                         }
@@ -686,12 +687,13 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                         nPosition -= 1;
 
 
-                        Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);
+                        Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);                          // 내 작품 회차 클릭하여 작성창으로 이동
                         LiteratureWriteActivity.workVO = workVO;
                         intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
                         intent.putExtra("EPISODE_INDEX", nPosition);
                         intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
                         intent.putExtra("SUBMIT", workVO.getEpisodeList().get(nPosition).getStrSubmit());
+                        intent.putExtra("EXCEL_UPLOADED", workVO.getEpisodeList().get(nPosition).isExcelUploaded());
                         startActivity(intent);
                     }
                 });

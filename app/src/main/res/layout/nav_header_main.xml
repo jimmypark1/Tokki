@@ -249,10 +249,23 @@
                     android:text="신고댓글 관리"/>
 
                 <TextView
-                    android:id="@+id/contestManagementView"
+                    android:id="@+id/episodeReportView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/commentManagementView"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:layout_marginLeft="40.7dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:background="?android:selectableItemBackground"
+                    android:text="신고회차 관리"/>
+
+                <TextView
+                    android:id="@+id/contestManagementView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/episodeReportView"
                     android:paddingTop="7dp"
                     android:paddingBottom="7dp"
                     android:layout_marginLeft="40.7dp"

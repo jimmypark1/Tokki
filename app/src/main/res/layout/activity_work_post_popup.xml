@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Popup.DistractorPopup"
+    android:background="#b2000000">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/popup_bg"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_centerInParent="true">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/titleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="24dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:text="게시 확인"/>
+
+            <ImageButton
+                android:id="@+id/closeBtn"
+                android:layout_width="27dp"
+                android:layout_height="29dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/pop_close"
+                android:onClick="onClickCancelBtn"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/topLayout"
+            android:background="#f0f0f0"/>
+
+        <TextView
+            android:id="@+id/smallContentsView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/topLayout"
+            android:layout_marginTop="53.8dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:text="게시를 확인하면 독자들에게 게시됩니다."/>
+
+        <TextView
+            android:id="@+id/largeContentsView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/smallContentsView"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="회차를 게시하시겠습니까?"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/largeContentsView"
+            android:gravity="center"
+            android:layout_marginTop="47dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="17.3dp">
+
+            <Button
+                android:id="@+id/cancelBtn"
+                android:layout_width="0dp"
+                android:layout_height="39dp"
+                android:layout_weight="4"
+                android:background="@drawable/round_black_stroke_btn_bg"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
+                android:text="뒤로"
+                android:onClick="okClickCancelBtn"/>
+
+            <Button
+                android:id="@+id/okBtn"
+                android:layout_width="0dp"
+                android:layout_height="39dp"
+                android:layout_weight="7"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/small_round_blud_btn"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:text="확인"
+                android:onClick="okClickOKBtn"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

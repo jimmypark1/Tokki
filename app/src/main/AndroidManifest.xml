@@ -23,7 +23,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UI.Popup.LegalNoticePopup"></activity>
+
+        <activity android:name=".UI.Popup.LegalNoticePopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"/>
+
+        <activity android:name=".UI.Popup.WorkPostPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity
+            android:name=".UI.Activity.Admin.ReportEpManageActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Work.EpisodeReportSelectActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.Popup.SlangPopup"
             android:configChanges="screenSize|orientation"
@@ -106,7 +121,7 @@
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.Activity.Admin.ReportDetailActivity"
+            android:name=".UI.Activity.Admin.ReportCommentDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.Activity.Work.ReportSelectActivity"

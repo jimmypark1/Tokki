@@ -41,9 +41,6 @@ public class ReportSelectActivity extends AppCompatActivity {                   
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_select);
 
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-
         nCommentID = getIntent().getIntExtra("COMMENT_ID", -1);
         pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
 

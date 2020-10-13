@@ -58,7 +58,7 @@ public class CommentManagementActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 CommentVO vo = reportsList.get(position);
-                Intent intent = new Intent(CommentManagementActivity.this, ReportDetailActivity.class);
+                Intent intent = new Intent(CommentManagementActivity.this, ReportCommentDetailActivity.class);
                 intent.putExtra("COMMENT_ID", vo.getCommentID());
                 startActivity(intent);
             }

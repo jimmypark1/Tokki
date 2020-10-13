@@ -22,7 +22,7 @@ public class LegalNoticePopup extends AppCompatActivity {
         String str = "* 작품을 작성하시기 전 유의사항입니다.";
         TextView textview = (TextView)findViewById(R.id.legalNoticeText);
         SpannableStringBuilder ssb = new SpannableStringBuilder(str);
-        ssb.setSpan(new ForegroundColorSpan(Color.parseColor("#ff5700")), 10, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.setSpan(new ForegroundColorSpan(Color.parseColor("#ff5700")), 14, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         textview.setText(ssb);
     }
 

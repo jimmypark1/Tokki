@@ -61,9 +61,11 @@ import com.Whowant.Tokki.UI.Popup.BGImageSelectPopup;
 import com.Whowant.Tokki.UI.Popup.ChangeTitlePopup;
 import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.UI.Popup.DistractorPopup;
+import com.Whowant.Tokki.UI.Popup.LegalNoticePopup;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
 import com.Whowant.Tokki.UI.Popup.SlangPopup;
 import com.Whowant.Tokki.UI.Popup.TextEditPopup;
+import com.Whowant.Tokki.UI.Popup.WorkPostPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
 import com.Whowant.Tokki.Utils.ExcelReader;
@@ -163,21 +165,27 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
     private ViewGroup viewGroup;
     private SoftKeyboard softKeyboard;
+    private boolean isExcelUploaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_renewal_layout);
 
-        if(CommonUtils.forbiddenWords == null || CommonUtils.forbiddenWords.size() == 0) {
-            // 서버와 통신하여 리스트 가져오기
-        }
-
         strTitle = getIntent().getStringExtra("EPISODE_TITLE");
         if(getIntent().getStringExtra("SUBMIT").equals("Y")) {
             bSubmit = true;
         } else {
             bSubmit = false;
+        }
+
+        isExcelUploaded = getIntent().getBooleanExtra("EXCEL_UPLOADED", false);
+        ImageButton submitBtn = findViewById(R.id.submitBtn);
+
+        if(isExcelUploaded) {
+            submitBtn.setBackgroundResource(R.drawable.send_button);
+        } else {
+            submitBtn.setBackgroundResource(R.drawable.post_botton);
         }
 
         int nKeyboard = getResources().getConfiguration().keyboard;
@@ -362,19 +370,19 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             @Override
             public void onClick(View view) {
                 String strContents = inputTextView.getText().toString();
-//                CommonUtils.showProgressDialog(LiteratureWriteActivity.this, "서버와 통신중입니다. 잠시만 기다려주세요.");
-//
-//                String strFobiddenWords = CommonUtils.checkForbiddenWords(strContents);
-//                if(strFobiddenWords.length() > 0) {
-//                    CommonUtils.hideProgressDialog();
-//                    Intent intent = new Intent(LiteratureWriteActivity.this, SlangPopup.class);
-//                    intent.putExtra("SLANG", strFobiddenWords);
-//                    startActivity(intent);
-//                    overridePendingTransition(R.anim.cross_fade_in, R.anim.cross_fade_out);
-//                    return;
-//                }
-//
-//                CommonUtils.hideProgressDialog();
+                CommonUtils.showProgressDialog(LiteratureWriteActivity.this, "서버와 통신중입니다. 잠시만 기다려주세요.");
+
+                String strFobiddenWords = CommonUtils.checkForbiddenWords(strContents);
+                if(strFobiddenWords.length() > 0) {
+                    CommonUtils.hideProgressDialog();
+                    Intent intent = new Intent(LiteratureWriteActivity.this, SlangPopup.class);
+                    intent.putExtra("SLANG", strFobiddenWords);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.cross_fade_in, R.anim.cross_fade_out);
+                    return;
+                }
+
+                CommonUtils.hideProgressDialog();
 
                 if(strContents.length() == 0) {
                     Toast.makeText(LiteratureWriteActivity.this, "내용을 입력하세요.", Toast.LENGTH_LONG).show();
@@ -453,6 +461,9 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 return false;
             }
         });
+
+        startActivity(new Intent(this, LegalNoticePopup.class));
+        overridePendingTransition(R.anim.cross_fade_in, R.anim.cross_fade_out);
     }
 
     @Override
@@ -515,7 +526,11 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     }
 
     public void onClickSubmitBtn(View view) {
-        requestEpisodeSubmit();
+        if(isExcelUploaded) {
+            requestEpisodeSubmit();
+        } else {
+            requestEpisodePost();
+        }
     }
 
     public void onClickTopRightBtn(View view) {                                                             // 작품을 앱 안에서 작성하지 않고 미리 만들어둔 엑셀 파일로 업로드 하는 기능
@@ -589,108 +604,6 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         });
 
         popup.show();//showing popup menu
-    }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowCustomEnabled(true);
-//
-//        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-//        View customActionbar = inflater.inflate(R.layout.custom_actionbar, null);
-//
-//        actionBar.setCustomView(customActionbar);
-//        actionBar.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
-//        actionBar.setDisplayShowHomeEnabled(false);
-//
-//        titleView = customActionbar.findViewById(R.id.titleView);
-//        ImageButton editButton = customActionbar.findViewById(R.id.changeTitleBtn);
-//        titleView.setText(strTitle);
-//        editButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(LiteratureWriteActivity.this, ChangeTitlePopup.class);
-//                intent.putExtra("TITLE", strTitle);
-//                intent.putExtra("EPISODE_ID", nEpisodeID);
-//                startActivityForResult(intent, 1100);
-//            }
-//        });
-//
-//        Toolbar parent = (Toolbar)customActionbar.getParent();
-//        parent.setContentInsetsAbsolute(0, 0);
-//
-//        getMenuInflater().inflate(R.menu.work_write_menu, menu);
-//        return true;
-//    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        Intent intent = null;
-
-        switch (item.getItemId()) {
-            case R.id.action_btn1:              // 제출하기 클릭
-                requestEpisodeSubmit();
-                return true;
-
-            case R.id.action_btn2:
-                if(chattingList.size() > 1) {
-                    Toast.makeText(LiteratureWriteActivity.this, "입력된 내용이 없어야만 엑셀 파일을 로딩할 수 있습니다.", Toast.LENGTH_LONG).show();
-                    return true;
-                } else if(characterList.size() > 1) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LiteratureWriteActivity.this);
-                    builder.setMessage("이미 저장된 등장인물이 있습니다. 엑셀 파일을 로딩하면 저장된 등장인물은 모두 삭제됩니다.\n정말 엑셀파일을 로딩하시겠습니까?");
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            filePermission();
-                        }
-                    });
-
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                        }
-                    });
-
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
-                    return true;
-                }
-
-                filePermission();
-
-                return true;
-            case R.id.action_btn3:
-                intent = new Intent(LiteratureWriteActivity.this, ViewerActivity.class);
-                ViewerActivity.workVO = workVO;
-                intent.putExtra("EPISODE_INDEX", nInteractionIndex);
-                intent.putExtra("INTERACTION", workVO.getEpisodeList().get(nInteractionIndex).getIsDistractor());
-                intent.putExtra("PREVIEW", true);
-                startActivity(intent);
-                return true;
-            case R.id.action_btn4:
-                AlertDialog.Builder builder = new AlertDialog.Builder(LiteratureWriteActivity.this);
-                builder.setTitle("회차 삭제");
-                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
-                builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        requestDeleteAllMessage();
-                    }
-                });
-
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
@@ -1047,6 +960,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                         intent.putExtra("EPISODE_ID", nEpisodeID);
                                         intent.putExtra("EPISODE_INDEX", nInteractionIndex);
                                         intent.putExtra("SUBMIT", bSubmit);
+                                        intent.putExtra("EXCEL_UPLOADED", isExcelUploaded);
                                         startActivity(intent);
                                         finish();
                                         return;
@@ -1180,6 +1094,46 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                 Toast.makeText(LiteratureWriteActivity.this, "삭제되었습니다.", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(LiteratureWriteActivity.this, "작품 등록을 실패하였습니다.", Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void requestEpisodePost() {                                                                   // 심사 요청(제출)
+        Intent intent = new Intent(LiteratureWriteActivity.this, WorkPostPopup.class);
+        startActivityForResult(intent, 9000);
+    }
+
+    private void sendEpisodePost() {
+        mProgressDialog.setMessage("작품을 게시 중입니다.");
+        mProgressDialog.show();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject resultObject = HttpClient.requestEpisodePost(new OkHttpClient(), nEpisodeID);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            mProgressDialog.dismiss();
+
+                            if(resultObject == null) {
+                                Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                Toast.makeText(LiteratureWriteActivity.this, "게시되었습니다.", Toast.LENGTH_LONG).show();
+                                finish();
+                            } else {
+                                Toast.makeText(LiteratureWriteActivity.this, "게시에 실패하였습니다.", Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1679,7 +1633,9 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 2000) {                                   // 수정된 이미지 갤러리
+            if(requestCode == 9000) {                                           // 게시 처리 팝업
+                sendEpisodePost();
+            } else if (requestCode == 2000) {                                   // 수정된 이미지 갤러리
                 Intent intent = new Intent(LiteratureWriteActivity.this, AlbumSelectActivity.class);
                 intent.putExtra(Constants.INTENT_EXTRA_LIMIT, 1);
                 startActivityForResult(intent, 2100);

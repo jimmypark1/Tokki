@@ -2562,6 +2562,7 @@ public class HttpClient {
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
+                        vo.setExcelUploaded(object.getString("EXCEL_UPLOADED").equals("Y") ? true : false);
                         if(object.has("CHAT_COUNT"))
                             vo.setnChatCount(object.getInt("CHAT_COUNT"));
 
@@ -2583,6 +2584,7 @@ public class HttpClient {
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
+                        vo.setExcelUploaded(object.getString("EXCEL_UPLOADED").equals("Y") ? true : false);
                         if(object.has("CHAT_COUNT"))
                             vo.setnChatCount(object.getInt("CHAT_COUNT"));
 
@@ -3548,6 +3550,28 @@ public class HttpClient {
         return null;
     }
 
+    public static JSONObject requestEpisodePost(OkHttpClient httpClient, int nEpisodeID) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestEpisodePost&EPISODE_ID=" + nEpisodeID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if(response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            return resultJsonObject;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static boolean requestDeleteWriterChat(OkHttpClient httpClient, int nCommentID) {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=DeleteWriterChat&COMMENT_ID=" + nCommentID)
@@ -3776,6 +3800,34 @@ public class HttpClient {
     public static int requestCommentReport(OkHttpClient httpClient, String strUserID, int nCommentID, String strReason) {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestCommentReport&USER_ID=" + strUserID + "&COMMENT_ID=" + nCommentID + "&REASON=" + strReason)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if(response.code() != 200)
+                return -1;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return 0;
+            else if(resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+                return 1;
+            else
+                return -1;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
+    public static int requestEpisodeReport(OkHttpClient httpClient, String strUserID, int nEpisodeID, String strReason) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestEpisodeReport&USER_ID=" + strUserID + "&EPISODE_ID=" + nEpisodeID + "&REASON=" + strReason)
                 .get()
                 .build();
 

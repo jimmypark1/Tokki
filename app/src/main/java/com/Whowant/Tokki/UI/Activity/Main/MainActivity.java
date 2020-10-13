@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout managerLayout;                   // 좌측 서랍메뉴에서 관리자만 볼 수 있는 관리자 전용 메뉴 layout
     private TextView memberManagementView;                  // 관리자 메뉴 - 회원관리        
     private TextView workManagementView;                    // 관리자 메뉴 - 작품관리        
-    private TextView commentManagementView, contestManagementView;          //  댓글관리, 공모전 관리
+    private TextView commentManagementView, contestManagementView, episodeReportView;          //  댓글관리, 공모전 관리, 신고회차 관리
     private boolean bFinish = false;                        // 백버튼 두번 클릭시 앱 종료시키기 위한 플래그
     private ImageView centerLogoView;
     private ImageButton leftBtn;
@@ -466,6 +466,7 @@ public class MainActivity extends AppCompatActivity {
             workManagementView = navigationView.findViewById(R.id.workManagementView);
             commentManagementView = navigationView.findViewById(R.id.commentManagementView);
             contestManagementView = navigationView.findViewById(R.id.contestManagementView);
+            episodeReportView = navigationView.findViewById(R.id.episodeReportView);
 
             memberManagementView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -485,6 +486,13 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     startActivity(new Intent(MainActivity.this, CommentManagementActivity.class));
+                }
+            });
+
+            episodeReportView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
                 }
             });
 

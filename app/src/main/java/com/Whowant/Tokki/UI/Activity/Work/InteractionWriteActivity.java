@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.Whowant.Tokki.UI.Adapter.InteractionAdapter;
 import com.Whowant.Tokki.UI.Fragment.Work.InteractionMainFragment;
 import com.Whowant.Tokki.UI.Fragment.Work.InteractionSubFragment;
 import com.Whowant.Tokki.UI.Popup.ChangeTitlePopup;
+import com.Whowant.Tokki.UI.Popup.LegalNoticePopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
 import com.Whowant.Tokki.VO.WorkVO;
@@ -45,6 +47,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
     public String strTitle;
     public int nEpisodeID;
     public int nEpisodeIndex;
+    public boolean isExcelUploaded = false;
 
     public static int BG_SELECT_POPUP = 2000;
     public static int MEDIA_SELECT_POPUP = 2100;
@@ -70,16 +73,29 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
+        isExcelUploaded = getIntent().getBooleanExtra("EXCEL_UPLOADED", false);
+        ImageButton submitBtn = findViewById(R.id.submitBtn);
+
+        if(isExcelUploaded) {
+            submitBtn.setBackgroundResource(R.drawable.send_button);
+        } else {
+            submitBtn.setBackgroundResource(R.drawable.post_botton);
+        }
+
         strTitle = getIntent().getStringExtra("TITLE");
         nEpisodeID = getIntent().getIntExtra("EPISODE_ID", -1);
         nEpisodeIndex = getIntent().getIntExtra("EPISODE_INDEX", -1);
         bSubmit = getIntent().getBooleanExtra("SUBMIT", false);
+        isExcelUploaded = getIntent().getBooleanExtra("EXCEL_UPLOADED", false);
 
         titleView.setText(strTitle);
         episodeNumView.setText((nEpisodeIndex+1) + "화");
         pagerAdapter = new InteractionAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        startActivity(new Intent(this, LegalNoticePopup.class));
+        overridePendingTransition(R.anim.cross_fade_in, R.anim.cross_fade_out);
     }
 
     @Override
@@ -188,7 +204,62 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
     }
 
     public void onClickSubmitBtn(View view) {
-        requestEpisodeSubmit();
+        if(isExcelUploaded) {
+            requestEpisodeSubmit();
+        } else {
+            requestEpisodePost();
+        }
+    }
+
+    private void requestEpisodePost() {                                                                   // 심사 요청(제출)
+        AlertDialog.Builder builder = new AlertDialog.Builder(InteractionWriteActivity.this);
+        builder.setTitle("회차 제출");
+        builder.setMessage("회차를 게시하면 즉시 독자들에게 게시됩니다.\n회차를 게시하시겠습니까?");
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                CommonUtils.showProgressDialog(InteractionWriteActivity.this, "작품을 게시 중입니다.");
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject resultObject = HttpClient.requestEpisodePost(new OkHttpClient(), nEpisodeID);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    CommonUtils.hideProgressDialog();
+
+                                    if(resultObject == null) {
+                                        Toast.makeText(InteractionWriteActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
+                                        return;
+                                    }
+
+                                    if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                        Toast.makeText(InteractionWriteActivity.this, "게시되었습니다.", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    } else {
+                                        Toast.makeText(InteractionWriteActivity.this, "게시에 실패하였습니다.", Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void requestEpisodeSubmit() {

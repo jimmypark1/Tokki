@@ -16,6 +16,7 @@ public class EpisodeVO {                                   // 한 회차별 정�
     private int    nCommentCount;
     private String strSubmit;                               // N - 제출안됨, W - 승인대기, Y - 게시됨(승인됨)
     private int    nChatCount;
+    private boolean isExcelUploaded = false;                // 엑셀 업로드한 작품인지
 
     public EpisodeVO() {
 
@@ -123,5 +124,13 @@ public class EpisodeVO {                                   // 한 회차별 정�
 
     public void setnChatCount(int nChatCount) {
         this.nChatCount = nChatCount;
+    }
+
+    public boolean isExcelUploaded() {
+        return isExcelUploaded;
+    }
+
+    public void setExcelUploaded(boolean excelUploaded) {
+        isExcelUploaded = excelUploaded;
     }
 }
