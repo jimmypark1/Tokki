@@ -83,12 +83,16 @@ public class EventPopupActivity extends AppCompatActivity {
 
         currentList.remove(nIndex);
         eventList.remove(nIndex);
-        if(eventList == null || eventList.size() == 0) {
+
+        if(currentList.size() <= nIndex)
+            nIndex -= 1;
+
+        if(currentList == null || currentList.size() == 0) {
             finish();
             return;
         }
 
-        adapter.setEventList(eventList);
+        adapter.setEventList(currentList);
         setRemoveText(nIndex);
     }
 
