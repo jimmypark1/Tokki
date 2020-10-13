@@ -62,6 +62,13 @@
             android:layout_below="@+id/topBarLayout"
             android:scaleType="centerCrop"/>
 
+        <!-- 반투명 배경 이미지-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/topBarLayout"
+            android:background="#4dffffff"/>
+
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"

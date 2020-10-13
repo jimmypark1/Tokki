@@ -23,10 +23,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".UI.Popup.SlangPopup"
+        <activity android:name=".UI.Popup.LegalNoticePopup"></activity>
+        <activity
+            android:name=".UI.Popup.SlangPopup"
             android:configChanges="screenSize|orientation"
-            android:theme="@style/Theme.AppCompat.Translucent"/>
+            android:theme="@style/Theme.AppCompat.Translucent" />
         <activity
             android:name=".UI.Activity.DrawerMenu.CarrotEvent"
             android:configChanges="screenSize|orientation"

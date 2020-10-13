@@ -85,6 +85,10 @@ public class LoginSelectActivity extends AppCompatActivity {
         String strUserID = pref.getString("USER_ID", "Guest");
         String strUserPW = pref.getString("USER_PW", "");
 
+//        strUserID = "";
+//        strUserPW = "";
+//        nRegisterSNS = ;
+
         if(nRegisterSNS == 0) {                 // SNS 로그인이 아닌 경우 자체 로그인(panbook login) 처리
             if(strUserID.length() > 0 && strUserPW.length() > 0) {
                 requestPanbookLogin(strUserID, strUserPW);
