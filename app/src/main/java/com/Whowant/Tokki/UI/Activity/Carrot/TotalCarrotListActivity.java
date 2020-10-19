@@ -29,7 +29,7 @@ public class TotalCarrotListActivity extends AppCompatActivity {
     private TextView carrotCountView;
     private RecyclerView recyclerView;
     private ArrayList<CarrotVO> usedCarrotList;
-    private UsedCarrotAdapter adapter;
+    private TotalCarrotAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +39,14 @@ public class TotalCarrotListActivity extends AppCompatActivity {
         carrotCountView = findViewById(R.id.carrotcountView);
         recyclerView = findViewById(R.id.recyclerView);
 
-        getUsedCarrotList();
+        getTotalCarrotList();
     }
 
     public void onClickTopLeftBtn(View view) {
         finish();
     }
 
-    private void getUsedCarrotList() {
+    private void getTotalCarrotList() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -66,7 +66,7 @@ public class TotalCarrotListActivity extends AppCompatActivity {
                             carrotCountView.setText(CommonUtils.comma(vo.getnTotalPoint()));
                         }
 
-                        adapter = new UsedCarrotAdapter(TotalCarrotListActivity.this, usedCarrotList);
+                        adapter = new TotalCarrotAdapter(TotalCarrotListActivity.this, usedCarrotList);
                         recyclerView.setLayoutManager(new LinearLayoutManager(TotalCarrotListActivity.this, LinearLayoutManager.VERTICAL, false));
                         recyclerView.setAdapter(adapter);
                     }
@@ -75,26 +75,26 @@ public class TotalCarrotListActivity extends AppCompatActivity {
         }).start();
     }
 
-    public class UsedCarrotAdapter extends RecyclerView.Adapter<UsedCarrotAdapter.UsedCarrotHolder>{
+    public class TotalCarrotAdapter extends RecyclerView.Adapter<TotalCarrotAdapter.UsedCarrotHolder>{
         private ArrayList<CarrotVO> itemsList;
         private Activity mContext;
         private Timer timer;
         private int nCurrentItem = 0;
 
-        public UsedCarrotAdapter(Activity context, ArrayList<CarrotVO> itemsList) {
+        public TotalCarrotAdapter(Activity context, ArrayList<CarrotVO> itemsList) {
             this.mContext = context;
             this.itemsList = itemsList;
         }
 
         @Override
-        public UsedCarrotAdapter.UsedCarrotHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        public TotalCarrotAdapter.UsedCarrotHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.used_carrot_row, viewGroup, false);
-            UsedCarrotAdapter.UsedCarrotHolder vh = new UsedCarrotAdapter.UsedCarrotHolder(v);
+            TotalCarrotAdapter.UsedCarrotHolder vh = new TotalCarrotAdapter.UsedCarrotHolder(v);
             return vh;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull UsedCarrotAdapter.UsedCarrotHolder holder, int position) {
+        public void onBindViewHolder(@NonNull TotalCarrotAdapter.UsedCarrotHolder holder, int position) {
             TextView dateView, usedDescView, carrotCountView, countView;
 
             CarrotVO vo = itemsList.get(position);

@@ -43,7 +43,7 @@ public class RecentListAdapter extends RecyclerView.Adapter<RecentListAdapter.Wi
 
             holder.titleView.setText(workVO.getTitle());
             holder.writerNameView.setText("By " + workVO.getStrWriterName());
-            holder.dateView.setText(workVO.getCreatedDate().substring(0, 10));
+            holder.dateView.setText(workVO.getStrUpdateDate().substring(0, 10));
             holder.descView.setText(workVO.getSynopsis());
 
             String strImgUrl=workVO.getCoverFile();

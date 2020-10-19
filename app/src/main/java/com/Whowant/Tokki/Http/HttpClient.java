@@ -57,14 +57,14 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
-            JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -96,7 +96,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -105,11 +105,11 @@ public class HttpClient {
             JSONArray resultArray = resultObject.getJSONArray("USED_CARROT");
             int nTotalPoint = 0;
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 int nType = object.getInt("TYPE");
-                if(nType != 0)
+                if (nType != 0)
                     continue;
 
                 CarrotVO vo = new CarrotVO();
@@ -128,7 +128,7 @@ public class HttpClient {
                 resultList.add(vo);
             }
 
-            if(resultList.size() > 0) {
+            if (resultList.size() > 0) {
                 CarrotVO vo = resultList.get(0);
                 vo.setnTotalPoint(nTotalPoint);
                 resultList.set(0, vo);
@@ -151,7 +151,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -160,11 +160,11 @@ public class HttpClient {
             JSONArray resultArray = resultObject.getJSONArray("USED_CARROT");
             int nTotalPoint = 0;
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 int nType = object.getInt("TYPE");
-                if(nType == 0)
+                if (nType == 0)
                     continue;
 
                 CarrotVO vo = new CarrotVO();
@@ -184,7 +184,7 @@ public class HttpClient {
                 resultList.add(vo);
             }
 
-            if(resultList.size() > 0) {
+            if (resultList.size() > 0) {
                 CarrotVO vo = resultList.get(0);
                 vo.setnTotalPoint(nTotalPoint);
                 resultList.set(0, vo);
@@ -205,13 +205,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            if(resultObject.getString("RESULT").equals("SUCCESS"))
+            if (resultObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
                 return false;
@@ -233,15 +233,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -275,15 +275,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -317,15 +317,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -359,7 +359,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -367,7 +367,7 @@ public class HttpClient {
 
             JSONArray resultArray = resultObject.getJSONArray("CONTEST_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
                 ContestVO vo = new ContestVO();
                 vo.setContestID(object.getInt("ID"));
@@ -418,13 +418,13 @@ public class HttpClient {
                     .build();
 
             try (Response response = httpClient.newCall(request).execute()) {
-                if(response.code() != 200)
+                if (response.code() != 200)
                     return false;
 
                 String strResult = response.body().string();
                 JSONObject resultJsonObject = new JSONObject(strResult);
 
-                if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                     return true;
                 else
                     return false;
@@ -449,15 +449,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -468,7 +468,7 @@ public class HttpClient {
                 workVO.setStrWriterName(object.getString("WRITER_NAME"));
                 workVO.setTitle(object.getString("WORK_TITLE"));
                 workVO.setCoverFile(object.getString("WORK_COVER_IMG"));
-                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
                 workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                 workVO.setnTarget(object.getInt("TARGET"));
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
@@ -493,13 +493,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return 0;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return resultJsonObject.getInt("EPISODE_ID");
             else
                 return 0;
@@ -521,15 +521,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -544,7 +544,7 @@ public class HttpClient {
                 workVO.setnTarget(object.getInt("TARGET"));
                 workVO.setnHitsCount(object.getInt("HITS_COUNT"));
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
                 resultList.add(workVO);
@@ -567,15 +567,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -590,7 +590,7 @@ public class HttpClient {
                 workVO.setnTarget(object.getInt("TARGET"));
                 workVO.setnHitsCount(object.getInt("HITS_COUNT"));
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
                 resultList.add(workVO);
@@ -613,20 +613,20 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
 
-                if(object.getString("WORK_ID") == null || object.getInt("WORK_ID") == 0)
+                if (object.getString("WORK_ID") == null || object.getInt("WORK_ID") == 0)
                     continue;
 
                 workVO.setWorkID(object.getInt("WORK_ID"));
@@ -640,7 +640,7 @@ public class HttpClient {
                 workVO.setnTarget(object.getInt("TARGET"));
                 workVO.setnHitsCount(object.getInt("HITS_COUNT"));
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
                 resultList.add(workVO);
@@ -661,7 +661,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return;
 
         } catch (IOException e) {
@@ -676,7 +676,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return;
 
         } catch (IOException e) {
@@ -693,15 +693,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("GENRE_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("GENRE_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 resultList.add(object.getString("GENRE_NAME"));
@@ -726,15 +726,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("TAG_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("TAG_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 resultList.add(object.getString("TAG_TITLE"));
@@ -759,15 +759,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("FILE_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("FILE_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
                 resultList.add(object.getString("FILE_NAME"));
             }
@@ -791,15 +791,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("EVENT_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("EVENT_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 EventVO vo = new EventVO();
@@ -835,17 +835,17 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("NOTICE_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("NOTICE_LIST");
 
             SharedPreferences pref = context.getSharedPreferences("NOTICE_INFO", Activity.MODE_PRIVATE);
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 NoticeVO vo = new NoticeVO();
@@ -857,7 +857,7 @@ public class HttpClient {
                 vo.setStrRegisterDate(object.getString("REGISTER_DATE"));
                 vo.setbExpand(false);
 
-                if(pref.getBoolean("" + vo.getnNoticeID(), false))
+                if (pref.getBoolean("" + vo.getnNoticeID(), false))
                     vo.setbRead(true);
                 else
                     vo.setbRead(false);
@@ -882,15 +882,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("REPORTS_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("REPORTS_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 CommentVO vo = new CommentVO();
@@ -907,7 +907,7 @@ public class HttpClient {
                 vo.setStrReportDate(object.getString("REPORT_DATE"));
                 vo.setnCount(object.getInt("REPORT_COUNT"));
 
-                if(vo.getStrComment() == null || vo.getStrComment().equals("null"))
+                if (vo.getStrComment() == null || vo.getStrComment().equals("null"))
                     continue;
 
                 resultList.add(vo);
@@ -930,15 +930,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("REPORTS_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("REPORTS_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 CommentVO vo = new CommentVO();
@@ -954,7 +954,7 @@ public class HttpClient {
                 vo.setStrReportReson(object.getString("REPORT_REASON"));
                 vo.setStrReportDate(object.getString("REPORT_DATE"));
 
-                if(vo.getStrComment() == null || vo.getStrComment().equals("null"))
+                if (vo.getStrComment() == null || vo.getStrComment().equals("null"))
                     continue;
 
                 resultList.add(vo);
@@ -977,15 +977,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("USER_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("USER_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 UserInfoVO vo = new UserInfoVO();
@@ -1061,15 +1061,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WAITING_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WAITING_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
                 WaitingVO vo = new WaitingVO();
                 vo.setnWorkID(object.getInt("WORK_ID"));
@@ -1102,15 +1102,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("USER_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("USER_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 UserInfoVO vo = new UserInfoVO();
@@ -1145,15 +1145,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -1166,7 +1166,7 @@ public class HttpClient {
                 workVO.setCoverFile(object.getString("COVER_IMG"));
                 workVO.setnHitsCount(object.getInt("HITS_COUNT"));
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
                 workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
@@ -1194,15 +1194,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -1215,7 +1215,7 @@ public class HttpClient {
                 workVO.setCoverFile(object.getString("COVER_IMG"));
                 workVO.setnHitsCount(object.getInt("HITS_COUNT"));
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
                 workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
@@ -1243,15 +1243,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -1265,7 +1265,7 @@ public class HttpClient {
                 workVO.setnHitsCount(object.getInt("HITS_COUNT"));
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
-                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
 //                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
 //                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
@@ -1292,15 +1292,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WORK_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -1315,7 +1315,7 @@ public class HttpClient {
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
                 workVO.setnHitsCount(object.getInt("HITS_COUNT"));
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
                 workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
@@ -1348,7 +1348,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -1356,7 +1356,7 @@ public class HttpClient {
 
             JSONArray genreJsonArray = resultObject.getJSONArray("GENRE_LIST");
 
-            for(int i = 0 ; i < genreJsonArray.length() ; i++) {
+            for (int i = 0; i < genreJsonArray.length(); i++) {
                 JSONObject object = genreJsonArray.getJSONObject(i);
                 map = new HashMap<>();
                 map.put("GENRE_ID", "" + object.getInt("GENRE_ID"));
@@ -1381,7 +1381,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -1393,7 +1393,7 @@ public class HttpClient {
             recommandVO.setStrHeaderTitle("추천");
             recommandVO.setViewType(0);
 
-            for(int i = 0 ; i < recommandsonArray.length() ; i++) {
+            for (int i = 0; i < recommandsonArray.length(); i++) {
                 JSONObject object = recommandsonArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -1405,12 +1405,12 @@ public class HttpClient {
                 workVO.setTitle(object.getString("WORK_TITLE"));
                 workVO.setCoverFile(object.getString("COVER_IMG"));
 
-                if(object.has("RECOMMEND_IMG") && object.getString("RECOMMEND_IMG").length() > 0 && !object.getString("RECOMMEND_IMG").equals("null"))
+                if (object.has("RECOMMEND_IMG") && object.getString("RECOMMEND_IMG").length() > 0 && !object.getString("RECOMMEND_IMG").equals("null"))
                     workVO.setCoverFile(object.getString("RECOMMEND_IMG"));
 
                 workVO.setnHitsCount(object.getInt("HITS_COUNT"));
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
                 workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
@@ -1436,9 +1436,9 @@ public class HttpClient {
             }
 
             Date toDay = new Date();
-            Log.d("Date","Today = " + toDay.getTime() + ", EndDay = " + endDate.getTime());
+            Log.d("Date", "Today = " + toDay.getTime() + ", EndDay = " + endDate.getTime());
 
-            if(toDay.getTime() <= endDate.getTime()) {
+            if (toDay.getTime() <= endDate.getTime()) {
                 WorkVO carrotEvent = new WorkVO();
                 carrotEvent.setWorkID(-1);
                 carrotEvent.setCoverFile("-1");
@@ -1451,16 +1451,13 @@ public class HttpClient {
 //            todayCal.setTime(toDay);
 
 
-
-
-
             JSONArray bestRankingJsonArray = resultObject.getJSONArray("BEST_RANKING");
             MainCardVO bestRankingVO = new MainCardVO();
             ArrayList<WorkVO> bestWorkList = new ArrayList<>();
             bestRankingVO.setStrHeaderTitle("인기작");
             bestRankingVO.setViewType(1);
 
-            for(int i = 0 ; i < bestRankingJsonArray.length() ; i++) {
+            for (int i = 0; i < bestRankingJsonArray.length(); i++) {
                 JSONObject object = bestRankingJsonArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
@@ -1473,7 +1470,7 @@ public class HttpClient {
                 workVO.setCoverFile(object.getString("COVER_IMG"));
                 workVO.setnHitsCount(object.getInt("HITS_COUNT"));
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
                 workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
@@ -1526,12 +1523,13 @@ public class HttpClient {
             newRankingVO.setStrHeaderTitle("최신작");
             newRankingVO.setViewType(2);
 
-            for(int i = 0 ; i < newJsonArray.length() ; i++) {
+            for (int i = 0; i < newJsonArray.length(); i++) {
                 JSONObject object = newJsonArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
                 workVO.setWorkID(object.getInt("WORK_ID"));
                 workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                workVO.setStrUpdateDate(object.getString("UPDATE_DATE"));
                 workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
                 workVO.setWriteID(object.getString("WRITER_ID"));
                 workVO.setStrWriterName(object.getString("WRITER_NAME"));
@@ -1539,7 +1537,7 @@ public class HttpClient {
                 workVO.setCoverFile(object.getString("COVER_IMG"));
                 workVO.setnHitsCount(object.getInt("HITS_COUNT"));
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
                 workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
                 workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
@@ -1599,7 +1597,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -1607,7 +1605,7 @@ public class HttpClient {
 
             JSONArray chatArray = resultObject.getJSONArray("CHARACTER_LIST");
 
-            for(int i = 0 ; i < chatArray.length() ; i++) {
+            for (int i = 0; i < chatArray.length(); i++) {
                 JSONObject object = chatArray.getJSONObject(i);
                 CharacterVO characterVO = new CharacterVO();
 
@@ -1616,9 +1614,9 @@ public class HttpClient {
                 characterVO.setStrImgFile(object.getString("CHARACTER_IMG"));
                 characterVO.setbBlackText(object.getString("BLACK_TEXT").equals("Y") ? true : false);
                 characterVO.setbBlackName(object.getString("BLACK_NAME").equals("Y") ? true : false);
-                characterVO.setIndex(i+1);
+                characterVO.setIndex(i + 1);
 
-                if(object.getString("BALLOON_COLOR") != null && !object.getString("BALLOON_COLOR").equals("null"))
+                if (object.getString("BALLOON_COLOR") != null && !object.getString("BALLOON_COLOR").equals("null"))
                     characterVO.setStrBalloonColor(object.getString("BALLOON_COLOR"));
 
                 characterVO.setDirection(object.getInt("CHARACTER_DIRECTION"));
@@ -1640,13 +1638,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            if(resultObject.getString("RESULT").equals("SUCCESS"))
+            if (resultObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
                 return false;
@@ -1668,7 +1666,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -1682,7 +1680,7 @@ public class HttpClient {
             ArrayList<CharacterVO> characterArray = new ArrayList<>();
             ArrayList<String> characterIDList = new ArrayList<>();
 
-            for(int i = 0 ; i < chatArray.length() ; i++) {
+            for (int i = 0; i < chatArray.length(); i++) {
                 JSONObject object = chatArray.getJSONObject(i);
                 CharacterVO characterVO = new CharacterVO();
 
@@ -1692,20 +1690,20 @@ public class HttpClient {
                 characterVO.setbBlackText(object.getString("BLACK_TEXT").equals("Y") ? true : false);
                 characterVO.setbBlackName(object.getString("BLACK_NAME").equals("Y") ? true : false);
 
-                if(object.getString("BALLOON_COLOR") != null && !object.getString("BALLOON_COLOR").equals("null"))
+                if (object.getString("BALLOON_COLOR") != null && !object.getString("BALLOON_COLOR").equals("null"))
                     characterVO.setStrBalloonColor(object.getString("BALLOON_COLOR"));
                 characterVO.setDirection(object.getInt("CHARACTER_DIRECTION"));
 
-                if(characterVO.getnCharacterID() == 0)
+                if (characterVO.getnCharacterID() == 0)
                     continue;
-                else if(characterIDList.contains("" + characterVO.getnCharacterID()))
+                else if (characterIDList.contains("" + characterVO.getnCharacterID()))
                     continue;
 
                 characterVO.setIndex(characterIDList.size() + 1);
                 characterIDList.add("" + characterVO.getnCharacterID());
             }
 
-            for(int i = 0 ; i < chatArray.length() ; i++) {
+            for (int i = 0; i < chatArray.length(); i++) {
                 JSONObject object = chatArray.getJSONObject(i);
                 ChatVO vo = new ChatVO();
                 CharacterVO characterVO = new CharacterVO();
@@ -1716,10 +1714,10 @@ public class HttpClient {
                 characterVO.setbBlackText(object.getString("BLACK_TEXT").equals("Y") ? true : false);
                 characterVO.setbBlackName(object.getString("BLACK_NAME").equals("Y") ? true : false);
 
-                if(object.getString("BALLOON_COLOR") != null && !object.getString("BALLOON_COLOR").equals("null"))
+                if (object.getString("BALLOON_COLOR") != null && !object.getString("BALLOON_COLOR").equals("null"))
                     characterVO.setStrBalloonColor(object.getString("BALLOON_COLOR"));
 
-                characterVO.setIndex(characterIDList.indexOf("" + characterVO.getnCharacterID())+1);
+                characterVO.setIndex(characterIDList.indexOf("" + characterVO.getnCharacterID()) + 1);
                 characterVO.setDirection(object.getInt("CHARACTER_DIRECTION"));
 
                 vo.setnEpisodeID(object.getInt("EPISODE_ID"));
@@ -1729,15 +1727,15 @@ public class HttpClient {
                 vo.setType(object.getInt("CHAT_TYPE"));
                 vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
 
-                if(bNoDelbtn) {
+                if (bNoDelbtn) {
                     vo.setbNoDelbtn(true);
                     bNoDelbtn = false;
                 }
 
-                switch(object.getInt("CHAT_TYPE")) {
+                switch (object.getInt("CHAT_TYPE")) {
                     case ChatVO.TYPE_TEXT:
                         vo.setContents(object.getString("CHAT_CONTENTS"));
-                        if(nLastCharacterID == characterVO.getnCharacterID()) {
+                        if (nLastCharacterID == characterVO.getnCharacterID()) {
                             characterVO.setbFaceShow(false);
                         } else {
                             characterVO.setbFaceShow(true);
@@ -1750,7 +1748,7 @@ public class HttpClient {
                         break;
                     case ChatVO.TYPE_IMAGE:
                         vo.setStrContentsFile(object.getString("CHAT_CONTENTS"));
-                        if(nLastCharacterID == characterVO.getnCharacterID()) {
+                        if (nLastCharacterID == characterVO.getnCharacterID()) {
                             characterVO.setbFaceShow(false);
                         } else {
                             characterVO.setbFaceShow(true);
@@ -1759,7 +1757,7 @@ public class HttpClient {
                         break;
                     case ChatVO.TYPE_VIDEO:
                         vo.setStrContentsFile(object.getString("CHAT_CONTENTS"));
-                        if(nLastCharacterID == characterVO.getnCharacterID()) {
+                        if (nLastCharacterID == characterVO.getnCharacterID()) {
                             characterVO.setbFaceShow(false);
                         } else {
                             characterVO.setbFaceShow(true);
@@ -1768,7 +1766,7 @@ public class HttpClient {
                         break;
                     case ChatVO.TYPE_SOUND:
                         vo.setStrContentsFile(object.getString("CHAT_CONTENTS"));
-                        if(nLastCharacterID == characterVO.getnCharacterID()) {
+                        if (nLastCharacterID == characterVO.getnCharacterID()) {
                             characterVO.setbFaceShow(false);
                         } else {
                             characterVO.setbFaceShow(true);
@@ -1799,7 +1797,7 @@ public class HttpClient {
                         break;
                     case ChatVO.TYPE_IMAGE_NAR:
                         vo.setStrContentsFile(object.getString("CHAT_CONTENTS"));
-                        if(nLastCharacterID == characterVO.getnCharacterID()) {
+                        if (nLastCharacterID == characterVO.getnCharacterID()) {
                             characterVO.setbFaceShow(false);
                         } else {
                             characterVO.setbFaceShow(true);
@@ -1835,7 +1833,7 @@ public class HttpClient {
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            if(resultObject.getString("RESULT").equals("SUCCESS")) {
+            if (resultObject.getString("RESULT").equals("SUCCESS")) {
                 nResult = resultObject.getInt("INTERACTION");
             }
         } catch (JSONException e) {
@@ -1862,7 +1860,7 @@ public class HttpClient {
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            if(resultObject.getString("RESULT").equals("SUCCESS"))
+            if (resultObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
                 return false;
@@ -1884,7 +1882,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -1894,7 +1892,7 @@ public class HttpClient {
             boolean bNoDelbtn = false;
             int nLastCharacterID = -1;
 
-            for(int i = 0 ; i < chatArray.length() ; i++) {
+            for (int i = 0; i < chatArray.length(); i++) {
                 JSONObject object = chatArray.getJSONObject(i);
                 ChatVO vo = new ChatVO();
                 CharacterVO characterVO = new CharacterVO();
@@ -1905,7 +1903,7 @@ public class HttpClient {
                 characterVO.setbBlackText(object.getString("BLACK_TEXT").equals("Y") ? true : false);
                 characterVO.setbBlackName(object.getString("BLACK_NAME").equals("Y") ? true : false);
 
-                if(object.getString("BALLOON_COLOR") != null && !object.getString("BALLOON_COLOR").equals("null"))
+                if (object.getString("BALLOON_COLOR") != null && !object.getString("BALLOON_COLOR").equals("null"))
                     characterVO.setStrBalloonColor(object.getString("BALLOON_COLOR"));
 
                 characterVO.setDirection(object.getInt("CHARACTER_DIRECTION"));
@@ -1918,15 +1916,15 @@ public class HttpClient {
                 vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                 vo.setnInteractionNum(object.getInt("CHAT_DISTRACTOR"));
 
-                if(bNoDelbtn) {
+                if (bNoDelbtn) {
                     bNoDelbtn = false;
                     vo.setbNoDelbtn(true);
                 }
 
-                switch(object.getInt("CHAT_TYPE")) {
+                switch (object.getInt("CHAT_TYPE")) {
                     case ChatVO.TYPE_TEXT:
                         vo.setContents(object.getString("CHAT_CONTENTS"));
-                        if(nLastCharacterID == characterVO.getnCharacterID()) {
+                        if (nLastCharacterID == characterVO.getnCharacterID()) {
                             characterVO.setbFaceShow(false);
                         } else {
                             characterVO.setbFaceShow(true);
@@ -1939,7 +1937,7 @@ public class HttpClient {
                         break;
                     case ChatVO.TYPE_IMAGE:
                         vo.setStrContentsFile(object.getString("CHAT_CONTENTS"));
-                        if(nLastCharacterID == characterVO.getnCharacterID()) {
+                        if (nLastCharacterID == characterVO.getnCharacterID()) {
                             characterVO.setbFaceShow(false);
                         } else {
                             characterVO.setbFaceShow(true);
@@ -1948,7 +1946,7 @@ public class HttpClient {
                         break;
                     case ChatVO.TYPE_VIDEO:
                         vo.setStrContentsFile(object.getString("CHAT_CONTENTS"));
-                        if(nLastCharacterID == characterVO.getnCharacterID()) {
+                        if (nLastCharacterID == characterVO.getnCharacterID()) {
                             characterVO.setbFaceShow(false);
                         } else {
                             characterVO.setbFaceShow(true);
@@ -1957,7 +1955,7 @@ public class HttpClient {
                         break;
                     case ChatVO.TYPE_SOUND:
                         vo.setStrContentsFile(object.getString("CHAT_CONTENTS"));
-                        if(nLastCharacterID == characterVO.getnCharacterID()) {
+                        if (nLastCharacterID == characterVO.getnCharacterID()) {
                             characterVO.setbFaceShow(false);
                         } else {
                             characterVO.setbFaceShow(true);
@@ -1988,7 +1986,7 @@ public class HttpClient {
                         break;
                     case ChatVO.TYPE_IMAGE_NAR:
                         vo.setStrContentsFile(object.getString("CHAT_CONTENTS"));
-                        if(nLastCharacterID == characterVO.getnCharacterID()) {
+                        if (nLastCharacterID == characterVO.getnCharacterID()) {
                             characterVO.setbFaceShow(false);
                         } else {
                             characterVO.setbFaceShow(true);
@@ -2016,13 +2014,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            if(resultObject.getString("RESULT").equals("SUCCESS"))
+            if (resultObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
                 return false;
@@ -2042,13 +2040,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return 0;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            return (float)resultObject.getDouble("STAR_POINT");
+            return (float) resultObject.getDouble("STAR_POINT");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -2065,13 +2063,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return 0;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            if(resultObject.getString("RESULT").equals("SUCCESS")) {
+            if (resultObject.getString("RESULT").equals("SUCCESS")) {
                 return resultObject.getInt("EPISODE_ID");
             }
         } catch (IOException e) {
@@ -2110,7 +2108,7 @@ public class HttpClient {
 
     public static boolean requestFollow(OkHttpClient httpClient, String strID, String strWriterID, boolean bUnfollow) {
         int nUnfollow = 0;
-        if(bUnfollow == true)
+        if (bUnfollow == true)
             nUnfollow = 1;
         else
             nUnfollow = 0;
@@ -2126,7 +2124,7 @@ public class HttpClient {
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
-            if(resultObject.getString("RESULT").equals("SUCCESS"))
+            if (resultObject.getString("RESULT").equals("SUCCESS"))
                 return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -2157,7 +2155,7 @@ public class HttpClient {
             resultObject = new JSONObject(strResult);
             JSONArray writerArray = resultObject.getJSONArray("WRITER_LIST");
 
-            for(int i = 0 ; i < writerArray.length() ; i++) {
+            for (int i = 0; i < writerArray.length(); i++) {
                 JSONObject object = writerArray.getJSONObject(i);
 
                 WriterVO vo = new WriterVO();
@@ -2200,7 +2198,7 @@ public class HttpClient {
             resultObject = new JSONObject(strResult);
             JSONArray writerArray = resultObject.getJSONArray("WRITER_LIST");
 
-            for(int i = 0 ; i < writerArray.length() ; i++) {
+            for (int i = 0; i < writerArray.length(); i++) {
                 JSONObject object = writerArray.getJSONObject(i);
 
                 WriterVO vo = new WriterVO();
@@ -2309,14 +2307,14 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
             JSONArray waitingArr = resultObject.getJSONArray("WAITING_LIST");
 
-            for(int i = 0 ; i < waitingArr.length() ; i++) {
+            for (int i = 0; i < waitingArr.length(); i++) {
                 JSONObject object = waitingArr.getJSONObject(i);
                 WaitingVO vo = new WaitingVO();
                 vo.setnWorkID(object.getInt("WORK_ID"));
@@ -2351,7 +2349,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -2359,7 +2357,7 @@ public class HttpClient {
 
             JSONArray waitingArr = resultObject.getJSONArray("WAITING_LIST");
 
-            for(int i = 0 ; i < waitingArr.length() ; i++) {
+            for (int i = 0; i < waitingArr.length(); i++) {
                 JSONObject object = waitingArr.getJSONObject(i);
                 WaitingVO vo = new WaitingVO();
                 vo.setnWorkID(object.getInt("WORK_ID"));
@@ -2417,7 +2415,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -2434,7 +2432,7 @@ public class HttpClient {
             workVO.setCoverFile(resultObject.getString("WORK_COVER_IMG"));
             workVO.setnHitsCount(resultObject.getInt("HITS_COUNT"));
             workVO.setnTapCount(resultObject.getInt("TAB_COUNT"));
-            workVO.setfStarPoint((float)resultObject.getDouble("STAR_POINT"));
+            workVO.setfStarPoint((float) resultObject.getDouble("STAR_POINT"));
             workVO.setnKeepcount(resultObject.getInt("KEEP_COUNT"));
             workVO.setnCommentCount(resultObject.getInt("COMMENT_COUNT"));
             workVO.setbDistractor(resultObject.getString("DISTRACTOR").equals("Y") ? true : false);
@@ -2444,11 +2442,11 @@ public class HttpClient {
 
             ArrayList<EpisodeVO> episodeList = new ArrayList<>();
 
-            if(resultObject.has("EPISODE_LIST")) {
+            if (resultObject.has("EPISODE_LIST")) {
                 JSONArray episodeArray = resultObject.getJSONArray("EPISODE_LIST");
 
-                if(!bDesc) {
-                    for(int i = 0 ; i < episodeArray.length() ; i++) {
+                if (!bDesc) {
+                    for (int i = 0; i < episodeArray.length(); i++) {
                         JSONObject object = episodeArray.getJSONObject(i);
                         EpisodeVO vo = new EpisodeVO();
 
@@ -2458,17 +2456,17 @@ public class HttpClient {
                         vo.setnOrder(object.getInt("EPISODE_ORDER"));
                         vo.setnHitsCount(object.getInt("HITS_COUNT"));
                         vo.setnTapCount(object.getInt("TAB_COUNT"));
-                        vo.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                        vo.setfStarPoint((float) object.getDouble("STAR_POINT"));
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
-                        if(object.has("CHAT_COUNT"))
+                        if (object.has("CHAT_COUNT"))
                             vo.setnChatCount(object.getInt("CHAT_COUNT"));
 
                         episodeList.add(vo);
                     }
                 } else {
-                    for(int i = episodeArray.length() - 1 ; i >= 0 ; i --) {
+                    for (int i = episodeArray.length() - 1; i >= 0; i--) {
                         JSONObject object = episodeArray.getJSONObject(i);
                         EpisodeVO vo = new EpisodeVO();
 
@@ -2479,11 +2477,11 @@ public class HttpClient {
                         vo.setnOrder(object.getInt("EPISODE_ORDER"));
                         vo.setnHitsCount(object.getInt("HITS_COUNT"));
                         vo.setnTapCount(object.getInt("TAB_COUNT"));
-                        vo.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                        vo.setfStarPoint((float) object.getDouble("STAR_POINT"));
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
-                        if(object.has("CHAT_COUNT"))
+                        if (object.has("CHAT_COUNT"))
                             vo.setnChatCount(object.getInt("CHAT_COUNT"));
 
                         episodeList.add(vo);
@@ -2514,7 +2512,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -2532,7 +2530,7 @@ public class HttpClient {
             workVO.setStrThumbFile(resultObject.getString("WORK_COVER_THUMBNAIL"));
             workVO.setnHitsCount(resultObject.getInt("HITS_COUNT"));
             workVO.setnTapCount(resultObject.getInt("TAB_COUNT"));
-            workVO.setfStarPoint((float)resultObject.getDouble("STAR_POINT"));
+            workVO.setfStarPoint((float) resultObject.getDouble("STAR_POINT"));
             workVO.setnKeepcount(resultObject.getInt("KEEP_COUNT"));
             workVO.setnCommentCount(resultObject.getInt("COMMENT_COUNT"));
             workVO.setbDistractor(resultObject.getString("DISTRACTOR").equals("Y") ? true : false);
@@ -2543,11 +2541,11 @@ public class HttpClient {
 
             ArrayList<EpisodeVO> episodeList = new ArrayList<>();
 
-            if(resultObject.has("EPISODE_LIST")) {
+            if (resultObject.has("EPISODE_LIST")) {
                 JSONArray episodeArray = resultObject.getJSONArray("EPISODE_LIST");
 
-                if(!bDesc) {
-                    for(int i = 0 ; i < episodeArray.length() ; i++) {
+                if (!bDesc) {
+                    for (int i = 0; i < episodeArray.length(); i++) {
                         JSONObject object = episodeArray.getJSONObject(i);
                         EpisodeVO vo = new EpisodeVO();
 
@@ -2558,18 +2556,18 @@ public class HttpClient {
                         vo.setnOrder(object.getInt("EPISODE_ORDER"));
                         vo.setnHitsCount(object.getInt("HITS_COUNT"));
                         vo.setnTapCount(object.getInt("TAB_COUNT"));
-                        vo.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                        vo.setfStarPoint((float) object.getDouble("STAR_POINT"));
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
                         vo.setExcelUploaded(object.getString("EXCEL_UPLOADED").equals("Y") ? true : false);
-                        if(object.has("CHAT_COUNT"))
+                        if (object.has("CHAT_COUNT"))
                             vo.setnChatCount(object.getInt("CHAT_COUNT"));
 
                         episodeList.add(vo);
                     }
                 } else {
-                    for(int i = episodeArray.length() - 1 ; i >= 0 ; i --) {
+                    for (int i = episodeArray.length() - 1; i >= 0; i--) {
                         JSONObject object = episodeArray.getJSONObject(i);
                         EpisodeVO vo = new EpisodeVO();
 
@@ -2580,12 +2578,12 @@ public class HttpClient {
                         vo.setnOrder(object.getInt("EPISODE_ORDER"));
                         vo.setnHitsCount(object.getInt("HITS_COUNT"));
                         vo.setnTapCount(object.getInt("TAB_COUNT"));
-                        vo.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                        vo.setfStarPoint((float) object.getDouble("STAR_POINT"));
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
                         vo.setExcelUploaded(object.getString("EXCEL_UPLOADED").equals("Y") ? true : false);
-                        if(object.has("CHAT_COUNT"))
+                        if (object.has("CHAT_COUNT"))
                             vo.setnChatCount(object.getInt("CHAT_COUNT"));
 
                         episodeList.add(vo);
@@ -2617,7 +2615,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -2634,20 +2632,20 @@ public class HttpClient {
             workVO.setCoverFile(resultObject.getString("WORK_COVER_IMG"));
             workVO.setnHitsCount(resultObject.getInt("HITS_COUNT"));
             workVO.setnTapCount(resultObject.getInt("TAB_COUNT"));
-            workVO.setfStarPoint((float)resultObject.getDouble("STAR_POINT"));
+            workVO.setfStarPoint((float) resultObject.getDouble("STAR_POINT"));
             workVO.setnKeepcount(resultObject.getInt("KEEP_COUNT"));
             workVO.setnCommentCount(resultObject.getInt("COMMENT_COUNT"));
             workVO.setbDistractor(resultObject.getString("DISTRACTOR").equals("Y") ? true : false);
             workVO.setnTarget(resultObject.getInt("TARGET"));
 
-            if(resultObject.has("INTERACTION_EPISODE"))
+            if (resultObject.has("INTERACTION_EPISODE"))
                 workVO.setnInteractionEpisodeID(resultObject.getInt("INTERACTION_EPISODE"));
 
             ArrayList<EpisodeVO> episodeList = new ArrayList<>();
 
-            if(resultObject.has("EPISODE_LIST")) {
+            if (resultObject.has("EPISODE_LIST")) {
                 JSONArray episodeArray = resultObject.getJSONArray("EPISODE_LIST");
-                for(int i = 0 ; i < episodeArray.length() ; i++) {
+                for (int i = 0; i < episodeArray.length(); i++) {
                     JSONObject object = episodeArray.getJSONObject(i);
                     EpisodeVO vo = new EpisodeVO();
 
@@ -2658,7 +2656,7 @@ public class HttpClient {
                     vo.setnOrder(object.getInt("EPISODE_ORDER"));
                     vo.setnHitsCount(object.getInt("HITS_COUNT"));
                     vo.setnTapCount(object.getInt("TAB_COUNT"));
-                    vo.setfStarPoint((float)object.getDouble("STAR_POINT"));
+                    vo.setfStarPoint((float) object.getDouble("STAR_POINT"));
                     vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                     vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                     vo.setStrSubmit(object.getString("WORK_SUBMIT"));
@@ -2697,13 +2695,13 @@ public class HttpClient {
                     .build();
 
             try (Response response = httpClient.newCall(request).execute()) {
-                if(response.code() != 200)
+                if (response.code() != 200)
                     return false;
 
                 String strResult = response.body().string();
                 JSONObject resultJsonObject = new JSONObject(strResult);
 
-                if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                     return true;
                 else
                     return false;
@@ -2736,13 +2734,13 @@ public class HttpClient {
                     .build();
 
             try (Response response = httpClient.newCall(request).execute()) {
-                if(response.code() != 200)
+                if (response.code() != 200)
                     return false;
 
                 String strResult = response.body().string();
                 JSONObject resultJsonObject = new JSONObject(strResult);
 
-                if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                     return true;
                 else
                     return false;
@@ -2774,7 +2772,7 @@ public class HttpClient {
                     .build();
 
             try (Response response = httpClient.newCall(request).execute()) {
-                if(response.code() != 200)
+                if (response.code() != 200)
                     return null;
 
                 String strResult = response.body().string();
@@ -2801,17 +2799,17 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
 
-            JSONArray  resultArray = resultObject.getJSONArray("WRITER_LIST");
+            JSONArray resultArray = resultObject.getJSONArray("WRITER_LIST");
 
-            for(int i = 0 ; i < resultArray.length() ; i++) {
+            for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
-                HashMap<String , String> writerMap = new HashMap<>();
+                HashMap<String, String> writerMap = new HashMap<>();
 
                 writerMap.put("WRITER_ID", "" + object.getInt("WRITER_ID"));
                 writerMap.put("WRITER_NAME", object.getString("WRITER_NAME"));
@@ -2841,7 +2839,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -2870,7 +2868,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -2895,7 +2893,7 @@ public class HttpClient {
         jsonBody.put("USER_BIRTHDAY", userInfoMap.get("USER_BIRTHDAY"));
         jsonBody.put("USER_GENDER", userInfoMap.get("USER_GENDER"));
 
-        if(userInfoMap.get("USER_PHOTO") != null)
+        if (userInfoMap.get("USER_PHOTO") != null)
             jsonBody.put("USER_PHOTO", userInfoMap.get("USER_PHOTO"));
 
         jsonBody.put("REGISTER_SNS", Integer.valueOf(userInfoMap.get("REGISTER_SNS")));
@@ -2911,7 +2909,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -2938,7 +2936,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -2960,13 +2958,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
                 return false;
@@ -2986,13 +2984,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
                 return false;
@@ -3012,13 +3010,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
                 return false;
@@ -3038,7 +3036,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return "FAIL";
 
             String strResult = response.body().string();
@@ -3061,7 +3059,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3083,7 +3081,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3105,7 +3103,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3135,13 +3133,13 @@ public class HttpClient {
                     .build();
 
             try (Response response = httpClient.newCall(request).execute()) {
-                if(response.code() != 200)
+                if (response.code() != 200)
                     return false;
 
                 String strResult = response.body().string();
                 JSONObject resultJsonObject = new JSONObject(strResult);
 
-                if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                     return true;
                 else
                     return false;
@@ -3168,10 +3166,10 @@ public class HttpClient {
             jsonBody.put("EPISODE_ID", dataMap.get("EPISODE_ID"));
             jsonBody.put("CHAT_ID", dataMap.get("CHAT_ID"));
 
-            if(dataMap.get("WORK_ID") != null)
+            if (dataMap.get("WORK_ID") != null)
                 jsonBody.put("WORK_ID", dataMap.get("WORK_ID"));
 
-            if(dataMap.get("PARENT_ID") != null)
+            if (dataMap.get("PARENT_ID") != null)
                 jsonBody.put("PARENT_ID", dataMap.get("PARENT_ID"));
 
             String jsonString = jsonBody.toString();
@@ -3183,13 +3181,13 @@ public class HttpClient {
                     .build();
 
             try (Response response = httpClient.newCall(request).execute()) {
-                if(response.code() != 200)
+                if (response.code() != 200)
                     return false;
 
                 String strResult = response.body().string();
                 JSONObject resultJsonObject = new JSONObject(strResult);
 
-                if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                     return true;
                 else
                     return false;
@@ -3214,14 +3212,14 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
             JSONArray jsonArray = resultJsonObject.getJSONArray("BILLING_LIST");
 
-            for(int i = 0 ; i < jsonArray.length() ; i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
 
                 BillingLogVO vo = new BillingLogVO();
@@ -3252,7 +3250,7 @@ public class HttpClient {
             jsonBody.put("COMMENT", dataMap.get("COMMENT"));
             jsonBody.put("WRITER_ID", dataMap.get("WRITER_ID"));
 
-            if(dataMap.get("PARENT_ID") != null)
+            if (dataMap.get("PARENT_ID") != null)
                 jsonBody.put("PARENT_ID", dataMap.get("PARENT_ID"));
 
             String jsonString = jsonBody.toString();
@@ -3264,13 +3262,13 @@ public class HttpClient {
                     .build();
 
             try (Response response = httpClient.newCall(request).execute()) {
-                if(response.code() != 200)
+                if (response.code() != 200)
                     return false;
 
                 String strResult = response.body().string();
                 JSONObject resultJsonObject = new JSONObject(strResult);
 
-                if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                     return true;
                 else
                     return false;
@@ -3293,13 +3291,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
 
             return false;
@@ -3319,13 +3317,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
 
             return false;
@@ -3345,7 +3343,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3369,7 +3367,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3393,7 +3391,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3416,7 +3414,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3440,7 +3438,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3469,13 +3467,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
                 return false;
@@ -3497,14 +3495,14 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
             JSONArray jsonArray = resultJsonObject.getJSONArray("ALARM_LIST");
 
-            for(int i = 0 ; i < jsonArray.length() ; i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
 
                 AlarmVO vo = new AlarmVO();
@@ -3535,7 +3533,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3557,7 +3555,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3579,12 +3577,12 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else {
                 return false;
@@ -3605,12 +3603,12 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else {
                 return false;
@@ -3631,12 +3629,12 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else {
                 return false;
@@ -3657,12 +3655,12 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else {
                 return false;
@@ -3683,12 +3681,12 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else {
                 return false;
@@ -3709,7 +3707,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3731,13 +3729,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
                 return false;
@@ -3757,7 +3755,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3780,13 +3778,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -3804,15 +3802,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return -1;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return 0;
-            else if(resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+            else if (resultJsonObject.getString("RESULT").equals("DUPLICATE"))
                 return 1;
             else
                 return -1;
@@ -3832,15 +3830,15 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return -1;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return 0;
-            else if(resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+            else if (resultJsonObject.getString("RESULT").equals("DUPLICATE"))
                 return 1;
             else
                 return -1;
@@ -3860,13 +3858,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -3884,13 +3882,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -3908,7 +3906,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3930,7 +3928,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3953,7 +3951,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return null;
 
             String strResult = response.body().string();
@@ -3982,13 +3980,13 @@ public class HttpClient {
                         public void run() {
                             CommonUtils.hideProgressDialog();
 
-                            if(resultObject == null) {
+                            if (resultObject == null) {
                                 Toast.makeText(activity, "서버와의 연결이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
                             try {
-                                if(resultObject.getString("RESULT").equals("SUCCESS")) {            // 이미 소셜 가입이 되어있는 경우
+                                if (resultObject.getString("RESULT").equals("SUCCESS")) {            // 이미 소셜 가입이 되어있는 경우
                                     String strUserID = resultObject.getString("USER_ID");
                                     String strUserName = resultObject.getString("USER_NAME");
                                     String strUserEmail = resultObject.getString("USER_EMAIL");
@@ -3999,8 +3997,8 @@ public class HttpClient {
                                     String strUserDesc = resultObject.getString("USER_DESC");
                                     String strUserAdmin = resultObject.getString("USER_ADMIN");
                                     String strBirthday = resultObject.getString("USER_BIRTHDAY");
-                                    int    nGender = resultObject.getInt("USER_GENDER");
-                                    int    nCoinCount = 0;
+                                    int nGender = resultObject.getInt("USER_GENDER");
+                                    int nCoinCount = 0;
 
                                     SharedPreferences pref = activity.getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = pref.edit();
@@ -4051,7 +4049,7 @@ public class HttpClient {
                 .addFormDataPart("USER_ID", strUserID);
 
         File file = new File(strFilePath);
-        String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+        String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
         builder.addFormDataPart(filename, filename, RequestBody.create(MultipartBody.FORM, file));
 
         RequestBody requestBody = builder.build();
@@ -4062,13 +4060,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
                 return false;
@@ -4095,13 +4093,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
                 return false;
@@ -4128,13 +4126,13 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return false;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
-            if(resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
                 return false;
@@ -4154,7 +4152,7 @@ public class HttpClient {
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
-            if(response.code() != 200)
+            if (response.code() != 200)
                 return true;
 
             CommonUtils.forbiddenWords = new ArrayList<>();
@@ -4162,8 +4160,8 @@ public class HttpClient {
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
             JSONArray resultArray = resultJsonObject.getJSONArray("SLANG_LIST");
-            for(int i = 0 ; i < resultArray.length() ; i++) {
-                JSONObject slangObject = (JSONObject)resultArray.get(i);
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject slangObject = (JSONObject) resultArray.get(i);
                 CommonUtils.forbiddenWords.add(slangObject.getString("SLANG"));
             }
 
@@ -4175,5 +4173,28 @@ public class HttpClient {
         }
 
         return true;
+    }
+
+    public static String getStoreVersion(OkHttpClient httpClient) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "VersionCheck.jsp")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            String strVersion = resultJsonObject.getString("VERSION");
+
+            return strVersion;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

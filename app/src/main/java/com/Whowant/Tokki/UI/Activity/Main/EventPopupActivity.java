@@ -40,7 +40,9 @@ public class EventPopupActivity extends AppCompatActivity {
         for(EventVO vo : eventList) {
             String strDate = pref.getString("" + vo.getnEventID(), "");
 
-            if(vo.getnEventID() == -10 && strDate.length() == 0) {
+            if(vo.getnEventType() == 20)
+                continue;
+            else if(vo.getnEventID() == -10 && strDate.length() == 0) {
                 currentList.add(vo);
             } else if(strDate.length() == 0 || !strDate.equals(strToday)) {
                 currentList.add(vo);

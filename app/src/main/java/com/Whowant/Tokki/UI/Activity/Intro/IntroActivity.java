@@ -1,11 +1,15 @@
 package com.Whowant.Tokki.UI.Activity.Intro;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.OkHttpClient;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,6 +17,7 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.SplashActivity;
 import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -29,6 +34,7 @@ import org.json.JSONObject;
 public class IntroActivity extends AppCompatActivity {
     private String strFCMToken;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private String appVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,8 @@ public class IntroActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             Log.w("FCM_LOG", "getInstanceId failed", task.getException());
 
-                            goNextStep();
+//                            goNextStep();
+                            versionCheck();
                             return;
                         }
 
@@ -66,10 +73,108 @@ public class IntroActivity extends AppCompatActivity {
                             editor.putString("FCM_TOKEN", strFCMToken);
                             editor.commit();
                         }
-
-                        goNextStep();
+                        versionCheck();
+//                        goNextStep();
                     }
                 });
+    }
+
+    private void versionCheck() {
+        try {
+            appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String strVersion = HttpClient.getStoreVersion(new OkHttpClient());
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(IntroActivity.this);
+                        builder.setMessage("앱을 최신 버전으로 업데이트 해주세요!");
+
+                        String[] storeVersion = strVersion.split("\\.");
+                        int strLen = storeVersion.length;
+                        int[] strV = new int[strLen];
+                        for (int i = 0; i < strLen; i++) {
+                            strV[i] = Integer.parseInt(storeVersion[i]);
+                        }
+
+                        String[] appVer = appVersion.split("\\.");
+                        int appLen = appVer.length;
+                        int[] appV = new int[appLen];
+                        for (int i = 0; i < appLen; i++) {
+                            appV[i] = Integer.parseInt(appVer[i]);
+                        }
+
+                        if (strVersion != null) {
+                            if (strV[0] > appV[0]) {
+                                builder.setPositiveButton("업데이트", (dialogInterface, i) -> {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                    intent.setData(Uri.parse("market://details?id=com.Whowant.Tokki"));
+                                    startActivity(intent);
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+                                });
+
+                                builder.setNegativeButton("종료", (dialogInterface, i) ->
+                                        android.os.Process.killProcess(android.os.Process.myPid()));
+                                builder.show();
+                                return;
+
+                            } else if (strV[1] > appV[1]) {
+                                builder.setPositiveButton("업데이트", (dialogInterface, i) -> {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                    intent.setData(Uri.parse("market://details?id=com.Whowant.Tokki"));
+                                    startActivity(intent);
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+                                });
+
+                                builder.setNegativeButton("종료", (dialogInterface, i) ->
+                                        android.os.Process.killProcess(android.os.Process.myPid()));
+                                builder.show();
+                                return;
+
+                            } else if (strV[2] > appV[2]) {
+                                builder.setPositiveButton("업데이트", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                        intent.setData(Uri.parse("market://details?id=com.Whowant.Tokki"));
+                                        startActivity(intent);
+                                        android.os.Process.killProcess(android.os.Process.myPid());
+                                    }
+                                });
+
+                                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        goNextStep();
+                                    }
+                                });
+                                builder.show();
+
+                            } else {
+                                goNextStep();
+//                                new Handler().postDelayed(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+//                                        finish();
+//                                    }
+//                                }, 2000);
+                            }
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 
     private void goNextStep() {

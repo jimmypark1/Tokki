@@ -50,7 +50,7 @@ public class EventPopupFragment extends Fragment {
         imgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(eventVO.getnEventType() == 0) {               // 일반 이벤틈
+                if(eventVO.getnEventType() == 0) {               // 일반 이벤트
                     Intent intent = new Intent(getActivity(), EventDetailActivity.class);
                     intent.putExtra("EVENT_TITLE", eventVO.getStrEventTitle());
                     intent.putExtra("EVENT_FILE", eventVO.getStrEventContentsFile());
