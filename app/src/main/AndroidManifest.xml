@@ -117,10 +117,6 @@
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SplashActivity"
-            android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".UI.Activity.Admin.ReportCommentDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

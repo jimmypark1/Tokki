@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.SplashActivity;
 import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -97,6 +96,16 @@ public class IntroActivity extends AppCompatActivity {
                         AlertDialog.Builder builder = new AlertDialog.Builder(IntroActivity.this);
                         builder.setMessage("앱을 최신 버전으로 업데이트 해주세요!");
 
+                        if (strVersion == null) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    goNextStep();
+                                }
+                            }, 2000);
+                            return;
+                        }
+
                         String[] storeVersion = strVersion.split("\\.");
                         int strLen = storeVersion.length;
                         int[] strV = new int[strLen];
@@ -155,20 +164,23 @@ public class IntroActivity extends AppCompatActivity {
                                 builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        goNextStep();
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                goNextStep();
+                                            }
+                                        }, 2000);
                                     }
                                 });
                                 builder.show();
 
                             } else {
-                                goNextStep();
-//                                new Handler().postDelayed(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
-//                                        finish();
-//                                    }
-//                                }, 2000);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        goNextStep();
+                                    }
+                                }, 2000);
                             }
                         }
                     }
