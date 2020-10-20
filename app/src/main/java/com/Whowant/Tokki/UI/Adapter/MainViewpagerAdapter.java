@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.Whowant.Tokki.UI.Fragment.Main.FriendFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.KeepFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.LiteratureFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.MainFragment;
@@ -14,6 +15,7 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
     private KeepFragment keepFragment;
     private LiteratureFragment literatureFragment;
     private MyFragment myFragment;
+    private FriendFragment friendFragment;
 
     public MainViewpagerAdapter(FragmentManager fm) {
         super(fm);
@@ -26,6 +28,7 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
         keepFragment = new KeepFragment();
         literatureFragment = new LiteratureFragment();
         myFragment = new MyFragment();
+        friendFragment = new FriendFragment();
 
     }
 
@@ -40,6 +43,8 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
                 return literatureFragment;
             case 3:
                 return myFragment;
+            case 4:
+                return friendFragment;
             default:
                 return mainFragment;
         }
@@ -47,7 +52,7 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -60,6 +65,8 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
             return "작품쓰기";
         } else if(position == 3) {
             return "마이 페이지";
+        } else if(position == 4) {
+            return "친구";
         }
 
         return "";

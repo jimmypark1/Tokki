@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView centerLogoView;
     private ImageButton leftBtn;
     private ImageButton rightBtn;
+    private ImageView profileIv;
     private TextView titleView;
     private ImageView alarmNewIconView, noticeNewIconView, eventNewIconView;                // 서랍메뉴 에서 알림, 공지사항, 이벤트 등에 찍히는 빨간 점. 읽었는지 여부는 SharedPreference 에서 판단(애초에 없던 기능을 추가한거라 그렇게 구현함)
     private boolean bCreated = true;                        // 이벤트 팝업이 생성되었는지를 가늠하는 플래그
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
         centerLogoView = findViewById(R.id.cenverLogoView);
         leftBtn = findViewById(R.id.leftBtn);
         rightBtn = findViewById(R.id.rightBtn);
+        profileIv = findViewById(R.id.iv_top_bar_profile);
         titleView = findViewById(R.id.titleView);
         rightBtn.setImageResource(R.drawable.serch_icon_balck);
         eventNewIconView = findViewById(R.id.eventNewIconView);
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
         drawer = findViewById(R.id.drawer_layout);
         viewPager = findViewById(R.id.viewPager);
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(5);
         mainPagerAdapter = new MainViewpagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mainPagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -139,26 +141,37 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {                                              // ViewPager 구조 이므로 화면이 전환될때 상단 메뉴의 상태 및 타이틀을 변경한다.
+                rightBtn.setVisibility(View.GONE);
+                profileIv.setVisibility(View.GONE);
+
                 if(position == 0) {
                     centerLogoView.setVisibility(View.VISIBLE);
                     titleView.setText("");
-                    rightBtn.setVisibility(View.VISIBLE);
-                    rightBtn.setImageResource(R.drawable.serch_icon_balck);
+//                    rightBtn.setVisibility(View.VISIBLE);
+//                    rightBtn.setImageResource(R.drawable.serch_icon_balck);
+                    profileIv.setVisibility(View.VISIBLE);
                 } else if(position == 1) {
                     centerLogoView.setVisibility(View.INVISIBLE);
-                    titleView.setText("보관함");
+                    titleView.setText("검색");
                     rightBtn.setVisibility(View.VISIBLE);
                     rightBtn.setImageResource(R.drawable.dot_menu);
                 } else if(position == 2) {
                     centerLogoView.setVisibility(View.INVISIBLE);
+                    titleView.setText("보관함");
+                    rightBtn.setVisibility(View.VISIBLE);
+                    rightBtn.setImageResource(R.drawable.dot_menu);
+                } else if(position == 3) {
+                    centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("작품쓰기");
                     rightBtn.setVisibility(View.VISIBLE);
                     rightBtn.setImageResource(R.drawable.icon_button_writing);
-                } else if(position == 3) {
+//                    centerLogoView.setVisibility(View.INVISIBLE);
+//                    titleView.setText("마이 페이지");
+//                    rightBtn.setVisibility(View.VISIBLE);
+//                    rightBtn.setImageResource(R.drawable.gear_btn);
+                } else if(position == 4) {
                     centerLogoView.setVisibility(View.INVISIBLE);
-                    titleView.setText("마이 페이지");
-                    rightBtn.setVisibility(View.VISIBLE);
-                    rightBtn.setImageResource(R.drawable.gear_btn);
+                    titleView.setText("친구");
                 }
             }
 
@@ -420,6 +433,10 @@ public class MainActivity extends AppCompatActivity {
         } else if(nPosition == 3) {
             startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
         }
+    }
+
+    public void onClickTopProfileBtn(View view) {
+        startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
     }
 
     private void initMenuViews() {                                                                                  // 좌측 서랍메뉴 설정
@@ -726,13 +743,20 @@ public class MainActivity extends AppCompatActivity {
         resetBottomBar(3);
     }
 
+    public void onClickNav5Btn(View view) {
+        viewPager.setCurrentItem(4);
+        resetBottomBar(4);
+    }
+
     private void resetBottomBar(int nIndex) {
         ImageView homeImgView = findViewById(R.id.homeImgView);
+        ImageView searchView = findViewById(R.id.iv_bottom_bar_search);
         ImageView storageImgView = findViewById(R.id.storageImgView);
         ImageView writeImgView = findViewById(R.id.writeImgView);
         ImageView myImgView = findViewById(R.id.myImgView);
 
         homeImgView.setBackgroundResource(R.drawable.ic_home_off);
+//        searchView.setBackgroundResource(R.drawable);
         storageImgView.setBackgroundResource(R.drawable.ic_storage_off);
         writeImgView.setBackgroundResource(R.drawable.ic_write_off);
         myImgView.setBackgroundResource(R.drawable.ic_mypage_off);
@@ -742,12 +766,15 @@ public class MainActivity extends AppCompatActivity {
                 homeImgView.setBackgroundResource(R.drawable.ic_home_on);
                 break;
             case 1:
-                storageImgView.setBackgroundResource(R.drawable.ic_storage_on);
+                searchView.setBackgroundResource(R.drawable.ic_i_tapbar_2_1);
                 break;
             case 2:
-                writeImgView.setBackgroundResource(R.drawable.ic_write_on);
+                storageImgView.setBackgroundResource(R.drawable.ic_storage_on);
                 break;
             case 3:
+                writeImgView.setBackgroundResource(R.drawable.ic_write_on);
+                break;
+            case 4:
                 myImgView.setBackgroundResource(R.drawable.ic_mypage_on);
                 break;
         }

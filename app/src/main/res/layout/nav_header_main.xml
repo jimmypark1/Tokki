@@ -191,11 +191,24 @@
                 android:background="?android:selectableItemBackground"
                 android:text="이용약관 보기"/>
 
+            <TextView
+                android:id="@+id/versionView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/termsView"
+                android:layout_marginLeft="40.7dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:background="?android:selectableItemBackground"
+                android:text="어플 버전정보"/>
+
             <RelativeLayout
                 android:id="@+id/managerLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/termsView">
+                android:layout_below="@+id/versionView">
 
                 <TextView
                     android:id="@+id/manageerTitleView"

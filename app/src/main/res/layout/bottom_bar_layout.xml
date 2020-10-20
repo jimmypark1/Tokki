@@ -26,6 +26,20 @@
         android:onClick="onClickNav2Btn">
 
         <ImageView
+            android:id="@+id/iv_bottom_bar_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_i_tapbar_2_1" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:onClick="onClickNav3Btn">
+
+        <ImageView
             android:id="@+id/storageImgView"
             android:layout_width="36.7dp"
             android:layout_height="36.7dp"
@@ -37,7 +51,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:onClick="onClickNav3Btn">
+        android:onClick="onClickNav4Btn">
 
         <ImageView
             android:id="@+id/writeImgView"
@@ -51,7 +65,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:onClick="onClickNav4Btn">
+        android:onClick="onClickNav5Btn">
 
         <ImageView
             android:id="@+id/myImgView"
