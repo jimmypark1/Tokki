@@ -3852,25 +3852,60 @@ public class HttpClient {
     }
 
     public static boolean requestAproveCancel(OkHttpClient httpClient, String strAdminID, int nEpisodeID, String strReason) {
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanBookAdmin.jsp?CMD=RequestWorkAproveCancel&ADMIN_ID=" + strAdminID + "&EPISODE_ID=" + nEpisodeID + "&REASON=" + strReason)
-                .get()
-                .build();
+        JSONObject jsonBody = new JSONObject();
 
-        try (Response response = httpClient.newCall(request).execute()) {
-            if (response.code() != 200)
-                return false;
+        try {
+            jsonBody.put("ADMIN_ID", strAdminID);
+            jsonBody.put("EPISODE_ID", "" + nEpisodeID);
+            jsonBody.put("REASON", strReason);
+            String jsonString = jsonBody.toString();
 
-            String strResult = response.body().string();
-            JSONObject resultJsonObject = new JSONObject(strResult);
+            RequestBody requestBody = RequestBody.create(JSON, jsonString);
 
-            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
-                return true;
-        } catch (IOException e) {
-            e.printStackTrace();
+            Request request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "TokkiAdminApproveCancel.jsp")
+                    .post(requestBody)
+                    .build();
+
+            try (Response response = httpClient.newCall(request).execute()) {
+                if (response.code() != 200)
+                    return false;
+
+                String strResult = response.body().string();
+                JSONObject resultJsonObject = new JSONObject(strResult);
+
+                if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                    return true;
+                else
+                    return false;
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+//        Request request = new Request.Builder()
+//                .url(CommonUtils.strDefaultUrl + "PanBookAdmin.jsp?CMD=RequestWorkAproveCancel&ADMIN_ID=" + strAdminID + "&EPISODE_ID=" + nEpisodeID + "&REASON=" + strReason)
+//                .get()
+//                .build();
+//
+//        try (Response response = httpClient.newCall(request).execute()) {
+//            if (response.code() != 200)
+//                return false;
+//
+//            String strResult = response.body().string();
+//            JSONObject resultJsonObject = new JSONObject(strResult);
+//
+//            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+//                return true;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
         return false;
     }

@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -62,6 +64,8 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
     private LinearLayout topEditLayout;
     private ArrayList<String> showingList;
     private boolean bDesc = false;
+    private boolean isClickedList = false;
+    private float fX, fY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,6 +210,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                         if(resultObject == null) {
                             CommonUtils.hideProgressDialog();
                             Toast.makeText(WorkWriteMainActivity.this, "작품 정보를 가져오는데 실패했습니다.", Toast.LENGTH_LONG).show();
+                            CommonUtils.hideProgressDialog();
                             return;
                         }
 
@@ -234,6 +239,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
     }
 
     private void getWorkInfo() {
+        CommonUtils.showProgressDialog(WorkWriteMainActivity.this, "작품 정보를 가져오고 있습니다.");
         showingList = new ArrayList<>();
         new Thread(new Runnable() {
             @Override
@@ -268,6 +274,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
                         if(workVO == null) {
                             Toast.makeText(WorkWriteMainActivity.this, "작품 정보를 가져오는데 실패했습니다.", Toast.LENGTH_LONG).show();
+                            CommonUtils.hideProgressDialog();
                             return;
                         }
 
@@ -370,6 +377,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         }
 
         Log.d("asdf", "INIT End");
+        CommonUtils.hideProgressDialog();
     }
 
     public void OnClickNewEpisodeBtn(View view) {                                           // 하단의 회차 생성 버튼 클릭
@@ -673,30 +681,109 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
             public EpisodeViewHolder(View view) {
                 super(view);
 
-                view.setOnClickListener(new View.OnClickListener() {
+                view.setOnTouchListener(new View.OnTouchListener() {
                     @Override
-                    public void onClick(View v) {
-                        int nPosition = getAdapterPosition();
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        switch (motionEvent.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                if(isClickedList)
+                                    return false;
+                                fX = motionEvent.getX();
+                                fY = motionEvent.getY();
+                                break;
+                            case MotionEvent.ACTION_MOVE: {
+                                float fEndX = motionEvent.getX();
+                                float fEndY = motionEvent.getY();
 
-                        if(showingList.get(nPosition).equals("EMPTY"))
-                            return;
+                                if (fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
+                                    return false;
+                                }
+                                break;
+                            }
+                            case MotionEvent.ACTION_CANCEL:
+                                return false;
+                            case MotionEvent.ACTION_UP: {
+                                float fEndX = motionEvent.getX();
+                                float fEndY = motionEvent.getY();
 
-                        if(nPosition == 0)
-                            return;
+                                if (fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
+                                    return false;
+                                } else {
+                                    int nPosition = getAdapterPosition();
+                                    if(showingList.get(nPosition).equals("EMPTY"))
+                                        return false;
 
-                        nPosition -= 1;
+                                    if(nPosition == 0 || isClickedList == true)
+                                        return false;
 
+                                    isClickedList = true;
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            isClickedList = false;
+                                        }
+                                    }, 1000);
+                                    nPosition -= 1;
+                                    Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);                          // 내 작품 회차 클릭하여 작성창으로 이동
+                                    LiteratureWriteActivity.workVO = workVO;
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                    intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
+                                    intent.putExtra("EPISODE_INDEX", nPosition);
+                                    intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
+                                    intent.putExtra("SUBMIT", workVO.getEpisodeList().get(nPosition).getStrSubmit());
+                                    intent.putExtra("EXCEL_UPLOADED", workVO.getEpisodeList().get(nPosition).isExcelUploaded());
+                                    startActivity(intent);
+                                }
+                            }
+                                break;
+                        }
 
-                        Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);                          // 내 작품 회차 클릭하여 작성창으로 이동
-                        LiteratureWriteActivity.workVO = workVO;
-                        intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
-                        intent.putExtra("EPISODE_INDEX", nPosition);
-                        intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
-                        intent.putExtra("SUBMIT", workVO.getEpisodeList().get(nPosition).getStrSubmit());
-                        intent.putExtra("EXCEL_UPLOADED", workVO.getEpisodeList().get(nPosition).isExcelUploaded());
-                        startActivity(intent);
+                        return true;
                     }
                 });
+//                view.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if(showingList.size() <= 0) {
+//                            Log.d("RETURNED", "SIZE = 0");
+//                            return;
+//                        }
+//
+//                        if(isClickedList) {
+//                            Log.d("RETURNED", "CLICKED = true");
+//                            return;
+//                        }
+//
+//                        isClickedList = true;
+//                        new Handler().postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                isClickedList = false;
+//                            }
+//                        }, 1000);
+//
+//                        int nPosition = getAdapterPosition();
+//
+//                        if(showingList.get(nPosition).equals("EMPTY"))
+//                            return;
+//
+//                        if(nPosition == 0)
+//                            return;
+//
+//                        nPosition -= 1;
+//
+//
+//                        Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);                          // 내 작품 회차 클릭하여 작성창으로 이동
+//                        LiteratureWriteActivity.workVO = workVO;
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                        intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
+//                        intent.putExtra("EPISODE_INDEX", nPosition);
+//                        intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
+//                        intent.putExtra("SUBMIT", workVO.getEpisodeList().get(nPosition).getStrSubmit());
+//                        intent.putExtra("EXCEL_UPLOADED", workVO.getEpisodeList().get(nPosition).isExcelUploaded());
+//                        startActivity(intent);
+//                    }
+//                });
             }
         }
     }

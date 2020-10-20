@@ -128,7 +128,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
 
     @Override
     public void onDestroy() {
-        workVO = null;
+//        workVO = null;
         super.onDestroy();
     }
 

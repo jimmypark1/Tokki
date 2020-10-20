@@ -783,7 +783,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onDestroy() {
-        workVO = null;
+//        workVO = null;
         unregisterReceiver(mReceiver);
         super.onDestroy();
     }

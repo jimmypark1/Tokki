@@ -438,6 +438,11 @@ public class CommonUtils {                                                      
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        String strVersion = HttpClient.getStoreVersion(new OkHttpClient());
+                        if(strVersion != null) {
+
+                        }
+
                         isComplete = HttpClient.getforbiddenWordsFromServer(new OkHttpClient());
                     }
                 }).start();

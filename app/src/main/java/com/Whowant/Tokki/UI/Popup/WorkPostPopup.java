@@ -15,7 +15,7 @@ public class WorkPostPopup extends AppCompatActivity {
         setContentView(R.layout.activity_work_post_popup);
     }
 
-    public void okClickCancelBtn(View view) {
+    public void onClickCancelBtn(View view) {
         finish();
     }
 
