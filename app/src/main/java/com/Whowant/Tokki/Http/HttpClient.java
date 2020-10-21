@@ -810,6 +810,10 @@ public class HttpClient {
                 vo.setStrEventContentsFile(object.getString("EVENT_CONTENTS_FILE"));
                 vo.setStrEventPopupFile(object.getString("EVENT_POPUP_FILE"));
                 vo.setStrRegisterDate(object.getString("REGISTER_DATE"));
+
+                if(object.getInt("EVENT_TYPE") == 20)
+                    continue;
+
                 vo.setnEventType(object.getInt("EVENT_TYPE"));
 
                 SharedPreferences pref = context.getSharedPreferences("EVENT_INFO", Activity.MODE_PRIVATE);
@@ -2503,7 +2507,7 @@ public class HttpClient {
         return workVO;
     }
 
-    public static WorkVO getWriterWorkWithID(OkHttpClient httpClient, String strWorkID, String strUserID, boolean bDesc) {                              // 모든 작품 목록 가져오기
+    public static WorkVO getWriterWorkWithID(OkHttpClient httpClient, String strWorkID, String strUserID, boolean bDesc) {                              // 특정 작가가 작성한 특정 작품의 모든 회차목록 가져오기(게시중인 작품 포함)
         WorkVO workVO = null;
 
         Request request = new Request.Builder()
@@ -2538,6 +2542,7 @@ public class HttpClient {
             workVO.setnDonationCarrot(resultObject.getInt("CARROT_DONATION"));
             workVO.setbPosterThumbnail(resultObject.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
             workVO.setbComplete(resultObject.getString("COMPLETE").equals("Y") ? true : false);
+            workVO.setnUserStatus(resultObject.getInt("USER_STATUS"));
 
             ArrayList<EpisodeVO> episodeList = new ArrayList<>();
 

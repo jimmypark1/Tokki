@@ -76,7 +76,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         isExcelUploaded = getIntent().getBooleanExtra("EXCEL_UPLOADED", false);
         ImageButton submitBtn = findViewById(R.id.submitBtn);
 
-        if(isExcelUploaded) {
+        if(isExcelUploaded || workVO.getnUserStatus() == 1 || workVO.getnUserStatus() == 20) {
             submitBtn.setBackgroundResource(R.drawable.send_button);
         } else {
             submitBtn.setBackgroundResource(R.drawable.post_botton);
@@ -86,7 +86,6 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         nEpisodeID = getIntent().getIntExtra("EPISODE_ID", -1);
         nEpisodeIndex = getIntent().getIntExtra("EPISODE_INDEX", -1);
         bSubmit = getIntent().getBooleanExtra("SUBMIT", false);
-        isExcelUploaded = getIntent().getBooleanExtra("EXCEL_UPLOADED", false);
 
         titleView.setText(strTitle);
         episodeNumView.setText((nEpisodeIndex+1) + "화");
@@ -204,7 +203,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
     }
 
     public void onClickSubmitBtn(View view) {
-        if(isExcelUploaded) {
+        if(isExcelUploaded || workVO.getnUserStatus() == 10 || workVO.getnUserStatus() == 20) {
             requestEpisodeSubmit();
         } else {
             requestEpisodePost();

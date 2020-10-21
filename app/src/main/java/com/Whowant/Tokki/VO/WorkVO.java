@@ -26,6 +26,7 @@ public class WorkVO {
     private boolean bPosterThumbnail;
 
     private boolean bDistractor = false;                    // 분기 설정 했는지 여부
+    private int     nUserStatus = 1;                        // 사용자 상태. 1 : 일반유저, 99 : 탈퇴된 유저, 10 : black list, 20 : white list
 
     public WorkVO() {
 
@@ -205,5 +206,13 @@ public class WorkVO {
 
     public void setbPosterThumbnail(boolean bPosterThumbnail) {
         this.bPosterThumbnail = bPosterThumbnail;
+    }
+
+    public int getnUserStatus() {
+        return nUserStatus;
+    }
+
+    public void setnUserStatus(int nUserStatus) {
+        this.nUserStatus = nUserStatus;
     }
 }

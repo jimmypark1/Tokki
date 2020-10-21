@@ -182,7 +182,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         isExcelUploaded = getIntent().getBooleanExtra("EXCEL_UPLOADED", false);
         ImageButton submitBtn = findViewById(R.id.submitBtn);
 
-        if(isExcelUploaded) {
+        if(isExcelUploaded || workVO.getnUserStatus() == 10 || workVO.getnUserStatus() == 20) {
             submitBtn.setBackgroundResource(R.drawable.send_button);
         } else {
             submitBtn.setBackgroundResource(R.drawable.post_botton);
@@ -526,7 +526,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     }
 
     public void onClickSubmitBtn(View view) {
-        if(isExcelUploaded) {
+        if(isExcelUploaded || workVO.getnUserStatus() == 10 || workVO.getnUserStatus() == 20) {
             requestEpisodeSubmit();
         } else {
             requestEpisodePost();
