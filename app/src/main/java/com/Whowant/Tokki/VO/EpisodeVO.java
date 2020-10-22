@@ -17,6 +17,8 @@ public class EpisodeVO {                                   // 한 회차별 정�
     private String strSubmit;                               // N - 제출안됨, W - 승인대기, Y - 게시됨(승인됨)
     private int    nChatCount;
     private boolean isExcelUploaded = false;                // 엑셀 업로드한 작품인지
+    private int    nTrashID;                                // 보관된 에피소드의 경우 쓰레기통 ID
+    private String strIsolatedDate;                         // 보관된 에피소드의 경우 보관된 날짜
 
     public EpisodeVO() {
 
@@ -132,5 +134,21 @@ public class EpisodeVO {                                   // 한 회차별 정�
 
     public void setExcelUploaded(boolean excelUploaded) {
         isExcelUploaded = excelUploaded;
+    }
+
+    public int getnTrashID() {
+        return nTrashID;
+    }
+
+    public void setnTrashID(int nTrashID) {
+        this.nTrashID = nTrashID;
+    }
+
+    public String getStrIsolatedDate() {
+        return strIsolatedDate;
+    }
+
+    public void setStrIsolatedDate(String strIsolatedDate) {
+        this.strIsolatedDate = strIsolatedDate;
     }
 }

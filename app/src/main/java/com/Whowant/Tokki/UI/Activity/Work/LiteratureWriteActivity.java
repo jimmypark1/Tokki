@@ -2759,6 +2759,9 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 @Override
                 public void run() {
                     CommonUtils.hideProgressDialog();
+                    isExcelUploaded = true;
+                    ImageButton submitBtn = findViewById(R.id.submitBtn);
+                    submitBtn.setBackgroundResource(R.drawable.send_button);
                     getCharacterData();
                 }
             });

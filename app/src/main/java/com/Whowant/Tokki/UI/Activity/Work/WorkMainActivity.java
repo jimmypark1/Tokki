@@ -85,8 +85,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_main);
 
-        Thread.UncaughtExceptionHandler handler = Thread
-                .getDefaultUncaughtExceptionHandler();
+        Thread.UncaughtExceptionHandler handler = Thread.getDefaultUncaughtExceptionHandler();
 
         ImageButton leftBtn = findViewById(R.id.leftBtn);
         ImageButton rightBtn = findViewById(R.id.rightBtn);

@@ -185,6 +185,10 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    isExcelUploaded = true;
+                    ImageButton submitBtn = findViewById(R.id.submitBtn);
+                    submitBtn.setBackgroundResource(R.drawable.send_button);
+
                     int nCurrent = viewPager.getCurrentItem();
                     if(nCurrent == 0) {
                         InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);

@@ -2464,6 +2464,10 @@ public class HttpClient {
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
+                        if(object.has("TRASH_ID")) {
+                            vo.setnTrashID(object.getInt("TRASH_ID"));
+                            vo.setStrIsolatedDate(object.getString("ISOLATED_DATE"));
+                        }
                         if (object.has("CHAT_COUNT"))
                             vo.setnChatCount(object.getInt("CHAT_COUNT"));
 
@@ -2485,8 +2489,13 @@ public class HttpClient {
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
+                        if(object.has("TRASH_ID")) {
+                            vo.setnTrashID(object.getInt("TRASH_ID"));
+                            vo.setStrIsolatedDate(object.getString("ISOLATED_DATE"));
+                        }
                         if (object.has("CHAT_COUNT"))
                             vo.setnChatCount(object.getInt("CHAT_COUNT"));
+
 
                         episodeList.add(vo);
                     }
