@@ -59,16 +59,20 @@ public class ExcelReader {                                                      
 
         ArrayList<CharacterVO> characterVOArrayList = new ArrayList<>();
         ArrayList<ChatVO> chatVOArrayList = new ArrayList<>();
+        String strEpisodeTitle = "";
 
         for(int sheetIndex = 0 ; sheetIndex < wb.getNumberOfSheets() ; sheetIndex++) {
             Sheet currentSheet = wb.getSheetAt(sheetIndex);
 
             for(int rowIndex = 0 ; rowIndex < currentSheet.getPhysicalNumberOfRows() ; rowIndex ++) {
-                if(rowIndex == 0)
-                    continue;
-
                 Row currentRow = currentSheet.getRow(rowIndex);
                 if(currentRow == null) {
+                    continue;
+                }
+
+                if(rowIndex == 0) {
+                    Cell currentCell = currentRow.getCell(0);
+                    strEpisodeTitle = currentCell.getStringCellValue();
                     continue;
                 }
 
@@ -182,10 +186,10 @@ public class ExcelReader {                                                      
             }
         }
 
-        requestCreateCharacter(characterVOArrayList, chatVOArrayList);
+        requestCreateCharacter(characterVOArrayList, chatVOArrayList, strEpisodeTitle);
     }
 
-    private void requestCreateCharacter(final ArrayList<CharacterVO> characterVOList, final ArrayList<ChatVO> chatVOArrayList) {
+    private void requestCreateCharacter(final ArrayList<CharacterVO> characterVOList, final ArrayList<ChatVO> chatVOArrayList, final String strEpisodeTitle) {
         try {
             String url = CommonUtils.strDefaultUrl + "PanAppCreateCharacterWithJson.jsp";
             MultipartBody.Builder builder = new MultipartBody.Builder();
@@ -253,7 +257,7 @@ public class ExcelReader {                                                      
                                 }
                             }
 
-                            requestSendEpisode(chatVOArrayList);
+                            requestSendEpisode(chatVOArrayList, strEpisodeTitle);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -265,7 +269,7 @@ public class ExcelReader {                                                      
         }
     }
 
-    private void requestSendEpisode(ArrayList<ChatVO> chatVOArrayList) {                   // 한번에 업로드. 엑셀 업로드 할때 사용해보자꾸나
+    private void requestSendEpisode(ArrayList<ChatVO> chatVOArrayList, String strEpisodeTitle) {                   // 한번에 업로드. 엑셀 업로드 할때 사용해보자꾸나
         try {
             String url = CommonUtils.strDefaultUrl + "PanAppCreateEpisode.jsp";
             RequestBody requestBody = null;
@@ -276,6 +280,8 @@ public class ExcelReader {                                                      
 
             if(nEpisodeID > -1)
                 sendObject.put("EPISODE_ID", nEpisodeID);
+
+            sendObject.put("EPISODE_TITLE", strEpisodeTitle);
 
             JSONArray chatArray = new JSONArray();
 
