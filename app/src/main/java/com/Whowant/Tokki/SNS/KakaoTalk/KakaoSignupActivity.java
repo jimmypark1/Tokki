@@ -129,30 +129,4 @@ public class KakaoSignupActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
-
-    private void requestSignUp() {
-        UserManagement.getInstance().requestSignup(new ApiResponseCallback<Long>() {
-            @Override
-            public void onNotSignedUp() {
-            }
-
-            @Override
-            public void onSuccess(Long result) {
-                requestMe();
-            }
-
-            @Override
-            public void onFailure(ErrorResult errorResult) {
-                final String message = "UsermgmtResponseCallback : failure : " + errorResult;
-                com.kakao.util.helper.log.Logger.w(message);
-                Toast.makeText(KakaoSignupActivity.this, message, Toast.LENGTH_LONG).show();
-
-                redirectLoginActivity();
-            }
-
-            @Override
-            public void onSessionClosed(ErrorResult errorResult) {
-            }
-        }, null);
-    }
 }

@@ -28,7 +28,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Login.FindAccountActivity;
 import com.Whowant.Tokki.UI.Custom.FlowLayout;
+import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.UI.Popup.EpisodeAproveCancelPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
@@ -48,6 +50,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
     private String strWorkID;
     private WorkVO workVO;
+    private EpisodeVO episodeVO;
 
     private SharedPreferences pref;
     private ProgressDialog mProgressDialog;
@@ -586,8 +589,12 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
                                 switch (item.getItemId()) {
                                     case R.id.delete:
-                                        requestDeleteEpisode(vo.getnEpisodeID());
-                                        break;
+                                        if (workVO.getnUserAuthority() < 99 && vo.getnEditAuthority() == 99) {
+                                            Toast.makeText(WorkWriteMainActivity.this,"접근 권한이 없습니다", Toast.LENGTH_SHORT).show();
+                                            return true;
+                                        }
+                                            requestDeleteEpisode(vo.getnEpisodeID());
+                                            break;
                                     case R.id.comment:
                                         intent = new Intent(WorkWriteMainActivity.this, EpisodeCommentActivity.class);
                                         intent.putExtra("EPISODE_ID", vo.getnEpisodeID());
@@ -724,15 +731,21 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                         }
                                     }, 1000);
                                     nPosition -= 1;
-                                    Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);                          // 내 작품 회차 클릭하여 작성창으로 이동
-                                    LiteratureWriteActivity.workVO = workVO;
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                    intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
-                                    intent.putExtra("EPISODE_INDEX", nPosition);
-                                    intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
-                                    intent.putExtra("SUBMIT", workVO.getEpisodeList().get(nPosition).getStrSubmit());
-                                    intent.putExtra("EXCEL_UPLOADED", workVO.getEpisodeList().get(nPosition).isExcelUploaded());
-                                    startActivity(intent);
+                                    EpisodeVO vo = workVO.getEpisodeList().get(nPosition);
+                                    if (workVO.getnUserAuthority() < 99 && vo.getnEditAuthority() == 99) {
+                                        Toast.makeText(WorkWriteMainActivity.this,"접근 권한이 없습니다", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);                          // 내 작품 회차 클릭하여 작성창으로 이동
+                                        LiteratureWriteActivity.workVO = workVO;
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                        intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
+                                        intent.putExtra("EPISODE_INDEX", nPosition);
+                                        intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
+                                        intent.putExtra("SUBMIT", workVO.getEpisodeList().get(nPosition).getStrSubmit());
+                                        intent.putExtra("EXCEL_UPLOADED", workVO.getEpisodeList().get(nPosition).isExcelUploaded());
+                                        startActivity(intent);
+                                    }
                                 }
                             }
                                 break;
@@ -794,28 +807,47 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
     public void onClickTopEditBtn(View view) {
         WorkEditActivity.workVO = workVO;
-        Intent intent = new Intent(WorkWriteMainActivity.this, WorkEditActivity.class);
-        startActivity(intent);
+        if (workVO.getnUserAuthority() < 99 && workVO.getnEditAuthority() == 99) {
+            Toast.makeText(this, "수정 권한이 없습니다.", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(WorkWriteMainActivity.this, CommonPopup.class);
+//            intent.putExtra("TITLE", "권한 제한 안내");
+//            intent.putExtra("CONTENTS", "수정 권한이 없습니다.");
+//            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(WorkWriteMainActivity.this, WorkEditActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void onClickTopDelBtn(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(WorkWriteMainActivity.this);
-        builder.setTitle("작품 삭제");
-        builder.setMessage("작품을 삭제하면 작성했던 모든 회차 정보도 함께 삭제됩니다. 정말 삭제하시겠습니까?");
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                requestDeleteWork();
-            }
-        });
+        if (workVO.getnUserAuthority() < 99 && workVO.getnEditAuthority() == 99) {
+            Toast.makeText(this, "삭제 권한이 없습니다.", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(WorkWriteMainActivity.this, CommonPopup.class);
+//            intent.putExtra("TITLE", "권한 제한 안내");
+//            intent.putExtra("CONTENTS", "삭제 권한이 없습니다.");
+//            startActivity(intent);
 
-        builder.setNegativeButton("아니요", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
+        }
+        else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(WorkWriteMainActivity.this);
+            builder.setTitle("작품 삭제");
+            builder.setMessage("작품을 삭제하면 작성했던 모든 회차 정보도 함께 삭제됩니다. 정말 삭제하시겠습니까?");
+            builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    requestDeleteWork();
+                }
+            });
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+            builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 }

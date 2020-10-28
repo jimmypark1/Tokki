@@ -2552,6 +2552,8 @@ public class HttpClient {
             workVO.setbPosterThumbnail(resultObject.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
             workVO.setbComplete(resultObject.getString("COMPLETE").equals("Y") ? true : false);
             workVO.setnUserStatus(resultObject.getInt("USER_STATUS"));
+            workVO.setnUserAuthority(resultObject.getInt("USER_AUTHORITY"));
+            workVO.setnEditAuthority(resultObject.getInt("EDIT_AUTHORITY"));
 
             ArrayList<EpisodeVO> episodeList = new ArrayList<>();
 
@@ -2575,6 +2577,7 @@ public class HttpClient {
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
                         vo.setExcelUploaded(object.getString("EXCEL_UPLOADED").equals("Y") ? true : false);
+                        vo.setnEditAuthority(object.getInt("EDIT_AUTHORITY"));
                         if (object.has("CHAT_COUNT"))
                             vo.setnChatCount(object.getInt("CHAT_COUNT"));
 
@@ -2597,6 +2600,7 @@ public class HttpClient {
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
                         vo.setExcelUploaded(object.getString("EXCEL_UPLOADED").equals("Y") ? true : false);
+                        vo.setnEditAuthority(object.getInt("EDIT_AUTHORITY"));
                         if (object.has("CHAT_COUNT"))
                             vo.setnChatCount(object.getInt("CHAT_COUNT"));
 

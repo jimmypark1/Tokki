@@ -27,6 +27,8 @@ public class WorkVO {
 
     private boolean bDistractor = false;                    // 분기 설정 했는지 여부
     private int     nUserStatus = 1;                        // 사용자 상태. 1 : 일반유저, 99 : 탈퇴된 유저, 10 : black list, 20 : white list
+    private int nUserAuthority = 1;                         // 사용자 권한
+    private int nEditAuthority = 1;                         // 작품 수정 권한
 
     public WorkVO() {
 
@@ -68,7 +70,7 @@ public class WorkVO {
         return nWorkID;
     }
 
-    public String  getnWriterID() {
+    public String getnWriterID() {
         return strWriterID;
     }
 
@@ -214,5 +216,19 @@ public class WorkVO {
 
     public void setnUserStatus(int nUserStatus) {
         this.nUserStatus = nUserStatus;
+    }
+
+    public int getnUserAuthority() { return nUserAuthority; }
+
+    public void setnUserAuthority(int nUserAuthority) {
+        this.nUserAuthority = nUserAuthority;
+    }
+
+    public int getnEditAuthority() {
+        return nEditAuthority;
+    }
+
+    public void setnEditAuthority(int nEditAuthority) {
+        this.nEditAuthority = nEditAuthority;
     }
 }

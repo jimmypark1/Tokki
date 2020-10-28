@@ -2674,7 +2674,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                             CommonUtils.hideProgressDialog();
 
                             if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                Toast.makeText(interactionWriteActivity, "삭되었습니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(interactionWriteActivity, "삭제되었습니다.", Toast.LENGTH_LONG).show();
                                 getActivity().finish();
                             } else {
                                 Toast.makeText(interactionWriteActivity, "작품 등록을 실패하였습니다.", Toast.LENGTH_LONG).show();
