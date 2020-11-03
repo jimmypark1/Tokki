@@ -33,6 +33,7 @@ import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
 import com.Whowant.Tokki.UI.Popup.CoverMediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
@@ -346,7 +347,8 @@ public class WorkEditActivity extends AppCompatActivity {
                 if (nType == 0)
                     return;
                 else if (nType == 1) {
-                    Intent intent = new Intent(WorkEditActivity.this, SeesoGalleryActivity.class);
+//                    Intent intent = new Intent(WorkEditActivity.this, SeesoGalleryActivity.class);
+                    Intent intent = new Intent(WorkEditActivity.this, TokkiGalleryActivity.class);
                     if(nThumbnail == 0)
                         intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_IMG_MODIFY);
                     else

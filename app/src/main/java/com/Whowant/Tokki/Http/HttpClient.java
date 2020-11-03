@@ -4250,4 +4250,68 @@ public class HttpClient {
         }
         return null;
     }
+
+    public static ArrayList<String> getFolderName(OkHttpClient httpClient) {
+        ArrayList<String> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiGallery.jsp?CMD=FOLDERS")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("FOLDER_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+                resultList.add(object.getString("FOLDER_NAME"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultList = null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            resultList = null;
+        }
+
+        return resultList;
+    }
+
+    public static ArrayList<String> getTokkiGalleryData(OkHttpClient httpClient, String folderName) {
+        ArrayList<String> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiGallery.jsp?CMD=IMAGES&FOLDER=" + folderName)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("FILE_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+                resultList.add(object.getString("FILE_NAME"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultList = null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            resultList = null;
+        }
+
+        return resultList;
+    }
 }

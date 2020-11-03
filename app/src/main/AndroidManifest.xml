@@ -23,12 +23,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".UI.Popup.LegalNoticePopup"
+        <activity
+            android:name=".UI.Activity.Photopicker.TokkiGalleryActivity"
             android:configChanges="screenSize|orientation"
-            android:theme="@style/Theme.AppCompat.Translucent"/>
-
-        <activity android:name=".UI.Popup.WorkPostPopup"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Popup.LegalNoticePopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity
+            android:name=".UI.Popup.WorkPostPopup"
             android:configChanges="screenSize|orientation"
             android:theme="@style/Theme.AppCompat.Translucent" />
         <activity

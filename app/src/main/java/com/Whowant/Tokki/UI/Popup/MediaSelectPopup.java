@@ -9,6 +9,7 @@ import android.view.View;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
 
 public class MediaSelectPopup extends AppCompatActivity {
     private int     nType = 0;
@@ -36,7 +37,8 @@ public class MediaSelectPopup extends AppCompatActivity {
     }
 
     public void OnClickGalleryBtn(View view) {
-        Intent intent = new Intent(MediaSelectPopup.this, SeesoGalleryActivity.class);
+//        Intent intent = new Intent(MediaSelectPopup.this, SeesoGalleryActivity.class);
+        Intent intent = new Intent(MediaSelectPopup.this, TokkiGalleryActivity.class);
         intent.putExtra("TYPE", nType);
         intent.putExtra("EDIT", bEdit);
         intent.putExtra("ORDER", nOrder);
