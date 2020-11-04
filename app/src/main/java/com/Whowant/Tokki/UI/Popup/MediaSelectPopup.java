@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
-import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
 
 public class MediaSelectPopup extends AppCompatActivity {

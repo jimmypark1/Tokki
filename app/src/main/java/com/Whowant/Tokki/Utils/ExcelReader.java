@@ -342,7 +342,7 @@ public class ExcelReader {                                                      
                         @Override
                         public void run() {
                             if(strResult.contains("SUCCESS")) {
-                                Toast.makeText(mActivity, "작품이 등록 되었습니다..", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mActivity, "작품이 등록되었습니다.", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(mActivity, "작품 등록을 실패하였습니다.", Toast.LENGTH_LONG).show();
                             }

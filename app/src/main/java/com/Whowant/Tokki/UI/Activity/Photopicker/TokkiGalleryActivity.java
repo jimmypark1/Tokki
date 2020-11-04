@@ -3,6 +3,7 @@ package com.Whowant.Tokki.UI.Activity.Photopicker;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import com.Whowant.Tokki.Utils.CommonUtils;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import okhttp3.OkHttpClient;
 
@@ -31,11 +33,14 @@ public class TokkiGalleryActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
-        getFolderNameList();
+        Intent intent = getIntent();
+        int interaction = Objects.requireNonNull(intent.getExtras()).getInt("Interaction");
+
+        getFolderNameList(interaction);
 
     }
 
-    private void getFolderNameList() {
+    private void getFolderNameList(int interaction) {
         folderNameList = new ArrayList<>();
         CommonUtils.showProgressDialog(TokkiGalleryActivity.this, "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
 
@@ -54,7 +59,7 @@ public class TokkiGalleryActivity extends AppCompatActivity {
                             return;
                         }
 
-                        adapter = new TokkiGalleryAdapter(TokkiGalleryActivity.this, getSupportFragmentManager(), folderNameList);
+                        adapter = new TokkiGalleryAdapter(TokkiGalleryActivity.this, getSupportFragmentManager(), folderNameList, interaction);
                         viewPager.setAdapter(adapter);
                         tabLayout.setupWithViewPager(viewPager);
                     }

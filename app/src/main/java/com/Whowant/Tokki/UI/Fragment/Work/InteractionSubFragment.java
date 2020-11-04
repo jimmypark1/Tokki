@@ -48,6 +48,7 @@ import androidx.fragment.app.Fragment;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryInteractionActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CreateCharacterActivity;
 import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.InteractionPhotoPickerActivity;
@@ -741,7 +742,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                                     }
 
                                     if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                        Toast.makeText(getActivity(), "제출 되었습니다.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity(), "제출되었습니다.", Toast.LENGTH_LONG).show();
                                         getActivity().finish();
                                     } else {
                                         Toast.makeText(getActivity(), "제출에 실패하였습니다.", Toast.LENGTH_LONG).show();
@@ -990,7 +991,9 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                 String strSelection = data.getStringExtra("SELECTION");
 
                 if(strSelection.equals("GALLERY")) {
-                    Intent intent = new Intent(getActivity(), SeesoGalleryInteractionActivity.class);
+//                    Intent intent = new Intent(getActivity(), SeesoGalleryInteractionActivity.class);
+                    Intent intent = new Intent(getActivity(), TokkiGalleryActivity.class);
+                    intent.putExtra("Interaction", 100);
                     startActivityForResult(intent, InteractionWriteActivity.PHOTOPICKER_CONTENTS_IMAGE);
                 } else if(strSelection.equals("ALBUM")) {
                     Intent intent = new Intent(getActivity(), InteractionPhotoPickerActivity.class);
@@ -1000,7 +1003,8 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                 String strSelection = data.getStringExtra("SELECTION");
 
                 if(strSelection.equals("GALLERY")) {
-                    Intent intent = new Intent(getActivity(), SeesoGalleryInteractionActivity.class);
+                    Intent intent = new Intent(getActivity(), TokkiGalleryActivity.class);
+                    intent.putExtra("Interaction", 100);
                     startActivityForResult(intent, InteractionWriteActivity.PHOTOPICKER_BG_IMAGE);
                 } else if(strSelection.equals("ALBUM")) {
                     Intent intent = new Intent(getActivity(), InteractionPhotoPickerActivity.class);
@@ -1710,7 +1714,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
 
             if(nType == 1 || nType == 2 || nType == 7) {
                 chatObject.put("CHAT_CONTENTS", chatVO.getContents());
-            } else if(nType == 3 || nType == 4 || nType == 5 || nType == 8) {           // 파일일 경우 파일 명만 보내야함
+            } else if(nType == 3 || nType == 4 || nType == 5 || nType == 8 || nType == 11) {           // 파일일 경우 파일 명만 보내야함
                 String strPath = chatVO.getStrContentsFile();
 
                 if(strPath == null || strPath.length() == 0) {
@@ -1720,7 +1724,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                     String filename = strPath.substring(strPath.lastIndexOf("/")+1);
                     chatObject.put("CHAT_CONTENTS", filename);
                 }
-            } else if(nType == nType) {
+            } else {
                 chatObject.put("CHAT_CONTENTS", chatVO.getStrContentsFile());
             }
 
@@ -2284,7 +2288,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                     String strUrl = chatVO.getStrContentsFile();
 
                     if(!strUrl.startsWith("http"))
-                        strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
+                        strUrl = CommonUtils.strDefaultUrl + "images" + strUrl;
 
                     Glide.with(getActivity())
                             .asBitmap() // some .jpeg files are actually gif

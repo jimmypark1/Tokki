@@ -23,8 +23,8 @@ import android.widget.Toast;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
-import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
+import com.Whowant.Tokki.UI.Fragment.Main.TokkiGalleryFragment;
 import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.UI.Popup.CoverMediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -231,9 +231,9 @@ public class CreateWorkActivity extends AppCompatActivity {                     
 //                    Intent intent = new Intent(CreateWorkActivity.this, SeesoGalleryActivity.class);
                     Intent intent = new Intent(CreateWorkActivity.this, TokkiGalleryActivity.class);
                     if(nThumbnail == 2)
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_THUMB_IMG);
+                        intent.putExtra("TYPE", TokkiGalleryFragment.TYPE_COVER_THUMB_IMG);
                     else
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_IMG);
+                        intent.putExtra("TYPE", TokkiGalleryFragment.TYPE_COVER_IMG);
 
                     startActivity(intent);
                 } else if (nType == 2) {

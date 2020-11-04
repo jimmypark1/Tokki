@@ -8,8 +8,8 @@ import android.view.View;
 
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
-import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
+import com.Whowant.Tokki.UI.Fragment.Main.TokkiGalleryFragment;
 
 public class BGImageSelectPopup extends AppCompatActivity {
     private boolean bEdit = false;
@@ -35,7 +35,7 @@ public class BGImageSelectPopup extends AppCompatActivity {
     public void OnClickGalleryBtn(View view) {
 //        Intent intent = new Intent(BGImageSelectPopup.this, SeesoGalleryActivity.class);
         Intent intent = new Intent(BGImageSelectPopup.this, TokkiGalleryActivity.class);
-        intent.putExtra("TYPE",  SeesoGalleryActivity.TYPE_BG);
+        intent.putExtra("TYPE",  TokkiGalleryFragment.TYPE_BG);
         intent.putExtra("EDIT", bEdit);
         intent.putExtra("ORDER", nOrder);
         startActivity(intent);

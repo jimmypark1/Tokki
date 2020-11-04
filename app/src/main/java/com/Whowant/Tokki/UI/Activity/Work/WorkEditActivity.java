@@ -32,8 +32,8 @@ import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
-import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
+import com.Whowant.Tokki.UI.Fragment.Main.TokkiGalleryFragment;
 import com.Whowant.Tokki.UI.Popup.CoverMediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
@@ -350,16 +350,16 @@ public class WorkEditActivity extends AppCompatActivity {
 //                    Intent intent = new Intent(WorkEditActivity.this, SeesoGalleryActivity.class);
                     Intent intent = new Intent(WorkEditActivity.this, TokkiGalleryActivity.class);
                     if(nThumbnail == 0)
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_IMG_MODIFY);
+                        intent.putExtra("TYPE", TokkiGalleryFragment.TYPE_COVER_IMG_MODIFY);
                     else
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_THUMBNAIL_MODIFY);
+                        intent.putExtra("TYPE", TokkiGalleryFragment.TYPE_THUMBNAIL_MODIFY);
                     startActivity(intent);
                 } else if (nType == 2) {
                     Intent intent = new Intent(WorkEditActivity.this, PhotoPickerActivity.class);
                     if(nThumbnail == 0)
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_IMG_MODIFY);
+                        intent.putExtra("TYPE", TokkiGalleryFragment.TYPE_COVER_IMG_MODIFY);
                     else
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_THUMBNAIL_MODIFY);
+                        intent.putExtra("TYPE", TokkiGalleryFragment.TYPE_THUMBNAIL_MODIFY);
                     startActivity(intent);
                 } else if(nType == 3) {
                     if(nThumbnail == 0) {
@@ -737,7 +737,7 @@ public class WorkEditActivity extends AppCompatActivity {
                                 JSONObject resultObject = new JSONObject(strResult);
 
                                 if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                    Toast.makeText(WorkEditActivity.this, "수정 되었습니다.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(WorkEditActivity.this, "수정되었습니다.", Toast.LENGTH_LONG).show();
                                     finish();
                                 } else {
                                     Toast.makeText(WorkEditActivity.this, "작품 수정을 실패하였습니다.", Toast.LENGTH_LONG).show();

@@ -49,6 +49,7 @@ import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryInteractionActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CreateCharacterActivity;
 import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.InteractionPhotoPickerActivity;
@@ -679,7 +680,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                     }
 
                                     if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                        Toast.makeText(getActivity(), "제출 되었습니다.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity(), "제출되었습니다.", Toast.LENGTH_LONG).show();
                                         getActivity().finish();
                                     } else {
                                         Toast.makeText(getActivity(), "제출에 실패하였습니다.", Toast.LENGTH_LONG).show();
@@ -928,7 +929,9 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 String strSelection = data.getStringExtra("SELECTION");
 
                 if(strSelection.equals("GALLERY")) {
-                    Intent intent = new Intent(getActivity(), SeesoGalleryInteractionActivity.class);
+//                    Intent intent = new Intent(getActivity(), SeesoGalleryInteractionActivity.class);
+                    Intent intent = new Intent(getActivity(), TokkiGalleryActivity.class);
+                    intent.putExtra("Interaction", 100);
                     startActivityForResult(intent, InteractionWriteActivity.PHOTOPICKER_CONTENTS_IMAGE);
                 } else if(strSelection.equals("ALBUM")) {
                     Intent intent = new Intent(getActivity(), InteractionPhotoPickerActivity.class);
@@ -938,7 +941,9 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 String strSelection = data.getStringExtra("SELECTION");
 
                 if(strSelection.equals("GALLERY")) {
-                    Intent intent = new Intent(getActivity(), SeesoGalleryInteractionActivity.class);
+//                    Intent intent = new Intent(getActivity(), SeesoGalleryInteractionActivity.class);
+                    Intent intent = new Intent(getActivity(), TokkiGalleryActivity.class);
+                    intent.putExtra("Interaction", 100);
                     startActivityForResult(intent, InteractionWriteActivity.PHOTOPICKER_BG_IMAGE);
                 } else if(strSelection.equals("ALBUM")) {
                     Intent intent = new Intent(getActivity(), InteractionPhotoPickerActivity.class);
@@ -1642,7 +1647,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     String filename = strPath.substring(strPath.lastIndexOf("/")+1);
                     chatObject.put("CHAT_CONTENTS", filename);
                 }
-            } else if(nType == nType) {
+            } else {
                 chatObject.put("CHAT_CONTENTS", chatVO.getStrContentsFile());
             }
 

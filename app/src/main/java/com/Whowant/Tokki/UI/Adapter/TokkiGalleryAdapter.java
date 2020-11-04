@@ -1,6 +1,7 @@
 package com.Whowant.Tokki.UI.Adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,13 +18,16 @@ public class TokkiGalleryAdapter extends FragmentPagerAdapter {
     private ArrayList<TokkiGalleryFragment> fragmentList = new ArrayList<>();
     private Context mContext;
 
-    public TokkiGalleryAdapter(Context context, @NonNull FragmentManager fm, ArrayList<String> folderNameList) {
+    public TokkiGalleryAdapter(Context context, @NonNull FragmentManager fm, ArrayList<String> folderNameList, int interaction) {
         super(fm);
 
         this.folderNameList = folderNameList;
         this.mContext = context;
         for(String currentName : this.folderNameList) {
             TokkiGalleryFragment fragment = new TokkiGalleryFragment(this.mContext, currentName);
+            Bundle bundle = new Bundle(1);
+            bundle.putInt("Interaction", interaction);
+            fragment.setArguments(bundle);
             this.fragmentList.add(fragment);
         }
     }
