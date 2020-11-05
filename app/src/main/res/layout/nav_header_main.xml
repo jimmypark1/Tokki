@@ -220,7 +220,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"
                     android:background="?android:selectableItemBackground"
-                    android:text="회원관리"/>
+                    android:text="회원 관리"/>
 
                 <TextView
                     android:id="@+id/workManagementView"
@@ -233,10 +233,10 @@
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"
                     android:background="?android:selectableItemBackground"
-                    android:text="작품관리"/>
+                    android:text="작품 게시 관리"/>
 
                 <TextView
-                    android:id="@+id/commentManagementView"
+                    android:id="@+id/workEditView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/workManagementView"
@@ -246,7 +246,20 @@
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"
                     android:background="?android:selectableItemBackground"
-                    android:text="신고댓글 관리"/>
+                    android:text="작품 관리"/>
+
+                <TextView
+                    android:id="@+id/commentManagementView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/workEditView"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:layout_marginLeft="40.7dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:background="?android:selectableItemBackground"
+                    android:text="신고 댓글 관리"/>
 
                 <TextView
                     android:id="@+id/episodeReportView"
@@ -259,7 +272,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"
                     android:background="?android:selectableItemBackground"
-                    android:text="신고회차 관리"/>
+                    android:text="신고 회차 관리"/>
 
                 <TextView
                     android:id="@+id/contestManagementView"

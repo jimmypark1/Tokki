@@ -408,8 +408,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                 EpisodeVO vo = workVO.getEpisodeList().get(i);
 
                                 if(nLastEpisodeID == vo.getnEpisodeID() && CommonUtils.bLocinCheck(pref)) {
-                                    nLastIndex = i;
-                                    strBtnTitle = (nLastIndex + 1) + "화 이어보기";
+                                    nLastIndex = vo.getnOrder();
+                                    strBtnTitle = nLastIndex + "화 이어보기";
                                 }
                             }
 

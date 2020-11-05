@@ -40,6 +40,7 @@ import com.Whowant.Tokki.UI.Activity.Admin.AproveWaitingEpisodeListActivity;
 import com.Whowant.Tokki.UI.Activity.Admin.CommentManagementActivity;
 import com.Whowant.Tokki.UI.Activity.Admin.ContestListActivity;
 import com.Whowant.Tokki.UI.Activity.Admin.MemberManagementActivity;
+import com.Whowant.Tokki.UI.Activity.Admin.WorkEditManageActivity;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.AlarmActivity;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.EventActivity;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RelativeLayout managerLayout;                   // 좌측 서랍메뉴에서 관리자만 볼 수 있는 관리자 전용 메뉴 layout
     private TextView memberManagementView;                  // 관리자 메뉴 - 회원관리        
-    private TextView workManagementView;                    // 관리자 메뉴 - 작품관리        
+    private TextView workManagementView, workEditView;                    // 관리자 메뉴 - 작품관리, 작품수정
     private TextView commentManagementView, contestManagementView, episodeReportView;          //  댓글관리, 공모전 관리, 신고회차 관리
     private boolean bFinish = false;                        // 백버튼 두번 클릭시 앱 종료시키기 위한 플래그
     private ImageView centerLogoView;
@@ -464,6 +465,7 @@ public class MainActivity extends AppCompatActivity {
             managerLayout.setVisibility(View.VISIBLE);
             memberManagementView = navigationView.findViewById(R.id.memberManagementView);
             workManagementView = navigationView.findViewById(R.id.workManagementView);
+            workEditView = navigationView.findViewById(R.id.workEditView);
             commentManagementView = navigationView.findViewById(R.id.commentManagementView);
             contestManagementView = navigationView.findViewById(R.id.contestManagementView);
             episodeReportView = navigationView.findViewById(R.id.episodeReportView);
@@ -479,6 +481,13 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     startActivity(new Intent(MainActivity.this, AproveWaitingEpisodeListActivity.class));
+                }
+            });
+
+            workEditView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, WorkEditManageActivity.class));
                 }
             });
 

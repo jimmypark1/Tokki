@@ -72,11 +72,14 @@ public class CreateWorkActivity extends AppCompatActivity {                     
 
     private ProgressDialog mProgressDialog;
     private int nThumbnail = 0;     // 0 = 안함, 1 = 포스터를 썸네일로, 2 = 갤러리에서 썸네일 고르기
+    private String writerID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_work_renewal);
+
+        writerID = getIntent().getStringExtra("WRITER_ID");
 
         Thread.UncaughtExceptionHandler handler = Thread
                 .getDefaultUncaughtExceptionHandler();
@@ -302,11 +305,19 @@ public class CreateWorkActivity extends AppCompatActivity {                     
             MultipartBody.Builder builder = new MultipartBody.Builder();
             SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
 
-            builder.setType(MultipartBody.FORM)
-                    .addFormDataPart("WRITER_ID", pref.getString("USER_ID", "Guest"))
-                    .addFormDataPart("WORK_TITLE", inputTitleView.getText().toString())
-                    .addFormDataPart("WORK_SYNOPSIS", inputSynopsisView.getText().toString())
-                    .addFormDataPart("WORK_TARGET", "");
+            if (writerID == null) {
+                builder.setType(MultipartBody.FORM)
+                        .addFormDataPart("WRITER_ID", pref.getString("USER_ID", "Guest"))
+                        .addFormDataPart("WORK_TITLE", inputTitleView.getText().toString())
+                        .addFormDataPart("WORK_SYNOPSIS", inputSynopsisView.getText().toString())
+                        .addFormDataPart("WORK_TARGET", "");
+            } else {
+                builder.setType(MultipartBody.FORM)
+                        .addFormDataPart("WRITER_ID", writerID)
+                        .addFormDataPart("WORK_TITLE", inputTitleView.getText().toString())
+                        .addFormDataPart("WORK_SYNOPSIS", inputSynopsisView.getText().toString())
+                        .addFormDataPart("WORK_TARGET", "");
+            }
 
             String strTags = inputTagView.getText().toString();
             if(strTags.length() > 0)

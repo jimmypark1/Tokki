@@ -23,6 +23,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".UI.Activity.Admin.WriterWorkListActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Admin.WorkEditManageActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.Activity.Photopicker.TokkiGalleryActivity"
             android:configChanges="screenSize|orientation"
@@ -296,6 +303,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
