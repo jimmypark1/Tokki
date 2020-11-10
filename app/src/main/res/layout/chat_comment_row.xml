@@ -179,6 +179,7 @@
             android:layout_below="@+id/nameView"
             android:layout_alignLeft="@+id/nameView"
             android:layout_marginTop="6dp"
+            android:layout_marginRight="26dp"
             android:textColor="@color/colorBlack"
             android:textSize="14sp"
             android:text="댓글 내용"/>

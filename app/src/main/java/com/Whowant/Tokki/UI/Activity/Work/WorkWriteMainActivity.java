@@ -589,14 +589,46 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                 switch (item.getItemId()) {
                                     case R.id.delete:
                                         if (pref.getString("ADMIN", "N").equals("Y")) {
-                                            requestDeleteEpisode(vo.getnEpisodeID());
+                                            builder.setTitle("작품 삭제");
+                                            builder.setMessage("작품을 삭제하면 작성했던 모든 회차 정보도 함께 삭제됩니다. 정말 삭제하시겠습니까?");
+                                            builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    requestDeleteEpisode(vo.getnEpisodeID());
+                                                }
+                                            });
+
+                                            builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                }
+                                            });
+
+                                            alertDialog = builder.create();
+                                            alertDialog.show();
                                             break;
                                         } else {
                                             if (workVO.getnUserAuthority() < 99 && vo.getnEditAuthority() == 99) {
                                                 Toast.makeText(WorkWriteMainActivity.this, "접근 권한이 없습니다", Toast.LENGTH_SHORT).show();
                                                 return true;
                                             } else {
-                                                requestDeleteEpisode(vo.getnEpisodeID());
+                                                builder.setTitle("작품 삭제");
+                                                builder.setMessage("작품을 삭제하면 작성했던 모든 회차 정보도 함께 삭제됩니다. 정말 삭제하시겠습니까?");
+                                                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        requestDeleteEpisode(vo.getnEpisodeID());
+                                                    }
+                                                });
+
+                                                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                    }
+                                                });
+
+                                                alertDialog = builder.create();
+                                                alertDialog.show();
                                                 break;
                                             }
                                         }

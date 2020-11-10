@@ -439,7 +439,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                     int nIndex = 0;
 
                                     EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
-                                    if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+                                    if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드라면. 즉, 분기 이후의 에피소드라면
                                         checkInteractionSelect(nIndex);
                                         return;
                                     }
@@ -454,10 +454,10 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 //                            intent.putExtra("EPISODE_INDEX", 0);
 //                            startActivity(intent);
                                 } else {
-                                    int nIndex = nLastIndex;
+                                    int nIndex = nLastIndex - 1;
 
                                     EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
-                                    if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+                                    if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드라면. 즉, 분기 이후의 에피소드라면
                                         checkInteractionSelect(nIndex);
                                         return;
                                     }
