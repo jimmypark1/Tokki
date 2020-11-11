@@ -2676,8 +2676,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 }
 
                                 chattingList.remove(nIndex);
-                                aa.notifyDataSetChanged();
-//                                chattingListView.setSelection(aa.getCount() - 1);
+                                getEpisodeChatData();
                                 Toast.makeText(interactionWriteActivity, "삭제되었습니다.", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(interactionWriteActivity, "작품 등록을 실패하였습니다.", Toast.LENGTH_LONG).show();

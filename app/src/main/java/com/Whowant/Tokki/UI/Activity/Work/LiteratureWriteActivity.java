@@ -146,6 +146,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private int nInteractionIndex;              // 1회차, 2회차 등 회차의 순서
     private int nAddIndex = -1;             // 사이에 추가하기 넘버
     private int nEditIndex = -1;            // 수정할때 넘버
+    private int nDeleteIndex = -1;
     private ProgressDialog mProgressDialog;
 
     private TextView titleView, episodeNumView;
@@ -1072,6 +1073,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     return;
                 }
 
+                nDeleteIndex = nIndex;
                 ChatVO vo = chattingList.get(nIndex);
                 JSONObject resultObject = HttpClient.requestDeleteMessage(new OkHttpClient(), nEpisodeID, vo.getnChatID(), vo.getnOrder());
 
@@ -1089,8 +1091,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
                             if(resultObject != null && resultObject.getString("RESULT").equals("SUCCESS")) {
                                 chattingList.remove(nIndex);
-                                aa.notifyDataSetChanged();
-//                                chattingListView.setSelection(aa.getCount() - 1);
+                                getEpisodeChatData();
                                 Toast.makeText(LiteratureWriteActivity.this, "삭제되었습니다.", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(LiteratureWriteActivity.this, "작품 등록을 실패하였습니다.", Toast.LENGTH_LONG).show();
@@ -1267,16 +1268,22 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
                         aa.notifyDataSetChanged();
 
-                        if(nAddIndex == -1 && nEditIndex == -1)
+                        if(nAddIndex == -1 && nEditIndex == -1 && nDeleteIndex == -1)
                             chattingListView.setSelection(aa.getCount() - 1);
                         else if(nAddIndex != -1) {
                             chattingListView.setSelection(nAddIndex);
                         } else if(nEditIndex != -1) {
                             chattingListView.setSelection(nEditIndex);
+                        } else if(nDeleteIndex != -1) {
+                            if(nDeleteIndex > 0)
+                                nDeleteIndex -= 1;
+
+                            chattingListView.setSelection(nDeleteIndex);
                         }
 
                         nAddIndex = -1;
                         nEditIndex = -1;
+                        nDeleteIndex = -1;
                     }
                 });
             }
