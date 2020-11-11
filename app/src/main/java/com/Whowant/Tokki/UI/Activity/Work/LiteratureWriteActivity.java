@@ -1270,16 +1270,16 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
                         if(nAddIndex == -1 && nEditIndex == -1 && nDeleteIndex == -1)
                             chattingListView.setSelection(aa.getCount() - 1);
-                        else if(nAddIndex != -1) {
-                            chattingListView.setSelection(nAddIndex);
-                        } else if(nEditIndex != -1) {
-                            chattingListView.setSelection(nEditIndex);
-                        } else if(nDeleteIndex != -1) {
-                            if(nDeleteIndex > 0)
-                                nDeleteIndex -= 1;
-
-                            chattingListView.setSelection(nDeleteIndex);
-                        }
+//                        else if(nAddIndex != -1) {
+//                            chattingListView.setSelection(nAddIndex);
+//                        } else if(nEditIndex != -1) {
+//                            chattingListView.setSelection(nEditIndex);
+//                        } else if(nDeleteIndex != -1) {
+//                            if(nDeleteIndex > 0)
+//                                nDeleteIndex -= 1;
+//
+//                            chattingListView.setSelection(nDeleteIndex);
+//                        }
 
                         nAddIndex = -1;
                         nEditIndex = -1;

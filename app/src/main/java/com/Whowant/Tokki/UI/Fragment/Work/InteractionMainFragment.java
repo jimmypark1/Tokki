@@ -138,6 +138,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     private int nEpisodeIndex;
     private int nAddIndex = -1;          // 사이에 추가하기 넘버
     private int nEditIndex = -1;            // 수정할때 넘버
+    private int nDeleteIndex = -1;
 
     private ArrayList<String> newFileList;
     private boolean isEdit = false;
@@ -1385,10 +1386,15 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             chattingListView.setSelection(nAddIndex);
                         } else if(nEditIndex != -1) {
                             chattingListView.setSelection(nEditIndex);
+                        } else if(nDeleteIndex != -1) {
+                            if(nDeleteIndex > 0)
+                                nDeleteIndex -= 1;
+                            chattingListView.setSelection(nDeleteIndex);
                         }
 
                         nAddIndex = -1;
                         nEditIndex = -1;
+                        nDeleteIndex = -1;
                     }
                 });
             }
@@ -2659,7 +2665,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             @Override
             public void run() {
                 ChatVO vo = chattingList.get(nIndex);
-
+                nDeleteIndex = nIndex;
                 JSONObject resultObject = HttpClient.requestDeleteMessage(new OkHttpClient(), nEpisodeID, vo.getnChatID(), vo.getnOrder());
 
                 interactionWriteActivity.runOnUiThread(new Runnable() {
