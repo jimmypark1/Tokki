@@ -99,6 +99,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_VIDEO;
+
 public class InteractionMainFragment extends Fragment implements View.OnClickListener {                                         // 작성창 중 '분기' 가 설정 되어있을때 화면을 두개로 나눔. 그 중에 왼쪽 화면으로 기본적으로 작성창과 동일
     private ArrayList<CharacterVO> characterList;
     private ArrayList<ChatVO> chattingList;
@@ -117,15 +120,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     private ListView chattingListView;
     private CChattingArrayAdapter aa;
 
-    private LinearLayout bgSettingView;
-    private LinearLayout imgSettingView;
-    private LinearLayout videoSettingView;
-    private LinearLayout distractorView;
-    private LinearLayout soundSettingView;
+    private LinearLayout bgSettingView, imgSettingView, videoSettingView, distractorView, soundSettingView;
     private float fX, fY;
-
-    private CoordinatorLayout dimLayerLayout;
-    private ImageView addedImageView;
 
     private int    nBgColor;
     private String bgColor;
@@ -151,7 +147,6 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     private boolean bEdit = false;
     private int     nOrder = -1;
     private int     nInteracionOrder = -1;
-    private boolean bVideo = false;
     private int nPlayingIndex = -1;
     private ImageView oldPlayBtn;
     private ProgressBar oldPB;
@@ -160,9 +155,15 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     private ViewGroup viewGroup;
     private SoftKeyboard softKeyboard;
 
-    public static Fragment newInstance() {
-        InteractionMainFragment fragment = new InteractionMainFragment();
+    private int nInteractionIndex = 0;
+
+    public static Fragment newInstance(int nIndex) {
+        InteractionMainFragment fragment = new InteractionMainFragment(nIndex);
         return fragment;
+    }
+
+    private InteractionMainFragment(int nIndex) {
+        nInteractionIndex = nIndex;
     }
 
     @Override
@@ -189,7 +190,6 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         characterList.add(null);
         nameList.add("지문");
 
-        dimLayerLayout = inflaterView.findViewById(R.id.dimLayerLayout);
         LinearLayout speakerAddView = inflaterView.findViewById(R.id.speakerAddView);
         speakerAddView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,9 +286,9 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 public void onPermissionGranted() {
                                     Intent intent = new Intent(getActivity(), InteractionMediaSelectPopup.class);
                                     if(nType == ChatVO.TYPE_IMAGE) {
-                                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG);
+                                        intent.putExtra("TYPE", TYPE_CONTENTS_IMG.ordinal());
                                     } else {
-                                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_VIDEO);
+                                        intent.putExtra("TYPE", TYPE_VIDEO.ordinal());
                                     }
 
                                     intent.putExtra("EDIT", true);
@@ -842,7 +842,6 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 @Override
                                 public void onPermissionGranted() {
                                     Intent intent = new Intent(getActivity(), InteractionMediaSelectPopup.class);
-                                    bVideo = false;
                                     startActivityForResult(intent, InteractionWriteActivity.MEDIA_SELECT_POPUP);
                                 }
 
@@ -872,7 +871,6 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 public void onPermissionGranted() {
                                     Intent intent = new Intent(getActivity(), InteractionPhotoPickerActivity.class);
                                     intent.putExtra("TYPE", 3);
-                                    bVideo = true;
                                     startActivityForResult(intent, InteractionWriteActivity.PHOTOPICKER_CONTENTS_VIDEO);
                                 }
 
@@ -1362,7 +1360,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             @Override
             public void run() {
                 chattingList.clear();
-                chattingList.addAll(HttpClient.getChatDataWithEpisodeIDAndInteraction(new OkHttpClient(), "" + InteractionWriteActivity.workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID(), 1));
+                chattingList.addAll(HttpClient.getChatDataWithEpisodeIDAndInteraction(new OkHttpClient(), "" + InteractionWriteActivity.workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID(), nInteractionIndex));
 
                 interactionWriteActivity.runOnUiThread(new Runnable() {
                     @Override
@@ -1636,9 +1634,9 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 ChatVO preVO = chattingList.get(nEditIndex);
                 chatObject.put("CHAT_DISTRACTOR", preVO.getnInteractionNum());
                 chatVO.setnInteractionNum(preVO.getnInteractionNum());
-            } else {                                                                    // 2번 선택지 이므로그냥 작성할 경우엔 무조건 2을 넣어주면 된다.
-                chatObject.put("CHAT_DISTRACTOR", 1);
-                chatVO.setnInteractionNum(1);
+            } else {
+                chatObject.put("CHAT_DISTRACTOR", nInteractionIndex);
+                chatVO.setnInteractionNum(nInteractionIndex);
             }
 
             if(nType == 1 || nType == 2 || nType == 7) {
@@ -2666,7 +2664,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             public void run() {
                 ChatVO vo = chattingList.get(nIndex);
                 nDeleteIndex = nIndex;
-                JSONObject resultObject = HttpClient.requestDeleteMessage(new OkHttpClient(), nEpisodeID, vo.getnChatID(), vo.getnOrder());
+                JSONObject resultObject = HttpClient.requestDeleteInteractionMessage(new OkHttpClient(), nEpisodeID, vo.getnChatID(), vo.getnOrder(), nInteractionIndex);
 
                 interactionWriteActivity.runOnUiThread(new Runnable() {
                     @Override

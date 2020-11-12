@@ -54,6 +54,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER_IMG_MODIFY;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY_THUMB;
+
 public class WorkEditActivity extends AppCompatActivity {
     private EditText inputTitleView;
     private EditText inputSynopsisView;
@@ -325,7 +328,8 @@ public class WorkEditActivity extends AppCompatActivity {
                 isDeletePoster = false;
 
                 nThumbnail = 1;
-                ThumbnailPreviewActivity.bModifyThumb = true;
+
+                ThumbnailPreviewActivity.nNextType = TYPE_MODIFY_THUMB.ordinal();
                 CropImageActivity.bThumbnail = true;
                 CropImage.activity(coverImgUri)
                         .setGuidelines(CropImageView.Guidelines.ON)
@@ -350,16 +354,16 @@ public class WorkEditActivity extends AppCompatActivity {
 //                    Intent intent = new Intent(WorkEditActivity.this, SeesoGalleryActivity.class);
                     Intent intent = new Intent(WorkEditActivity.this, TokkiGalleryActivity.class);
                     if(nThumbnail == 0)
-                        intent.putExtra("TYPE", TokkiGalleryFragment.TYPE_COVER_IMG_MODIFY);
+                        intent.putExtra("TYPE", TYPE_COVER_IMG_MODIFY.ordinal());
                     else
-                        intent.putExtra("TYPE", TokkiGalleryFragment.TYPE_THUMBNAIL_MODIFY);
+                        intent.putExtra("TYPE", TYPE_MODIFY_THUMB.ordinal());
                     startActivity(intent);
                 } else if (nType == 2) {
                     Intent intent = new Intent(WorkEditActivity.this, PhotoPickerActivity.class);
                     if(nThumbnail == 0)
-                        intent.putExtra("TYPE", TokkiGalleryFragment.TYPE_COVER_IMG_MODIFY);
+                        intent.putExtra("TYPE", TYPE_COVER_IMG_MODIFY.ordinal());
                     else
-                        intent.putExtra("TYPE", TokkiGalleryFragment.TYPE_THUMBNAIL_MODIFY);
+                        intent.putExtra("TYPE", TYPE_MODIFY_THUMB.ordinal());
                     startActivity(intent);
                 } else if(nType == 3) {
                     if(nThumbnail == 0) {
@@ -780,7 +784,7 @@ public class WorkEditActivity extends AppCompatActivity {
         }
 
         nThumbnail = 1;
-        ThumbnailPreviewActivity.bModifyThumb = true;
+        ThumbnailPreviewActivity.nNextType = TYPE_MODIFY_THUMB.ordinal();
         CropImageActivity.bThumbnail = true;
         CropImage.activity(originCoverImgUri)
                 .setGuidelines(CropImageView.Guidelines.ON)

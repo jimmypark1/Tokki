@@ -52,6 +52,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER_THUMB;
+
 public class CreateWorkActivity extends AppCompatActivity {                                         // 새로운 작품 생성 화면
     private EditText inputTitleView;
     private EditText inputSynopsisView;
@@ -209,7 +212,7 @@ public class CreateWorkActivity extends AppCompatActivity {                     
                         .into(coverImgView);
 
                 nThumbnail = 1;
-                ThumbnailPreviewActivity.bCoverThumb = true;
+                ThumbnailPreviewActivity.nNextType = TYPE_COVER_THUMB.ordinal();
                 CropImageActivity.bThumbnail = true;
                 CropImage.activity(coverImgUri)
                         .setGuidelines(CropImageView.Guidelines.ON)
@@ -234,17 +237,17 @@ public class CreateWorkActivity extends AppCompatActivity {                     
 //                    Intent intent = new Intent(CreateWorkActivity.this, SeesoGalleryActivity.class);
                     Intent intent = new Intent(CreateWorkActivity.this, TokkiGalleryActivity.class);
                     if(nThumbnail == 2)
-                        intent.putExtra("TYPE", TokkiGalleryFragment.TYPE_COVER_THUMB_IMG);
+                        intent.putExtra("TYPE", TYPE_COVER_THUMB.ordinal());
                     else
-                        intent.putExtra("TYPE", TokkiGalleryFragment.TYPE_COVER_IMG);
+                        intent.putExtra("TYPE", TYPE_COVER.ordinal());
 
                     startActivity(intent);
                 } else if (nType == 2) {
                     Intent intent = new Intent(CreateWorkActivity.this, PhotoPickerActivity.class);
                     if(nThumbnail == 2)
-                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_COVER_THUMB_IMG);
+                        intent.putExtra("TYPE", TYPE_COVER_THUMB.ordinal());
                     else
-                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_COVER_IMG);
+                        intent.putExtra("TYPE", TYPE_COVER.ordinal());
                     startActivity(intent);
                 }
             } else if(requestCode == 1010) {                                                                            // 장르 선택시
@@ -470,7 +473,7 @@ public class CreateWorkActivity extends AppCompatActivity {                     
         }
 
         nThumbnail = 1;
-        ThumbnailPreviewActivity.bCoverThumb = true;
+        ThumbnailPreviewActivity.nNextType = TYPE_COVER_THUMB.ordinal();
         CropImageActivity.bThumbnail = true;
         CropImage.activity(coverImgUri)
                 .setGuidelines(CropImageView.Guidelines.ON)

@@ -65,6 +65,8 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE;
+
 public class MyFragment extends Fragment {                                                  // 4번탭 마이페이지
     private TextView followingView;                                                         // 내가 팔로우
     private TextView followerView;                                                          // 나를 팔로우
@@ -374,7 +376,7 @@ public class MyFragment extends Fragment {                                      
                     requestSendPhotoDefault();
                 } else if (!bCamera) {
                     Intent intent = new Intent(getActivity(), PhotoPickerActivity.class);
-                    intent.putExtra("TYPE", PhotoPickerActivity.TYPE_PROFILE);
+                    intent.putExtra("TYPE", TYPE_PROFILE.ordinal());
                     startActivity(intent);
                 }
             } else if (requestCode == FROM_EMAIL_AUTH) {
@@ -383,7 +385,7 @@ public class MyFragment extends Fragment {                                      
                 intent.putExtra("USER_EMAIL", pref.getString("USER_EMAIL", ""));
                 startActivity(intent);
             } else if (requestCode == FROM_CAMERA) {
-                ThumbnailPreviewActivity.bProfile = true;
+                ThumbnailPreviewActivity.nNextType = TYPE_PROFILE.ordinal();
                 CropImage.activity(mPhotoUri)
                         .setGuidelines(CropImageView.Guidelines.ON)
                         .setActivityTitle("My Crop")

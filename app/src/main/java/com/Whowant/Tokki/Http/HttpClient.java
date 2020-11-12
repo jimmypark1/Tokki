@@ -3092,6 +3092,28 @@ public class HttpClient {
         return null;
     }
 
+    public static JSONObject requestDeleteInteractionMessage(OkHttpClient httpClient, int nEpisodeID, int nChatID, int nOrder, int nInteraction) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestDeleteMessage&EPISODE_ID=" + nEpisodeID + "&CHAT_ID=" + nChatID + "&ORDER_NO=" + nOrder + "&INTERACTION=" + nInteraction)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            return resultJsonObject;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static JSONObject requestDeleteAllMessage(OkHttpClient httpClient, int nEpisodeID) {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestDeleteAllMessage&EPISODE_ID=" + nEpisodeID)

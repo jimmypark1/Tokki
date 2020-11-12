@@ -23,7 +23,6 @@ import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Adapter.InteractionAdapter;
 import com.Whowant.Tokki.UI.Fragment.Work.InteractionMainFragment;
-import com.Whowant.Tokki.UI.Fragment.Work.InteractionSubFragment;
 import com.Whowant.Tokki.UI.Popup.ChangeTitlePopup;
 import com.Whowant.Tokki.UI.Popup.LegalNoticePopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -115,12 +114,12 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {           // BT 키보드 접속됨
             InteractionMainFragment fragment = (InteractionMainFragment)pagerAdapter.getItem(0);
             fragment.removeKeyboardEvent();
-            InteractionSubFragment fragment2 = (InteractionSubFragment)pagerAdapter.getItem(1);
+            InteractionMainFragment fragment2 = (InteractionMainFragment)pagerAdapter.getItem(1);
             fragment2.removeKeyboardEvent();
         } else if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {     // BT 키보드 해제됨
             InteractionMainFragment fragment = (InteractionMainFragment)pagerAdapter.getItem(0);
             fragment.setKeyboardEvent();
-            InteractionSubFragment fragment2 = (InteractionSubFragment)pagerAdapter.getItem(1);
+            InteractionMainFragment fragment2 = (InteractionMainFragment)pagerAdapter.getItem(1);
             fragment2.setKeyboardEvent();
         }
     }
@@ -151,7 +150,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
             InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);
             mainFragment.onColorSelected(dialogId, color);
         } else {                            // 오른쪽 fragment
-            InteractionSubFragment subFragment = (InteractionSubFragment)pagerAdapter.getItem(1);
+            InteractionMainFragment subFragment = (InteractionMainFragment)pagerAdapter.getItem(1);
             subFragment.onColorSelected(dialogId, color);
         }
     }
@@ -169,7 +168,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
             InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);
             mainFragment.onBackpress();
         } else {
-            InteractionSubFragment subFragment = (InteractionSubFragment)pagerAdapter.getItem(1);
+            InteractionMainFragment subFragment = (InteractionMainFragment)pagerAdapter.getItem(1);
             subFragment.onBackpress();
         }
     }
@@ -194,7 +193,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
                         InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);
                         mainFragment.excelDoen();
                     } else {
-                        InteractionSubFragment subFragment = (InteractionSubFragment)pagerAdapter.getItem(1);
+                        InteractionMainFragment subFragment = (InteractionMainFragment)pagerAdapter.getItem(1);
                         subFragment.excelDoen();
                     }
                 }
@@ -339,7 +338,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
                             break;
                     }
                 } else {
-                    InteractionSubFragment subFragment = (InteractionSubFragment)pagerAdapter.getItem(1);
+                    InteractionMainFragment subFragment = (InteractionMainFragment)pagerAdapter.getItem(1);
 
                     switch(item.getItemId()) {
                         case R.id.action_btn2:
@@ -376,7 +375,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
 //            InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);
 //            mainFragment.onNewIntent(intent);
 //        } else {
-//            InteractionSubFragment mainFragment = (InteractionSubFragment)pagerAdapter.getItem(1);
+//            InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(1);
 //            mainFragment.onNewIntent(intent);
 //        }
 //    }

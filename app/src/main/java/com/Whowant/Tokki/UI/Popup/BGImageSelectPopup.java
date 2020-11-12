@@ -11,6 +11,8 @@ import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
 import com.Whowant.Tokki.UI.Fragment.Main.TokkiGalleryFragment;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_BG;
+
 public class BGImageSelectPopup extends AppCompatActivity {
     private boolean bEdit = false;
     private Intent oldIntent;
@@ -35,7 +37,7 @@ public class BGImageSelectPopup extends AppCompatActivity {
     public void OnClickGalleryBtn(View view) {
 //        Intent intent = new Intent(BGImageSelectPopup.this, SeesoGalleryActivity.class);
         Intent intent = new Intent(BGImageSelectPopup.this, TokkiGalleryActivity.class);
-        intent.putExtra("TYPE",  TokkiGalleryFragment.TYPE_BG);
+        intent.putExtra("TYPE",  TYPE_BG.ordinal());
         intent.putExtra("EDIT", bEdit);
         intent.putExtra("ORDER", nOrder);
         startActivity(intent);
@@ -44,7 +46,7 @@ public class BGImageSelectPopup extends AppCompatActivity {
 
     public void OnClickAlbumBtn(View view) {
         Intent intent = new Intent(BGImageSelectPopup.this, PhotoPickerActivity.class);
-        intent.putExtra("TYPE",  PhotoPickerActivity.TYPE_BG);
+        intent.putExtra("TYPE",  TYPE_BG.ordinal());
         intent.putExtra("EDIT", bEdit);
         intent.putExtra("ORDER", nOrder);
         startActivity(intent);

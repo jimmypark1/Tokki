@@ -98,6 +98,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_VIDEO;
+
 public class InteractionSubFragment extends Fragment implements View.OnClickListener {                                  // 작성창 중 '분기' 가 설정 되어있을때 화면을 두개로 나눔. 그 중에 오른쪽 화면으로 기본적으로 작성창과 동일
     private ArrayList<CharacterVO> characterList;
     private ArrayList<ChatVO> chattingList;
@@ -284,9 +287,9 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                                 public void onPermissionGranted() {
                                     Intent intent = new Intent(getActivity(), MediaSelectPopup.class);
                                     if(nType == ChatVO.TYPE_IMAGE) {
-                                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG);
+                                        intent.putExtra("TYPE", TYPE_CONTENTS_IMG.ordinal());
                                     } else {
-                                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_VIDEO);
+                                        intent.putExtra("TYPE", TYPE_VIDEO.ordinal());
                                     }
 
                                     intent.putExtra("EDIT", true);

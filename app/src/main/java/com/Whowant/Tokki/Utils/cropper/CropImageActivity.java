@@ -231,8 +231,6 @@ public class CropImageActivity extends AppCompatActivity
     public void onBackPressed() {
         super.onBackPressed();
         setResultCancel();
-        ThumbnailPreviewActivity.bCover = false;
-        ThumbnailPreviewActivity.bProfile = false;
     }
 
     @Override

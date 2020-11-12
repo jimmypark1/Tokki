@@ -112,6 +112,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG_NAR;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_VIDEO;
+
 public class LiteratureWriteActivity extends AppCompatActivity implements View.OnClickListener, ColorPickerDialogListener {                             // 작품 작성창
     public static WorkVO workVO;
     private ArrayList<CharacterVO> characterList;                                                                                                       // 작품에 등장하는 캐릭터 리스트
@@ -286,9 +290,9 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         public void onPermissionGranted() {
                             Intent intent = new Intent(LiteratureWriteActivity.this, MediaSelectPopup.class);
                             if(nType == ChatVO.TYPE_IMAGE)
-                                intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG);
+                                intent.putExtra("TYPE", TYPE_CONTENTS_IMG.ordinal());
                             else
-                                intent.putExtra("TYPE", PhotoPickerActivity.TYPE_VIDEO);
+                                intent.putExtra("TYPE", TYPE_VIDEO.ordinal());
 
                             intent.putExtra("EDIT", true);
                             intent.putExtra("ORDER", position);
@@ -332,7 +336,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     startActivityForResult(intent, 1025);
                 } else if(nType == ChatVO.TYPE_IMAGE_NAR) {                                                                         // 나레이션 이미지 라면 이미지 선택 화면으로 이동
                     Intent intent = new Intent(LiteratureWriteActivity.this, MediaSelectPopup.class);
-                    intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG_NAR);
+                    intent.putExtra("TYPE", TYPE_CONTENTS_IMG_NAR.ordinal());
                     intent.putExtra("EDIT", true);
                     intent.putExtra("ORDER", position);
                     startActivity(intent);
@@ -690,11 +694,11 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 }
             }
 
-            if(nType == PhotoPickerActivity.TYPE_CONTENTS_IMG) {
+            if(nType == TYPE_CONTENTS_IMG.ordinal()) {
                 CharacterVO characterVO = characterList.get(nSelectedCharacterIndex);
                 chatVO.setCharacter(characterVO);
                 chatVO.setType(ChatVO.TYPE_IMAGE);
-            } else if(nType == PhotoPickerActivity.TYPE_CONTENTS_IMG_NAR) {
+            } else if(nType == TYPE_CONTENTS_IMG_NAR.ordinal()) {
                 chatVO.setType(ChatVO.TYPE_IMAGE_NAR);
             }
 
@@ -2020,9 +2024,9 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             public void onPermissionGranted() {
                                 Intent intent = new Intent(LiteratureWriteActivity.this, MediaSelectPopup.class);
                                 if(nSelectedCharacterIndex == 0)
-                                    intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG_NAR);
+                                    intent.putExtra("TYPE", TYPE_CONTENTS_IMG_NAR.ordinal());
                                 else
-                                    intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG);
+                                    intent.putExtra("TYPE", TYPE_CONTENTS_IMG.ordinal());
                                 intent.putExtra("ORDER", nAddIndex);
                                 if(nEditIndex > -1)
                                     intent.putExtra("EDIT", true);
@@ -2049,7 +2053,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             @Override
                             public void onPermissionGranted() {
                                 Intent intent = new Intent(LiteratureWriteActivity.this, PhotoPickerActivity.class);
-                                intent.putExtra("TYPE", PhotoPickerActivity.TYPE_VIDEO);
+                                intent.putExtra("TYPE", TYPE_VIDEO.ordinal());
                                 if(nEditIndex > -1)
                                     intent.putExtra("EDIT", true);
                                 intent.putExtra("ORDER", nAddIndex);

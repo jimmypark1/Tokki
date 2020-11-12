@@ -34,6 +34,8 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_FACE_IMG;
+
 public class CreateCharacterActivity extends AppCompatActivity implements ColorPickerDialogListener  {                                          // 대화창에서 캐릭터 생성화면
     public static ArrayList<String> nameList;
     public static CharacterVO characterVO = null;
@@ -316,7 +318,7 @@ public class CreateCharacterActivity extends AppCompatActivity implements ColorP
         @Override
         public void onPermissionGranted() {             // 모든 권한 획득
             Intent intent = new Intent(CreateCharacterActivity.this, MediaSelectPopup.class);
-            intent.putExtra("TYPE", PhotoPickerActivity.TYPE_FACE_IMG);
+            intent.putExtra("TYPE", TYPE_FACE_IMG.ordinal());
             startActivity(intent);
         }
 

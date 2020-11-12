@@ -1,9 +1,5 @@
 package com.Whowant.Tokki.UI.Activity.Photopicker;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cursoradapter.widget.CursorAdapter;
-import androidx.cursoradapter.widget.SimpleCursorAdapter;
-
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -13,7 +9,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -22,30 +17,37 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cursoradapter.widget.CursorAdapter;
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
+
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
+import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.Utils.cropper.CropImage;
 import com.Whowant.Tokki.Utils.cropper.CropImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_BG;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG_NAR;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER_IMG_MODIFY;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER_THUMB;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_FACE_IMG;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY_THUMB;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_VIDEO;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_BG_CROP;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_IMG_CROP;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY;
 
 public class PhotoPickerActivity extends AppCompatActivity {
     private int mImageThumbSize;
     private int mImageThumbSpacing;
     private MyAdapter mAdapter;
     private GridView mGridView;
-
-    public static final int TYPE_FACE_IMG = 0;
-    public static final int TYPE_CONTENTS_IMG = 1;
-    public static final int TYPE_COVER_IMG = 2;
-    public static final int TYPE_VIDEO = 3;
-    public static final int TYPE_BG = 4;
-    public static final int TYPE_PROFILE = 5;
-    public static final int TYPE_COVER_IMG_MODIFY = 7;
-    public static final int TYPE_CONTENTS_IMG_NAR = 8;          // 나레이션 이미지 추가
-    public static final int TYPE_COVER_THUMB_IMG = 9;           // 커버 썸네일 이미지 추가
-    public static final int TYPE_THUMBNAIL_MODIFY = 10;
 
     private boolean bEdit = false;
     private int     nOrder = -1;
@@ -86,7 +88,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     private void reloadDatas() {
         String[] projection = new String[1];
 
-        if(nType == TYPE_VIDEO) {
+        if(nType == TYPE_VIDEO.ordinal()) {
             sourceUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
             thumb_IMAGE_ID = MediaStore.Video.Thumbnails._ID;
             projection[0] = MediaStore.Video.Media._ID;
@@ -121,200 +123,53 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 int nImgID = mCursor.getInt(mCursor.getColumnIndex("_id"));
                 Uri uri = ContentUris.withAppendedId(sourceUri, nImgID);
 
-                if(nType == TYPE_FACE_IMG) {
-                    CropImage.activity(uri)
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .setActivityTitle("My Crop")
-                            .setCropShape(CropImageView.CropShape.OVAL)
-                            .setAspectRatio(1, 1)
-                            .start(PhotoPickerActivity.this);
-                } else if(nType == TYPE_VIDEO) {
+                if(nType == TYPE_VIDEO.ordinal()) {                      // 동영상은 Crop이 없으므로 그대로 LiteratureWriteActivity 로 보낸다
                     Intent intent = new Intent(PhotoPickerActivity.this, LiteratureWriteActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     intent.putExtra("VIDEO_URI", uri.toString());
                     intent.putExtra("EDIT", bEdit);
                     intent.putExtra("ORDER", nOrder);
                     startActivity(intent);
-                } else if(nType == TYPE_COVER_IMG) {
-                    ThumbnailPreviewActivity.bCover = true;
-
-                    CropImage.activity(uri)
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .setActivityTitle("My Crop")
-                            .setCropShape(CropImageView.CropShape.RECTANGLE)
-                            .start(PhotoPickerActivity.this);
-                } else if(nType == TYPE_COVER_THUMB_IMG) {
-                    ThumbnailPreviewActivity.bCoverThumb = true;
-
-                    CropImage.activity(uri)
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .setActivityTitle("My Crop")
-                            .setCropShape(CropImageView.CropShape.RECTANGLE)
-                            .setAspectRatio(25, 20)
-                            .start(PhotoPickerActivity.this);
-                }
-                else if(nType == TYPE_COVER_IMG_MODIFY) {
-                    ThumbnailPreviewActivity.bModify = true;
-
-                    CropImage.activity(uri)
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .setActivityTitle("My Crop")
-                            .setCropShape(CropImageView.CropShape.RECTANGLE)
-                            .start(PhotoPickerActivity.this);
-                } else if(nType == TYPE_THUMBNAIL_MODIFY) {
-                    ThumbnailPreviewActivity.bModifyThumb = true;
-
-                    CropImage.activity(uri)
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .setActivityTitle("My Crop")
-                            .setCropShape(CropImageView.CropShape.RECTANGLE)
-                            .setAspectRatio(25, 20)
-                            .start(PhotoPickerActivity.this);
-                } else if(nType == TYPE_PROFILE) {
-                    ThumbnailPreviewActivity.bProfile = true;
-                    CropImage.activity(uri)
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .setActivityTitle("My Crop")
-                            .setCropShape(CropImageView.CropShape.OVAL)
-                            .setAspectRatio(1, 1)
-                            .start(PhotoPickerActivity.this);
-                } else if(nType == TYPE_CONTENTS_IMG || nType == TYPE_CONTENTS_IMG_NAR) {
-                    ThumbnailPreviewActivity.bImgCrop = true;
-                    ThumbnailPreviewActivity.bEdit = bEdit;
-                    ThumbnailPreviewActivity.nType = nType;
-                    ThumbnailPreviewActivity.nOrder = nOrder;
-
-                    CropImage.activity(uri)
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .setActivityTitle("My Crop")
-                            .setCropShape(CropImageView.CropShape.RECTANGLE)
-                            .start(PhotoPickerActivity.this);
-                } else if(nType == TYPE_BG) {
-                    ThumbnailPreviewActivity.bBGCrop = true;
-                    ThumbnailPreviewActivity.bEdit = bEdit;
-                    ThumbnailPreviewActivity.nOrder = nOrder;
-
-                    CropImage.activity(uri)
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .setActivityTitle("My Crop")
-                            .setCropShape(CropImageView.CropShape.RECTANGLE)
-                            .start(PhotoPickerActivity.this);
                 } else {
-                    Intent intent = new Intent(PhotoPickerActivity.this, LiteratureWriteActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    CropImage.ActivityBuilder cropImgBuilder = CropImage.activity(uri);
 
-                    if(nType == TYPE_BG) {
-                        intent.putExtra("BG_URI", uri.toString());
-                        intent.putExtra("EDIT", bEdit);
-                        intent.putExtra("ORDER", nOrder);
-                    } else if(nType == TYPE_CONTENTS_IMG || nType == TYPE_CONTENTS_IMG_NAR) {
-                        intent.putExtra("IMG_URI", uri.toString());
-                        intent.putExtra("EDIT", bEdit);
-                        intent.putExtra("TYPE", nType);
-                        intent.putExtra("ORDER", nOrder);
+                    cropImgBuilder
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setActivityTitle("My Crop")
+                            .setCropShape(CropImageView.CropShape.RECTANGLE);
+
+                    if(nType == TYPE_FACE_IMG.ordinal()) {
+                        cropImgBuilder.setAspectRatio(1, 1)
+                                .setCropShape(CropImageView.CropShape.OVAL);
+                    } else if(nType == TYPE_COVER.ordinal()) {
+                        ThumbnailPreviewActivity.nNextType = TYPE_COVER.ordinal();
+                    } else if(nType == TYPE_COVER_THUMB.ordinal()) {
+                        ThumbnailPreviewActivity.nNextType = TYPE_COVER_THUMB.ordinal();
+                        cropImgBuilder.setAspectRatio(25, 20);
+                    } else if(nType == TYPE_COVER_IMG_MODIFY.ordinal()) {
+                        ThumbnailPreviewActivity.nNextType = TYPE_MODIFY.ordinal();
+                    } else if(nType == TYPE_MODIFY_THUMB.ordinal()) {
+                        ThumbnailPreviewActivity.nNextType = TYPE_MODIFY_THUMB.ordinal();
+                        cropImgBuilder.setAspectRatio(25, 20);
+                    } else if(nType == TYPE_PROFILE.ordinal()) {
+                        ThumbnailPreviewActivity.nNextType = TYPE_PROFILE.ordinal();
+                        cropImgBuilder.setAspectRatio(1, 1)
+                                .setCropShape(CropImageView.CropShape.OVAL);
+                    } else if(nType == TYPE_CONTENTS_IMG.ordinal() || nType == TYPE_CONTENTS_IMG_NAR.ordinal()) {
+                        ThumbnailPreviewActivity.nNextType = TYPE_IMG_CROP.ordinal();
+                        ThumbnailPreviewActivity.bEdit = bEdit;
+                        ThumbnailPreviewActivity.nType = nType;
+                        ThumbnailPreviewActivity.nOrder = nOrder;
+                    } else if(nType == TYPE_BG.ordinal()) {
+                        ThumbnailPreviewActivity.nNextType = TYPE_BG_CROP.ordinal();
+                        ThumbnailPreviewActivity.bEdit = bEdit;
+                        ThumbnailPreviewActivity.nOrder = nOrder;
                     }
 
-                    startActivity(intent);
+                    cropImgBuilder.start(PhotoPickerActivity.this);
                 }
             }
         });
-    }
-
-    private void readPhoto() {
-        Uri externalUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        String[] projection = new String[]{
-                MediaStore.Images.Media._ID,
-                MediaStore.Images.Media.DISPLAY_NAME,
-                MediaStore.Images.Media.MIME_TYPE
-        };
-
-        Cursor cursor = getContentResolver().query(externalUri, projection, null, null, null);
-
-        if (cursor == null || !cursor.moveToFirst()) {
-            Log.e("TAG", "cursor null or cursor is empty");
-            return;
-        }
-
-        do {
-            int nImgID = cursor.getInt(cursor.getColumnIndex("_id"));
-            Uri uri = ContentUris.withAppendedId(externalUri, nImgID);
-
-            if(nType == TYPE_FACE_IMG) {
-                CropImage.activity(uri)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setActivityTitle("My Crop")
-                        .setCropShape(CropImageView.CropShape.OVAL)
-                        .setAspectRatio(1, 1)
-                        .start(PhotoPickerActivity.this);
-            }  else if(nType == TYPE_COVER_IMG) {
-                ThumbnailPreviewActivity.bCover = true;
-
-                CropImage.activity(uri)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setActivityTitle("My Crop")
-                        .setCropShape(CropImageView.CropShape.RECTANGLE)
-                        .start(PhotoPickerActivity.this);
-            } else if(nType == TYPE_PROFILE) {
-                ThumbnailPreviewActivity.bProfile = true;
-                CropImage.activity(uri)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setActivityTitle("My Crop")
-                        .setCropShape(CropImageView.CropShape.OVAL)
-                        .setAspectRatio(1, 1)
-                        .start(PhotoPickerActivity.this);
-            } else {
-                Intent intent = new Intent(PhotoPickerActivity.this, LiteratureWriteActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                if(nType == TYPE_BG) {
-                    intent.putExtra("BG_URI", uri.toString());
-                    intent.putExtra("EDIT", bEdit);
-                    intent.putExtra("ORDER", nOrder);
-                } else if(nType == TYPE_CONTENTS_IMG) {
-                    intent.putExtra("IMG_URI", uri.toString());
-                    intent.putExtra("EDIT", bEdit);
-                    intent.putExtra("ORDER", nOrder);
-                }
-
-                startActivity(intent);
-            }
-
-        } while (cursor.moveToNext());
-    }
-
-    private void readVideo() {
-        Uri externalUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-        String[] projection = new String[]{
-                MediaStore.Video.Media._ID,
-                MediaStore.Video.Media.DISPLAY_NAME,
-                MediaStore.Video.Media.MIME_TYPE
-        };
-
-        Cursor cursor = getContentResolver().query(externalUri, projection, null, null, null);
-
-        if (cursor == null || !cursor.moveToFirst()) {
-            Log.e("TAG", "cursor null or cursor is empty");
-            return;
-        }
-
-        do {
-            String contentUrl = externalUri.toString() + "/" + cursor.getString(0);
-
-            int nImgID = cursor.getInt(cursor.getColumnIndex("_id"));
-            Uri uri = ContentUris.withAppendedId(externalUri, nImgID);
-
-            Intent intent = new Intent(PhotoPickerActivity.this, LiteratureWriteActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.putExtra("VIDEO_URI", uri.toString());
-            intent.putExtra("EDIT", bEdit);
-            intent.putExtra("ORDER", nOrder);
-            startActivity(intent);
-            return;
-        } while (cursor.moveToNext());
-    }
-
-    private void readAudio() {
-
     }
 
     @Override
