@@ -367,16 +367,16 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         startActivityForResult(intent, 1100);
     }
 
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-//
-//        if(viewPager.getCurrentItem() == 0) {
-//            InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);
-//            mainFragment.onNewIntent(intent);
-//        } else {
-//            InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(1);
-//            mainFragment.onNewIntent(intent);
-//        }
-//    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if(viewPager.getCurrentItem() == 0) {
+            InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);
+            mainFragment.imageSetting(intent);
+        } else {
+            InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(1);
+            mainFragment.imageSetting(intent);
+        }
+    }
 }

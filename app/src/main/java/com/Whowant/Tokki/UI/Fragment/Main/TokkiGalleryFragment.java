@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +13,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
-import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
-import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.cropper.CropImage;
 import com.Whowant.Tokki.Utils.cropper.CropImageView;
@@ -30,19 +27,18 @@ import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 
-import static android.app.Activity.RESULT_OK;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_BG;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_BG_CROP;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG_NAR;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER_IMG_MODIFY;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER_THUMB;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_FACE_IMG;
-import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE;
-import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY_THUMB;
-import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_BG_CROP;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_IMG_CROP;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY_THUMB;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE;
 
 public class TokkiGalleryFragment extends Fragment implements AdapterView.OnItemClickListener {
     private Context mContext;
@@ -67,6 +63,7 @@ public class TokkiGalleryFragment extends Fragment implements AdapterView.OnItem
     private boolean bEdit = false;
     private int     nOrder = -1;
     private int     nType = 0;
+    private boolean bInteraction = false;
 
     private Intent oldIntent;
 
@@ -90,11 +87,12 @@ public class TokkiGalleryFragment extends Fragment implements AdapterView.OnItem
         nType = getActivity().getIntent().getIntExtra("TYPE", 0);
         bEdit = getActivity().getIntent().getBooleanExtra("EDIT", false);
         nOrder = getActivity().getIntent().getIntExtra("ORDER", -1);
+        bInteraction = getActivity().getIntent().getBooleanExtra("INTERACTION", false);
 
-        oldIntent = getActivity().getIntent();
-        nType = oldIntent.getIntExtra("TYPE", 0);
+//        oldIntent = getActivity().getIntent();
+//        nType = oldIntent.getIntExtra("TYPE", 0);
 
-        int interaction = getArguments().getInt("Interaction");
+//        int interaction = getArguments().getInt("Interaction");
 
         imageList = new ArrayList<>();
         mAdapter = new MyAdapter(getActivity(), R.layout.image_row, imageList);
@@ -102,19 +100,6 @@ public class TokkiGalleryFragment extends Fragment implements AdapterView.OnItem
         getTokkiGalleryList();
         gridView.setAdapter(mAdapter);
 
-        if (interaction == 100) { // 인터랙션일 때
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String strUrl = CommonUtils.strDefaultUrl + "talk_image/" + imageList.get(position);
-                    Uri uri = Uri.parse(strUrl);
-
-                    oldIntent.putExtra("URI", uri.toString());
-                    getActivity().setResult(RESULT_OK, oldIntent);
-                    getActivity().finish();
-                }
-            });
-        } else { // 일반 작성창일 때
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -150,10 +135,12 @@ public class TokkiGalleryFragment extends Fragment implements AdapterView.OnItem
                         ThumbnailPreviewActivity.bEdit = bEdit;
                         ThumbnailPreviewActivity.nType = nType;
                         ThumbnailPreviewActivity.nOrder = nOrder;
+                        ThumbnailPreviewActivity.bInteraction = bInteraction;
                     } else if(nType == TYPE_BG.ordinal()) {
                         ThumbnailPreviewActivity.nNextType = TYPE_BG_CROP.ordinal();
                         ThumbnailPreviewActivity.bEdit = bEdit;
                         ThumbnailPreviewActivity.nOrder = nOrder;
+                        ThumbnailPreviewActivity.bInteraction = bInteraction;
                     }
 
                     cropImgBuilder.start(getActivity());
@@ -254,7 +241,6 @@ public class TokkiGalleryFragment extends Fragment implements AdapterView.OnItem
 //                    }
                 }
             });
-        }
         return inflaterView;
     }
 

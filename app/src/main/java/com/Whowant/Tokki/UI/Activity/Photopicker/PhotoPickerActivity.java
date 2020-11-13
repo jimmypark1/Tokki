@@ -51,6 +51,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
     private boolean bEdit = false;
     private int     nOrder = -1;
+    private boolean bInteraction = false;
 
     Uri sourceUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
     String thumb_IMAGE_ID = MediaStore.Images.Thumbnails._ID;
@@ -78,6 +79,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
         nType = getIntent().getIntExtra("TYPE", 0);
         bEdit = getIntent().getBooleanExtra("EDIT", false);
         nOrder = getIntent().getIntExtra("ORDER", -1);
+        bInteraction = getIntent().getBooleanExtra("INTERACTION", false);
     }
 
     public void onResume() {
@@ -160,10 +162,12 @@ public class PhotoPickerActivity extends AppCompatActivity {
                         ThumbnailPreviewActivity.bEdit = bEdit;
                         ThumbnailPreviewActivity.nType = nType;
                         ThumbnailPreviewActivity.nOrder = nOrder;
+                        ThumbnailPreviewActivity.bInteraction = bInteraction;
                     } else if(nType == TYPE_BG.ordinal()) {
                         ThumbnailPreviewActivity.nNextType = TYPE_BG_CROP.ordinal();
                         ThumbnailPreviewActivity.bEdit = bEdit;
                         ThumbnailPreviewActivity.nOrder = nOrder;
+                        ThumbnailPreviewActivity.bInteraction = bInteraction;
                     }
 
                     cropImgBuilder.start(PhotoPickerActivity.this);

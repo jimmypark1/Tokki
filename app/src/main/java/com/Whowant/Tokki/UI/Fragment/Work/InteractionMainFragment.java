@@ -20,7 +20,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,26 +40,19 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
-import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryInteractionActivity;
-import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
-import com.Whowant.Tokki.UI.Activity.Work.CreateCharacterActivity;
 import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.InteractionPhotoPickerActivity;
-import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
+import com.Whowant.Tokki.UI.Activity.Work.CreateCharacterActivity;
 import com.Whowant.Tokki.UI.Activity.Work.InteractionWriteActivity;
-import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.ViewerActivity;
 import com.Whowant.Tokki.UI.Popup.BGImageSelectPopup;
 import com.Whowant.Tokki.UI.Popup.DistractorPopup;
-import com.Whowant.Tokki.UI.Popup.InteractionBGSelectPopup;
-import com.Whowant.Tokki.UI.Popup.InteractionMediaSelectPopup;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
 import com.Whowant.Tokki.UI.Popup.SlangPopup;
 import com.Whowant.Tokki.UI.Popup.TextEditPopup;
@@ -100,6 +92,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG_NAR;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_VIDEO;
 
 public class InteractionMainFragment extends Fragment implements View.OnClickListener {                                         // 작성창 중 '분기' 가 설정 되어있을때 화면을 두개로 나눔. 그 중에 왼쪽 화면으로 기본적으로 작성창과 동일
@@ -171,6 +164,9 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -284,7 +280,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             .setPermissionListener(new PermissionListener() {
                                 @Override
                                 public void onPermissionGranted() {
-                                    Intent intent = new Intent(getActivity(), InteractionMediaSelectPopup.class);
+                                    Intent intent = new Intent(getActivity(), MediaSelectPopup.class);
+                                    intent.putExtra("INTERACTION", true);
                                     if(nType == ChatVO.TYPE_IMAGE) {
                                         intent.putExtra("TYPE", TYPE_CONTENTS_IMG.ordinal());
                                     } else {
@@ -331,6 +328,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                     Intent intent = new Intent(getActivity(), BGImageSelectPopup.class);
                                     intent.putExtra("EDIT", true);
                                     intent.putExtra("ORDER", finalPosition2);
+                                    intent.putExtra("INTERACTION", true);
                                     startActivityForResult(intent, 1000);
                                 }
 
@@ -361,6 +359,13 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             })
                             .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                             .check();
+                } else if(nType == ChatVO.TYPE_IMAGE_NAR) {                                                                         // 나레이션 이미지 라면 이미지 선택 화면으로 이동
+                    Intent intent = new Intent(getActivity(), MediaSelectPopup.class);
+                    intent.putExtra("TYPE", TYPE_CONTENTS_IMG_NAR.ordinal());
+                    intent.putExtra("EDIT", true);
+                    intent.putExtra("ORDER", position);
+                    intent.putExtra("INTERACTION", true);
+                    startActivity(intent);
                 }
 
                 return false;
@@ -820,7 +825,9 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             .setPermissionListener(new PermissionListener() {
                                 @Override
                                 public void onPermissionGranted() {
-                                    startActivityForResult(new Intent(getActivity(), InteractionBGSelectPopup.class), InteractionWriteActivity.BG_SELECT_POPUP);
+                                    Intent intent = new Intent(getActivity(), BGImageSelectPopup.class);
+                                    intent.putExtra("INTERACTION", true);
+                                    startActivityForResult(intent, InteractionWriteActivity.BG_SELECT_POPUP);
                                 }
 
                                 @Override
@@ -841,8 +848,17 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             .setPermissionListener(new PermissionListener() {
                                 @Override
                                 public void onPermissionGranted() {
-                                    Intent intent = new Intent(getActivity(), InteractionMediaSelectPopup.class);
-                                    startActivityForResult(intent, InteractionWriteActivity.MEDIA_SELECT_POPUP);
+                                    Intent intent = new Intent(getActivity(), MediaSelectPopup.class);
+//                                    startActivityForResult(intent, InteractionWriteActivity.MEDIA_SELECT_POPUP);
+                                    intent.putExtra("INTERACTION", true);
+                                    if(nSelectedCharacterIndex == 0)
+                                        intent.putExtra("TYPE", TYPE_CONTENTS_IMG_NAR.ordinal());
+                                    else
+                                        intent.putExtra("TYPE", TYPE_CONTENTS_IMG.ordinal());
+                                    intent.putExtra("ORDER", nAddIndex);
+                                    if(nEditIndex > -1)
+                                        intent.putExtra("EDIT", true);
+                                    startActivity(intent);
                                 }
 
                                 @Override
@@ -2692,5 +2708,144 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 });
             }
         }).start();
+    }
+
+    public void imageSetting(Intent intent) {
+        boolean bEdit = intent.getBooleanExtra("EDIT", false);
+        int     nOrder = intent.getIntExtra("ORDER", -1);
+        String imgUri = intent.getStringExtra("BG_URI");
+        if(imgUri != null) {                    // 배경 변경 이라면
+            String strFilePath = CommonUtils.getRealPathFromURI(getActivity(), Uri.parse(imgUri));
+            newFileList.add(strFilePath);
+
+            ChatVO chatVO = null;
+
+            if(bEdit) {
+                chatVO = chattingList.get(nOrder);
+            } else {
+                chatVO = new ChatVO();
+                if(nAddIndex > -1) {
+                    ChatVO currentVO = chattingList.get(nAddIndex);
+                    int nIndex = 0;
+
+                    if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                        nIndex = currentVO.getnOrder();
+                        chatVO.setnOrder(nIndex+1);
+                    }
+                } else {
+                    if(chattingList.size() == 0)
+                        chatVO.setnOrder(0);
+                    else {
+                        ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                        int nIndex = currentVO.getnOrder();
+                        chatVO.setnOrder(nIndex+1);
+                    }
+                }
+            }
+
+            chatVO.setType(ChatVO.TYPE_CHANGE_BG);
+            chatVO.setContentsUri(Uri.parse(imgUri));
+            chatVO.setStrContentsFile(CommonUtils.getRealPathFromURI(getActivity(), Uri.parse(imgUri)));
+
+            Glide.with(InteractionMainFragment.this)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .load(imgUri)
+                    .transition(BitmapTransitionOptions.withCrossFade(300))
+                    .into(bgView);
+
+            requestUploadMessage(chatVO, bEdit);
+
+            nEditIndex = -1;
+            nAddIndex = -1;
+            return;
+        }
+
+        imgUri = intent.getStringExtra("IMG_URI");
+        if(imgUri != null) {                                    // 일반 채팅 이미지 라면
+            int nType = intent.getIntExtra("TYPE", 0);
+            ChatVO chatVO = null;
+
+            if(bEdit) {
+                chatVO = chattingList.get(nOrder);
+            } else {
+                chatVO = new ChatVO();
+                if(nAddIndex > -1) {
+                    ChatVO currentVO = chattingList.get(nAddIndex);
+                    int nIndex = 0;
+
+                    if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                        nIndex = currentVO.getnOrder();
+                        chatVO.setnOrder(nIndex+1);
+                    }
+                } else {
+                    if(chattingList.size() == 0)
+                        chatVO.setnOrder(0);
+                    else {
+                        ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                        int nIndex = currentVO.getnOrder();
+                        chatVO.setnOrder(nIndex+1);
+                    }
+                }
+            }
+
+            if(nType == TYPE_CONTENTS_IMG.ordinal()) {
+                CharacterVO characterVO = characterList.get(nSelectedCharacterIndex);
+                chatVO.setCharacter(characterVO);
+                chatVO.setType(ChatVO.TYPE_IMAGE);
+            } else if(nType == TYPE_CONTENTS_IMG_NAR.ordinal()) {
+                chatVO.setType(ChatVO.TYPE_IMAGE_NAR);
+            }
+
+            chatVO.setContentsUri(Uri.parse(imgUri));
+            chatVO.setStrContentsFile(CommonUtils.getRealPathFromURI(getActivity(), Uri.parse(imgUri)));
+            requestUploadMessage(chatVO, bEdit);
+
+            nEditIndex = -1;
+            nAddIndex = -1;
+            return;
+        }
+
+        imgUri = intent.getStringExtra("VIDEO_URI");
+        if(imgUri != null) {
+            ChatVO chatVO = null;
+
+            if(bEdit) {
+                chatVO = chattingList.get(nOrder);
+            } else {
+                chatVO = new ChatVO();
+                if(nAddIndex > -1) {
+                    ChatVO currentVO = chattingList.get(nAddIndex);
+                    int nIndex = 0;
+
+                    if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                        nIndex = currentVO.getnOrder();
+                        chatVO.setnOrder(nIndex+1);
+                    }
+                } else {
+                    if(chattingList.size() == 0)
+                        chatVO.setnOrder(0);
+                    else {
+                        ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                        int nIndex = currentVO.getnOrder();
+                        chatVO.setnOrder(nIndex+1);
+                    }
+                }
+            }
+
+            CharacterVO characterVO = characterList.get(nSelectedCharacterIndex);
+            chatVO.setCharacter(characterVO);
+
+            chatVO.setType(ChatVO.TYPE_VIDEO);
+            chatVO.setContentsUri(Uri.parse(imgUri));
+            chatVO.setStrContentsFile(CommonUtils.getRealPathFromURI(getActivity(), Uri.parse(imgUri)));
+            requestUploadMessage(chatVO, bEdit);
+
+            nEditIndex = -1;
+            nAddIndex = -1;
+            return;
+        }
+
+        nEditIndex = -1;
+        nAddIndex = -1;
     }
 }

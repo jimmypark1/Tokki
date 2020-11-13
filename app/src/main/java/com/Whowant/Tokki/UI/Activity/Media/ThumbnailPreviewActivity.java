@@ -13,6 +13,7 @@ import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CreateCharacterActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CreateWorkActivity;
+import com.Whowant.Tokki.UI.Activity.Work.InteractionWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkEditActivity;
 import com.Whowant.Tokki.Utils.cropper.CropImageView;
@@ -37,6 +38,7 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
     public static int     nType;
     public static int     nOrder;
     private String resultUri = "";
+    public static boolean bInteraction = false;
 
 //    private OkHttpClient httpClient;
 
@@ -48,7 +50,7 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
         cropedImageView = (ImageView)findViewById(R.id.cropedImageView);
         resultUri = result.getUri().toString();
 
-        if(nNextType != TYPE_PROFILE.ordinal()) {
+        if (nNextType != TYPE_PROFILE.ordinal()) {
             Glide.with(this)
                     .asBitmap() // some .jpeg files are actually gif
                     .load(result.getUri())
@@ -65,7 +67,7 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveToNext();
+                finish();
             }
         });
 
@@ -80,31 +82,39 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
 
     private void moveToNext() {
         Intent intent = null;
-        if(nNextType == TYPE_PROFILE.ordinal()) {
+        if (nNextType == TYPE_PROFILE.ordinal()) {
             intent = new Intent(ThumbnailPreviewActivity.this, MainActivity.class);
             intent.putExtra("URI", resultUri);
-        } else if(nNextType == TYPE_COVER.ordinal()) {
+        } else if (nNextType == TYPE_COVER.ordinal()) {
             intent = new Intent(ThumbnailPreviewActivity.this, CreateWorkActivity.class);
             intent.putExtra("IMG_URI", resultUri);
-        } else if(nNextType == TYPE_COVER_THUMB.ordinal()) {
+        } else if (nNextType == TYPE_COVER_THUMB.ordinal()) {
             intent = new Intent(ThumbnailPreviewActivity.this, CreateWorkActivity.class);
             intent.putExtra("THUMBNAIL", true);
             intent.putExtra("IMG_URI", resultUri);
-        } else if(nNextType == TYPE_MODIFY.ordinal()) {
+        } else if (nNextType == TYPE_MODIFY.ordinal()) {
             intent = new Intent(ThumbnailPreviewActivity.this, WorkEditActivity.class);
             intent.putExtra("IMG_URI", resultUri);
-        } else if(nNextType == TYPE_MODIFY_THUMB.ordinal()) {
+        } else if (nNextType == TYPE_MODIFY_THUMB.ordinal()) {
             intent = new Intent(ThumbnailPreviewActivity.this, WorkEditActivity.class);
             intent.putExtra("THUMBNAIL", true);
             intent.putExtra("IMG_URI", resultUri);
-        }else if(nNextType == TYPE_IMG_CROP.ordinal()) {
-            intent = new Intent(ThumbnailPreviewActivity.this, LiteratureWriteActivity.class);
+        } else if (nNextType == TYPE_IMG_CROP.ordinal()) {
+            if (bInteraction) {
+                intent = new Intent(ThumbnailPreviewActivity.this, InteractionWriteActivity.class);
+            } else {
+                intent = new Intent(ThumbnailPreviewActivity.this, LiteratureWriteActivity.class);
+            }
             intent.putExtra("IMG_URI", resultUri.toString());
             intent.putExtra("EDIT", bEdit);
             intent.putExtra("TYPE", nType);
             intent.putExtra("ORDER", nOrder);
-        } else if(nNextType == TYPE_BG_CROP.ordinal()) {
-            intent = new Intent(ThumbnailPreviewActivity.this, LiteratureWriteActivity.class);
+        } else if (nNextType == TYPE_BG_CROP.ordinal()) {
+            if (bInteraction) {
+                intent = new Intent(ThumbnailPreviewActivity.this, InteractionWriteActivity.class);
+            } else {
+                intent = new Intent(ThumbnailPreviewActivity.this, LiteratureWriteActivity.class);
+            }
             intent.putExtra("BG_URI", resultUri.toString());
             intent.putExtra("EDIT", bEdit);
             intent.putExtra("ORDER", nOrder);
@@ -117,15 +127,15 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
         startActivity(intent);
 
         nNextType = -1;
+        bInteraction = false;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        bEdit = false;
-        nNextType = -1;
-        nType = -1;
-        nOrder = -1;
+//        bEdit = false;
+//        nType = -1;
+//        nOrder = -1;
     }
 }

@@ -1153,42 +1153,39 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         AlertDialog.Builder builder = new AlertDialog.Builder(LiteratureWriteActivity.this);
         builder.setTitle("회차 제출");
         builder.setMessage("회차를 제출하면 승인 대기 상태가 됩니다. 관리자가 회차를 승인한 이후부터 회차가 독자들에게 게시됩니다.\n회차를 제출하시겠습니까?");
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                mProgressDialog.setMessage("작품을 제출 중입니다.");
-                mProgressDialog.show();
+        builder.setPositiveButton("예", (dialog, id) -> {
+            mProgressDialog.setMessage("작품을 제출 중입니다.");
+            mProgressDialog.show();
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        JSONObject resultObject = HttpClient.requestEpisodeSubmit(new OkHttpClient(), nEpisodeID);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject resultObject = HttpClient.requestEpisodeSubmit(new OkHttpClient(), nEpisodeID);
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    mProgressDialog.dismiss();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                mProgressDialog.dismiss();
 
-                                    if(resultObject == null) {
-                                        Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
-                                        return;
-                                    }
-
-                                    if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                        Toast.makeText(LiteratureWriteActivity.this, "제출 되었습니다.", Toast.LENGTH_LONG).show();
-                                        finish();
-                                    } else {
-                                        Toast.makeText(LiteratureWriteActivity.this, "제출에 실패하였습니다.", Toast.LENGTH_LONG).show();
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                if(resultObject == null) {
+                                    Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
+                                    return;
                                 }
+
+                                if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                    Toast.makeText(LiteratureWriteActivity.this, "제출 되었습니다.", Toast.LENGTH_LONG).show();
+                                    finish();
+                                } else {
+                                    Toast.makeText(LiteratureWriteActivity.this, "제출에 실패하였습니다.", Toast.LENGTH_LONG).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        });
-                    }
-                }).start();
-            }
+                        }
+                    });
+                }
+            }).start();
         });
 
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
