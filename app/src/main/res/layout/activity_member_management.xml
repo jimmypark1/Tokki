@@ -1,93 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
     tools:context=".UI.Activity.Main.SearchActivity">
 
-    <RelativeLayout
-        android:id="@+id/topLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="84.3dp"
-        android:background="@color/colorWhite">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/backBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:padding="10dp"
-            android:background="@null"
-            android:src="@drawable/back_button"
-            android:onClick="onClickBackBtn"/>
+        <include layout="@layout/include_top_layout" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toRightOf="@+id/backBtn"
-            android:background="@drawable/popup_bg">
-
-            <ImageButton
-                android:id="@+id/searchBtn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:visibility="invisible"
-                android:background="@null"
-                android:src="@drawable/input_s_icon"
-                android:onClick="onClickSearchBtn"/>
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
 
             <EditText
                 android:id="@+id/inputSearchTextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="사용자 검색"
+                android:imeOptions="actionSearch"
+                android:lineSpacingExtra="3sp"
+                android:textColorHint="#cccccc"
+                android:textSize="17sp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClickSearchBtn"
+                android:src="@drawable/ic_i_search" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="84.3dp"
+            android:background="@color/colorWhite"
+            android:visibility="gone">
+
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:background="@null"
+                android:onClick="onClickBackBtn"
+                android:padding="10dp"
+                android:src="@drawable/back_button" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/searchBtn"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="10dp"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:background="@null"
-                android:hint="사용자 이름, 아이디 검색"
-                android:textSize="14sp"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toRightOf="@+id/backBtn"
+                android:background="@drawable/popup_bg">
+
+                <ImageButton
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:onClick="onClickSearchBtn"
+                    android:src="@drawable/input_s_icon"
+                    android:visibility="invisible" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:hint="사용자 이름, 아이디 검색"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:textSize="14sp" />
+            </RelativeLayout>
         </RelativeLayout>
-    </RelativeLayout>
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/topLayout"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:clipToPadding="false"
-        android:background="#f8f8f8"
-        android:dividerHeight="0dp"
-        android:divider="#00000000"/>
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/topLayout"
+            android:background="#f8f8f8"
+            android:clipToPadding="false"
+            android:divider="#00000000"
+            android:dividerHeight="0dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp" />
 
-    <TextView
-        android:id="@+id/emptyView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:textColor="@color/colorTextGray"
-        android:textSize="22sp"
-        android:visibility="gone"
-        android:text="검색 결과가 없습니다."/>
+        <TextView
+            android:id="@+id/emptyView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="검색 결과가 없습니다."
+            android:textColor="@color/colorTextGray"
+            android:textSize="22sp"
+            android:visibility="gone" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e8e8e8"
-        android:layout_below="@+id/topLayout"/>
-
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/topLayout"
+            android:background="#e8e8e8" />
+    </LinearLayout>
 </RelativeLayout>

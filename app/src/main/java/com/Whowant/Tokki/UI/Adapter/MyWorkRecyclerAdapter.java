@@ -30,7 +30,7 @@ public class MyWorkRecyclerAdapter extends RecyclerView.Adapter<MyWorkRecyclerAd
 
     @Override
     public MyWorkRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.my_work_card, null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.my_work_card, viewGroup, false);
         MyWorkRecyclerAdapter.ViewHolder mh = new MyWorkRecyclerAdapter.ViewHolder(v);
         return mh;
     }

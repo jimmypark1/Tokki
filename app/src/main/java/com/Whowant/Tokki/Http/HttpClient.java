@@ -11,6 +11,7 @@ import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.AlarmVO;
 import com.Whowant.Tokki.VO.BillingLogVO;
+import com.Whowant.Tokki.VO.BookListVo;
 import com.Whowant.Tokki.VO.CarrotVO;
 import com.Whowant.Tokki.VO.CharacterVO;
 import com.Whowant.Tokki.VO.ChatVO;
@@ -20,10 +21,14 @@ import com.Whowant.Tokki.VO.EpisodeVO;
 import com.Whowant.Tokki.VO.EventVO;
 import com.Whowant.Tokki.VO.MainCardVO;
 import com.Whowant.Tokki.VO.NoticeVO;
+import com.Whowant.Tokki.VO.TagVo;
 import com.Whowant.Tokki.VO.UserInfoVO;
 import com.Whowant.Tokki.VO.WaitingVO;
+import com.Whowant.Tokki.VO.WorkListVo;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.Whowant.Tokki.VO.WriterVO;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +39,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -44,6 +48,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class HttpClient {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -55,6 +60,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetAllWorkList")
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -94,6 +101,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetUsedCarrot&USER_ID=" + strUserID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -150,6 +159,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -204,6 +215,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -231,6 +244,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetAllWorkWithWriterID&USER_ID=" + strUserID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -274,6 +289,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -316,6 +333,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -357,6 +376,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetAllContestList")
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -417,6 +438,8 @@ public class HttpClient {
                     .post(requestBody)
                     .build();
 
+            httpClient = addNetworkInterceptor(httpClient);
+
             try (Response response = httpClient.newCall(request).execute()) {
                 if (response.code() != 200)
                     return false;
@@ -447,6 +470,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetSearchWorkList&SEARCH_KEYWORD=" + strKeyword + "&MODE=" + nMode)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -492,6 +517,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return 0;
@@ -519,6 +546,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetKeepWorkList&USER_ID=" + strUserID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -566,6 +595,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -611,6 +642,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetMyReadWorkList&USER_ID=" + strUserID + "&ORDER=" + strOrder)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -660,6 +693,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return;
@@ -674,6 +709,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=SendHitsWork&WORK_ID=" + strWorkID + "&EPISODE_ID=" + strEpisodeID + "&USER_ID=" + strUserID + "&LAST_ORDER=" + nLastOrder)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -691,6 +728,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetGenreList")
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -725,6 +764,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -758,6 +799,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -789,6 +832,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanApp.jsp?CMD=GetEventList")
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -833,6 +878,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanApp.jsp?CMD=GetNoticeList")
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -880,6 +927,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetReportsList")
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -929,6 +978,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -975,6 +1026,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanBookAdmin.jsp?CMD=GetAllUserList")
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -1060,6 +1113,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -1100,6 +1155,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanBookAdmin.jsp?CMD=GetSearchUserList&KEYWORD=" + strKeyword)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -1143,6 +1200,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetBestRanking")
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -1193,6 +1252,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -1242,6 +1303,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -1290,6 +1353,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetRecommandRanking")
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -1347,6 +1412,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -1379,6 +1446,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetAllRankingList")
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -1455,7 +1524,7 @@ public class HttpClient {
             MainCardVO bestRankingVO = new MainCardVO();
             ArrayList<WorkVO> bestWorkList = new ArrayList<>();
             bestRankingVO.setStrHeaderTitle("인기작");
-            bestRankingVO.setViewType(1);
+            bestRankingVO.setViewType(2);
 
             for (int i = 0; i < bestRankingJsonArray.length(); i++) {
                 JSONObject object = bestRankingJsonArray.getJSONObject(i);
@@ -1484,34 +1553,38 @@ public class HttpClient {
             bestRankingVO.setAllItemInCard(bestWorkList);
             mainCardList.add(bestRankingVO);
 
-//            JSONArray genreRankingJsonArray = resultObject.getJSONArray("GENRE_RANKING");
-//            MainCardVO genreRankingVO = new MainCardVO();
-//            ArrayList<WorkVO> genroWorkList = new ArrayList<>();
-//            genreRankingVO.setStrHeaderTitle("장르별 순위");
-//            genreRankingVO.setViewType(1);
-//
-//            for(int i = 0 ; i < genreRankingJsonArray.length() ; i++) {
-//                JSONObject object = genreRankingJsonArray.getJSONObject(i);
-//
-//                WorkVO workVO = new WorkVO();
-//                workVO.setWorkID(object.getInt("WORK_ID"));
-//                workVO.setCreatedDate(object.getString("CREATED_DATE"));
-//                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-//                workVO.setWriteID(object.getString("WRITER_ID"));
-//                workVO.setStrWriterName(object.getString("WRITER_NAME"));
-//                workVO.setTitle(object.getString("WORK_TITLE"));
-//                workVO.setCoverFile(object.getString("COVER_IMG"));
-//                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
-//                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
-//                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
-//                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
-//                workVO.setnTarget(object.getInt("TARGET"));
-//
-//                genroWorkList.add(workVO);
-//            }
-//
-//            genreRankingVO.setAllItemInCard(genroWorkList);
-//            mainCardList.add(genreRankingVO);
+            JSONArray genreRankingJsonArray = resultObject.getJSONArray("GENRE_RANKING");
+            MainCardVO genreRankingVO = new MainCardVO();
+            ArrayList<WorkVO> genroWorkList = new ArrayList<>();
+            genreRankingVO.setStrHeaderTitle("장르별 순위");
+            genreRankingVO.setViewType(2);
+
+            for (int i = 0; i < genreRankingJsonArray.length(); i++) {
+                JSONObject object = genreRankingJsonArray.getJSONObject(i);
+
+                WorkVO workVO = new WorkVO();
+                workVO.setWorkID(object.getInt("WORK_ID"));
+                workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                workVO.setWriteID(object.getString("WRITER_ID"));
+                workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                workVO.setTitle(object.getString("WORK_TITLE"));
+                workVO.setCoverFile(object.getString("COVER_IMG"));
+                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                workVO.setnTarget(object.getInt("TARGET"));
+
+                genroWorkList.add(workVO);
+            }
+
+            genreRankingVO.setAllItemInCard(genroWorkList);
+            mainCardList.add(genreRankingVO);
 
             /*
             {"NEW_WORK":["value", "value", "value"]}
@@ -1596,6 +1669,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -1637,6 +1712,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -1664,6 +1741,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetEpisodeChatData&EPISODE_ID=" + strEpisodeID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -1826,6 +1905,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return nResult;
@@ -1852,6 +1933,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=SetEpisodeInteraction&WORK_ID=" + nWorkID + "&USER_ID=" + strUserID + "&INTERACTION=" + nInteraction)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -1880,6 +1963,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetEpisodeChatDataWithInteraction&EPISODE_ID=" + strEpisodeID + "&INTERACTION=" + nInteractionNum)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2013,6 +2098,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -2039,6 +2126,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return 0;
@@ -2061,6 +2150,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestCreateEpisode&WORK_ID=" + strWorkID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2088,6 +2179,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetTagsWithID&WORK_ID=" + strWorkID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2118,6 +2211,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -2144,6 +2239,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetMyFollowerList&USER_ID=" + strMyID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         JSONObject resultObject = null;
 
@@ -2188,6 +2285,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         JSONObject resultObject = null;
 
         try (Response response = httpClient.newCall(request).execute()) {
@@ -2231,6 +2330,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -2255,6 +2356,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetMyFollowInfo&USER_ID=" + strMyID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2281,6 +2384,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -2305,6 +2410,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanBookAdmin.jsp?CMD=GetWaitingWorkList&USER_ID=" + strUserID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2348,6 +2455,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -2390,6 +2499,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -2413,6 +2524,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWorkWithID&WORK_ID=" + strWorkID + "&USER_ID=" + strUserID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2510,6 +2623,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWriterWorkWithID&WORK_ID=" + strWorkID + "&USER_ID=" + strUserID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2614,6 +2729,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -2694,6 +2811,8 @@ public class HttpClient {
                     .post(requestBody)
                     .build();
 
+            httpClient = addNetworkInterceptor(httpClient);
+
             try (Response response = httpClient.newCall(request).execute()) {
                 if (response.code() != 200)
                     return false;
@@ -2733,6 +2852,8 @@ public class HttpClient {
                     .post(requestBody)
                     .build();
 
+            httpClient = addNetworkInterceptor(httpClient);
+
             try (Response response = httpClient.newCall(request).execute()) {
                 if (response.code() != 200)
                     return false;
@@ -2771,6 +2892,8 @@ public class HttpClient {
                     .post(requestBody)
                     .build();
 
+            httpClient = addNetworkInterceptor(httpClient);
+
             try (Response response = httpClient.newCall(request).execute()) {
                 if (response.code() != 200)
                     return null;
@@ -2797,6 +2920,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWriterList")
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2838,6 +2963,8 @@ public class HttpClient {
                 .post(requestBody)
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -2866,6 +2993,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanbookSocialLogin.jsp")
                 .post(requestBody)
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2908,6 +3037,8 @@ public class HttpClient {
                 .post(requestBody)
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -2930,10 +3061,14 @@ public class HttpClient {
                 .addFormDataPart("USER_NAME", strWriterName)
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWriter.jsp")
                 .post(requestBody)
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2956,6 +3091,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestDeleteRead&WORK_ID=" + nWorkID + "&USER_ID=" + strUserID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2983,6 +3120,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -3008,6 +3147,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanBookAdmin.jsp?CMD=RequestWorkAprove&ADMIN_ID=" + strAdminID + "&EPISODE_ID=" + nEpisodeID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3035,6 +3176,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return "FAIL";
@@ -3058,6 +3201,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -3080,6 +3225,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -3101,6 +3248,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestDeleteInteraction&EPISODE_ID=" + nEpisodeID + "&CHAT_ID=" + nChatID + "&ORDER_NO=" + nOrder)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3131,6 +3280,8 @@ public class HttpClient {
                     .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=SendRecommendCode&USER_ID=" + strUserID + "&RECOMMEND_CODE=" + strRecommendCode)
                     .get()
                     .build();
+
+            httpClient = addNetworkInterceptor(httpClient);
 
             try (Response response = httpClient.newCall(request).execute()) {
                 if (response.code() != 200)
@@ -3180,6 +3331,8 @@ public class HttpClient {
                     .post(requestBody)
                     .build();
 
+            httpClient = addNetworkInterceptor(httpClient);
+
             try (Response response = httpClient.newCall(request).execute()) {
                 if (response.code() != 200)
                     return false;
@@ -3210,6 +3363,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetPurchaseLog&USER_ID=" + strUserID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3261,6 +3416,8 @@ public class HttpClient {
                     .post(requestBody)
                     .build();
 
+            httpClient = addNetworkInterceptor(httpClient);
+
             try (Response response = httpClient.newCall(request).execute()) {
                 if (response.code() != 200)
                     return false;
@@ -3290,6 +3447,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -3315,6 +3474,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "AuthNum.jsp?EMAIL=" + strUserEmail + "&AUTH_NUM=" + strAuthNum)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3342,6 +3503,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -3365,6 +3528,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWorkEpisodeComment&WORK_ID=" + nWorkID + "&ORDER=" + nOrder + "&USER_ID=" + strUserID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3390,6 +3555,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -3412,6 +3579,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWriterChat&WRITER_ID=" + strWriterID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3436,6 +3605,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetChatComment&CHAT_ID=" + nChatID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3466,6 +3637,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -3493,6 +3666,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetAlarmList&USER_ID=" + strUserID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3532,6 +3707,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -3554,6 +3731,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -3575,6 +3754,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=DeleteWriterChat&COMMENT_ID=" + nCommentID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3602,6 +3783,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -3627,6 +3810,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestReleseLikeComment&COMMENT_ID=" + nCommentID + "&USER_ID=" + strUserID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3654,6 +3839,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -3679,6 +3866,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RemoveReport&COMMENT_ID=" + nCommentID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3706,6 +3895,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -3727,6 +3918,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestDeleteAllCharacter&EPISODE_ID=" + nEpisodeID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3754,6 +3947,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -3776,6 +3971,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=CheckInteraction&USER_ID=" + strUserID + "&WORK_ID=" + nWorkID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3800,6 +3997,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestCommentReport&USER_ID=" + strUserID + "&COMMENT_ID=" + nCommentID + "&REASON=" + strReason)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3828,6 +4027,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestEpisodeReport&USER_ID=" + strUserID + "&EPISODE_ID=" + nEpisodeID + "&REASON=" + strReason)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3867,6 +4068,8 @@ public class HttpClient {
                     .post(requestBody)
                     .build();
 
+            httpClient = addNetworkInterceptor(httpClient);
+
             try (Response response = httpClient.newCall(request).execute()) {
                 if (response.code() != 200)
                     return false;
@@ -3891,6 +4094,8 @@ public class HttpClient {
 //                .url(CommonUtils.strDefaultUrl + "PanBookAdmin.jsp?CMD=RequestWorkAproveCancel&ADMIN_ID=" + strAdminID + "&EPISODE_ID=" + nEpisodeID + "&REASON=" + strReason)
 //                .get()
 //                .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 //
 //        try (Response response = httpClient.newCall(request).execute()) {
 //            if (response.code() != 200)
@@ -3916,6 +4121,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -3940,6 +4147,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -3961,6 +4170,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=UnKeep&USER_ID=" + strUserID + "&WORK_ID=" + strWorkID)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -3984,6 +4195,8 @@ public class HttpClient {
                 .header("Authorization", strTokenType + " " + strToken)
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -4094,6 +4307,8 @@ public class HttpClient {
                 .post(requestBody)
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -4126,6 +4341,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "PanbookUserProfile.jsp")
                 .post(requestBody)
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -4160,6 +4377,8 @@ public class HttpClient {
                 .post(requestBody)
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -4185,6 +4404,8 @@ public class HttpClient {
                 .url(CommonUtils.strDefaultUrl + "ForbiddenWords.jsp")
                 .get()
                 .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -4216,6 +4437,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -4231,5 +4454,233 @@ public class HttpClient {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static OkHttpClient addNetworkInterceptor(OkHttpClient okHttpClient) {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        return okHttpClient.newBuilder().addNetworkInterceptor(interceptor).build();
+    }
+
+    public static boolean CreateReadingList(OkHttpClient httpClient, String strUserID, String readingName) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=CreateReadingList&USER_ID=" + strUserID + "&READING_NAME=" + readingName)
+                .get()
+                .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // 태그 검색
+    public static ArrayList<TagVo> getTagInfo(OkHttpClient httpClient, String tagName) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiTag.jsp?CMD=GetTagInfo&TAG_NAME=" + tagName)
+                .get()
+                .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return new ArrayList<>();
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            ArrayList<TagVo> list = new Gson().fromJson(resultJsonObject.getJSONArray("READING_LIST").toString(), new TypeToken<ArrayList<TagVo>>() {
+            }.getType());
+
+            return list;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+    // 태그 목록 추가
+    public static boolean addTag(OkHttpClient httpClient, String tagName) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiTag.jsp?CMD=AddTag&TAG_NAME=" + tagName)
+                .get()
+                .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // 독서 목록
+    public static ArrayList<BookListVo> getReadingList(OkHttpClient httpClient, String userId) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=GetReadingList&USER_ID=" + userId)
+                .get()
+                .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return new ArrayList<>();
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+
+            ArrayList<BookListVo> list = new Gson().fromJson(resultJsonObject.getJSONArray("READING_LIST").toString(), new TypeToken<ArrayList<BookListVo>>() {
+            }.getType());
+
+            return list;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+    // 독서 목록 상세
+    public static ArrayList<WorkListVo> getReadingListDetail(OkHttpClient httpClient, String readingId) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=GetReadingListDetail&READING_ID=" + readingId)
+                .get()
+                .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return new ArrayList<>();
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            ArrayList<WorkListVo> list = new Gson().fromJson(resultJsonObject.getJSONArray("WORK_LIST").toString(), new TypeToken<ArrayList<WorkListVo>>() {
+            }.getType());
+
+            return list;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+    // 독서 목록 이름 변경
+    public static boolean renameReadingList(OkHttpClient httpClient, String readingId, String readingName) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=RenameReadingList&READING_ID=" + readingId + "&READING_NAME=" + readingName)
+                .get()
+                .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // 독서 목록 이름 변경
+    public static boolean dropReadingList(OkHttpClient httpClient, String userId, String readingId) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=DropReadingList&USER_ID=" + userId + "&READING_ID=" + readingId)
+                .get()
+                .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // 독서 목록에 작품 추가
+    public static boolean addReadingList(OkHttpClient httpClient, String workId, String readingId) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=AddReadingList&WORK_ID=" + workId + "&READING_ID=" + readingId)
+                .get()
+                .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

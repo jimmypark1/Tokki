@@ -1,11 +1,5 @@
 package com.Whowant.Tokki.UI.Activity.Work;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,15 +24,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Rank.RankActivity;
+import com.Whowant.Tokki.UI.Activity.Report.ReportActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterMainActivity;
+import com.Whowant.Tokki.UI.Activity.Writer.WriterPageActivity;
 import com.Whowant.Tokki.UI.Custom.FlowLayout;
 import com.Whowant.Tokki.UI.Popup.CarrotDoneActivity;
 import com.Whowant.Tokki.UI.Popup.EpisodeAproveCancelPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
+import com.Whowant.Tokki.Utils.DialogMenu;
 import com.Whowant.Tokki.VO.EpisodeVO;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.bumptech.glide.Glide;
@@ -48,6 +52,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,28 +78,69 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
     private int nInteractionID = -1;
     private int nLastIndex = -1;                    // 마지막으로 봤던 에피소드의 인덱스값
     private String strBtnTitle = "무료로 첫화보기";
-//    private ActionBar actionBar;
+    //    private ActionBar actionBar;
     private boolean bModify = false;
     private boolean bDesc = false;
     private TextView titleView, carrotCountView;
     private Button showBtn;
     private Toast toast;
 
+    // [S] winhmoon
+    int[] levelRes = new int[]{
+            R.drawable.ic_i_level_1, R.drawable.ic_i_level_2, R.drawable.ic_i_level_3, R.drawable.ic_i_level_4, R.drawable.ic_i_level_5,
+            R.drawable.ic_i_level_6, R.drawable.ic_i_level_7, R.drawable.ic_i_level_8, R.drawable.ic_i_level_9, R.drawable.ic_i_level_10
+    };
+
+    String[] levelName = new String[]{
+            "LV.1", "LV.2", "LV.3", "LV.4", "LV.5", "LV.6", "LV.7", "LV.8", "LV.9", "LV.10",
+    };
+
+    private int nLevel = 1;                                                                 // 당근 갯수에 따라 레벨 결정
+    // [E] winhmoon
+
+    Activity mActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_main);
 
+        mActivity = this;
+
         Thread.UncaughtExceptionHandler handler = Thread
                 .getDefaultUncaughtExceptionHandler();
+
+        findViewById(R.id.ib_top_layout_back).setVisibility(View.VISIBLE);
+        findViewById(R.id.ib_top_layout_back).setOnClickListener((v) -> finish());
+
+        findViewById(R.id.ib_top_layout_dot).setVisibility(View.VISIBLE);
+        findViewById(R.id.ib_top_layout_dot).setOnClickListener((v) -> {
+            DialogMenu dialogMenu = new DialogMenu();
+            // 신고서 버튼 : 내용, 저작권
+            dialogMenu.showMenu(mActivity, "신고서 버튼", R.array.REPORT_MENU, new DialogMenu.ItemClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int pos) {
+                    Intent intent = new Intent(mActivity, ReportActivity.class);
+
+                    if (pos == 0) {
+                        intent.putExtra("title", "내용 신고");
+                    } else {
+                        intent.putExtra("title", "저작권 신고");
+                    }
+
+                    startActivity(intent);
+                }
+            });
+        });
 
         ImageButton leftBtn = findViewById(R.id.leftBtn);
         ImageButton rightBtn = findViewById(R.id.rightBtn);
         leftBtn.setImageResource(R.drawable.back_button);
-        rightBtn.setVisibility(View.GONE);
+        rightBtn.setImageResource(R.drawable.dot_menu);
         ImageView cenverLogoView = findViewById(R.id.cenverLogoView);
         cenverLogoView.setVisibility(View.INVISIBLE);
-        titleView = findViewById(R.id.titleView);
+//        titleView = findViewById(R.id.titleView);
+        titleView = findViewById(R.id.tv_top_layout_title);
         showBtn = findViewById(R.id.showBtn);
         carrotCountView = findViewById(R.id.carrotCountView);
 //        titleView.setText(workVO.getTitle());
@@ -216,7 +262,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(resultObject == null) {
+                        if (resultObject == null) {
                             CommonUtils.makeText(WorkMainActivity.this, "서버와의 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
                             return;
                         }
@@ -234,6 +280,30 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
         finish();
     }
 
+    public void onClickTopRightBtn(View view) {
+        showMenus();
+    }
+
+    public void showMenus() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("신고하기");
+
+        builder.setItems(getResources().getStringArray(R.array.REPORT_MENU), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int pos) {
+                switch (pos) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                }
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
     private void requestUnKeepWork() {
         CommonUtils.showProgressDialog(WorkMainActivity.this, "구독을 취소 중입니다.");
 
@@ -247,7 +317,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(resultObject == null) {
+                        if (resultObject == null) {
                             CommonUtils.makeText(WorkMainActivity.this, "서버와의 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
                             return;
                         }
@@ -262,7 +332,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void onClickCarrotBtn(View view) {
-        if(workVO.getnWriterID().equals(pref.getString("USER_ID", "Guest"))) {
+        if (workVO.getnWriterID().equals(pref.getString("USER_ID", "Guest"))) {
             CommonUtils.makeText(this, "내 작품에는 후원 하실수 없습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -280,7 +350,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 JSONObject resultObject = HttpClient.isKeepWork(new OkHttpClient(), pref.getString("USER_ID", "Guest"), "" + nWorkID);
 
                 try {
-                    if(resultObject == null) {
+                    if (resultObject == null) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -291,14 +361,14 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         return;
                     }
 
-                    if(resultObject.getString("RESULT").equals("SUCCESS"))
+                    if (resultObject.getString("RESULT").equals("SUCCESS"))
                         bKeep = true;
 
-                    if(resultObject.has("INTERACTION_EPISODE"))
+                    if (resultObject.has("INTERACTION_EPISODE"))
                         nInteractionID = resultObject.getInt("INTERACTION_EPISODE");
-                    if(resultObject.has("LAST"))
+                    if (resultObject.has("LAST"))
                         nLastEpisodeID = resultObject.getInt("LAST");
-                    if(resultObject.has("LAST_ORDER"))
+                    if (resultObject.has("LAST_ORDER"))
                         nLastOrder = resultObject.getInt("LAST_ORDER");
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -326,22 +396,22 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(resultObject == null) {
+                        if (resultObject == null) {
                             CommonUtils.hideProgressDialog();
                             CommonUtils.makeText(WorkMainActivity.this, "작품 정보를 가져오는데 실패했습니다.", Toast.LENGTH_LONG).show();
                             return;
                         }
-                        if(tagList.size() == 0) {
+                        if (tagList.size() == 0) {
                             try {
                                 JSONArray tagArray = resultObject.getJSONArray("TAG_LIST");
                                 JSONArray genreArray = resultObject.getJSONArray("GENRE_LIST");
 
-                                for(int i = 0 ; i < tagArray.length() ; i++) {
+                                for (int i = 0; i < tagArray.length(); i++) {
                                     JSONObject object = tagArray.getJSONObject(i);
                                     tagList.add(object.getString("TAG_TITLE"));
                                 }
 
-                                for(int i = 0 ; i < genreArray.length() ; i++) {
+                                for (int i = 0; i < genreArray.length(); i++) {
                                     JSONObject object = genreArray.getJSONObject(i);
                                     genreList.add(object.getString("GENRE_NAME"));
                                 }
@@ -363,7 +433,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
             public void run() {
                 workVO = HttpClient.getWorkWithID(new OkHttpClient(), "" + nWorkID, pref.getString("USER_ID", "Guest"), bDesc);
 
-                if(workVO == null) {
+                if (workVO == null) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -374,7 +444,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 
                     return;
                 }
-                if(workVO.getnWriterID().equals(pref.getString("USER_ID", "Guest"))) {
+                if (workVO.getnWriterID().equals(pref.getString("USER_ID", "Guest"))) {
                     bModify = true;
                 }
 
@@ -391,7 +461,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         int nEpisodeCount = 0;
                         boolean bComplete = false;
 
-                        if(workVO.getEpisodeList() != null) {
+                        if (workVO.getEpisodeList() != null) {
                             nEpisodeCount = workVO.getEpisodeList().size();
                             bComplete = workVO.isbComplete();
                         }
@@ -404,11 +474,11 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         String strEpisodeCount = "총 " + nEpisodeCount + "화 / " + (bComplete == true ? "완결" : "미완결") + "";
                         showingList.add(strEpisodeCount);
 
-                        for(int i = 0 ; i < nEpisodeCount ; i++) {
-                            if(nLastEpisodeID > -1) {
+                        for (int i = 0; i < nEpisodeCount; i++) {
+                            if (nLastEpisodeID > -1) {
                                 EpisodeVO vo = workVO.getEpisodeList().get(i);
 
-                                if(nLastEpisodeID == vo.getnEpisodeID() && CommonUtils.bLocinCheck(pref)) {
+                                if (nLastEpisodeID == vo.getnEpisodeID() && CommonUtils.bLocinCheck(pref)) {
                                     nLastIndex = i;
                                     strBtnTitle = (nLastIndex + 1) + "화 이어보기";
                                 }
@@ -419,7 +489,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 
                         CommonUtils.hideProgressDialog();
 
-                        if(bFisrt)
+                        if (bFisrt)
                             bFisrt = false;
 
                         titleView.setText(workVO.getTitle());
@@ -431,16 +501,16 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         showBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if(workVO.getEpisodeList().size() == 0) {
+                                if (workVO.getEpisodeList().size() == 0) {
                                     CommonUtils.makeText(WorkMainActivity.this, "작품이 없습니다.", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 
-                                if(nLastIndex == -1) {
+                                if (nLastIndex == -1) {
                                     int nIndex = 0;
 
                                     EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
-                                    if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+                                    if (nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
                                         checkInteractionSelect(nIndex);
                                         return;
                                     }
@@ -458,7 +528,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                     int nIndex = nLastIndex;
 
                                     EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
-                                    if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+                                    if (nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
                                         checkInteractionSelect(nIndex);
                                         return;
                                     }
@@ -484,8 +554,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if(position < 5) {
-            if(position == 1) {
+        if (position < 5) {
+            if (position == 1) {
 //                Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
 //                ViewerActivity.workVO = workVO;
 //                intent.putExtra("EPISODE_INDEX", nIndex);
@@ -496,14 +566,14 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 
         int nIndex = position - 5;
 
-        if(nIndex >= 2 && !CommonUtils.bLocinCheck(pref)) {
+        if (nIndex >= 2 && !CommonUtils.bLocinCheck(pref)) {
             CommonUtils.makeText(WorkMainActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(WorkMainActivity.this, LoginSelectActivity.class));
             return;
         }
 
         EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
-        if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+        if (nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
             checkInteractionSelect(nIndex);
             return;
         }
@@ -527,7 +597,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(!bResult) {
+                        if (!bResult) {
                             CommonUtils.makeText(WorkMainActivity.this, "분기를 선택하지 않으셨습니다.  작품의 분기를 선택해주세요.", Toast.LENGTH_LONG).show();
                             return;
                         } else {
@@ -556,7 +626,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(bResult) {
+                        if (bResult) {
                             CommonUtils.makeText(WorkMainActivity.this, "게시 승인 되었습니다.", Toast.LENGTH_SHORT).show();
                             getKeepData();
                         } else {
@@ -581,10 +651,10 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(strResult.equals("SUCCESS")) {
+                        if (strResult.equals("SUCCESS")) {
                             CommonUtils.makeText(WorkMainActivity.this, "회차가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                             getKeepData();
-                        } else if(strResult.equals("INTERACTION")) {
+                        } else if (strResult.equals("INTERACTION")) {
                             CommonUtils.makeText(WorkMainActivity.this, "해당 회차에 인터렉션이 설정되어 있습니다. 인터렉션을 먼저 삭제해 주세요.", Toast.LENGTH_SHORT).show();
                         } else {
                             CommonUtils.makeText(WorkMainActivity.this, "회차 삭제를 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -595,7 +665,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
         }).start();
     }
 
-    public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkViewHolder>{
+    public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkViewHolder> {
         private ArrayList<String> itemsList;
         private Activity mContext;
 
@@ -608,17 +678,17 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
         public WorkViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
             View v = null;
 
-            if(position == 0) {
+            if (position == 0) {
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_main_image_row, viewGroup, false);
-            } else if(position == 1) {
+            } else if (position == 1) {
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_main_title_row, viewGroup, false);
-            } else if(position == 2) {
+            } else if (position == 2) {
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_main_synopsis_row, viewGroup, false);
-            } else if(position == 3) {
+            } else if (position == 3) {
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_main_tag_row, viewGroup, false);
-            } else if(position == 4) {
+            } else if (position == 4) {
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_main_order_row, viewGroup, false);
-            } else if(position > 4) {
+            } else if (position > 4) {
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_read_episode_row, viewGroup, false);
             }
 
@@ -628,21 +698,21 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 
         @Override
         public void onBindViewHolder(WorkViewHolder holder, int position) {
-            if(position == 0) {
+            if (position == 0) {
                 ImageView coverImgView = holder.itemView.findViewById(R.id.coverImgView);
                 ImageButton shareBtn = holder.itemView.findViewById(R.id.shareBtn);
-                ImageButton subscribeBtn = holder.itemView.findViewById(R.id.heartBtn);
+                ImageView subscribeBtn = holder.itemView.findViewById(R.id.heartBtn);
                 String strImgUrl = workVO.getCoverFile();
                 coverImgView.setClipToOutline(true);
 
-                if(strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
+                if (strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
                     Glide.with(WorkMainActivity.this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(R.drawable.no_poster)
                             .apply(new RequestOptions().centerCrop())
                             .into(coverImgView);
                 } else {
-                    if(!strImgUrl.startsWith("http")) {
+                    if (!strImgUrl.startsWith("http")) {
                         strImgUrl = CommonUtils.strDefaultUrl + "images/" + strImgUrl;
                     }
 
@@ -669,10 +739,12 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     }
                 });
 
-                if(bKeep) {
-                    subscribeBtn.setBackgroundResource(R.drawable.full_heart_button);
+                if (bKeep) {
+//                    subscribeBtn.setBackgroundResource(R.drawable.full_heart_button);
+                    subscribeBtn.setColorFilter(Color.parseColor("#ff0000"));
                 } else {
-                    subscribeBtn.setBackgroundResource(R.drawable.empty_heart);
+                    subscribeBtn.setColorFilter(Color.parseColor("#000000"));
+//                    subscribeBtn.setBackgroundResource(R.drawable.empty_heart);
                 }
 
                 subscribeBtn.setOnClickListener(new View.OnClickListener() {
@@ -680,20 +752,20 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     public void onClick(View view) {
                         boolean bLogin = CommonUtils.bLocinCheck(pref);
 
-                        if(!bLogin) {
+                        if (!bLogin) {
                             CommonUtils.makeText(WorkMainActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(WorkMainActivity.this, LoginSelectActivity.class));
                             return;
                         }
 
-                        if(bKeep) {
+                        if (bKeep) {
                             requestUnKeepWork();
                         } else {
                             requestKeepWork();
                         }
                     }
                 });
-            } else if(position == 1) {
+            } else if (position == 1) {
                 holder.itemView.setEnabled(false);
                 TextView titleView = holder.itemView.findViewById(R.id.titleView);
                 TextView writerNameView = holder.itemView.findViewById(R.id.writerNameView);
@@ -710,6 +782,47 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 RelativeLayout smallLv10View = holder.itemView.findViewById(R.id.smallLv10View);
                 TextView smallLvView = holder.itemView.findViewById(R.id.smallLvView);
 
+                // [S] winhmoon
+                TextView carrotTv = holder.itemView.findViewById(R.id.tv_carrot);
+                carrotTv.setText(new DecimalFormat("###,###").format(workVO.getnDonationCarrot()) + " 개");
+
+                ImageView profilePhotoIv = holder.itemView.findViewById(R.id.iv_profile_photo);
+                profilePhotoIv.setClipToOutline(true);
+                String writerPhoto = workVO.getStrWriterPhoto();
+                if (writerPhoto != null && !writerPhoto.equals("null") && !writerPhoto.equals("NULL") && writerPhoto.length() > 0) {
+                    if (!writerPhoto.startsWith("http"))
+                        writerPhoto = CommonUtils.strDefaultUrl + "images/" + writerPhoto;
+
+                    Glide.with(WorkMainActivity.this)
+                            .asBitmap() // some .jpeg files are actually gif
+                            .load(writerPhoto)
+                            .placeholder(R.drawable.user_icon)
+                            .apply(new RequestOptions().circleCrop())
+                            .into(profilePhotoIv);
+                } else {
+                    Glide.with(WorkMainActivity.this)
+                            .asBitmap() // some .jpeg files are actually gif
+                            .load(R.drawable.user_icon)
+                            .apply(new RequestOptions().circleCrop())
+                            .into(profilePhotoIv);
+                }
+
+                nLevel = CommonUtils.getLevel(workVO.getnDonationCarrot());
+
+                ImageView levelIv = holder.itemView.findViewById(R.id.iv_level);
+                levelIv.setImageResource(levelRes[nLevel - 1]);
+
+                TextView levelTv = holder.itemView.findViewById(R.id.tv_level);
+                levelTv.setText(levelName[nLevel - 1]);
+
+                holder.itemView.findViewById(R.id.rl_writer_name).setOnClickListener((v) -> {
+                    Intent intent = new Intent(mActivity, WriterPageActivity.class);
+                    intent.putExtra("writerId", workVO.getnWriterID());
+                    startActivity(intent);
+                });
+
+                // [E] winhmoon
+
                 LinearLayout pointLayout = holder.itemView.findViewById(R.id.pointLayout);
                 pointLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -721,8 +834,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 });
 
                 String strPhoto = workVO.getStrWriterPhoto();
-                if(strPhoto != null && !strPhoto.equals("null") && !strPhoto.equals("NULL") && strPhoto.length() > 0) {
-                    if(!strPhoto.startsWith("http"))
+                if (strPhoto != null && !strPhoto.equals("null") && !strPhoto.equals("NULL") && strPhoto.length() > 0) {
+                    if (!strPhoto.startsWith("http"))
                         strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
 
                     Glide.with(WorkMainActivity.this)
@@ -763,7 +876,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 smallLv10View.setVisibility(View.GONE);
                 int nLevel = CommonUtils.getLevel(workVO.getnDonationCarrot());
 
-                switch(nLevel) {
+                switch (nLevel) {
                     case 1:
                         levelBGView.setBackgroundResource(R.drawable.lv1_bg);
                         smallLvView.setBackgroundResource(R.drawable.lv1_bg);
@@ -830,11 +943,78 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 TextView synopsisView = holder.itemView.findViewById(R.id.synopsisView);
                 synopsisView.setText(workVO.getSynopsis());
 
+                // [S] winhmoon
+                holder.itemView.findViewById(R.id.ll_work_main_rank).setOnClickListener((v) -> startActivity(new Intent(WorkMainActivity.this, RankActivity.class)));
+                TextView summary = holder.itemView.findViewById(R.id.tv_synopsis_row_summary);
+                summary.setText(workVO.getSynopsis());
+
+                TextView genre = holder.itemView.findViewById(R.id.tv_synopsis_row_genre);
+                StringBuffer gerneBuffer = new StringBuffer();
+                for (int i = 0; i < genreList.size(); i++) {
+                    if (i != 0) {
+                        gerneBuffer.append("/");
+                    }
+                    gerneBuffer.append(genreList.get(i));
+                }
+                genre.setText(gerneBuffer.toString());
+
+                TextView tag = holder.itemView.findViewById(R.id.tv_synopsis_row_tag);
+                StringBuffer tagBuffer = new StringBuffer();
+                for (int i = 0; i < tagList.size(); i++) {
+                    if (i != 0) {
+                        tagBuffer.append(" ");
+                    }
+                    tagBuffer.append(tagList.get(i));
+                }
+                tag.setText(tagBuffer.toString());
+
+                LinearLayout readShowLl = holder.itemView.findViewById(R.id.ll_read_show);
+                readShowLl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (workVO.getEpisodeList().size() == 0) {
+                            CommonUtils.makeText(WorkMainActivity.this, "작품이 없습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (nLastIndex == -1) {
+                            int nIndex = 0;
+
+                            EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
+                            if (nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+                                checkInteractionSelect(nIndex);
+                                return;
+                            }
+
+                            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
+                            ViewerActivity.workVO = workVO;
+                            intent.putExtra("EPISODE_INDEX", nIndex);
+                            startActivity(intent);
+                        } else {
+                            int nIndex = nLastIndex;
+
+                            EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
+                            if (nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+                                checkInteractionSelect(nIndex);
+                                return;
+                            }
+
+                            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
+                            ViewerActivity.workVO = workVO;
+                            intent.putExtra("EPISODE_INDEX", nIndex);
+                            intent.putExtra("LAST_ORDER", nLastOrder);
+                            startActivity(intent);
+                        }
+                    }
+                });
+                // [E] winhmoon
+
                 FlowLayout genreLayout = holder.itemView.findViewById(R.id.genreLayout);
                 genreLayout.removeAllViews();
                 int nIndex = 0;
-                for(String strTag : genreList) {
-                    if(nIndex > 0) {
+                for (String strTag : genreList) {
+                    if (nIndex > 0) {
                         TextView tv = new TextView(WorkMainActivity.this);
                         tv.setText(" / ");
                         tv.setTextColor(Color.parseColor("#d1d1d1"));
@@ -856,7 +1036,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 
                 FlowLayout tagLayout = holder.itemView.findViewById(R.id.taglayout);
                 tagLayout.removeAllViews();
-                for(String strTag : tagList) {
+                for (String strTag : tagList) {
                     strTag = strTag.replaceAll("\\n", "");
                     strTag = strTag.replaceAll("\\r", "");
                     TextView tv = new TextView(WorkMainActivity.this);
@@ -869,10 +1049,10 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     tv.setLayoutParams(params);
                     tagLayout.addView(tv);
                 }
-            } else if(position == 3) {
+            } else if (position == 3) {
                 TextView carrotView = holder.itemView.findViewById(R.id.carrotCountView);
                 carrotView.setText(CommonUtils.comma(workVO.getnDonationCarrot()));
-            } else if(position == 4) {
+            } else if (position == 4) {
                 TextView episodeCountView = holder.itemView.findViewById(R.id.episodeCountView);
                 episodeCountView.setText(showingList.get(position));
 
@@ -884,7 +1064,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         popup.getMenuInflater().inflate(R.menu.work_new_menu, popup.getMenu());
                         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             public boolean onMenuItemClick(MenuItem item) {
-                                switch(item.getItemId()) {
+                                switch (item.getItemId()) {
                                     case R.id.asc_order:
                                         getWorkData(true);
                                         break;
@@ -899,7 +1079,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         popup.show();//showing popup menu
                     }
                 });
-            } else if(position > 4) {
+            } else if (position > 4) {
                 int nIndex = position - 5;
                 EpisodeVO vo = workVO.getEpisodeList().get(nIndex);
 
@@ -918,8 +1098,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 String strTitle = vo.getStrTitle();
                 String[] titleArr = strTitle.split("화 ");
 
-                if(titleArr.length >= 2) {
-                    if(titleArr[0].length() <= 4) {
+                if (titleArr.length >= 2) {
+                    if (titleArr[0].length() <= 4) {
                         String strIndex = titleArr[0] + "화";
                         SpannableStringBuilder sb = new SpannableStringBuilder();
                         sb.append(strTitle);
@@ -935,7 +1115,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 
                 ImageView menuBtn = holder.itemView.findViewById(R.id.menuBtn);
 
-                if(pref.getString("ADMIN", "N").equals("N")) {
+                if (pref.getString("ADMIN", "N").equals("N")) {
                     chatCountLayout.setVisibility(View.GONE);
 
 
@@ -953,7 +1133,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                     AlertDialog.Builder builder = new AlertDialog.Builder(WorkMainActivity.this);
                                     AlertDialog alertDialog = null;
 
-                                    switch(item.getItemId()) {
+                                    switch (item.getItemId()) {
                                         case R.id.comment:
                                             intent = new Intent(WorkMainActivity.this, EpisodeCommentActivity.class);
                                             intent.putExtra("EPISODE_ID", vo.getnEpisodeID());
@@ -991,21 +1171,21 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     });
                 } else {
                     chatCountLayout.setVisibility(View.VISIBLE);
-                    if(pref.getString("ADMIN", "N").equals("Y")) {
+                    if (pref.getString("ADMIN", "N").equals("Y")) {
                         postAvailableView.setVisibility(View.VISIBLE);
-                        if(vo.getStrSubmit().equals("N")) {
+                        if (vo.getStrSubmit().equals("N")) {
                             postAvailableView.setText("제출대기");
                             postAvailableView.setTextColor(Color.parseColor("#d1d1d1"));
                             postAvailableView.setBackgroundResource(R.drawable.badge_writing);
-                        } else if(vo.getStrSubmit().equals("W")) {
+                        } else if (vo.getStrSubmit().equals("W")) {
                             postAvailableView.setText("승인대기");
                             postAvailableView.setTextColor(Color.parseColor("#ff5700"));
                             postAvailableView.setBackgroundResource(R.drawable.badge_waiting);
-                        } else if(vo.getStrSubmit().equals("Y")) {
+                        } else if (vo.getStrSubmit().equals("Y")) {
                             postAvailableView.setText("게시중");
                             postAvailableView.setTextColor(Color.parseColor("#6c8fff"));
                             postAvailableView.setBackgroundResource(R.drawable.badge_complete);
-                        } else if(vo.getStrSubmit().equals("F")) {
+                        } else if (vo.getStrSubmit().equals("F")) {
                             postAvailableView.setText("승인거절");
                             postAvailableView.setTextColor(Color.parseColor("#000000"));
                             postAvailableView.setBackgroundResource(R.drawable.badge_deny);
@@ -1020,7 +1200,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         public void onClick(View view) {
                             PopupMenu popup = new PopupMenu(WorkMainActivity.this, menuBtn);
 
-                            if(pref.getString("ADMIN", "N").equals("Y")) {
+                            if (pref.getString("ADMIN", "N").equals("Y")) {
                                 popup.getMenuInflater().inflate(R.menu.work_write_list_admin_menu, popup.getMenu());
                             } else
                                 popup.getMenuInflater().inflate(R.menu.work_write_list_menu, popup.getMenu());
@@ -1031,18 +1211,18 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                     AlertDialog.Builder builder = new AlertDialog.Builder(WorkMainActivity.this);
                                     AlertDialog alertDialog = null;
 
-                                    switch(item.getItemId()) {
+                                    switch (item.getItemId()) {
                                         case R.id.delete:
                                             builder.setTitle("작품 삭제");
                                             builder.setMessage("작품을 정말로 삭제하시겠습니까?");
-                                            builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
+                                            builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int id) {
                                                     requestDeleteEpisode(vo.getnEpisodeID());
                                                 }
                                             });
 
-                                            builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                                            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int id) {
                                                 }
@@ -1057,24 +1237,24 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                             startActivity(intent);
                                             break;
                                         case R.id.aprove:
-                                            if(vo.getStrSubmit().equals("N")) {
+                                            if (vo.getStrSubmit().equals("N")) {
                                                 CommonUtils.makeText(WorkMainActivity.this, "아직 작품이 제출되지 않았습니다.", Toast.LENGTH_SHORT).show();
                                                 return true;
-                                            } else if(vo.getStrSubmit().equals("Y")) {
+                                            } else if (vo.getStrSubmit().equals("Y")) {
                                                 CommonUtils.makeText(WorkMainActivity.this, "이미 게시된 작품입니다.", Toast.LENGTH_SHORT).show();
                                                 return true;
                                             }
 
                                             builder.setTitle("작품 게시 승인");
                                             builder.setMessage("작품을 게시 상태로 전환하시겠습니까?");
-                                            builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
+                                            builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int id) {
                                                     requestWorkAprove(vo.getnEpisodeID());
                                                 }
                                             });
 
-                                            builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                                            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int id) {
                                                 }
@@ -1084,7 +1264,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                             alertDialog.show();
                                             break;
                                         case R.id.cancel:
-                                            if(vo.getStrSubmit().equals("N")) {
+                                            if (vo.getStrSubmit().equals("N")) {
                                                 CommonUtils.makeText(WorkMainActivity.this, "아직 작품이 제출되지 않았습니다.", Toast.LENGTH_SHORT).show();
                                                 return true;
                                             }
@@ -1124,11 +1304,11 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     @Override
                     public void onClick(View v) {
                         int nPosition = getAdapterPosition();
-                        if(nPosition > 4) {
+                        if (nPosition > 4) {
                             int nIndex = nPosition - 5;
 
                             EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
-                            if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+                            if (nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
                                 checkInteractionSelect(nIndex);
                                 return;
                             }

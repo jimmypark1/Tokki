@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:id="@+id/iv_row_my_page_following_photo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/circle_cccccc" />
+
+        <TextView
+            android:id="@+id/tv_row_my_page_following_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:lineSpacingExtra="5sp"
+            android:text="박"
+            android:textColor="#222222"
+            android:textSize="15sp"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            android:id="@+id/ll_row_my_page_following_following"
+            android:layout_width="52dp"
+            android:layout_height="40dp"
+            android:background="#fff"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_i_follow" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_row_my_page_following_follower"
+            android:layout_width="52dp"
+            android:layout_height="40dp"
+            android:background="@drawable/round_4_5a9aff"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_i_follow_white" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -33,7 +33,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -49,17 +48,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Popup.BGImageSelectPopup;
 import com.Whowant.Tokki.UI.Popup.ChangeTitlePopup;
-import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.UI.Popup.DistractorPopup;
 import com.Whowant.Tokki.UI.Popup.LegalNoticePopup;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
@@ -126,7 +122,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private ConstraintLayout bottomSettingLayout;                                                                                                       // 하단 메뉴 Layout
     private EditText inputTextView;
     private InputMethodManager imm;
-    private ImageButton contentsAddBtn;
+    private LinearLayout contentsAddBtn;
     private ListView chattingListView;                                                                                                                  // 대화가 보여지는 ListView
     private CChattingArrayAdapter aa;
 
@@ -136,7 +132,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private LinearLayout distractorView;
     private LinearLayout soundSettingView;
 
-    private int    nBgColor;
+    private int nBgColor;
     private String bgColor;
     private boolean bColorPicker = false;
 
@@ -159,7 +155,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private ImageView oldPlayBtn;                       // 한개만 재생시키기 위해 다른 영상을 클릭하면 전 영상을 멈추기 위해 버튼 객체 저장
     private ProgressBar oldPB;
     private boolean bSubmit = false;                    // 회차가 제출(심사요청) 되었는지 여부
-    private Button sendBtn;
+    private TextView sendBtn;
 
     private float fX, fY;                               // 롱클릭 등을 위해 터치 좌표 저장
 
@@ -173,7 +169,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_write_renewal_layout);
 
         strTitle = getIntent().getStringExtra("EPISODE_TITLE");
-        if(getIntent().getStringExtra("SUBMIT").equals("Y")) {
+        if (getIntent().getStringExtra("SUBMIT").equals("Y")) {
             bSubmit = true;
         } else {
             bSubmit = false;
@@ -182,7 +178,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         isExcelUploaded = getIntent().getBooleanExtra("EXCEL_UPLOADED", false);
         ImageButton submitBtn = findViewById(R.id.submitBtn);
 
-        if(isExcelUploaded) {
+        if (isExcelUploaded) {
             submitBtn.setBackgroundResource(R.drawable.send_button);
         } else {
             submitBtn.setBackgroundResource(R.drawable.post_botton);
@@ -207,7 +203,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         nEpisodeID = getIntent().getIntExtra("EPISODE_ID", -1);
         nInteractionIndex = getIntent().getIntExtra("EPISODE_INDEX", -1);
         titleView.setText(strTitle);
-        episodeNumView.setText((nInteractionIndex+1) + "화");
+        episodeNumView.setText((nInteractionIndex + 1) + "화");
         characterList = new ArrayList<>();
         nameList = new ArrayList<>();
         characterViewList = new ArrayList<>();
@@ -245,11 +241,13 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(inputTextView.getText().toString().length() > 0) {
-                    sendBtn.setBackgroundResource(R.drawable.common_btn_bg);
+                if (inputTextView.getText().toString().length() > 0) {
+//                    sendBtn.setBackgroundResource(R.drawable.common_btn_bg);
+                    sendBtn.setTextColor(Color.parseColor("#5a9aff"));
                     sendBtn.setEnabled(true);
                 } else {
-                    sendBtn.setBackgroundResource(R.drawable.common_btn_disable_bg);
+//                    sendBtn.setBackgroundResource(R.drawable.common_btn_disable_bg);
+                    sendBtn.setTextColor(Color.parseColor("#cccccc"));
                     sendBtn.setEnabled(false);
                 }
             }
@@ -262,7 +260,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
         resetCharacterLayout();
 
-        if(nKeyboard != 2)
+        if (nKeyboard != 2)
             setKeyboardEvent();
 
         chattingList = new ArrayList<>();
@@ -274,17 +272,17 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 nEditIndex = position;
                 ChatVO vo = chattingList.get(position);
                 int nType = vo.getType();
-                if(nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_NARRATION) {                                               // 일반 텍스트 채팅 혹은 나레이션 이라면 문구 수정창
+                if (nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_NARRATION) {                                               // 일반 텍스트 채팅 혹은 나레이션 이라면 문구 수정창
                     Intent intent = new Intent(LiteratureWriteActivity.this, TextEditPopup.class);
                     intent.putExtra("TEXT", vo.getContents());
                     intent.putExtra("ORDER", position);
                     startActivityForResult(intent, 1050);
-                } else if(nType == ChatVO.TYPE_IMAGE || nType == ChatVO.TYPE_VIDEO) {
+                } else if (nType == ChatVO.TYPE_IMAGE || nType == ChatVO.TYPE_VIDEO) {
                     TedPermission.with(LiteratureWriteActivity.this).setPermissionListener(new PermissionListener() {   // 이미지 혹은 영상이라면 퍼미션 확인 후 이미지/영상 선택 화면으로
                         @Override
                         public void onPermissionGranted() {
                             Intent intent = new Intent(LiteratureWriteActivity.this, MediaSelectPopup.class);
-                            if(nType == ChatVO.TYPE_IMAGE)
+                            if (nType == ChatVO.TYPE_IMAGE)
                                 intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG);
                             else
                                 intent.putExtra("TYPE", PhotoPickerActivity.TYPE_VIDEO);
@@ -299,9 +297,9 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             Toast.makeText(LiteratureWriteActivity.this, "권한을 허용해주셔야 사진 설정이 가능합니다.", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    .check();
-                } else if(nType == ChatVO.TYPE_SOUND) {                                                                             // 음원파일 이라면 퍼미션 확인 후 음원파일 선택 화면으로
+                            .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            .check();
+                } else if (nType == ChatVO.TYPE_SOUND) {                                                                             // 음원파일 이라면 퍼미션 확인 후 음원파일 선택 화면으로
                     TedPermission.with(LiteratureWriteActivity.this)
                             .setPermissionListener(new PermissionListener() {
                                 @Override
@@ -318,18 +316,18 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             })
                             .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                             .check();
-                } else if(nType == ChatVO.TYPE_CHANGE_BG || nType == ChatVO.TYPE_CHANGE_BG_COLOR) {                                 // 배경화면 변경이라면 해당 화면으로 이동
+                } else if (nType == ChatVO.TYPE_CHANGE_BG || nType == ChatVO.TYPE_CHANGE_BG_COLOR) {                                 // 배경화면 변경이라면 해당 화면으로 이동
                     Intent intent = new Intent(LiteratureWriteActivity.this, BGImageSelectPopup.class);
                     intent.putExtra("EDIT", true);
                     intent.putExtra("ORDER", position);
                     startActivityForResult(intent, 1000);
-                } else if(nType == ChatVO.TYPE_DISTRACTOR) {                                                                        // 분기 부분이라면 분기 팝업 호출
+                } else if (nType == ChatVO.TYPE_DISTRACTOR) {                                                                        // 분기 부분이라면 분기 팝업 호출
                     Intent intent = new Intent(LiteratureWriteActivity.this, DistractorPopup.class);
                     intent.putExtra("EDIT", true);
                     intent.putExtra("ORDER", position);
                     intent.putExtra("TEXT", vo.getContents());
                     startActivityForResult(intent, 1025);
-                } else if(nType == ChatVO.TYPE_IMAGE_NAR) {                                                                         // 나레이션 이미지 라면 이미지 선택 화면으로 이동
+                } else if (nType == ChatVO.TYPE_IMAGE_NAR) {                                                                         // 나레이션 이미지 라면 이미지 선택 화면으로 이동
                     Intent intent = new Intent(LiteratureWriteActivity.this, MediaSelectPopup.class);
                     intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG_NAR);
                     intent.putExtra("EDIT", true);
@@ -347,9 +345,9 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         distractorView.setOnClickListener(this);
         soundSettingView.setOnClickListener(this);
 
-        if(nInteractionIndex > -1) {                                                        // 이게 있다면 분기 설정된 회차이므로 분기 작성 화면으로 이동
+        if (nInteractionIndex > -1) {                                                        // 이게 있다면 분기 설정된 회차이므로 분기 작성 화면으로 이동
             EpisodeVO episodeVO = workVO.getEpisodeList().get(nInteractionIndex);
-            if(episodeVO.getIsDistractor() == true) {
+            if (episodeVO.getIsDistractor() == true) {
                 Intent intent = new Intent(LiteratureWriteActivity.this, InteractionWriteActivity.class);
                 InteractionWriteActivity.workVO = workVO;
                 intent.putExtra("TITLE", strTitle);
@@ -361,7 +359,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             }
         }
 
-        if(nEpisodeID > -1) {
+        if (nEpisodeID > -1) {
             getCharacterData();
         }
 
@@ -373,7 +371,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 CommonUtils.showProgressDialog(LiteratureWriteActivity.this, "서버와 통신중입니다. 잠시만 기다려주세요.");
 
                 String strFobiddenWords = CommonUtils.checkForbiddenWords(strContents);
-                if(strFobiddenWords.length() > 0) {
+                if (strFobiddenWords.length() > 0) {
                     CommonUtils.hideProgressDialog();
                     Intent intent = new Intent(LiteratureWriteActivity.this, SlangPopup.class);
                     intent.putExtra("SLANG", strFobiddenWords);
@@ -384,14 +382,14 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
                 CommonUtils.hideProgressDialog();
 
-                if(strContents.length() == 0) {
+                if (strContents.length() == 0) {
                     Toast.makeText(LiteratureWriteActivity.this, "내용을 입력하세요.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 ChatVO chatVO = new ChatVO();
 
-                if(nSelectedCharacterIndex == 0) {                   // 나레이션
+                if (nSelectedCharacterIndex == 0) {                   // 나레이션
                     chatVO.setType(ChatVO.TYPE_NARRATION);
                 } else {                                             // 사람이 선택돼있을 경우
                     chatVO.setType(ChatVO.TYPE_TEXT);
@@ -399,24 +397,24 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     chatVO.setCharacter(characterVO);
                 }
 
-                if(nEditIndex > -1) {
+                if (nEditIndex > -1) {
                     chatVO = chattingList.get(nEditIndex);
                 } else {
-                    if(nAddIndex > -1) {
+                    if (nAddIndex > -1) {
                         ChatVO currentVO = chattingList.get(nAddIndex);
                         int nIndex = 0;
 
-                        if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                        if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                             nIndex = currentVO.getnOrder();
-                            chatVO.setnOrder(nIndex+1);
+                            chatVO.setnOrder(nIndex + 1);
                         }
                     } else {
-                        if(chattingList.size() == 0)
+                        if (chattingList.size() == 0)
                             chatVO.setnOrder(0);
                         else {
-                            ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                            ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                             int nIndex = currentVO.getnOrder();
-                            chatVO.setnOrder(nIndex+1);
+                            chatVO.setnOrder(nIndex + 1);
                         }
                     }
                 }
@@ -426,10 +424,10 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             }
         });
 
-        if(bSubmit) {
+        if (bSubmit) {
             AlertDialog.Builder builder = new AlertDialog.Builder(LiteratureWriteActivity.this);
             builder.setMessage("이미 게시된 작품입니다. 게시된 작품을 수정하시면 게시 취소가 되어 다시 제출하셔야 합니다.");
-            builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
                 }
@@ -439,20 +437,19 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             alertDialog.show();
         }
 
-        chattingListView.setOnTouchListener(new View.OnTouchListener()
-        {
+        chattingListView.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     fX = motionEvent.getX();
                     fY = motionEvent.getY();
-                } else if(motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
                     float fEndX = motionEvent.getX();
                     float fEndY = motionEvent.getY();
 
-                    if(fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
+                    if (fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
                         return false;
                     } else {
                         imm.hideSoftInputFromWindow(inputTextView.getWindowToken(), 0);
@@ -470,17 +467,16 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {           // BT 키보드 접속됨
+        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {           // BT 키보드 접속됨
             removeKeyboardEvent();
-        }
-        else if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {     // BT 키보드 해제됨
+        } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {     // BT 키보드 해제됨
             setKeyboardEvent();
         }
     }
 
     private void setKeyboardEvent() {
         hideBottomView();
-        viewGroup = (ViewGroup) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0);
+        viewGroup = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
         softKeyboard = new SoftKeyboard(viewGroup, imm);
         softKeyboard.setSoftKeyboardCallback(new SoftKeyboard.SoftKeyboardChanged() {
             @Override
@@ -511,9 +507,9 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onBackPressed() {
-        if(bShowMenu) {
+        if (bShowMenu) {
             bottomSettingLayout.setVisibility(View.GONE);
-            contentsAddBtn.setImageResource(R.drawable.selectionplus);
+//            contentsAddBtn.setImageResource(R.drawable.selectionplus);
             bShowMenu = false;
             return;
         }
@@ -526,7 +522,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     }
 
     public void onClickSubmitBtn(View view) {
-        if(isExcelUploaded) {
+        if (isExcelUploaded) {
             requestEpisodeSubmit();
         } else {
             requestEpisodePost();
@@ -541,22 +537,22 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = null;
 
-                switch(item.getItemId()) {
+                switch (item.getItemId()) {
                     case R.id.action_btn2:
-                        if(chattingList.size() > 1) {
+                        if (chattingList.size() > 1) {
                             Toast.makeText(LiteratureWriteActivity.this, "입력된 내용이 없어야만 엑셀 파일을 로딩할 수 있습니다.", Toast.LENGTH_LONG).show();
                             return true;
-                        } else if(characterList.size() > 1) {
+                        } else if (characterList.size() > 1) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(LiteratureWriteActivity.this);
                             builder.setMessage("이미 저장된 등장인물이 있습니다. 엑셀 파일을 로딩하면 저장된 등장인물은 모두 삭제됩니다.\n정말 엑셀파일을 로딩하시겠습니까?");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     filePermission();
                                 }
                             });
 
-                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                 }
@@ -582,14 +578,14 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         AlertDialog.Builder builder = new AlertDialog.Builder(LiteratureWriteActivity.this);
                         builder.setTitle("회차 삭제");
                         builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
-                        builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
+                        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 requestDeleteAllMessage();
                             }
                         });
 
-                        builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                             }
@@ -612,34 +608,34 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         setIntent(intent);
 
         boolean bEdit = getIntent().getBooleanExtra("EDIT", false);
-        int     nOrder = getIntent().getIntExtra("ORDER", -1);
+        int nOrder = getIntent().getIntExtra("ORDER", -1);
 
         String imgUri = intent.getStringExtra("BG_URI");
-        if(imgUri != null) {                    // 배경 변경 이라면
+        if (imgUri != null) {                    // 배경 변경 이라면
             String strFilePath = CommonUtils.getRealPathFromURI(LiteratureWriteActivity.this, Uri.parse(imgUri));
             newFileList.add(strFilePath);
 
             ChatVO chatVO = null;
 
-            if(bEdit) {
+            if (bEdit) {
                 chatVO = chattingList.get(nEditIndex);
             } else {
                 chatVO = new ChatVO();
-                if(nAddIndex > -1) {
+                if (nAddIndex > -1) {
                     ChatVO currentVO = chattingList.get(nAddIndex);
                     int nIndex = 0;
 
-                    if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                    if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                         nIndex = currentVO.getnOrder();
-                        chatVO.setnOrder(nIndex+1);
+                        chatVO.setnOrder(nIndex + 1);
                     }
                 } else {
-                    if(chattingList.size() == 0)
+                    if (chattingList.size() == 0)
                         chatVO.setnOrder(0);
                     else {
-                        ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                        ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                         int nIndex = currentVO.getnOrder();
-                        chatVO.setnOrder(nIndex+1);
+                        chatVO.setnOrder(nIndex + 1);
                     }
                 }
             }
@@ -662,38 +658,38 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         }
 
         imgUri = intent.getStringExtra("IMG_URI");
-        if(imgUri != null) {                                    // 일반 채팅 이미지 라면
+        if (imgUri != null) {                                    // 일반 채팅 이미지 라면
             int nType = intent.getIntExtra("TYPE", 0);
             ChatVO chatVO = null;
 
-            if(bEdit) {
+            if (bEdit) {
                 chatVO = chattingList.get(nEditIndex);
             } else {
                 chatVO = new ChatVO();
-                if(nAddIndex > -1) {
+                if (nAddIndex > -1) {
                     ChatVO currentVO = chattingList.get(nAddIndex);
                     int nIndex = 0;
 
-                    if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                    if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                         nIndex = currentVO.getnOrder();
-                        chatVO.setnOrder(nIndex+1);
+                        chatVO.setnOrder(nIndex + 1);
                     }
                 } else {
-                    if(chattingList.size() == 0)
+                    if (chattingList.size() == 0)
                         chatVO.setnOrder(0);
                     else {
-                        ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                        ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                         int nIndex = currentVO.getnOrder();
-                        chatVO.setnOrder(nIndex+1);
+                        chatVO.setnOrder(nIndex + 1);
                     }
                 }
             }
 
-            if(nType == PhotoPickerActivity.TYPE_CONTENTS_IMG) {
+            if (nType == PhotoPickerActivity.TYPE_CONTENTS_IMG) {
                 CharacterVO characterVO = characterList.get(nSelectedCharacterIndex);
                 chatVO.setCharacter(characterVO);
                 chatVO.setType(ChatVO.TYPE_IMAGE);
-            } else if(nType == PhotoPickerActivity.TYPE_CONTENTS_IMG_NAR) {
+            } else if (nType == PhotoPickerActivity.TYPE_CONTENTS_IMG_NAR) {
                 chatVO.setType(ChatVO.TYPE_IMAGE_NAR);
             }
 
@@ -707,28 +703,28 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         }
 
         imgUri = intent.getStringExtra("VIDEO_URI");
-        if(imgUri != null) {
+        if (imgUri != null) {
             ChatVO chatVO = null;
 
-            if(bEdit) {
+            if (bEdit) {
                 chatVO = chattingList.get(nEditIndex);
             } else {
                 chatVO = new ChatVO();
-                if(nAddIndex > -1) {
+                if (nAddIndex > -1) {
                     ChatVO currentVO = chattingList.get(nAddIndex);
                     int nIndex = 0;
 
-                    if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                    if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                         nIndex = currentVO.getnOrder();
-                        chatVO.setnOrder(nIndex+1);
+                        chatVO.setnOrder(nIndex + 1);
                     }
                 } else {
-                    if(chattingList.size() == 0)
+                    if (chattingList.size() == 0)
                         chatVO.setnOrder(0);
                     else {
-                        ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                        ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                         int nIndex = currentVO.getnOrder();
-                        chatVO.setnOrder(nIndex+1);
+                        chatVO.setnOrder(nIndex + 1);
                     }
                 }
             }
@@ -754,7 +750,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     protected void onResume() {
         super.onResume();
 
-        if(bColorPicker) {
+        if (bColorPicker) {
             bColorPicker = false;
             ColorPickerDialog.newBuilder()
                     .setDialogType(ColorPickerDialog.TYPE_PRESETS)
@@ -770,7 +766,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     public void onPause() {
         super.onPause();
 
-        if(mediaPlayer != null && mediaPlayer.isPlaying()) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer = null;
             timer.cancel();
@@ -808,9 +804,9 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     }
 
     private void requestUploadMessage(final ChatVO chatVO, final boolean bEdit) {
-        if(!bEdit)
+        if (!bEdit)
             nEditIndex = -1;
-        if(mediaPlayer != null && mediaPlayer.isPlaying()) {                // 영상 등 재생하는 부분이 있다면 올스톱
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {                // 영상 등 재생하는 부분이 있다면 올스톱
             mediaPlayer.stop();
             oldPlayBtn.setImageResource(R.drawable.talk_play1);
             oldPlayBtn = null;
@@ -832,16 +828,16 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
             JSONObject sendObject = new JSONObject();
 
-            if(nEpisodeID > -1)
+            if (nEpisodeID > -1)
                 sendObject.put("EPISODE_ID", nEpisodeID);
 
-            if(nAddIndex > -1) {                                // 사이에 끼워넣기
+            if (nAddIndex > -1) {                                // 사이에 끼워넣기
                 sendObject.put("CHAT_INTERCEPT", true);
             } else {
                 sendObject.put("CHAT_INTERCEPT", false);
             }
 
-            if(bEdit)                                           // 수정
+            if (bEdit)                                           // 수정
                 sendObject.put("CHAT_MODIFY", true);
             else
                 sendObject.put("CHAT_MODIFY", false);
@@ -853,24 +849,24 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             chatObject.put("EPISODE_ID", nEpisodeID);
             chatObject.put("CHAT_TYPE", nType);
 
-            if(chatVO.getCharacterVO() != null)
+            if (chatVO.getCharacterVO() != null)
                 chatObject.put("CHARACTER_ID", chatVO.getCharacterVO().getnCharacterID());
 
             chatObject.put("CHAT_ORDER", chatVO.getnOrder());
 
-            if(nType == 1 || nType == 2 || nType == 7) {
+            if (nType == 1 || nType == 2 || nType == 7) {
                 chatObject.put("CHAT_CONTENTS", chatVO.getContents());
-            } else if(nType == 3 || nType == 4 || nType == 5 || nType == 8 || nType == 11) {           // 파일일 경우 파일 명만 보내야함
+            } else if (nType == 3 || nType == 4 || nType == 5 || nType == 8 || nType == 11) {           // 파일일 경우 파일 명만 보내야함
                 String strPath = chatVO.getStrContentsFile();
 
-                if(strPath == null || strPath.length() == 0) {
-                    if(chatVO.getContentsUri() != null)
+                if (strPath == null || strPath.length() == 0) {
+                    if (chatVO.getContentsUri() != null)
                         chatObject.put("CHAT_CONTENTS", chatVO.getContentsUri().toString());
                 } else {
-                    String filename = strPath.substring(strPath.lastIndexOf("/")+1);
+                    String filename = strPath.substring(strPath.lastIndexOf("/") + 1);
                     chatObject.put("CHAT_CONTENTS", filename);
                 }
-            } else if(nType == 6) {
+            } else if (nType == 6) {
                 chatObject.put("CHAT_CONTENTS", chatVO.getStrContentsFile());
             }
 
@@ -880,11 +876,11 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             MultipartBody.Builder builder = new MultipartBody.Builder();
             builder.setType(MultipartBody.FORM).addFormDataPart("JSON_BODY", sendObject.toString());
 
-            if(nType == 3 || nType == 4 || nType == 5 || nType == 8 || nType == 11) {
+            if (nType == 3 || nType == 4 || nType == 5 || nType == 8 || nType == 11) {
                 String strPath = chatVO.getStrContentsFile();
-                if(strPath != null && strPath.length() > 0) {
+                if (strPath != null && strPath.length() > 0) {
                     sourceFile = new File(strPath);
-                    String filename = strPath.substring(strPath.lastIndexOf("/")+1);
+                    String filename = strPath.substring(strPath.lastIndexOf("/") + 1);
                     builder.addFormDataPart(filename, filename, RequestBody.create(MultipartBody.FORM, sourceFile));
                 }
             }
@@ -916,7 +912,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    if(response.code() != 200) {
+                    if (response.code() != 200) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -938,8 +934,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             try {
                                 JSONObject resultObject = new JSONObject(strResult);
 
-                                if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                    if(resultObject.has("CHAT_ID")) {
+                                if (resultObject.getString("RESULT").equals("SUCCESS")) {
+                                    if (resultObject.has("CHAT_ID")) {
                                         int nChatID = resultObject.getInt("CHAT_ID");
                                         chatVO.setnChatID(nChatID);
                                     }
@@ -953,7 +949,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
                                     inputTextView.setText("");
 
-                                    if(chatVO.getType() == ChatVO.TYPE_DISTRACTOR) {                // 분기 설정 했음. 페이지 이동
+                                    if (chatVO.getType() == ChatVO.TYPE_DISTRACTOR) {                // 분기 설정 했음. 페이지 이동
                                         Intent intent = new Intent(LiteratureWriteActivity.this, InteractionWriteActivity.class);
                                         InteractionWriteActivity.workVO = workVO;
                                         intent.putExtra("TITLE", strTitle);
@@ -1007,7 +1003,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         try {
                             mProgressDialog.dismiss();
 
-                            if(resultObject != null && resultObject.getString("RESULT").equals("SUCCESS")) {
+                            if (resultObject != null && resultObject.getString("RESULT").equals("SUCCESS")) {
                                 characterList.remove(nIndex);
                                 resetCharacterLayout();
                                 Toast.makeText(LiteratureWriteActivity.this, "삭제되었습니다.", Toast.LENGTH_LONG).show();
@@ -1038,7 +1034,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         try {
                             mProgressDialog.dismiss();
 
-                            if(resultObject != null && resultObject.getString("RESULT").equals("SUCCESS")) {
+                            if (resultObject != null && resultObject.getString("RESULT").equals("SUCCESS")) {
                                 bgView.setBackgroundResource(0);
                                 bgView.setImageBitmap(null);
                                 bgView.setBackgroundColor(getResources().getColor(R.color.colorDefaultBG));
@@ -1068,7 +1064,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if(nIndex >= chattingList.size()) {
+                if (nIndex >= chattingList.size()) {
                     return;
                 }
 
@@ -1081,13 +1077,13 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         try {
                             mProgressDialog.dismiss();
 
-                            if(vo.getType() == ChatVO.TYPE_CHANGE_BG || vo.getType() == ChatVO.TYPE_CHANGE_BG_COLOR) {
+                            if (vo.getType() == ChatVO.TYPE_CHANGE_BG || vo.getType() == ChatVO.TYPE_CHANGE_BG_COLOR) {
                                 bgView.setBackgroundResource(0);
                                 bgView.setImageBitmap(null);
                                 bgView.setBackgroundColor(getResources().getColor(R.color.colorDefaultBG));
                             }
 
-                            if(resultObject != null && resultObject.getString("RESULT").equals("SUCCESS")) {
+                            if (resultObject != null && resultObject.getString("RESULT").equals("SUCCESS")) {
                                 chattingList.remove(nIndex);
                                 aa.notifyDataSetChanged();
 //                                chattingListView.setSelection(aa.getCount() - 1);
@@ -1124,12 +1120,12 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         try {
                             mProgressDialog.dismiss();
 
-                            if(resultObject == null) {
+                            if (resultObject == null) {
                                 Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
                                 return;
                             }
 
-                            if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                            if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                 Toast.makeText(LiteratureWriteActivity.this, "게시되었습니다.", Toast.LENGTH_LONG).show();
                                 finish();
                             } else {
@@ -1148,7 +1144,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         AlertDialog.Builder builder = new AlertDialog.Builder(LiteratureWriteActivity.this);
         builder.setTitle("회차 제출");
         builder.setMessage("회차를 제출하면 승인 대기 상태가 됩니다. 관리자가 회차를 승인한 이후부터 회차가 독자들에게 게시됩니다.\n회차를 제출하시겠습니까?");
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 mProgressDialog.setMessage("작품을 제출 중입니다.");
@@ -1165,12 +1161,12 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                 try {
                                     mProgressDialog.dismiss();
 
-                                    if(resultObject == null) {
+                                    if (resultObject == null) {
                                         Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
                                         return;
                                     }
 
-                                    if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                    if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                         Toast.makeText(LiteratureWriteActivity.this, "제출 되었습니다.", Toast.LENGTH_LONG).show();
                                         finish();
                                     } else {
@@ -1186,7 +1182,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             }
         });
 
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
             }
@@ -1208,12 +1204,12 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             public void run() {
                 characterList.addAll(HttpClient.getCharacterDataWithEpisodeID(new OkHttpClient(), "" + workVO.getEpisodeList().get(nInteractionIndex).getnEpisodeID()));
 
-                if(characterList == null) {
+                if (characterList == null) {
                     Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                for(int i = 1 ; i < characterList.size() ; i++) {
+                for (int i = 1; i < characterList.size(); i++) {
                     nameList.add(characterList.get(i).getName());
                 }
 
@@ -1240,14 +1236,14 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     public void run() {
                         mProgressDialog.dismiss();
 
-                        if(chattingList == null) {
+                        if (chattingList == null) {
                             Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        for(int i = 0 ; i < chattingList.size() ; i++) {
+                        for (int i = 0; i < chattingList.size(); i++) {
                             ChatVO vo = chattingList.get(i);
 
-                            if(vo.getType() == ChatVO.TYPE_DISTRACTOR) {
+                            if (vo.getType() == ChatVO.TYPE_DISTRACTOR) {
                                 Intent intent = new Intent(LiteratureWriteActivity.this, InteractionWriteActivity.class);
                                 InteractionWriteActivity.workVO = workVO;
                                 intent.putExtra("TITLE", strTitle);
@@ -1259,7 +1255,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             }
                         }
 
-                        if(chattingList.size() > 0) {
+                        if (chattingList.size() > 0) {
                             ChatVO vo = new ChatVO();
                             vo.setType(ChatVO.TYPE_EMPTY);
                             chattingList.add(0, vo);
@@ -1267,11 +1263,11 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
                         aa.notifyDataSetChanged();
 
-                        if(nAddIndex == -1 && nEditIndex == -1)
+                        if (nAddIndex == -1 && nEditIndex == -1)
                             chattingListView.setSelection(aa.getCount() - 1);
-                        else if(nAddIndex != -1) {
+                        else if (nAddIndex != -1) {
                             chattingListView.setSelection(nAddIndex);
-                        } else if(nEditIndex != -1) {
+                        } else if (nEditIndex != -1) {
                             chattingListView.setSelection(nEditIndex);
                         }
 
@@ -1287,28 +1283,28 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         imm.hideSoftInputFromWindow(inputTextView.getWindowToken(), 0);
         bShowMenu = !bShowMenu;
 
-        if(bShowMenu) {
+        if (bShowMenu) {
             bottomSettingLayout.setVisibility(View.VISIBLE);
-            contentsAddBtn.setImageResource(R.drawable.pop_close);
+//            contentsAddBtn.setImageResource(R.drawable.pop_close);
         } else {
             bottomSettingLayout.setVisibility(View.GONE);
-            contentsAddBtn.setImageResource(R.drawable.selectionplus);
+//            contentsAddBtn.setImageResource(R.drawable.selectionplus);
         }
     }
 
     private void hideBottomView() {
         bShowMenu = false;
         bottomSettingLayout.setVisibility(View.GONE);
-        contentsAddBtn.setImageResource(R.drawable.selectionplus);
+//        contentsAddBtn.setImageResource(R.drawable.selectionplus);
     }
 
     private void resetCharacterLayout() {
         speakerAddLayout.removeAllViews();
         characterViewList.clear();
 
-        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        for(int i = 0 ; i < characterList.size() ; i++) {
+        for (int i = 0; i < characterList.size(); i++) {
             final int nIndex = i;
             View view = inflater.inflate(R.layout.speaker_view, null);
             CharacterVO vo = characterList.get(i);
@@ -1320,7 +1316,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             int nImg = 0;
 
             int newi = i % 10;
-            switch(newi) {
+            switch (newi) {
                 case 1:
                     nImg = R.drawable.user_icon_01;
                     break;
@@ -1353,25 +1349,25 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     break;
             }
 
-            if(i == 0) {
+            if (i == 0) {
                 faceView.setImageResource(R.drawable.narration_button);
                 nameView.setText("지문");
                 nameView.setTextColor(ContextCompat.getColor(LiteratureWriteActivity.this, R.color.colorBlack));
                 selectedView.setVisibility(View.VISIBLE);
                 nSelectedCharacterIndex = 0;
             } else {
-                if(vo.getImage() != null && !vo.getImage().equals("null")) {
+                if (vo.getImage() != null && !vo.getImage().equals("null")) {
                     Glide.with(this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(vo.getImage())
                             .placeholder(nImg)
                             .apply(new RequestOptions().circleCrop())
                             .into(faceView);
-                } else if(vo.getStrImgFile() != null && !vo.getStrImgFile().equals("null")) {
+                } else if (vo.getStrImgFile() != null && !vo.getStrImgFile().equals("null")) {
                     String strUrl = vo.getStrImgFile();
 //                    strUrl = strUrl.replaceAll(" ", "");
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     Glide.with(LiteratureWriteActivity.this)
@@ -1393,13 +1389,13 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             faceLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for(int i = 0 ; i < characterViewList.size() ; i++) {
+                    for (int i = 0; i < characterViewList.size(); i++) {
                         View view = characterViewList.get(i);
 
                         TextView nameView = view.findViewById(R.id.nameView);
                         ImageView selectedView = view.findViewById(R.id.selectedView);
 
-                        if(i == nIndex) {
+                        if (i == nIndex) {
                             nameView.setTextColor(ContextCompat.getColor(LiteratureWriteActivity.this, R.color.colorBlack));
                             selectedView.setVisibility(View.VISIBLE);
                         } else {
@@ -1412,7 +1408,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 }
             });
 
-            if(i > 0) {
+            if (i > 0) {
                 faceLayout.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
@@ -1447,7 +1443,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             MultipartBody.Builder builder = new MultipartBody.Builder();
 
             String strBalloon = characterVO.getStrBalloonColor();
-            if(strBalloon == null)
+            if (strBalloon == null)
                 strBalloon = "null";
 
             builder.setType(MultipartBody.FORM)
@@ -1459,18 +1455,18 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     .addFormDataPart("BLACK_TEXT", characterVO.isbBlackText() == true ? "Y" : "N")
                     .addFormDataPart("BLACK_NAME", characterVO.isbBlackName() == true ? "Y" : "N");
 
-            if(characterVO.getImage() != null) {
+            if (characterVO.getImage() != null) {
                 strFilePath = CommonUtils.getRealPathFromURI(LiteratureWriteActivity.this, characterVO.getImage());
                 sourceFile = new File(strFilePath);
 
-                if(!sourceFile.exists()) {
+                if (!sourceFile.exists()) {
                     mProgressDialog.dismiss();
                     Toast.makeText(LiteratureWriteActivity.this, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
 
                     return;
                 }
 
-                String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
                 builder.addFormDataPart(filename, filename, RequestBody.create(MultipartBody.FORM, sourceFile));
             }
 
@@ -1500,7 +1496,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             try {
                                 JSONObject resultObject = new JSONObject(strResult);
 
-                                if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                     nameList.set(nIndex, characterVO.getName());
                                     characterList.set(nIndex, characterVO);
 //                                    resetCharacterLayout();
@@ -1544,7 +1540,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             MultipartBody.Builder builder = new MultipartBody.Builder();
 
             String strBalloon = characterVO.getStrBalloonColor();
-            if(strBalloon == null)
+            if (strBalloon == null)
                 strBalloon = "null";
 
             builder.setType(MultipartBody.FORM)
@@ -1555,18 +1551,18 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     .addFormDataPart("BLACK_TEXT", characterVO.isbBlackText() == true ? "Y" : "N")
                     .addFormDataPart("BLACK_NAME", characterVO.isbBlackName() == true ? "Y" : "N");
 
-            if(characterVO.getImage() != null) {
+            if (characterVO.getImage() != null) {
                 strFilePath = CommonUtils.getRealPathFromURI(LiteratureWriteActivity.this, characterVO.getImage());
                 sourceFile = new File(strFilePath);
 
-                if(!sourceFile.exists()) {
+                if (!sourceFile.exists()) {
                     mProgressDialog.dismiss();
                     Toast.makeText(LiteratureWriteActivity.this, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
 
                     return;
                 }
 
-                String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
                 builder.addFormDataPart(filename, filename, RequestBody.create(MultipartBody.FORM, sourceFile));
             }
 
@@ -1596,7 +1592,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             try {
                                 JSONObject resultObject = new JSONObject(strResult);
 
-                                if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                     String strCharacterID = resultObject.getString("CHARACTER_ID");
                                     characterVO.setnCharacterID(Integer.valueOf(strCharacterID));
 
@@ -1633,7 +1629,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-            if(requestCode == 9000) {                                           // 게시 처리 팝업
+            if (requestCode == 9000) {                                           // 게시 처리 팝업
                 sendEpisodePost();
             } else if (requestCode == 2000) {                                   // 수정된 이미지 갤러리
                 Intent intent = new Intent(LiteratureWriteActivity.this, AlbumSelectActivity.class);
@@ -1984,7 +1980,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     public void onClick(View v) {
         Intent intent = null;
 
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.bgSettingView:
                 TedPermission.with(LiteratureWriteActivity.this)
                         .setPermissionListener(new PermissionListener() {
@@ -2012,12 +2008,12 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             @Override
                             public void onPermissionGranted() {
                                 Intent intent = new Intent(LiteratureWriteActivity.this, MediaSelectPopup.class);
-                                if(nSelectedCharacterIndex == 0)
+                                if (nSelectedCharacterIndex == 0)
                                     intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG_NAR);
                                 else
                                     intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG);
                                 intent.putExtra("ORDER", nAddIndex);
-                                if(nEditIndex > -1)
+                                if (nEditIndex > -1)
                                     intent.putExtra("EDIT", true);
                                 startActivity(intent);
                             }
@@ -2032,7 +2028,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 break;
 
             case R.id.videoSettingView:
-                if(nSelectedCharacterIndex == 0) {
+                if (nSelectedCharacterIndex == 0) {
                     Toast.makeText(LiteratureWriteActivity.this, "지문은 동영상을 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -2043,7 +2039,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             public void onPermissionGranted() {
                                 Intent intent = new Intent(LiteratureWriteActivity.this, PhotoPickerActivity.class);
                                 intent.putExtra("TYPE", PhotoPickerActivity.TYPE_VIDEO);
-                                if(nEditIndex > -1)
+                                if (nEditIndex > -1)
                                     intent.putExtra("EDIT", true);
                                 intent.putExtra("ORDER", nAddIndex);
                                 startActivity(intent);
@@ -2060,7 +2056,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 break;
 
             case R.id.distractorView:
-                if(workVO.getEpisodeList().size() > nInteractionIndex+1) {
+                if (workVO.getEpisodeList().size() > nInteractionIndex + 1) {
                     Toast.makeText(this, "작품의 현재 마지막 화에서만 분기 생성이 가능합니다.", Toast.LENGTH_LONG).show();
                     finish();
                     return;
@@ -2070,7 +2066,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 break;
 
             case R.id.soundSettingView:
-                if(nSelectedCharacterIndex == 0) {
+                if (nSelectedCharacterIndex == 0) {
                     Toast.makeText(LiteratureWriteActivity.this, "지문은 음원을 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -2106,31 +2102,31 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
         chatVO.setType(ChatVO.TYPE_CHANGE_BG_COLOR);
 
-        if(nEditIndex > -1) {
+        if (nEditIndex > -1) {
             chatVO = chattingList.get(nEditIndex);
         } else {
-            if(nAddIndex > -1) {
+            if (nAddIndex > -1) {
                 ChatVO currentVO = chattingList.get(nAddIndex);
                 int nIndex = 0;
 
-                if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                     nIndex = currentVO.getnOrder();
-                    chatVO.setnOrder(nIndex+1);
+                    chatVO.setnOrder(nIndex + 1);
                 }
             } else {
-                if(chattingList.size() == 0)
+                if (chattingList.size() == 0)
                     chatVO.setnOrder(0);
                 else {
-                    ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                    ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                     int nIndex = currentVO.getnOrder();
-                    chatVO.setnOrder(nIndex+1);
+                    chatVO.setnOrder(nIndex + 1);
                 }
             }
         }
 
         chatVO.setStrContentsFile(bgColor);
 
-        if(nEditIndex > -1)
+        if (nEditIndex > -1)
             requestUploadMessage(chatVO, true);
         else
             requestUploadMessage(chatVO, false);
@@ -2141,22 +2137,19 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
     }
 
-    public class CChattingArrayAdapter extends ArrayAdapter<Object>
-    {
+    public class CChattingArrayAdapter extends ArrayAdapter<Object> {
         private int mCellLayout;
         private LayoutInflater mLiInflater;
 
-        CChattingArrayAdapter(Context context, int layout, List titles)
-        {
+        CChattingArrayAdapter(Context context, int layout, List titles) {
             super(context, layout, titles);
             mCellLayout = layout;
-            mLiInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mLiInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent)
-        {
-            if(position >= chattingList.size()) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            if (position >= chattingList.size()) {
                 convertView = mLiInflater.inflate(R.layout.empty_chatting_row, parent, false);
                 return convertView;
             }
@@ -2165,13 +2158,13 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             CharacterVO characterVO = chatVO.getCharacterVO();
 
             int nType = chatVO.getType();
-            int nWidth = (int)((float)chattingListView.getWidth() * (float)(1.7f/3.0f));
+            int nWidth = (int) ((float) chattingListView.getWidth() * (float) (1.7f / 3.0f));
             int nDirection = 0;
 
-            if(nType == ChatVO.TYPE_TEXT) {                                                                     // type 별로 각 리스트의 row 세팅 - 리펙토링 가장 필요한 부분. 내가할거임.   타입별로 거의 비슷함. 일반 대화만 주석 작성함.
+            if (nType == ChatVO.TYPE_TEXT) {                                                                     // type 별로 각 리스트의 row 세팅 - 리펙토링 가장 필요한 부분. 내가할거임.   타입별로 거의 비슷함. 일반 대화만 주석 작성함.
                 nDirection = characterVO.getDirection();
 
-                if(nDirection == 0)             // left                                                                     // 좌우 구분하여 layout 할당
+                if (nDirection == 0)             // left                                                                     // 좌우 구분하여 layout 할당
                     convertView = mLiInflater.inflate(R.layout.left_chatting_row, parent, false);
                 else
                     convertView = mLiInflater.inflate(R.layout.right_chatting_row, parent, false);
@@ -2179,7 +2172,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 TextView nameView = convertView.findViewById(R.id.nameView);                                                // 이름 설정
                 nameView.setText(characterVO.getName());
 
-                if(characterVO.isbBlackName())                                                                              // 캐릭터 이름 검은색인지 흰색인지 구분
+                if (characterVO.isbBlackName())                                                                              // 캐릭터 이름 검은색인지 흰색인지 구분
                     nameView.setTextColor(Color.parseColor("#000000"));
                 else
                     nameView.setTextColor(Color.parseColor("#ffffff"));
@@ -2187,7 +2180,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);                                // 대화 내용 쓰기
                 contentsTextView.setText(chatVO.getContents());
 
-                if(characterVO.isbBlackText()) {                                                                            // 글씨 색 검은색/흰색 설정
+                if (characterVO.isbBlackText()) {                                                                            // 글씨 색 검은색/흰색 설정
                     contentsTextView.setTextColor(getResources().getColor(R.color.colorBlack));
                 } else {
                     contentsTextView.setTextColor(getResources().getColor(R.color.colorWhite));
@@ -2195,17 +2188,17 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
                 ImageView imageContentsView = convertView.findViewById(R.id.imageContentsView);                             // 이미지 있는경우 설정
 
-                if(chatVO.getContentsUri() != null) {
+                if (chatVO.getContentsUri() != null) {
                     Glide.with(LiteratureWriteActivity.this)
                             .asBitmap()
                             .load(chatVO.getContentsUri())
                             .apply(new RequestOptions().override(800, 800))
                             .into(imageContentsView);
-                } else if(chatVO.getStrContentsFile() != null) {
+                } else if (chatVO.getStrContentsFile() != null) {
                     String strUrl = characterVO.getStrImgFile();
 //                    strUrl = strUrl.replaceAll(" ", "");
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     Glide.with(LiteratureWriteActivity.this)
@@ -2214,17 +2207,17 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             .apply(new RequestOptions().override(800, 800))
                             .into(imageContentsView);
                 }
-            } else if(nType == ChatVO.TYPE_SOUND) {
+            } else if (nType == ChatVO.TYPE_SOUND) {
                 nDirection = characterVO.getDirection();
 
-                if(nDirection == 0)             // left
+                if (nDirection == 0)             // left
                     convertView = mLiInflater.inflate(R.layout.left_audio_row, parent, false);
                 else
                     convertView = mLiInflater.inflate(R.layout.right_audio_row, parent, false);
 
                 TextView nameView = convertView.findViewById(R.id.nameView);
                 nameView.setText(characterVO.getName());
-                if(characterVO.isbBlackName())
+                if (characterVO.isbBlackName())
                     nameView.setTextColor(Color.parseColor("#000000"));
                 else
                     nameView.setTextColor(Color.parseColor("#ffffff"));
@@ -2234,8 +2227,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 RelativeLayout playBtnlayout = convertView.findViewById(R.id.playBtnlayout);
                 ImageView playBtn = convertView.findViewById(R.id.playBtn);
 
-                if(nPlayingIndex == position) {         // 현재 플레이중이라면
-                    if(timer != null) {
+                if (nPlayingIndex == position) {         // 현재 플레이중이라면
+                    if (timer != null) {
                         timer.cancel();
                         timer = null;
                     }
@@ -2248,7 +2241,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            if(mediaPlayer != null && mediaPlayer.isPlaying())
+                            if (mediaPlayer != null && mediaPlayer.isPlaying())
                                 pb.setProgress(mediaPlayer.getCurrentPosition());
                             else {
                                 timer.cancel();
@@ -2261,8 +2254,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 playBtnlayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(mediaPlayer != null && mediaPlayer.isPlaying()) {
-                            if(nPlayingIndex == position) {
+                        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                            if (nPlayingIndex == position) {
                                 mediaPlayer.pause();
                                 playBtn.setImageResource(R.drawable.talk_play1);
                                 timer.cancel();
@@ -2278,8 +2271,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                 timer = null;
                                 nPlayingIndex = -1;
                             }
-                        } else if(mediaPlayer != null && !mediaPlayer.isPlaying()) {
-                            if(nPlayingIndex == position) {
+                        } else if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+                            if (nPlayingIndex == position) {
                                 mediaPlayer.start();
                                 playBtn.setImageResource(R.drawable.pause);
 
@@ -2287,10 +2280,10 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                 timer.schedule(new TimerTask() {
                                     @Override
                                     public void run() {
-                                        if(mediaPlayer != null && mediaPlayer.isPlaying())
+                                        if (mediaPlayer != null && mediaPlayer.isPlaying())
                                             pb.setProgress(mediaPlayer.getCurrentPosition());
                                         else {
-                                            if(timer != null) {
+                                            if (timer != null) {
                                                 timer.cancel();
                                                 timer = null;
                                             }
@@ -2307,7 +2300,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         String strUrl = chatVO.getStrContentsFile();
 //                        strUrl = strUrl.replaceAll(" ", "");
 
-                        if(!strUrl.startsWith("http")) {
+                        if (!strUrl.startsWith("http")) {
                             try {
                                 strUrl = URLEncoder.encode(strUrl, "UTF-8");
                             } catch (UnsupportedEncodingException e) {
@@ -2336,7 +2329,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                     timer.schedule(new TimerTask() {
                                         @Override
                                         public void run() {
-                                            if(mediaPlayer != null && mediaPlayer.isPlaying())
+                                            if (mediaPlayer != null && mediaPlayer.isPlaying())
                                                 pb.setProgress(mediaPlayer.getCurrentPosition());
                                             else {
                                                 timer.cancel();
@@ -2353,7 +2346,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                     mediaPlayer.stop();
                                     mediaPlayer = null;
                                     playBtn.setImageResource(R.drawable.talk_play1);
-                                    if(timer != null) {
+                                    if (timer != null) {
                                         timer.cancel();
                                         timer = null;
                                     }
@@ -2381,22 +2374,22 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
                     }
                 });
-            } else if(nType == ChatVO.TYPE_IMAGE_NAR) {
+            } else if (nType == ChatVO.TYPE_IMAGE_NAR) {
                 convertView = mLiInflater.inflate(R.layout.narration_image_row, parent, false);
 
                 ImageView imageContentsView = convertView.findViewById(R.id.imageContentsView);
                 imageContentsView.setClipToOutline(true);
 
-                if(chatVO.getContentsUri() != null) {
+                if (chatVO.getContentsUri() != null) {
                     Glide.with(LiteratureWriteActivity.this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(chatVO.getContentsUri())
                             .apply(new RequestOptions().override(nWidth, nWidth))
                             .into(imageContentsView);
-                } else if(chatVO.getStrContentsFile() != null) {
+                } else if (chatVO.getStrContentsFile() != null) {
                     String strUrl = chatVO.getStrContentsFile();
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     Glide.with(LiteratureWriteActivity.this)
@@ -2405,17 +2398,17 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             .apply(new RequestOptions().override(nWidth, nWidth))
                             .into(imageContentsView);
                 }
-            } else if(nType == ChatVO.TYPE_IMAGE) {
+            } else if (nType == ChatVO.TYPE_IMAGE) {
                 nDirection = characterVO.getDirection();
 
-                if(nDirection == 0)             // left
+                if (nDirection == 0)             // left
                     convertView = mLiInflater.inflate(R.layout.left_image_row, parent, false);
                 else
                     convertView = mLiInflater.inflate(R.layout.right_image_row, parent, false);
 
                 TextView nameView = convertView.findViewById(R.id.nameView);
                 nameView.setText(characterVO.getName());
-                if(characterVO.isbBlackName())
+                if (characterVO.isbBlackName())
                     nameView.setTextColor(Color.parseColor("#000000"));
                 else
                     nameView.setTextColor(Color.parseColor("#ffffff"));
@@ -2423,17 +2416,17 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 ImageView imageContentsView = convertView.findViewById(R.id.imageContentsView);
                 imageContentsView.setClipToOutline(true);
 
-                if(chatVO.getContentsUri() != null) {
+                if (chatVO.getContentsUri() != null) {
                     Glide.with(LiteratureWriteActivity.this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(chatVO.getContentsUri())
                             .apply(new RequestOptions().override(nWidth, nWidth))
                             .into(imageContentsView);
-                } else if(chatVO.getStrContentsFile() != null) {
+                } else if (chatVO.getStrContentsFile() != null) {
                     String strUrl = chatVO.getStrContentsFile();
 //                    strUrl = strUrl.replaceAll(" ", "");
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     Glide.with(LiteratureWriteActivity.this)
@@ -2444,22 +2437,22 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 }
 
                 imageContentsView.setClipToOutline(true);
-            } else if(nType == ChatVO.TYPE_NARRATION) {
+            } else if (nType == ChatVO.TYPE_NARRATION) {
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
 
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
                 contentsTextView.setText(chatVO.getContents());
-            } else if(nType == ChatVO.TYPE_VIDEO) {
+            } else if (nType == ChatVO.TYPE_VIDEO) {
                 nDirection = characterVO.getDirection();
 
-                if(nDirection == 0)             // left
+                if (nDirection == 0)             // left
                     convertView = mLiInflater.inflate(R.layout.left_video_row, parent, false);
                 else
                     convertView = mLiInflater.inflate(R.layout.right_video_row, parent, false);
 
                 TextView nameView = convertView.findViewById(R.id.nameView);
                 nameView.setText(characterVO.getName());
-                if(characterVO.isbBlackName())
+                if (characterVO.isbBlackName())
                     nameView.setTextColor(Color.parseColor("#000000"));
                 else
                     nameView.setTextColor(Color.parseColor("#ffffff"));
@@ -2472,7 +2465,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     @Override
                     public void onClick(View view) {
                         String strUrl = chatVO.getStrContentsFile();
-                        if(!strUrl.startsWith("http"))
+                        if (!strUrl.startsWith("http"))
                             strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                         Intent intent = new Intent(LiteratureWriteActivity.this, VideoPlayerActivity.class);
@@ -2481,12 +2474,12 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     }
                 });
 
-                if(chatVO.getContentsUri() != null) {
-                    if(thumbBitmapList.containsKey(chatVO.getContentsUri().toString())) {
+                if (chatVO.getContentsUri() != null) {
+                    if (thumbBitmapList.containsKey(chatVO.getContentsUri().toString())) {
 //                        imageContentsView.setImageBitmap(thumbBitmapList.get(chatVO.getContentsUri().toString()));
                         Glide.with(LiteratureWriteActivity.this)
                                 .load(thumbBitmapList.get(chatVO.getContentsUri().toString()))
-                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                .apply(new RequestOptions().override(nWidth - 50, nWidth - 50))
                                 .into(imageContentsView);
                     } else {
                         new Thread(new Runnable() {
@@ -2500,7 +2493,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                     public void run() {
                                         Glide.with(LiteratureWriteActivity.this)
                                                 .load(thumbnailBitmap)
-                                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                                .apply(new RequestOptions().override(nWidth - 50, nWidth - 50))
                                                 .into(imageContentsView);
                                     }
                                 });
@@ -2513,23 +2506,23 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             thumbBitmapList.put(chatVO.getContentsUri().toString(), thumbnailBitmap);
                             Glide.with(LiteratureWriteActivity.this)
                                     .load(thumbnailBitmap)
-                                    .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                    .apply(new RequestOptions().override(nWidth - 50, nWidth - 50))
                                     .into(imageContentsView);
                         } catch (Throwable throwable) {
                             throwable.printStackTrace();
                         }
                     }
-                } else if(chatVO.getStrContentsFile() != null) {
+                } else if (chatVO.getStrContentsFile() != null) {
                     String strUrl = chatVO.getStrContentsFile();
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
-                    if(thumbBitmapList.containsKey(strUrl)) {
+                    if (thumbBitmapList.containsKey(strUrl)) {
 //                        imageContentsView.setImageBitmap(thumbBitmapList.get(strUrl));
                         Glide.with(LiteratureWriteActivity.this)
                                 .load(thumbBitmapList.get(strUrl))
-                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                .apply(new RequestOptions().override(nWidth - 50, nWidth - 50))
                                 .into(imageContentsView);
                     } else {
                         final String finalUrl = strUrl;
@@ -2544,7 +2537,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                     public void run() {
                                         Glide.with(LiteratureWriteActivity.this)
                                                 .load(thumbnailBitmap)
-                                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                                .apply(new RequestOptions().override(nWidth - 50, nWidth - 50))
                                                 .into(imageContentsView);
                                     }
                                 });
@@ -2552,28 +2545,28 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         }).start();
                     }
                 }
-            } else if(nType == ChatVO.TYPE_DISTRACTOR) {
+            } else if (nType == ChatVO.TYPE_DISTRACTOR) {
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
                 String strContents = chatVO.getContents();
-                strContents = "분기 설정 : " + strContents.substring(0, strContents.indexOf("╋")) + ", " + strContents.substring(strContents.indexOf("╋")+1);
+                strContents = "분기 설정 : " + strContents.substring(0, strContents.indexOf("╋")) + ", " + strContents.substring(strContents.indexOf("╋") + 1);
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
                 contentsTextView.setText(strContents);
-            } else if(nType == ChatVO.TYPE_CHANGE_BG) {
+            } else if (nType == ChatVO.TYPE_CHANGE_BG) {
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
                 contentsTextView.setText("배경 이미지 변경");
 
-                if(chatVO.getContentsUri() != null) {
+                if (chatVO.getContentsUri() != null) {
                     Glide.with(LiteratureWriteActivity.this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(chatVO.getContentsUri())
                             .transition(BitmapTransitionOptions.withCrossFade(300))
                             .into(bgView);
-                } else if(chatVO.getStrContentsFile() != null) {
+                } else if (chatVO.getStrContentsFile() != null) {
                     String strUrl = chatVO.getStrContentsFile();
 //                    strUrl = strUrl.replaceAll(" ", "");
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     Glide.with(LiteratureWriteActivity.this)
@@ -2582,7 +2575,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             .transition(BitmapTransitionOptions.withCrossFade(300))
                             .into(bgView);
                 }
-            } else if(nType == ChatVO.TYPE_CHANGE_BG_COLOR) {
+            } else if (nType == ChatVO.TYPE_CHANGE_BG_COLOR) {
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
 
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
@@ -2591,12 +2584,12 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 String strColor = chatVO.getStrContentsFile();
                 int nColor = Color.parseColor(strColor);
                 bgView.setBackgroundColor(nColor);
-            } else if(nType == ChatVO.TYPE_EMPTY) {
+            } else if (nType == ChatVO.TYPE_EMPTY) {
                 convertView = mLiInflater.inflate(R.layout.empty_chatting_row, parent, false);
             }
 
             ImageView deleteBtn = convertView.findViewById(R.id.deleteBtn);
-            if(deleteBtn != null) {
+            if (deleteBtn != null) {
                 deleteBtn.setClipToOutline(true);
                 deleteBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -2607,19 +2600,19 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 });
             }
 
-            if(characterVO != null && (nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_SOUND)) {
+            if (characterVO != null && (nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_SOUND)) {
                 RelativeLayout contentsLayout = convertView.findViewById(R.id.contentsLayout);
-                if(contentsLayout != null) {
+                if (contentsLayout != null) {
                     String strBalloonColor = characterVO.getStrBalloonColor();
 
-                    if(strBalloonColor != null && !strBalloonColor.equals("null") && strBalloonColor.length() > 0) {
-                        if(contentsLayout != null && contentsLayout.getBackground() != null) {
+                    if (strBalloonColor != null && !strBalloonColor.equals("null") && strBalloonColor.length() > 0) {
+                        if (contentsLayout != null && contentsLayout.getBackground() != null) {
                             int nColor = Color.parseColor(strBalloonColor);
                             PorterDuffColorFilter greyFilter = new PorterDuffColorFilter(nColor, PorterDuff.Mode.MULTIPLY);
                             contentsLayout.getBackground().setColorFilter(greyFilter);
                         }
                     } else {
-                        if(contentsLayout != null && contentsLayout.getBackground() != null)
+                        if (contentsLayout != null && contentsLayout.getBackground() != null)
                             contentsLayout.getBackground().setColorFilter(null);
                     }
                 }
@@ -2630,16 +2623,16 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             final ImageView rightLine = convertView.findViewById(R.id.rightLine);
             final TextView txtView = convertView.findViewById(R.id.txtView);
 
-            if(position == chattingList.size() - 1)
+            if (position == chattingList.size() - 1)
                 addBtn.setVisibility(View.INVISIBLE);
             else
                 addBtn.setVisibility(View.VISIBLE);
 
             ImageView faceView = convertView.findViewById(R.id.faceView);
-            if(faceView != null) {
+            if (faceView != null) {
                 int nPlaceHolder = 0;
                 int faceIndex = getCharacterIndex(characterVO) % 10;
-                switch(faceIndex) {
+                switch (faceIndex) {
                     case 1:
                         nPlaceHolder = R.drawable.user_icon_01;
                         break;
@@ -2672,18 +2665,18 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         break;
                 }
 
-                if(characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
+                if (characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
                     Glide.with(LiteratureWriteActivity.this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(characterVO.getImage())
                             .placeholder(nPlaceHolder)
                             .apply(new RequestOptions().circleCrop())
                             .into(faceView);
-                } else if(characterVO.getStrImgFile() != null && !characterVO.getStrImgFile().equals("null")) {
+                } else if (characterVO.getStrImgFile() != null && !characterVO.getStrImgFile().equals("null")) {
                     String strUrl = characterVO.getStrImgFile();
 //                    strUrl = strUrl.replaceAll(" ", "");
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     Glide.with(LiteratureWriteActivity.this)
@@ -2701,7 +2694,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 }
             }
 
-            if(nAddIndex == position) {
+            if (nAddIndex == position) {
 //                addBtn.setBackgroundResource(R.drawable.common_selected_rounded_btn_bg);
                 txtView.setText("취소");
                 leftLine.setBackgroundColor(Color.parseColor("#ff0000"));
@@ -2718,7 +2711,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(nAddIndex == position) {
+                    if (nAddIndex == position) {
                         nAddIndex = -1;
                         aa.notifyDataSetChanged();
                     } else {
@@ -2730,7 +2723,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             });
 
             TextView commentCountView = convertView.findViewById(R.id.commentCountView);
-            if(commentCountView != null) {
+            if (commentCountView != null) {
                 commentCountView.setVisibility(View.INVISIBLE);
             }
 
@@ -2741,11 +2734,11 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private int getCharacterIndex(CharacterVO vo) {                                                 // 캐릭터 아이디로 몇번째 캐릭터인지 가져오는 함수
         int characterID = vo.getnCharacterID();
 
-        for(int i = 1 ; i < characterList.size() ; i++) {
+        for (int i = 1; i < characterList.size(); i++) {
             CharacterVO characterVO = characterList.get(i);
-            if(characterVO == null)
+            if (characterVO == null)
                 return 1;
-            if(characterVO.getnCharacterID() == characterID)
+            if (characterVO.getnCharacterID() == characterID)
                 return i;
         }
 

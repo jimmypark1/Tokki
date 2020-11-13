@@ -7,6 +7,8 @@
     android:background="#fff"
     tools:context=".UI.Activity.Work.CreateWorkActivity">
 
+    <include layout="@layout/include_top_layout"/>
+
     <RelativeLayout
         android:id="@+id/topBarLayout"
         android:layout_width="match_parent"

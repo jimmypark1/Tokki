@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/add"
+        android:title="읽기 목록에 추가" />
+    <item
+        android:id="@+id/share"
+        android:title="공유하기" />
+    <item
+        android:id="@+id/remove"
+        android:title="제거" />
+</menu>

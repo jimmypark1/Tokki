@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,69 +10,72 @@
     <RelativeLayout
         android:id="@+id/topBarLayout"
         android:layout_width="match_parent"
-        android:clipChildren="false"
-        android:layout_height="52dp">
+        android:layout_height="40dp"
+        android:clipChildren="false">
 
         <ImageButton
             android:id="@+id/leftBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="17dp"
+            android:layout_marginStart="20dp"
             android:background="@null"
             android:onClick="onClickTopLeftBtn"
-            android:src="@drawable/back_button"/>
+            android:src="@drawable/ic_i_back" />
 
         <ImageButton
             android:id="@+id/rightBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="17dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
             android:background="@null"
             android:onClick="onClickTopRightBtn"
-            android:src="@drawable/dot_menu"/>
+            android:src="@drawable/ic_i_dots_black" />
 
         <Button
             android:id="@+id/emptyBtn"
             android:layout_width="32dp"
             android:layout_height="28dp"
-            android:layout_marginRight="7dp"
-            android:textSize="14sp"
-            android:textColor="@color/colorPrimary"
-            android:onClick="clickEditTitleBtn"
-            android:layout_toLeftOf="@+id/submitBtn"
             android:layout_centerVertical="true"
-            android:background="@null"/>
+            android:layout_marginRight="7dp"
+            android:layout_toLeftOf="@+id/submitBtn"
+            android:background="@null"
+            android:onClick="clickEditTitleBtn"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp" />
 
         <ImageButton
             android:id="@+id/submitBtn"
             android:layout_width="79dp"
             android:layout_height="29.3dp"
-            android:background="@drawable/send_button"
-            android:layout_toLeftOf="@+id/rightBtn"
             android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/rightBtn"
+            android:background="@drawable/send_button"
             android:onClick="onClickSubmitBtn"
-            android:layout_marginRight="15dp"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/episodeNumView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/leftBtn"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:textSize="20sp"
-            android:textColor="@color/colorBlack"
-            android:text="1화"/>
+            android:layout_marginStart="20dp"
+            android:layout_toRightOf="@+id/leftBtn"
+            android:lineSpacingExtra="3sp"
+            android:text="1화"
+            android:textColor="#999999"
+            android:textSize="17sp"
+            android:textStyle="normal" />
 
         <LinearLayout
             android:id="@+id/titleLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/episodeNumView"
             android:layout_toLeftOf="@+id/emptyBtn"
+            android:layout_toRightOf="@+id/episodeNumView"
             android:clipChildren="false"
             android:gravity="center_vertical">
 
@@ -81,25 +83,27 @@
                 android:id="@+id/episodeTitleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="10dp"
                 android:layout_centerVertical="true"
-                android:maxLines="1"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:ellipsize="end"
-                android:textSize="14sp"
-                android:textColor="@color/colorBlack"
-                android:text="회차 제목"/>
+                android:lineSpacingExtra="3sp"
+                android:maxLines="1"
+                android:text="회차 제목"
+                android:textColor="#222222"
+                android:textSize="17sp"
+                android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/editBtn"
-                android:layout_width="32dp"
-                android:layout_height="28dp"
-                android:textSize="14sp"
-                android:textColor="@color/colorPrimary"
-                android:onClick="clickEditTitleBtn"
-                android:layout_toRightOf="@+id/episodeTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:background="@drawable/info_edit_button"/>
+                android:layout_toRightOf="@+id/episodeTitleView"
+                android:background="@drawable/ic_i_edit"
+                android:onClick="clickEditTitleBtn"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -109,36 +113,35 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/topBarLayout"
         android:background="@color/colorDefaultBG"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop" />
 
     <ListView
         android:id="@+id/chattingListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/topBarLayout"
         android:layout_above="@+id/speakerSelectLayout"
-        android:dividerHeight="0dp"
-        android:divider="#00000000"/>
+        android:layout_below="@+id/topBarLayout"
+        android:divider="#00000000"
+        android:dividerHeight="0dp" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/dimLayerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/speakerSelectLayout"
-        android:background="#00000000">
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:background="#00000000"></androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <RelativeLayout
         android:id="@+id/speakerSelectLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/chattingLayout"
-        android:layout_marginBottom="8dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:paddingTop="15dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/white_btn_bg"
         android:paddingLeft="10dp"
-        android:background="@drawable/white_btn_bg">
+        android:paddingTop="15dp">
 
         <HorizontalScrollView
             android:layout_width="wrap_content"
@@ -149,16 +152,15 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/speakerAddLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical">
-                </LinearLayout>
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal"></LinearLayout>
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -168,258 +170,247 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/speakerAddView"
             android:layout_alignBottom="@+id/speakerAddView"
-            android:layout_toLeftOf="@+id/speakerAddView"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
-            android:background="#14000000"/>
+            android:layout_toLeftOf="@+id/speakerAddView"
+            android:background="#14000000" />
 
         <include
             android:id="@+id/speakerAddView"
             layout="@layout/speaker_view"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="15dp"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/chattingLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_above="@+id/bottomSettingLayout"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="20dp">
 
-        <ImageButton
+        <LinearLayout
             android:id="@+id/contentsAddBtn"
-            android:layout_width="28.3dp"
-            android:layout_height="28.3dp"
-            android:layout_marginLeft="15dp"
-            android:layout_alignBottom="@+id/inputTextView"
-            android:src="@drawable/plus_button_black"
-            android:background="?attr/selectableItemBackground"
-            android:onClick="onClickContentsAddBtn"/>
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/circle_222222"
+            android:gravity="center"
+            android:onClick="onClickContentsAddBtn">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_i_plus_white" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/inputTextView"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/edittext_gray_bg"
-            android:paddingRight="60dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="21dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_20_f7f7f7"
+            android:hint="대화를 입력하세요"
             android:inputType="textMultiLine"
             android:isScrollContainer="true"
+            android:lineSpacingExtra="7sp"
             android:maxHeight="74dp"
-            android:minHeight="31dp"
-            android:hint="대화를 입력하세요"
-            android:textSize="14sp"
-            android:textColor="@color/colorBlack"
-            android:layout_toRightOf="@+id/contentsAddBtn"/>
+            android:minHeight="40dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="normal" />
 
-        <Button
+        <TextView
             android:id="@+id/sendBtn"
-            android:layout_width="58.3dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/common_btn_disable_bg"
-            android:layout_alignBottom="@+id/inputTextView"
-            android:layout_alignRight="@+id/inputTextView"
-            android:minHeight="30dp"
-            android:textColor="#fff"
-            android:textSize="14sp"
-            android:text="등록"/>
-    </RelativeLayout>
+            android:layout_marginStart="10dp"
+            android:lineSpacingExtra="7sp"
+            android:text="등록"
+            android:textColor="#5a9aff"
+            android:textSize="15sp"
+            android:textStyle="normal" />
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomSettingLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottomLayout"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingLeft="22dp"
-            android:paddingRight="21dp"
-            android:orientation="horizontal"
-            app:layout_constraintDimensionRatio="360:73"
+            android:layout_height="64dp"
             android:background="@color/colorWhite"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="10dp"
             tools:ignore="MissingConstraints">
 
             <LinearLayout
-                android:id="@+id/bgSettingView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/white_shadow_box"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="21.1dp"
-                        android:layout_height="24.5dp"
-                        android:background="@drawable/background_icon"
-                        android:layout_centerHorizontal="true"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorBlack"
-                        android:layout_marginTop="3dp"
-                        android:textSize="10sp"
-                        android:text="배경"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/imgSettingView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="4dp"
-                android:layout_weight="1"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/white_shadow_box"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:orientation="vertical">
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/round_8_f2f2f2"
+                    android:gravity="center">
 
                     <ImageView
-                        android:layout_width="21.1dp"
-                        android:layout_height="24.5dp"
-                        android:background="@drawable/pic_icon"
-                        android:layout_centerHorizontal="true"/>
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorBlack"
-                        android:layout_marginTop="3dp"
-                        android:textSize="10sp"
-                        android:text="사진"/>
+                        android:src="@drawable/ic_i_picture" />
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="5sp"
+                    android:text="사진"
+                    android:textColor="#666666"
+                    android:textSize="11sp"
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/videoSettingView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="4dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/white_shadow_box"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:orientation="vertical">
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/round_8_f2f2f2"
+                    android:gravity="center">
 
                     <ImageView
-                        android:layout_width="21.1dp"
-                        android:layout_height="24.5dp"
-                        android:background="@drawable/mov_icon"
-                        android:layout_centerHorizontal="true"/>
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorBlack"
-                        android:layout_marginTop="3dp"
-                        android:textSize="10sp"
-                        android:text="동영상"/>
+                        android:src="@drawable/ic_i_video" />
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="5sp"
+                    android:text="동영상"
+                    android:textColor="#666666"
+                    android:textSize="11sp"
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/soundSettingView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="4dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/white_shadow_box"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:orientation="vertical">
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/round_8_f2f2f2"
+                    android:gravity="center">
 
                     <ImageView
-                        android:layout_width="21.1dp"
-                        android:layout_height="24.5dp"
-                        android:background="@drawable/music_icon"
-                        android:layout_centerHorizontal="true"/>
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorBlack"
-                        android:layout_marginTop="3dp"
-                        android:textSize="10sp"
-                        android:text="음원"/>
+                        android:src="@drawable/ic_i_music" />
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="5sp"
+                    android:text="음원"
+                    android:textColor="#666666"
+                    android:textSize="11sp"
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/distractorView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="10sp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/white_shadow_box"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:orientation="vertical">
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/round_8_f2f2f2"
+                    android:gravity="center">
 
                     <ImageView
-                        android:layout_width="21.1dp"
-                        android:layout_height="24.5dp"
-                        android:background="@drawable/choice_icon"
-                        android:layout_centerHorizontal="true"/>
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorBlack"
-                        android:layout_marginTop="3dp"
-                        android:textSize="12sp"
-                        android:text="선택지"/>
+                        android:src="@drawable/ic_i_choice" />
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="5sp"
+                    android:text="선택지"
+                    android:textColor="#666666"
+                    android:textSize="11sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bgSettingView"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/round_8_f2f2f2"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_i_background" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="5sp"
+                    android:text="배경"
+                    android:textColor="#666666"
+                    android:textSize="11sp"
+                    android:textStyle="normal" />
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

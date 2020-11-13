@@ -1,7 +1,5 @@
 package com.Whowant.Tokki.UI.Activity.Photopicker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +12,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
@@ -44,10 +44,13 @@ public class SeesoGalleryActivity extends AppCompatActivity {
     public static final int TYPE_CONTENTS_IMG_NAR = 8;          // 나레이션 이미지 추가
     public static final int TYPE_COVER_THUMB_IMG = 9;
     public static final int TYPE_THUMBNAIL_MODIFY = 10;
+    public static final int TYPE_CHARACTER_BG = 11;
+    public static final int TYPE_SETTING_PROFILE = 12;          // 계정설정 프로필
+    public static final int TYPE_SETTING_BG = 13;                   // 계정설정 배경
 
     private boolean bEdit = false;
-    private int     nOrder = -1;
-    private int     nType = 0;
+    private int nOrder = -1;
+    private int nType = 0;
 
     private ArrayList<String> imageList;
 
@@ -65,7 +68,7 @@ public class SeesoGalleryActivity extends AppCompatActivity {
 
         imageList = new ArrayList<>();
         mAdapter = new MyAdapter(SeesoGalleryActivity.this, R.layout.image_row, imageList);
-        mGridView = (GridView)findViewById(R.id.gridView);
+        mGridView = (GridView) findViewById(R.id.gridView);
         mGridView.setAdapter(mAdapter);
 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -74,29 +77,30 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                 String strUrl = CommonUtils.strDefaultUrl + "talk_image/" + imageList.get(position);
                 Uri uri = Uri.parse(strUrl);
 
-                if(nType == TYPE_FACE_IMG) {
+                if (nType == TYPE_FACE_IMG) {
                     CropImage.activity(uri)
                             .setGuidelines(CropImageView.Guidelines.ON)
                             .setActivityTitle("My Crop")
                             .setCropShape(CropImageView.CropShape.OVAL)
                             .setAspectRatio(1, 1)
                             .start(SeesoGalleryActivity.this);
-                } else if(nType == TYPE_VIDEO) {
+                } else if (nType == TYPE_VIDEO) {
                     Intent intent = new Intent(SeesoGalleryActivity.this, LiteratureWriteActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     intent.putExtra("VIDEO_URI", uri.toString());
                     intent.putExtra("EDIT", bEdit);
                     intent.putExtra("ORDER", nOrder);
                     startActivity(intent);
-                } else if(nType == TYPE_COVER_IMG) {
+                } else if (nType == TYPE_COVER_IMG) {
                     ThumbnailPreviewActivity.bCover = true;
 
                     CropImage.activity(uri)
                             .setGuidelines(CropImageView.Guidelines.ON)
                             .setActivityTitle("My Crop")
                             .setCropShape(CropImageView.CropShape.RECTANGLE)
+                            .setAspectRatio(16, 25)
                             .start(SeesoGalleryActivity.this);
-                } else if(nType == TYPE_COVER_THUMB_IMG) {
+                } else if (nType == TYPE_COVER_THUMB_IMG) {
                     ThumbnailPreviewActivity.bCoverThumb = true;
 
                     CropImage.activity(uri)
@@ -105,7 +109,7 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                             .setCropShape(CropImageView.CropShape.RECTANGLE)
                             .setAspectRatio(25, 20)
                             .start(SeesoGalleryActivity.this);
-                } else if(nType == TYPE_COVER_IMG_MODIFY) {
+                } else if (nType == TYPE_COVER_IMG_MODIFY) {
                     ThumbnailPreviewActivity.bModify = true;
 
                     CropImage.activity(uri)
@@ -113,7 +117,7 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                             .setActivityTitle("My Crop")
                             .setCropShape(CropImageView.CropShape.RECTANGLE)
                             .start(SeesoGalleryActivity.this);
-                } else if(nType == TYPE_THUMBNAIL_MODIFY) {
+                } else if (nType == TYPE_THUMBNAIL_MODIFY) {
                     ThumbnailPreviewActivity.bModifyThumb = true;
 
                     CropImage.activity(uri)
@@ -122,7 +126,7 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                             .setCropShape(CropImageView.CropShape.RECTANGLE)
                             .setAspectRatio(25, 20)
                             .start(SeesoGalleryActivity.this);
-                } else if(nType == TYPE_PROFILE) {
+                } else if (nType == TYPE_PROFILE) {
                     ThumbnailPreviewActivity.bProfile = true;
                     CropImage.activity(uri)
                             .setGuidelines(CropImageView.Guidelines.ON)
@@ -130,7 +134,7 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                             .setCropShape(CropImageView.CropShape.OVAL)
                             .setAspectRatio(1, 1)
                             .start(SeesoGalleryActivity.this);
-                } else if(nType == TYPE_CONTENTS_IMG || nType == TYPE_CONTENTS_IMG_NAR) {
+                } else if (nType == TYPE_CONTENTS_IMG || nType == TYPE_CONTENTS_IMG_NAR) {
                     ThumbnailPreviewActivity.bImgCrop = true;
                     ThumbnailPreviewActivity.bEdit = bEdit;
                     ThumbnailPreviewActivity.nType = nType;
@@ -141,7 +145,7 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                             .setActivityTitle("My Crop")
                             .setCropShape(CropImageView.CropShape.RECTANGLE)
                             .start(SeesoGalleryActivity.this);
-                } else if(nType == TYPE_BG) {
+                } else if (nType == TYPE_BG) {
                     ThumbnailPreviewActivity.bBGCrop = true;
                     ThumbnailPreviewActivity.bEdit = bEdit;
                     ThumbnailPreviewActivity.nOrder = nOrder;
@@ -151,15 +155,39 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                             .setActivityTitle("My Crop")
                             .setCropShape(CropImageView.CropShape.RECTANGLE)
                             .start(SeesoGalleryActivity.this);
+                } else if (nType == TYPE_CHARACTER_BG) {
+                    ThumbnailPreviewActivity.characterCrop = true;
+                    CropImage.activity(uri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setActivityTitle("My Crop")
+                            .setCropShape(CropImageView.CropShape.OVAL)
+                            .setAspectRatio(1, 1)
+                            .start(SeesoGalleryActivity.this);
+                } else if (nType == TYPE_SETTING_PROFILE) {
+                    ThumbnailPreviewActivity.settingProfileCrop = true;
+                    CropImage.activity(uri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setActivityTitle("My Crop")
+                            .setCropShape(CropImageView.CropShape.OVAL)
+                            .setAspectRatio(1, 1)
+                            .start(SeesoGalleryActivity.this);
+                } else if (nType == TYPE_SETTING_BG) {
+                    ThumbnailPreviewActivity.settingBgCrop = true;
+                    CropImage.activity(uri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setActivityTitle("My Crop")
+                            .setCropShape(CropImageView.CropShape.RECTANGLE)
+                            .setAspectRatio(1, 1)
+                            .start(SeesoGalleryActivity.this);
                 } else {
                     Intent intent = new Intent(SeesoGalleryActivity.this, LiteratureWriteActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-                    if(nType == TYPE_BG) {
+                    if (nType == TYPE_BG) {
                         intent.putExtra("BG_URI", uri.toString());
                         intent.putExtra("EDIT", bEdit);
                         intent.putExtra("ORDER", nOrder);
-                    } else if(nType == TYPE_CONTENTS_IMG || nType == TYPE_CONTENTS_IMG_NAR) {
+                    } else if (nType == TYPE_CONTENTS_IMG || nType == TYPE_CONTENTS_IMG_NAR) {
                         intent.putExtra("IMG_URI", uri.toString());
                         intent.putExtra("EDIT", bEdit);
                         intent.putExtra("TYPE", nType);
@@ -197,7 +225,7 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(imageList == null || imageList.size() == 0) {
+                        if (imageList == null || imageList.size() == 0) {
                             Toast.makeText(SeesoGalleryActivity.this, "갤러리를 불러오는데 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -208,7 +236,7 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                         if (mAdapter.getNumColumns() == 0) {
                             final int numColumns = (int) Math.floor(mGridView.getWidth() / (mImageThumbSize + mImageThumbSpacing));
                             if (numColumns > 0) {
-                                final int columnWidth =  (mGridView.getWidth() / numColumns) - mImageThumbSpacing;
+                                final int columnWidth = (mGridView.getWidth() / numColumns) - mImageThumbSpacing;
                                 mAdapter.setNumColumns(numColumns);
                                 mAdapter.setItemHeight(columnWidth);
                             }
@@ -256,11 +284,11 @@ public class SeesoGalleryActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView==null)
+            if (convertView == null)
                 convertView = inf.inflate(R.layout.image_row, null);
 
             convertView.setLayoutParams(mImageViewLayoutParams);
-            ImageView iv = (ImageView)convertView.findViewById(R.id.imageView);
+            ImageView iv = (ImageView) convertView.findViewById(R.id.imageView);
             String strUrl = CommonUtils.strDefaultUrl + "talk_image/" + imgList.get(position);
 
             Glide.with(SeesoGalleryActivity.this)

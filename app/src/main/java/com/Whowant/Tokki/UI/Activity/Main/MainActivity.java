@@ -1,20 +1,15 @@
 package com.Whowant.Tokki.UI.Activity.Main;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,11 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -45,12 +38,14 @@ import com.Whowant.Tokki.UI.Activity.DrawerMenu.EventActivity;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
 import com.Whowant.Tokki.UI.Activity.Login.TermsActivity;
-import com.Whowant.Tokki.UI.Activity.Work.CreateWorkActivity;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
+import com.Whowant.Tokki.UI.Activity.VersionActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
+import com.Whowant.Tokki.UI.Activity.Work.WorkRegActivity;
 import com.Whowant.Tokki.UI.Adapter.MainViewpagerAdapter;
 import com.Whowant.Tokki.UI.Custom.CustomViewPager;
-import com.Whowant.Tokki.UI.Fragment.Main.KeepFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.MyFragment;
+import com.Whowant.Tokki.UI.Fragment.Main.StorageBoxFragment;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
 import com.Whowant.Tokki.VO.AlarmVO;
@@ -66,16 +61,12 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.nhn.android.naverlogin.OAuthLogin;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import okhttp3.OkHttpClient;
-
-import static com.kakao.util.helper.Utility.getPackageInfo;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawer;                            // 서랍 메뉴
@@ -96,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView centerLogoView;
     private ImageButton leftBtn;
     private ImageButton rightBtn;
+    private ImageButton reportBtn;
+    private ImageButton addBtn;
     private ImageView profileIv;
     private TextView titleView;
     private ImageView alarmNewIconView, noticeNewIconView, eventNewIconView;                // 서랍메뉴 에서 알림, 공지사항, 이벤트 등에 찍히는 빨간 점. 읽었는지 여부는 SharedPreference 에서 판단(애초에 없던 기능을 추가한거라 그렇게 구현함)
@@ -119,9 +112,13 @@ public class MainActivity extends AppCompatActivity {
         centerLogoView = findViewById(R.id.cenverLogoView);
         leftBtn = findViewById(R.id.leftBtn);
         rightBtn = findViewById(R.id.rightBtn);
+        reportBtn = findViewById(R.id.ib_top_bar_report);
+        addBtn = findViewById(R.id.ib_top_bar_add);
         profileIv = findViewById(R.id.iv_top_bar_profile);
+        profileIv.setVisibility(View.VISIBLE);
         titleView = findViewById(R.id.titleView);
         rightBtn.setImageResource(R.drawable.serch_icon_balck);
+        rightBtn.setVisibility(View.GONE);
         eventNewIconView = findViewById(R.id.eventNewIconView);
         noticeNewIconView = findViewById(R.id.noticeNewIconView);
         alarmNewIconView = findViewById(R.id.alarmNewIconView);
@@ -143,33 +140,37 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {                                              // ViewPager 구조 이므로 화면이 전환될때 상단 메뉴의 상태 및 타이틀을 변경한다.
                 rightBtn.setVisibility(View.GONE);
                 profileIv.setVisibility(View.GONE);
+                reportBtn.setVisibility(View.GONE);
+                addBtn.setVisibility(View.GONE);
 
-                if(position == 0) {
+                if (position == 0) {
                     centerLogoView.setVisibility(View.VISIBLE);
                     titleView.setText("");
 //                    rightBtn.setVisibility(View.VISIBLE);
 //                    rightBtn.setImageResource(R.drawable.serch_icon_balck);
                     profileIv.setVisibility(View.VISIBLE);
-                } else if(position == 1) {
+                } else if (position == 1) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("검색");
-                    rightBtn.setVisibility(View.VISIBLE);
-                    rightBtn.setImageResource(R.drawable.dot_menu);
-                } else if(position == 2) {
+//                    rightBtn.setVisibility(View.VISIBLE);
+//                    rightBtn.setImageResource(R.drawable.dot_menu);
+                } else if (position == 2) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("보관함");
                     rightBtn.setVisibility(View.VISIBLE);
                     rightBtn.setImageResource(R.drawable.dot_menu);
-                } else if(position == 3) {
+                    reportBtn.setVisibility(View.VISIBLE);
+                } else if (position == 3) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("작품쓰기");
                     rightBtn.setVisibility(View.VISIBLE);
-                    rightBtn.setImageResource(R.drawable.icon_button_writing);
+                    rightBtn.setImageResource(R.drawable.dot_menu);
+                    addBtn.setVisibility(View.VISIBLE);
 //                    centerLogoView.setVisibility(View.INVISIBLE);
 //                    titleView.setText("마이 페이지");
 //                    rightBtn.setVisibility(View.VISIBLE);
 //                    rightBtn.setImageResource(R.drawable.gear_btn);
-                } else if(position == 4) {
+                } else if (position == 4) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("친구");
                 }
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.app_name, R.string.app_name);
         drawer.addDrawerListener(drawerToggle);
 
-        if(nType > 0) {                                                                                         // FCM 클릭해서 앱 진입시 페이지 이동
+        if (nType > 0) {                                                                                         // FCM 클릭해서 앱 진입시 페이지 이동
             int nObjectID = getIntent().getIntExtra("OBJECT_ID", -1);
             Intent intent = new Intent(MainActivity.this, WorkMainActivity.class);
             intent.putExtra("WORK_ID", nObjectID);
@@ -195,10 +196,10 @@ public class MainActivity extends AppCompatActivity {
         if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {                                               // 링크 클릭해서 앱 진입시 페이지 이동
             Uri uri = getIntent().getData();
 
-            if(uri != null) {
+            if (uri != null) {
                 String strWorkID = uri.getQueryParameter("WORK_ID");
 
-                if(strWorkID != null) {
+                if (strWorkID != null) {
                     Intent intent = new Intent(MainActivity.this, WorkMainActivity.class);
                     intent.putExtra("WORK_ID", Integer.valueOf(strWorkID));
                     startActivity(intent);
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
                         Uri deepLink = null;
-                        if(pendingDynamicLinkData != null) {
+                        if (pendingDynamicLinkData != null) {
                             deepLink = pendingDynamicLinkData.getLink();
 
                             String strUrl = deepLink.toString();
@@ -229,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
 
         initMenuViews();
 
-        if(bFirst) {                                                                                                        // 앱 최초 실행으로 판단되면 튜토리얼 페이지 노출
+        if (bFirst) {                                                                                                        // 앱 최초 실행으로 판단되면 튜토리얼 페이지 노출
             startActivity(new Intent(MainActivity.this, MainTutorialActivity.class));
         }
 
@@ -250,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(bResult) {
+                        if (bResult) {
                             Toast.makeText(MainActivity.this, "출석체크로 5 당근을 적립하였습니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -268,13 +269,13 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(list == null) {
+                        if (list == null) {
                             Toast.makeText(MainActivity.this, "서버와의 통신이 실패했습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        for(AlarmVO vo : list) {
-                            if(!vo.isbRead()) {
+                        for (AlarmVO vo : list) {
+                            if (!vo.isbRead()) {
                                 alarmNewIconView.setVisibility(View.VISIBLE);
                                 break;
                             }
@@ -296,13 +297,13 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(noticeList == null) {
+                        if (noticeList == null) {
                             Toast.makeText(MainActivity.this, "서버와의 통신이 실패했습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        for(NoticeVO vo : noticeList) {
-                            if(!vo.getbRead()) {
+                        for (NoticeVO vo : noticeList) {
+                            if (!vo.getbRead()) {
                                 noticeNewIconView.setVisibility(View.VISIBLE);
                                 break;
                             }
@@ -324,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(eventList == null) {
+                        if (eventList == null) {
                             return;
                         }
 
@@ -334,15 +335,15 @@ public class MainActivity extends AppCompatActivity {
                         snsEvent.setbRead(true);
                         eventList.add(snsEvent);
 
-                        for(EventVO vo : eventList) {
-                            if(!vo.isbRead()) {
+                        for (EventVO vo : eventList) {
+                            if (!vo.isbRead()) {
                                 eventNewIconView.setVisibility(View.VISIBLE);
                                 break;
                             }
                         }
 
-                        if(bCreated) {
-                            for(EventVO vo : eventList) {                                                                           // 하루동안 안보기 클릭했는지 여부 판단해서 이벤트 팝업 노출
+                        if (bCreated) {
+                            for (EventVO vo : eventList) {                                                                           // 하루동안 안보기 클릭했는지 여부 판단해서 이벤트 팝업 노출
                                 int nEventID = vo.getnEventID();
 
                                 Date date = new Date();
@@ -351,11 +352,11 @@ public class MainActivity extends AppCompatActivity {
 
                                 String strDate = pref.getString("" + nEventID, "");
 
-                                if(nEventID == -10 && strDate.length() == 0) {
+                                if (nEventID == -10 && strDate.length() == 0) {
                                     EventPopupActivity.eventList = eventList;
                                     startActivity(new Intent(MainActivity.this, EventPopupActivity.class));
                                     break;
-                                } else if(strDate.length() == 0 || !strDate.equals(strToday)) {
+                                } else if (strDate.length() == 0 || !strDate.equals(strToday)) {
                                     EventPopupActivity.eventList = eventList;
                                     startActivity(new Intent(MainActivity.this, EventPopupActivity.class));
                                     break;
@@ -372,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
         final Calendar cal = Calendar.getInstance();
         Date now = Calendar.getInstance().getTime();
         cal.setTime(now);
-        return ( cal.get(Calendar.YEAR)+"" + cal.get(Calendar.MONTH)+"" + cal.get(Calendar.DAY_OF_MONTH)+"" ) ;
+        return (cal.get(Calendar.YEAR) + "" + cal.get(Calendar.MONTH) + "" + cal.get(Calendar.DAY_OF_MONTH) + "");
     }
 
     @Override
@@ -385,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected  void onPause() {
+    protected void onPause() {
         super.onPause();
         bCreated = false;
     }
@@ -395,15 +396,13 @@ public class MainActivity extends AppCompatActivity {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if(!bFinish) {
+            if (!bFinish) {
                 Toast.makeText(this, "한 번 더 뒤로가기 버튼을 누르시면 종료합니다.", Toast.LENGTH_SHORT).show();
                 bFinish = true;
 
-                new Handler().postDelayed(new Runnable()
-                {
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void run()
-                    {
+                    public void run() {
                         bFinish = false;
                     }
                 }, 2000);
@@ -422,21 +421,37 @@ public class MainActivity extends AppCompatActivity {
     public void onClickTopRightBtn(View view) {                                                                                     // 페이지별로 우측 버튼 다르게 동작
         int nPosition = viewPager.getCurrentItem();
 
-        if(nPosition == 0) {
-            startActivity(new Intent(MainActivity.this, SearchActivity.class));
-        } else if(nPosition == 1){
-            KeepFragment fragment = (KeepFragment)mainPagerAdapter.getItem(1);
-            fragment.showMenus();
-        } else if(nPosition == 2) {
+        if (nPosition == 0) {
+//            startActivity(new Intent(MainActivity.this, SearchActivity.class));
+        } else if (nPosition == 2) {
+//            KeepFragment fragment = (KeepFragment) mainPagerAdapter.getItem(2);
+//            fragment.showMenus();
+            StorageBoxFragment fragment = (StorageBoxFragment) mainPagerAdapter.getItem(2);
+            fragment.showMenus(view);
+        } else if (nPosition == 3) {
             mainPagerAdapter.getItem(2);
-            startActivity(new Intent(MainActivity.this, CreateWorkActivity.class));
-        } else if(nPosition == 3) {
+//            startActivity(new Intent(MainActivity.this, CreateWorkActivity.class));
+//            startActivity(new Intent(MainActivity.this, WorkRegActivity.class));
+
+        } /*else if(nPosition == 4) {
             startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
-        }
+        }*/
     }
 
     public void onClickTopProfileBtn(View view) {
-        startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
+        startActivity(new Intent(this, MyPageActivity.class));
+//        startActivity(new Intent(this, TagRegActivity.class));
+//        startActivity(new Intent(this, WriterPageActivity.class));
+//        viewPager.setCurrentItem(5);
+    }
+
+    public void onClickTopReportBtn(View v) {
+        StorageBoxFragment fragment = (StorageBoxFragment) mainPagerAdapter.getItem(2);
+        fragment.showBugReport();
+    }
+
+    public void onClickTopAdd(View v) {
+        startActivity(new Intent(MainActivity.this, WorkRegActivity.class));
     }
 
     private void initMenuViews() {                                                                                  // 좌측 서랍메뉴 설정
@@ -451,10 +466,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ImageView faceView = navigationView.findViewById(R.id.faceView);                                        // 얼굴 사진
+        ImageView profileIv = findViewById(R.id.iv_top_bar_profile);
         String strPhoto = pref.getString("USER_PHOTO", "");
 
-        if(strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
-            if(!strPhoto.startsWith("http"))
+        if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
+            if (!strPhoto.startsWith("http"))
                 strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
 
             Glide.with(MainActivity.this)
@@ -463,8 +479,16 @@ public class MainActivity extends AppCompatActivity {
                     .load(strPhoto)
                     .apply(new RequestOptions().circleCrop())
                     .into(faceView);
+
+            Glide.with(MainActivity.this)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .placeholder(R.drawable.user_icon)
+                    .load(strPhoto)
+                    .apply(new RequestOptions().circleCrop())
+                    .into(profileIv);
         } else {
             faceView.setImageResource(R.drawable.user_icon);
+            profileIv.setImageResource(R.drawable.user_icon);
         }
 
         strUserID = pref.getString("USER_ID", "Guest");
@@ -475,7 +499,7 @@ public class MainActivity extends AppCompatActivity {
         TextView typeView = navigationView.findViewById(R.id.typeView);
         String strAdmin = pref.getString("ADMIN", "N");
 
-        if(strAdmin.equals("Y")) {          // 관리자 라면 관리자 전용 메뉴 노출
+        if (strAdmin.equals("Y")) {          // 관리자 라면 관리자 전용 메뉴 노출
             typeView.setText("관리자");
             managerLayout = navigationView.findViewById(R.id.managerLayout);
             managerLayout.setVisibility(View.VISIBLE);
@@ -527,7 +551,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         TextView logoutBtn = navigationView.findViewById(R.id.logoutBtn);
-        if(strUserID.equals("Guest")) {
+        if (strUserID.equals("Guest")) {
             logoutBtn.setText("로그인");
         } else {
             logoutBtn.setText("로그아웃");
@@ -536,7 +560,7 @@ public class MainActivity extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(strUserID.equals("Guest")) {
+                if (strUserID.equals("Guest")) {
                     startActivity(new Intent(MainActivity.this, LoginSelectActivity.class));
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -613,6 +637,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        TextView versionView = navigationView.findViewById(R.id.versionView);   // 어플 버전정보
+        versionView.setOnClickListener((v) -> {
+            startActivity(new Intent(MainActivity.this, VersionActivity.class));
+        });
+
         // 코인 관련 부분은 모두 삭제하여 현재 사용하지 않음
 //        TextView coinLogView = navigationView.findViewById(R.id.coinLogView);
 //        coinLogView.setOnClickListener(new View.OnClickListener() {
@@ -637,7 +666,7 @@ public class MainActivity extends AppCompatActivity {
         super.onNewIntent(intent);
 
         String strUri = intent.getStringExtra("URI");
-        MyFragment fragment = (MyFragment)mainPagerAdapter.getItem(3);
+        MyFragment fragment = (MyFragment) mainPagerAdapter.getItem(3);
         fragment.setImage(strUri);
     }
 
@@ -645,8 +674,8 @@ public class MainActivity extends AppCompatActivity {
         ImageView faceView = navigationView.findViewById(R.id.faceView);
         String strPhoto = pref.getString("USER_PHOTO", "");
 
-        if(strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
-            if(!strPhoto.startsWith("http"))
+        if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
+            if (!strPhoto.startsWith("http"))
                 strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
 
             Glide.with(MainActivity.this)
@@ -661,7 +690,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickLogoutBtn(View view) {
-        if(strUserID.equals("Guest")) {
+        if (strUserID.equals("Guest")) {
             startActivity(new Intent(MainActivity.this, LoginSelectActivity.class));
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -703,12 +732,12 @@ public class MainActivity extends AppCompatActivity {
 
         CommonUtils.resetUserInfo(pref);
 
-        if(nRegisterSNS == 1) {              // KakaoTalk Logout
+        if (nRegisterSNS == 1) {              // KakaoTalk Logout
             KakaoSDKAdapter.unregisterKakaoTalk(MainActivity.this);
-        } else if(nRegisterSNS == 2) {              // Naver Logout
+        } else if (nRegisterSNS == 2) {              // Naver Logout
             OAuthLogin mOAuthLoginModule = OAuthLogin.getInstance();
             mOAuthLoginModule.logout(MainActivity.this);
-        } else if(nRegisterSNS == 4) {              // Facebook Logout
+        } else if (nRegisterSNS == 4) {              // Facebook Logout
             LoginManager.getInstance().logOut();
         }
 
@@ -756,17 +785,18 @@ public class MainActivity extends AppCompatActivity {
         ImageView myImgView = findViewById(R.id.myImgView);
 
         homeImgView.setBackgroundResource(R.drawable.ic_home_off);
-//        searchView.setBackgroundResource(R.drawable);
+        searchView.setColorFilter(Color.parseColor("#000000"));
         storageImgView.setBackgroundResource(R.drawable.ic_storage_off);
         writeImgView.setBackgroundResource(R.drawable.ic_write_off);
         myImgView.setBackgroundResource(R.drawable.ic_mypage_off);
 
-        switch(nIndex) {
+        switch (nIndex) {
             case 0:
                 homeImgView.setBackgroundResource(R.drawable.ic_home_on);
                 break;
             case 1:
-                searchView.setBackgroundResource(R.drawable.ic_i_tapbar_2_1);
+                searchView.setColorFilter(Color.parseColor("#6d8fff"));
+//                searchView.setBackgroundResource(R.drawable.ic_i_tapbar_2_1);
                 break;
             case 2:
                 storageImgView.setBackgroundResource(R.drawable.ic_storage_on);

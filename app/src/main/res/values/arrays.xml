@@ -17,4 +17,8 @@
         <item>최신순</item>
     </string-array>
 
+    <string-array name="REPORT_MENU">
+        <item>내용</item>
+        <item>저작권</item>
+    </string-array>
 </resources>

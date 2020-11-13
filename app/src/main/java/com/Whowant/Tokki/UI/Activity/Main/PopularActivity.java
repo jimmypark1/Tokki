@@ -2,6 +2,7 @@ package com.Whowant.Tokki.UI.Activity.Main;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,10 +31,19 @@ public class PopularActivity extends AppCompatActivity {                    // �
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popular);
 
+        initView();
+
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
         getGenreList();
+    }
+
+    private void initView() {
+        ((TextView) findViewById(R.id.tv_top_layout_title)).setText("인기작");
+
+        (findViewById(R.id.ib_top_layout_back)).setVisibility(View.VISIBLE);
+        (findViewById(R.id.ib_top_layout_back)).setOnClickListener((v) -> finish());
     }
 
     private void getGenreList() {
@@ -49,7 +59,7 @@ public class PopularActivity extends AppCompatActivity {                    // �
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(genreList == null) {
+                        if (genreList == null) {
                             Toast.makeText(PopularActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }

@@ -9,7 +9,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 28
-        versionName "1.0.28"
+        versionName "1.0.32"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -56,6 +56,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'com.squareup.okhttp3:okhttp:3.14.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
     implementation files('libs/poishadow-all.jar')
     implementation "com.google.android.material:material:1.0.0"
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.25.0'
@@ -85,6 +86,7 @@ dependencies {
     implementation 'com.ycuwq.widgets:datepicker:1.3.1'
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation 'com.google.firebase:firebase-dynamic-links:19.1.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
 
 apply plugin: 'com.google.gms.google-services'

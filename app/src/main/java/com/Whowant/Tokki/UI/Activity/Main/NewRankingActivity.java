@@ -1,7 +1,5 @@
 package com.Whowant.Tokki.UI.Activity.Main;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,9 +15,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WorkVO;
@@ -36,11 +35,15 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
     private ListView listView;
     private CNewRankingArrayAdapter aa;
 
+    String title = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_ranking);
 
+        getData();
+        initView();
 //        ActionBar actionBar = getSupportActionBar();
 //        actionBar.setDisplayHomeAsUpEnabled(true);
 //        actionBar.setTitle("최신작");
@@ -53,9 +56,22 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
         getNewRankingData();
     }
 
+    private void getData() {
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            title = getIntent().getStringExtra("title");
+        }
+    }
+
+    private void initView() {
+        ((TextView) findViewById(R.id.tv_top_layout_title)).setText(title);
+
+        findViewById(R.id.ib_top_layout_back).setVisibility(View.VISIBLE);
+        findViewById(R.id.ib_top_layout_back).setOnClickListener((v) -> finish());
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -77,7 +93,7 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(bestList == null) {
+                        if (bestList == null) {
                             Toast.makeText(NewRankingActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -98,20 +114,17 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
         startActivity(intent);
     }
 
-    public class CNewRankingArrayAdapter extends ArrayAdapter<Object>
-    {
+    public class CNewRankingArrayAdapter extends ArrayAdapter<Object> {
         private LayoutInflater mLiInflater;
 
-        CNewRankingArrayAdapter(Context context, int layout, List titles)
-        {
+        CNewRankingArrayAdapter(Context context, int layout, List titles) {
             super(context, layout, titles);
-            mLiInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mLiInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent)
-        {
-            if(convertView == null)
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            if (convertView == null)
                 convertView = mLiInflater.inflate(R.layout.best_row, parent, false);
 
             WorkVO vo = bestList.get(position);
@@ -134,14 +147,14 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
 
             TextView writerNameView = convertView.findViewById(R.id.writerNameView);
 
-            if(strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
+            if (strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
                 Glide.with(NewRankingActivity.this)
                         .asBitmap() // some .jpeg files are actually gif
                         .load(R.drawable.no_poster_vertical)
                         .apply(new RequestOptions().override(800, 800))
                         .into(coverView);
             } else {
-                if(!strImgUrl.startsWith("http")) {
+                if (!strImgUrl.startsWith("http")) {
                     strImgUrl = CommonUtils.strDefaultUrl + "images/" + strImgUrl;
                 }
 
@@ -157,7 +170,7 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
             synopsisView.setText(vo.getSynopsis());
 
             float fStarPoint = vo.getfStarPoint();
-            if(fStarPoint == 0)
+            if (fStarPoint == 0)
                 starPointView.setText("0");
             else
                 starPointView.setText(String.format("%.1f", vo.getfStarPoint()));

@@ -41,12 +41,12 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
     public MainCardHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {                                   // 현재 3줄로 이루어져 있음. 0 - 추천작, 1 - 인기작, 2 - 최신작.  viewType 으로 구분하도록 되어있음
         View v = null;
 
-        if(viewType == 0)
-            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_card_row_renewal, null);
-        else if(viewType == 1)
-            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_popular_viewpager, null);
+        if (viewType == 0)
+            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_card_row_renewal, viewGroup, false);
+        else if (viewType == 1)
+            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_popular_viewpager, viewGroup, false);
         else
-            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_card, null);
+            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_card, viewGroup, false);
 
         MainCardHolder mh = new MainCardHolder(v);
         return mh;
@@ -59,7 +59,11 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
 
     @Override
     public void onBindViewHolder(MainCardHolder itemRowHolder, int position) {
-        if(position == 0) {                                                     // 추천
+
+        MainCardVO item = mainCardList.get(position);
+        int viewType = item.getViewType();
+
+        if (viewType == 0) {                                                     // 추천
             ArrayList singleSectionItems = mainCardList.get(position).getAllItemInCard();
             MainRecommendAdapter adapter = new MainRecommendAdapter(mContext, singleSectionItems);
             itemRowHolder.recyclerView.setHasFixedSize(true);
@@ -68,12 +72,12 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
 
             LinearLayout dotLayout = itemRowHolder.itemView.findViewById(R.id.dotLayout);
             final ArrayList<View> dotViewList = new ArrayList<>();
-            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            for(int i = 0 ; i < singleSectionItems.size() ; i++) {
+            for (int i = 0; i < singleSectionItems.size(); i++) {
                 View view = inflater.inflate(R.layout.dot_view, null);
                 ImageView dotView = view.findViewById(R.id.dotView);
-                if(i == 0) {
+                if (i == 0) {
                     dotView.setBackgroundResource(R.drawable.white_dot);
                 } else {
                     dotView.setBackgroundResource(R.drawable.gray_dot);
@@ -93,13 +97,13 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
                         View currentView = snapHelper.findSnapView(lm);
                         int nPosition = lm.getPosition(currentView);
 
-                        for(int i = 0 ; i < dotViewList.size() ; i++) {
+                        for (int i = 0; i < dotViewList.size(); i++) {
                             View wrapView = dotViewList.get(i);
 
                             ImageView dotView = wrapView.findViewById(R.id.dotView);
                             dotView.setBackgroundResource(R.drawable.gray_dot);
 
-                            if(i == nPosition) {
+                            if (i == nPosition) {
                                 dotView.setBackgroundResource(R.drawable.white_dot);
                             }
                         }
@@ -112,7 +116,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
 
             setTimer(singleSectionItems, itemRowHolder.recyclerView);
             itemRowHolder.recyclerView.setLayoutManager(lm);
-        } else if(position == 1) {                          //  인기작, 2개씩 ViewPager 로 변환*
+        } else if (viewType == 1) {                          //  인기작, 2개씩 ViewPager 로 변환*
             ArrayList singleSectionItems = mainCardList.get(position).getAllItemInCard();
             PopularPagerAdapter adapter = new PopularPagerAdapter(mContext, singleSectionItems);
             itemRowHolder.viewPager.setHasFixedSize(true);
@@ -137,14 +141,20 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             RecentListAdapter recentListAdapter = new RecentListAdapter(mContext, singleSectionItems, mainCardList.get(position).getViewType());
 
             itemRowHolder.recyclerView.setHasFixedSize(true);
-            LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+            LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
             itemRowHolder.recyclerView.setAdapter(recentListAdapter);
             itemRowHolder.recyclerView.setLayoutManager(lm);
 
             itemRowHolder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, NewRankingActivity.class));
+                    if ("인기작".equals(sectionName)) {
+                        mContext.startActivity(new Intent(mContext, PopularActivity.class));
+                    } else {
+                        Intent intent = new Intent(mContext, NewRankingActivity.class);
+                        intent.putExtra("title", sectionName);
+                        mContext.startActivity(intent);
+                    }
                 }
             });
         }
@@ -176,7 +186,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
     }
 
     private void setTimer(ArrayList singleSectionItems, RecyclerView recyclerView) {
-        if(timer != null) {
+        if (timer != null) {
             timer.cancel();
             timer = null;
         }
@@ -185,8 +195,8 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(nCurrentItem < singleSectionItems.size() - 1) {
-                    nCurrentItem ++;
+                if (nCurrentItem < singleSectionItems.size() - 1) {
+                    nCurrentItem++;
                 } else {
                     nCurrentItem = 0;
                 }
