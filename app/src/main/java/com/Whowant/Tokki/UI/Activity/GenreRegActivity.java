@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,12 +22,21 @@ public class GenreRegActivity extends AppCompatActivity {
     ArrayList<String> mArrayList = new ArrayList<>();
     ArrayList<String> checkList = new ArrayList<>();
 
+    String[] genreSelect;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_genre_reg);
 
+        getData();
         initView();
+    }
+
+    private void getData() {
+        if(getIntent() != null && getIntent().getExtras() != null) {
+            genreSelect = getIntent().getStringExtra("genre").split("/");
+        }
     }
 
     private void initView() {
@@ -101,10 +109,16 @@ public class GenreRegActivity extends AppCompatActivity {
                 } else {
                     childLl.setTag(null);
                 }
-
-                Toast.makeText(GenreRegActivity.this, name, Toast.LENGTH_SHORT).show();
             }
         });
+
+        for(int i=0; i<genreSelect.length; i++) {
+            if(name.equals(genreSelect[i])) {
+                childLl.setSelected(true);
+                nameTv.setSelected(true);
+                childLl.setTag(name);
+            }
+        }
         return v;
     }
 

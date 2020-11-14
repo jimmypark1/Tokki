@@ -66,7 +66,8 @@
             android:layout_alignBottom="@+id/iv_row_literature_photo"
             android:layout_marginEnd="20dp"
             android:layout_toEndOf="@+id/iv_row_literature_photo"
-            android:background="@drawable/round_22_dddddd">
+            android:background="@drawable/round_22_dddddd"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
