@@ -46,6 +46,7 @@
     <RelativeLayout
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="28dp"

@@ -44,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -208,7 +209,8 @@
         android:ellipsize="end"
         android:text="asdfasfsafasdfsdf"
         android:textColor="#969696"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/genreLinearLayout"
@@ -217,7 +219,8 @@
         android:layout_below="@+id/synopsisView"
         android:layout_marginTop="7dp"
         android:gravity="top"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/genreTitle"
@@ -241,7 +244,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/genreLinearLayout"
         android:gravity="top"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tagTitle"

@@ -36,6 +36,18 @@ public class MyPageFollowingFragment extends Fragment {
     MyPageFollowingAdapter adapter;
     private ArrayList<WriterVO> writerList = new ArrayList<>();
 
+    String writerId;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle bundle = getArguments();
+        if(bundle != null) {
+            writerId = bundle.getString("writerId");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -104,8 +116,14 @@ public class MyPageFollowingFragment extends Fragment {
                 }
 
                 viewHolder.nameTv.setText(item.getStrWriterName());
-                viewHolder.followerLl.setVisibility(View.VISIBLE);
-                viewHolder.followingLl.setVisibility(View.GONE);
+
+                if (item.getnFollowcount() == 0) {
+                    viewHolder.followerLl.setVisibility(View.GONE);
+                    viewHolder.followingLl.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.followerLl.setVisibility(View.VISIBLE);
+                    viewHolder.followingLl.setVisibility(View.GONE);
+                }
             }
         }
 
@@ -145,7 +163,7 @@ public class MyPageFollowingFragment extends Fragment {
             @Override
             public void run() {
                 String userId = SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest");
-                writerList.addAll(HttpClient.getMyFollowingList(new OkHttpClient(), userId));
+                writerList.addAll(HttpClient.getMyFollowingList(new OkHttpClient(), writerId));
 
                 for (int i = 0; i < writerList.size(); i++) {
                     WriterVO vo = writerList.get(i);

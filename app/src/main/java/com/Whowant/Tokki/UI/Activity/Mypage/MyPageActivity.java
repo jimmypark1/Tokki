@@ -157,7 +157,9 @@ public class MyPageActivity extends AppCompatActivity {
 
     // 팔로워
     public void btnFollower(View v) {
-        startActivity(new Intent(this, MyPageFollowerActivity.class));
+        Intent intent = new Intent(this, MyPageFollowerActivity.class);
+        intent.putExtra("writerId", SimplePreference.getStringPreference(this, "USER_INFO", "USER_ID", "Guest"));
+        startActivity(intent);
     }
 
     //  당근 얻기, 사기

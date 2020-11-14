@@ -1,6 +1,7 @@
 package com.Whowant.Tokki.UI.Adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,13 +19,21 @@ public class MyPageFollowerAdapter extends FragmentPagerAdapter {
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private ArrayList<String> titles = new ArrayList<>();
 
-    public MyPageFollowerAdapter(Context context, @NonNull FragmentManager fm) {
+    public MyPageFollowerAdapter(Context context, @NonNull FragmentManager fm, String writerId) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         this.mContext = context;
 
-        fragments.add(new MyPageFollowerFragment());
-        fragments.add(new MyPageFollowingFragment());
+        MyPageFollowerFragment myPageFollowerFragment = new MyPageFollowerFragment();
+        MyPageFollowingFragment myPageFollowingFragment = new MyPageFollowingFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("writerId", writerId);
+        myPageFollowerFragment.setArguments(bundle);
+        myPageFollowingFragment.setArguments(bundle);
+
+        fragments.add(myPageFollowerFragment);
+        fragments.add(myPageFollowingFragment);
 
         titles.add("팔로워");
         titles.add("팔로잉");

@@ -136,7 +136,7 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
         }
 
         nameEt.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_NAME", ""));
-        genderEt.setText(SimplePreference.getIntegerPreference(this, "USER_INFO", "USER_GENDER", -1) + "");
+        genderEt.setText(SimplePreference.getIntegerPreference(this, "USER_INFO", "USER_GENDER", -1) == 0 ? "남성" : "여성");
         birthEt.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_BIRTHDAY", ""));
         phoneEt.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_PHONENUM", ""));
         emailEt.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_EMAIL", ""));

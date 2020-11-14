@@ -783,6 +783,17 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 TextView smallLvView = holder.itemView.findViewById(R.id.smallLvView);
 
                 // [S] winhmoon
+                LinearLayout carrotView = holder.itemView.findViewById(R.id.carrotView);
+                carrotView.setOnClickListener((v) -> {
+                    if (workVO.getnWriterID().equals(pref.getString("USER_ID", "Guest"))) {
+                        CommonUtils.makeText(WorkMainActivity.this, "내 작품에는 후원 하실수 없습니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Intent intent = new Intent(WorkMainActivity.this, CarrotDoneActivity.class);
+                    intent.putExtra("WORK_ID", workVO.getnWorkID());
+                    startActivity(intent);
+                });
+
                 TextView carrotTv = holder.itemView.findViewById(R.id.tv_carrot);
                 carrotTv.setText(new DecimalFormat("###,###").format(workVO.getnDonationCarrot()) + " 개");
 
@@ -1056,7 +1067,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 TextView episodeCountView = holder.itemView.findViewById(R.id.episodeCountView);
                 episodeCountView.setText(showingList.get(position));
 
-                ImageView orderBtn = holder.itemView.findViewById(R.id.orderBtn);
+                RelativeLayout orderBtn = holder.itemView.findViewById(R.id.orderBtn);
                 orderBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -1087,6 +1098,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 TextView postAvailableView = holder.itemView.findViewById(R.id.postAvailableView);
 
                 TextView dateTimeView = holder.itemView.findViewById(R.id.dateTimeView);
+                TextView heartPointView = holder.itemView.findViewById(R.id.heartPointView);
                 TextView startPointView = holder.itemView.findViewById(R.id.startPointView);
                 TextView hitsCountView = holder.itemView.findViewById(R.id.hitsCountView);
                 TextView commentCountView = holder.itemView.findViewById(R.id.commentCountView);
@@ -1109,6 +1121,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 }
 
                 dateTimeView.setText(vo.getStrDate().substring(0, 10));
+//                heartPointView.setText(CommonUtils.getPointCount(vo.get()));
                 startPointView.setText(String.format("%.1f", vo.getfStarPoint()));
                 hitsCountView.setText(CommonUtils.getPointCount(vo.getnTapCount()));
                 commentCountView.setText(CommonUtils.getPointCount(vo.getnCommentCount()));
