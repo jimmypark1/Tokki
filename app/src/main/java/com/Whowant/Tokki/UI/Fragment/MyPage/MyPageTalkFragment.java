@@ -180,6 +180,43 @@ public class MyPageTalkFragment extends Fragment {
                 viewHolder.nameTv.setText(item.getUserName());
                 viewHolder.dateTv.setText(CommonUtils.strGetTime(item.getRegisterDate()));
                 viewHolder.commentTv.setText(item.getStrComment());
+
+                if (item.getUserID().equals(SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest")) || SimplePreference.getStringPreference(context, "USER_INFO", "ADMIN", "N").equals("Y")) {
+                    viewHolder.reportTv.setText("삭제");
+                } else {
+                    viewHolder.reportTv.setText("신고");
+                }
+            } else if (holder instanceof MyPageTalkYourViewHolder) {
+                MyPageTalkYourViewHolder viewHolder = (MyPageTalkYourViewHolder) holder;
+
+                String strPhoto = item.getUserPhoto();
+                if (strPhoto != null && !strPhoto.equals("null") && !strPhoto.equals("NULL") && strPhoto.length() > 0) {
+                    if (!strPhoto.startsWith("http"))
+                        strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
+
+                    Glide.with(context)
+                            .asBitmap() // some .jpeg files are actually gif
+                            .load(strPhoto)
+                            .placeholder(R.drawable.user_icon)
+                            .apply(new RequestOptions().circleCrop())
+                            .into(viewHolder.photoIv);
+                } else {
+                    Glide.with(context)
+                            .asBitmap() // some .jpeg files are actually gif
+                            .load(R.drawable.user_icon)
+                            .apply(new RequestOptions().circleCrop())
+                            .into(viewHolder.photoIv);
+                }
+
+                viewHolder.nameTv.setText(item.getUserName());
+                viewHolder.dateTv.setText(CommonUtils.strGetTime(item.getRegisterDate()));
+                viewHolder.commentTv.setText(item.getStrComment());
+
+                if (item.getUserID().equals(SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest")) || SimplePreference.getStringPreference(context, "USER_INFO", "ADMIN", "N").equals("Y")) {
+                    viewHolder.optionIv.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.optionIv.setVisibility(View.GONE);
+                }
             }
         }
 
