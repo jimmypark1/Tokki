@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +24,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Main.ChatActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageFollowerActivity;
 import com.Whowant.Tokki.UI.Activity.Report.ReportActivity;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageFeedFragment;
@@ -94,8 +94,6 @@ public class WriterPageActivity extends AppCompatActivity implements View.OnClic
         if (getIntent() != null && getIntent().getExtras() != null) {
             writerId = getIntent().getStringExtra("writerId");
         }
-
-        Log.e("1121", "1121 - writerId : " + writerId);
     }
 
     private void initView() {
@@ -189,23 +187,24 @@ public class WriterPageActivity extends AppCompatActivity implements View.OnClic
         PopupMenu popup = new PopupMenu(mActivity, v);
 
         popup.getMenu().add(0, 0, 0, "메세지 보내기");
-        popup.getMenu().add(0, 1, 1, "Woo Jeonggueon 차단");
+        popup.getMenu().add(0, 1, 1, nameTv.getText().toString() + " 차단");
         popup.getMenu().add(0, 2, 2, "보고서");
 
 //        popup.getMenuInflater().inflate(R.menu.work_write_list_comment_menu, popup.getMenu());
 
         MenuItem item = popup.getMenu().getItem(0);
-        Log.e("1121", "1121 - menu : " + item.getGroupId() + " / " + item.getItemId() + " / " + item.getOrder() + " / " + item.getTitle());
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
 
-                Log.e("1121", "1121 - item : " + item.getItemId());
                 switch (item.getItemId()) {
-                    case 0:
-
-                        break;
-                    case 1:
+                    case 0: {
+                        Intent intent = new Intent(mActivity, ChatActivity.class);
+                        intent.putExtra("WRITER_ID", writerId);
+                        startActivity(intent);
+                    }
+                    break;
+                    case 1: {
                         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
                         builder.setTitle(item.getTitle());
                         builder.setMessage("This account will not be able to follow you, Send you messages, post on your profile or comment on your stories.");
@@ -225,12 +224,15 @@ public class WriterPageActivity extends AppCompatActivity implements View.OnClic
 
                         AlertDialog alertDialog = builder.create();
                         alertDialog.show();
-                        break;
-                    case 2:
+                    }
+                    break;
+                    case 2: {
+
                         Intent intent = new Intent(mActivity, ReportActivity.class);
                         intent.putExtra("title", "댓글 신고");
                         startActivity(intent);
-                        break;
+                    }
+                    break;
                 }
                 return true;
             }
@@ -287,8 +289,6 @@ public class WriterPageActivity extends AppCompatActivity implements View.OnClic
 
                             nameTv.setText(strName);
                             followerCountTv.setText(nFollowCount + "");
-
-                            Log.e("1121", "1121 - bFollow : " + bFollow);
 
                             if (bFollow) {
                                 unfollowLl.setVisibility(View.VISIBLE);
