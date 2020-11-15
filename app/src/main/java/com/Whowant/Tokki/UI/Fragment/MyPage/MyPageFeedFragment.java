@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterPageActivity;
 import com.Whowant.Tokki.UI.TypeOnClickListener;
 import com.Whowant.Tokki.UI.ViewHolder.SearchResultViewHolder;
@@ -75,7 +76,13 @@ public class MyPageFeedFragment extends Fragment {
         ItemClickSupport.addTo(recyclerView).setItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClick(RecyclerView parent, View view, int position, long id) {
+                MyPageFeedVo item = mArrayList.get(position);
 
+                if(item.getWorkVO() != null) {
+                    Intent intent = new Intent(getContext(), WorkMainActivity.class);
+                    intent.putExtra("WORK_ID", item.getWorkVO().getnWorkID());
+                    getContext().startActivity(intent);
+                }
             }
         });
 

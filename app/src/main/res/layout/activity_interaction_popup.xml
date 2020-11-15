@@ -4,32 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Popup.AddCharacterPopup"
-    android:background="#b2000000">
+    android:background="#b2000000"
+    tools:context=".UI.Popup.AddCharacterPopup">
 
     <RelativeLayout
         android:id="@+id/popLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_white_card_bg"
+        android:layout_centerInParent="true"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
-        android:layout_centerInParent="true">
+        android:background="@drawable/round_white_card_bg">
 
         <RelativeLayout
             android:id="@+id/topLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp">
 
             <TextView
                 android:id="@+id/titleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="15dp"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:text="@string/text_choice_interaction"/>
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="3sp"
+                android:text="@string/text_choice_interaction"
+                android:textColor="#222222"
+                android:textSize="17sp"
+                android:textStyle="normal" />
 
             <ImageButton
                 android:id="@+id/closeBtn"
@@ -37,12 +40,10 @@
                 android:layout_height="26dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="20dp"
                 android:background="?attr/selectableItemBackground"
-                android:src="@drawable/pop_close"
-                android:onClick="onClickCloseBtn"/>
+                android:onClick="onClickCloseBtn"
+                android:src="@drawable/pop_close" />
         </RelativeLayout>
 
         <ImageView
@@ -50,52 +51,53 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/topLayout"
-            android:background="#707070"/>
+            android:background="#707070"
+            android:visibility="invisible" />
 
         <RelativeLayout
             android:id="@+id/interaction1Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="44dp"
-            android:layout_marginRight="44dp"
-            android:layout_marginTop="20dp"
             android:layout_below="@id/lineView"
-            android:padding="20dp">
+            android:layout_marginTop="60dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
 
             <TextView
                 android:id="@+id/interactionAView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="26sp"
+                android:text="A"
                 android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:text="A"/>
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="11dp"
-                android:layout_toRightOf="@+id/interactionAView"
+                android:layout_height="40dp"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="13dp"
+                android:layout_toRightOf="@+id/interactionAView"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/interaction1ContentsView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/interactionAView"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="5sp"
                     android:text="선택지1111"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="14sp"/>
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
 
                 <ImageView
                     android:id="@+id/interaction1Bar"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/interaction1ContentsView"
-                    android:layout_alignLeft="@+id/interaction1ContentsView"
-                    android:layout_alignRight="@+id/interaction1ContentsView"
-                    android:background="@color/colorPrimary"/>
+                    android:background="@color/colorPrimary" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -103,82 +105,115 @@
             android:id="@+id/interaction2Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="44dp"
-            android:layout_marginRight="44dp"
-            android:layout_marginBottom="30dp"
             android:layout_below="@+id/interaction1Layout"
-            android:padding="20dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="83dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
 
             <TextView
                 android:id="@+id/interactionBView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="26sp"
-                android:textColor="@color/colorBlack"
-                android:textStyle="bold"
-                android:text="B"/>
+                android:text="B"
+                android:textColor="#222222"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="11dp"
-                android:layout_toRightOf="@+id/interactionBView"
+                android:layout_height="40dp"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="13dp"
+                android:layout_toRightOf="@+id/interactionBView"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/interaction2ContentsView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/interactionBView"
-                    android:textColor="@color/colorBlack"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:text="선택지1111"
-                    android:textSize="14sp"/>
+                    android:textColor="#222222"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
 
                 <ImageView
                     android:id="@+id/interaction2Bar"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/interaction1ContentsView"
-                    android:layout_alignLeft="@+id/interaction1ContentsView"
-                    android:layout_alignRight="@+id/interaction1ContentsView"
-                    android:background="@color/colorBlack"/>
+                    android:background="@color/colorBlack" />
             </LinearLayout>
         </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_below="@+id/interaction2Layout"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/addBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@drawable/round_22_5a9aff"
+                android:onClick="onClickOKBtn"
+                android:text="@string/text_select"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <Button
+                android:id="@+id/deleteBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_weight="2"
+                android:background="@drawable/black_btn_bg"
+                android:onClick="onClickDeleteBtn"
+                android:text="@string/text_delete"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal"
         android:layout_below="@+id/popLayout"
         android:layout_marginLeft="80dp"
+        android:layout_marginTop="8.3dp"
         android:layout_marginRight="80dp"
-        android:layout_marginTop="8.3dp">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <Button
-            android:id="@+id/addBtn"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="6"
             android:background="@drawable/small_round_shadow_btn_white_bg"
-            android:textSize="16sp"
-            android:textColor="@color/colorPrimary"
+            android:onClick="onClickOKBtn"
             android:text="@string/text_select"
-            android:onClick="onClickOKBtn"/>
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
 
         <Button
-            android:id="@+id/deleteBtn"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_weight="4"
             android:layout_marginLeft="5dp"
+            android:layout_weight="4"
             android:background="@drawable/black_btn_bg"
-            android:textSize="16sp"
-            android:textColor="@color/colorWhite"
+            android:onClick="onClickDeleteBtn"
             android:text="@string/text_delete"
-            android:visibility="gone"
-            android:onClick="onClickDeleteBtn"/>
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:visibility="gone" />
     </LinearLayout>
 
 </RelativeLayout>
