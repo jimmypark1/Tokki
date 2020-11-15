@@ -30,4 +30,6 @@
 
     <color name="character_selected_f">#666666</color>
     <color name="character_selected_t">#5a9aff</color>
+
+    <color name="selector_tab_interaction_write">#222222</color>
 </resources>

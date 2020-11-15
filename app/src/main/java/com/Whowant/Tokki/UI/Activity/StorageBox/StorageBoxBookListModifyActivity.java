@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -201,7 +200,6 @@ public class StorageBoxBookListModifyActivity extends AppCompatActivity {
             getReadingList(userId);
         } else if (requestCode == 901 && resultCode == RESULT_OK) {
             if (data != null) {
-                Log.e("1121", "1121 - data : " + data.toString());
                 String readingId = data.getStringExtra("readingId");
                 dropReadingList(userId, readingId);
             }

@@ -108,9 +108,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/topBarLayout"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabGravity="center"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/selector_tab_interaction_write"
         app:tabIndicatorColor="@color/colorPrimary"/>
 
     <androidx.viewpager.widget.ViewPager

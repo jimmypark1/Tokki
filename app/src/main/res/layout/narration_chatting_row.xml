@@ -6,19 +6,19 @@
 
     <TextView
         android:id="@+id/contentsTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/narration_bg"
-        android:layout_marginLeft="36.3dp"
-        android:layout_marginRight="36.3dp"
-        android:paddingLeft="38.7dp"
-        android:paddingRight="38.7dp"
-        android:paddingTop="8.3dp"
-        android:paddingBottom="8.3dp"
-        android:textSize="14sp"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/colorWhite"/>
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/round_22_4e4e4e"
+        android:gravity="center"
+        android:lineSpacingExtra="7sp"
+        android:padding="10dp"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        android:textStyle="normal" />
 
     <TextView
         android:id="@+id/commentCountView"
@@ -27,9 +27,9 @@
         android:layout_alignLeft="@+id/deleteBtn"
         android:layout_alignBottom="@+id/contentsTextView"
         android:maxLines="1"
-        android:visibility="gone"
+        android:text="0"
         android:textColor="@color/colorTextGray"
-        android:text="0"/>
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/deleteBtn"
@@ -37,50 +37,49 @@
         android:layout_height="24dp"
         android:layout_alignTop="@+id/contentsTextView"
         android:layout_alignRight="@+id/contentsTextView"
-        android:layout_marginRight="-12dp"
         android:layout_marginTop="-12dp"
-        android:focusable="false"
+        android:layout_marginRight="-12dp"
+        android:background="@drawable/delet_button"
         android:clickable="false"
-        android:background="@drawable/delet_button"/>
+        android:focusable="false" />
 
     <RelativeLayout
         android:id="@+id/addBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
         android:layout_below="@+id/contentsTextView"
-        android:focusable="false"
-        android:clickable="false">
+        android:layout_margin="20dp"
+        android:clickable="false"
+        android:focusable="false">
 
         <TextView
             android:id="@+id/txtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="12sp"
-            android:textColor="@color/colorBlack"
-            android:gravity="center"
-            android:text="사이에 추가"/>
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="7sp"
+            android:text="사이에 추가"
+            android:textColor="#000000"
+            android:textSize="13sp"
+            android:textStyle="normal" />
 
         <ImageView
             android:id="@+id/leftLine"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_toLeftOf="@+id/txtView"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:background="@color/colorBlack"/>
+            android:layout_marginEnd="10dp"
+            android:layout_toLeftOf="@+id/txtView"
+            android:background="#222222" />
 
         <ImageView
             android:id="@+id/rightLine"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_toRightOf="@+id/txtView"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:background="@color/colorBlack"/>
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/txtView"
+            android:background="#222222" />
     </RelativeLayout>
 </RelativeLayout>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -205,7 +204,6 @@ public class StorageBoxReadingFragment extends Fragment {
                     mArrayList.addAll(responseVo);
                 }
 
-                Log.e("1121", "1121 - mArrayList.size : " + mArrayList.size());
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

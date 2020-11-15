@@ -10,7 +10,6 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,8 +131,6 @@ public class WorkRegActivity extends AppCompatActivity {
         } else {                                                                                    // 사진 로그는 중인 부분. 선택한 사진을 Crop 하러 보낸다
             String imgUri = intent.getStringExtra("IMG_URI");
             coverImgUri = Uri.parse(imgUri);
-
-            Log.e("1121", "1121 - coverImgUri : " + coverImgUri);
 
             if (imgUri != null) {
 //                coverImgBtn.setVisibility(View.INVISIBLE);
@@ -287,9 +284,6 @@ public class WorkRegActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {                                     //
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.e("1121", "1121 - onActivityResult - requestCode : " + requestCode);
-        Log.e("1121", "1121 - onActivityResult - resultCode : " + resultCode);
-
         if (requestCode == 887 && resultCode == RESULT_OK) {
             if (data != null) {
                 String returnData = data.getStringExtra("data");
@@ -298,9 +292,6 @@ public class WorkRegActivity extends AppCompatActivity {
                 characterRegVoArrayList.add(vo);
 
                 adapter.notifyDataSetChanged();
-
-                Log.e("1121", "1121 - returnData : " + returnData);
-                Log.e("1121", "1121 - vo.getName() : " + vo.getName());
             }
 
         } else if (requestCode == 911 && resultCode == RESULT_OK) {
@@ -316,8 +307,6 @@ public class WorkRegActivity extends AppCompatActivity {
         } else if (resultCode == RESULT_OK) {
             if (requestCode == 1000) {                                                                                      // 사진 선택을 위해 데이터 오가는 부분
                 int nType = data.getIntExtra("TYPE", 0);
-
-                Log.e("1121", "1121 nType : " + nType);
 
                 if (nType == 0)
                     return;

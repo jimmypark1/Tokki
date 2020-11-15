@@ -138,191 +138,178 @@
             android:text="등록"/>
     </RelativeLayout>
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomSettingLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottomLayout"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingLeft="22dp"
-            android:paddingRight="21dp"
-            android:orientation="horizontal"
-            app:layout_constraintDimensionRatio="360:73"
+            android:layout_height="64dp"
             android:background="@color/colorWhite"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="10dp"
             tools:ignore="MissingConstraints">
 
             <LinearLayout
-                android:id="@+id/bgSettingView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/white_shadow_box"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="21.1dp"
-                        android:layout_height="24.5dp"
-                        android:background="@drawable/background_icon"
-                        android:layout_centerHorizontal="true"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorBlack"
-                        android:layout_marginTop="3dp"
-                        android:textSize="10sp"
-                        android:text="배경"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/imgSettingView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="4dp"
-                android:layout_weight="1"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/white_shadow_box"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:orientation="vertical">
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/round_8_f2f2f2"
+                    android:gravity="center">
 
                     <ImageView
-                        android:layout_width="21.1dp"
-                        android:layout_height="24.5dp"
-                        android:background="@drawable/pic_icon"
-                        android:layout_centerHorizontal="true"/>
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorBlack"
-                        android:layout_marginTop="3dp"
-                        android:textSize="10sp"
-                        android:text="사진"/>
+                        android:src="@drawable/ic_i_picture" />
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="5sp"
+                    android:text="사진"
+                    android:textColor="#666666"
+                    android:textSize="11sp"
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/videoSettingView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="4dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/white_shadow_box"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:orientation="vertical">
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/round_8_f2f2f2"
+                    android:gravity="center">
 
                     <ImageView
-                        android:layout_width="21.1dp"
-                        android:layout_height="24.5dp"
-                        android:background="@drawable/mov_icon"
-                        android:layout_centerHorizontal="true"/>
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorBlack"
-                        android:layout_marginTop="3dp"
-                        android:textSize="10sp"
-                        android:text="동영상"/>
+                        android:src="@drawable/ic_i_video" />
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="5sp"
+                    android:text="동영상"
+                    android:textColor="#666666"
+                    android:textSize="11sp"
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/soundSettingView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="4dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/white_shadow_box"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:orientation="vertical">
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/round_8_f2f2f2"
+                    android:gravity="center">
 
                     <ImageView
-                        android:layout_width="21.1dp"
-                        android:layout_height="24.5dp"
-                        android:background="@drawable/music_icon"
-                        android:layout_centerHorizontal="true"/>
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorBlack"
-                        android:layout_marginTop="3dp"
-                        android:textSize="10sp"
-                        android:text="음원"/>
+                        android:src="@drawable/ic_i_music" />
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="5sp"
+                    android:text="음원"
+                    android:textColor="#666666"
+                    android:textSize="11sp"
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/distractorView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="10sp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/white_shadow_box"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:orientation="vertical">
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/round_8_f2f2f2"
+                    android:gravity="center">
 
                     <ImageView
-                        android:layout_width="21.1dp"
-                        android:layout_height="24.5dp"
-                        android:background="@drawable/choice_icon"
-                        android:layout_centerHorizontal="true"/>
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorBlack"
-                        android:layout_marginTop="3dp"
-                        android:textSize="12sp"
-                        android:text="선택지"/>
+                        android:src="@drawable/ic_i_choice" />
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="5sp"
+                    android:text="선택지"
+                    android:textColor="#666666"
+                    android:textSize="11sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bgSettingView"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/round_8_f2f2f2"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_i_background" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="5sp"
+                    android:text="배경"
+                    android:textColor="#666666"
+                    android:textSize="11sp"
+                    android:textStyle="normal" />
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

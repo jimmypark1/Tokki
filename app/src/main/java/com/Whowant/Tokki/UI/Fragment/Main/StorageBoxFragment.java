@@ -2,7 +2,6 @@ package com.Whowant.Tokki.UI.Fragment.Main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -144,9 +143,6 @@ public class StorageBoxFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Log.e("1121", "1121 - requestCode : " + requestCode);
-        Log.e("1121", "1121 - resultCode : " + resultCode);
 
         if (requestCode == 0 && resultCode == getActivity().RESULT_OK) {
             Intent intent = new Intent(getActivity(), EditPopup.class);

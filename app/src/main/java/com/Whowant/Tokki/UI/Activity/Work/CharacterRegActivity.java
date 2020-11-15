@@ -222,13 +222,9 @@ public class CharacterRegActivity extends AppCompatActivity implements View.OnCl
         String bgColor = String.format("#%08X", color);
         int nColor = nBgColor;
 
-
-        Log.e("1121", "1121 - bgColor.length : " + bgColor.length());
-
         if (bgColor.length() > 7) {
             strColor = "#" + bgColor.substring(3);
             nColor = Color.parseColor(strColor);
-            Log.e("1121", "1121 - strColor : " + strColor);
         }
 
         colorIv.setColorFilter(nColor);

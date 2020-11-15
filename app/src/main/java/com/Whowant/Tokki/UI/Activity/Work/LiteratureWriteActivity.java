@@ -156,7 +156,6 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private ProgressBar oldPB;
     private boolean bSubmit = false;                    // 회차가 제출(심사요청) 되었는지 여부
     private TextView sendBtn;
-
     private float fX, fY;                               // 롱클릭 등을 위해 터치 좌표 저장
 
     private ViewGroup viewGroup;

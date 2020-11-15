@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -348,7 +347,6 @@ public class MyPageFeedFragment extends Fragment {
                     readArrayList.addAll(responseVo);
                 }
 
-                Log.e("1121", "1121 - mArrayList.size : " + readArrayList.size());
                 if (readArrayList != null) {
                     for (int i = 0; i < readArrayList.size(); i++) {
                         WorkVO workVO = readArrayList.get(i);

@@ -452,6 +452,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickTopAdd(View v) {
         startActivity(new Intent(MainActivity.this, WorkRegActivity.class));
+//        startActivity(new Intent(MainActivity.this, CreateWorkActivity.class));
     }
 
     private void initMenuViews() {                                                                                  // 좌측 서랍메뉴 설정
