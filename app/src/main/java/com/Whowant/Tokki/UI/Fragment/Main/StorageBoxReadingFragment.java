@@ -23,9 +23,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Decoration.StorageBoxItemDecoration;
+import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.UI.TypeViewOnClickListener;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.DialogMenu;
+import com.Whowant.Tokki.Utils.ItemClickSupport;
 import com.Whowant.Tokki.Utils.SimplePreference;
 import com.Whowant.Tokki.VO.BookListVo;
 import com.Whowant.Tokki.VO.WorkVO;
@@ -58,6 +60,16 @@ public class StorageBoxReadingFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.addItemDecoration(new StorageBoxItemDecoration(getActivity()));
         recyclerView.setAdapter(adapter);
+        ItemClickSupport.addTo(recyclerView).setItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClick(RecyclerView parent, View view, int position, long id) {
+                WorkVO item = mArrayList.get(position);
+
+                Intent intent = new Intent(getContext(), WorkMainActivity.class);
+                intent.putExtra("WORK_ID", item.getnWorkID());
+                startActivity(intent);
+            }
+        });
 
         emptyLl = v.findViewById(R.id.ll_storage_box_reading_empty);
         emptyLl.setVisibility(View.GONE);
@@ -100,7 +112,6 @@ public class StorageBoxReadingFragment extends Fragment {
                                 public boolean onMenuItemClick(MenuItem item) {
                                     switch (item.getItemId()) {
                                         case R.id.add:
-                                            Toast.makeText(getContext(), "읽기 목록에 추가", Toast.LENGTH_SHORT).show();
                                             getReadingList(SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest"), String.valueOf(workVO.getnWorkID()));
                                             break;
                                         case R.id.share:
@@ -301,16 +312,6 @@ public class StorageBoxReadingFragment extends Fragment {
                         dialogMenu.showMenu(getActivity(), "독서목록에 추가", tmp, new DialogMenu.ItemClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int pos) {
-//                                Intent intent = new Intent(getActivity(), ReportActivity.class);
-//
-//                                if (pos == 0) {
-//                                    intent.putExtra("title", "내용 신고");
-//                                } else {
-//                                    intent.putExtra("title", "저작권 신고");
-//                                }
-//
-//                                startActivity(intent);
-
                                 addReadingList(workId, String.valueOf(bookListVos.get(pos).getID()));
                             }
                         });

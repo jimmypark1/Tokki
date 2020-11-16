@@ -186,7 +186,7 @@ public class WriterPageActivity extends AppCompatActivity implements View.OnClic
     public void btnDots(View v) {
         PopupMenu popup = new PopupMenu(mActivity, v);
 
-        popup.getMenu().add(0, 0, 0, "메세지 보내기");
+        popup.getMenu().add(0, 0, 0, "메시지 보내기");
         popup.getMenu().add(0, 1, 1, nameTv.getText().toString() + " 차단");
         popup.getMenu().add(0, 2, 2, "보고서");
 

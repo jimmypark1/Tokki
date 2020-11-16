@@ -740,10 +740,10 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 });
 
                 if (bKeep) {
+                    subscribeBtn.setImageResource(R.drawable.i_heart_red);
 //                    subscribeBtn.setBackgroundResource(R.drawable.full_heart_button);
-                    subscribeBtn.setColorFilter(Color.parseColor("#ff0000"));
                 } else {
-                    subscribeBtn.setColorFilter(Color.parseColor("#000000"));
+                    subscribeBtn.setImageResource(R.drawable.ic_i_heart_black);
 //                    subscribeBtn.setBackgroundResource(R.drawable.empty_heart);
                 }
 

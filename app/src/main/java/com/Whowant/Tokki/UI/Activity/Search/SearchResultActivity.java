@@ -2,6 +2,7 @@ package com.Whowant.Tokki.UI.Activity.Search;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.UI.TypeOnClickListener;
 import com.Whowant.Tokki.UI.ViewHolder.SearchResultViewHolder;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -42,6 +45,8 @@ public class SearchResultActivity extends AppCompatActivity {
     SearchResultAdapter adapter;
     ArrayList<WorkVO> mArrayList = new ArrayList<>();
 
+    InputMethodManager imm;
+
     Activity mActivity;
 
     @Override
@@ -50,6 +55,8 @@ public class SearchResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_result);
 
         mActivity = this;
+
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         initView();
         getData();
@@ -94,6 +101,8 @@ public class SearchResultActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(searchEt.getText().toString())) {
                     getSearchWorkList(searchEt.getText().toString(), 0);
                 }
+
+                imm.hideSoftInputFromWindow(searchEt.getWindowToken(), 0);
             }
         });
 
@@ -104,7 +113,11 @@ public class SearchResultActivity extends AppCompatActivity {
         ItemClickSupport.addTo(recyclerView).setItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClick(RecyclerView parent, View view, int position, long id) {
+                WorkVO item = mArrayList.get(position);
 
+                Intent intent = new Intent(mActivity, WorkMainActivity.class);
+                intent.putExtra("WORK_ID", item.getnWorkID());
+                startActivity(intent);
             }
         });
     }

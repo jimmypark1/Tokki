@@ -47,6 +47,7 @@ public class StorageBoxFragment extends Fragment {
 
         tabLayout = inflaterView.findViewById(R.id.tabLayout);
         viewPager = inflaterView.findViewById(R.id.viewPager);
+        viewPager.setOffscreenPageLimit(1);
 
         pagerAdapter = new StorageBoxAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);

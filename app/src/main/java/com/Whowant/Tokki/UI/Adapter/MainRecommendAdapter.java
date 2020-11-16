@@ -2,6 +2,7 @@ package com.Whowant.Tokki.UI.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,8 @@ public class MainRecommendAdapter extends RecyclerView.Adapter<MainRecommendAdap
         } else if(!strImgUrl.startsWith("http")) {
             strImgUrl = CommonUtils.strDefaultUrl + "images/" + strImgUrl;
         }
+
+        Log.e("1121", "1121 - strImgUrl : " + strImgUrl);
 
         Glide.with(mContext)
                 .asBitmap() // some .jpeg files are actually gif

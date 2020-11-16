@@ -157,6 +157,10 @@ public class MyPageActivity extends AppCompatActivity {
         }
     }
 
+    public void btnBack(View v) {
+        finish();
+    }
+
     // 계정 설정
     public void btnAccountSetting(View v) {
         startActivity(new Intent(this, MyPageAccountSettingActivity.class));

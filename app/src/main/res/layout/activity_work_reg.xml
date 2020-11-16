@@ -159,7 +159,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:hint="#3가지 이상 입력해주세요"
+                        android:hint="3가지 이내로 선택해주세요"
                         android:textColorHint="#cccccc"
                         android:textSize="15sp" />
 

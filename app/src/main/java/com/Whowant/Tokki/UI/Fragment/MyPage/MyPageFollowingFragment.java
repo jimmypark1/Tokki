@@ -1,6 +1,7 @@
 package com.Whowant.Tokki.UI.Fragment.MyPage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -19,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Writer.WriterPageActivity;
 import com.Whowant.Tokki.UI.TypeOnClickListener;
 import com.Whowant.Tokki.Utils.CommonUtils;
+import com.Whowant.Tokki.Utils.ItemClickSupport;
 import com.Whowant.Tokki.Utils.SimplePreference;
 import com.Whowant.Tokki.VO.WriterVO;
 import com.bumptech.glide.Glide;
@@ -43,7 +46,7 @@ public class MyPageFollowingFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getArguments();
-        if(bundle != null) {
+        if (bundle != null) {
             writerId = bundle.getString("writerId");
         }
     }
@@ -57,6 +60,16 @@ public class MyPageFollowingFragment extends Fragment {
         adapter = new MyPageFollowingAdapter(getContext(), writerList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
+        ItemClickSupport.addTo(recyclerView).setItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClick(RecyclerView parent, View view, int position, long id) {
+                WriterVO item = writerList.get(position);
+
+                Intent intent = new Intent(getContext(), WriterPageActivity.class);
+                intent.putExtra("writerId", item.getStrWriterID());
+                startActivity(intent);
+            }
+        });
 
         return v;
     }

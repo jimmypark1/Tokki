@@ -796,8 +796,8 @@ public class MainActivity extends AppCompatActivity {
                 homeImgView.setBackgroundResource(R.drawable.ic_home_on);
                 break;
             case 1:
-                searchView.setColorFilter(Color.parseColor("#6d8fff"));
-//                searchView.setBackgroundResource(R.drawable.ic_i_tapbar_2_1);
+//                searchView.setColorFilter(Color.parseColor("#6d8fff"));
+                searchView.setImageResource(R.drawable.ic_i_tapbar_2_1);
                 break;
             case 2:
                 storageImgView.setBackgroundResource(R.drawable.ic_storage_on);

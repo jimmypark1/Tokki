@@ -60,12 +60,6 @@ public class StorageBoxBookListFragment extends Fragment {
         return v;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getReadingList(SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest"));
-    }
-
     public class StorageBoxBookListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         Context context;
@@ -163,5 +157,12 @@ public class StorageBoxBookListFragment extends Fragment {
                 });
             }
         }).start();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getReadingList(SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest"));
     }
 }
