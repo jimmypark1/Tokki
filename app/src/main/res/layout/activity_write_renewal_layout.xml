@@ -156,11 +156,13 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/speakerAddLayout"
+                    android:id="@+id/speakerAddLayout1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:orientation="horizontal"></LinearLayout>
+                    android:orientation="horizontal">
+
+                </LinearLayout>
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -188,232 +190,92 @@
     <LinearLayout
         android:id="@+id/chattingLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_above="@+id/bottomSettingLayout"
-        android:background="@color/colorWhite"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="10dp"
-        android:paddingEnd="20dp">
-
-        <LinearLayout
-            android:id="@+id/contentsAddBtn"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginEnd="3dp"
-            android:background="@drawable/circle_222222"
-            android:gravity="center"
-            android:onClick="onClickContentsAddBtn">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_i_plus_white" />
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/inputTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/round_20_f7f7f7"
-            android:hint="대화를 입력하세요"
-            android:inputType="textMultiLine"
-            android:isScrollContainer="true"
-            android:lineSpacingExtra="7sp"
-            android:maxHeight="74dp"
-            android:minHeight="40dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:textStyle="normal" />
-
-        <TextView
-            android:id="@+id/sendBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:lineSpacingExtra="7sp"
-            android:text="등록"
-            android:textColor="#5a9aff"
-            android:textSize="15sp"
-            android:textStyle="normal" />
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottomSettingLayout"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottomLayout"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="60dp"
             android:background="@color/colorWhite"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="10dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="10dp"
-            tools:ignore="MissingConstraints">
+            android:paddingEnd="20dp">
+
+            <ImageView
+                android:id="@+id/textAddBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/ic_i_text" />
+
+            <ImageView
+                android:id="@+id/characterAddBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/ic_i_chracter" />
 
             <LinearLayout
-                android:id="@+id/imgSettingView"
+                android:id="@+id/contentsAddBtn"
                 android:layout_width="36dp"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_height="36dp"
+                android:layout_marginEnd="3dp"
+                android:background="@drawable/circle_cccccc"
+                android:gravity="center"
+                android:onClick="onClickContentsAddBtn">
 
-                <LinearLayout
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/round_8_f2f2f2"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_i_picture" />
-                </LinearLayout>
-
-                <TextView
+                <ImageView
+                    android:id="@+id/contentsAddImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:lineSpacingExtra="5sp"
-                    android:text="사진"
-                    android:textColor="#666666"
-                    android:textSize="11sp"
-                    android:textStyle="normal" />
+                    android:src="@drawable/ic_i_plus" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/videoSettingView"
-                android:layout_width="36dp"
+            <EditText
+                android:id="@+id/inputTextView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:background="@drawable/round_20_f7f7f7"
+                android:hint="대화를 입력하세요"
+                android:inputType="textMultiLine"
+                android:isScrollContainer="true"
+                android:lineSpacingExtra="7sp"
+                android:maxHeight="74dp"
+                android:minHeight="40dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="normal" />
 
-                <LinearLayout
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/round_8_f2f2f2"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_i_video" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:lineSpacingExtra="5sp"
-                    android:text="동영상"
-                    android:textColor="#666666"
-                    android:textSize="11sp"
-                    android:textStyle="normal" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/soundSettingView"
-                android:layout_width="36dp"
+            <TextView
+                android:id="@+id/sendBtn"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/round_8_f2f2f2"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_i_music" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:lineSpacingExtra="5sp"
-                    android:text="음원"
-                    android:textColor="#666666"
-                    android:textSize="11sp"
-                    android:textStyle="normal" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/distractorView"
-                android:layout_width="36dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/round_8_f2f2f2"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_i_choice" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:lineSpacingExtra="5sp"
-                    android:text="선택지"
-                    android:textColor="#666666"
-                    android:textSize="11sp"
-                    android:textStyle="normal" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/bgSettingView"
-                android:layout_width="36dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/round_8_f2f2f2"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_i_background" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:lineSpacingExtra="5sp"
-                    android:text="배경"
-                    android:textColor="#666666"
-                    android:textSize="11sp"
-                    android:textStyle="normal" />
-            </LinearLayout>
+                android:layout_marginStart="10dp"
+                android:lineSpacingExtra="7sp"
+                android:text="등록"
+                android:textColor="#5a9aff"
+                android:textSize="15sp"
+                android:textStyle="normal" />
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottomSettingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bottomLayout"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <include layout="@layout/include_write_media" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include layout="@layout/include_write_character" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/bottomLayout"

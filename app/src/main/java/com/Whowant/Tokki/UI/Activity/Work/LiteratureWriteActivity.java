@@ -162,6 +162,18 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private SoftKeyboard softKeyboard;
     private boolean isExcelUploaded = false;
 
+    // [S] winhmoon
+    final int TYPE_TEXT = 0;
+    final int TYPE_CHARACTER = 1;
+    final int TYPE_MEDIA = 2;
+    int type = TYPE_TEXT;
+
+    ImageView textAddBtn;
+    ImageView characterAddBtn;
+    LinearLayout bottomCharacterLayout;
+    ImageView contentsAddImg;
+    // [E] winhmoon
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -460,7 +472,116 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
         startActivity(new Intent(this, LegalNoticePopup.class));
         overridePendingTransition(R.anim.cross_fade_in, R.anim.cross_fade_out);
+
+        initView();
     }
+
+    // [S] winhmoon
+    private void initView() {
+        textAddBtn = findViewById(R.id.textAddBtn);
+        textAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectBottomLayout(TYPE_TEXT);
+            }
+        });
+        characterAddBtn = findViewById(R.id.characterAddBtn);
+        characterAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectBottomLayout(TYPE_CHARACTER);
+            }
+        });
+
+        bottomCharacterLayout = findViewById(R.id.bottomCharacterLayout);
+        bottomCharacterLayout.setVisibility(View.GONE);
+        contentsAddImg = findViewById(R.id.contentsAddImg);
+    }
+
+    private void resetBottomLayout() {
+        textAddBtn.setVisibility(View.VISIBLE);
+        textAddBtn.setSelected(false);
+        characterAddBtn.setVisibility(View.VISIBLE);
+        characterAddBtn.setSelected(false);
+        contentsAddBtn.setVisibility(View.VISIBLE);
+        contentsAddBtn.setSelected(false);
+        bottomSettingLayout.setVisibility(View.GONE);
+        bottomCharacterLayout.setVisibility(View.GONE);
+        contentsAddBtn.setBackgroundResource(R.drawable.circle_cccccc);
+        contentsAddImg.setImageResource(R.drawable.ic_i_plus);
+    }
+
+    private void setSelectBottomLayout(int type) {
+        boolean isTextSelected = !textAddBtn.isSelected();
+        boolean isCharacterSelected = !characterAddBtn.isSelected();
+        boolean isContentsSelected = !contentsAddBtn.isSelected();
+
+        if (this.type != type) {
+            resetBottomLayout();
+
+            textAddBtn.setVisibility(View.GONE);
+            characterAddBtn.setVisibility(View.GONE);
+            contentsAddBtn.setVisibility(View.GONE);
+
+            switch (type) {
+                case TYPE_TEXT:
+                    textAddBtn.setVisibility(View.VISIBLE);
+                    textAddBtn.setSelected(true);
+                    break;
+                case TYPE_CHARACTER:
+                    characterAddBtn.setVisibility(View.VISIBLE);
+                    characterAddBtn.setSelected(true);
+                    bottomCharacterLayout.setVisibility(View.VISIBLE);
+                    break;
+                case TYPE_MEDIA:
+                    contentsAddBtn.setVisibility(View.VISIBLE);
+                    contentsAddBtn.setSelected(true);
+                    contentsAddBtn.setBackgroundResource(R.drawable.circle_222222);
+                    contentsAddImg.setImageResource(R.drawable.ic_i_plus_white);
+                    bottomSettingLayout.setVisibility(View.VISIBLE);
+                    break;
+            }
+        } else {
+            if (isTextSelected && isCharacterSelected && isContentsSelected) {
+                textAddBtn.setVisibility(View.GONE);
+                characterAddBtn.setVisibility(View.GONE);
+                contentsAddBtn.setVisibility(View.GONE);
+            } else {
+                resetBottomLayout();
+            }
+
+            switch (type) {
+                case TYPE_TEXT:
+                    if (isTextSelected) {
+                        textAddBtn.setVisibility(isTextSelected ? View.VISIBLE : View.GONE);
+                    }
+
+                    textAddBtn.setSelected(isTextSelected);
+                    break;
+                case TYPE_CHARACTER:
+                    if (isCharacterSelected) {
+                        characterAddBtn.setVisibility(isCharacterSelected ? View.VISIBLE : View.GONE);
+                        bottomCharacterLayout.setVisibility(View.VISIBLE);
+                    }
+
+                    characterAddBtn.setSelected(isCharacterSelected);
+                    break;
+                case TYPE_MEDIA:
+                    if (isContentsSelected) {
+                        contentsAddBtn.setVisibility(View.VISIBLE);
+                        contentsAddBtn.setBackgroundResource(R.drawable.circle_222222);
+                        contentsAddImg.setImageResource(R.drawable.ic_i_plus_white);
+                        bottomSettingLayout.setVisibility(View.VISIBLE);
+                    }
+
+                    contentsAddBtn.setSelected(isContentsSelected);
+                    break;
+            }
+        }
+
+        this.type = type;
+    }
+    // [E] winhmoon
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -1280,15 +1401,21 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
     public void onClickContentsAddBtn(View view) {
         imm.hideSoftInputFromWindow(inputTextView.getWindowToken(), 0);
-        bShowMenu = !bShowMenu;
 
-        if (bShowMenu) {
-            bottomSettingLayout.setVisibility(View.VISIBLE);
-//            contentsAddBtn.setImageResource(R.drawable.pop_close);
-        } else {
-            bottomSettingLayout.setVisibility(View.GONE);
-//            contentsAddBtn.setImageResource(R.drawable.selectionplus);
-        }
+        setSelectBottomLayout(TYPE_MEDIA);
+//        bShowMenu = !bShowMenu;
+//
+//        if (bShowMenu) {
+//            bottomSettingLayout.setVisibility(View.VISIBLE);
+//            contentsAddBtn.setBackgroundResource(R.drawable.circle_222222);
+//            contentsAddImg.setImageResource(R.drawable.ic_i_plus_white);
+////            contentsAddBtn.setImageResource(R.drawable.pop_close);
+//        } else {
+//            bottomSettingLayout.setVisibility(View.GONE);
+//            contentsAddBtn.setBackgroundResource(R.drawable.circle_cccccc);
+//            contentsAddImg.setImageResource(R.drawable.ic_i_plus);
+////            contentsAddBtn.setImageResource(R.drawable.selectionplus);
+//        }
     }
 
     private void hideBottomView() {

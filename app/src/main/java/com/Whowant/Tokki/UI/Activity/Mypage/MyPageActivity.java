@@ -48,6 +48,10 @@ public class MyPageActivity extends AppCompatActivity {
     ImageView levelIv;
     TextView levelTv;
 
+    TextView workCountTv;
+    TextView readCountTv;
+    TextView followCountTv;
+
     private int nCurrentCarrot = 0;                                                         // 현재 당근 갯수
     private int nTotalUsedCarrot = 0;                                                       // 총 당근 갯수
     private int nDonationCarrot = 0;                                                        // 후원받은 당근 갯수
@@ -91,6 +95,10 @@ public class MyPageActivity extends AppCompatActivity {
         carrotTv = findViewById(R.id.tv_my_page_carrot);
         levelIv = findViewById(R.id.iv_my_page_level);
         levelTv = findViewById(R.id.tv_my_page_level);
+
+        workCountTv = findViewById(R.id.tv_my_page_work_count);
+        readCountTv = findViewById(R.id.tv_my_page_read);
+        followCountTv = findViewById(R.id.tv_my_page_follower);
     }
 
     private void initData() {
@@ -187,10 +195,11 @@ public class MyPageActivity extends AppCompatActivity {
                                 return;
 
                             if (resultObject.getString("RESULT").equals("SUCCESS")) {
-//                                nFollowerCount = resultObject.getInt("FOLLOW_COUNT");
+                                int nFollowerCount = resultObject.getInt("FOLLOW_COUNT");
 //                                nFollowingCount = resultObject.getInt("FOLLOWING_COUNT");
 //                                followingView.setText(CommonUtils.getPointCount(resultObject.getInt("FOLLOWING_COUNT")));
 //                                followerView.setText(CommonUtils.getPointCount(resultObject.getInt("FOLLOW_COUNT")));
+                                followCountTv.setText(CommonUtils.getPointCount(nFollowerCount));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -783,6 +783,9 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 TextView smallLvView = holder.itemView.findViewById(R.id.smallLvView);
 
                 // [S] winhmoon
+                TextView heartPointView = holder.itemView.findViewById(R.id.heartPointView);
+                heartPointView.setText(CommonUtils.getPointCount(workVO.getnKeepcount()));
+
                 LinearLayout carrotView = holder.itemView.findViewById(R.id.carrotView);
                 carrotView.setOnClickListener((v) -> {
                     if (workVO.getnWriterID().equals(pref.getString("USER_ID", "Guest"))) {
@@ -1098,7 +1101,6 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 TextView postAvailableView = holder.itemView.findViewById(R.id.postAvailableView);
 
                 TextView dateTimeView = holder.itemView.findViewById(R.id.dateTimeView);
-                TextView heartPointView = holder.itemView.findViewById(R.id.heartPointView);
                 TextView startPointView = holder.itemView.findViewById(R.id.startPointView);
                 TextView hitsCountView = holder.itemView.findViewById(R.id.hitsCountView);
                 TextView commentCountView = holder.itemView.findViewById(R.id.commentCountView);
@@ -1121,7 +1123,6 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 }
 
                 dateTimeView.setText(vo.getStrDate().substring(0, 10));
-//                heartPointView.setText(CommonUtils.getPointCount(vo.get()));
                 startPointView.setText(String.format("%.1f", vo.getfStarPoint()));
                 hitsCountView.setText(CommonUtils.getPointCount(vo.getnTapCount()));
                 commentCountView.setText(CommonUtils.getPointCount(vo.getnCommentCount()));

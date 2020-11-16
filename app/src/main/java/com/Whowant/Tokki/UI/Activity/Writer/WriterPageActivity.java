@@ -288,7 +288,7 @@ public class WriterPageActivity extends AppCompatActivity implements View.OnClic
                             levelTv.setText(levelName[nLevel - 1]);
 
                             nameTv.setText(strName);
-                            followerCountTv.setText(nFollowCount + "");
+                            followerCountTv.setText(CommonUtils.getPointCount(nFollowCount));
 
                             if (bFollow) {
                                 unfollowLl.setVisibility(View.VISIBLE);
