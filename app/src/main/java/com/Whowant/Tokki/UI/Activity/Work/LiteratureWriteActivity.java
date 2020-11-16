@@ -172,6 +172,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     ImageView characterAddBtn;
     LinearLayout bottomCharacterLayout;
     ImageView contentsAddImg;
+
+    int nBeforeCharacterIndex = 0;
     // [E] winhmoon
 
     @Override
@@ -243,7 +245,6 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         videoSettingView = findViewById(R.id.videoSettingView);
         distractorView = findViewById(R.id.distractorView);
         soundSettingView = findViewById(R.id.soundSettingView);
-
         inputTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -476,12 +477,45 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         initView();
     }
 
+    private boolean isAllShow() {
+        return textAddBtn.isShown() && characterAddBtn.isShown() && contentsAddBtn.isShown();
+    }
+
     // [S] winhmoon
     private void initView() {
+        inputTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                boolean isTextShow = textAddBtn.isShown();
+                boolean isCharacterShow = characterAddBtn.isShown();
+                boolean isContentsShow = contentsAddBtn.isShown();
+
+                if (hasFocus && !isTextShow && !isCharacterShow && !isContentsShow) {
+                    nSelectedCharacterIndex = 0;
+                    setSelectBottomLayout(TYPE_TEXT);
+                }
+            }
+        });
+
+        inputTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isTextShow = textAddBtn.isShown();
+                boolean isCharacterShow = characterAddBtn.isShown();
+                boolean isContentsShow = contentsAddBtn.isShown();
+
+                if (!isTextShow && !isCharacterShow && !isContentsShow) {
+                    nSelectedCharacterIndex = 0;
+                    setSelectBottomLayout(TYPE_TEXT);
+                }
+            }
+        });
+
         textAddBtn = findViewById(R.id.textAddBtn);
         textAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                nSelectedCharacterIndex = 0;
                 setSelectBottomLayout(TYPE_TEXT);
             }
         });
@@ -489,6 +523,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         characterAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                nSelectedCharacterIndex = nBeforeCharacterIndex;
                 setSelectBottomLayout(TYPE_CHARACTER);
             }
         });
@@ -498,8 +533,10 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         contentsAddImg = findViewById(R.id.contentsAddImg);
     }
 
+    // 지문, 등장인물, + 버튼 초기
     private void resetBottomLayout() {
         textAddBtn.setVisibility(View.VISIBLE);
+        textAddBtn.setImageResource(R.drawable.ic_i_text);
         textAddBtn.setSelected(false);
         characterAddBtn.setVisibility(View.VISIBLE);
         characterAddBtn.setSelected(false);
@@ -513,73 +550,85 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
     private void setSelectBottomLayout(int type) {
         boolean isTextSelected = !textAddBtn.isSelected();
+        boolean isTextShow = textAddBtn.isShown();
         boolean isCharacterSelected = !characterAddBtn.isSelected();
         boolean isContentsSelected = !contentsAddBtn.isSelected();
 
+        resetBottomLayout();
+
         if (this.type != type) {
-            resetBottomLayout();
-
-            textAddBtn.setVisibility(View.GONE);
-            characterAddBtn.setVisibility(View.GONE);
-            contentsAddBtn.setVisibility(View.GONE);
-
             switch (type) {
                 case TYPE_TEXT:
-                    textAddBtn.setVisibility(View.VISIBLE);
-                    textAddBtn.setSelected(true);
+                    showBottomText(true);
+                    showBottomCharacter(false, false, false);
+                    showBottomContents(true, false, false);
                     break;
                 case TYPE_CHARACTER:
-                    characterAddBtn.setVisibility(View.VISIBLE);
-                    characterAddBtn.setSelected(true);
-                    bottomCharacterLayout.setVisibility(View.VISIBLE);
+                    showBottomText(false);
+                    showBottomCharacter(true, true, true);
+                    showBottomContents(true, false, false);
                     break;
                 case TYPE_MEDIA:
-                    contentsAddBtn.setVisibility(View.VISIBLE);
-                    contentsAddBtn.setSelected(true);
-                    contentsAddBtn.setBackgroundResource(R.drawable.circle_222222);
-                    contentsAddImg.setImageResource(R.drawable.ic_i_plus_white);
-                    bottomSettingLayout.setVisibility(View.VISIBLE);
+                    switch (this.type) {
+                        case TYPE_CHARACTER:
+                            showBottomText(false);
+                            showBottomCharacter(true, false, false);
+                            showBottomContents(true, true, true);
+                            break;
+                        default:
+                            showBottomText(true);
+                            showBottomCharacter(false, false, false);
+                            showBottomContents(true, true, true);
+                            break;
+                    }
                     break;
             }
         } else {
-            if (isTextSelected && isCharacterSelected && isContentsSelected) {
-                textAddBtn.setVisibility(View.GONE);
-                characterAddBtn.setVisibility(View.GONE);
-                contentsAddBtn.setVisibility(View.GONE);
-            } else {
-                resetBottomLayout();
-            }
-
             switch (type) {
                 case TYPE_TEXT:
                     if (isTextSelected) {
-                        textAddBtn.setVisibility(isTextSelected ? View.VISIBLE : View.GONE);
+                        showBottomText(true);
+                        showBottomCharacter(false, false, false);
+                        showBottomContents(true, false, false);
                     }
-
-                    textAddBtn.setSelected(isTextSelected);
                     break;
                 case TYPE_CHARACTER:
                     if (isCharacterSelected) {
-                        characterAddBtn.setVisibility(isCharacterSelected ? View.VISIBLE : View.GONE);
-                        bottomCharacterLayout.setVisibility(View.VISIBLE);
+                        if (isTextShow) {
+                            showBottomText(false);
+                            showBottomCharacter(true, true, true);
+                            showBottomContents(true, false, false);
+                        }
+                    } else {
+                        showBottomText(false);
+                        showBottomCharacter(true, false, false);
+                        showBottomContents(true, false, false);
                     }
-
-                    characterAddBtn.setSelected(isCharacterSelected);
-                    break;
-                case TYPE_MEDIA:
-                    if (isContentsSelected) {
-                        contentsAddBtn.setVisibility(View.VISIBLE);
-                        contentsAddBtn.setBackgroundResource(R.drawable.circle_222222);
-                        contentsAddImg.setImageResource(R.drawable.ic_i_plus_white);
-                        bottomSettingLayout.setVisibility(View.VISIBLE);
-                    }
-
-                    contentsAddBtn.setSelected(isContentsSelected);
                     break;
             }
         }
 
         this.type = type;
+    }
+
+    private void showBottomText(boolean isSelected) {
+        textAddBtn.setVisibility(isSelected ? View.VISIBLE : View.GONE);
+        textAddBtn.setSelected(isSelected);
+        textAddBtn.setImageResource(isSelected ? R.drawable.i_text_black : R.drawable.ic_i_text);
+    }
+
+    private void showBottomCharacter(boolean isShow, boolean isSelected, boolean isLayout) {
+        characterAddBtn.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        characterAddBtn.setSelected(isSelected);
+        bottomCharacterLayout.setVisibility(isLayout ? View.VISIBLE : View.GONE);
+    }
+
+    private void showBottomContents(boolean isShow, boolean isSelected, boolean isLayout) {
+        contentsAddBtn.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        contentsAddBtn.setSelected(isSelected);
+        contentsAddBtn.setBackgroundResource(isSelected ? R.drawable.circle_222222 : R.drawable.circle_cccccc);
+        contentsAddImg.setImageResource(isSelected ? R.drawable.ic_i_plus_white : R.drawable.ic_i_plus);
+        bottomSettingLayout.setVisibility(isLayout ? View.VISIBLE : View.GONE);
     }
     // [E] winhmoon
 
@@ -1476,11 +1525,10 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             }
 
             if (i == 0) {
-                faceView.setImageResource(R.drawable.narration_button);
-                nameView.setText("지문");
+                faceView.setImageResource(R.drawable.caracter_plus_botton);
+                nameView.setText("인물 추가");
                 nameView.setTextColor(ContextCompat.getColor(LiteratureWriteActivity.this, R.color.colorBlack));
                 selectedView.setVisibility(View.VISIBLE);
-                nSelectedCharacterIndex = 0;
             } else {
                 if (vo.getImage() != null && !vo.getImage().equals("null")) {
                     Glide.with(this)
@@ -1512,27 +1560,44 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             }
 
             LinearLayout faceLayout = view.findViewById(R.id.faceLayout);
-            faceLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    for (int i = 0; i < characterViewList.size(); i++) {
-                        View view = characterViewList.get(i);
+            faceLayout.setTag(nImg);
 
-                        TextView nameView = view.findViewById(R.id.nameView);
-                        ImageView selectedView = view.findViewById(R.id.selectedView);
+            if (i == 0) {
+                faceLayout.setOnClickListener((v) -> {
+                    CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
+                    startActivityForResult(new Intent(LiteratureWriteActivity.this, CreateCharacterActivity.class), 1010);
+                });
+            } else {
+                faceLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (int i = 1; i < characterViewList.size(); i++) {
+                            View view = characterViewList.get(i);
 
-                        if (i == nIndex) {
-                            nameView.setTextColor(ContextCompat.getColor(LiteratureWriteActivity.this, R.color.colorBlack));
-                            selectedView.setVisibility(View.VISIBLE);
-                        } else {
-                            nameView.setTextColor(Color.parseColor("#e9e9e9"));
-                            selectedView.setVisibility(View.INVISIBLE);
+                            TextView nameView = view.findViewById(R.id.nameView);
+                            ImageView selectedView = view.findViewById(R.id.selectedView);
+
+                            if (i == nIndex) {
+                                nameView.setTextColor(ContextCompat.getColor(LiteratureWriteActivity.this, R.color.colorBlack));
+                                selectedView.setVisibility(View.VISIBLE);
+                            } else {
+                                nameView.setTextColor(Color.parseColor("#e9e9e9"));
+                                selectedView.setVisibility(View.INVISIBLE);
+                            }
                         }
-                    }
 
-                    nSelectedCharacterIndex = nIndex;
-                }
-            });
+                        nSelectedCharacterIndex = nBeforeCharacterIndex = nIndex;
+
+                        characterAddBtn.setImageResource((int) v.getTag());
+                    }
+                });
+            }
+
+            if (nBeforeCharacterIndex == 0 && characterList.size() > 0 && i == 1) {
+                nameView.setTextColor(ContextCompat.getColor(LiteratureWriteActivity.this, R.color.colorBlack));
+                selectedView.setVisibility(View.VISIBLE);
+                characterAddBtn.setImageResource(nImg);
+            }
 
             if (i > 0) {
                 faceLayout.setOnLongClickListener(new View.OnLongClickListener() {

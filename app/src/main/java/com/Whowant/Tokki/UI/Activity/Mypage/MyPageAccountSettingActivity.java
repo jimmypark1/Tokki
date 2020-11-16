@@ -184,7 +184,7 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
 
     // 저장
     public void btnSave(View v) {
-        Toast.makeText(this, "저장", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private void getMyCarrotInfo() {
