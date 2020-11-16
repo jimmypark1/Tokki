@@ -490,7 +490,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 boolean isCharacterShow = characterAddBtn.isShown();
                 boolean isContentsShow = contentsAddBtn.isShown();
 
-                if (hasFocus && !isTextShow && !isCharacterShow && !isContentsShow) {
+                if (hasFocus && (!isTextShow && !isCharacterShow && !isContentsShow || nBeforeCharacterIndex == 0)) {
                     nSelectedCharacterIndex = 0;
                     setSelectBottomLayout(TYPE_TEXT);
                 }
@@ -504,7 +504,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 boolean isCharacterShow = characterAddBtn.isShown();
                 boolean isContentsShow = contentsAddBtn.isShown();
 
-                if (!isTextShow && !isCharacterShow && !isContentsShow) {
+                if (!isTextShow && !isCharacterShow && !isContentsShow || nBeforeCharacterIndex == 0) {
                     nSelectedCharacterIndex = 0;
                     setSelectBottomLayout(TYPE_TEXT);
                 }
@@ -1591,12 +1591,6 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         characterAddBtn.setImageResource((int) v.getTag());
                     }
                 });
-            }
-
-            if (nBeforeCharacterIndex == 0 && characterList.size() > 0 && i == 1) {
-                nameView.setTextColor(ContextCompat.getColor(LiteratureWriteActivity.this, R.color.colorBlack));
-                selectedView.setVisibility(View.VISIBLE);
-                characterAddBtn.setImageResource(nImg);
             }
 
             if (i > 0) {
