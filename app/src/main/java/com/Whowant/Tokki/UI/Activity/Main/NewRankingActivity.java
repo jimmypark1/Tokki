@@ -1,5 +1,6 @@
 package com.Whowant.Tokki.UI.Activity.Main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,10 +38,14 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
 
     String title = "";
 
+    Activity mActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_ranking);
+
+        mActivity = this;
 
         getData();
         initView();
@@ -53,7 +58,11 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
 
         listView.setOnItemClickListener(this);
 
-        getNewRankingData();
+        if ("장르별 순위" .equals(title)) {
+            getGenreRankingData();
+        } else {
+            getNewRankingData();
+        }
     }
 
     private void getData() {
@@ -185,5 +194,41 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
 
     public void onClickTopLeftBtn(View view) {
         finish();
+    }
+
+    private void getGenreRankingData() {
+        CommonUtils.showProgressDialog(mActivity, "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                bestList = HttpClient.getGenreRankingList(new OkHttpClient(), "1");
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        if (bestList == null) {
+                            Toast.makeText(mActivity, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        aa = new CNewRankingArrayAdapter(NewRankingActivity.this, R.layout.best_row, bestList);
+                        listView.setAdapter(aa);
+
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                                WorkVO vo = bestList.get(position);
+                                Intent intent = new Intent(mActivity, WorkMainActivity.class);
+                                intent.putExtra("WORK_ID", vo.getnWorkID());
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+            }
+        }).start();
     }
 }

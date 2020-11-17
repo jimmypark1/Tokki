@@ -49,11 +49,21 @@ public class StorageBoxKeepFragment extends Fragment {
     private String strKeepOrder = "UPDATE";
 
     LinearLayout emptyLl;
+    LinearLayout selectedKeepLl;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_storage_box_keep, container, false);
+
+        selectedKeepLl = v.findViewById(R.id.ll_storage_box_keep_selected);
+        selectedKeepLl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 보관된 이야기 선택 버튼
+
+            }
+        });
 
         recyclerView = v.findViewById(R.id.recyclerView);
         adapter = new StorageBoxKeepAdapter(getContext(), mArrayList);
@@ -240,11 +250,6 @@ public class StorageBoxKeepFragment extends Fragment {
         }).start();
     }
 
-    // 보관된 이야기 선택 버튼
-    public void btnKeepSelected(View v) {
-
-    }
-
     private void getReadingList(String userId, String workId) {
         bookListVos.clear();
 
@@ -321,5 +326,10 @@ public class StorageBoxKeepFragment extends Fragment {
                 });
             }
         }).start();
+    }
+
+    public void refreshData(String order) {
+        strKeepOrder = order;
+        getKeepListData();
     }
 }

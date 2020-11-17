@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -64,7 +63,7 @@ public class StorageBoxFragment extends Fragment {
     public void showMenus(View v) {
         int currentPosition = viewPager.getCurrentItem();
 
-        if (currentPosition == 0) {
+        if (currentPosition == 0 || currentPosition == 1) {
             PopupMenu popupMenu = new PopupMenu(getActivity(), v);
             popupMenu.getMenuInflater().inflate(R.menu.storage_box_menu, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -72,12 +71,10 @@ public class StorageBoxFragment extends Fragment {
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.align:
-                            Intent intent = new Intent(getActivity(), FilterActivity.class);
+                            Intent intent = new Intent(getContext(), FilterActivity.class);
                             intent.putExtra("title", "정렬");
-                            startActivity(intent);
-                            break;
-                        case R.id.modify:
-                            Toast.makeText(getActivity(), "수정하기", Toast.LENGTH_SHORT).show();
+                            intent.putExtra("type", FilterActivity.TYPE_STORAGE_BOX);
+                            startActivityForResult(intent, 101);
                             break;
                     }
                     return true;
@@ -149,6 +146,22 @@ public class StorageBoxFragment extends Fragment {
             Intent intent = new Intent(getActivity(), EditPopup.class);
             intent.putExtra("type", EditPopup.TYPE_BUG_REPORT);
             startActivity(intent);
+        } else if (requestCode == 101 && resultCode == getActivity().RESULT_OK) {
+            if (data != null) {
+                String order = data.getStringExtra("order");
+                Fragment fragment = getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.getCurrentItem());
+
+                if (fragment != null) {
+                    switch (viewPager.getCurrentItem()) {
+                        case 0:
+                            ((StorageBoxReadingFragment) fragment).refreshData(order);
+                            break;
+                        case 1:
+                            ((StorageBoxKeepFragment) fragment).refreshData(order);
+                            break;
+                    }
+                }
+            }
         }
     }
 }

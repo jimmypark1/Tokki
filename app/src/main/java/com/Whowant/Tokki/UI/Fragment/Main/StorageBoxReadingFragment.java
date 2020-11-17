@@ -238,11 +238,6 @@ public class StorageBoxReadingFragment extends Fragment {
         }).start();
     }
 
-    // 보관된 이야기 선택 버튼
-    public void btnReadingSelected(View v) {
-
-    }
-
     private void requestUnKeep(int workId) {
         CommonUtils.showProgressDialog(getActivity(), "구독을 취소 중입니다.");
 
@@ -319,5 +314,10 @@ public class StorageBoxReadingFragment extends Fragment {
                 });
             }
         }).start();
+    }
+
+    public void refreshData(String order) {
+        strReadOrder = order;
+        getReadListData();
     }
 }

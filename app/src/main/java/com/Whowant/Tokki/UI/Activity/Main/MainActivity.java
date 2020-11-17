@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -440,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickTopProfileBtn(View view) {
-        startActivity(new Intent(this, MyPageActivity.class));
+        startActivityForResult(new Intent(this, MyPageActivity.class), 878);
 //        startActivity(new Intent(this, TagRegActivity.class));
 //        startActivity(new Intent(this, WriterPageActivity.class));
 //        viewPager.setCurrentItem(5);
@@ -795,7 +795,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView myImgView = findViewById(R.id.myImgView);
 
         homeImgView.setBackgroundResource(R.drawable.ic_home_off);
-        searchView.setColorFilter(Color.parseColor("#000000"));
+        searchView.setImageResource(R.drawable.ic_i_tapbar_2_1);
         storageImgView.setBackgroundResource(R.drawable.ic_storage_off);
         writeImgView.setBackgroundResource(R.drawable.ic_write_off);
         myImgView.setBackgroundResource(R.drawable.ic_mypage_off);
@@ -805,8 +805,7 @@ public class MainActivity extends AppCompatActivity {
                 homeImgView.setBackgroundResource(R.drawable.ic_home_on);
                 break;
             case 1:
-//                searchView.setColorFilter(Color.parseColor("#6d8fff"));
-                searchView.setImageResource(R.drawable.ic_i_tapbar_2_1);
+                searchView.setImageResource(R.drawable.ic_i_tapbar_2_2);
                 break;
             case 2:
                 storageImgView.setBackgroundResource(R.drawable.ic_storage_on);
@@ -817,6 +816,20 @@ public class MainActivity extends AppCompatActivity {
             case 4:
                 myImgView.setBackgroundResource(R.drawable.ic_mypage_on);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 878 && resultCode == RESULT_OK) {
+            if (data != null) {
+                int type = data.getIntExtra("type", 0);
+
+                viewPager.setCurrentItem(type);
+                resetBottomBar(type);
+            }
         }
     }
 }

@@ -198,6 +198,7 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:hint="#3가지 이상 입력해주세요"
+                        android:inputType="text"
                         android:textColorHint="#cccccc"
                         android:textSize="15sp" />
 

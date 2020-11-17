@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,14 +21,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Decoration.StorageBoxItemDecoration;
 import com.Whowant.Tokki.UI.Activity.Search.SearchCategoryActivity;
 import com.Whowant.Tokki.UI.Activity.Search.SearchResultActivity;
+import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.ItemClickSupport;
-import com.Whowant.Tokki.VO.WorkVO;
 
 import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
 
 public class SearchFragment extends Fragment {
 
@@ -37,7 +41,7 @@ public class SearchFragment extends Fragment {
 
     RecyclerView recyclerView;
     SearchAdapter adapter;
-    ArrayList<WorkVO> mArrayList = new ArrayList<>();
+    ArrayList<String> mArrayList = new ArrayList<>();
 
     public static Fragment newInstance() {
         SearchFragment fragment = new SearchFragment();
@@ -90,14 +94,17 @@ public class SearchFragment extends Fragment {
         });
 
         recyclerView = v.findViewById(R.id.recyclerView);
-        adapter = new SearchAdapter(getContext());
+        adapter = new SearchAdapter(getContext(), mArrayList);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.addItemDecoration(new StorageBoxItemDecoration(getContext()));
         recyclerView.setAdapter(adapter);
         ItemClickSupport.addTo(recyclerView).setItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClick(RecyclerView parent, View view, int position, long id) {
+                String item = mArrayList.get(position);
+
                 Intent intent = new Intent(getActivity(), SearchCategoryActivity.class);
+                intent.putExtra("genre", item);
                 startActivity(intent);
             }
         });
@@ -105,12 +112,20 @@ public class SearchFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getGenreList();
+    }
+
     public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         Context context;
+        ArrayList<String> arrayList;
 
-        public SearchAdapter(Context context) {
+        public SearchAdapter(Context context, ArrayList<String> arrayList) {
             this.context = context;
+            this.arrayList = arrayList;
         }
 
         @NonNull
@@ -122,12 +137,18 @@ public class SearchFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            String item = arrayList.get(position);
 
+            if (holder instanceof SearchViewHolder) {
+                SearchViewHolder viewHolder = (SearchViewHolder) holder;
+
+                viewHolder.titleTv.setText(item);
+            }
         }
 
         @Override
         public int getItemCount() {
-            return 20;
+            return arrayList.size();
         }
     }
 
@@ -142,5 +163,35 @@ public class SearchFragment extends Fragment {
             bgLl = itemView.findViewById(R.id.ll_row_search_bg);
             titleTv = itemView.findViewById(R.id.tv_row_search_title);
         }
+    }
+
+    private void getGenreList() {
+        mArrayList.clear();
+
+        CommonUtils.showProgressDialog(getContext(), "서버와 통신중입니다. 잠시만 기다려주세요.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<String> tmp = HttpClient.getAllGenreList(new OkHttpClient());
+                if (tmp != null) {
+                    mArrayList.addAll(tmp);
+                }
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        if (tmp == null) {
+                            Toast.makeText(getContext(), "장르 목록을 가져오는데 실패했습니다.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }).start();
     }
 }

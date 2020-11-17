@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.GenreRegActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
-import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
 import com.Whowant.Tokki.UI.Activity.TagRegActivity;
 import com.Whowant.Tokki.UI.Popup.CoverMediaSelectPopup;
@@ -281,6 +280,7 @@ public class WorkRegActivity extends AppCompatActivity {
 
     public void btnTag(View v) {
         Intent intent = new Intent(mActivity, TagRegActivity.class);
+        intent.putExtra("TAG", tagTv.getText().toString());
         startActivityForResult(intent, 922);
     }
 

@@ -13,18 +13,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Custom.FlowLayout;
+import com.Whowant.Tokki.UI.Custom.TagFlowLayout;
 import com.Whowant.Tokki.UI.TypeOnClickListener;
 import com.Whowant.Tokki.Utils.DeviceUtils;
+import com.Whowant.Tokki.Utils.ItemClickSupport;
 import com.Whowant.Tokki.VO.TagVo;
 
 import java.util.ArrayList;
@@ -33,6 +40,7 @@ import okhttp3.OkHttpClient;
 
 public class TagRegActivity extends AppCompatActivity {
 
+    private ArrayList<TagSelectVo> tagList = new ArrayList<>();
     ArrayList<TagVo> mArrayList = new ArrayList<>();
     RecyclerView recyclerView;
     TagRegAdapter adapter;
@@ -40,7 +48,34 @@ public class TagRegActivity extends AppCompatActivity {
     EditText tagEt;
     TextView regTv;
 
+    private TagFlowLayout tagsLayout;
+    private ArrayList<View> tagViewList;
+    private String strCurrentTag = "";
+    private int nSelectedCount = 0;
+    ScrollView scrollView;
+
     Activity mActivity;
+
+    public class TagSelectVo {
+        public String name;
+        public boolean isSelected;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +84,27 @@ public class TagRegActivity extends AppCompatActivity {
 
         mActivity = this;
 
+        getData();
         initView();
+
+        setTagSelected();
+    }
+
+    private void getData() {
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            strCurrentTag = getIntent().getStringExtra("TAG");
+
+            if (!TextUtils.isEmpty(strCurrentTag)) {
+                String[] tags = strCurrentTag.split(" ");
+
+                for (String str : tags) {
+                    TagSelectVo vo = new TagSelectVo();
+                    vo.setName(str);
+                    vo.setSelected(true);
+                    tagList.add(vo);
+                }
+            }
+        }
     }
 
     private void initView() {
@@ -57,6 +112,8 @@ public class TagRegActivity extends AppCompatActivity {
 
         findViewById(R.id.ib_top_layout_back).setOnClickListener((v) -> finish());
         findViewById(R.id.ib_top_layout_back).setVisibility(View.VISIBLE);
+
+        scrollView = findViewById(R.id.sv_tag_reg);
 
         regTv = findViewById(R.id.tv_tag_reg);
         regTv.setOnClickListener(new View.OnClickListener() {
@@ -78,9 +135,13 @@ public class TagRegActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s != null && s.length() > 0) {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    scrollView.setVisibility(View.GONE);
                     getTagInfo(s.toString());
                     regTv.setTextColor(Color.parseColor("#5a9aff"));
                 } else {
+                    recyclerView.setVisibility(View.GONE);
+                    scrollView.setVisibility(View.VISIBLE);
                     regTv.setTextColor(Color.parseColor("#cccccc"));
                     mArrayList.clear();
                     adapter.notifyDataSetChanged();
@@ -104,8 +165,37 @@ public class TagRegActivity extends AppCompatActivity {
         });
         adapter = new TagRegAdapter(mActivity, mArrayList);
         recyclerView.setAdapter(adapter);
+        ItemClickSupport.addTo(recyclerView).setItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClick(RecyclerView parent, View view, int position, long id) {
+                TagVo item = mArrayList.get(position);
 
+                addTagSelected(item.getTAG_NAME());
+            }
+        });
+
+        tagsLayout = findViewById(R.id.tagsLayout);
 //        setGenreView();
+    }
+
+    private void addTagSelected(String tagName) {
+        boolean isCheck = false;
+
+        for (TagSelectVo vo : tagList) {
+            if (tagName.equals(vo.getName())) {
+                isCheck = true;
+                break;
+            }
+        }
+
+        if (!isCheck) {
+            TagSelectVo vo = new TagSelectVo();
+            vo.setName(tagName);
+            vo.setSelected(true);
+            tagList.add(vo);
+        }
+
+        setTagSelected();
     }
 
     public class TagRegAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -213,8 +303,8 @@ public class TagRegActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            tagEt.setText("");
-                            adapter.notifyDataSetChanged();
+
+                            addTagSelected(tagName);
                         }
                     });
                 } else {
@@ -226,15 +316,109 @@ public class TagRegActivity extends AppCompatActivity {
 
     // 저장 버튼
     public void btnSave(View v) {
-        String tag = tagEt.getText().toString();
+        StringBuffer stringBuffer = new StringBuffer();
 
-        if (!tag.startsWith("#")) {
-            tag = "#" + tag;
+        for (TagSelectVo vo : tagList) {
+            if (!TextUtils.isEmpty(stringBuffer)) {
+                stringBuffer.append(" ");
+            }
+
+            if (vo.isSelected()) {
+                stringBuffer.append(vo.getName());
+            }
         }
 
         Intent intent = new Intent();
-        intent.putExtra("tag", tag);
+        intent.putExtra("tag", stringBuffer.toString());
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    private void setTagSelected() {
+        if (tagList.size() == 0) {
+            return;
+        }
+
+        tagViewList = new ArrayList<>();
+        tagsLayout.removeAllViews();
+
+        for (int i = 0; i < tagList.size(); i++) {
+            final int nPosition = i;
+            View view = (View) getLayoutInflater().inflate(R.layout.tag_row, null);
+            FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(20, 15);
+            view.setLayoutParams(params);
+
+            final RelativeLayout bgView = view.findViewById(R.id.bgView);
+            final TextView genreNameView = view.findViewById(R.id.genreNameView);
+            final ImageView iconView = view.findViewById(R.id.iconView);
+
+            String strGenre = tagList.get(i).getName();
+            genreNameView.setText(strGenre);
+
+            if (tagList.get(i).isSelected()) {
+                bgView.setBackgroundResource(R.drawable.genre_selected_bg);
+                genreNameView.setTextColor(ContextCompat.getColor(mActivity, R.color.colorPrimary));
+                iconView.setBackgroundResource(R.drawable.check);
+            } else {
+                bgView.setBackgroundResource(R.drawable.genre_gray_bg);
+                genreNameView.setTextColor(Color.parseColor("#969696"));
+                iconView.setBackgroundResource(R.drawable.plus_button);
+            }
+
+            tagsLayout.addView(view);
+            tagViewList.add(view);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    boolean bSelected = tagList.get(nPosition).isSelected();
+
+                    if (!bSelected) {
+                        if (nSelectedCount < 10) {
+                            bSelected = true;
+                            nSelectedCount++;
+
+                            if (strCurrentTag.length() > 0)
+                                strCurrentTag += " ";
+
+                            strCurrentTag += tagList.get(nPosition).getName();
+
+                            bgView.setBackgroundResource(R.drawable.genre_selected_bg);
+                            genreNameView.setTextColor(ContextCompat.getColor(mActivity, R.color.colorPrimary));
+                            iconView.setBackgroundResource(R.drawable.check);
+
+                            tagList.get(nPosition).setSelected(true);
+                        }
+                    } else {
+                        bSelected = false;
+                        nSelectedCount--;
+
+                        String[] tagArr = strCurrentTag.split(" ");
+                        String strNewGenre = "";
+                        for (String tag : tagArr) {
+                            if (!tag.equals(tagList.get(nPosition).getName())) {
+                                if (strNewGenre.length() > 0)
+                                    strNewGenre += " ";
+                                strNewGenre += tag;
+                            }
+                        }
+
+                        strCurrentTag = strNewGenre;
+
+                        bgView.setBackgroundResource(R.drawable.genre_gray_bg);
+                        genreNameView.setTextColor(Color.parseColor("#969696"));
+                        iconView.setBackgroundResource(R.drawable.plus_button);
+
+                        tagList.get(nPosition).setSelected(false);
+                    }
+                }
+            });
+        }
+
+        recyclerView.setVisibility(View.GONE);
+        scrollView.setVisibility(View.VISIBLE);
+
+        tagEt.setText("");
+        adapter.notifyDataSetChanged();
     }
 }

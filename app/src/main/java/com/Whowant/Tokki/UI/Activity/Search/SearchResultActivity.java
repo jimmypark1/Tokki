@@ -71,6 +71,9 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void initView() {
+
+        findViewById(R.id.ib_top_layout_back).setOnClickListener((v) -> finish());
+
         searchEt = findViewById(R.id.et_result_search);
         searchEt.addTextChangedListener(new TextWatcher() {
             @Override

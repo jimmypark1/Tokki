@@ -166,6 +166,22 @@ public class MyPageActivity extends AppCompatActivity {
         startActivity(new Intent(this, MyPageAccountSettingActivity.class));
     }
 
+    // 작품수
+    public void btnWork(View v) {
+        Intent intent = new Intent();
+        intent.putExtra("type", 3);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    // 읽는 작품수
+    public void btnRead(View v) {
+        Intent intent = new Intent();
+        intent.putExtra("type", 2);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
     // 팔로워
     public void btnFollower(View v) {
         Intent intent = new Intent(this, MyPageFollowerActivity.class);
@@ -203,6 +219,8 @@ public class MyPageActivity extends AppCompatActivity {
 //                                nFollowingCount = resultObject.getInt("FOLLOWING_COUNT");
 //                                followingView.setText(CommonUtils.getPointCount(resultObject.getInt("FOLLOWING_COUNT")));
 //                                followerView.setText(CommonUtils.getPointCount(resultObject.getInt("FOLLOW_COUNT")));
+                                workCountTv.setText(CommonUtils.getPointCount(resultObject.getInt("WORK_COUNT")));
+                                readCountTv.setText(CommonUtils.getPointCount(resultObject.getInt("READ_COUNT")));
                                 followCountTv.setText(CommonUtils.getPointCount(nFollowerCount));
                             }
                         } catch (JSONException e) {

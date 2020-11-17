@@ -188,7 +188,8 @@
                 android:layout_marginStart="10dp"
                 android:background="@drawable/circle_fafafa_2_33000000"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
