@@ -64,6 +64,7 @@ public class MemberManagementActivity extends AppCompatActivity {
                         requestSearch();
                         break;
                     case 0:
+                        if (event.getAction() == KeyEvent.ACTION_UP)
                         requestSearch();
                         break;
                     default:

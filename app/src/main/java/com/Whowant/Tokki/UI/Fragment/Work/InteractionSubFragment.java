@@ -48,6 +48,7 @@ import androidx.fragment.app.Fragment;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryInteractionActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CreateCharacterActivity;
 import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.InteractionPhotoPickerActivity;
@@ -97,6 +98,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_VIDEO;
+
 public class InteractionSubFragment extends Fragment implements View.OnClickListener {                                  // 작성창 중 '분기' 가 설정 되어있을때 화면을 두개로 나눔. 그 중에 오른쪽 화면으로 기본적으로 작성창과 동일
     private ArrayList<CharacterVO> characterList;
     private ArrayList<ChatVO> chattingList;
@@ -137,6 +141,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
     private int nEpisodeIndex;
     private int nAddIndex = -1;          // 사이에 추가하기 넘버
     private int nEditIndex = -1;            // 수정할때 넘버
+    private int nDeleteIndex = -1;
 
     private ArrayList<String> newFileList;
     private boolean isEdit = false;
@@ -282,9 +287,9 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                                 public void onPermissionGranted() {
                                     Intent intent = new Intent(getActivity(), MediaSelectPopup.class);
                                     if(nType == ChatVO.TYPE_IMAGE) {
-                                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CONTENTS_IMG);
+                                        intent.putExtra("TYPE", TYPE_CONTENTS_IMG.ordinal());
                                     } else {
-                                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_VIDEO);
+                                        intent.putExtra("TYPE", TYPE_VIDEO.ordinal());
                                     }
 
                                     intent.putExtra("EDIT", true);
@@ -741,7 +746,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                                     }
 
                                     if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                        Toast.makeText(getActivity(), "제출 되었습니다.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity(), "제출되었습니다.", Toast.LENGTH_LONG).show();
                                         getActivity().finish();
                                     } else {
                                         Toast.makeText(getActivity(), "제출에 실패하였습니다.", Toast.LENGTH_LONG).show();
@@ -990,7 +995,9 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                 String strSelection = data.getStringExtra("SELECTION");
 
                 if(strSelection.equals("GALLERY")) {
-                    Intent intent = new Intent(getActivity(), SeesoGalleryInteractionActivity.class);
+//                    Intent intent = new Intent(getActivity(), SeesoGalleryInteractionActivity.class);
+                    Intent intent = new Intent(getActivity(), TokkiGalleryActivity.class);
+                    intent.putExtra("Interaction", 100);
                     startActivityForResult(intent, InteractionWriteActivity.PHOTOPICKER_CONTENTS_IMAGE);
                 } else if(strSelection.equals("ALBUM")) {
                     Intent intent = new Intent(getActivity(), InteractionPhotoPickerActivity.class);
@@ -1000,7 +1007,8 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                 String strSelection = data.getStringExtra("SELECTION");
 
                 if(strSelection.equals("GALLERY")) {
-                    Intent intent = new Intent(getActivity(), SeesoGalleryInteractionActivity.class);
+                    Intent intent = new Intent(getActivity(), TokkiGalleryActivity.class);
+                    intent.putExtra("Interaction", 100);
                     startActivityForResult(intent, InteractionWriteActivity.PHOTOPICKER_BG_IMAGE);
                 } else if(strSelection.equals("ALBUM")) {
                     Intent intent = new Intent(getActivity(), InteractionPhotoPickerActivity.class);
@@ -1458,10 +1466,15 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                             chattingListView.setSelection(nAddIndex);
                         } else if(nEditIndex != -1) {
                             chattingListView.setSelection(nEditIndex);
+                        } else if(nDeleteIndex != -1) {
+                            if(nDeleteIndex > 0)
+                                nDeleteIndex -= 1;
+                            chattingListView.setSelection(nDeleteIndex);
                         }
 
                         nAddIndex = -1;
                         nEditIndex = -1;
+                        nDeleteIndex = -1;
                     }
                 });
             }
@@ -1710,7 +1723,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
 
             if(nType == 1 || nType == 2 || nType == 7) {
                 chatObject.put("CHAT_CONTENTS", chatVO.getContents());
-            } else if(nType == 3 || nType == 4 || nType == 5 || nType == 8) {           // 파일일 경우 파일 명만 보내야함
+            } else if(nType == 3 || nType == 4 || nType == 5 || nType == 8 || nType == 11) {           // 파일일 경우 파일 명만 보내야함
                 String strPath = chatVO.getStrContentsFile();
 
                 if(strPath == null || strPath.length() == 0) {
@@ -1720,7 +1733,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                     String filename = strPath.substring(strPath.lastIndexOf("/")+1);
                     chatObject.put("CHAT_CONTENTS", filename);
                 }
-            } else if(nType == nType) {
+            } else {
                 chatObject.put("CHAT_CONTENTS", chatVO.getStrContentsFile());
             }
 
@@ -2284,7 +2297,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                     String strUrl = chatVO.getStrContentsFile();
 
                     if(!strUrl.startsWith("http"))
-                        strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
+                        strUrl = CommonUtils.strDefaultUrl + "images" + strUrl;
 
                     Glide.with(getActivity())
                             .asBitmap() // some .jpeg files are actually gif
@@ -2674,7 +2687,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                             CommonUtils.hideProgressDialog();
 
                             if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                Toast.makeText(interactionWriteActivity, "삭되었습니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(interactionWriteActivity, "삭제되었습니다.", Toast.LENGTH_LONG).show();
                                 getActivity().finish();
                             } else {
                                 Toast.makeText(interactionWriteActivity, "작품 등록을 실패하였습니다.", Toast.LENGTH_LONG).show();
@@ -2695,7 +2708,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
             @Override
             public void run() {
                 ChatVO vo = chattingList.get(nIndex);
-
+                nDeleteIndex = nIndex;
                 JSONObject resultObject = HttpClient.requestDeleteMessage(new OkHttpClient(), nEpisodeID, vo.getnChatID(), vo.getnOrder());
 
                 interactionWriteActivity.runOnUiThread(new Runnable() {
@@ -2712,8 +2725,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                                 }
 
                                 chattingList.remove(nIndex);
-                                aa.notifyDataSetChanged();
-//                                chattingListView.setSelection(aa.getCount() - 1);
+                                getEpisodeChatData();
                                 Toast.makeText(interactionWriteActivity, "삭제되었습니다.", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(interactionWriteActivity, "작품 등록을 실패하였습니다.", Toast.LENGTH_LONG).show();

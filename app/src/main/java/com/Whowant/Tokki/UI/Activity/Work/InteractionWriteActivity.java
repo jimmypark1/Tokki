@@ -23,7 +23,6 @@ import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Adapter.InteractionAdapter;
 import com.Whowant.Tokki.UI.Fragment.Work.InteractionMainFragment;
-import com.Whowant.Tokki.UI.Fragment.Work.InteractionSubFragment;
 import com.Whowant.Tokki.UI.Popup.ChangeTitlePopup;
 import com.Whowant.Tokki.UI.Popup.LegalNoticePopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -76,7 +75,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         isExcelUploaded = getIntent().getBooleanExtra("EXCEL_UPLOADED", false);
         ImageButton submitBtn = findViewById(R.id.submitBtn);
 
-        if(isExcelUploaded) {
+        if(isExcelUploaded || workVO.getnUserStatus() == 1 || workVO.getnUserStatus() == 20) {
             submitBtn.setBackgroundResource(R.drawable.send_button);
         } else {
             submitBtn.setBackgroundResource(R.drawable.post_botton);
@@ -86,7 +85,6 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         nEpisodeID = getIntent().getIntExtra("EPISODE_ID", -1);
         nEpisodeIndex = getIntent().getIntExtra("EPISODE_INDEX", -1);
         bSubmit = getIntent().getBooleanExtra("SUBMIT", false);
-        isExcelUploaded = getIntent().getBooleanExtra("EXCEL_UPLOADED", false);
 
         titleView.setText(strTitle);
         episodeNumView.setText((nEpisodeIndex+1) + "화");
@@ -116,12 +114,12 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {           // BT 키보드 접속됨
             InteractionMainFragment fragment = (InteractionMainFragment)pagerAdapter.getItem(0);
             fragment.removeKeyboardEvent();
-            InteractionSubFragment fragment2 = (InteractionSubFragment)pagerAdapter.getItem(1);
+            InteractionMainFragment fragment2 = (InteractionMainFragment)pagerAdapter.getItem(1);
             fragment2.removeKeyboardEvent();
         } else if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {     // BT 키보드 해제됨
             InteractionMainFragment fragment = (InteractionMainFragment)pagerAdapter.getItem(0);
             fragment.setKeyboardEvent();
-            InteractionSubFragment fragment2 = (InteractionSubFragment)pagerAdapter.getItem(1);
+            InteractionMainFragment fragment2 = (InteractionMainFragment)pagerAdapter.getItem(1);
             fragment2.setKeyboardEvent();
         }
     }
@@ -152,7 +150,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
             InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);
             mainFragment.onColorSelected(dialogId, color);
         } else {                            // 오른쪽 fragment
-            InteractionSubFragment subFragment = (InteractionSubFragment)pagerAdapter.getItem(1);
+            InteractionMainFragment subFragment = (InteractionMainFragment)pagerAdapter.getItem(1);
             subFragment.onColorSelected(dialogId, color);
         }
     }
@@ -170,7 +168,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
             InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);
             mainFragment.onBackpress();
         } else {
-            InteractionSubFragment subFragment = (InteractionSubFragment)pagerAdapter.getItem(1);
+            InteractionMainFragment subFragment = (InteractionMainFragment)pagerAdapter.getItem(1);
             subFragment.onBackpress();
         }
     }
@@ -186,12 +184,16 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    isExcelUploaded = true;
+                    ImageButton submitBtn = findViewById(R.id.submitBtn);
+                    submitBtn.setBackgroundResource(R.drawable.send_button);
+
                     int nCurrent = viewPager.getCurrentItem();
                     if(nCurrent == 0) {
                         InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);
                         mainFragment.excelDoen();
                     } else {
-                        InteractionSubFragment subFragment = (InteractionSubFragment)pagerAdapter.getItem(1);
+                        InteractionMainFragment subFragment = (InteractionMainFragment)pagerAdapter.getItem(1);
                         subFragment.excelDoen();
                     }
                 }
@@ -204,7 +206,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
     }
 
     public void onClickSubmitBtn(View view) {
-        if(isExcelUploaded) {
+        if(isExcelUploaded || workVO.getnUserStatus() == 10 || workVO.getnUserStatus() == 20) {
             requestEpisodeSubmit();
         } else {
             requestEpisodePost();
@@ -336,7 +338,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
                             break;
                     }
                 } else {
-                    InteractionSubFragment subFragment = (InteractionSubFragment)pagerAdapter.getItem(1);
+                    InteractionMainFragment subFragment = (InteractionMainFragment)pagerAdapter.getItem(1);
 
                     switch(item.getItemId()) {
                         case R.id.action_btn2:
@@ -365,16 +367,16 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         startActivityForResult(intent, 1100);
     }
 
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-//
-//        if(viewPager.getCurrentItem() == 0) {
-//            InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);
-//            mainFragment.onNewIntent(intent);
-//        } else {
-//            InteractionSubFragment mainFragment = (InteractionSubFragment)pagerAdapter.getItem(1);
-//            mainFragment.onNewIntent(intent);
-//        }
-//    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if(viewPager.getCurrentItem() == 0) {
+            InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(0);
+            mainFragment.imageSetting(intent);
+        } else {
+            InteractionMainFragment mainFragment = (InteractionMainFragment)pagerAdapter.getItem(1);
+            mainFragment.imageSetting(intent);
+        }
+    }
 }

@@ -29,6 +29,8 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
 import java.util.List;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_FACE_IMG;
+
 public class CharacterRegActivity extends AppCompatActivity implements View.OnClickListener, ColorPickerDialogListener {
     EditText nameEt;
     ImageView photoIv;
@@ -121,7 +123,7 @@ public class CharacterRegActivity extends AppCompatActivity implements View.OnCl
         @Override
         public void onPermissionGranted() {             // 모든 권한 획득
             Intent intent = new Intent(mActivity, MediaSelectPopup.class);
-            intent.putExtra("TYPE", PhotoPickerActivity.TYPE_CHARACTER_BG);
+            intent.putExtra("TYPE", TYPE_FACE_IMG.ordinal());
             startActivity(intent);
         }
 

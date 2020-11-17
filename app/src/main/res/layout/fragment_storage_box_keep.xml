@@ -35,7 +35,7 @@
                 android:layout_marginBottom="30dp"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="7sp"
-                android:text="보관함에 아무 이야기도 없습니."
+                android:text="보관함에 아무 이야기도 없습니다."
                 android:textColor="#666666"
                 android:textSize="15sp"
                 android:textStyle="bold" />

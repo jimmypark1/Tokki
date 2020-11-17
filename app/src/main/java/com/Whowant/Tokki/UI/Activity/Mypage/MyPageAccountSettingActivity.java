@@ -32,6 +32,9 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_BG;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE;
+
 public class MyPageAccountSettingActivity extends AppCompatActivity {
 
     ImageView levelIv;
@@ -149,7 +152,7 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
                     @Override
                     public void onPermissionGranted() {
                         Intent intent = new Intent(mActivity, MediaSelectPopup.class);
-                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_SETTING_PROFILE);
+                        intent.putExtra("TYPE", TYPE_PROFILE.ordinal());
                         startActivity(intent);
                     }
 
@@ -169,7 +172,7 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
                     @Override
                     public void onPermissionGranted() {
                         Intent intent = new Intent(mActivity, MediaSelectPopup.class);
-                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_SETTING_BG);
+                        intent.putExtra("TYPE", TYPE_BG);
                         startActivity(intent);
                     }
 

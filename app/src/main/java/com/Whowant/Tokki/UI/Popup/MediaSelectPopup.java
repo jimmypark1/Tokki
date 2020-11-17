@@ -8,12 +8,13 @@ import android.view.View;
 
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
-import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
 
 public class MediaSelectPopup extends AppCompatActivity {
     private int     nType = 0;
     private boolean bEdit = false;
     private int     nOrder = -1;
+    private boolean bInteraction = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class MediaSelectPopup extends AppCompatActivity {
         nType = getIntent().getIntExtra("TYPE", 0);
         bEdit = getIntent().getBooleanExtra("EDIT", false);
         nOrder = getIntent().getIntExtra("ORDER", -1);
+        bInteraction = getIntent().getBooleanExtra("INTERACTION", false);
     }
 
     @Override
@@ -36,10 +38,12 @@ public class MediaSelectPopup extends AppCompatActivity {
     }
 
     public void OnClickGalleryBtn(View view) {
-        Intent intent = new Intent(MediaSelectPopup.this, SeesoGalleryActivity.class);
+//        Intent intent = new Intent(MediaSelectPopup.this, SeesoGalleryActivity.class);
+        Intent intent = new Intent(MediaSelectPopup.this, TokkiGalleryActivity.class);
         intent.putExtra("TYPE", nType);
         intent.putExtra("EDIT", bEdit);
         intent.putExtra("ORDER", nOrder);
+        intent.putExtra("INTERACTION", bInteraction);
         startActivity(intent);
         finish();
     }
@@ -55,6 +59,7 @@ public class MediaSelectPopup extends AppCompatActivity {
         intent.putExtra("TYPE", nType);
         intent.putExtra("EDIT", bEdit);
         intent.putExtra("ORDER", nOrder);
+        intent.putExtra("INTERACTION", bInteraction);
         startActivity(intent);
         finish();
     }

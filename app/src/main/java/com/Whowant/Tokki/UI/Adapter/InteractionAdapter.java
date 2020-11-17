@@ -4,18 +4,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.Whowant.Tokki.UI.Fragment.Work.InteractionSubFragment;
 import com.Whowant.Tokki.UI.Fragment.Work.InteractionMainFragment;
 
 public class InteractionAdapter extends FragmentPagerAdapter {
     private InteractionMainFragment interactionMainFragment;
-    private InteractionSubFragment  interactionSubFragment;
+    private InteractionMainFragment  interactionSubFragment;
 
     public InteractionAdapter(FragmentManager fm) {
         super(fm);
 
-        interactionMainFragment = (InteractionMainFragment)InteractionMainFragment.newInstance();
-        interactionSubFragment = (InteractionSubFragment) InteractionSubFragment.newInstance();
+        interactionMainFragment = (InteractionMainFragment)InteractionMainFragment.newInstance(1);
+        interactionSubFragment = (InteractionMainFragment)InteractionMainFragment.newInstance(2);
     }
 
     @Override

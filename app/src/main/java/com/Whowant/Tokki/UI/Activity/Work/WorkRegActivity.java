@@ -27,6 +27,7 @@ import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.GenreRegActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
 import com.Whowant.Tokki.UI.Activity.TagRegActivity;
 import com.Whowant.Tokki.UI.Popup.CoverMediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -53,6 +54,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER_THUMB;
 
 public class WorkRegActivity extends AppCompatActivity {
 
@@ -311,19 +315,19 @@ public class WorkRegActivity extends AppCompatActivity {
                 if (nType == 0)
                     return;
                 else if (nType == 1) {
-                    Intent intent = new Intent(mActivity, SeesoGalleryActivity.class);
+                    Intent intent = new Intent(mActivity, TokkiGalleryActivity.class);
                     if (nThumbnail == 2)
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_THUMB_IMG);
+                        intent.putExtra("TYPE", TYPE_COVER_THUMB.ordinal());
                     else
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_IMG);
+                        intent.putExtra("TYPE", TYPE_COVER.ordinal());
 
                     startActivity(intent);
                 } else if (nType == 2) {
                     Intent intent = new Intent(mActivity, PhotoPickerActivity.class);
                     if (nThumbnail == 2)
-                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_COVER_THUMB_IMG);
+                        intent.putExtra("TYPE", TYPE_COVER_THUMB.ordinal());
                     else
-                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_COVER_IMG);
+                        intent.putExtra("TYPE", TYPE_COVER.ordinal());
                     startActivity(intent);
                 }
             }/* else if(requestCode == 1010) {                                                                            // 장르 선택시

@@ -127,6 +127,7 @@ public class WriterMainActivity extends AppCompatActivity {                     
                 intent.putExtra("FOLLOWING_COUNT", nFollowingCount);
                 intent.putExtra("WRITER_ID", strUserID);
                 intent.putExtra("WRITER_NAME", strName);
+                intent.putExtra("WRITER_NAME", strName);
                 intent.putExtra("SELECTED_INDEX", 2);
                 startActivity(intent);
             }

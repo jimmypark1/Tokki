@@ -23,7 +23,8 @@ import android.widget.Toast;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
-import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
+import com.Whowant.Tokki.UI.Fragment.Main.TokkiGalleryFragment;
 import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.UI.Popup.CoverMediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -51,6 +52,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER_THUMB;
+
 public class CreateWorkActivity extends AppCompatActivity {                                         // 새로운 작품 생성 화면
     private EditText inputTitleView;
     private EditText inputSynopsisView;
@@ -71,11 +75,14 @@ public class CreateWorkActivity extends AppCompatActivity {                     
 
     private ProgressDialog mProgressDialog;
     private int nThumbnail = 0;     // 0 = 안함, 1 = 포스터를 썸네일로, 2 = 갤러리에서 썸네일 고르기
+    private String writerID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_work_renewal);
+
+        writerID = getIntent().getStringExtra("WRITER_ID");
 
         Thread.UncaughtExceptionHandler handler = Thread
                 .getDefaultUncaughtExceptionHandler();
@@ -205,7 +212,7 @@ public class CreateWorkActivity extends AppCompatActivity {                     
                         .into(coverImgView);
 
                 nThumbnail = 1;
-                ThumbnailPreviewActivity.bCoverThumb = true;
+                ThumbnailPreviewActivity.nNextType = TYPE_COVER_THUMB.ordinal();
                 CropImageActivity.bThumbnail = true;
                 CropImage.activity(coverImgUri)
                         .setGuidelines(CropImageView.Guidelines.ON)
@@ -227,19 +234,20 @@ public class CreateWorkActivity extends AppCompatActivity {                     
                 if (nType == 0)
                     return;
                 else if (nType == 1) {
-                    Intent intent = new Intent(CreateWorkActivity.this, SeesoGalleryActivity.class);
+//                    Intent intent = new Intent(CreateWorkActivity.this, SeesoGalleryActivity.class);
+                    Intent intent = new Intent(CreateWorkActivity.this, TokkiGalleryActivity.class);
                     if(nThumbnail == 2)
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_THUMB_IMG);
+                        intent.putExtra("TYPE", TYPE_COVER_THUMB.ordinal());
                     else
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_IMG);
+                        intent.putExtra("TYPE", TYPE_COVER.ordinal());
 
                     startActivity(intent);
                 } else if (nType == 2) {
                     Intent intent = new Intent(CreateWorkActivity.this, PhotoPickerActivity.class);
                     if(nThumbnail == 2)
-                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_COVER_THUMB_IMG);
+                        intent.putExtra("TYPE", TYPE_COVER_THUMB.ordinal());
                     else
-                        intent.putExtra("TYPE", PhotoPickerActivity.TYPE_COVER_IMG);
+                        intent.putExtra("TYPE", TYPE_COVER.ordinal());
                     startActivity(intent);
                 }
             } else if(requestCode == 1010) {                                                                            // 장르 선택시
@@ -300,11 +308,19 @@ public class CreateWorkActivity extends AppCompatActivity {                     
             MultipartBody.Builder builder = new MultipartBody.Builder();
             SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
 
-            builder.setType(MultipartBody.FORM)
-                    .addFormDataPart("WRITER_ID", pref.getString("USER_ID", "Guest"))
-                    .addFormDataPart("WORK_TITLE", inputTitleView.getText().toString())
-                    .addFormDataPart("WORK_SYNOPSIS", inputSynopsisView.getText().toString())
-                    .addFormDataPart("WORK_TARGET", "");
+            if (writerID == null) {
+                builder.setType(MultipartBody.FORM)
+                        .addFormDataPart("WRITER_ID", pref.getString("USER_ID", "Guest"))
+                        .addFormDataPart("WORK_TITLE", inputTitleView.getText().toString())
+                        .addFormDataPart("WORK_SYNOPSIS", inputSynopsisView.getText().toString())
+                        .addFormDataPart("WORK_TARGET", "");
+            } else {
+                builder.setType(MultipartBody.FORM)
+                        .addFormDataPart("WRITER_ID", writerID)
+                        .addFormDataPart("WORK_TITLE", inputTitleView.getText().toString())
+                        .addFormDataPart("WORK_SYNOPSIS", inputSynopsisView.getText().toString())
+                        .addFormDataPart("WORK_TARGET", "");
+            }
 
             String strTags = inputTagView.getText().toString();
             if(strTags.length() > 0)
@@ -457,7 +473,7 @@ public class CreateWorkActivity extends AppCompatActivity {                     
         }
 
         nThumbnail = 1;
-        ThumbnailPreviewActivity.bCoverThumb = true;
+        ThumbnailPreviewActivity.nNextType = TYPE_COVER_THUMB.ordinal();
         CropImageActivity.bThumbnail = true;
         CropImage.activity(coverImgUri)
                 .setGuidelines(CropImageView.Guidelines.ON)

@@ -32,7 +32,8 @@ import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
-import com.Whowant.Tokki.UI.Activity.Photopicker.SeesoGalleryActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
+import com.Whowant.Tokki.UI.Fragment.Main.TokkiGalleryFragment;
 import com.Whowant.Tokki.UI.Popup.CoverMediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
@@ -52,6 +53,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER_IMG_MODIFY;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY_THUMB;
 
 public class WorkEditActivity extends AppCompatActivity {
     private EditText inputTitleView;
@@ -324,7 +328,8 @@ public class WorkEditActivity extends AppCompatActivity {
                 isDeletePoster = false;
 
                 nThumbnail = 1;
-                ThumbnailPreviewActivity.bModifyThumb = true;
+
+                ThumbnailPreviewActivity.nNextType = TYPE_MODIFY_THUMB.ordinal();
                 CropImageActivity.bThumbnail = true;
                 CropImage.activity(coverImgUri)
                         .setGuidelines(CropImageView.Guidelines.ON)
@@ -346,18 +351,19 @@ public class WorkEditActivity extends AppCompatActivity {
                 if (nType == 0)
                     return;
                 else if (nType == 1) {
-                    Intent intent = new Intent(WorkEditActivity.this, SeesoGalleryActivity.class);
+//                    Intent intent = new Intent(WorkEditActivity.this, SeesoGalleryActivity.class);
+                    Intent intent = new Intent(WorkEditActivity.this, TokkiGalleryActivity.class);
                     if(nThumbnail == 0)
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_IMG_MODIFY);
+                        intent.putExtra("TYPE", TYPE_COVER_IMG_MODIFY.ordinal());
                     else
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_THUMBNAIL_MODIFY);
+                        intent.putExtra("TYPE", TYPE_MODIFY_THUMB.ordinal());
                     startActivity(intent);
                 } else if (nType == 2) {
                     Intent intent = new Intent(WorkEditActivity.this, PhotoPickerActivity.class);
                     if(nThumbnail == 0)
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_COVER_IMG_MODIFY);
+                        intent.putExtra("TYPE", TYPE_COVER_IMG_MODIFY.ordinal());
                     else
-                        intent.putExtra("TYPE", SeesoGalleryActivity.TYPE_THUMBNAIL_MODIFY);
+                        intent.putExtra("TYPE", TYPE_MODIFY_THUMB.ordinal());
                     startActivity(intent);
                 } else if(nType == 3) {
                     if(nThumbnail == 0) {
@@ -735,7 +741,7 @@ public class WorkEditActivity extends AppCompatActivity {
                                 JSONObject resultObject = new JSONObject(strResult);
 
                                 if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                    Toast.makeText(WorkEditActivity.this, "수정 되었습니다.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(WorkEditActivity.this, "수정되었습니다.", Toast.LENGTH_LONG).show();
                                     finish();
                                 } else {
                                     Toast.makeText(WorkEditActivity.this, "작품 수정을 실패하였습니다.", Toast.LENGTH_LONG).show();
@@ -778,7 +784,7 @@ public class WorkEditActivity extends AppCompatActivity {
         }
 
         nThumbnail = 1;
-        ThumbnailPreviewActivity.bModifyThumb = true;
+        ThumbnailPreviewActivity.nNextType = TYPE_MODIFY_THUMB.ordinal();
         CropImageActivity.bThumbnail = true;
         CropImage.activity(originCoverImgUri)
                 .setGuidelines(CropImageView.Guidelines.ON)

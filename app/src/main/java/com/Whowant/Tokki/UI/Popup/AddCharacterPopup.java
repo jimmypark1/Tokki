@@ -30,6 +30,8 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_FACE_IMG;
+
 public class AddCharacterPopup extends AppCompatActivity implements ColorPickerDialogListener {
     public static ArrayList<String> nameList;
     public static CharacterVO characterVO = null;
@@ -305,7 +307,7 @@ public class AddCharacterPopup extends AppCompatActivity implements ColorPickerD
         @Override
         public void onPermissionGranted() {             // 모든 권한 획득
             Intent intent = new Intent(AddCharacterPopup.this, MediaSelectPopup.class);
-            intent.putExtra("TYPE", PhotoPickerActivity.TYPE_FACE_IMG);
+            intent.putExtra("TYPE", TYPE_FACE_IMG.ordinal());
             startActivity(intent);
         }
 

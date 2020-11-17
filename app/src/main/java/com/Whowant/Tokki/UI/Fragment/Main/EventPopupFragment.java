@@ -11,13 +11,10 @@ import androidx.fragment.app.Fragment;
 
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.ContestEventActivity;
-import com.Whowant.Tokki.UI.Activity.DrawerMenu.EventActivity;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.EventDetailActivity;
-import com.Whowant.Tokki.UI.Popup.InteractionSpeakerSelectActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.EventVO;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 public class EventPopupFragment extends Fragment {
     private EventVO eventVO;

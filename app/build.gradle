@@ -8,7 +8,7 @@ android {
         applicationId "com.Whowant.Tokki"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 28
+        versionCode 32
         versionName "1.0.32"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -48,6 +48,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     testImplementation 'junit:junit:4.12'
     implementation 'gun0912.ted:tedpermission:2.2.2'
     implementation 'com.github.bumptech.glide:glide:4.8.0'

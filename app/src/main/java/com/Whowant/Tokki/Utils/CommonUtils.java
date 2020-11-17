@@ -222,17 +222,6 @@ public class CommonUtils {                                                      
         return b;
     }
 
-    public static int getStatusBarSize(Activity activity) {
-        Rect rectgle = new Rect();
-        Window window = activity.getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
-        int StatusBarHeight = rectgle.top;
-        int contentViewTop = window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
-        int TitleBarHeight = contentViewTop - StatusBarHeight;
-
-        return StatusBarHeight + contentViewTop;
-    }
-
     public static void resetUserInfo(SharedPreferences pref) {                                                              //  로그인 실패 등의 동작에서 회원정보 삭제
         SharedPreferences.Editor editor = pref.edit();
 
@@ -292,34 +281,6 @@ public class CommonUtils {                                                      
         return strDuration;
     }
 
-    public static Bitmap retriveVideoFrameFromVideo(Context context, String videoPath) throws Throwable {
-        Bitmap bitmap = null;
-        MediaMetadataRetriever mediaMetadataRetriever = null;
-        try {
-            mediaMetadataRetriever = new MediaMetadataRetriever();
-            mediaMetadataRetriever.setDataSource(context, Uri.parse(videoPath));
-            bitmap = mediaMetadataRetriever.getFrameAtTime();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Throwable("Exception in retriveVideoFrameFromVideo(String videoPath)" + e.getMessage());
-
-        } finally {
-            if (mediaMetadataRetriever != null) {
-                mediaMetadataRetriever.release();
-            }
-        }
-        return bitmap;
-    }
-
-    public static boolean isColorDark(int color){
-        double darkness = 1-(0.299* Color.red(color) + 0.587*Color.green(color) + 0.114*Color.blue(color))/255;
-        if(darkness<0.5){
-            return false; // It's a light color
-        }else{
-            return true; // It's a dark color
-        }
-    }
-
     public static Bitmap getImageFromURL(String imageURL){
         Bitmap imgBitmap = null;
         HttpURLConnection conn = null;
@@ -367,16 +328,16 @@ public class CommonUtils {                                                      
 
     public static int getLevel(int nDonationCarrotCount) {                                              // 당근 갯수로 레벨 가져오기. 레벨 변동이 있을때는 이곳만 수정하면 됨
         /*
-        lv1 : 0 ~ 200
-        lv2 : 201 ~ 400
-        lv3 : 401 ~ 600
-        lv4 : 601 ~ 800
-        lv5 : 801 ~ 1000
-        lv6 : 1001 ~ 2000
-        lv7 : 2001 ~ 4000
-        lv8 : 4001 ~ 6000
-        lv9 : 6001 ~ 8000
-        lv10 : 8001 ~
+        lv1 : 0 ~ 500
+        lv2 : 501 ~ 1000
+        lv3 : 1001 ~ 2000
+        lv4 : 2001 ~ 4000
+        lv5 : 4001 ~ 8000
+        lv6 : 8001 ~ 16000
+        lv7 : 16001 ~ 32000
+        lv8 : 32001 ~ 80000
+        lv9 : 80001 ~ 300000
+        lv10 : 300001 ~
          */
         int nLevel = 1;
 
