@@ -7,6 +7,7 @@ public class MyPageFeedVo {
     public WorkVO workVO;
     public ArrayList<WriterVO> follow = new ArrayList<>();
     public String noti;
+    public String userDesc;
 
     public int getType() {
         return type;
@@ -38,5 +39,13 @@ public class MyPageFeedVo {
 
     public void setNoti(String noti) {
         this.noti = noti;
+    }
+
+    public String getUserDesc() {
+        return userDesc;
+    }
+
+    public void setUserDesc(String userDesc) {
+        this.userDesc = userDesc;
     }
 }

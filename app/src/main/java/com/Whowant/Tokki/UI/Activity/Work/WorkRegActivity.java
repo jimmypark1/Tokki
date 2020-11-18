@@ -269,6 +269,26 @@ public class WorkRegActivity extends AppCompatActivity {
     // 저장 버튼
     public void btnSave(View v) {
 
+        String strTitle = titleEt.getText().toString();
+        String strSynopsis = summaryEt.getText().toString();
+
+        if (strTitle.length() == 0) {
+            Toast.makeText(mActivity, "제목을 입력해주세요.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (strSynopsis.length() == 0) {
+            Toast.makeText(mActivity, "줄거리를 입력해주세요.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        String strGenre = genreTv.getText().toString();
+        if (strGenre.length() == 0) {
+            Toast.makeText(mActivity, "장르를 선택해주세요.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        requestCreateWork();
     }
 
     // 장르 버튼
@@ -278,6 +298,7 @@ public class WorkRegActivity extends AppCompatActivity {
         startActivityForResult(intent, 911);
     }
 
+    // 태그 버튼
     public void btnTag(View v) {
         Intent intent = new Intent(mActivity, TagRegActivity.class);
         intent.putExtra("TAG", tagTv.getText().toString());

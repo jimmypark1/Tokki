@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Main.ChatActivity;
 import com.Whowant.Tokki.UI.Activity.Report.ReportActivity;
 import com.Whowant.Tokki.UI.TypeOnClickListener;
 import com.Whowant.Tokki.UI.TypeViewOnClickListener;
@@ -87,7 +88,13 @@ public class MyPageTalkFragment extends Fragment {
         ItemClickSupport.addTo(recyclerView).setItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClick(RecyclerView parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "position : " + position, Toast.LENGTH_LONG).show();
+                WriterChatVO item = mArrayList.get(position);
+
+                if (!SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest").equals(item.getStrWriterID())) {
+                    Intent intent = new Intent(getContext(), ChatActivity.class);
+                    intent.putExtra("WRITER_ID", item.getStrWriterID());
+                    startActivity(intent);
+                }
             }
         });
 

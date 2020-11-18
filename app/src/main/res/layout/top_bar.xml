@@ -95,9 +95,9 @@
         android:id="@+id/ib_top_bar_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="20dp"
-        android:layout_toStartOf="@+id/rightBtn"
         android:background="@drawable/ic_i_plus"
         android:onClick="onClickTopAdd"
         android:visibility="gone" />

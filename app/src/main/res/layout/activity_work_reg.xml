@@ -29,6 +29,7 @@
                     android:layout_width="160dp"
                     android:layout_height="250dp"
                     android:layout_gravity="center_horizontal"
+                    android:scaleType="fitCenter"
                     android:background="@drawable/ic_i_artwork_empty"
                     android:onClick="btnPhotoChange" />
 
@@ -198,7 +199,6 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:hint="#3가지 이상 입력해주세요"
-                        android:inputType="text"
                         android:textColorHint="#cccccc"
                         android:textSize="15sp" />
 

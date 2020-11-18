@@ -126,6 +126,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private ConstraintLayout bottomSettingLayout;                                                                                                       // 하단 메뉴 Layout
     private EditText inputTextView;
     private InputMethodManager imm;
+    // winhmoon
     private LinearLayout contentsAddBtn;
     private ListView chattingListView;                                                                                                                  // 대화가 보여지는 ListView
     private CChattingArrayAdapter aa;
@@ -482,10 +483,6 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         initView();
     }
 
-    private boolean isAllShow() {
-        return textAddBtn.isShown() && characterAddBtn.isShown() && contentsAddBtn.isShown();
-    }
-
     // [S] winhmoon
     private void initView() {
         inputTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -495,7 +492,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 boolean isCharacterShow = characterAddBtn.isShown();
                 boolean isContentsShow = contentsAddBtn.isShown();
 
-                if (hasFocus && (!isTextShow && !isCharacterShow && !isContentsShow || nBeforeCharacterIndex == 0)) {
+                if (hasFocus && (isTextShow && isCharacterShow && isContentsShow) || (nBeforeCharacterIndex == 0 && type != TYPE_TEXT)) {
                     nSelectedCharacterIndex = 0;
                     setSelectBottomLayout(TYPE_TEXT);
                 }
@@ -509,7 +506,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 boolean isCharacterShow = characterAddBtn.isShown();
                 boolean isContentsShow = contentsAddBtn.isShown();
 
-                if (!isTextShow && !isCharacterShow && !isContentsShow || nBeforeCharacterIndex == 0) {
+                if ((isTextShow && isCharacterShow && isContentsShow) || (nBeforeCharacterIndex == 0 && type != TYPE_TEXT)) {
                     nSelectedCharacterIndex = 0;
                     setSelectBottomLayout(TYPE_TEXT);
                 }
@@ -1456,23 +1453,11 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         }).start();
     }
 
+    // winhmoon
     public void onClickContentsAddBtn(View view) {
         imm.hideSoftInputFromWindow(inputTextView.getWindowToken(), 0);
 
         setSelectBottomLayout(TYPE_MEDIA);
-//        bShowMenu = !bShowMenu;
-//
-//        if (bShowMenu) {
-//            bottomSettingLayout.setVisibility(View.VISIBLE);
-//            contentsAddBtn.setBackgroundResource(R.drawable.circle_222222);
-//            contentsAddImg.setImageResource(R.drawable.ic_i_plus_white);
-////            contentsAddBtn.setImageResource(R.drawable.pop_close);
-//        } else {
-//            bottomSettingLayout.setVisibility(View.GONE);
-//            contentsAddBtn.setBackgroundResource(R.drawable.circle_cccccc);
-//            contentsAddImg.setImageResource(R.drawable.ic_i_plus);
-////            contentsAddBtn.setImageResource(R.drawable.selectionplus);
-//        }
     }
 
     private void hideBottomView() {
@@ -1533,10 +1518,12 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             }
 
             if (i == 0) {
+                // [S] winhmoon
                 faceView.setImageResource(R.drawable.caracter_plus_botton);
                 nameView.setText("인물 추가");
                 nameView.setTextColor(ContextCompat.getColor(LiteratureWriteActivity.this, R.color.colorBlack));
                 selectedView.setVisibility(View.VISIBLE);
+                // [E] winhmoon
             } else {
                 if (vo.getImage() != null && !vo.getImage().equals("null")) {
                     Glide.with(this)
@@ -1568,6 +1555,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             }
 
             LinearLayout faceLayout = view.findViewById(R.id.faceLayout);
+            // [S] winhmoon
             faceLayout.setTag(nImg);
 
             if (i == 0) {
@@ -1600,6 +1588,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     }
                 });
             }
+            // [E] winhmoon
 
             if (i > 0) {
                 faceLayout.setOnLongClickListener(new View.OnLongClickListener() {

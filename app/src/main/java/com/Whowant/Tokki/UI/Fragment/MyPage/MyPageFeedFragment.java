@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,7 +81,7 @@ public class MyPageFeedFragment extends Fragment {
             public void onItemClick(RecyclerView parent, View view, int position, long id) {
                 MyPageFeedVo item = mArrayList.get(position);
 
-                if(item.getWorkVO() != null) {
+                if (item.getWorkVO() != null) {
                     Intent intent = new Intent(getContext(), WorkMainActivity.class);
                     intent.putExtra("WORK_ID", item.getWorkVO().getnWorkID());
                     getContext().startActivity(intent);
@@ -95,6 +98,7 @@ public class MyPageFeedFragment extends Fragment {
 
         Context context;
         ArrayList<MyPageFeedVo> arrayList;
+        String descTmp = "";
 
         public MyPageFeedAdapter(Context context, ArrayList<MyPageFeedVo> arrayList) {
             this.context = context;
@@ -108,7 +112,14 @@ public class MyPageFeedFragment extends Fragment {
             switch (viewType) {
                 case 0:
                     v = LayoutInflater.from(context).inflate(R.layout.row_my_page_feed_message, parent, false);
-                    break;
+                    return new MyPageFeedCommentViewHolder(v, new TypeOnClickListener() {
+                        @Override
+                        public void onClick(int type, int position) {
+                            MyPageFeedVo item = arrayList.get(position);
+
+                            requestUpdateUserDesc(item.getUserDesc());
+                        }
+                    });
 //                case 1:
 //                    v = LayoutInflater.from(context).inflate(R.layout.row_search_category, parent, false);
 //                    return new SearchResultViewHolder(v, new TypeOnClickListener() {
@@ -140,7 +151,29 @@ public class MyPageFeedFragment extends Fragment {
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             MyPageFeedVo vo = arrayList.get(position);
 
-            if (holder instanceof SearchResultViewHolder) {
+            if (holder instanceof MyPageFeedCommentViewHolder) {
+                MyPageFeedCommentViewHolder viewHolder = (MyPageFeedCommentViewHolder) holder;
+
+                viewHolder.commentEt.setText(vo.getUserDesc());
+                viewHolder.commentEt.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (s != null) {
+                            vo.setUserDesc(s.toString());
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+            } else if (holder instanceof SearchResultViewHolder) {
                 SearchResultViewHolder viewHolder = (SearchResultViewHolder) holder;
                 WorkVO item = vo.getWorkVO();
 
@@ -205,6 +238,27 @@ public class MyPageFeedFragment extends Fragment {
         }
     }
 
+    public class MyPageFeedCommentViewHolder extends RecyclerView.ViewHolder {
+
+        EditText commentEt;
+        ImageView writeIv;
+
+        public MyPageFeedCommentViewHolder(@NonNull View itemView, TypeOnClickListener listener) {
+            super(itemView);
+
+            commentEt = itemView.findViewById(R.id.et_row_my_page_feed_comment);
+            writeIv = itemView.findViewById(R.id.iv_row_my_page_feed_write);
+            writeIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onClick(0, getAdapterPosition());
+                    }
+                }
+            });
+        }
+    }
+
     public class MyPageFeedFollowViewHolder extends RecyclerView.ViewHolder {
 
         RecyclerView recyclerView;
@@ -221,7 +275,14 @@ public class MyPageFeedFragment extends Fragment {
                 public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                     super.getItemOffsets(outRect, view, parent, state);
 
+                    int position = parent.getChildAdapterPosition(view);
+                    int itemCount = state.getItemCount();
+
                     outRect.left = DeviceUtils.dpToPx(getContext(), 20);
+
+                    if (position == itemCount - 1) {
+                        outRect.right = DeviceUtils.dpToPx(getContext(), 20);
+                    }
                 }
             });
             adapter = new MyPageFeedFollowAdapter(subArrayList);
@@ -304,6 +365,13 @@ public class MyPageFeedFragment extends Fragment {
 
     // 내가 쓴 작품 목록
     private void getAllWorkWithWriterID() {
+        if (SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest").equals(writerId)) {
+            MyPageFeedVo desc = new MyPageFeedVo();
+            desc.setUserDesc(SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_DESC", ""));
+            desc.setType(0);
+            mArrayList.add(desc);
+        }
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -420,6 +488,24 @@ public class MyPageFeedFragment extends Fragment {
                         }
 
                         getReadListData();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void requestUpdateUserDesc(String desc) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean bResult = HttpClient.requestSendUserProfile(new OkHttpClient(), SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest"), "USER_DESC", desc);
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "내 소개글이 변경되었습니다.", Toast.LENGTH_SHORT).show();
+
+                        SimplePreference.setPreference(getContext(), "USER_INFO", "USER_DESC", desc);
                     }
                 });
             }

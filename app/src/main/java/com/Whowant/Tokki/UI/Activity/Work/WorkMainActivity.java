@@ -982,6 +982,9 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 }
                 tag.setText(tagBuffer.toString());
 
+                TextView readShowTv = holder.itemView.findViewById(R.id.tv_read_show);
+                readShowTv.setText(showBtn.getText().toString());
+
                 LinearLayout readShowLl = holder.itemView.findViewById(R.id.ll_read_show);
                 readShowLl.setOnClickListener(new View.OnClickListener() {
                     @Override

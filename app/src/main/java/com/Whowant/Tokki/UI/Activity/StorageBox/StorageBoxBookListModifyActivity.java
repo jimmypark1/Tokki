@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +25,7 @@ import com.Whowant.Tokki.UI.Popup.EditPopup;
 import com.Whowant.Tokki.UI.Popup.MessagePopup;
 import com.Whowant.Tokki.UI.TypeViewOnClickListener;
 import com.Whowant.Tokki.Utils.CommonUtils;
+import com.Whowant.Tokki.Utils.ItemTouchHelperCallback;
 import com.Whowant.Tokki.Utils.SimplePreference;
 import com.Whowant.Tokki.VO.BookListVo;
 
@@ -40,6 +42,8 @@ public class StorageBoxBookListModifyActivity extends AppCompatActivity {
     Activity mActivity;
 
     String userId;
+
+    ItemTouchHelper itemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +78,15 @@ public class StorageBoxBookListModifyActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         adapter = new StorageBoxBookListModifyAdapter(mActivity, mArrayList);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-//        recyclerView.addItemDecoration(new StorageBoxItemDecoration(getActivity()));
+
+        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(adapter);
+        itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
         recyclerView.setAdapter(adapter);
     }
 
-
-    public class StorageBoxBookListModifyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public class StorageBoxBookListModifyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperCallback.ItemTouchHelperListener {
 
         Context context;
         ArrayList<BookListVo> arrayList;
@@ -151,6 +158,26 @@ public class StorageBoxBookListModifyActivity extends AppCompatActivity {
         public int getItemCount() {
             return arrayList.size();
         }
+
+        @Override
+        public boolean onItemMove(int from_position, int to_position) {
+
+            // 이동할 객체 저장
+            BookListVo bookListVo = arrayList.get(from_position);
+            // 이동할 객체 삭제
+            arrayList.remove(from_position);
+            // 이동하고 싶은 position에 추가
+            arrayList.add(to_position, bookListVo);
+
+            notifyItemMoved(from_position, to_position);
+
+            return true;
+        }
+
+        @Override
+        public void onItemSwipe(int position) {
+
+        }
     }
 
     public class StorageBoxBookListModifyViewHolder extends RecyclerView.ViewHolder {
@@ -168,6 +195,11 @@ public class StorageBoxBookListModifyActivity extends AppCompatActivity {
                 if (listener != null) {
                     listener.onClick(v, 0, getAdapterPosition());
                 }
+            });
+
+            itemView.setOnLongClickListener(v -> {
+                itemTouchHelper.startDrag(StorageBoxBookListModifyViewHolder.this);
+                return true;
             });
         }
     }

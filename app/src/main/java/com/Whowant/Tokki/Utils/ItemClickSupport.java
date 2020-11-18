@@ -112,7 +112,7 @@ public class ItemClickSupport {
         void onItemClick(RecyclerView parent, View view, int position, long id);
     }
 
-    interface OnItemLongClickListener {
+    public interface OnItemLongClickListener {
         void onItemLongClick(RecyclerView parent, View view, int position, long id);
     }
 }

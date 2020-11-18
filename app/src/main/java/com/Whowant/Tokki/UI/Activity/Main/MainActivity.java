@@ -164,8 +164,8 @@ public class MainActivity extends AppCompatActivity {
                 } else if (position == 3) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("작품쓰기");
-                    rightBtn.setVisibility(View.VISIBLE);
-                    rightBtn.setImageResource(R.drawable.dot_menu);
+//                    rightBtn.setVisibility(View.VISIBLE);
+//                    rightBtn.setImageResource(R.drawable.dot_menu);
                     addBtn.setVisibility(View.VISIBLE);
 //                    centerLogoView.setVisibility(View.INVISIBLE);
 //                    titleView.setText("마이 페이지");
@@ -430,7 +430,7 @@ public class MainActivity extends AppCompatActivity {
             StorageBoxFragment fragment = (StorageBoxFragment) mainPagerAdapter.getItem(2);
             fragment.showMenus(view);
         } else if (nPosition == 3) {
-            mainPagerAdapter.getItem(2);
+//            mainPagerAdapter.getItem(2);
 //            startActivity(new Intent(MainActivity.this, CreateWorkActivity.class));
 //            startActivity(new Intent(MainActivity.this, WorkRegActivity.class));
 
