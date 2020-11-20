@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
-import com.Whowant.Tokki.UI.TypeOnClickListener;
 import com.Whowant.Tokki.UI.ViewHolder.SearchResultViewHolder;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.ItemClickSupport;
@@ -139,12 +138,7 @@ public class SearchResultActivity extends AppCompatActivity {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_search_category, parent, false);
-            return new SearchResultViewHolder(v, new TypeOnClickListener() {
-                @Override
-                public void onClick(int type, int position) {
-
-                }
-            });
+            return new SearchResultViewHolder(v, null);
         }
 
         @Override
@@ -186,6 +180,8 @@ public class SearchResultActivity extends AppCompatActivity {
                     viewHolder.starTv.setText("0");
                 else
                     viewHolder.starTv.setText(String.format("%.1f", fStarPoint));
+
+                viewHolder.optionIv.setVisibility(View.GONE);
             }
         }
 

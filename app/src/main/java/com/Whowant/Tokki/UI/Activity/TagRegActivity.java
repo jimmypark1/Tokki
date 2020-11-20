@@ -119,7 +119,7 @@ public class TagRegActivity extends AppCompatActivity {
         regTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(tagEt.getText().toString())) {
+                if (!TextUtils.isEmpty(tagEt.getText().toString()) && !"#".equals(tagEt.getText().toString())) {
                     addTag(tagEt.getText().toString());
                 }
             }
@@ -189,6 +189,10 @@ public class TagRegActivity extends AppCompatActivity {
         }
 
         if (!isCheck) {
+            if (!tagName.startsWith("#")) {
+                tagName = "#" + tagName;
+            }
+
             TagSelectVo vo = new TagSelectVo();
             vo.setName(tagName);
             vo.setSelected(true);
@@ -288,8 +292,8 @@ public class TagRegActivity extends AppCompatActivity {
     }
 
     private void addTag(String tag) {
-        if (!tag.startsWith("#")) {
-            tag = "#" + tag;
+        if (tag.startsWith("#")) {
+            tag = tag.substring(1);
         }
 
         final String tagName = tag;
@@ -298,18 +302,16 @@ public class TagRegActivity extends AppCompatActivity {
             @Override
             public void run() {
                 boolean result = HttpClient.addTag(new OkHttpClient(), tagName);
-
-                if (result) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (result) {
                             addTagSelected(tagName);
+                        } else {
+                            Toast.makeText(mActivity, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                         }
-                    });
-                } else {
-                    Toast.makeText(mActivity, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
-                }
+                    }
+                });
             }
         }).start();
     }

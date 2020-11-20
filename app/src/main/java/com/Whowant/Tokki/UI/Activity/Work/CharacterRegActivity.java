@@ -6,32 +6,41 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
-import com.Whowant.Tokki.VO.CharacterRegVo;
+import com.Whowant.Tokki.Utils.CommonUtils;
+import com.Whowant.Tokki.VO.CharacterVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.gson.Gson;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_FACE_IMG;
 
 public class CharacterRegActivity extends AppCompatActivity implements View.OnClickListener, ColorPickerDialogListener {
+    public static ArrayList<String> nameList;
+    public static CharacterVO characterVO = null;
+    private Intent oldIntent;
+    private int nSelectedIndex = -1;
+    private String strOriginalName = null;
+    private String bgColor;
+    private int nBgColor = 0;
+    boolean bColor = false;
+
     EditText nameEt;
     ImageView photoIv;
     EditText personalityEt;
@@ -52,10 +61,16 @@ public class CharacterRegActivity extends AppCompatActivity implements View.OnCl
     TextView colorBoxWhiteTv;
     ImageView colorBoxWhiteIv;
 
+    LinearLayout deleteLl;
+    LinearLayout saveLl;
+    TextView saveTv;
+
     String imgUri;
     String strColor;
 
     Activity mActivity;
+
+    String name;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -80,7 +95,105 @@ public class CharacterRegActivity extends AppCompatActivity implements View.OnCl
 
         mActivity = this;
 
+        oldIntent = getIntent();
+
         initView();
+        initData();
+
+        if (characterVO != null && nSelectedIndex > -1) {
+            initViews();
+        }
+    }
+
+    private void initViews() {
+        ((TextView) findViewById(R.id.tv_top_layout_title)).setText("등장인물 수정");
+
+        deleteLl.setVisibility(View.VISIBLE);
+        saveTv.setText("수정하기");
+        strOriginalName = characterVO.getName();
+        nameEt.setText(strOriginalName);
+        nameEt.setSelection(nameEt.getText().toString().length());
+
+        if (characterVO.getStrBalloonColor() != null && !characterVO.getStrBalloonColor().equals("null") && characterVO.getStrBalloonColor().length() > 0) {
+            bgColor = characterVO.getStrBalloonColor();
+
+            if (bgColor != null && !bgColor.equals("null") && bgColor.length() > 0) {
+                nBgColor = Color.parseColor(bgColor);
+
+                int nColor = nBgColor;
+
+                if (bgColor.length() > 7) {
+                    String strColor = "#" + bgColor.substring(3);
+                    nColor = Color.parseColor(strColor);
+                }
+
+                colorIv.setColorFilter(nColor);
+            }
+        }
+
+        if (characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
+            photoIv.setBackgroundResource(0);
+            Glide.with(mActivity)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .load(Uri.parse(imgUri))
+                    .apply(new RequestOptions().circleCrop())
+                    .into(photoIv);
+        } else if (characterVO.getStrImgFile() != null && !characterVO.getStrImgFile().equals("null")) {
+            photoIv.setBackgroundResource(0);
+            Glide.with(mActivity)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .load(CommonUtils.strDefaultUrl + "images/" + characterVO.getStrImgFile())
+                    .apply(new RequestOptions().circleCrop())
+                    .into(photoIv);
+        }
+
+        if (characterVO.getDirection() == 0) { // 왼쪽
+            onClick(locLeftTv);
+//            leftCheckbox.setChecked(true);
+//            rightCheckbox.setChecked(false);
+//            nLeftRight = 0;
+        } else {
+            onClick(locRightTv);
+//            leftCheckbox.setChecked(false);
+//            rightCheckbox.setChecked(true);
+//            nLeftRight = 1;
+        }
+
+        if (characterVO.isbBlackText()) {
+            onClick(colorBoxBlackTv);
+//            textBlackCheckbox.setChecked(true);
+//            textWhiteCheckbox.setChecked(false);
+//            bBlackText = true;
+        } else {
+            onClick(colorBoxWhiteTv);
+//            textBlackCheckbox.setChecked(false);
+//            textWhiteCheckbox.setChecked(true);
+//            bBlackText = false;
+        }
+
+        if (characterVO.isbBlackName()) {
+            onClick(colorBlackTv);
+//            nameBlackCheckbox.setChecked(true);
+//            nameWhiteCheckbox.setChecked(false);
+//            bBlackName = true;
+        } else {
+            onClick(colorWhiteTv);
+//            nameBlackCheckbox.setChecked(false);
+//            nameWhiteCheckbox.setChecked(true);
+//            bBlackName = false;
+        }
+
+//        if(characterVO.isbBlackText()) {
+//            bBlackText = true;
+//            prevTextView.setTextColor(Color.parseColor("#000000"));
+//        } else {
+//            bBlackText = false;
+//            prevTextView.setTextColor(Color.parseColor("#ffffff"));
+//        }
+    }
+
+    private void initData() {
+        nSelectedIndex = oldIntent.getIntExtra("INDEX", -1);
     }
 
     private void initView() {
@@ -117,6 +230,10 @@ public class CharacterRegActivity extends AppCompatActivity implements View.OnCl
         colorBoxWhiteTv = findViewById(R.id.tv_character_color_box_white);
         colorBoxWhiteTv.setOnClickListener(this);
         colorBoxWhiteIv = findViewById(R.id.iv_character_color_box_white);
+
+        deleteLl = findViewById(R.id.ll_character_reg_delete);
+        saveLl = findViewById(R.id.ll_character_reg_save);
+        saveTv = findViewById(R.id.tv_character_reg_save);
     }
 
     private PermissionListener permissionlistener = new PermissionListener() {
@@ -143,24 +260,55 @@ public class CharacterRegActivity extends AppCompatActivity implements View.OnCl
 
     // 삭제 버튼
     public void btnRemove(View v) {
-
+        oldIntent.putExtra("INDEX", nSelectedIndex);
+        oldIntent.putExtra("DELETE", true);
+        setResult(RESULT_OK, oldIntent);
+        finish();
     }
 
     // 저장 버튼
     public void btnSave(View v) {
-        CharacterRegVo vo = new CharacterRegVo();
-        vo.setName(nameEt.getText().toString());
-        vo.setPersonality(personalityEt.getText().toString());
-        vo.setRole(roleEt.getText().toString());
-        vo.setLocation(locLeftIv.isShown() ? 0 : 1);
-        vo.setColor(colorWhiteIv.isShown() ? 0 : 1);
-        vo.setTxtColorBox(colorBoxWhiteIv.isShown() ? 0 : 1);
-        vo.setColorBg(strColor);
-        vo.setImgUri(imgUri);
+//        CharacterRegVo vo = new CharacterRegVo();
+//        vo.setName(nameEt.getText().toString());
+//        vo.setPersonality(personalityEt.getText().toString());
+//        vo.setRole(roleEt.getText().toString());
+//        vo.setLocation(locLeftIv.isShown() ? 0 : 1);
+//        vo.setColor(colorWhiteIv.isShown() ? 0 : 1);
+//        vo.setTxtColorBox(colorBoxWhiteIv.isShown() ? 0 : 1);
+//        vo.setColorBg(strColor);
+//        vo.setImgUri(imgUri);
+//
+//        Intent intent = new Intent();
+//        intent.putExtra("data", new Gson().toJson(vo));
+//        setResult(RESULT_OK, intent);
+//        finish();
 
-        Intent intent = new Intent();
-        intent.putExtra("data", new Gson().toJson(vo));
-        setResult(RESULT_OK, intent);
+        String strName = nameEt.getText().toString();
+
+        if (strName.length() == 0) {
+            Toast.makeText(mActivity, "이름을 입력해주세요.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (nameList.contains(strName) && !strName.equals(strOriginalName)) {
+            Toast.makeText(mActivity, "이미 등록된 이름입니다.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        oldIntent.putExtra("NAME", strName);
+        oldIntent.putExtra("LEFTRIGHT", locLeftIv.isShown() ? 0 : 1);
+        oldIntent.putExtra("URI", imgUri);
+        oldIntent.putExtra("BLACK_TEXT", colorBoxBlackIv.isShown() ? true : false);
+        oldIntent.putExtra("BLACK_NAME", colorBlackIv.isShown() ? true : false);
+
+        if (bColor)
+            oldIntent.putExtra("BALLOON_COLOR", bgColor);
+
+        if (nSelectedIndex > -1)
+            oldIntent.putExtra("INDEX", nSelectedIndex);
+
+        setResult(RESULT_OK, oldIntent);
+
         finish();
     }
 
@@ -221,7 +369,7 @@ public class CharacterRegActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onColorSelected(int dialogId, int color) {
         int nBgColor = color;
-        String bgColor = String.format("#%08X", color);
+        bgColor = String.format("#%08X", color);
         int nColor = nBgColor;
 
         if (bgColor.length() > 7) {
@@ -230,6 +378,7 @@ public class CharacterRegActivity extends AppCompatActivity implements View.OnCl
         }
 
         colorIv.setColorFilter(nColor);
+        bColor = true;
     }
 
     @Override

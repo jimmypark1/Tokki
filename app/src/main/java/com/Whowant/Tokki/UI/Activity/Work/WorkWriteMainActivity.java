@@ -28,9 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Login.FindAccountActivity;
 import com.Whowant.Tokki.UI.Custom.FlowLayout;
-import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.UI.Popup.EpisodeAproveCancelPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
@@ -215,10 +213,10 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(strResult.equals("SUCCESS")) {
+                        if (strResult.equals("SUCCESS")) {
                             Toast.makeText(WorkWriteMainActivity.this, "회차가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                             getWorkInfo();
-                        } else if(strResult.equals("INTERACTION")) {
+                        } else if (strResult.equals("INTERACTION")) {
                             Toast.makeText(WorkWriteMainActivity.this, "해당 회차에 인터렉션이 설정되어 있습니다. 인터렉션을 먼저 삭제해 주세요.", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(WorkWriteMainActivity.this, "회차 삭제를 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -242,7 +240,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(bResult) {
+                        if (bResult) {
                             Toast.makeText(WorkWriteMainActivity.this, "작품이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
@@ -266,7 +264,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(resultObject == null) {
+                        if (resultObject == null) {
                             CommonUtils.hideProgressDialog();
                             Toast.makeText(WorkWriteMainActivity.this, "작품 정보를 가져오는데 실패했습니다.", Toast.LENGTH_LONG).show();
                             CommonUtils.hideProgressDialog();
@@ -276,13 +274,13 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                         try {
                             JSONArray tagArray = resultObject.getJSONArray("TAG_LIST");
 
-                            for(int i = 0 ; i < tagArray.length() ; i++) {
+                            for (int i = 0; i < tagArray.length(); i++) {
                                 JSONObject object = tagArray.getJSONObject(i);
                                 tagList.add(object.getString("TAG_TITLE"));
                             }
 
                             JSONArray genreArray = resultObject.getJSONArray("GENRE_LIST");
-                            for(int i = 0 ; i < genreArray.length() ; i++) {
+                            for (int i = 0; i < genreArray.length(); i++) {
                                 JSONObject object = genreArray.getJSONObject(i);
                                 genreList.add(object.getString("GENRE_NAME"));
                             }
@@ -308,13 +306,13 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                 int nEpisodeCount = 0;
                 boolean bComplete = false;
 
-                if(workVO.getEpisodeList() != null && workVO.getEpisodeList().size() > 0) {
+                if (workVO.getEpisodeList() != null && workVO.getEpisodeList().size() > 0) {
                     nEpisodeCount = workVO.getEpisodeList().size();
                     bComplete = workVO.isbComplete();
                     String strEpisodeCount = "총 " + nEpisodeCount + "화 /" + (bComplete == true ? "완결" : "미완결") + "";
                     showingList.add(strEpisodeCount);
 
-                    for(EpisodeVO vo : workVO.getEpisodeList()) {
+                    for (EpisodeVO vo : workVO.getEpisodeList()) {
                         showingList.add("EPISODE");
                     }
                 } else {
@@ -322,7 +320,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                     showingList.add(strEpisodeCount);
                 }
 
-                if(showingList.size() == 1) {
+                if (showingList.size() == 1) {
                     showingList.add("EMPTY");
                 }
 
@@ -331,7 +329,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                     public void run() {
                         mProgressDialog.dismiss();
 
-                        if(workVO == null) {
+                        if (workVO == null) {
                             Toast.makeText(WorkWriteMainActivity.this, "작품 정보를 가져오는데 실패했습니다.", Toast.LENGTH_LONG).show();
                             CommonUtils.hideProgressDialog();
                             return;
@@ -366,14 +364,14 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         }
 
 
-        if(workVO.getEpisodeList() != null) {
+        if (workVO.getEpisodeList() != null) {
             int nOrder = 0;
             int nOldOrder = 0;
             if (bDesc) {
                 nOldOrder = workVO.getEpisodeList().size() + 1;
             }
 
-            for(int i = 0 ; i < workVO.getEpisodeList().size() ; i++) {
+            for (int i = 0; i < workVO.getEpisodeList().size(); i++) {
                 EpisodeVO vo = workVO.getEpisodeList().get(i);
                 nOrder = vo.getnOrder();
 
@@ -382,16 +380,16 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                         nOldOrder = nOrder;
                         newEpsisodeBtn.setText("새로운 회차 쓰기");
                     } else {
-                        nOrder = nOldOrder+1;
+                        nOrder = nOldOrder + 1;
                         newEpsisodeBtn.setText(nOrder + "회차 쓰기");
                         break;
                     }
                 } else {
-                    if(nOldOrder == nOrder+1) {
+                    if (nOldOrder == nOrder + 1) {
                         nOldOrder = nOrder;
                         newEpsisodeBtn.setText("새로운 회차 쓰기");
                     } else {
-                        nOrder = nOldOrder-1;
+                        nOrder = nOldOrder - 1;
                         newEpsisodeBtn.setText(nOrder + "회차 쓰기");
                         break;
                     }
@@ -406,7 +404,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
         taglayout.removeAllViews();
 
-        for(String strTag : tagList) {
+        for (String strTag : tagList) {
             TextView tv = new TextView(WorkWriteMainActivity.this);
             tv.setText(strTag);
             tv.setTextColor(Color.BLACK);
@@ -420,9 +418,9 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         genreLayout.removeAllViews();
 
         int nIndex = 0;
-        for(String strGenre : genreList) {
+        for (String strGenre : genreList) {
             TextView tv = new TextView(WorkWriteMainActivity.this);
-            if(nIndex > 0)
+            if (nIndex > 0)
                 strGenre = " / " + strGenre;
 
             tv.setText(strGenre);
@@ -458,7 +456,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(nEpisodeID == 0) {
+                        if (nEpisodeID == 0) {
                             mProgressDialog.dismiss();
                             Toast.makeText(WorkWriteMainActivity.this, "회차 생성을 실패했습니다.", Toast.LENGTH_LONG).show();
                             return;
@@ -482,7 +480,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                     public void run() {
                         mProgressDialog.dismiss();
 
-                        if(workVO == null) {
+                        if (workVO == null) {
                             Toast.makeText(WorkWriteMainActivity.this, "작품 정보를 가져오는데 실패했습니다.", Toast.LENGTH_LONG).show();
                             return;
                         }
@@ -495,9 +493,9 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
                         int nOrder = 0;
                         String strTitle = "";
-                        for(int i = 0 ; i < workVO.getEpisodeList().size() ; i++) {
+                        for (int i = 0; i < workVO.getEpisodeList().size(); i++) {
                             EpisodeVO vo = workVO.getEpisodeList().get(i);
-                            if(nEpisodeID == vo.getnEpisodeID()) {
+                            if (nEpisodeID == vo.getnEpisodeID()) {
                                 nOrder = i;
                                 strTitle = vo.getStrTitle();
                                 intent.putExtra("SUBMIT", vo.getStrSubmit());
@@ -528,10 +526,10 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         public EpisodeViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
             View v = null;
 
-            if(position == 0) {                                                                                     // 첫번째 행은 서버에서 받아온 회차 정보가 아닌 몇개의 회차가 있는지, 정렬 설정 등으로 활용
+            if (position == 0) {                                                                                     // 첫번째 행은 서버에서 받아온 회차 정보가 아닌 몇개의 회차가 있는지, 정렬 설정 등으로 활용
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_order_row, viewGroup, false);
-            } else if(position == 1) {                                                                              // 두번째 행부터 회차 목록 표시
-                if(showingList.get(1).equals("EMPTY")) {
+            } else if (position == 1) {                                                                              // 두번째 행부터 회차 목록 표시
+                if (showingList.get(1).equals("EMPTY")) {
                     v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.empty_row, viewGroup, false);
                 } else {
                     v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_main_episode_row, viewGroup, false);
@@ -546,10 +544,10 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
         @Override
         public void onBindViewHolder(EpisodeViewHolder holder, int position) {
-            if(position >= showingList.size())
+            if (position >= showingList.size())
                 return;
 
-            if(position == 0) {
+            if (position == 0) {
                 TextView episodeCountView = holder.itemView.findViewById(R.id.episodeCountView);
                 episodeCountView.setText(showingList.get(position));
 
@@ -595,6 +593,17 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 //                LinearLayout chatCountLayout = holder.itemView.findViewById(R.id.chatCountLayout);
                 TextView chatCountView = holder.itemView.findViewById(R.id.chatCountView);
                 TextView tabCountView = holder.itemView.findViewById(R.id.tabCountView);
+
+                LinearLayout writeLl = holder.itemView.findViewById(R.id.ll_work_main_episode_row_write);
+                writeLl.setVisibility(itemsList.size() - 1 == position ? View.VISIBLE : View.GONE);
+                writeLl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        OnClickNewEpisodeBtn(v);
+                    }
+                });
+                TextView writeTv = holder.itemView.findViewById(R.id.tv_work_main_episode_row_write);
+                writeTv.setText(newEpsisodeBtn.getText().toString());
 
                 episodeTitleView.setText(vo.getStrTitle());
                 dateTimeView.setText(vo.getStrDate().substring(0, 10));
@@ -757,7 +766,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                         public void run() {
                             CommonUtils.hideProgressDialog();
 
-                            if(bResult) {
+                            if (bResult) {
                                 Toast.makeText(WorkWriteMainActivity.this, "게시 승인 되었습니다.", Toast.LENGTH_SHORT).show();
                                 getWorkInfo();
                             } else {
@@ -788,7 +797,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                     public boolean onTouch(View view, MotionEvent motionEvent) {
                         switch (motionEvent.getAction()) {
                             case MotionEvent.ACTION_DOWN:
-                                if(isClickedList)
+                                if (isClickedList)
                                     return false;
                                 fX = motionEvent.getX();
                                 fY = motionEvent.getY();
@@ -854,7 +863,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                     }
                                 }
                             }
-                                break;
+                            break;
                         }
 
                         return true;

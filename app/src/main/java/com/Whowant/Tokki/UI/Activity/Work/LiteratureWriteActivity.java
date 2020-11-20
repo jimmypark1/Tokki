@@ -137,7 +137,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     private LinearLayout distractorView;
     private LinearLayout soundSettingView;
 
-    private int    nBgColor;
+    private int nBgColor;
     private String bgColor;
     private boolean bColorPicker = false;
 
@@ -197,7 +197,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         isExcelUploaded = getIntent().getBooleanExtra("EXCEL_UPLOADED", false);
         ImageButton submitBtn = findViewById(R.id.submitBtn);
 
-        if(isExcelUploaded || workVO.getnUserStatus() == 10 || workVO.getnUserStatus() == 20) {
+        if (isExcelUploaded || workVO.getnUserStatus() == 10 || workVO.getnUserStatus() == 20) {
             submitBtn.setBackgroundResource(R.drawable.send_button);
         } else {
             submitBtn.setBackgroundResource(R.drawable.post_botton);
@@ -232,8 +232,10 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         speakerAddView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
-                startActivityForResult(new Intent(LiteratureWriteActivity.this, CreateCharacterActivity.class), 1010);
+                CharacterRegActivity.nameList = new ArrayList<String>(nameList);
+                startActivityForResult(new Intent(LiteratureWriteActivity.this, CharacterRegActivity.class), 1010);
+//                CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
+//                startActivityForResult(new Intent(LiteratureWriteActivity.this, CreateCharacterActivity.class), 1010);
             }
         });
 
@@ -300,7 +302,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         @Override
                         public void onPermissionGranted() {
                             Intent intent = new Intent(LiteratureWriteActivity.this, MediaSelectPopup.class);
-                            if(nType == ChatVO.TYPE_IMAGE)
+                            if (nType == ChatVO.TYPE_IMAGE)
                                 intent.putExtra("TYPE", TYPE_CONTENTS_IMG.ordinal());
                             else
                                 intent.putExtra("TYPE", TYPE_VIDEO.ordinal());
@@ -693,7 +695,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     }
 
     public void onClickSubmitBtn(View view) {
-        if(isExcelUploaded || workVO.getnUserStatus() == 10 || workVO.getnUserStatus() == 20) {
+        if (isExcelUploaded || workVO.getnUserStatus() == 10 || workVO.getnUserStatus() == 20) {
             requestEpisodeSubmit();
         } else {
             requestEpisodePost();
@@ -779,7 +781,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         setIntent(intent);
 
         boolean bEdit = getIntent().getBooleanExtra("EDIT", false);
-        int     nOrder = getIntent().getIntExtra("ORDER", -1);
+        int nOrder = getIntent().getIntExtra("ORDER", -1);
 
         String imgUri = intent.getStringExtra("BG_URI");
         if (imgUri != null) {                    // 배경 변경 이라면
@@ -856,11 +858,11 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 }
             }
 
-            if(nType == TYPE_CONTENTS_IMG.ordinal()) {
+            if (nType == TYPE_CONTENTS_IMG.ordinal()) {
                 CharacterVO characterVO = characterList.get(nSelectedCharacterIndex);
                 chatVO.setCharacter(characterVO);
                 chatVO.setType(ChatVO.TYPE_IMAGE);
-            } else if(nType == TYPE_CONTENTS_IMG_NAR.ordinal()) {
+            } else if (nType == TYPE_CONTENTS_IMG_NAR.ordinal()) {
                 chatVO.setType(ChatVO.TYPE_IMAGE_NAR);
             }
 
@@ -1330,12 +1332,12 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             try {
                                 mProgressDialog.dismiss();
 
-                                if(resultObject == null) {
+                                if (resultObject == null) {
                                     Toast.makeText(LiteratureWriteActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
                                     return;
                                 }
 
-                                if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                     Toast.makeText(LiteratureWriteActivity.this, "제출 되었습니다.", Toast.LENGTH_LONG).show();
                                     finish();
                                 } else {
@@ -1350,7 +1352,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             }).start();
         });
 
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
             }
@@ -1431,7 +1433,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
                         aa.notifyDataSetChanged();
 
-                        if(nAddIndex == -1 && nEditIndex == -1 && nDeleteIndex == -1)
+                        if (nAddIndex == -1 && nEditIndex == -1 && nDeleteIndex == -1)
                             chattingListView.setSelection(aa.getCount() - 1);
 //                        else if(nAddIndex != -1) {
 //                            chattingListView.setSelection(nAddIndex);
@@ -1560,8 +1562,10 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
             if (i == 0) {
                 faceLayout.setOnClickListener((v) -> {
-                    CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
-                    startActivityForResult(new Intent(LiteratureWriteActivity.this, CreateCharacterActivity.class), 1010);
+                    CharacterRegActivity.nameList = new ArrayList<String>(nameList);
+                    startActivityForResult(new Intent(LiteratureWriteActivity.this, CharacterRegActivity.class), 1010);
+//                    CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
+//                    startActivityForResult(new Intent(LiteratureWriteActivity.this, CreateCharacterActivity.class), 1010);
                 });
             } else {
                 faceLayout.setOnClickListener(new View.OnClickListener() {
@@ -1594,12 +1598,20 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 faceLayout.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
-                        CreateCharacterActivity.characterVO = characterList.get(nIndex);
 
-                        Intent intent = new Intent(LiteratureWriteActivity.this, CreateCharacterActivity.class);
+                        CharacterRegActivity.nameList = new ArrayList<String>(nameList);
+                        CharacterRegActivity.characterVO = characterList.get(nIndex);
+
+                        Intent intent = new Intent(LiteratureWriteActivity.this, CharacterRegActivity.class);
                         intent.putExtra("INDEX", nIndex);
                         startActivityForResult(intent, 1011);
+
+//                        CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
+//                        CreateCharacterActivity.characterVO = characterList.get(nIndex);
+//
+//                        Intent intent = new Intent(LiteratureWriteActivity.this, CreateCharacterActivity.class);
+//                        intent.putExtra("INDEX", nIndex);
+//                        startActivityForResult(intent, 1011);
 
                         return false;
                     }
@@ -2190,7 +2202,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             @Override
                             public void onPermissionGranted() {
                                 Intent intent = new Intent(LiteratureWriteActivity.this, MediaSelectPopup.class);
-                                if(nSelectedCharacterIndex == 0)
+                                if (nSelectedCharacterIndex == 0)
                                     intent.putExtra("TYPE", TYPE_CONTENTS_IMG_NAR.ordinal());
                                 else
                                     intent.putExtra("TYPE", TYPE_CONTENTS_IMG.ordinal());
@@ -2221,7 +2233,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             public void onPermissionGranted() {
                                 Intent intent = new Intent(LiteratureWriteActivity.this, PhotoPickerActivity.class);
                                 intent.putExtra("TYPE", TYPE_VIDEO.ordinal());
-                                if(nEditIndex > -1)
+                                if (nEditIndex > -1)
                                     intent.putExtra("EDIT", true);
                                 intent.putExtra("ORDER", nAddIndex);
                                 startActivity(intent);

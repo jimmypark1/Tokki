@@ -470,6 +470,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_character_reg_save"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/round_22_5a9aff"
@@ -477,6 +478,7 @@
                         android:onClick="btnSave">
 
                         <TextView
+                            android:id="@+id/tv_character_reg_save"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"

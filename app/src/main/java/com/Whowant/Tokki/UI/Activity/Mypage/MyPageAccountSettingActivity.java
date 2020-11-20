@@ -3,23 +3,34 @@ package com.Whowant.Tokki.UI.Activity.Mypage;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
+import com.Whowant.Tokki.UI.Popup.ProfileEmailPopup;
+import com.Whowant.Tokki.UI.Popup.ProfilePhotoPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.SimplePreference;
+import com.Whowant.Tokki.Utils.cropper.CropImage;
+import com.Whowant.Tokki.Utils.cropper.CropImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gun0912.tedpermission.PermissionListener;
@@ -28,6 +39,8 @@ import com.gun0912.tedpermission.TedPermission;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -62,6 +75,13 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
             "LV.1", "LV.2", "LV.3", "LV.4", "LV.5", "LV.6", "LV.7", "LV.8", "LV.9", "LV.10",
     };
 
+    private static final int FROM_POPUP = 1000;
+    private static final int FROM_EMAIL_AUTH = 1010;
+    private static final int FROM_CAMERA = 1020;
+    private boolean bCamera = false;
+    private SharedPreferences pref;
+    private Uri mPhotoUri;
+
     Activity mActivity;
 
     @Override
@@ -87,6 +107,19 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
                     .load(Uri.parse(bgUri))
                     .into(bgIv);
         }
+
+        mPhotoUri = Uri.parse(profileUri);
+        String strPhotoPath = CommonUtils.getRealPathFromURI(this, mPhotoUri);
+        requestSendPhoto(strPhotoPath);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (bCamera) {
+            takePhoto();
+        }
     }
 
     @Override
@@ -95,6 +128,8 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_page_account_setting);
 
         mActivity = this;
+
+        pref = getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
 
         initView();
         initData();
@@ -147,22 +182,38 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
 
     // 프로필 변경 버튼
     public void btnProfilePhoto(View v) {
+
         TedPermission.with(mActivity)
                 .setPermissionListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted() {
-                        Intent intent = new Intent(mActivity, MediaSelectPopup.class);
-                        intent.putExtra("TYPE", TYPE_PROFILE.ordinal());
-                        startActivity(intent);
+                        startActivityForResult(new Intent(mActivity, ProfilePhotoPopup.class), FROM_POPUP);
                     }
 
                     @Override
                     public void onPermissionDenied(List<String> deniedPermissions) {
-                        Toast.makeText(mActivity, "권한을 거부하셨습니다.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mActivity, "권한을 허용해주셔야 사진 설정이 가능합니다.", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .check();
+
+//        TedPermission.with(mActivity)
+//                .setPermissionListener(new PermissionListener() {
+//                    @Override
+//                    public void onPermissionGranted() {
+//                        Intent intent = new Intent(mActivity, MediaSelectPopup.class);
+//                        intent.putExtra("TYPE", TYPE_PROFILE.ordinal());
+//                        startActivity(intent);
+//                    }
+//
+//                    @Override
+//                    public void onPermissionDenied(List<String> deniedPermissions) {
+//                        Toast.makeText(mActivity, "권한을 거부하셨습니다.", Toast.LENGTH_LONG).show();
+//                    }
+//                })
+//                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                .check();
     }
 
     // 배경화면 변경 버튼
@@ -228,6 +279,147 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
                             levelTv.setText(levelName[nLevel - 1]);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == FROM_POPUP) {
+                bCamera = data.getBooleanExtra("CAMERA", false);
+                boolean bDefault = data.getBooleanExtra("DEFAULT", false);
+
+                if (bDefault) {
+                    requestSendPhotoDefault();
+                } else if (!bCamera) {
+                    Intent intent = new Intent(mActivity, PhotoPickerActivity.class);
+                    intent.putExtra("TYPE", TYPE_PROFILE.ordinal());
+                    startActivity(intent);
+                }
+            } else if (requestCode == FROM_EMAIL_AUTH) {
+                Intent intent = new Intent(mActivity, ProfileEmailPopup.class);
+                intent.putExtra("USER_ID", pref.getString("USER_ID", "Guest"));
+                intent.putExtra("USER_EMAIL", pref.getString("USER_EMAIL", ""));
+                startActivity(intent);
+            } else if (requestCode == FROM_CAMERA) {
+                ThumbnailPreviewActivity.nNextType = TYPE_PROFILE.ordinal();
+                CropImage.activity(mPhotoUri)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setActivityTitle("My Crop")
+                        .setCropShape(CropImageView.CropShape.OVAL)
+                        .setAspectRatio(1, 1)
+                        .start(mActivity);
+            }
+        }
+    }
+
+    public void takePhoto() {
+        // 촬영 후 이미지 가져옴
+        bCamera = false;
+        String state = Environment.getExternalStorageState();
+
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                File photoFile = null;
+
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (photoFile != null) {
+                    Uri providerURI = FileProvider.getUriForFile(mActivity, "com.Whowant.Tokki.PhotoProvider", photoFile);
+                    intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, providerURI);
+                    startActivityForResult(intent, FROM_CAMERA);
+                }
+            }
+        } else {
+            Log.v("알림", "저장공간에 접근 불가능");
+            return;
+        }
+    }
+
+    public File createImageFile() throws IOException {                                   // 사진 촬영시 해당 사진이 담길 파일 생성
+        String imgFileName = System.currentTimeMillis() + ".png";
+        File imageFile = null;
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "Panbook");
+
+        if (!storageDir.exists()) {
+            Log.v("알림", "storageDir 존재 x " + storageDir.toString());
+            storageDir.mkdirs();
+        }
+
+        Log.v("알림", "storageDir 존재함 " + storageDir.toString());
+        imageFile = new File(storageDir, imgFileName);
+        mPhotoUri = Uri.fromFile(imageFile);
+
+        return imageFile;
+    }
+
+    private void requestSendPhotoDefault() {                                // 사진 초기화
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean bResult = HttpClient.requestSendUserProfileImageDefault(new OkHttpClient(), pref.getString("USER_ID", "Guest"));
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("USER_PHOTO", "");
+                        editor.commit();
+
+                        photoIv.setImageResource(R.drawable.user_icon);
+                    }
+                });
+            }
+        }).start();
+    }
+
+
+    private void requestSendPhoto(String strPhotoPath) {
+        CommonUtils.showProgressDialog(mActivity, "데이터를 전송하고 있습니다.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean bResult = HttpClient.requestSendUserPhoto(new OkHttpClient(), pref.getString("USER_ID", "Guest"), strPhotoPath);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        if (bResult) {
+                            String filename = strPhotoPath.substring(strPhotoPath.lastIndexOf("/") + 1);
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.putString("USER_PHOTO", filename);
+                            editor.commit();
+
+                            String strPhoto = pref.getString("USER_PHOTO", "");
+                            if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
+                                if (!strPhoto.startsWith("http"))
+                                    strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
+
+                                Glide.with(mActivity)
+                                        .asBitmap() // some .jpeg files are actually gif
+                                        .load(strPhoto)
+                                        .apply(new RequestOptions().circleCrop())
+                                        .placeholder(R.drawable.user_icon)
+                                        .into(photoIv);
+
+                            } else {
+                                photoIv.setImageResource(R.drawable.user_icon);
+                            }
+                        } else {
+                            Toast.makeText(mActivity, "사진 전송에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

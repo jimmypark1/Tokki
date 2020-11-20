@@ -45,7 +45,7 @@ public class StorageBoxBookListFragment extends Fragment {
 
         emptyLl = v.findViewById(R.id.ll_storage_box_reading_empty);
         v.findViewById(R.id.ll_storage_box_reading_empty_button).setVisibility(View.GONE);
-        ((TextView)v.findViewById(R.id.tv_storage_box_reading_empty_title)).setText("보관함에 아무 이야기도 없습니다.");
+        ((TextView)v.findViewById(R.id.tv_storage_box_reading_empty_title)).setText("독서목록에 아무 목록도 없습니다.");
 
         recyclerView = v.findViewById(R.id.recyclerView);
         adapter = new StorageBoxBookListAdapter(getContext(), mArrayList);

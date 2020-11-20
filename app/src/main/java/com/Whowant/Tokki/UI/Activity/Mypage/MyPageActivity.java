@@ -82,6 +82,27 @@ public class MyPageActivity extends AppCompatActivity {
         initData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        String strPhoto = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_PHOTO", "");
+
+        if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
+            if (!strPhoto.startsWith("http"))
+                strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
+
+            Glide.with(mActivity)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .placeholder(R.drawable.user_icon)
+                    .load(strPhoto)
+                    .apply(new RequestOptions().circleCrop())
+                    .into(photoIv);
+        } else {
+            photoIv.setImageResource(R.drawable.user_icon);
+        }
+    }
+
     private void initView() {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);

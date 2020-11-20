@@ -25,25 +25,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/contentsTextView"
+            <RelativeLayout
+                android:id="@+id/contentsLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/round_8_ffffff"
-                android:lineSpacingExtra="7sp"
-                android:padding="20dp"
-                android:text="안"
-                android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="normal" />
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/contentsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="7sp"
+                    android:text="안"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/deleteBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/contentsTextView"
+                android:layout_alignEnd="@+id/contentsLayout"
                 android:layout_marginEnd="-10dp"
                 android:src="@drawable/ic_i_delete" />
         </RelativeLayout>
@@ -108,7 +114,6 @@
                 android:layout_weight="1">
 
                 <RelativeLayout
-                    android:id="@+id/contentsLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/left_chat_bg">
@@ -122,8 +127,6 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/contentsLayout"
-                    android:layout_alignRight="@+id/contentsLayout"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="-12dp"
                     android:layout_marginRight="-12dp"
@@ -135,10 +138,8 @@
                     android:id="@+id/commentCountView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/contentsLayout"
                     android:layout_marginTop="-9dp"
                     android:layout_marginRight="-9dp"
-                    android:layout_toRightOf="@+id/contentsLayout"
                     android:text=""
                     android:textColor="@color/colorBlack"
                     android:visibility="gone" />

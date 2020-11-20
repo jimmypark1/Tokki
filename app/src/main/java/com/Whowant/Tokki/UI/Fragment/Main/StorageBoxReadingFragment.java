@@ -33,8 +33,6 @@ import com.Whowant.Tokki.VO.BookListVo;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.bumptech.glide.Glide;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
@@ -78,8 +76,8 @@ public class StorageBoxReadingFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
         getReadListData();
     }
@@ -122,7 +120,7 @@ public class StorageBoxReadingFragment extends Fragment {
                                             startActivity(chooser);
                                             break;
                                         case R.id.remove:
-                                            requestUnKeep(workVO.getnWorkID());
+                                            requestDeleteRead(workVO.getnWorkID());
                                             break;
                                     }
                                     return true;
@@ -238,26 +236,24 @@ public class StorageBoxReadingFragment extends Fragment {
         }).start();
     }
 
-    private void requestUnKeep(int workId) {
-        CommonUtils.showProgressDialog(getActivity(), "구독을 취소 중입니다.");
+    private void requestDeleteRead(int nEpisodeID) {
+        CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다 잠시만 기다려 주세요.");
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String userId = SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest");
-                JSONObject resultObject = HttpClient.requestUnKeep(new OkHttpClient(), userId, "" + workId);
+                boolean bResult = HttpClient.requestDeleteRead(new OkHttpClient(), nEpisodeID, SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest"));
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if (resultObject == null) {
-                            CommonUtils.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
+                        if (!bResult) {
+                            Toast.makeText(getActivity(), "읽은목록 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        CommonUtils.makeText(getActivity(), "구독이 취소되었습니다.", Toast.LENGTH_SHORT).show();
                         getReadListData();
                     }
                 });

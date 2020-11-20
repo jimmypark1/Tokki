@@ -48,6 +48,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class HttpClient {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -3802,6 +3803,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -4403,6 +4406,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return false;
@@ -4575,5 +4580,13 @@ public class HttpClient {
         }
 
         return new ArrayList<>();
+    }
+//    GetMsgThreadList
+
+    public static OkHttpClient addNetworkInterceptor(OkHttpClient okHttpClient) {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        return okHttpClient.newBuilder().addNetworkInterceptor(interceptor).build();
     }
 }

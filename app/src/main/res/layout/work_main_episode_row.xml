@@ -247,4 +247,24 @@
         android:scaleType="center"
         android:src="@drawable/menu_dot"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/ll_work_main_episode_row_write"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_margin="30dp"
+        android:background="@drawable/round_22_5a9aff"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_work_main_episode_row_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="7sp"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:textStyle="normal" />
+    </LinearLayout>
 </LinearLayout>

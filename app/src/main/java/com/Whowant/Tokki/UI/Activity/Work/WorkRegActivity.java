@@ -132,6 +132,8 @@ public class WorkRegActivity extends AppCompatActivity {
 
             nThumbnail = 0;*/
         } else {                                                                                    // 사진 로그는 중인 부분. 선택한 사진을 Crop 하러 보낸다
+            photoIv.setBackgroundResource(R.drawable.ic_i_artwork_empty);
+            photoIv.setClipToOutline(true);
             String imgUri = intent.getStringExtra("IMG_URI");
             coverImgUri = Uri.parse(imgUri);
 
@@ -350,6 +352,9 @@ public class WorkRegActivity extends AppCompatActivity {
                     else
                         intent.putExtra("TYPE", TYPE_COVER.ordinal());
                     startActivity(intent);
+                } else {
+                    photoIv.setImageResource(0);
+                    photoIv.setBackgroundResource(R.drawable.ic_i_artwork_empty);
                 }
             }/* else if(requestCode == 1010) {                                                                            // 장르 선택시
                 String strGenre = data.getStringExtra("GENRE");

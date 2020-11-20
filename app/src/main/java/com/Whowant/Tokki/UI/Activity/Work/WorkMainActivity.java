@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -506,6 +507,9 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                     return;
                                 }
 
+                                Log.e("1121", "1121 nLastIndex : " + nLastIndex);
+                                Log.e("1121", "1121 workVO : " + workVO);
+
                                 if (nLastIndex == -1) {
                                     int nIndex = 0;
 
@@ -515,6 +519,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                         return;
                                     }
 
+                                    Log.e("1121", "1121 nIndex : " + nIndex);
                                     Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
                                     ViewerActivity.workVO = workVO;
                                     intent.putExtra("EPISODE_INDEX", nIndex);
@@ -527,12 +532,15 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                 } else {
                                     int nIndex = nLastIndex - 1;
 
+                                    Log.e("1121", "1121 else nIndex : " + nIndex);
                                     EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
                                     if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드라면. 즉, 분기 이후의 에피소드라면
                                         checkInteractionSelect(nIndex);
                                         return;
                                     }
 
+                                    Log.e("1121", "1121 else nIndex : " + nIndex);
+                                    Log.e("1121", "1121 else nLastOrder : " + nLastOrder);
                                     Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
                                     ViewerActivity.workVO = workVO;
                                     intent.putExtra("EPISODE_INDEX", nIndex);
@@ -743,7 +751,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     subscribeBtn.setImageResource(R.drawable.i_heart_red);
 //                    subscribeBtn.setBackgroundResource(R.drawable.full_heart_button);
                 } else {
-                    subscribeBtn.setImageResource(R.drawable.ic_i_heart_black);
+                    subscribeBtn.setImageResource(R.drawable.i_heart_black);
 //                    subscribeBtn.setBackgroundResource(R.drawable.empty_heart);
                 }
 
@@ -989,7 +997,6 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 readShowLl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         if (workVO.getEpisodeList().size() == 0) {
                             CommonUtils.makeText(WorkMainActivity.this, "작품이 없습니다.", Toast.LENGTH_SHORT).show();
                             return;
@@ -999,7 +1006,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                             int nIndex = 0;
 
                             EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
-                            if (nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+                            if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드라면. 즉, 분기 이후의 에피소드라면
                                 checkInteractionSelect(nIndex);
                                 return;
                             }
@@ -1008,11 +1015,16 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                             ViewerActivity.workVO = workVO;
                             intent.putExtra("EPISODE_INDEX", nIndex);
                             startActivity(intent);
+
+//                            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
+//                            ViewerActivity.workVO = workVO;
+//                            intent.putExtra("EPISODE_INDEX", 0);
+//                            startActivity(intent);
                         } else {
-                            int nIndex = nLastIndex;
+                            int nIndex = nLastIndex - 1;
 
                             EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
-                            if (nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+                            if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드라면. 즉, 분기 이후의 에피소드라면
                                 checkInteractionSelect(nIndex);
                                 return;
                             }
@@ -1022,6 +1034,11 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                             intent.putExtra("EPISODE_INDEX", nIndex);
                             intent.putExtra("LAST_ORDER", nLastOrder);
                             startActivity(intent);
+
+//                            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
+//                            ViewerActivity.workVO = workVO;
+//                            intent.putExtra("EPISODE_INDEX", nLastIndex);
+//                            startActivity(intent);
                         }
                     }
                 });

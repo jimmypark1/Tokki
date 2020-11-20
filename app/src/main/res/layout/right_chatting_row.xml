@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/contentsTextView"
+            <RelativeLayout
+                android:id="@+id/contentsLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -28,18 +28,24 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/round_8_ffffff"
-                android:lineSpacingExtra="7sp"
-                android:padding="20dp"
-                android:text="a"
-                android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="normal" />
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/contentsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="7sp"
+                    android:text="a"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/deleteBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/contentsTextView"
+                android:layout_alignStart="@+id/contentsLayout"
                 android:layout_marginStart="-10dp"
                 android:src="@drawable/ic_i_delete" />
         </RelativeLayout>
@@ -98,7 +104,6 @@
             android:textSize="14sp" />
 
         <RelativeLayout
-            android:id="@+id/contentsLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/nameView"
@@ -124,7 +129,6 @@
             android:id="@+id/commentCountView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/contentsLayout"
             android:text="0"
             android:textColor="@color/colorTextGray"
             android:visibility="invisible" />
@@ -132,8 +136,6 @@
         <ImageView
             android:layout_width="23dp"
             android:layout_height="24dp"
-            android:layout_alignLeft="@+id/contentsLayout"
-            android:layout_alignTop="@+id/contentsLayout"
             android:layout_marginLeft="-12dp"
             android:layout_marginTop="-12dp"
             android:background="@drawable/delet_button"

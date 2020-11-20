@@ -29,9 +29,9 @@
                     android:layout_width="160dp"
                     android:layout_height="250dp"
                     android:layout_gravity="center_horizontal"
-                    android:scaleType="fitCenter"
                     android:background="@drawable/ic_i_artwork_empty"
-                    android:onClick="btnPhotoChange" />
+                    android:onClick="btnPhotoChange"
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -91,13 +91,15 @@
                     android:text="등장인물"
                     android:textColor="#666666"
                     android:textSize="11sp"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView"

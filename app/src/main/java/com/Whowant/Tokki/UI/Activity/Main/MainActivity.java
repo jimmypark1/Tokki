@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton reportBtn;
     private ImageButton addBtn;
     private ImageView profileIv;
+    private ImageView faceView;
     private TextView titleView;
     private ImageView alarmNewIconView, noticeNewIconView, eventNewIconView;                // 서랍메뉴 에서 알림, 공지사항, 이벤트 등에 찍히는 빨간 점. 읽었는지 여부는 SharedPreference 에서 판단(애초에 없던 기능을 추가한거라 그렇게 구현함)
     private boolean bCreated = true;                        // 이벤트 팝업이 생성되었는지를 가늠하는 플래그
@@ -384,6 +385,30 @@ public class MainActivity extends AppCompatActivity {
         alarmNewIconView.setVisibility(View.INVISIBLE);
         eventNewIconView.setVisibility(View.INVISIBLE);
         getAlarmList();
+
+        String strPhoto = pref.getString("USER_PHOTO", "");
+
+        if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
+            if (!strPhoto.startsWith("http"))
+                strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
+
+            Glide.with(MainActivity.this)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .placeholder(R.drawable.user_icon)
+                    .load(strPhoto)
+                    .apply(new RequestOptions().circleCrop())
+                    .into(faceView);
+
+            Glide.with(MainActivity.this)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .placeholder(R.drawable.user_icon)
+                    .load(strPhoto)
+                    .apply(new RequestOptions().circleCrop())
+                    .into(profileIv);
+        } else {
+            faceView.setImageResource(R.drawable.user_icon);
+            profileIv.setImageResource(R.drawable.user_icon);
+        }
     }
 
     @Override
@@ -467,8 +492,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageView faceView = navigationView.findViewById(R.id.faceView);                                        // 얼굴 사진
-        ImageView profileIv = findViewById(R.id.iv_top_bar_profile);
+        faceView = navigationView.findViewById(R.id.faceView);                                        // 얼굴 사진
         String strPhoto = pref.getString("USER_PHOTO", "");
 
         if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {

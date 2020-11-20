@@ -46,7 +46,7 @@ import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.InteractionPhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
-import com.Whowant.Tokki.UI.Activity.Work.CreateCharacterActivity;
+import com.Whowant.Tokki.UI.Activity.Work.CharacterRegActivity;
 import com.Whowant.Tokki.UI.Activity.Work.InteractionWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.ViewerActivity;
 import com.Whowant.Tokki.UI.Popup.BGImageSelectPopup;
@@ -201,8 +201,10 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         speakerAddView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
-                startActivityForResult(new Intent(getActivity(), CreateCharacterActivity.class), 1010);
+                CharacterRegActivity.nameList = new ArrayList<String>(nameList);
+                startActivityForResult(new Intent(getActivity(), CharacterRegActivity.class), 1010);
+//                CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
+//                startActivityForResult(new Intent(getActivity(), CreateCharacterActivity.class), 1010);
             }
         });
 
@@ -1668,8 +1670,10 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
             if (i == 0) {
                 faceLayout.setOnClickListener((v) -> {
-                    CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
-                    startActivityForResult(new Intent(getContext(), CreateCharacterActivity.class), 1010);
+                    CharacterRegActivity.nameList = new ArrayList<String>(nameList);
+                    startActivityForResult(new Intent(getActivity(), CharacterRegActivity.class), 1010);
+//                    CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
+//                    startActivityForResult(new Intent(getContext(), CreateCharacterActivity.class), 1010);
                 });
             } else {
                 faceLayout.setOnClickListener(new View.OnClickListener() {
@@ -1701,12 +1705,19 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 faceLayout.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
-                        CreateCharacterActivity.characterVO = characterList.get(nIndex);
+                        CharacterRegActivity.nameList = new ArrayList<String>(nameList);
+                        CharacterRegActivity.characterVO = characterList.get(nIndex);
 
-                        Intent intent = new Intent(getActivity(), CreateCharacterActivity.class);
+                        Intent intent = new Intent(getActivity(), CharacterRegActivity.class);
                         intent.putExtra("INDEX", nIndex);
                         startActivityForResult(intent, 1011);
+
+//                        CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
+//                        CreateCharacterActivity.characterVO = characterList.get(nIndex);
+//
+//                        Intent intent = new Intent(getActivity(), CreateCharacterActivity.class);
+//                        intent.putExtra("INDEX", nIndex);
+//                        startActivityForResult(intent, 1011);
 
                         return false;
                     }
