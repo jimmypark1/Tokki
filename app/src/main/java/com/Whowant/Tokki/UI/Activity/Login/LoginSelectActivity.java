@@ -128,17 +128,6 @@ public class LoginSelectActivity extends AppCompatActivity {
         Session.getCurrentSession().checkAndImplicitOpen();
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch(item.getItemId()) {
-//            case android.R.id.home:
-//                finish();
-//                break;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

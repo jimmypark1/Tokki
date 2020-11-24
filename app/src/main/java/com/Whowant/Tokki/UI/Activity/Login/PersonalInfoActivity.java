@@ -30,10 +30,7 @@ import okhttp3.OkHttpClient;
 public class PersonalInfoActivity extends AppCompatActivity {
     private int nSNS;
 
-//    private EditText inputIDView;
     private EditText inputNameView;
-//    private EditText inputPWView;
-//    private EditText inputPWCheckView;
     private EditText inputEmailView;
     private EditText inputPhonenumView;
     private TextView inputBirthView;
@@ -45,6 +42,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
     private LinearLayout inputPWLayout;
     private LinearLayout inputPWCheckLayout;
 
+    private String strID;
+    private String strPW;
     private String strName;
     private String strEmail;
     private String strSNSID;
@@ -67,6 +66,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
             Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
         }
 
+        strID = getIntent().getStringExtra("ID");
+        strPW = getIntent().getStringExtra("PASSWORD");
         nSNS = getIntent().getIntExtra("SNS", 0);
         strName = getIntent().getStringExtra("USER_NAME");
         strEmail = getIntent().getStringExtra("USER_EMAIL");
@@ -176,12 +177,19 @@ public class PersonalInfoActivity extends AppCompatActivity {
             inputEmailView.setEnabled(false);
         }
 
-        if(strPhoneNum != null)
+        if(strID != null) {
+            strPhoneNum = strID;
             inputPhonenumView.setText(strPhoneNum);
+            inputPhonenumView.setEnabled(false);
+        }
+
+        if(strPhoneNum != null) {
+            inputPhonenumView.setText(strPhoneNum);
+            inputPhonenumView.setEnabled(false);
+        }
     }
 
     public void onClickRegisterBtn(View view) {
-        String strID = strEmail;
         strName = inputNameView.getText().toString();
         strEmail = inputEmailView.getText().toString();
         strPhoneNum = inputPhonenumView.getText().toString();
@@ -208,7 +216,14 @@ public class PersonalInfoActivity extends AppCompatActivity {
         }
 
         final HashMap<String, String> userInfoMap = new HashMap<>();
+        if(strID == null)
+            strID = strEmail;
+
         userInfoMap.put("USER_ID", strID);
+
+        if(strPW != null)
+            userInfoMap.put("USER_PW", strPW);
+
         userInfoMap.put("USER_NAME", strName);
         userInfoMap.put("USER_EMAIL", strEmail);
         userInfoMap.put("USER_PHONENUM", strPhoneNum);

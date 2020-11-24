@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
@@ -200,7 +200,7 @@ public class IntroActivity extends AppCompatActivity {
             if(strUserID.length() > 0 && strUserPW.length() > 0 && !strUserID.equals("Guest")) {
                 requestPanbookLogin(strUserID, strUserPW);
             } else {
-                startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                startActivity(new Intent(IntroActivity.this, PanbookLoginActivity.class));
                 finish();
             }
         } else {
@@ -209,7 +209,7 @@ public class IntroActivity extends AppCompatActivity {
             if(strSNSID.length() > 0 && !strUserID.equals("Guest")) {             // 소셜 로그인 이라면
                 requestSNSLogin(strUserID, strSNSID);
             } else {
-                startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                startActivity(new Intent(IntroActivity.this, PanbookLoginActivity.class));
                 finish();
             }
         }
@@ -358,7 +358,7 @@ public class IntroActivity extends AppCompatActivity {
 
                             if(resultObject == null) {
                                 Toast.makeText(IntroActivity.this, "서버와의 연결이 원활하지 않습니다. 수동으로 로그인해 주세요.", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                                startActivity(new Intent(IntroActivity.this, PanbookLoginActivity.class));
                                 finish();
                                 return;
                             }
@@ -414,7 +414,7 @@ public class IntroActivity extends AppCompatActivity {
                                         @Override
                                         public void run()
                                         {
-                                            startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                                            startActivity(new Intent(IntroActivity.this, PanbookLoginActivity.class));
                                             finish();
                                         }
                                     }, 500);
@@ -430,7 +430,7 @@ public class IntroActivity extends AppCompatActivity {
                                     @Override
                                     public void run()
                                     {
-                                        startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                                        startActivity(new Intent(IntroActivity.this, PanbookLoginActivity.class));
                                         finish();
                                     }
                                 }, 500);
@@ -448,7 +448,7 @@ public class IntroActivity extends AppCompatActivity {
                         @Override
                         public void run()
                         {
-                            startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                            startActivity(new Intent(IntroActivity.this, PanbookLoginActivity.class));
                             finish();
                         }
                     }, 500);

@@ -23,7 +23,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UI.Activity.Admin.WriterWorkListActivity"
+
+        <activity android:name=".UI.Activity.Login.PWRegisterActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".UI.Activity.Login.PhoneNumAuthActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".UI.Activity.Admin.WriterWorkListActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -388,6 +398,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

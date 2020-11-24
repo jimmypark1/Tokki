@@ -4589,4 +4589,50 @@ public class HttpClient {
 
         return okHttpClient.newBuilder().addNetworkInterceptor(interceptor).build();
     }
+
+    public static boolean requestAuthNum(OkHttpClient httpClient, String strPhoneNum) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiSmsAuth.jsp?CMD=RequestAuthNum&PHONE_NUM=" + strPhoneNum)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("message").equals("success"))
+                return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static String requestAuth(OkHttpClient httpClient, String strPhoneNum, String authNum) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiSmsAuth.jsp?CMD=RequestAuth&PHONE_NUM=" + strPhoneNum + "&AUTH_NUM=" + authNum)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            return resultJsonObject.getString("RESULT");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
