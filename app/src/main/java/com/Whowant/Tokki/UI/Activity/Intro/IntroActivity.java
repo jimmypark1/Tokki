@@ -223,11 +223,9 @@ public class IntroActivity extends AppCompatActivity {
         editor.putString("USER_NAME", "Guest");
         editor.commit();
 
-        new Handler().postDelayed(new Runnable()
-        {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 Intent intent = new Intent(IntroActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -378,7 +376,7 @@ public class IntroActivity extends AppCompatActivity {
                                     String strUserDesc = resultObject.getString("USER_DESC");
                                     String strBirthday = resultObject.getString("USER_BIRTHDAY");
                                     int nGender = resultObject.getInt("USER_GENDER");
-                                    int    nCoinCount = resultObject.getInt("COIN_COUNT");
+//                                    int    nCoinCount = resultObject.getInt("COIN_COUNT");
 
                                     SharedPreferences.Editor editor = pref.edit();
 
@@ -393,7 +391,7 @@ public class IntroActivity extends AppCompatActivity {
                                     editor.putString("USER_DESC", strUserDesc);
                                     editor.putString("USER_BIRTHDAY", strBirthday);
                                     editor.putInt("USER_GENDER", nGender);
-                                    editor.putInt("COIN_COUNT", nCoinCount);
+                                    editor.putInt("COIN_COUNT", 0);
                                     editor.commit();
 
                                     new Handler().postDelayed(new Runnable()
