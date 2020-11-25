@@ -1,14 +1,5 @@
 package com.Whowant.Tokki.UI.Activity.Work;
 
-import androidx.appcompat.app.AppCompatActivity;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -28,12 +19,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
-import com.Whowant.Tokki.UI.Fragment.Main.TokkiGalleryFragment;
 import com.Whowant.Tokki.UI.Popup.CoverMediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
@@ -54,6 +46,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER_IMG_MODIFY;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY_THUMB;
 
@@ -64,10 +64,10 @@ public class WorkEditActivity extends AppCompatActivity {
     private EditText inputGenreView;
     //    private TagEditText inputTagView;
     private ImageView coverImgView;
-    private Uri      originCoverImgUri = null;
-    private Uri      coverImgUri = null;
-    private Uri      posterThumbUri = null;
-    private Uri      galleryThumbUri = null;
+    private Uri originCoverImgUri = null;
+    private Uri coverImgUri = null;
+    private Uri posterThumbUri = null;
+    private Uri galleryThumbUri = null;
     private RelativeLayout coverImgBtn;
     private ArrayList<String> tagList, genreList;
     private ImageView checkbox1, checkbox2;
@@ -97,6 +97,8 @@ public class WorkEditActivity extends AppCompatActivity {
         if (!(handler instanceof CustomUncaughtExceptionHandler)) {
             Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
         }
+
+        initView();
 
         TextView titleView = findViewById(R.id.titleView);
         titleView.setText("작품 수정");
@@ -150,7 +152,7 @@ public class WorkEditActivity extends AppCompatActivity {
         bComplete = workVO.isbComplete();
         setComplete();
 
-        if(workVO.getCoverFile() != null && workVO.getCoverFile().length() > 0 && !workVO.getCoverFile().equals("null")) {
+        if (workVO.getCoverFile() != null && workVO.getCoverFile().length() > 0 && !workVO.getCoverFile().equals("null")) {
             coverImgView.setClipToOutline(true);
             coverImgBtn.setVisibility(View.INVISIBLE);
             originCoverImgUri = Uri.parse(CommonUtils.strDefaultUrl + "images/" + workVO.getCoverFile());
@@ -214,8 +216,8 @@ public class WorkEditActivity extends AppCompatActivity {
             }
         });
 
-        if(workVO.getStrThumbFile() != null && !workVO.getStrThumbFile().equals("null")) {
-            if(workVO.isbPosterThumbnail()) {           // 포스터에서 썸네일 고름
+        if (workVO.getStrThumbFile() != null && !workVO.getStrThumbFile().equals("null")) {
+            if (workVO.isbPosterThumbnail()) {           // 포스터에서 썸네일 고름
                 nCurrentThumbnail = 1;
                 galleryThumbUri = null;
 //                posterThumbUri = Uri.parse(workVO.getStrThumbFile());
@@ -231,7 +233,7 @@ public class WorkEditActivity extends AppCompatActivity {
                         .load(CommonUtils.strDefaultUrl + "images/" + workVO.getStrThumbFile())
                         .into(posterThumbnailView);
                 posterThumbnailTextView.setTextColor(Color.parseColor("#000000"));
-            } else  {    // 갤러리에서 썸네일 고름
+            } else {    // 갤러리에서 썸네일 고름
                 nCurrentThumbnail = 2;
                 posterThumbUri = null;
 //                galleryThumbUri = Uri.parse(workVO.getStrThumbFile());
@@ -253,8 +255,15 @@ public class WorkEditActivity extends AppCompatActivity {
         getTagData();
     }
 
+    private void initView() {
+        ((TextView) findViewById(R.id.tv_top_layout_title)).setText("작품 수정");
+
+        findViewById(R.id.ib_top_layout_back).setVisibility(View.VISIBLE);
+        findViewById(R.id.ib_top_layout_back).setOnClickListener((v) -> finish());
+    }
+
     private void setComplete() {
-        if(bComplete) {
+        if (bComplete) {
             checkbox2.setImageResource(R.drawable.check_box_on);
             checkbox1.setImageResource(0);
         } else {
@@ -273,10 +282,10 @@ public class WorkEditActivity extends AppCompatActivity {
 
         boolean bThumbnail = intent.getBooleanExtra("THUMBNAIL", false);
 
-        if(bThumbnail) {
+        if (bThumbnail) {
             String imgUri = intent.getStringExtra("IMG_URI");
 
-            if(nThumbnail == 1) {           // 포스터에서 썸네일 고름
+            if (nThumbnail == 1) {           // 포스터에서 썸네일 고름
                 nCurrentThumbnail = 1;
                 galleryThumbUri = null;
                 posterThumbUri = Uri.parse(imgUri);
@@ -293,7 +302,7 @@ public class WorkEditActivity extends AppCompatActivity {
                         .load(posterThumbUri)
                         .into(posterThumbnailView);
                 posterThumbnailTextView.setTextColor(Color.parseColor("#000000"));
-            } else if(nThumbnail == 2) {    // 갤러리에서 썸네일 고름
+            } else if (nThumbnail == 2) {    // 갤러리에서 썸네일 고름
                 nCurrentThumbnail = 2;
                 posterThumbUri = null;
                 galleryThumbUri = Uri.parse(imgUri);
@@ -318,7 +327,7 @@ public class WorkEditActivity extends AppCompatActivity {
             coverImgUri = Uri.parse(imgUri);
             originCoverImgUri = coverImgUri;
 
-            if(imgUri != null) {
+            if (imgUri != null) {
                 coverImgView.setClipToOutline(true);
                 coverImgBtn.setVisibility(View.INVISIBLE);
                 Glide.with(this)
@@ -353,20 +362,20 @@ public class WorkEditActivity extends AppCompatActivity {
                 else if (nType == 1) {
 //                    Intent intent = new Intent(WorkEditActivity.this, SeesoGalleryActivity.class);
                     Intent intent = new Intent(WorkEditActivity.this, TokkiGalleryActivity.class);
-                    if(nThumbnail == 0)
+                    if (nThumbnail == 0)
                         intent.putExtra("TYPE", TYPE_COVER_IMG_MODIFY.ordinal());
                     else
                         intent.putExtra("TYPE", TYPE_MODIFY_THUMB.ordinal());
                     startActivity(intent);
                 } else if (nType == 2) {
                     Intent intent = new Intent(WorkEditActivity.this, PhotoPickerActivity.class);
-                    if(nThumbnail == 0)
+                    if (nThumbnail == 0)
                         intent.putExtra("TYPE", TYPE_COVER_IMG_MODIFY.ordinal());
                     else
                         intent.putExtra("TYPE", TYPE_MODIFY_THUMB.ordinal());
                     startActivity(intent);
-                } else if(nType == 3) {
-                    if(nThumbnail == 0) {
+                } else if (nType == 3) {
+                    if (nThumbnail == 0) {
                         coverImgView.setImageResource(0);
                         coverImgBtn.setVisibility(View.VISIBLE);
                         originCoverImgUri = null;
@@ -379,7 +388,7 @@ public class WorkEditActivity extends AppCompatActivity {
                         posterCheckView.setImageResource(0);
                         posterThumbnailTextView.setTextColor(Color.parseColor("#d1d1d1"));
 
-                        if(nCurrentThumbnail == 1) {
+                        if (nCurrentThumbnail == 1) {
                             isDeleteThumbnail = true;
                             nCurrentThumbnail = 0;
                         }
@@ -396,10 +405,10 @@ public class WorkEditActivity extends AppCompatActivity {
 
                     nThumbnail = 0;
                 }
-            } else if(requestCode == 1010) {
+            } else if (requestCode == 1010) {
                 String strGenre = data.getStringExtra("GENRE");
                 inputGenreView.setText(strGenre);
-            } else if(requestCode == 1020) {
+            } else if (requestCode == 1020) {
                 String strTag = data.getStringExtra("TAG");
                 inputTagView.setText(strTag);
             }
@@ -411,12 +420,12 @@ public class WorkEditActivity extends AppCompatActivity {
         String strTitle = inputTitleView.getText().toString();
         String strSynopsis = inputSynopsisView.getText().toString();
 
-        if(strTitle.length() == 0) {
+        if (strTitle.length() == 0) {
             Toast.makeText(WorkEditActivity.this, "제목을 입력해주세요.", Toast.LENGTH_LONG).show();
             return;
         }
 
-        if(strSynopsis.length() == 0) {
+        if (strSynopsis.length() == 0) {
             Toast.makeText(WorkEditActivity.this, "줄거리를 입력해주세요.", Toast.LENGTH_LONG).show();
             return;
         }
@@ -441,7 +450,7 @@ public class WorkEditActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(resultObject == null) {
+                        if (resultObject == null) {
                             CommonUtils.hideProgressDialog();
                             Toast.makeText(WorkEditActivity.this, "작품 정보를 가져오는데 실패했습니다.", Toast.LENGTH_LONG).show();
                             return;
@@ -450,20 +459,20 @@ public class WorkEditActivity extends AppCompatActivity {
                         try {
                             JSONArray tagArray = resultObject.getJSONArray("TAG_LIST");
 
-                            for(int i = 0 ; i < tagArray.length() ; i++) {
+                            for (int i = 0; i < tagArray.length(); i++) {
                                 JSONObject object = tagArray.getJSONObject(i);
                                 tagList.add(object.getString("TAG_TITLE"));
                             }
 
                             JSONArray genreArray = resultObject.getJSONArray("GENRE_LIST");
-                            for(int i = 0 ; i < genreArray.length() ; i++) {
+                            for (int i = 0; i < genreArray.length(); i++) {
                                 JSONObject object = genreArray.getJSONObject(i);
                                 genreList.add(object.getString("GENRE_NAME"));
                             }
 
                             String strGenre = "";
-                            for(String genre : genreList) {
-                                if(strGenre.length() > 0)
+                            for (String genre : genreList) {
+                                if (strGenre.length() > 0)
                                     strGenre += " / ";
 
                                 strGenre += genre;
@@ -472,8 +481,8 @@ public class WorkEditActivity extends AppCompatActivity {
                             inputGenreView.setText(strGenre);
 
                             String strTags = "";
-                            for(String tag : tagList) {
-                                if(strTags.length() > 0)
+                            for (String tag : tagList) {
+                                if (strTags.length() > 0)
                                     strTags += " ";
                                 strTags += tag;
                             }
@@ -512,15 +521,15 @@ public class WorkEditActivity extends AppCompatActivity {
                     .addFormDataPart("WORK_TARGET", "");
 
             String strTags = inputTagView.getText().toString();
-            if(strTags.length() > 0)
+            if (strTags.length() > 0)
                 builder.addFormDataPart("TAGS", strTags);
 
             String strGenres = inputGenreView.getText().toString();
-            if(strGenres.length() > 0) {
+            if (strGenres.length() > 0) {
                 String genres[] = strGenres.split(" / ");
                 strGenres = "";
-                for(String genre : genres) {
-                    if(strGenres.length() > 0)
+                for (String genre : genres) {
+                    if (strGenres.length() > 0)
                         strGenres += " ";
 
                     strGenres += genre;
@@ -528,17 +537,17 @@ public class WorkEditActivity extends AppCompatActivity {
                 builder.addFormDataPart("WORK_GENRE", strGenres);
             }
 
-            if(coverImgUri != null) {
+            if (coverImgUri != null) {
                 strFilePath = CommonUtils.getRealPathFromURI(WorkEditActivity.this, coverImgUri);
                 sourceFile = new File(strFilePath);
 
-                if(!sourceFile.exists()) {
+                if (!sourceFile.exists()) {
                     mProgressDialog.dismiss();
                     Toast.makeText(WorkEditActivity.this, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
                 builder.addFormDataPart(filename, filename, RequestBody.create(MultipartBody.FORM, sourceFile));
             }
 
@@ -568,7 +577,7 @@ public class WorkEditActivity extends AppCompatActivity {
                             try {
                                 JSONObject resultObject = new JSONObject(strResult);
 
-                                if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                     String strWorkID = resultObject.getString("WORK_ID");
 
                                     Intent intent = new Intent(WorkEditActivity.this, WorkWriteMainActivity.class);
@@ -647,15 +656,15 @@ public class WorkEditActivity extends AppCompatActivity {
             //
 
             String strTags = inputTagView.getText().toString();
-            if(strTags.length() > 0)
+            if (strTags.length() > 0)
                 builder.addFormDataPart("TAGS", strTags);
 
             String strGenres = inputGenreView.getText().toString();
-            if(strGenres.length() > 0) {
+            if (strGenres.length() > 0) {
                 String genres[] = strGenres.split(" / ");
                 strGenres = "";
-                for(String genre : genres) {
-                    if(strGenres.length() > 0)
+                for (String genre : genres) {
+                    if (strGenres.length() > 0)
                         strGenres += " ";
 
                     strGenres += genre;
@@ -663,43 +672,43 @@ public class WorkEditActivity extends AppCompatActivity {
                 builder.addFormDataPart("WORK_GENRE", strGenres);
             }
 
-            if(coverImgUri != null) {
+            if (coverImgUri != null) {
                 strFilePath = CommonUtils.getRealPathFromURI(WorkEditActivity.this, coverImgUri);
                 sourceFile = new File(strFilePath);
 
-                if(!sourceFile.exists()) {
+                if (!sourceFile.exists()) {
                     CommonUtils.hideProgressDialog();
                     Toast.makeText(WorkEditActivity.this, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
                 builder.addFormDataPart("COVER_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
             }
 
-            if(posterThumbUri != null) {
+            if (posterThumbUri != null) {
                 strFilePath = CommonUtils.getRealPathFromURI(WorkEditActivity.this, posterThumbUri);
                 sourceFile = new File(strFilePath);
 
-                if(!sourceFile.exists()) {
+                if (!sourceFile.exists()) {
                     mProgressDialog.dismiss();
                     Toast.makeText(WorkEditActivity.this, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
                 builder.addFormDataPart("POSTER_THUMBNAIL_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
-            } else if(galleryThumbUri != null) {
+            } else if (galleryThumbUri != null) {
                 strFilePath = CommonUtils.getRealPathFromURI(WorkEditActivity.this, galleryThumbUri);
                 sourceFile = new File(strFilePath);
 
-                if(!sourceFile.exists()) {
+                if (!sourceFile.exists()) {
                     mProgressDialog.dismiss();
                     Toast.makeText(WorkEditActivity.this, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
                 builder.addFormDataPart("GALLERY_THUMBNAIL_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
             }
 
@@ -719,7 +728,7 @@ public class WorkEditActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    if(response.code() != 200) {
+                    if (response.code() != 200) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -740,7 +749,7 @@ public class WorkEditActivity extends AppCompatActivity {
                             try {
                                 JSONObject resultObject = new JSONObject(strResult);
 
-                                if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                     Toast.makeText(WorkEditActivity.this, "수정되었습니다.", Toast.LENGTH_LONG).show();
                                     finish();
                                 } else {
@@ -778,7 +787,7 @@ public class WorkEditActivity extends AppCompatActivity {
     }
 
     public void onClickPosterThumbnailBtn(View view) {
-        if(coverImgUri == null && originCoverImgUri == null) {
+        if (coverImgUri == null && originCoverImgUri == null) {
             Toast.makeText(this, "포스터 이미지를 설정하셔야 합니다.", Toast.LENGTH_SHORT).show();
             return;
         }

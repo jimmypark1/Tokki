@@ -477,6 +477,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickTopAdd(View v) {
+        WorkRegActivity.workVO = null;
         startActivity(new Intent(MainActivity.this, WorkRegActivity.class));
 //        startActivity(new Intent(MainActivity.this, CreateWorkActivity.class));
     }

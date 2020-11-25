@@ -123,9 +123,13 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.modify: {
-                            WorkEditActivity.workVO = workVO;
-                            Intent intent = new Intent(WorkWriteMainActivity.this, WorkEditActivity.class);
+                            WorkRegActivity.workVO = workVO;
+                            Intent intent = new Intent(WorkWriteMainActivity.this, WorkRegActivity.class);
                             startActivity(intent);
+
+//                            WorkEditActivity.workVO = workVO;
+//                            Intent intent = new Intent(WorkWriteMainActivity.this, WorkEditActivity.class);
+//                            startActivity(intent);
                         }
                         break;
                         case R.id.delete: {
@@ -306,7 +310,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                 int nEpisodeCount = 0;
                 boolean bComplete = false;
 
-                if (workVO.getEpisodeList() != null && workVO.getEpisodeList().size() > 0) {
+                if (workVO != null && workVO.getEpisodeList() != null && workVO.getEpisodeList().size() > 0) {
                     nEpisodeCount = workVO.getEpisodeList().size();
                     bComplete = workVO.isbComplete();
                     String strEpisodeCount = "총 " + nEpisodeCount + "화 /" + (bComplete == true ? "완결" : "미완결") + "";
@@ -577,6 +581,17 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                     }
                 });
             } else {
+                LinearLayout writeLl = holder.itemView.findViewById(R.id.ll_work_main_episode_row_write);
+                writeLl.setVisibility(itemsList.size() - 1 == position ? View.VISIBLE : View.GONE);
+                writeLl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        requestCreateEpisode();
+                    }
+                });
+                TextView writeTv = holder.itemView.findViewById(R.id.tv_work_main_episode_row_write);
+                writeTv.setText(newEpsisodeBtn.getText().toString());
+
                 if (showingList.get(1).equals("EMPTY"))
                     return;
 
@@ -593,17 +608,6 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 //                LinearLayout chatCountLayout = holder.itemView.findViewById(R.id.chatCountLayout);
                 TextView chatCountView = holder.itemView.findViewById(R.id.chatCountView);
                 TextView tabCountView = holder.itemView.findViewById(R.id.tabCountView);
-
-                LinearLayout writeLl = holder.itemView.findViewById(R.id.ll_work_main_episode_row_write);
-                writeLl.setVisibility(itemsList.size() - 1 == position ? View.VISIBLE : View.GONE);
-                writeLl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        OnClickNewEpisodeBtn(v);
-                    }
-                });
-                TextView writeTv = holder.itemView.findViewById(R.id.tv_work_main_episode_row_write);
-                writeTv.setText(newEpsisodeBtn.getText().toString());
 
                 episodeTitleView.setText(vo.getStrTitle());
                 dateTimeView.setText(vo.getStrDate().substring(0, 10));

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -507,9 +506,6 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                     return;
                                 }
 
-                                Log.e("1121", "1121 nLastIndex : " + nLastIndex);
-                                Log.e("1121", "1121 workVO : " + workVO);
-
                                 if (nLastIndex == -1) {
                                     int nIndex = 0;
 
@@ -519,7 +515,6 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                         return;
                                     }
 
-                                    Log.e("1121", "1121 nIndex : " + nIndex);
                                     Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
                                     ViewerActivity.workVO = workVO;
                                     intent.putExtra("EPISODE_INDEX", nIndex);
@@ -532,15 +527,12 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                 } else {
                                     int nIndex = nLastIndex - 1;
 
-                                    Log.e("1121", "1121 else nIndex : " + nIndex);
                                     EpisodeVO episodeVO = workVO.getEpisodeList().get(nIndex);
                                     if(nInteractionID > -1 && episodeVO.getnEpisodeID() > nInteractionID) {                // 클릭한 에피소드가 분기보다 위의 에피소드라면. 즉, 분기 이후의 에피소드라면
                                         checkInteractionSelect(nIndex);
                                         return;
                                     }
 
-                                    Log.e("1121", "1121 else nIndex : " + nIndex);
-                                    Log.e("1121", "1121 else nLastOrder : " + nLastOrder);
                                     Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
                                     ViewerActivity.workVO = workVO;
                                     intent.putExtra("EPISODE_INDEX", nIndex);

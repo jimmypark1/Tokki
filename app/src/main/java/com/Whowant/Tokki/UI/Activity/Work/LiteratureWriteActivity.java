@@ -497,6 +497,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 if (hasFocus && (isTextShow && isCharacterShow && isContentsShow) || (nBeforeCharacterIndex == 0 && type != TYPE_TEXT)) {
                     nSelectedCharacterIndex = 0;
                     setSelectBottomLayout(TYPE_TEXT);
+                } else if (isCharacterShow && isContentsShow) {
+                    setSelectBottomLayout(TYPE_CHARACTER);
                 }
             }
         });
@@ -511,6 +513,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 if ((isTextShow && isCharacterShow && isContentsShow) || (nBeforeCharacterIndex == 0 && type != TYPE_TEXT)) {
                     nSelectedCharacterIndex = 0;
                     setSelectBottomLayout(TYPE_TEXT);
+                } else if (isCharacterShow && isContentsShow) {
+                    setSelectBottomLayout(TYPE_CHARACTER);
                 }
             }
         });

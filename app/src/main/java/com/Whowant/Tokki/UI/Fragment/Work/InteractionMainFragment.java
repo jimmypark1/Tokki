@@ -507,6 +507,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 if (hasFocus && (isTextShow && isCharacterShow && isContentsShow) || (nBeforeCharacterIndex == 0 && type != TYPE_TEXT)) {
                     nSelectedCharacterIndex = 0;
                     setSelectBottomLayout(TYPE_TEXT);
+                } else if (isCharacterShow && isContentsShow) {
+                    setSelectBottomLayout(TYPE_CHARACTER);
                 }
             }
         });
@@ -521,6 +523,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 if ((isTextShow && isCharacterShow && isContentsShow) || (nBeforeCharacterIndex == 0 && type != TYPE_TEXT)) {
                     nSelectedCharacterIndex = 0;
                     setSelectBottomLayout(TYPE_TEXT);
+                } else if (isCharacterShow && isContentsShow) {
+                    setSelectBottomLayout(TYPE_CHARACTER);
                 }
             }
         });
