@@ -29,7 +29,8 @@
                     android:layout_width="160dp"
                     android:layout_height="250dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/ic_i_artwork_empty"
+                    android:background="@drawable/round_white_card_bg"
+                    android:src="@drawable/ic_i_artwork_empty"
                     android:onClick="btnPhotoChange"
                     android:scaleType="centerCrop" />
 

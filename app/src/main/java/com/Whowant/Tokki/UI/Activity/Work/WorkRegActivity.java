@@ -376,6 +376,7 @@ public class WorkRegActivity extends AppCompatActivity {
                         intent.putExtra("TYPE", TYPE_COVER.ordinal());
 
                     startActivity(intent);
+                    isDeletePoster = false;
                 } else if (nType == 2) {
                     Intent intent = new Intent(mActivity, PhotoPickerActivity.class);
                     if (nThumbnail == 2)
@@ -383,7 +384,9 @@ public class WorkRegActivity extends AppCompatActivity {
                     else
                         intent.putExtra("TYPE", TYPE_COVER.ordinal());
                     startActivity(intent);
+                    isDeletePoster = false;
                 } else {
+                    isDeletePoster = true;
                     photoIv.setImageResource(0);
                     photoIv.setBackgroundResource(R.drawable.ic_i_artwork_empty);
                     coverImgUri = null;

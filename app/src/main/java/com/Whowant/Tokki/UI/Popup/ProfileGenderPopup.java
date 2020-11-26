@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.Utils.CommonUtils;
+import com.Whowant.Tokki.Utils.SimplePreference;
 
 import okhttp3.OkHttpClient;
 
@@ -25,8 +26,8 @@ public class ProfileGenderPopup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_gender_popup);
 
-        strUserID = getIntent().getStringExtra("USER_ID");
-        nGender = getIntent().getIntExtra("USER_GENDER", 0);
+        strUserID = SimplePreference.getStringPreference(this, "USER_INFO", "USER_ID", "");
+        nGender = SimplePreference.getIntegerPreference(this, "USER_INFO", "USER_GENDER", -1);
 
         maleCheck = findViewById(R.id.maleCheck);
         femaleCheck = findViewById(R.id.femaleCheck);

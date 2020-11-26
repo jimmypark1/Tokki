@@ -113,7 +113,7 @@ public class LiteratureFragment extends Fragment {                              
                         }
 
                         aa = new CWorkListAdapter(getActivity(), R.layout.row_literature, workList);
-//                        aa = new CWorkListAdapter(getActivity(), R.layout.my_work_write_row, workList);
+//                        aa = new CWorkListAdapter(getActivity(), R.round_squre_stroke_gray_bg.my_work_write_row, workList);
                         listView.setAdapter(aa);
 
                         if(workList.size() == 0) {
@@ -147,7 +147,7 @@ public class LiteratureFragment extends Fragment {                              
 
             if(convertView == null) {
                 convertView = mLiInflater.inflate(R.layout.row_literature, parent, false);
-//                convertView = mLiInflater.inflate(R.layout.my_work_write_row, parent, false);
+//                convertView = mLiInflater.inflate(R.round_squre_stroke_gray_bg.my_work_write_row, parent, false);
             }
 
             ImageView coverImgView = convertView.findViewById(R.id.iv_row_literature_photo);
@@ -161,14 +161,13 @@ public class LiteratureFragment extends Fragment {                              
 //            TextView synopsisView = convertView.findViewById(R.id.synopsisView);
 //            TextView writerNameView = convertView.findViewById(R.id.writerNameView);
 //            TextView dateView = convertView.findViewById(R.id.dateView);
-//            coverImgView.setClipToOutline(true);
 
             String strImgUrl = workVO.getCoverFile();
             if(strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
                 Glide.with(getActivity())
                         .asBitmap() // some .jpeg files are actually gif
                         .load(R.drawable.no_poster)
-                        .apply(new RequestOptions().override(800, 800))
+//                        .apply(new RequestOptions().override(800, 800))
                         .into(coverImgView);
             } else {
                 if(!strImgUrl.startsWith("http")) {

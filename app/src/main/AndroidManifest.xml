@@ -75,11 +75,11 @@
         <activity
             android:name=".UI.Popup.MessagePopup"
             android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Translucent" />
         <activity
             android:name=".UI.Popup.EditPopup"
             android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Translucent"  />
         <activity
             android:name=".UI.Activity.TagRegActivity"
             android:configChanges="screenSize|orientation"

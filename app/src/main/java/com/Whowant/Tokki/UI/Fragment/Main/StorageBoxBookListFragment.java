@@ -93,6 +93,38 @@ public class StorageBoxBookListFragment extends Fragment {
 
                 viewHolder.titleTv.setText(item.getREADING_NAME());
                 viewHolder.countTv.setText(String.valueOf(item.getBOOKS_COUNT()) + " 스토리");
+                viewHolder.optionIv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PopupMenu popup = new PopupMenu(getActivity(), viewHolder.optionIv);
+                        popup.getMenuInflater().inflate(R.menu.storage_box_book_list_card_menu, popup.getMenu());
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            public boolean onMenuItemClick(MenuItem item2) {
+                                switch (item2.getItemId()) {
+                                    case R.id.rename: {
+                                        Intent intent = new Intent(getActivity(), EditPopup.class);
+                                        intent.putExtra("type", EditPopup.TYPE_RENAME_BOOK_LIST);
+                                        intent.putExtra("name", item.getREADING_NAME());
+                                        intent.putExtra("readingId", item.getID());
+                                        startActivity(intent);
+                                    }
+                                    break;
+                                    case R.id.share: {
+                                        Intent intent = new Intent(Intent.ACTION_SEND);
+                                        intent.setType("text/plain");
+                                        intent.putExtra(Intent.EXTRA_TEXT, "Tokki공유");
+                                        Intent chooser = Intent.createChooser(intent, "~통해 공유");
+                                        startActivity(chooser);
+                                    }
+                                    break;
+                                }
+                                return true;
+                            }
+                        });
+
+                        popup.show();
+                    }
+                });
             }
         }
 
@@ -114,37 +146,6 @@ public class StorageBoxBookListFragment extends Fragment {
             titleTv = itemView.findViewById(R.id.tv_row_storage_box_book_list_title);
             countTv = itemView.findViewById(R.id.tv_row_storage_box_book_list_count);
             optionIv = itemView.findViewById(R.id.iv_row_storage_box_book_list_option);
-            optionIv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popup = new PopupMenu(itemView.getContext(), optionIv);
-                    popup.getMenuInflater().inflate(R.menu.storage_box_book_list_card_menu, popup.getMenu());
-
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()) {
-                                case R.id.rename: {
-                                    Intent intent = new Intent(getActivity(), EditPopup.class);
-                                    intent.putExtra("type", EditPopup.TYPE_RENAME_BOOK_LIST);
-                                    startActivity(intent);
-                                }
-                                break;
-                                case R.id.share: {
-                                    Intent intent = new Intent(Intent.ACTION_SEND);
-                                    intent.setType("text/plain");
-                                    intent.putExtra(Intent.EXTRA_TEXT, "Tokki공유");
-                                    Intent chooser = Intent.createChooser(intent, "~통해 공유");
-                                    startActivity(chooser);
-                                }
-                                break;
-                            }
-                            return true;
-                        }
-                    });
-
-                    popup.show();
-                }
-            });
         }
     }
 

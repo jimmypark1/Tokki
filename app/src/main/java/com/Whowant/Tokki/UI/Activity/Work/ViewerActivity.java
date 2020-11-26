@@ -45,7 +45,7 @@ import androidx.palette.graphics.Palette;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
 import com.Whowant.Tokki.UI.Popup.InteractionPopup;
 import com.Whowant.Tokki.UI.Popup.StarPointPopup;
@@ -329,8 +329,8 @@ public class ViewerActivity extends AppCompatActivity {                         
         aa = new CChattingArrayAdapter(this, R.layout.left_chatting_row, showingList);
         chattingListView.setAdapter(aa);
 
-//        if(!bPreview)
-//            sendViewing(nLastOrder);
+        if(!bPreview)
+            sendViewing(nLastOrder);
 
         RelativeLayout photoSelectBottomSheet = findViewById(R.id.comment_bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(photoSelectBottomSheet);
@@ -1568,7 +1568,7 @@ public class ViewerActivity extends AppCompatActivity {                         
 
                                 if(!bLogin) {
                                     Toast.makeText(ViewerActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(ViewerActivity.this, LoginSelectActivity.class));
+                                    startActivity(new Intent(ViewerActivity.this, PanbookLoginActivity.class));
                                     return;
                                 }
 
@@ -1684,7 +1684,7 @@ public class ViewerActivity extends AppCompatActivity {                         
 
         if(!bLogin) {
             Toast.makeText(ViewerActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(ViewerActivity.this, LoginSelectActivity.class));
+            startActivity(new Intent(ViewerActivity.this, PanbookLoginActivity.class));
             return;
         }
 

@@ -90,8 +90,8 @@
                         android:id="@+id/coverImgView"
                         android:layout_width="160dp"
                         android:layout_height="250dp"
-                        android:background="@drawable/round_white_card_bg"
                         android:scaleType="centerCrop"
+                        android:background="@drawable/round_white_card_bg"
                         android:src="@drawable/ic_i_artwork_empty" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

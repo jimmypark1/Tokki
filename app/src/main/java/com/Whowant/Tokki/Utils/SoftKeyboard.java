@@ -171,7 +171,7 @@ public class SoftKeyboard implements View.OnFocusChangeListener {               
                     currentBottomLocation = getLayoutCoordinates();
                 }
 
-                // Now Keyboard is shown, keep checking layout dimensions until keyboard is gone
+                // Now Keyboard is shown, keep checking round_squre_stroke_gray_bg dimensions until keyboard is gone
                 while (currentBottomLocation != layoutBottom && started.get()) {
                     synchronized (this) {
                         try {

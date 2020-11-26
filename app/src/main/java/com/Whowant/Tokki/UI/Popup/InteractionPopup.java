@@ -100,7 +100,7 @@ public class InteractionPopup extends AppCompatActivity {
 //    private void initLeftRows() {
 //        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //
-//        View view = inflater.inflate(R.layout.left_interaction_row, null);
+//        View view = inflater.inflate(R.round_squre_stroke_gray_bg.left_interaction_row, null);
 //        TextView nameView = view.findViewById(R.id.nameView);
 //        ImageView faceView = view.findViewById(R.id.faceView);
 //        TextView contentsTextView = view.findViewById(R.id.contentsTextView);
@@ -126,7 +126,7 @@ public class InteractionPopup extends AppCompatActivity {
 //        contentsTextView.setText(strContents1);
 //        interaction1Container.addView(view);
 //
-//        View view2 = inflater.inflate(R.layout.left_interaction_row, null);
+//        View view2 = inflater.inflate(R.round_squre_stroke_gray_bg.left_interaction_row, null);
 //        TextView nameView2 = view2.findViewById(R.id.nameView);
 //        ImageView faceView2 = view2.findViewById(R.id.faceView);
 //        TextView contentsTextView2 = view2.findViewById(R.id.contentsTextView);
@@ -156,7 +156,7 @@ public class InteractionPopup extends AppCompatActivity {
 //    private void initRightRows() {
 //        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //
-//        View view = inflater.inflate(R.layout.right_interaction_row, null);
+//        View view = inflater.inflate(R.round_squre_stroke_gray_bg.right_interaction_row, null);
 //        TextView nameView = view.findViewById(R.id.nameView);
 //        ImageView faceView = view.findViewById(R.id.faceView);
 //        TextView contentsTextView = view.findViewById(R.id.contentsTextView);
@@ -182,7 +182,7 @@ public class InteractionPopup extends AppCompatActivity {
 //        contentsTextView.setText(strContents1);
 //        interaction1Container.addView(view);
 //
-//        View view2 = inflater.inflate(R.layout.right_interaction_row, null);
+//        View view2 = inflater.inflate(R.round_squre_stroke_gray_bg.right_interaction_row, null);
 //        TextView nameView2 = view2.findViewById(R.id.nameView);
 //        ImageView faceView2 = view2.findViewById(R.id.faceView);
 //        TextView contentsTextView2 = view2.findViewById(R.id.contentsTextView);
@@ -212,12 +212,12 @@ public class InteractionPopup extends AppCompatActivity {
 //    private void initMiddleRows() {
 //        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //
-//        View view = inflater.inflate(R.layout.middle_interaction_row, null);
+//        View view = inflater.inflate(R.round_squre_stroke_gray_bg.middle_interaction_row, null);
 //        TextView contentsTextView = view.findViewById(R.id.contentsTextView);
 //        contentsTextView.setText(strContents1);
 //        interaction1Container.addView(view);
 //
-//        View view2 = inflater.inflate(R.layout.middle_interaction_row, null);
+//        View view2 = inflater.inflate(R.round_squre_stroke_gray_bg.middle_interaction_row, null);
 //        TextView contentsTextView2 = view2.findViewById(R.id.contentsTextView);
 //        contentsTextView2.setText(strContents2);
 //        interaction2Container.addView(view2);

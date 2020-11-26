@@ -121,7 +121,7 @@ public class MyPageFeedFragment extends Fragment {
                         }
                     });
 //                case 1:
-//                    v = LayoutInflater.from(context).inflate(R.layout.row_search_category, parent, false);
+//                    v = LayoutInflater.from(context).inflate(R.round_squre_stroke_gray_bg.row_search_category, parent, false);
 //                    return new SearchResultViewHolder(v, new TypeOnClickListener() {
 //                        @Override
 //                        public void onClick(int type, int position) {

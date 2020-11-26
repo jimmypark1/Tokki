@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Main.ChatActivity;
 import com.Whowant.Tokki.UI.Activity.Main.FollowerActivity;
 import com.Whowant.Tokki.UI.Adapter.MyWorkRecyclerAdapter;
@@ -145,7 +145,7 @@ public class WriterMainActivity extends AppCompatActivity {                     
             public void onClick(View view) {
                 if(!CommonUtils.bLocinCheck(pref)) {
                     Toast.makeText(WriterMainActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(WriterMainActivity.this, LoginSelectActivity.class));
+                    startActivity(new Intent(WriterMainActivity.this, PanbookLoginActivity.class));
                     return;
                 }
 

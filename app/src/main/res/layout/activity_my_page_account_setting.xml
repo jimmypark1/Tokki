@@ -35,6 +35,7 @@
                         android:id="@+id/iv_my_page_account_setting_level"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:onClick="btnProfilePhoto"
                         android:src="@drawable/ic_i_level_5" />
 
                     <ImageView
@@ -165,6 +166,7 @@
                 android:inputType="text"
                 android:lineSpacingExtra="5sp"
                 android:text="이름"
+                android:onClick="onClickNameView"
                 android:textColor="#222222"
                 android:textSize="15sp"
                 android:textStyle="normal" />
@@ -217,7 +219,7 @@
                 android:textSize="11sp"
                 android:textStyle="normal" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_my_page_account_setting_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -228,7 +230,8 @@
                 android:text="남성"
                 android:textColor="#222222"
                 android:textSize="15sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:onClick="onClickGender"/>
 
             <View
                 android:layout_width="match_parent"
@@ -246,7 +249,7 @@
                 android:textSize="11sp"
                 android:textStyle="normal" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_my_page_account_setting_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -257,7 +260,8 @@
                 android:text="1980. 4. 23"
                 android:textColor="#222222"
                 android:textSize="15sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:onClick="onClickBirthday"/>
 
             <View
                 android:layout_width="match_parent"
@@ -275,7 +279,7 @@
                 android:textSize="11sp"
                 android:textStyle="normal" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_my_page_account_setting_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -304,7 +308,7 @@
                 android:textSize="11sp"
                 android:textStyle="normal" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_my_page_account_setting_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -315,7 +319,8 @@
                 android:text="email@email.com"
                 android:textColor="#222222"
                 android:textSize="15sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:onClick="onClickEmailLayout"/>
 
             <View
                 android:layout_width="match_parent"

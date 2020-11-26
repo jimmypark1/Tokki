@@ -1485,7 +1485,7 @@ public class CropImageView extends FrameLayout {
           desiredWidth = (int) (mBitmap.getWidth() * viewToBitmapHeightRatio);
         }
       } else {
-        // Otherwise, the picture is within frame layout bounds. Desired width is simply picture
+        // Otherwise, the picture is within frame round_squre_stroke_gray_bg bounds. Desired width is simply picture
         // size
         desiredWidth = mBitmap.getWidth();
         desiredHeight = mBitmap.getHeight();

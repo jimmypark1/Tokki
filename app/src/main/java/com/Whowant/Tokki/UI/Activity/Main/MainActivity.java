@@ -37,7 +37,7 @@ import com.Whowant.Tokki.UI.Activity.Admin.WorkEditManageActivity;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.AlarmActivity;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.EventActivity;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
-import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Login.TermsActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
 import com.Whowant.Tokki.UI.Activity.VersionActivity;
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private CustomViewPager viewPager;                      // 좌우 플리킹 되지 않도록 만든 커스텀 뷰페이저
     private MainViewpagerAdapter mainPagerAdapter;          // 메인 탭 4개를 오가는 뷰페이저 어댑터
 
-    private RelativeLayout managerLayout;                   // 좌측 서랍메뉴에서 관리자만 볼 수 있는 관리자 전용 메뉴 layout
+    private RelativeLayout managerLayout;                   // 좌측 서랍메뉴에서 관리자만 볼 수 있는 관리자 전용 메뉴 round_squre_stroke_gray_bg
     private TextView memberManagementView;                  // 관리자 메뉴 - 회원관리        
     private TextView workManagementView, workEditView;                    // 관리자 메뉴 - 작품관리, 작품수정
     private TextView commentManagementView, contestManagementView, episodeReportView;          //  댓글관리, 공모전 관리, 신고회차 관리
@@ -596,7 +596,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (strUserID.equals("Guest")) {
-                    startActivity(new Intent(MainActivity.this, LoginSelectActivity.class));
+                    startActivity(new Intent(MainActivity.this, PanbookLoginActivity.class));
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle("로그아웃");
@@ -688,7 +688,7 @@ public class MainActivity extends AppCompatActivity {
 //                    startActivity(new Intent(MainActivity.this, CoinLogActivity.class));
 //                } else {
 //                    Toast.makeText(MainActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
-//                    startActivity(new Intent(MainActivity.this, LoginSelectActivity.class));
+//                    startActivity(new Intent(MainActivity.this, PanbookLoginActivity.class));
 //                }
 //
 //            }
@@ -726,7 +726,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickLogoutBtn(View view) {
         if (strUserID.equals("Guest")) {
-            startActivity(new Intent(MainActivity.this, LoginSelectActivity.class));
+            startActivity(new Intent(MainActivity.this, PanbookLoginActivity.class));
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("로그아웃");
@@ -781,7 +781,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.setCurrentItem(0);
 
-        Intent intent = new Intent(MainActivity.this, LoginSelectActivity.class);
+        Intent intent = new Intent(MainActivity.this, PanbookLoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

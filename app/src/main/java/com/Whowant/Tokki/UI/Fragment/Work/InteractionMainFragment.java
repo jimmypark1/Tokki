@@ -688,7 +688,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 //        actionBar.setDisplayShowCustomEnabled(true);
 //
 //        LayoutInflater viewinflater = (LayoutInflater)getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-//        View customActionbar = viewinflater.inflate(R.layout.custom_actionbar, null);
+//        View customActionbar = viewinflater.inflate(R.round_squre_stroke_gray_bg.custom_actionbar, null);
 //
 //        actionBar.setCustomView(customActionbar);
 //        actionBar.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.

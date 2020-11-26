@@ -2362,7 +2362,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             if (nType == ChatVO.TYPE_TEXT) {                                                                     // type 별로 각 리스트의 row 세팅 - 리펙토링 가장 필요한 부분. 내가할거임.   타입별로 거의 비슷함. 일반 대화만 주석 작성함.
                 nDirection = characterVO.getDirection();
 
-                if (nDirection == 0)             // left                                                                     // 좌우 구분하여 layout 할당
+                if (nDirection == 0)             // left                                                                     // 좌우 구분하여 round_squre_stroke_gray_bg 할당
                     convertView = mLiInflater.inflate(R.layout.left_chatting_row, parent, false);
                 else
                     convertView = mLiInflater.inflate(R.layout.right_chatting_row, parent, false);

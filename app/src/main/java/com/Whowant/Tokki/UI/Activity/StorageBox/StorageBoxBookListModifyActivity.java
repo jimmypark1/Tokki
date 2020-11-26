@@ -120,7 +120,8 @@ public class StorageBoxBookListModifyActivity extends AppCompatActivity {
                                 case R.id.rename: {
                                     Intent intent = new Intent(mActivity, EditPopup.class);
                                     intent.putExtra("type", EditPopup.TYPE_RENAME_BOOK_LIST);
-                                    intent.putExtra("readingId", String.valueOf(vo.getID()));
+                                    intent.putExtra("readingId", vo.getID());
+                                    intent.putExtra("name", vo.getREADING_NAME());
                                     startActivityForResult(intent, 921);
                                 }
                                 break;

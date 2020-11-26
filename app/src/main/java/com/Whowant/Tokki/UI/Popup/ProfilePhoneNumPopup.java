@@ -25,10 +25,8 @@ public class ProfilePhoneNumPopup extends AppCompatActivity {
         setContentView(R.layout.activity_profile_phone_num_popup);
 
         inputPhonenumView = findViewById(R.id.inputPhonenumView);
-
         strUserID = getIntent().getStringExtra("USER_ID");
         strPhoeNum = getIntent().getStringExtra("USER_PHONENUM");
-
         inputPhonenumView.setText(strPhoeNum);
         inputPhonenumView.setSelection(strPhoeNum.length());
     }

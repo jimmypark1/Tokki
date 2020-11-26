@@ -32,7 +32,7 @@ public class RecentListAdapter extends RecyclerView.Adapter<RecentListAdapter.Wi
 
     @Override
     public WideBookCardHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-//            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_new_row,viewGroup,false);
+//            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.round_squre_stroke_gray_bg.main_new_row,viewGroup,false);
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_main_contents, viewGroup, false);
         WideBookCardHolder mh = new WideBookCardHolder(v);
         return mh;
@@ -87,8 +87,8 @@ public class RecentListAdapter extends RecyclerView.Adapter<RecentListAdapter.Wi
             super(view);
             this.titleView = (TextView) view.findViewById(R.id.titleView);
             this.coverView = (ImageView) view.findViewById(R.id.coverImgView);
-            tabCountTv = view.findViewById(R.id.tv_row_main_content_tab_count);
-            commentCountTv = view.findViewById(R.id.tv_row_main_content_comment_count);
+            this.tabCountTv = view.findViewById(R.id.tv_row_main_content_tab_count);
+            this.commentCountTv = view.findViewById(R.id.tv_row_main_content_comment_count);
 //            this.writerNameView = (TextView) view.findViewById(R.id.writerNameView);
 //            this.dateView = (TextView) view.findViewById(R.id.dateView);
 //            this.descView = view.findViewById(R.id.descView);

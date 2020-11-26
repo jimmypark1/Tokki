@@ -26,17 +26,15 @@ public class EditPopup extends AppCompatActivity {
     int type = TYPE_BUG_REPORT;
 
     Activity mActivity;
-
-    String readingId;
+    int readingId;
+    String strName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         DeviceUtils.setStatusColor(this, "#b2000000", true);
-
         super.onCreate(savedInstanceState);
 
         mActivity = this;
-
         getData();
         setContentView(addTypeView());
         initView();
@@ -45,7 +43,8 @@ public class EditPopup extends AppCompatActivity {
     private void getData() {
         if (getIntent() != null && getIntent().getExtras() != null) {
             type = getIntent().getIntExtra("type", TYPE_BUG_REPORT);
-            readingId = getIntent().getStringExtra("readingId");
+            readingId = getIntent().getIntExtra("readingId", 0);
+            strName = getIntent().getStringExtra("name");
         }
     }
 
@@ -63,7 +62,10 @@ public class EditPopup extends AppCompatActivity {
     }
 
     private void initView() {
-
+        EditText editText = findViewById(R.id.et_popup_rename_book_list_name);
+        editText.setText(strName);
+        editText.requestFocus();
+        editText.setSelection(strName.length());
     }
 
     // 닫기 버튼
@@ -88,7 +90,7 @@ public class EditPopup extends AppCompatActivity {
     // 독서목록 이름변경 버튼
     public void btnRenameBook(View v) {
         String name = ((EditText) findViewById(R.id.et_popup_rename_book_list_name)).getText().toString();
-        renameReadingList(readingId, name);
+        renameReadingList("" + readingId, name);
     }
 
     private void CreateReadingList(String readingName) {
@@ -121,13 +123,13 @@ public class EditPopup extends AppCompatActivity {
         }).start();
     }
 
-    private void renameReadingList(String readingId, String readingName) {
+    private void renameReadingList(String strReadingId, String readingName) {
         CommonUtils.showProgressDialog(mActivity, "서버와 통신중입니다.");
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean bResult = HttpClient.renameReadingList(new OkHttpClient(), readingId, readingName);
+                boolean bResult = HttpClient.renameReadingList(new OkHttpClient(), strReadingId, readingName);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -138,11 +140,10 @@ public class EditPopup extends AppCompatActivity {
                             Intent intent = new Intent();
                             intent.putExtra("name", readingName);
                             setResult(RESULT_OK, intent);
+                            finish();
                         } else {
                             Toast.makeText(mActivity, "서버와의 통신에 실패했습니다.", Toast.LENGTH_LONG).show();
-                            setResult(RESULT_CANCELED);
                         }
-                        finish();
                     }
                 });
             }

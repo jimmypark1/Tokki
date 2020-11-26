@@ -46,7 +46,12 @@ public class StorageBoxReadingFragment extends Fragment {
 
     LinearLayout emptyLl;
 
-    private String strReadOrder = "UPDATE";
+    private final String READ_ORDER_UPDATE = "UPDATE";
+    private final String READ_ORDER_WRITER = "WRITER";
+    private final String READ_ORDER_RECENTLY = "RECENTLY";
+    private final String READ_ORDER_TITLE = "TITLE";
+
+    private String strReadOrder = READ_ORDER_UPDATE;
 
     @Nullable
     @Override

@@ -32,7 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Rank.RankActivity;
 import com.Whowant.Tokki.UI.Activity.Report.ReportActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterMainActivity;
@@ -568,7 +568,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 
         if(nIndex >= 2 && !CommonUtils.bLocinCheck(pref)) {
             CommonUtils.makeText(WorkMainActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(WorkMainActivity.this, LoginSelectActivity.class));
+            startActivity(new Intent(WorkMainActivity.this, PanbookLoginActivity.class));
             return;
         }
 
@@ -754,7 +754,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 
                         if(!bLogin) {
                             CommonUtils.makeText(WorkMainActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(WorkMainActivity.this, LoginSelectActivity.class));
+                            startActivity(new Intent(WorkMainActivity.this, PanbookLoginActivity.class));
                             return;
                         }
 

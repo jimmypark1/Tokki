@@ -79,7 +79,7 @@ public class MyPageActivity extends AppCompatActivity {
         mActivity = this;
 
         initView();
-        initData();
+//        initData();
     }
 
     @Override
@@ -101,6 +101,8 @@ public class MyPageActivity extends AppCompatActivity {
         } else {
             photoIv.setImageResource(R.drawable.user_icon);
         }
+
+        initData();
     }
 
     private void initView() {
@@ -139,7 +141,6 @@ public class MyPageActivity extends AppCompatActivity {
         }
 
         nameTv.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_NAME", ""));
-
         getMyFollowInfo();
     }
 

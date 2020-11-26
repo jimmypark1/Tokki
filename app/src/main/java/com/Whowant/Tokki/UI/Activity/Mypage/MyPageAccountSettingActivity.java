@@ -22,10 +22,16 @@ import androidx.core.content.FileProvider;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Login.EmailAuthActivity;
+import com.Whowant.Tokki.UI.Activity.Main.UserProfileActivity;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
+import com.Whowant.Tokki.UI.Custom.MyDatePickerDialogFragment;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
+import com.Whowant.Tokki.UI.Popup.ProfileBirthdayPopup;
 import com.Whowant.Tokki.UI.Popup.ProfileEmailPopup;
+import com.Whowant.Tokki.UI.Popup.ProfileGenderPopup;
+import com.Whowant.Tokki.UI.Popup.ProfileNamePopup;
 import com.Whowant.Tokki.UI.Popup.ProfilePhotoPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.SimplePreference;
@@ -35,12 +41,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.ycuwq.datepicker.date.DatePickerDialogFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -54,12 +62,15 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
     TextView levelTv;
     ImageView photoIv;
     ImageView bgIv;
-    EditText nameEt;
-    EditText fullNameEt;
-    EditText genderEt;
-    EditText birthEt;
-    EditText phoneEt;
-    EditText emailEt;
+    TextView nameEt;
+    TextView fullNameEt;
+    TextView genderEt;
+    TextView birthEt;
+    TextView phoneEt;
+    TextView emailEt;
+
+    private String strUserBirthday;
+    private String strNewBirthday;
 
     private int nCurrentCarrot = 0;                                                         // 현재 당근 갯수
     private int nTotalUsedCarrot = 0;                                                       // 총 당근 갯수
@@ -119,6 +130,9 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
 
         if (bCamera) {
             takePhoto();
+        } else {
+            initData();
+            getMyCarrotInfo();
         }
     }
 
@@ -128,13 +142,8 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_page_account_setting);
 
         mActivity = this;
-
         pref = getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
-
         initView();
-        initData();
-
-        getMyCarrotInfo();
     }
 
     private void initView() {
@@ -173,6 +182,7 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
                     .into(photoIv);
         }
 
+        String strName = SimplePreference.getStringPreference(this, "USER_INFO", "USER_NAME", "");
         nameEt.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_NAME", ""));
         genderEt.setText(SimplePreference.getIntegerPreference(this, "USER_INFO", "USER_GENDER", -1) == 0 ? "남성" : "여성");
         birthEt.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_BIRTHDAY", ""));
@@ -180,9 +190,110 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
         emailEt.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_EMAIL", ""));
     }
 
+    public void onClickNameView(View view) {
+        Intent intent = new Intent(MyPageAccountSettingActivity.this, ProfileNamePopup.class);
+        intent.putExtra("USER_NAME", SimplePreference.getStringPreference(this, "USER_INFO", "USER_NAME", ""));
+        intent.putExtra("USER_ID", SimplePreference.getStringPreference(this, "USER_INFO", "USER_ID", ""));
+        startActivity(intent);
+    }
+
+    public void onClickGender(View view) {
+        Intent intent = new Intent(MyPageAccountSettingActivity.this, ProfileGenderPopup.class);
+        startActivity(intent);
+    }
+
+    public void onClickBirthday(View view) {
+        Intent intent = new Intent(MyPageAccountSettingActivity.this, ProfileBirthdayPopup.class);
+//        intent.putExtra("USER_ID", pref.getString("USER_ID", ""));
+//        intent.putExtra("USER_BIRTHDAY", pref.getString("USER_BIRTHDAY", ""));
+//        startActivity(intent);
+
+        int nYear = 1999;
+        int nMonth = 0;
+        int nDay = 1;
+
+        strUserBirthday = SimplePreference.getStringPreference(MyPageAccountSettingActivity.this, "USER_INFO", "USER_BIRTHDAY", "");
+        if(strUserBirthday != null && strUserBirthday.length() > 0 && !strUserBirthday.equals("null")) {
+            nYear = Integer.valueOf(strUserBirthday.substring(0, 4));
+            nMonth = Integer.valueOf(strUserBirthday.substring(4, 6));
+            nDay = Integer.valueOf(strUserBirthday.substring(6, 8));
+        }
+
+        MyDatePickerDialogFragment datePickerDialogFragment = new MyDatePickerDialogFragment();
+        datePickerDialogFragment.setSelectedDate(nYear, nMonth, nDay);
+        datePickerDialogFragment.setOnDateChooseListener(new DatePickerDialogFragment.OnDateChooseListener() {
+            @Override
+            public void onDateChoose(int year, int month, int day) {
+                Calendar calendar = Calendar.getInstance();
+                int nTodayYear = calendar.get(Calendar.YEAR);
+                int nTodayMonth = calendar.get(Calendar.MONTH) + 1;
+                int nTodayDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+                if(year > nTodayYear) {
+                    CommonUtils.makeText(MyPageAccountSettingActivity.this, "미래를 선택하실 수 없습니다.", Toast.LENGTH_LONG).show();
+                    return;
+                } else if(year == nTodayYear) {
+                    if(month> nTodayMonth) {
+                        CommonUtils.makeText(MyPageAccountSettingActivity.this, "미래를 선택하실 수 없습니다.", Toast.LENGTH_LONG).show();
+                        return;
+                    } else if(month == nTodayMonth && day > nTodayDay) {
+                        CommonUtils.makeText(MyPageAccountSettingActivity.this, "미래를 선택하실 수 없습니다.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }
+
+                strNewBirthday = String.format("%d%02d%02d", year, month, day);
+                String strBirthday = strNewBirthday.substring(0, 4) + "년 " + strNewBirthday.substring(4, 6) + "월 " + strNewBirthday.substring(6, 8) + "일";
+                birthEt.setText(strBirthday);
+                sendBirthday();
+            }
+        });
+
+        datePickerDialogFragment.show(getFragmentManager(), "DatePickerDialogFragment");
+    }
+
+    private void sendBirthday() {
+        if(strNewBirthday.equals(strUserBirthday)) {
+            Toast.makeText(this, "같은 생년월일로 변경할 수 없습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        CommonUtils.showProgressDialog(MyPageAccountSettingActivity.this, "데이터를 전송하고 있습니다.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean bResult = HttpClient.requestSendUserProfile(new OkHttpClient(), pref.getString("USER_ID", "Guest"), "USER_BIRTHDAY", strNewBirthday);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        if(!bResult) {
+                            Toast.makeText(MyPageAccountSettingActivity.this, "생년월일 변경에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("USER_BIRTHDAY", strNewBirthday);
+                        editor.commit();
+                        strUserBirthday = strNewBirthday;
+                    }
+                });
+            }
+        }).start();
+    }
+
+    public void onClickEmailLayout(View vie) {
+        Intent intent = new Intent(MyPageAccountSettingActivity.this, EmailAuthActivity.class);
+        intent.putExtra("PROFILE", true);
+        intent.putExtra("USER_EMAIL", SimplePreference.getStringPreference(this, "USER_INFO", "USER_EMAIL", ""));
+        startActivityForResult(intent, FROM_EMAIL_AUTH);
+    }
+
     // 프로필 변경 버튼
     public void btnProfilePhoto(View v) {
-
         TedPermission.with(mActivity)
                 .setPermissionListener(new PermissionListener() {
                     @Override
@@ -197,23 +308,6 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
                 })
                 .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .check();
-
-//        TedPermission.with(mActivity)
-//                .setPermissionListener(new PermissionListener() {
-//                    @Override
-//                    public void onPermissionGranted() {
-//                        Intent intent = new Intent(mActivity, MediaSelectPopup.class);
-//                        intent.putExtra("TYPE", TYPE_PROFILE.ordinal());
-//                        startActivity(intent);
-//                    }
-//
-//                    @Override
-//                    public void onPermissionDenied(List<String> deniedPermissions) {
-//                        Toast.makeText(mActivity, "권한을 거부하셨습니다.", Toast.LENGTH_LONG).show();
-//                    }
-//                })
-//                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-//                .check();
     }
 
     // 배경화면 변경 버튼
@@ -303,8 +397,8 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
                 }
             } else if (requestCode == FROM_EMAIL_AUTH) {
                 Intent intent = new Intent(mActivity, ProfileEmailPopup.class);
-                intent.putExtra("USER_ID", pref.getString("USER_ID", "Guest"));
-                intent.putExtra("USER_EMAIL", pref.getString("USER_EMAIL", ""));
+                intent.putExtra("USER_ID", SimplePreference.getStringPreference(this, "USER_INFO", "USER_ID", ""));
+                intent.putExtra("USER_EMAIL", data.getStringExtra("NEW_EMAIL"));
                 startActivity(intent);
             } else if (requestCode == FROM_CAMERA) {
                 ThumbnailPreviewActivity.nNextType = TYPE_PROFILE.ordinal();

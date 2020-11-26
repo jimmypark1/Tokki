@@ -65,6 +65,9 @@
                 android:background="@android:color/transparent"
                 android:hint="이름을 적어주세요."
                 android:maxLines="1"
+                android:singleLine="true"
+                android:imeOptions="actionSend
+"
                 android:textColorHint="#cccccc"
                 android:textSize="15sp"
                 android:textStyle="normal" />
