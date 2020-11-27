@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="7sp"
-                android:text="지금까지 획득한 누적획득 당근 갯수"
+                android:text="지금까지 획득한 누적획득 당근 개수"
                 android:textColor="#999999"
                 android:textSize="13sp"
                 android:textStyle="normal" />
@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:lineSpacingExtra="0sp"
-                    android:text="999999 개"
+                    android:text="0 개"
                     android:textColor="#5a9aff"
                     android:textSize="20sp"
                     android:textStyle="bold" />

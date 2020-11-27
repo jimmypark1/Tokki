@@ -74,7 +74,7 @@
                     android:layout_alignParentRight="true"
                     android:textSize="15sp"
                     android:textColor="@color/colorBlack"
-                    android:text="지금까지 사용한 누적 당근 갯수"/>
+                    android:text="지금까지 사용한 누적 당근 개수"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
