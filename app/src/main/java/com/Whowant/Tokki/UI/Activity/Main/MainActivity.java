@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                     titleView.setText("보관함");
                     rightBtn.setVisibility(View.VISIBLE);
                     rightBtn.setImageResource(R.drawable.dot_menu);
-                    reportBtn.setVisibility(View.VISIBLE);
+                    reportBtn.setVisibility(View.GONE);
                 } else if (position == 3) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("작품쓰기");

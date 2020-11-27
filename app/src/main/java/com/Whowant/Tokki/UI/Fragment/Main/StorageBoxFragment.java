@@ -117,7 +117,7 @@ public class StorageBoxFragment extends Fragment {
             fragments.add(new StorageBoxBookListFragment());
 
             titles.add("읽고 있는 작품");
-            titles.add("보관하기");
+            titles.add("보관함");
             titles.add("독서목록");
         }
 

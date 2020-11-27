@@ -271,6 +271,7 @@ public class StorageBoxKeepFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int pos) {
                                 addReadingList(workId, String.valueOf(bookListVos.get(pos).getID()));
+                                Toast.makeText(getActivity(), "독서목록에 추가되었습니다.", Toast.LENGTH_LONG).show();
                             }
                         });
                     }

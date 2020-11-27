@@ -37,7 +37,8 @@ public class EditPopup extends AppCompatActivity {
         mActivity = this;
         getData();
         setContentView(addTypeView());
-        initView();
+        if (type == TYPE_RENAME_BOOK_LIST)
+            initView();
     }
 
     private void getData() {
