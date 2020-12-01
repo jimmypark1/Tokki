@@ -2621,7 +2621,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 //                    chattingList.remove(position);
                         if (nType == ChatVO.TYPE_DISTRACTOR) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setTitle("분기 삭");
+                            builder.setTitle("분기 삭제");
                             builder.setMessage("분기를 삭제하시면 분기 이후의 모든 회차 및 채팅 정보가 삭제됩니다.\n정말로 삭제하시겠습니까?");
                             builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                 @Override

@@ -21,38 +21,53 @@
             android:layout_marginEnd="10dp"
             android:src="@drawable/caracter_b_icon" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/contentsLayout"
+            <TextView
+                android:id="@+id/nameView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/round_8_ffffff"
-                android:padding="20dp">
+                android:text="홍길동"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/contentsTextView"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/contentsLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:lineSpacingExtra="7sp"
-                    android:text="안"
-                    android:textColor="#000000"
-                    android:textSize="15sp"
-                    android:textStyle="normal" />
-            </RelativeLayout>
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/round_8_ffffff"
+                    android:padding="20dp">
 
-            <ImageView
-                android:id="@+id/deleteBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/contentsLayout"
-                android:layout_marginEnd="-10dp"
-                android:src="@drawable/ic_i_delete" />
-        </RelativeLayout>
+                    <TextView
+                        android:id="@+id/contentsTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="7sp"
+                        android:text="안"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/deleteBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/contentsLayout"
+                    android:layout_marginEnd="-10dp"
+                    android:src="@drawable/ic_i_delete" />
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -88,7 +103,7 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/nameView"
+            android:id="@+id/nameView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/faceBGLayout"
