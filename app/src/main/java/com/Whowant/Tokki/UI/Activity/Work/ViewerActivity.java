@@ -419,7 +419,7 @@ public class ViewerActivity extends AppCompatActivity {                         
             return;
         }
 
-        if(nShoingIndex >= 0) {
+        if(nShoingIndex >= 0 && !bPreview) {
             sendViewing(nShoingIndex);
             return;
         } else

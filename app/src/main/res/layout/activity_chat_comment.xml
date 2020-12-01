@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    tools:context=".UI.Activity.Work.ChatCommentActivity">
+    tools:context=".UI.Activity.Work.EpisodeCommentActivity">
 
     <RelativeLayout
         android:id="@+id/topBarLayout"
@@ -77,34 +77,39 @@
         android:layout_alignParentBottom="true"
         android:background="@color/colorWhite">
 
-        <Button
-            android:id="@+id/sendBtn"
-            android:layout_width="58.3dp"
-            android:layout_height="30dp"
-            android:background="@drawable/comment_enter_btn_gray"
-            android:layout_alignRight="@+id/inputTextView"
-            android:textSize="16sp"
-            android:textColor="@color/colorWhite"
-            android:text="등록"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:onClick="OnClickSendBtn"
-            android:layout_centerVertical="true"/>
-
         <EditText
             android:id="@+id/inputTextView"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:paddingRight="60dp"
             android:background="@drawable/edittext_gray_bg"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:inputType="textMultiLine"
+            android:isScrollContainer="true"
+            android:maxHeight="74dp"
+            android:minHeight="31dp"
             android:paddingLeft="15dp"
             android:hint="댓글을 남겨주세요!"
             android:textSize="14sp"
             android:textColor="@color/colorBlack"
             android:layout_toRightOf="@+id/contentsAddBtn"/>
+
+        <Button
+            android:id="@+id/sendBtn"
+            android:layout_width="58.3dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/comment_enter_btn_gray"
+            android:layout_alignEnd="@+id/inputTextView"
+            android:layout_alignBottom="@+id/inputTextView"
+            android:textSize="14sp"
+            android:textColor="@color/colorWhite"
+            android:text="등록"
+            android:minHeight="30dp"
+            android:layout_marginTop="8dp"
+            android:onClick="OnClickSendBtn"/>
     </RelativeLayout>
 </RelativeLayout>
