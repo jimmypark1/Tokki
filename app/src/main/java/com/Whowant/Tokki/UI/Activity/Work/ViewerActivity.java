@@ -329,8 +329,8 @@ public class ViewerActivity extends AppCompatActivity {                         
         aa = new CChattingArrayAdapter(this, R.layout.left_chatting_row, showingList);
         chattingListView.setAdapter(aa);
 
-        if(!bPreview)
-            sendViewing(nLastOrder);
+//        if(!bPreview)
+//            sendViewing(nLastOrder);
 
         RelativeLayout photoSelectBottomSheet = findViewById(R.id.comment_bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(photoSelectBottomSheet);

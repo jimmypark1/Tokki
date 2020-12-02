@@ -2,6 +2,7 @@ package com.Whowant.Tokki.UI.Activity.Work;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.Whowant.Tokki.R;
@@ -260,10 +262,25 @@ public class CharacterRegActivity extends AppCompatActivity implements View.OnCl
 
     // 삭제 버튼
     public void btnRemove(View v) {
-        oldIntent.putExtra("INDEX", nSelectedIndex);
-        oldIntent.putExtra("DELETE", true);
-        setResult(RESULT_OK, oldIntent);
-        finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(CharacterRegActivity.this);
+        builder.setTitle("등장인물 삭제");
+        builder.setMessage("등장인물을 삭제하시면 해당 인물의 대사도 모두 삭제됩니다.\n정말 삭제하시겠습니까?");
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                oldIntent.putExtra("INDEX", nSelectedIndex);
+                oldIntent.putExtra("DELETE", true);
+                setResult(RESULT_OK, oldIntent);
+                finish();
+            }
+        });
+
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        builder.show();
     }
 
     // 저장 버튼
