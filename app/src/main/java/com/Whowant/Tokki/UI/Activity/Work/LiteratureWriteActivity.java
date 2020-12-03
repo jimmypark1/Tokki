@@ -1182,7 +1182,9 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
                             if (resultObject != null && resultObject.getString("RESULT").equals("SUCCESS")) {
                                 characterList.remove(nIndex);
-                                resetCharacterLayout();
+//                                resetCharacterLayout();
+                                nSelectedCharacterIndex = 0;
+                                getCharacterData();
                                 Toast.makeText(LiteratureWriteActivity.this, "삭제되었습니다.", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(LiteratureWriteActivity.this, "등장인물 삭제를 실패하였습니다.", Toast.LENGTH_LONG).show();
@@ -1590,9 +1592,36 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             }
                         }
 
+                        CharacterVO characterVO = characterList.get(nIndex);
+                        if (characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
+                            Glide.with(LiteratureWriteActivity.this)
+                                    .asBitmap() // some .jpeg files are actually gif
+                                    .load(characterVO.getImage())
+                                    .placeholder((int) v.getTag())
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(characterAddBtn);
+                        } else if (characterVO.getStrImgFile() != null && !characterVO.getStrImgFile().equals("null")) {
+                            String strUrl = characterVO.getStrImgFile();
+
+                            if (!strUrl.startsWith("http"))
+                                strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
+
+                            Glide.with(LiteratureWriteActivity.this)
+                                    .asBitmap() // some .jpeg files are actually gif
+                                    .placeholder((int) v.getTag())
+                                    .load(strUrl)
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(characterAddBtn);
+                        } else {
+                            Glide.with(LiteratureWriteActivity.this)
+                                    .asBitmap() // some .jpeg files
+                                    .load((int) v.getTag())
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(characterAddBtn);
+                        }
+
                         nSelectedCharacterIndex = nBeforeCharacterIndex = nIndex;
 
-                        characterAddBtn.setImageResource((int) v.getTag());
                     }
                 });
             }
@@ -1624,6 +1653,10 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
             speakerAddLayout.addView(view);
             characterViewList.add(view);
+        }
+
+        if(nSelectedCharacterIndex == 0 && characterAddBtn != null) {
+            characterAddBtn.setImageResource(R.drawable.ic_i_chracter);
         }
     }
 
