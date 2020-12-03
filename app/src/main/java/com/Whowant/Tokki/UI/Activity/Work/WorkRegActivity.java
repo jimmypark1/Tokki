@@ -635,7 +635,7 @@ public class WorkRegActivity extends AppCompatActivity {
                 builder.addFormDataPart("WORK_GENRE", strGenres);
             }
 
-            if (coverImgUri != null) {
+            if (coverImgUri != null && !coverImgUri.toString().startsWith("http")) {
                 strFilePath = CommonUtils.getRealPathFromURI(mActivity, coverImgUri);
                 sourceFile = new File(strFilePath);
 
@@ -649,31 +649,31 @@ public class WorkRegActivity extends AppCompatActivity {
                 builder.addFormDataPart("COVER_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
             }
 
-            if (posterThumbUri != null) {
-                strFilePath = CommonUtils.getRealPathFromURI(mActivity, posterThumbUri);
-                sourceFile = new File(strFilePath);
-
-                if (!sourceFile.exists()) {
-                    mProgressDialog.dismiss();
-                    Toast.makeText(mActivity, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
-                builder.addFormDataPart("POSTER_THUMBNAIL_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
-            } else if (galleryThumbUri != null) {
-                strFilePath = CommonUtils.getRealPathFromURI(mActivity, galleryThumbUri);
-                sourceFile = new File(strFilePath);
-
-                if (!sourceFile.exists()) {
-                    mProgressDialog.dismiss();
-                    Toast.makeText(mActivity, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
-                builder.addFormDataPart("GALLERY_THUMBNAIL_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
-            }
+//            if (posterThumbUri != null) {
+//                strFilePath = CommonUtils.getRealPathFromURI(mActivity, posterThumbUri);
+//                sourceFile = new File(strFilePath);
+//
+//                if (!sourceFile.exists()) {
+//                    mProgressDialog.dismiss();
+//                    Toast.makeText(mActivity, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
+//                    return;
+//                }
+//
+//                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
+//                builder.addFormDataPart("POSTER_THUMBNAIL_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
+//            } else if (galleryThumbUri != null) {
+//                strFilePath = CommonUtils.getRealPathFromURI(mActivity, galleryThumbUri);
+//                sourceFile = new File(strFilePath);
+//
+//                if (!sourceFile.exists()) {
+//                    mProgressDialog.dismiss();
+//                    Toast.makeText(mActivity, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
+//                    return;
+//                }
+//
+//                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
+//                builder.addFormDataPart("GALLERY_THUMBNAIL_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
+//            }
 
             requestBody = builder.build();
 

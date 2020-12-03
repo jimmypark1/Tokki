@@ -29,7 +29,11 @@
                 android:layout_marginTop="4dp"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="7sp"
-                android:text="김창민"
+                android:maxWidth="65dp"
+                android:ellipsize="end"
+                android:maxLength="8"
+                android:lines="1"
+                android:text="토키"
                 android:textColor="#222222"
                 android:textSize="13sp"
                 android:textStyle="normal" />

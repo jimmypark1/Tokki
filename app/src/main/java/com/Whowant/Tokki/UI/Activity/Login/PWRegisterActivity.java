@@ -26,6 +26,8 @@ public class PWRegisterActivity extends AppCompatActivity {
     private String strPhoto;
     private int    nSNS;
 
+    private String pwValidation = "^.*(?=^.{9,15}$)(?=.*[0-9])(?=.*[a-zA-Z]).*$";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +82,12 @@ public class PWRegisterActivity extends AppCompatActivity {
 
         if(!strPW.equals(strPW2)) {
             Toast.makeText(this, "비밀번호가 서로 맞지 않습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String passWord = inputPWView.getText().toString().trim();
+        if (!passWord.matches(pwValidation)) {
+            Toast.makeText(PWRegisterActivity.this, "올바른 비밀번호 형식이 아닙니다.", Toast.LENGTH_SHORT).show();
             return;
         }
 

@@ -149,9 +149,9 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
                             intent.putExtra("ID", inputPhoneNumView.getText().toString());
                             startActivity(intent);
                         } else if(strResult.equals("DISCORD")) {
-                            Toast.makeText(PhoneNumAuthActivity.this, "인증번호가 맞지않습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PhoneNumAuthActivity.this, "인증번호가 맞지 않습니다.", Toast.LENGTH_SHORT).show();
                         } else if(strResult.equals("TIMEOVER")) {
-                            Toast.makeText(PhoneNumAuthActivity.this, "인증시간이 초과되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PhoneNumAuthActivity.this, "인증 시간이 초과되었습니다.", Toast.LENGTH_SHORT).show();
                         }
 
                     }

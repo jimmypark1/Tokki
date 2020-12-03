@@ -582,25 +582,29 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                 return;
 
             case 2:
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("회차 삭제");
-                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
-                builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        requestDeleteAllMessage();
-                    }
-                });
+                if (!chattingList.isEmpty()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("회차 삭제");
+                    builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            requestDeleteAllMessage();
+                        }
+                    });
 
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
 
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                return;
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    return;
+                } else {
+                    Toast.makeText(getActivity(), "삭제할 내용이 없습니다.", Toast.LENGTH_LONG).show();
+                }
         }
     }
 
@@ -660,25 +664,29 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                 return true;
 
             case R.id.action_btn4:
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("회차 삭제");
-                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
-                builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        requestDeleteAllMessage();
-                    }
-                });
+                if (!chattingList.isEmpty()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("회차 삭제");
+                    builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            requestDeleteAllMessage();
+                        }
+                    });
 
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
 
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                return true;
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    return true;
+                } else {
+                    Toast.makeText(getActivity(), "삭제할 내용이 없습니다.", Toast.LENGTH_LONG).show();
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }

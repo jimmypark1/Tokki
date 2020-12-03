@@ -55,7 +55,7 @@
             android:layout_toLeftOf="@+id/rightBtn"
             android:background="@drawable/send_button"
             android:onClick="onClickSubmitBtn"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/episodeNumView"

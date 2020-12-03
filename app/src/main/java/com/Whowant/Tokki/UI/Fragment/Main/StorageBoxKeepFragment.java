@@ -125,11 +125,12 @@ public class StorageBoxKeepFragment extends Fragment {
                                             getReadingList(SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest"), String.valueOf(workVO.getnWorkID()));
                                             break;
                                         case R.id.share:
-                                            Intent intent = new Intent(Intent.ACTION_SEND);
-                                            intent.setType("text/plain");
-                                            intent.putExtra(Intent.EXTRA_TEXT, "Tokki공유");
-                                            Intent chooser = Intent.createChooser(intent, "~통해 공유");
-                                            startActivity(chooser);
+                                            String strURL = "https://tokki.page.link/1ux2?CMD=workmain&WORK_ID=" + workVO.getnWorkID();
+                                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                            shareIntent.setType("text/plain");
+                                            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Tokki에서 " + workVO.getTitle() + " 작품을 만나보세요!"); // 제목
+                                            shareIntent.putExtra(Intent.EXTRA_TEXT, strURL); // 내용
+                                            startActivity(Intent.createChooser(shareIntent, "")); // 공유창 제목
                                             break;
                                         case R.id.remove:
                                             requestUnKeep(workVO.getnWorkID());
@@ -267,13 +268,17 @@ public class StorageBoxKeepFragment extends Fragment {
                         }
 
                         DialogMenu dialogMenu = new DialogMenu();
-                        dialogMenu.showMenu(getActivity(), "독서목록에 추가", tmp, new DialogMenu.ItemClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int pos) {
-                                addReadingList(workId, String.valueOf(bookListVos.get(pos).getID()));
-                                Toast.makeText(getActivity(), "독서목록에 추가되었습니다.", Toast.LENGTH_LONG).show();
-                            }
-                        });
+                        if (bookListVos.size() == 0) {
+                            Toast.makeText(getActivity(), "추가할 독서목록이 없습니다.", Toast.LENGTH_LONG).show();
+                        } else {
+                            dialogMenu.showMenu(getActivity(), "독서목록에 추가", tmp, new DialogMenu.ItemClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int pos) {
+                                    addReadingList(workId, String.valueOf(bookListVos.get(pos).getID()));
+                                    Toast.makeText(getActivity(), "독서목록에 추가되었습니다.", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
                     }
                 });
             }

@@ -125,14 +125,6 @@ public class StorageBoxBookListModifyActivity extends AppCompatActivity {
                                     startActivityForResult(intent, 921);
                                 }
                                 break;
-                                case R.id.share: {
-                                    Intent intent = new Intent(Intent.ACTION_SEND);
-                                    intent.setType("text/plain");
-                                    intent.putExtra(Intent.EXTRA_TEXT, "Tokki공유");
-                                    Intent chooser = Intent.createChooser(intent, "~통해 공유");
-                                    startActivity(chooser);
-                                }
-                                break;
                             }
                             return true;
                         }

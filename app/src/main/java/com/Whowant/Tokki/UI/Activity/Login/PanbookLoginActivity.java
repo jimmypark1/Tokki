@@ -168,12 +168,12 @@ public class PanbookLoginActivity extends AppCompatActivity {
         String strPW = inputPWView.getText().toString();
 
         if(strID.length() == 0) {
-            Toast.makeText(PanbookLoginActivity.this, "ID를 입력해주세요.", Toast.LENGTH_LONG).show();
+            Toast.makeText(PanbookLoginActivity.this, "휴대폰 번호를 입력해주세요.", Toast.LENGTH_LONG).show();
             return;
         }
 
         if(strPW.length() == 0) {
-            Toast.makeText(PanbookLoginActivity.this, "패스워드를 입력해주세요.", Toast.LENGTH_LONG).show();
+            Toast.makeText(PanbookLoginActivity.this, "비밀번호를 입력해주세요.", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -250,7 +250,7 @@ public class PanbookLoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(!bFinish) {
-            Toast.makeText(this, "한 번 더 뒤로가기 버튼을 누르시면 종료합니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "한 번 더 뒤로 가기 버튼을 누르시면 종료합니다.", Toast.LENGTH_SHORT).show();
             bFinish = true;
 
             new Handler().postDelayed(new Runnable()

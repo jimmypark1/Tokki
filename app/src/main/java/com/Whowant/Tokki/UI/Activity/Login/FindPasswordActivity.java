@@ -146,7 +146,7 @@ public class FindPasswordActivity extends AppCompatActivity {
         final String strUserID = inputIDView.getText().toString();
 
         if(strUserID.length() == 0) {
-            Toast.makeText(FindPasswordActivity.this, "ID를 입력해주세요.", Toast.LENGTH_LONG).show();
+            Toast.makeText(FindPasswordActivity.this, "휴대폰 번호를 입력해주세요.", Toast.LENGTH_LONG).show();
             return;
         }
 

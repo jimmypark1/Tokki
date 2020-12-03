@@ -45,6 +45,7 @@
                     android:paddingLeft="10dp"
                     android:textSize="17sp"
                     android:hint="010-1234-1234"
+                    android:maxLength="11"
                     android:inputType="number"
                     android:background="@drawable/round_square_gray_stroke_bg"/>
             </LinearLayout>
@@ -64,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
                     android:textColor="#666666"
-                    android:text="비밀번호"/>
+                    android:text="비밀번호 입력"/>
 
                 <EditText
                     android:id="@+id/inputPWView"
@@ -131,8 +132,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="63dp"
                 android:layout_below="@+id/registerLayout"
+                android:layout_marginTop="62dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
@@ -140,19 +141,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_square_gray_stroke"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
                     android:gravity="center"
-                    android:text="소셜로 시작하기"/>
+                    android:paddingLeft="25dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="25dp"
+                    android:paddingBottom="4dp"
+                    android:text="소셜로 시작하기" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
                     android:layout_marginTop="18dp"
+                    android:layout_marginRight="40dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -167,14 +168,14 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:background="@drawable/kakao_btn_bg"
-                            android:onClick="onClickKakaoLoginBtn"
                             android:gravity="center"
+                            android:onClick="onClickKakaoLoginBtn"
                             android:orientation="horizontal">
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:background="@drawable/kakao_account_logo"/>
+                                android:background="@drawable/kakao_account_logo" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -190,14 +191,14 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:background="@drawable/naver_btn_bg"
-                            android:onClick="onClickNaverLoginBtn"
                             android:gravity="center"
+                            android:onClick="onClickNaverLoginBtn"
                             android:orientation="horizontal">
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:background="@drawable/i_naver"/>
+                                android:background="@drawable/i_naver" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -213,14 +214,14 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:background="@drawable/facebook_btn_bg"
-                            android:onClick="onClickFacebookLoginBtn"
                             android:gravity="center"
+                            android:onClick="onClickFacebookLoginBtn"
                             android:orientation="horizontal">
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:background="@drawable/i_facebook"/>
+                                android:background="@drawable/i_facebook" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -236,14 +237,14 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:background="@drawable/apple_login_bg"
-                            android:onClick="onClickGoogleLoginBtn"
                             android:gravity="center"
+                            android:onClick="onClickGoogleLoginBtn"
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="24dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="24dp"
-                                android:background="@drawable/i_apple"/>
+                                android:background="@drawable/i_google" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

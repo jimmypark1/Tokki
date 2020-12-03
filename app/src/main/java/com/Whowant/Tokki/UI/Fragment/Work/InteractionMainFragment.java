@@ -48,6 +48,7 @@ import com.Whowant.Tokki.UI.Activity.Photopicker.InteractionPhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CharacterRegActivity;
 import com.Whowant.Tokki.UI.Activity.Work.InteractionWriteActivity;
+import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.ViewerActivity;
 import com.Whowant.Tokki.UI.Popup.BGImageSelectPopup;
 import com.Whowant.Tokki.UI.Popup.DistractorPopup;
@@ -763,25 +764,29 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 return;
 
             case 2:
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("회차 삭제");
-                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
-                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        requestDeleteAllMessage();
-                    }
-                });
+                if (!chattingList.isEmpty()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("회차 삭제");
+                    builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            requestDeleteAllMessage();
+                        }
+                    });
 
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
 
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                return;
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    return;
+                } else {
+                    Toast.makeText(getActivity(), "삭제할 내용이 없습니다.", Toast.LENGTH_LONG).show();
+                }
         }
     }
 

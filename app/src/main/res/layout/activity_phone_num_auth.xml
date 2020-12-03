@@ -64,6 +64,7 @@
                     android:paddingLeft="10dp"
                     android:textSize="17sp"
                     android:hint="010-1234-1234"
+                    android:maxLength="11"
                     android:inputType="number"
                     android:background="@drawable/round_square_gray_stroke_bg"/>
 
@@ -73,7 +74,7 @@
                     android:layout_marginTop="4dp"
                     android:textSize="11sp"
                     android:textColor="#666666"
-                    android:text="*몬인 명의의 휴대폰 정보 입력"/>
+                    android:text="*본인 명의의 휴대폰 정보 입력"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -123,7 +124,7 @@
                     android:layout_marginTop="6dp"
                     android:paddingLeft="10dp"
                     android:textSize="17sp"
-                    android:hint="123456"
+                    android:hint="인증번호 입력"
                     android:inputType="number"
                     android:background="@drawable/round_square_gray_stroke_bg"/>
             </LinearLayout>

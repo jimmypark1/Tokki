@@ -154,11 +154,12 @@ public class MyPageFeedFragment extends Fragment {
             if (holder instanceof MyPageFeedCommentViewHolder) {
                 MyPageFeedCommentViewHolder viewHolder = (MyPageFeedCommentViewHolder) holder;
 
-                viewHolder.commentEt.setText(vo.getUserDesc());
+                if (!vo.userDesc.equals("null"))
+                    viewHolder.commentEt.setText(vo.getUserDesc());
+
                 viewHolder.commentEt.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                     }
 
                     @Override

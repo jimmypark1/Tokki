@@ -423,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (!bFinish) {
-                Toast.makeText(this, "한 번 더 뒤로가기 버튼을 누르시면 종료합니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "한 번 더 뒤로 가기 버튼을 누르시면 종료합니다.", Toast.LENGTH_SHORT).show();
                 bFinish = true;
 
                 new Handler().postDelayed(new Runnable() {
@@ -488,8 +488,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 drawer.closeDrawer(GravityCompat.START);
-                viewPager.setCurrentItem(3);
-                resetBottomBar(3);
+//                viewPager.setCurrentItem(3);
+//                resetBottomBar(3);
+                startActivity(new Intent(MainActivity.this, MyPageActivity.class));
             }
         });
 

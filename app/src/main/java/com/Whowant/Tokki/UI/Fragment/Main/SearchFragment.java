@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -79,16 +81,39 @@ public class SearchFragment extends Fragment {
 
             }
         });
+
+        searchEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handle = false;
+                if (TextUtils.isEmpty(searchEt.getText().toString()))
+                    Toast.makeText(getActivity(), "검색어를 입력하세요.", Toast.LENGTH_SHORT).show();
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || event.getAction() == KeyEvent.ACTION_UP) {
+                    Intent intent = new Intent(getActivity(), SearchResultActivity.class);
+                    intent.putExtra("search", searchEt.getText().toString());
+                    startActivity(intent);
+
+                    searchEt.setText(null);
+                    handle = true;
+                }
+                return handle;
+            }
+        });
         searchDeleteLl = v.findViewById(R.id.ll_search_delete);
         searchDeleteLl.setOnClickListener((v1) -> searchEt.setText(""));
         searchIv = v.findViewById(R.id.iv_search);
         searchIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(searchEt.getText().toString())) {
+                if (TextUtils.isEmpty(searchEt.getText().toString()))
+                    Toast.makeText(getActivity(), "검색어를 입력하세요.", Toast.LENGTH_SHORT).show();
+                else {
                     Intent intent = new Intent(getActivity(), SearchResultActivity.class);
                     intent.putExtra("search", searchEt.getText().toString());
                     startActivity(intent);
+
+                    searchEt.setText(null);
                 }
             }
         });
