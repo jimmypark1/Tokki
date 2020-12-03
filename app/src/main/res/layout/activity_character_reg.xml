@@ -102,6 +102,7 @@
                     android:text="성격"
                     android:textColor="#666666"
                     android:textSize="11sp"
+                    android:visibility="gone"
                     android:textStyle="normal" />
 
                 <EditText
@@ -114,12 +115,14 @@
                     android:inputType="text"
                     android:lineSpacingExtra="5sp"
                     android:textColorHint="#cccccc"
+                    android:visibility="gone"
                     android:textSize="15sp"
                     android:textStyle="normal" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:visibility="gone"
                     android:background="#666666" />
 
                 <TextView
@@ -128,6 +131,7 @@
                     android:layout_marginTop="20dp"
                     android:lineSpacingExtra="9sp"
                     android:text="역할"
+                    android:visibility="gone"
                     android:textColor="#666666"
                     android:textSize="11sp"
                     android:textStyle="normal" />
@@ -141,6 +145,7 @@
                     android:hint="역할을 입력하세요"
                     android:inputType="text"
                     android:lineSpacingExtra="5sp"
+                    android:visibility="gone"
                     android:textColorHint="#cccccc"
                     android:textSize="15sp"
                     android:textStyle="normal" />
@@ -148,6 +153,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:visibility="gone"
                     android:background="#666666" />
 
                 <LinearLayout

@@ -484,6 +484,7 @@ public class MyPageFeedFragment extends Fragment {
 //                        CommonUtils.hideProgressDialog();
 
                         if (followArrayList == null) {
+                            CommonUtils.hideProgressDialog();
                             Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
