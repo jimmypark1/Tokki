@@ -37,7 +37,7 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="8sp"
-                    android:text="고양이가 로또를 선물해줬어요"
+                    android:text="제목"
                     android:textColor="#222222"
                     android:textSize="20sp"
                     android:textStyle="normal" />
@@ -47,8 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:lineSpacingExtra="7sp"
-                    android:text="빈곤한 편순이, 밥 챙겨주던 고양이에게 선물로
-1등 로또를 받아버렸다!"
+                    android:text="줄거리를 입력하세요"
                     android:textColor="#999999"
                     android:textSize="15sp"
                     android:textStyle="normal" />
@@ -99,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="7sp"
-                        android:text="#고양이 #사이다 #힐링 #복수 #로또 #로맨스 #성장물 #sf #현대 판타지 #알콩달콩"
+                        android:text="#태그를 10가지 이내로 입력하세요"
                         android:textColor="#222222"
                         android:textSize="13sp"
                         android:textStyle="normal" />

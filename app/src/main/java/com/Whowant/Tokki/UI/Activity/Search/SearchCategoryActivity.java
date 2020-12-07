@@ -35,6 +35,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
     SearchCategoryAdapter adapter;
     ArrayList<WorkListVo> mArrayList = new ArrayList<>();
     String genre;
+    String order = "UPDATE";
 
     Activity mActivity;
 
@@ -68,6 +69,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
             Intent intent = new Intent(this, FilterActivity.class);
             intent.putExtra("title", "정렬");
             intent.putExtra("type", FilterActivity.TYPE_SEARCH_REUSLT);
+            intent.putExtra("order", order);
             startActivityForResult(intent, 101);
         });
 
@@ -183,7 +185,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
 
         if (requestCode == 101 && resultCode == RESULT_OK) {
             if (data != null) {
-                String order = data.getStringExtra("order");
+                order = data.getStringExtra("order");
                 getGenreWorkList(order);
             }
         }

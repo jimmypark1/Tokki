@@ -107,6 +107,9 @@
                 android:lineSpacingExtra="8sp"
                 android:maxLines="1"
                 android:textColor="#222222"
+                android:text="제목"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:textSize="20sp"
                 android:textStyle="normal" />
 
@@ -131,9 +134,8 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="18dp"
                 android:layout_marginRight="30dp"
-                android:ellipsize="end"
                 android:lineSpacingExtra="7sp"
-                android:maxLines="2"
+                android:text="줄거리를 입력하세요."
                 android:textColor="#999999"
                 android:textSize="15sp"
                 android:textStyle="normal" />
@@ -174,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/genreLinearLayout"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="30dp"
                 android:gravity="top"
                 android:orientation="horizontal">

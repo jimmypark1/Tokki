@@ -51,6 +51,7 @@
                     android:background="@android:color/transparent"
                     android:hint="제목을 입력하세요"
                     android:inputType="text"
+                    android:maxLength="30"
                     android:textColorHint="#cccccc"
                     android:textSize="15sp" />
 

@@ -27,6 +27,7 @@ public class FilterActivity extends AppCompatActivity {
     ArrayList<FilterVo> mArrayList = new ArrayList<>();
 
     String title = "";
+    String order = "";
 
     public static final int TYPE_SEARCH_REUSLT = 0;
     public static final int TYPE_STORAGE_BOX = 1;
@@ -47,6 +48,7 @@ public class FilterActivity extends AppCompatActivity {
         if (getIntent() != null && getIntent().getExtras() != null) {
             title = getIntent().getStringExtra("title");
             type = getIntent().getIntExtra("type", TYPE_SEARCH_REUSLT);
+            order = getIntent().getStringExtra("order");
         }
     }
 
@@ -81,15 +83,15 @@ public class FilterActivity extends AppCompatActivity {
     private void initData() {
         switch (type) {
             case TYPE_SEARCH_REUSLT:
-                mArrayList.add(new FilterVo("인기순", "POPULAR"));
-                mArrayList.add(new FilterVo("최신순", "UPDATE"));
+                mArrayList.add(new FilterVo("인기순", "POPULAR", order.equals("POPULAR")));
+                mArrayList.add(new FilterVo("최신순", "UPDATE", order.equals("UPDATE")));
                 break;
 
             case TYPE_STORAGE_BOX:
-                mArrayList.add(new FilterVo("제목", "TITLE"));
-                mArrayList.add(new FilterVo("저자", "WRITER"));
-                mArrayList.add(new FilterVo("최근에 읽은", "RECENTLY"));
-                mArrayList.add(new FilterVo("최근에 추가된", "UPDATE"));
+                mArrayList.add(new FilterVo("제목", "TITLE", order.equals("TITLE")));
+                mArrayList.add(new FilterVo("저자", "WRITER", order.equals("WRITER")));
+                mArrayList.add(new FilterVo("최근에 읽은", "RECENTLY", order.equals("RECENTLY")));
+                mArrayList.add(new FilterVo("최근에 추가된", "UPDATE", order.equals("UPDATE")));
                 break;
         }
 
@@ -169,9 +171,10 @@ public class FilterActivity extends AppCompatActivity {
         public boolean selected;
         public String order;
 
-        public FilterVo(String name, String order) {
+        public FilterVo(String name, String order, boolean bSelected) {
             this.name = name;
             this.order = order;
+            this.selected = bSelected;
         }
 
         public String getName() {

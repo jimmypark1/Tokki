@@ -313,7 +313,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                 if (workVO != null && workVO.getEpisodeList() != null && workVO.getEpisodeList().size() > 0) {
                     nEpisodeCount = workVO.getEpisodeList().size();
                     bComplete = workVO.isbComplete();
-                    String strEpisodeCount = "총 " + nEpisodeCount + "화 /" + (bComplete == true ? "완결" : "미완결") + "";
+                    String strEpisodeCount = "총 " + nEpisodeCount + "화 / " + (bComplete == true ? "완결" : "미완결") + "";
                     showingList.add(strEpisodeCount);
 
                     for (EpisodeVO vo : workVO.getEpisodeList()) {

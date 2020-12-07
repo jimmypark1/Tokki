@@ -29,6 +29,8 @@ public class StorageBoxFragment extends Fragment {
     private ViewPager viewPager;
     private StorageBoxAdapter pagerAdapter;
 
+    String order = "UPDATE";
+
     public static Fragment newInstance() {
         StorageBoxFragment fragment = new StorageBoxFragment();
         return fragment;
@@ -74,6 +76,7 @@ public class StorageBoxFragment extends Fragment {
                             Intent intent = new Intent(getContext(), FilterActivity.class);
                             intent.putExtra("title", "정렬");
                             intent.putExtra("type", FilterActivity.TYPE_STORAGE_BOX);
+                            intent.putExtra("order", order);
                             startActivityForResult(intent, 101);
                             break;
                     }
@@ -148,7 +151,7 @@ public class StorageBoxFragment extends Fragment {
             startActivity(intent);
         } else if (requestCode == 101 && resultCode == getActivity().RESULT_OK) {
             if (data != null) {
-                String order = data.getStringExtra("order");
+                order = data.getStringExtra("order");
                 Fragment fragment = getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.getCurrentItem());
 
                 if (fragment != null) {

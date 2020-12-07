@@ -113,7 +113,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
         findViewById(R.id.ib_top_layout_back).setVisibility(View.VISIBLE);
         findViewById(R.id.ib_top_layout_back).setOnClickListener((v) -> finish());
 
-        findViewById(R.id.ib_top_layout_dot).setVisibility(View.VISIBLE);
+        findViewById(R.id.ib_top_layout_dot).setVisibility(View.GONE);
         findViewById(R.id.ib_top_layout_dot).setOnClickListener((v) -> {
             DialogMenu dialogMenu = new DialogMenu();
             // 신고서 버튼 : 내용, 저작권

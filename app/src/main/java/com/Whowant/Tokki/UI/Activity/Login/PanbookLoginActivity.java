@@ -89,6 +89,9 @@ public class PanbookLoginActivity extends AppCompatActivity {
         inputIDView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(event == null)
+                    return false;
+
                 if(event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     if(event.getAction() == KeyEvent.ACTION_DOWN)
                         return true;
