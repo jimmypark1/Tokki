@@ -4400,7 +4400,7 @@ public class HttpClient {
     }
 
     // 태그 목록 추가
-    public static boolean addTag(OkHttpClient httpClient, String tagName) {
+    public static int addTag(OkHttpClient httpClient, String tagName) {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "TokkiTag.jsp?CMD=AddTag&TAG_NAME=" + tagName)
                 .get()
@@ -4410,19 +4410,23 @@ public class HttpClient {
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
-                return false;
+                return -1;
 
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
             if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
-                return true;
+                return 0;
+            else if (resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+                return 1;
+            else
+                return -1;
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
-        return false;
+        return -1;
     }
 
     // 독서 목록
@@ -4590,7 +4594,7 @@ public class HttpClient {
         return okHttpClient.newBuilder().addNetworkInterceptor(interceptor).build();
     }
 
-    public static boolean requestAuthNum(OkHttpClient httpClient, String strPhoneNum) {
+    public static int requestAuthNum(OkHttpClient httpClient, String strPhoneNum) {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "TokkiSmsAuth.jsp?CMD=RequestAuthNum&PHONE_NUM=" + strPhoneNum)
                 .get()
@@ -4598,20 +4602,22 @@ public class HttpClient {
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
-                return false;
+                return -1;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
             if (resultJsonObject.getString("message").equals("success"))
-                return true;
+                return 0;
+            else if (resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+                return 1;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return false;
+        return -1;
     }
 
     public static String requestAuth(OkHttpClient httpClient, String strPhoneNum, String authNum) {

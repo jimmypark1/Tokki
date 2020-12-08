@@ -16,8 +16,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:ellipsize="end"
             android:lineSpacingExtra="8sp"
-            android:text="고양이가 로또를 선물해줬어요"
+            android:text="제목"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:textColor="#222222"
             android:textSize="20sp"
             android:textStyle="normal" />

@@ -152,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="9sp"
-                android:text="사용자 이름"
+                android:text="사용자 닉네임"
                 android:textColor="#666666"
                 android:textSize="11sp"
                 android:textStyle="normal" />
@@ -165,7 +165,7 @@
                 android:background="@android:color/transparent"
                 android:inputType="text"
                 android:lineSpacingExtra="5sp"
-                android:text="이름"
+                android:text="닉네임"
                 android:onClick="onClickNameView"
                 android:textColor="#222222"
                 android:textSize="15sp"
@@ -257,7 +257,7 @@
                 android:background="@android:color/transparent"
                 android:inputType="text"
                 android:lineSpacingExtra="5sp"
-                android:text="1980. 4. 23"
+                android:text="1980년 4월 23일"
                 android:textColor="#222222"
                 android:textSize="15sp"
                 android:textStyle="normal"
@@ -287,7 +287,7 @@
                 android:background="@android:color/transparent"
                 android:inputType="text"
                 android:lineSpacingExtra="5sp"
-                android:text="010-9847-4841"
+                android:text="010-1234-1234"
                 android:textColor="#222222"
                 android:textSize="15sp"
                 android:textStyle="normal" />
@@ -337,7 +337,7 @@
                 android:gravity="center"
                 android:onClick="btnSave"
                 android:orientation="vertical">
-
+ㅋ
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

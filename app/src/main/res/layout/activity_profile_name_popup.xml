@@ -29,7 +29,7 @@
                 android:layout_marginLeft="15dp"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                android:text="이름 변경"/>
+                android:text="닉네임 변경"/>
 
             <ImageButton
                 android:id="@+id/closeBtn"
@@ -57,7 +57,7 @@
             android:singleLine="true"
             android:layout_below="@+id/topLayout"
             android:textSize="14sp"
-            android:hint="변경하실 이름을 입력해주세요"/>
+            android:hint="변경하실 닉네임을 입력해주세요"/>
 
 
 
@@ -79,7 +79,7 @@
                 android:background="@drawable/add_btn_bg"
                 android:textSize="16sp"
                 android:textColor="@color/colorWhite"
-                android:text="이름 변경"
+                android:text="닉네임 변경"
                 android:onClick="onClickOKBtn"/>
 
             <Button

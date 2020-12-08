@@ -3,6 +3,7 @@ package com.Whowant.Tokki.UI.Activity.Main;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -232,9 +233,9 @@ public class MainActivity extends AppCompatActivity {
 
         initMenuViews();
 
-        if (bFirst) {                                                                                                        // 앱 최초 실행으로 판단되면 튜토리얼 페이지 노출
-            startActivity(new Intent(MainActivity.this, MainTutorialActivity.class));
-        }
+//        if (bFirst) {                                                                                                        // 앱 최초 실행으로 판단되면 튜토리얼 페이지 노출
+//            startActivity(new Intent(MainActivity.this, MainTutorialActivity.class));                                        // UI 변경으로 인해 화면이 맞지 않아서 우선 숨김
+//        }
 
 //        SharedPreferences.Editor editor = pref.edit();
 //        editor.remove("4");
@@ -673,10 +674,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        TextView versionView = navigationView.findViewById(R.id.versionView);   // 어플 버전정보
-        versionView.setOnClickListener((v) -> {
-            startActivity(new Intent(MainActivity.this, VersionActivity.class));
-        });
+//        TextView versionView = navigationView.findViewById(R.id.versionView);   // 어플 버전정보
+//        versionView.setOnClickListener((v) -> {
+//            startActivity(new Intent(MainActivity.this, VersionActivity.class));
+//        });
+
+        TextView versionNumberView = navigationView.findViewById(R.id.versionNumber);
+        try {
+            versionNumberView.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         // 코인 관련 부분은 모두 삭제하여 현재 사용하지 않음
 //        TextView coinLogView = navigationView.findViewById(R.id.coinLogView);

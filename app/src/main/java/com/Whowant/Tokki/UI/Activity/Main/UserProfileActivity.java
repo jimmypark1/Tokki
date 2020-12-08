@@ -310,7 +310,7 @@ public class UserProfileActivity extends AppCompatActivity {
 //        startActivity(intent);
 
         int nYear = 1999;
-        int nMonth = 0;
+        int nMonth = 1;
         int nDay = 1;
 
         if(strUserBirthday != null && strUserBirthday.length() > 0 && !strUserBirthday.equals("null")) {

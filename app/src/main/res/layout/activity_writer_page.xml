@@ -180,7 +180,7 @@
                             android:layout_marginTop="1dp"
                             android:gravity="center_horizontal"
                             android:lineSpacingExtra="9sp"
-                            android:text="읽는 작품수"
+                            android:text="읽은 작품 수"
                             android:textColor="#b3ffffff"
                             android:textSize="11sp"
                             android:textStyle="normal" />
@@ -355,7 +355,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:lineSpacingExtra="9sp"
-                                    android:text="읽는 작품수"
+                                    android:text="읽은 작품 수"
                                     android:textColor="#b3ffffff"
                                     android:textSize="11sp"
                                     android:textStyle="normal" />

@@ -44,7 +44,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
             android:background="@drawable/ic_i_back"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/tv_top_layout_title"
@@ -52,9 +52,16 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center_horizontal"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/ib_top_layout_back"
+            android:layout_toLeftOf="@+id/ib_top_layout_dot"
             android:lineSpacingExtra="3sp"
             android:textColor="#222222"
+            android:ellipsize="end"
             android:textSize="17sp"
+            android:maxLines="1"
+            android:text="제목"
             android:textStyle="normal" />
 
         <ImageButton
@@ -75,7 +82,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
             android:background="@drawable/ic_i_dots_black"
-            android:visibility="gone" />
+            android:visibility="invisible" />
 
         <ImageButton
             android:id="@+id/ib_top_layout_close_back"

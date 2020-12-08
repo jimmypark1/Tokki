@@ -46,7 +46,7 @@ public class GenreRegActivity extends AppCompatActivity {
         findViewById(R.id.ib_top_layout_back).setVisibility(View.VISIBLE);
 
         String[] tmp = new String[]{
-                "SF", "공포", "로맨스", "코미디", "드라마", "판타지", "리얼스토리"
+                "SF", "공포, 스릴러", "로맨스", "코미디", "드라마", "판타지", "리얼스토리"
         };
 
         mArrayList.addAll(Arrays.asList(tmp));

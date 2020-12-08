@@ -63,10 +63,10 @@ public class ProfileNamePopup extends AppCompatActivity {
         String strNewName = inputNameView.getText().toString();
 
         if(strNewName.length() == 0) {
-            Toast.makeText(this, "변경할 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "변경할 닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
             return;
         } else if(strNewName.equals(strName)) {
-            Toast.makeText(this, "같은 이름으로 변경할 수 없습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "같은 닉네임으로 변경할 수 없습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -83,7 +83,7 @@ public class ProfileNamePopup extends AppCompatActivity {
                         CommonUtils.hideProgressDialog();
 
                         if(!bResult) {
-                            Toast.makeText(ProfileNamePopup.this, "이름 변경에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileNamePopup.this, "닉네임 변경에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 

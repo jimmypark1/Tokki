@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,10 +31,13 @@ import com.Whowant.Tokki.UI.Activity.Search.SearchCategoryActivity;
 import com.Whowant.Tokki.UI.Activity.Search.SearchResultActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.ItemClickSupport;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class SearchFragment extends Fragment {
 
@@ -44,6 +48,7 @@ public class SearchFragment extends Fragment {
     RecyclerView recyclerView;
     SearchAdapter adapter;
     ArrayList<String> mArrayList = new ArrayList<>();
+    private InputMethodManager imm;
 
     public static Fragment newInstance() {
         SearchFragment fragment = new SearchFragment();
@@ -55,11 +60,18 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        searchEt.setCursorVisible(false);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
 
+        imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
         searchEt = v.findViewById(R.id.et_search);
         searchEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -100,6 +112,13 @@ public class SearchFragment extends Fragment {
                 return handle;
             }
         });
+
+        searchEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    searchEt.setCursorVisible(true);
+            }
+        });
         searchDeleteLl = v.findViewById(R.id.ll_search_delete);
         searchDeleteLl.setOnClickListener((v1) -> searchEt.setText(""));
         searchIv = v.findViewById(R.id.iv_search);
@@ -135,6 +154,22 @@ public class SearchFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if(isVisibleToUser) {
+
+        } else {
+            if (searchEt != null) {
+                searchEt.clearFocus();
+                searchEt.setCursorVisible(false);
+                searchEt.setText(null);
+                imm.hideSoftInputFromWindow(searchEt.getWindowToken(), 0);
+            }
+        }
     }
 
     @Override

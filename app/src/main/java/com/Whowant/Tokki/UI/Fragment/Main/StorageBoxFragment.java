@@ -29,7 +29,8 @@ public class StorageBoxFragment extends Fragment {
     private ViewPager viewPager;
     private StorageBoxAdapter pagerAdapter;
 
-    String order = "UPDATE";
+    String readingOrder = "UPDATE";
+    String storageOrder = "UPDATE";
 
     public static Fragment newInstance() {
         StorageBoxFragment fragment = new StorageBoxFragment();
@@ -76,7 +77,10 @@ public class StorageBoxFragment extends Fragment {
                             Intent intent = new Intent(getContext(), FilterActivity.class);
                             intent.putExtra("title", "정렬");
                             intent.putExtra("type", FilterActivity.TYPE_STORAGE_BOX);
-                            intent.putExtra("order", order);
+                            if (currentPosition == 0)
+                                intent.putExtra("order", readingOrder);
+                            if (currentPosition == 1)
+                                intent.putExtra("order", storageOrder);
                             startActivityForResult(intent, 101);
                             break;
                     }
@@ -151,16 +155,22 @@ public class StorageBoxFragment extends Fragment {
             startActivity(intent);
         } else if (requestCode == 101 && resultCode == getActivity().RESULT_OK) {
             if (data != null) {
-                order = data.getStringExtra("order");
+                int currentPosition = viewPager.getCurrentItem();
+
+                if (currentPosition == 0)
+                    readingOrder = data.getStringExtra("order");
+                if (currentPosition == 1)
+                    storageOrder = data.getStringExtra("order");
+
                 Fragment fragment = getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.getCurrentItem());
 
                 if (fragment != null) {
                     switch (viewPager.getCurrentItem()) {
                         case 0:
-                            ((StorageBoxReadingFragment) fragment).refreshData(order);
+                            ((StorageBoxReadingFragment) fragment).refreshData(readingOrder);
                             break;
                         case 1:
-                            ((StorageBoxKeepFragment) fragment).refreshData(order);
+                            ((StorageBoxKeepFragment) fragment).refreshData(storageOrder);
                             break;
                     }
                 }

@@ -113,12 +113,18 @@
                         android:id="@+id/tv_my_page_carrot"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
                         android:layout_weight="1"
                         android:lineSpacingExtra="5sp"
-                        android:text="2,300 개"
+                        android:text="0 개"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMaxTextSize="15sp"
+                        android:autoSizeMinTextSize="9sp"
+                        android:maxLines="1"
                         android:textColor="#ff5800"
                         android:textSize="15sp"
+                        android:gravity="center"
                         android:textStyle="normal" />
 
                     <ImageView
@@ -160,7 +166,7 @@
                             android:layout_marginTop="1dp"
                             android:gravity="center_horizontal"
                             android:lineSpacingExtra="9sp"
-                            android:text="읽는 작품수"
+                            android:text="읽은 작품 수"
                             android:textColor="#b3ffffff"
                             android:textSize="11sp"
                             android:textStyle="normal" />
@@ -336,7 +342,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:lineSpacingExtra="9sp"
-                                    android:text="읽는 작품수"
+                                    android:text="읽은 작품 수"
                                     android:textColor="#b3ffffff"
                                     android:textSize="11sp"
                                     android:textStyle="normal" />

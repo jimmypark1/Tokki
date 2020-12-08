@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
@@ -25,6 +28,13 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
     private EditText inputAuthNumView;
     private Button authNumBtn;
     private Button nextBtn;
+    private TextView inputAuthNumTimer;
+
+    CountDownTimer countDownTimer;
+    final int MILLISINFUTURE = 60000;
+    final int COUNT_DOWN_INTERVAL = 1000;
+    boolean isTimeOver = false;
+    long AuthCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +50,8 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
         authNumBtn.setEnabled(false);
         nextBtn.setEnabled(false);
 
+        inputAuthNumTimer = findViewById(R.id.inputAuthNumTimer);
+
         TextWatcher inputPhoneNumTextWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -47,7 +59,7 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(inputPhoneNumView.getText().toString().length() == 0) {
+                if (inputPhoneNumView.getText().toString().length() == 0) {
                     authNumBtn.setEnabled(false);
                     authNumBtn.setBackgroundResource(R.drawable.common_btn_disable_bg);
                     authNumBtn.setTextColor(Color.parseColor("#999999"));
@@ -72,7 +84,7 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(inputAuthNumView.getText().toString().length() == 0) {
+                if (inputAuthNumView.getText().toString().length() == 0) {
                     nextBtn.setEnabled(false);
                     nextBtn.setBackgroundResource(R.drawable.common_btn_disable_bg);
                     nextBtn.setTextColor(Color.parseColor("#999999"));
@@ -91,6 +103,48 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
         inputAuthNumView.addTextChangedListener(inputAuthNumTextWatcher);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        cancel();
+        inputPhoneNumView.setClickable(false);
+        inputPhoneNumView.setFocusable(false);
+        authNumBtn.setEnabled(false);
+        authNumBtn.setBackgroundResource(R.drawable.common_btn_disable_bg);
+        authNumBtn.setTextColor(Color.parseColor("#999999"));
+        inputAuthNumView.setClickable(false);
+        inputAuthNumView.setFocusable(false);
+    }
+
+    public void countDownTimer() {
+        isTimeOver = false;
+
+        countDownTimer = new CountDownTimer(MILLISINFUTURE, COUNT_DOWN_INTERVAL) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                AuthCount = millisUntilFinished / 1000;
+
+                if ((AuthCount - ((AuthCount / 60) * 60)) >= 10) {
+                    inputAuthNumTimer.setText((AuthCount / 60) + ":" + (AuthCount - ((AuthCount / 60) * 60)));
+                } else {
+                    inputAuthNumTimer.setText((AuthCount / 60) + ":0" + (AuthCount - ((AuthCount / 60) * 60)));
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                isTimeOver = true;
+            }
+        }.start();
+    }
+
+    public final void cancel() {
+        if (countDownTimer != null)
+            countDownTimer.cancel();
+    }
+
     public void onClickBackBtn(View view) {
         finish();
     }
@@ -98,23 +152,37 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
     public void onClickRequestAuthNumBtn(View view) {
         CommonUtils.showProgressDialog(PhoneNumAuthActivity.this, "서버와 통신중입니다.");
 
+        authNumBtn.setEnabled(false);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                authNumBtn.setText("인증번호 재요청");
+                authNumBtn.setEnabled(true);
+            }
+        }, 2000);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean bResult = HttpClient.requestAuthNum(new OkHttpClient(), inputPhoneNumView.getText().toString());
+                int bResult = HttpClient.requestAuthNum(new OkHttpClient(), inputPhoneNumView.getText().toString());
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(!bResult) {
-                            Toast.makeText(PhoneNumAuthActivity.this, "인증번호 요청에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                        if (bResult == -1) {
+                            Toast.makeText(PhoneNumAuthActivity.this, "인증번호 요청에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else if (bResult == 1) {
+                            Toast.makeText(PhoneNumAuthActivity.this, "이미 가입된 번호입니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
                         inputAuthNumView.setEnabled(true);
                         Toast.makeText(PhoneNumAuthActivity.this, "인증번호를 요청했습니다.", Toast.LENGTH_SHORT).show();
+                        countDownTimer();
+                        inputAuthNumView.getText().clear();
                     }
                 });
             }
@@ -122,8 +190,13 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
     }
 
     public void onClickRequestAuthBtn(View view) {
-        if(inputAuthNumView.getText().toString().length() == 0) {
+        if (inputAuthNumView.getText().toString().length() == 0) {
             Toast.makeText(PhoneNumAuthActivity.this, "인증번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (isTimeOver) {
+            Toast.makeText(PhoneNumAuthActivity.this, "인증번호 입력 시간이 초과되었습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -138,22 +211,19 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(strResult == null) {
+                        if (strResult == null) {
                             Toast.makeText(PhoneNumAuthActivity.this, "인증번호 요청에 실패했습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        if(strResult.equals("SUCCESS")) {
+                        if (strResult.equals("SUCCESS")) {
                             Intent intent = new Intent(PhoneNumAuthActivity.this, AgreementActivity.class);
                             intent.putExtra("SNS", 0);
                             intent.putExtra("ID", inputPhoneNumView.getText().toString());
                             startActivity(intent);
-                        } else if(strResult.equals("DISCORD")) {
+                        } else if (strResult.equals("DISCORD")) {
                             Toast.makeText(PhoneNumAuthActivity.this, "인증번호가 맞지 않습니다.", Toast.LENGTH_SHORT).show();
-                        } else if(strResult.equals("TIMEOVER")) {
-                            Toast.makeText(PhoneNumAuthActivity.this, "인증 시간이 초과되었습니다.", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
             }

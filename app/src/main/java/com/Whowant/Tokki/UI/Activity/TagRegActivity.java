@@ -41,6 +41,7 @@ import okhttp3.OkHttpClient;
 public class TagRegActivity extends AppCompatActivity {
 
     private ArrayList<TagSelectVo> tagList = new ArrayList<>();
+    private ArrayList<TagSelectVo> selectedTagList = new ArrayList<>();
     ArrayList<TagVo> mArrayList = new ArrayList<>();
     RecyclerView recyclerView;
     TagRegAdapter adapter;
@@ -197,6 +198,9 @@ public class TagRegActivity extends AppCompatActivity {
             vo.setName(tagName);
             vo.setSelected(true);
             tagList.add(vo);
+        } else {
+            Toast.makeText(mActivity, "이미 선택된 태그입니다.", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         setTagSelected();
@@ -301,14 +305,16 @@ public class TagRegActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean result = HttpClient.addTag(new OkHttpClient(), tagName);
+                int result = HttpClient.addTag(new OkHttpClient(), tagName);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (result) {
+                        if (result == 0) {
                             addTagSelected(tagName);
-                        } else {
+                        } else if (result == -1){
                             Toast.makeText(mActivity, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                        } else if (result == 1) {
+                            Toast.makeText(mActivity, "이미 존재하는 태그입니다. 기존 태그에서 선택해주세요.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -321,11 +327,11 @@ public class TagRegActivity extends AppCompatActivity {
         StringBuffer stringBuffer = new StringBuffer();
 
         for (TagSelectVo vo : tagList) {
-            if (!TextUtils.isEmpty(stringBuffer)) {
-                stringBuffer.append(" ");
-            }
-
             if (vo.isSelected()) {
+                if (!TextUtils.isEmpty(stringBuffer)) {
+                    stringBuffer.append(" ");
+                }
+
                 stringBuffer.append(vo.getName());
             }
         }
