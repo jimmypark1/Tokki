@@ -7,13 +7,16 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -65,7 +68,7 @@ public class SearchResultActivity extends AppCompatActivity {
         if (getIntent() != null && getIntent().getExtras() != null) {
             searchEt.setText(getIntent().getStringExtra("search"));
             searchEt.setSelection(searchEt.getText().toString().length());
-            getSearchWorkList(searchEt.getText().toString(), 0);
+            getSearchWorkList(searchEt.getText().toString().trim(), 0);
         }
     }
 
@@ -94,6 +97,25 @@ public class SearchResultActivity extends AppCompatActivity {
 
             }
         });
+
+        searchEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handle = false;
+                if (TextUtils.isEmpty(searchEt.getText().toString()))
+                    Toast.makeText(SearchResultActivity.this, "검색어를 입력하세요.", Toast.LENGTH_SHORT).show();
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || event.getAction() == KeyEvent.ACTION_UP) {
+                    if (!TextUtils.isEmpty(searchEt.getText().toString()) || searchEt.getText().toString().trim().equals("")) {
+                        getSearchWorkList(searchEt.getText().toString().trim(), 0);
+                    }
+
+                    imm.hideSoftInputFromWindow(searchEt.getWindowToken(), 0);
+                }
+                return handle;
+            }
+        });
+
         searchDeleteLl = findViewById(R.id.ll_result_search_delete);
         searchDeleteLl.setOnClickListener((v1) -> searchEt.setText(""));
         searchIv = findViewById(R.id.iv_result_search);
@@ -101,7 +123,7 @@ public class SearchResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(searchEt.getText().toString())) {
-                    getSearchWorkList(searchEt.getText().toString(), 0);
+                    getSearchWorkList(searchEt.getText().toString().trim(), 0);
                 }
 
                 imm.hideSoftInputFromWindow(searchEt.getWindowToken(), 0);
@@ -193,6 +215,11 @@ public class SearchResultActivity extends AppCompatActivity {
 
     private void getSearchWorkList(String serachKeyword, int select) {
         mArrayList.clear();
+
+        if (serachKeyword.equals("")) {
+            Toast.makeText(mActivity, "검색어를 입력하세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         CommonUtils.showProgressDialog(mActivity, "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
 

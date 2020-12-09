@@ -194,6 +194,11 @@ public class MyPageFollowerFragment extends Fragment {
                             return;
                         }
 
+                        if (writerList.size() == 0) {
+                            TextView textView = getView().findViewById(R.id.emptyViewFollower);
+                            textView.setVisibility(View.VISIBLE);
+                        }
+
                         for (int i = 0; i < writerList.size(); i++) {
                             WriterVO vo = writerList.get(i);
                             if (vo.getStrWriterID().equals(userId)) {

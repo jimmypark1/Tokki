@@ -98,16 +98,20 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handle = false;
-                if (TextUtils.isEmpty(searchEt.getText().toString()))
-                    Toast.makeText(getActivity(), "검색어를 입력하세요.", Toast.LENGTH_SHORT).show();
 
                 if (actionId == EditorInfo.IME_ACTION_SEARCH || event.getAction() == KeyEvent.ACTION_UP) {
-                    Intent intent = new Intent(getActivity(), SearchResultActivity.class);
-                    intent.putExtra("search", searchEt.getText().toString());
-                    startActivity(intent);
+                    if (TextUtils.isEmpty(searchEt.getText().toString()) || searchEt.getText().toString().trim().equals(""))
+                        Toast.makeText(getActivity(), "검색어를 입력하세요.", Toast.LENGTH_SHORT).show();
+                    else {
+                        Intent intent = new Intent(getActivity(), SearchResultActivity.class);
+                        intent.putExtra("search", searchEt.getText().toString().trim());
+                        startActivity(intent);
 
-                    searchEt.setText(null);
-                    handle = true;
+                        searchEt.setText(null);
+                        handle = true;
+                    }
+
+                    imm.hideSoftInputFromWindow(searchEt.getWindowToken(), 0);
                 }
                 return handle;
             }
@@ -125,15 +129,17 @@ public class SearchFragment extends Fragment {
         searchIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(searchEt.getText().toString()))
+                if (TextUtils.isEmpty(searchEt.getText().toString()) || searchEt.getText().toString().trim().equals(""))
                     Toast.makeText(getActivity(), "검색어를 입력하세요.", Toast.LENGTH_SHORT).show();
                 else {
                     Intent intent = new Intent(getActivity(), SearchResultActivity.class);
-                    intent.putExtra("search", searchEt.getText().toString());
+                    intent.putExtra("search", searchEt.getText().toString().trim());
                     startActivity(intent);
 
                     searchEt.setText(null);
                 }
+
+                imm.hideSoftInputFromWindow(searchEt.getWindowToken(), 0);
             }
         });
 

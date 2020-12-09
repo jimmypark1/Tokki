@@ -89,9 +89,13 @@ public class MyPageFeedFragment extends Fragment {
             }
         });
 
-        getAllWorkWithWriterID();
-
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getAllWorkWithWriterID();
     }
 
     public class MyPageFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

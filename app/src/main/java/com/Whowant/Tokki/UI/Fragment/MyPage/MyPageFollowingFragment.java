@@ -195,6 +195,11 @@ public class MyPageFollowingFragment extends Fragment {
                             return;
                         }
 
+                        if (writerList.size() == 0) {
+                            TextView textView = getView().findViewById(R.id.emptyViewFollowing);
+                            textView.setVisibility(View.VISIBLE);
+                        }
+
                         adapter.notifyDataSetChanged();
                     }
                 });

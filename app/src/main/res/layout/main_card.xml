@@ -27,7 +27,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:letterSpacing="-0.05"
-                android:text="추천작"/>
+                android:text="최신작"/>
 
             <TextView
                 android:id="@+id/btnMore"

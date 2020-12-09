@@ -166,6 +166,11 @@ public class AlarmActivity extends AppCompatActivity {
                 if(list != null)
                     bestList.addAll(list);
 
+                if (list.size() == 0 || list == null) {
+                    TextView emptyView = findViewById(R.id.emptyView);
+                    emptyView.setVisibility(View.VISIBLE);
+                }
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

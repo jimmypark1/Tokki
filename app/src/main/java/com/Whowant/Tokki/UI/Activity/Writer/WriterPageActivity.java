@@ -271,6 +271,7 @@ public class WriterPageActivity extends AppCompatActivity implements View.OnClic
                             int nFollowerCount = resultObject.getInt("FOLLOW_COUNT");
                             int nFollowingCount = resultObject.getInt("FOLLOWING_COUNT");
 
+
                             if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
                                 if (!strPhoto.startsWith("http"))
                                     strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
@@ -289,6 +290,9 @@ public class WriterPageActivity extends AppCompatActivity implements View.OnClic
 
                             nameTv.setText(strName);
                             followerCountTv.setText(CommonUtils.getPointCount(nFollowCount));
+
+                            workCountTv.setText(CommonUtils.getPointCount(resultObject.getInt("WORK_COUNT")));
+                            readCountTv.setText(CommonUtils.getPointCount(resultObject.getInt("READ_COUNT")));
 
                             if (bFollow) {
                                 unfollowLl.setVisibility(View.VISIBLE);

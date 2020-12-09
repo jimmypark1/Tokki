@@ -3,6 +3,7 @@ package com.Whowant.Tokki.UI.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.Whowant.Tokki.UI.Activity.Main.NewRankingActivity;
 import com.Whowant.Tokki.UI.Activity.Main.PopularActivity;
 import com.Whowant.Tokki.UI.Custom.PopularDecoration;
 import com.Whowant.Tokki.VO.MainCardVO;
+import com.Whowant.Tokki.VO.WorkVO;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -31,6 +33,8 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
     private Timer timer;
     private int nCurrentItem = 0;
     private final int TIMER_SEC = 2500;
+
+    private SharedPreferences pref;
 
     public MainCardListAdapter(Activity context, ArrayList<MainCardVO> itemsList) {
         this.mContext = context;
@@ -45,8 +49,10 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_card_row_renewal, viewGroup, false);
         else if (viewType == 1)
             v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_popular_viewpager, viewGroup, false);
-        else
+        else if (viewType == 2)
             v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_card, viewGroup, false);
+        else
+            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_recommend, viewGroup, false);
 
         MainCardHolder mh = new MainCardHolder(v);
         return mh;
@@ -71,6 +77,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             itemRowHolder.recyclerView.setAdapter(adapter);
 
             LinearLayout dotLayout = itemRowHolder.itemView.findViewById(R.id.dotLayout);
+            dotLayout.removeAllViews();
             final ArrayList<View> dotViewList = new ArrayList<>();
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -88,6 +95,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             }
 
             PagerSnapHelper snapHelper = new PagerSnapHelper();
+            itemRowHolder.recyclerView.setOnFlingListener(null);
             snapHelper.attachToRecyclerView(itemRowHolder.recyclerView);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -133,7 +141,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
                     mContext.startActivity(new Intent(mContext, PopularActivity.class));
                 }
             });
-        } else {                                    // 최신작
+        } else if (viewType == 2) {                                    // 최신작, 인기작, 장르별 순위
             final String sectionName = mainCardList.get(position).getStrHeaderTitle();
             ArrayList singleSectionItems = mainCardList.get(position).getAllItemInCard();
 
@@ -148,13 +156,40 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             itemRowHolder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if ("인기작".equals(sectionName)) {
+                    if ("장르별 순위".equals(sectionName)) {
                         mContext.startActivity(new Intent(mContext, PopularActivity.class));
                     } else {
                         Intent intent = new Intent(mContext, NewRankingActivity.class);
                         intent.putExtra("title", sectionName);
                         mContext.startActivity(intent);
                     }
+                }
+            });
+        } else { // 추천작
+            final String sectionName = mainCardList.get(position).getStrHeaderTitle();
+            ArrayList singleSectionItems = mainCardList.get(position).getAllItemInCard();
+
+            pref = mContext.getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
+            String strUSerID = pref.getString("USER_NAME", "Guest");
+
+            String title = strUSerID + "님을 위한 추천 작품";
+            itemRowHolder.headerTitle.setText(title);
+            RecentListAdapter recentListAdapter = new RecentListAdapter(mContext, singleSectionItems, mainCardList.get(position).getViewType());
+
+            itemRowHolder.recyclerView.setHasFixedSize(true);
+            LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+            itemRowHolder.recyclerView.setAdapter(recentListAdapter);
+            itemRowHolder.recyclerView.setLayoutManager(lm);
+
+            itemRowHolder.btnMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NewRankingActivity.bestList = new ArrayList<>();
+                    ArrayList<WorkVO> list = mainCardList.get(1).getAllItemInCard();
+                    NewRankingActivity.bestList.addAll(mainCardList.get(1).getAllItemInCard());
+                    Intent intent = new Intent(mContext, NewRankingActivity.class);
+                    intent.putExtra("title", title);
+                    mContext.startActivity(intent);
                 }
             });
         }

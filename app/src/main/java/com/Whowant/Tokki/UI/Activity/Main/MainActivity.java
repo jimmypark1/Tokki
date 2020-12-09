@@ -387,6 +387,11 @@ public class MainActivity extends AppCompatActivity {
         eventNewIconView.setVisibility(View.INVISIBLE);
         getAlarmList();
 
+        strUserID = pref.getString("USER_ID", "Guest");
+
+        TextView nameView = navigationView.findViewById(R.id.nameView);
+        nameView.setText(pref.getString("USER_NAME", "Guest"));
+
         String strPhoto = pref.getString("USER_PHOTO", "");
 
         if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {

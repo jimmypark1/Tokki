@@ -40,7 +40,7 @@ public class PopularActivity extends AppCompatActivity {                    // �
     }
 
     private void initView() {
-        ((TextView) findViewById(R.id.tv_top_layout_title)).setText("인기작");
+        ((TextView) findViewById(R.id.tv_top_layout_title)).setText("장르별 순위");
 
         (findViewById(R.id.ib_top_layout_back)).setVisibility(View.VISIBLE);
         (findViewById(R.id.ib_top_layout_back)).setOnClickListener((v) -> finish());

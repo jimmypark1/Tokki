@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.Whowant.Tokki.Http.HttpClient;
@@ -144,7 +145,7 @@ public class MyPageActivity extends AppCompatActivity {
         getMyFollowInfo();
     }
 
-    public class MyPageAdapter extends FragmentPagerAdapter {
+    public class MyPageAdapter extends FragmentStatePagerAdapter {
         private Context mContext;
         private ArrayList<Fragment> fragments = new ArrayList<>();
         private ArrayList<String> titles = new ArrayList<>();

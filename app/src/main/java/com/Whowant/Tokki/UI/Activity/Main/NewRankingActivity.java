@@ -32,7 +32,7 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 
 public class NewRankingActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    private ArrayList<WorkVO> bestList;
+    public static ArrayList<WorkVO> bestList;
     private ListView listView;
     private CNewRankingArrayAdapter aa;
 
@@ -53,16 +53,28 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
 //        actionBar.setDisplayHomeAsUpEnabled(true);
 //        actionBar.setTitle("최신작");
 
-        bestList = new ArrayList<>();
+        if(bestList == null)
+            bestList = new ArrayList<>();
+
         listView = findViewById(R.id.listView);
 
         listView.setOnItemClickListener(this);
 
-        if ("장르별 순위" .equals(title)) {
+        if ("인기작".equals(title)) {
             getGenreRankingData();
+        } else if (title.contains("님을 위한") && bestList != null && bestList.size() > 0) {
+            aa = new CNewRankingArrayAdapter(NewRankingActivity.this, R.layout.best_row, bestList);
+            listView.setAdapter(aa);
         } else {
             getNewRankingData();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        bestList.clear();
     }
 
     private void getData() {
@@ -153,6 +165,7 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
             TextView bestBGView = convertView.findViewById(R.id.bestBGView);
             bestBGView.setVisibility(View.GONE);
 //            newView.setVisibility(View.VISIBLE);
+            coverView.setClipToOutline(true);
 
             TextView writerNameView = convertView.findViewById(R.id.writerNameView);
 
@@ -169,6 +182,7 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
 
                 Glide.with(NewRankingActivity.this)
                         .asBitmap() // some .jpeg files are actually gif
+                        .placeholder(R.drawable.no_poster_vertical)
                         .load(strImgUrl)
                         .apply(new RequestOptions().centerCrop())
                         .into(coverView);
