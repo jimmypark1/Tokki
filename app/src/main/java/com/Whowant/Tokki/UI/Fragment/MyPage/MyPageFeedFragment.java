@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterPageActivity;
 import com.Whowant.Tokki.UI.TypeOnClickListener;
@@ -95,6 +96,9 @@ public class MyPageFeedFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        MyPageActivity activity = (MyPageActivity) getActivity();
+        if(activity.isPopup())
+            return;
         getAllWorkWithWriterID();
     }
 

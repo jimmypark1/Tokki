@@ -46,6 +46,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
     public String strTitle;
     public int nEpisodeID;
     public int nEpisodeIndex;
+    public int nEpisodeOrder;
     public boolean isExcelUploaded = false;
 
     public static int BG_SELECT_POPUP = 2000;
@@ -87,7 +88,8 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         bSubmit = getIntent().getBooleanExtra("SUBMIT", false);
 
         titleView.setText(strTitle);
-        episodeNumView.setText((nEpisodeIndex+1) + "화");
+        nEpisodeOrder = getIntent().getIntExtra("EPISODE_ORDER", 0);
+        episodeNumView.setText(nEpisodeOrder + "화");
         pagerAdapter = new InteractionAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -290,7 +292,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
                                     }
 
                                     if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                        Toast.makeText(InteractionWriteActivity.this, "제출 되었습니다.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(InteractionWriteActivity.this, "제출되었습니다.", Toast.LENGTH_LONG).show();
                                         finish();
                                     } else {
                                         Toast.makeText(InteractionWriteActivity.this, "제출에 실패하였습니다.", Toast.LENGTH_LONG).show();

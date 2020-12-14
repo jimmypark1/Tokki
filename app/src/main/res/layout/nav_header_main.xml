@@ -89,6 +89,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="#6d8fff"
+                android:visibility="gone"
                 android:text="NOTICE"/>
 
             <TextView

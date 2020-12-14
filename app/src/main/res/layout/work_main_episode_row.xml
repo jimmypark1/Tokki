@@ -1,80 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp">
-
-        <TextView
-            android:id="@+id/episodeTitleView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:lineSpacingExtra="3sp"
-            android:text="1화"
-            android:textColor="#222222"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/dateTimeView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="7sp"
-            android:text="2020.5.3"
-            android:textColor="#999999"
-            android:textSize="13sp"
-            android:textStyle="normal" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:src="@drawable/ic_i_star" />
-
-        <TextView
-            android:id="@+id/startPointView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:lineSpacingExtra="7sp"
-            android:text="5.0"
-            android:textColor="#999999"
-            android:textSize="13sp"
-            android:textStyle="normal" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/ic_i_tap_gray" />
-
-        <TextView
-            android:id="@+id/tabCountView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:lineSpacingExtra="7sp"
-            android:text="999"
-            android:textColor="#999999"
-            android:textSize="13sp"
-            android:textStyle="normal" />
-
-        <ImageView
-            android:id="@+id/menuBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/ic_i_dots_gray" />
-    </LinearLayout>
+    android:paddingLeft="7dp"
+    android:paddingRight="7dp">
 
     <RelativeLayout
         android:id="@+id/contentsLayout"
@@ -83,8 +12,7 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/menuBtn"
         android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:visibility="gone">
+        android:paddingBottom="15dp">
 
         <RelativeLayout
             android:id="@+id/titleLayout"
@@ -92,28 +20,30 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/episodeTitleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
                 android:layout_marginRight="83dp"
-                android:ellipsize="end"
+                android:layout_marginLeft="20dp"
                 android:maxLines="1"
-                android:text="1회차"
+                android:ellipsize="end"
+                android:textSize="18sp"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
+                android:text="1화"/>
 
             <TextView
                 android:id="@+id/postAvailableView"
                 android:layout_width="68dp"
                 android:layout_height="21dp"
+                android:layout_alignRight="@+id/episodeTitleView"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="-83dp"
-                android:background="@drawable/badge_waiting"
                 android:gravity="center"
-                android:text="승인 대기"
-                android:textColor="#ff5700"
+                android:textStyle="bold"
+                android:background="@drawable/badge_waiting"
                 android:textSize="11sp"
-                android:textStyle="bold" />
+                android:textColor="#ff5700"
+                android:text="승인 대기"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -121,33 +51,34 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/titleLayout"
             android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
             android:paddingLeft="20dp"
-            android:paddingRight="10dp">
+            android:paddingRight="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <LinearLayout
                 android:id="@+id/dateLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/dateTimeView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2019.09.28"
+                    android:textSize="14sp"
                     android:textColor="#d1d1d1"
-                    android:textSize="14sp" />
+                    android:text="2020.01.01"/>
 
                 <LinearLayout
                     android:id="@+id/pointLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="14dp"
@@ -155,43 +86,44 @@
                         android:src="@drawable/icon_star" />
 
                     <TextView
+                        android:id="@+id/startPointView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
+                        android:textSize="13sp"
                         android:text="0.0"
-                        android:textColor="#d1d1d1"
-                        android:textSize="13sp" />
+                        android:textColor="#d1d1d1"/>
 
                     <ImageView
                         android:layout_width="14dp"
                         android:layout_height="14dp"
                         android:layout_marginLeft="7dp"
                         android:src="@drawable/list_icon2"
-                        android:visibility="gone" />
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/hitsCountView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
-                        android:textColor="@color/colorTextGray"
                         android:textSize="13sp"
-                        android:visibility="gone" />
+                        android:textColor="@color/colorTextGray"
+                        android:visibility="gone"/>
 
                     <ImageView
                         android:layout_width="14dp"
                         android:layout_height="14dp"
                         android:layout_marginLeft="7dp"
-                        android:src="@drawable/icon_speech_bubble_gray" />
+                        android:src="@drawable/icon_speech_bubble_gray"/>
 
                     <TextView
                         android:id="@+id/commentCountView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
+                        android:textSize="13sp"
                         android:text="999"
-                        android:textColor="#d1d1d1"
-                        android:textSize="13sp" />
+                        android:textColor="#d1d1d1"/>
 
                     <LinearLayout
                         android:id="@+id/chatCountLayout"
@@ -204,16 +136,16 @@
                             android:layout_width="15dp"
                             android:layout_height="11dp"
                             android:layout_marginLeft="7dp"
-                            android:src="@drawable/ic_chat_count" />
+                            android:src="@drawable/ic_chat_count"/>
 
                         <TextView
                             android:id="@+id/chatCountView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="4dp"
+                            android:textSize="13sp"
                             android:text="999"
-                            android:textColor="#d1d1d1"
-                            android:textSize="13sp" />
+                            android:textColor="#d1d1d1"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -222,49 +154,37 @@
                 android:id="@+id/stateView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="29dp"
-                android:layout_toRightOf="@+id/dateLayout"
                 android:background="@drawable/confirm_waiting_bg"
-                android:gravity="center"
-                android:paddingLeft="7dp"
+                android:layout_toRightOf="@+id/dateLayout"
+                android:layout_marginLeft="29dp"
+                android:layout_centerVertical="true"
                 android:paddingTop="4dp"
-                android:paddingRight="7dp"
                 android:paddingBottom="4dp"
-                android:text="승인 대기"
-                android:textColor="#ff5700"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:gravity="center"
+                android:visibility="gone"
                 android:textSize="10sp"
-                android:visibility="gone" />
+                android:textColor="#ff5700"
+                android:text="승인 대기"/>
         </LinearLayout>
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/menuBtn"
         android:layout_width="35dp"
         android:layout_height="40dp"
+        android:layout_marginRight="10dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
         android:scaleType="center"
-        android:src="@drawable/menu_dot"
-        android:visibility="gone" />
+        android:src="@drawable/menu_dot"/>
 
-    <LinearLayout
-        android:id="@+id/ll_work_main_episode_row_write"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_margin="30dp"
-        android:background="@drawable/round_22_5a9aff"
-        android:gravity="center"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/tv_work_main_episode_row_write"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:lineSpacingExtra="7sp"
-            android:textColor="#ffffff"
-            android:textSize="15sp"
-            android:textStyle="normal" />
-    </LinearLayout>
-</LinearLayout>
+        android:layout_height="1dp"
+        android:layout_below="@+id/contentsLayout"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#e8e8e8"/>
+</RelativeLayout>

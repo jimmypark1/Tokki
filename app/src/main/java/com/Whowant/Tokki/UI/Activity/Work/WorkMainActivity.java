@@ -627,7 +627,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         CommonUtils.hideProgressDialog();
 
                         if(bResult) {
-                            CommonUtils.makeText(WorkMainActivity.this, "게시 승인 되었습니다.", Toast.LENGTH_SHORT).show();
+                            CommonUtils.makeText(WorkMainActivity.this, "게시 승인되었습니다.", Toast.LENGTH_SHORT).show();
                             getKeepData();
                         } else {
                             CommonUtils.makeText(WorkMainActivity.this, "게시 승인에 실패하였습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();

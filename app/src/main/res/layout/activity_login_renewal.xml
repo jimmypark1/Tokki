@@ -126,6 +126,7 @@
                     android:layout_height="20dp"
                     android:textSize="13sp"
                     android:textColor="#666666"
+                    android:onClick="onClickFindPWBtn"
                     android:text="비밀번호 재설정"/>
             </LinearLayout>
 

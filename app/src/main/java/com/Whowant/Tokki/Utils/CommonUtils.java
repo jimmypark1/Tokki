@@ -12,6 +12,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.media.MediaMetadataRetriever;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.DocumentsContract;
@@ -40,6 +42,8 @@ import java.util.HashMap;
 
 import okhttp3.OkHttpClient;
 
+import static android.content.Context.CONNECTIVITY_SERVICE;
+
 public class CommonUtils {                                                                  // Const 등을 사용하지 않고 잡다한 static 변수 및 펑션등을 모아놓은 클래스
     private static ProgressDialog mProgressDialog;
 
@@ -63,7 +67,7 @@ public class CommonUtils {                                                      
                         + split[1];
             } else {
                 String SDcardpath = getRemovableSDCardPath(context).split("/Android")[0];
-                return SDcardpath +"/"+ split[1];
+                return SDcardpath + "/" + split[1];
             }
         }
 
@@ -93,7 +97,7 @@ public class CommonUtils {                                                      
             }
 
             final String selection = "_id=?";
-            final String[] selectionArgs = new String[] { split[1] };
+            final String[] selectionArgs = new String[]{split[1]};
 
             return getDataColumn(context, contentUri, selection, selectionArgs);
         } else if ("content".equalsIgnoreCase(uri.getScheme())) {
@@ -110,8 +114,8 @@ public class CommonUtils {                                                      
     public static String getPointCount(int nCount) {                                                                            // 1000 이 넘는 숫자는 1k 등으로 표시하기 위해 사용
         String strCount = "" + nCount;
 
-        if(nCount >= 1000) {
-            float fHitsCount = (float)nCount / 1000;
+        if (nCount >= 1000) {
+            float fHitsCount = (float) nCount / 1000;
             strCount = String.format("%.1fK", fHitsCount);
         } else {
             strCount = comma(nCount);
@@ -121,11 +125,11 @@ public class CommonUtils {                                                      
     }
 
     public static void showProgressDialog(Context context, String strContents) {                                                // ProgressDialog 는 이걸 사용합니다. 리팩토링 예정(ProgressDialog 가 Deprecated 되었음;;)
-        if(context == null)
+        if (context == null)
             return;
 
-        if(mProgressDialog != null) {
-            if(mProgressDialog.isShowing())
+        if (mProgressDialog != null) {
+            if (mProgressDialog.isShowing())
                 return;
 
             mProgressDialog = null;
@@ -152,7 +156,7 @@ public class CommonUtils {                                                      
     }
 
     public static Toast makeText(Context context, String text, int time) {                                                                      // 토스트 연속으로 띄울때 딜레이 없이 사용
-        if(toast != null)
+        if (toast != null)
             toast.cancel();
 
         toast = Toast.makeText(context, text, time);
@@ -174,7 +178,7 @@ public class CommonUtils {                                                      
 
         Cursor cursor = null;
         final String column = "_data";
-        final String[] projection = { column };
+        final String[] projection = {column};
 
         try {
             cursor = context.getContentResolver().query(uri, projection,
@@ -215,7 +219,7 @@ public class CommonUtils {                                                      
     }
 
     public static Bitmap loadBitmapFromView(View v) {
-        Bitmap b = Bitmap.createBitmap( v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap b = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
         v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
         v.draw(c);
@@ -242,9 +246,9 @@ public class CommonUtils {                                                      
         String strUserID = pref.getString("USER_ID", "Guest");
         String strUserName = pref.getString("USER_NAME", "Guest");
 
-        if(strUserID == null || strUserID.length() == 0 || strUserID.equals("Guest")) {
+        if (strUserID == null || strUserID.length() == 0 || strUserID.equals("Guest")) {
             return false;
-        } else if(strUserName == null || strUserName.length() == 0 || strUserName.equals("Guest")) {
+        } else if (strUserName == null || strUserName.length() == 0 || strUserName.equals("Guest")) {
             return false;
         }
 
@@ -266,13 +270,13 @@ public class CommonUtils {                                                      
 
         long duration = dateNow.getTime() - dDate.getTime();
 
-        if(duration < 120000) {          // 1분보다 적다면, 즉 초단위라면
+        if (duration < 120000) {          // 1분보다 적다면, 즉 초단위라면
             strDuration = "방금 전";
-        } else if(duration < 60000 * 60) {          // 1시간 보다 적다면, 즉 분단위라면
+        } else if (duration < 60000 * 60) {          // 1시간 보다 적다면, 즉 분단위라면
             strDuration = "" + (duration / 60000) + "분 전";
-        } else if(duration < 60000 * 60 * 24) {     // 24시간 보다 적다면, 즉 시간 단위라면
+        } else if (duration < 60000 * 60 * 24) {     // 24시간 보다 적다면, 즉 시간 단위라면
             strDuration = "" + (duration / (60000 * 60)) + "시간 전";
-        } else if(duration < 60000 * 60 * 24 * 8) {     // 7일 이내라면
+        } else if (duration < 60000 * 60 * 24 * 8) {     // 7일 이내라면
             strDuration = "" + (duration / (60000 * 60 * 24)) + "일 전";
         } else {
             strDuration = strDate.substring(0, 16);
@@ -281,28 +285,29 @@ public class CommonUtils {                                                      
         return strDuration;
     }
 
-    public static Bitmap getImageFromURL(String imageURL){
+    public static Bitmap getImageFromURL(String imageURL) {
         Bitmap imgBitmap = null;
         HttpURLConnection conn = null;
         BufferedInputStream bis = null;
 
-        try
-        {
+        try {
             URL url = new URL(imageURL);
-            conn = (HttpURLConnection)url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             conn.connect();
 
             int nSize = conn.getContentLength();
             bis = new BufferedInputStream(conn.getInputStream(), nSize);
             imgBitmap = BitmapFactory.decodeStream(bis);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        } finally{
-            if(bis != null) {
-                try {bis.close();} catch (IOException e) {}
+        } finally {
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                }
             }
-            if(conn != null ) {
+            if (conn != null) {
                 conn.disconnect();
             }
         }
@@ -341,23 +346,23 @@ public class CommonUtils {                                                      
          */
         int nLevel = 1;
 
-        if(nDonationCarrotCount <= 500)
+        if (nDonationCarrotCount <= 500)
             nLevel = 1;
-        else if(nDonationCarrotCount <= 1000)
+        else if (nDonationCarrotCount <= 1000)
             nLevel = 2;
-        else if(nDonationCarrotCount <= 2000)
+        else if (nDonationCarrotCount <= 2000)
             nLevel = 3;
-        else if(nDonationCarrotCount <= 4000)
+        else if (nDonationCarrotCount <= 4000)
             nLevel = 4;
-        else if(nDonationCarrotCount <= 8000)
+        else if (nDonationCarrotCount <= 8000)
             nLevel = 5;
-        else if(nDonationCarrotCount <= 16000)
+        else if (nDonationCarrotCount <= 16000)
             nLevel = 6;
-        else if(nDonationCarrotCount <= 32000)
+        else if (nDonationCarrotCount <= 32000)
             nLevel = 7;
-        else if(nDonationCarrotCount <= 80000)
+        else if (nDonationCarrotCount <= 80000)
             nLevel = 8;
-        else if(nDonationCarrotCount <= 300000)
+        else if (nDonationCarrotCount <= 300000)
             nLevel = 9;
         else
             nLevel = 10;
@@ -391,16 +396,16 @@ public class CommonUtils {                                                      
     public static ArrayList<String> getForbiddenWords() {                                                                   // 서버에서 비속어 필터링할 목록 가져오기. 한번 받아왔으면 그대로 리턴하도록 함
         isComplete = false;
 
-        if(forbiddenWords == null || forbiddenWords.size() == 0) {
-            while(true) {
-                if(isComplete)
+        if (forbiddenWords == null || forbiddenWords.size() == 0) {
+            while (true) {
+                if (isComplete)
                     break;
 
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         String strVersion = HttpClient.getStoreVersion(new OkHttpClient());
-                        if(strVersion != null) {
+                        if (strVersion != null) {
 
                         }
 
@@ -425,11 +430,23 @@ public class CommonUtils {                                                      
     public static String checkForbiddenWords(String strKeyword) {
         ArrayList<String> forbiddenList = getForbiddenWords();
 
-        for(String strForbiddenWord : forbiddenList) {
-            if(strKeyword.contains(strForbiddenWord))
+        for (String strForbiddenWord : forbiddenList) {
+            if (strKeyword.contains(strForbiddenWord))
                 return strForbiddenWord;
         }
 
         return "";
+    }
+
+    public static boolean getNetworkState(Context context) {
+        boolean isAvailableNetwork = true;
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        //if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) isAvailableNetwork = true; // WIFI에 연결됨
+        //if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) isAvailableNetwork = true; // LTE(이동통신망)에 연결됨
+        if (networkInfo == null || !networkInfo.isConnected())
+            isAvailableNetwork = false; // 연결되지않음
+
+        return isAvailableNetwork;
     }
 }

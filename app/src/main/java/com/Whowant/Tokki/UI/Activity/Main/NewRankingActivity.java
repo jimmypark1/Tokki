@@ -65,6 +65,10 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
         } else if (title.contains("님을 위한") && bestList != null && bestList.size() > 0) {
             aa = new CNewRankingArrayAdapter(NewRankingActivity.this, R.layout.best_row, bestList);
             listView.setAdapter(aa);
+        } else if ("리얼 스토리".equals(title)) {
+            getRealStoryRankingData();
+        } else if ("팬픽션".equals(title)) {
+            getFanFictionRankingData();
         } else {
             getNewRankingData();
         }
@@ -216,7 +220,7 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
         new Thread(new Runnable() {
             @Override
             public void run() {
-                bestList = HttpClient.getGenreRankingList(new OkHttpClient(), "1");
+                bestList = HttpClient.getBestRankingList(new OkHttpClient());
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -240,6 +244,58 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
                                 startActivity(intent);
                             }
                         });
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void getRealStoryRankingData() {
+        CommonUtils.showProgressDialog(NewRankingActivity.this, "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                bestList = HttpClient.getRealStoryRankingList(new OkHttpClient());
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        if (bestList == null) {
+                            Toast.makeText(NewRankingActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        aa = new CNewRankingArrayAdapter(NewRankingActivity.this, R.layout.best_row, bestList);
+                        listView.setAdapter(aa);
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void getFanFictionRankingData() {
+        CommonUtils.showProgressDialog(NewRankingActivity.this, "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                bestList = HttpClient.getFanFictionRankingList(new OkHttpClient());
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        if (bestList == null) {
+                            Toast.makeText(NewRankingActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        aa = new CNewRankingArrayAdapter(NewRankingActivity.this, R.layout.best_row, bestList);
+                        listView.setAdapter(aa);
                     }
                 });
             }

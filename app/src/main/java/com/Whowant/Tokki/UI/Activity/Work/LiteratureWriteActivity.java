@@ -145,6 +145,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
     private int nEpisodeID;
     private int nInteractionIndex;              // 1회차, 2회차 등 회차의 순서
+    private int nEpisodeOrder;
     private int nAddIndex = -1;             // 사이에 추가하기 넘버
     private int nEditIndex = -1;            // 수정할때 넘버
     private int nDeleteIndex = -1;
@@ -222,7 +223,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         nEpisodeID = getIntent().getIntExtra("EPISODE_ID", -1);
         nInteractionIndex = getIntent().getIntExtra("EPISODE_INDEX", -1);
         titleView.setText(strTitle);
-        episodeNumView.setText((nInteractionIndex + 1) + "화");
+        nEpisodeOrder = getIntent().getIntExtra("EPISODE_ORDER", 0);
+        episodeNumView.setText(nEpisodeOrder + "화");
         characterList = new ArrayList<>();
         nameList = new ArrayList<>();
         characterViewList = new ArrayList<>();
@@ -372,6 +374,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 InteractionWriteActivity.workVO = workVO;
                 intent.putExtra("TITLE", strTitle);
                 intent.putExtra("EPISODE_ID", nEpisodeID);
+                intent.putExtra("EPISODE_ORDER", nEpisodeOrder);
                 intent.putExtra("EPISODE_INDEX", nInteractionIndex);
                 startActivity(intent);
                 finish();
@@ -937,6 +940,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     .setDialogType(ColorPickerDialog.TYPE_PRESETS)
                     .setAllowPresets(false)
                     .setDialogId(1010)
+                    .setDialogTitle(R.string.title_color_palette)
                     .setColor(nBgColor)
                     .setShowAlphaSlider(true)
                     .show(LiteratureWriteActivity.this);
@@ -970,8 +974,21 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 .setPermissionListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted() {
+                        String[] mimeTypes = {"application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","application/x-msexcel"};
                         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("*/*");
+//                        intent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
+                            if (mimeTypes.length > 0) {
+                                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+                            }
+                        } else {
+                            String mimeTypesStr = "";
+                            for (String mimeType : mimeTypes) {
+                                mimeTypesStr += mimeType + "|";
+                            }
+                            intent.setType(mimeTypesStr.substring(0,mimeTypesStr.length() - 1));
+                        }
                         startActivityForResult(Intent.createChooser(intent, "Excel Files"), 1040);
                     }
 
@@ -1136,6 +1153,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                         intent.putExtra("TITLE", strTitle);
                                         intent.putExtra("EPISODE_ID", nEpisodeID);
                                         intent.putExtra("EPISODE_INDEX", nInteractionIndex);
+                                        intent.putExtra("EPISODE_ORDER", nEpisodeOrder);
                                         intent.putExtra("SUBMIT", bSubmit);
                                         intent.putExtra("EXCEL_UPLOADED", isExcelUploaded);
                                         startActivity(intent);
@@ -1348,7 +1366,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                 }
 
                                 if (resultObject.getString("RESULT").equals("SUCCESS")) {
-                                    Toast.makeText(LiteratureWriteActivity.this, "제출 되었습니다.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(LiteratureWriteActivity.this, "제출되었습니다.", Toast.LENGTH_LONG).show();
                                     finish();
                                 } else {
                                     Toast.makeText(LiteratureWriteActivity.this, "제출에 실패하였습니다.", Toast.LENGTH_LONG).show();
@@ -1429,6 +1447,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                                 intent.putExtra("TITLE", strTitle);
                                 intent.putExtra("EPISODE_ID", nEpisodeID);
                                 intent.putExtra("EPISODE_INDEX", nInteractionIndex);
+                                intent.putExtra("EPISODE_ORDER", nEpisodeOrder);
                                 startActivity(intent);
                                 finish();
                                 return;

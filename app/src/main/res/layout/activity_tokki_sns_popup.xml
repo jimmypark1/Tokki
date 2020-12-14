@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Popup.TokkiSNSPopup"
+    android:background="#b2000000">
+
+    <RelativeLayout
+        android:id="@+id/popupBodyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_popup_bg"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_centerInParent="true">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/titleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:text="토키 계정으로 연결"/>
+
+            <ImageButton
+                android:id="@+id/closeBtn"
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="19.3dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginBottom="17dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/pop_close"
+                android:onClick="onClickCloseBtn"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/underLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/topLayout"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#f0f0f0"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="50dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/underLine">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/facebookBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/facebook_btn_bg"
+                    android:gravity="center"
+                    android:onClick="onClickFacebookBtn"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/i_facebook" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/instaBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/insta_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:onClick="onClickInstaBtn">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/i_instagram" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/naverBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/naver_btn_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:onClick="onClickNaverBtn">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/i_naver" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/youtubeBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/apple_login_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:onClick="onClickYoutubeBtn">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/i_youtube" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

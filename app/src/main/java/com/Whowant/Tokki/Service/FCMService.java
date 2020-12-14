@@ -61,7 +61,7 @@ public class FCMService extends FirebaseMessagingService {
 
         PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0, introIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        builder.setSmallIcon(R.mipmap.ic_launcher) // 아이콘 설정하지 않으면 오류남
+        builder.setSmallIcon(R.drawable.ic_stat_name) // 아이콘 설정하지 않으면 오류남
                 .setContentTitle(remoteMessage.getData().get("title")) // 제목 설정
                 .setContentText(remoteMessage.getData().get("body")) // 내용 설정
                 .setTicker(remoteMessage.getData().get("body")) // 상태바에 표시될 한줄 출력

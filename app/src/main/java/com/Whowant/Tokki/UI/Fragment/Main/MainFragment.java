@@ -123,7 +123,7 @@ public class MainFragment extends Fragment {                                    
                         recommendCardList.clear();
                         recommendCardList.add(vo);
 
-                        if(mainCardList.size() < 5)
+                        if(mainCardList.size() < 7)
                             mainCardList.addAll(1, recommendCardList);
 
                         mainRecyclerView.setHasFixedSize(true);

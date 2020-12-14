@@ -224,8 +224,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:layout_below="@+id/listView"
-                android:visibility="gone" />
+                android:layout_below="@+id/listView" />
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -244,5 +243,5 @@
         android:text="첫 회차 쓰러가기"
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 </RelativeLayout>

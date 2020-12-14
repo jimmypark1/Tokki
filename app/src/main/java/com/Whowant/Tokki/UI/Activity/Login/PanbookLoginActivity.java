@@ -2,10 +2,12 @@ package com.Whowant.Tokki.UI.Activity.Login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -26,6 +28,7 @@ import com.Whowant.Tokki.SNS.Facebook.FacebookSignupActivity;
 import com.Whowant.Tokki.SNS.KakaoTalk.KakaoSDKAdapter;
 import com.Whowant.Tokki.SNS.KakaoTalk.KakaoSignupActivity;
 import com.Whowant.Tokki.SNS.Naver.NaverSignupActivity;
+import com.Whowant.Tokki.UI.Activity.Admin.CommentManagementActivity;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -52,6 +55,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.OkHttpClient;
+
+import static com.Whowant.Tokki.Utils.CommonUtils.getNetworkState;
 
 public class PanbookLoginActivity extends AppCompatActivity {
     private EditText inputIDView;
@@ -177,6 +182,27 @@ public class PanbookLoginActivity extends AppCompatActivity {
 
         if(strPW.length() == 0) {
             Toast.makeText(PanbookLoginActivity.this, "비밀번호를 입력해주세요.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (!getNetworkState(mContext)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(PanbookLoginActivity.this);
+            builder.setMessage("네트워크에 접속할 수 없습니다. 네트워크 연결 상태를 확인해 주세요.");
+            builder.setPositiveButton("재시도", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    requestLogin();
+                }
+            });
+
+            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
             return;
         }
 
@@ -321,11 +347,51 @@ public class PanbookLoginActivity extends AppCompatActivity {
     }
 
     public void onClickKakaoLoginBtn(View view) {
+        if (!getNetworkState(mContext)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(PanbookLoginActivity.this);
+            builder.setMessage("네트워크에 접속할 수 없습니다. 네트워크 연결 상태를 확인해 주세요.");
+            builder.setPositiveButton("재시도", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    onClickKakaoLoginBtn(view);
+                }
+            });
+
+            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            return;
+        }
         initKakaotalkLogin();
         Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, PanbookLoginActivity.this);
     }
 
     public void onClickNaverLoginBtn(View view) {
+        if (!getNetworkState(mContext)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(PanbookLoginActivity.this);
+            builder.setMessage("네트워크에 접속할 수 없습니다. 네트워크 연결 상태를 확인해 주세요.");
+            builder.setPositiveButton("재시도", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    onClickNaverLoginBtn(view);
+                }
+            });
+
+            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            return;
+        }
         startActivityForResult(new Intent(PanbookLoginActivity.this, NaverSignupActivity.class), 1000);
     }
 
@@ -334,10 +400,50 @@ public class PanbookLoginActivity extends AppCompatActivity {
     }
 
     public void onClickFacebookLoginBtn(View view) {
+        if (!getNetworkState(mContext)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(PanbookLoginActivity.this);
+            builder.setMessage("네트워크에 접속할 수 없습니다. 네트워크 연결 상태를 확인해 주세요.");
+            builder.setPositiveButton("재시도", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    onClickFacebookLoginBtn(view);
+                }
+            });
+
+            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            return;
+        }
         startActivityForResult(new Intent(PanbookLoginActivity.this, FacebookSignupActivity.class), 1000);
     }
 
     public void onClickGoogleLoginBtn(View view) {
+        if (!getNetworkState(mContext)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(PanbookLoginActivity.this);
+            builder.setMessage("네트워크에 접속할 수 없습니다. 네트워크 연결 상태를 확인해 주세요.");
+            builder.setPositiveButton("재시도", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    onClickGoogleLoginBtn(view);
+                }
+            });
+
+            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            return;
+        }
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()

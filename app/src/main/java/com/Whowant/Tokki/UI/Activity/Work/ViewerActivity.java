@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -19,6 +20,7 @@ import android.os.Environment;
 import android.os.FileObserver;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -180,7 +182,7 @@ public class ViewerActivity extends AppCompatActivity {                         
         autoScrollLayout = findViewById(R.id.autoScrollLayout);
         bgView = findViewById(R.id.bgView);
         chattingListView = findViewById(R.id.listView);
-        weightEmptyView = findViewById(R.id.weightEmptyView);
+//        weightEmptyView = findViewById(R.id.weightEmptyView);
 
         chattingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -192,7 +194,7 @@ public class ViewerActivity extends AppCompatActivity {                         
         isSlideUp = false;
 
         chattingListView.setOnTouchListener(onTouchListener);
-        weightEmptyView.setOnTouchListener(onTouchListener);
+//        weightEmptyView.setOnTouchListener(onTouchListener);
 
 //        bgView.setOnLongClickListener(new View.OnLongClickListener() {
 //            @Override
@@ -249,6 +251,22 @@ public class ViewerActivity extends AppCompatActivity {                         
 
         RelativeLayout photoSelectBottomSheet = findViewById(R.id.comment_bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(photoSelectBottomSheet);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        if (hasFocus) {
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size); // size.x size.y
+            int height = size.y;
+            height *= 0.2;
+
+            ListView listView = findViewById(R.id.listView);
+            listView.setPadding(0, 0, 0, height); // 화면 해상도 계산 후 paddingBottom
+        }
     }
 
     FileObserver fileObserver = new FileObserver(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Screenshots") {

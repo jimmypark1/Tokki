@@ -333,7 +333,7 @@ public class AproveWaitingEpisodeListActivity extends AppCompatActivity {
                     public void run() {
                         CommonUtils.hideProgressDialog();
                         if(bResult) {
-                            Toast.makeText(AproveWaitingEpisodeListActivity.this, "게시 승인 되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AproveWaitingEpisodeListActivity.this, "게시 승인되었습니다.", Toast.LENGTH_SHORT).show();
                             getWaitingData();
                         } else {
                             Toast.makeText(AproveWaitingEpisodeListActivity.this, "게시 승인에 실패하였습니다.", Toast.LENGTH_SHORT).show();

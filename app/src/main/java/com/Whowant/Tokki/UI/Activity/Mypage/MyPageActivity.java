@@ -22,6 +22,7 @@ import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageFeedFragment;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageTalkFragment;
+import com.Whowant.Tokki.UI.Popup.TokkiSNSPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.DeviceUtils;
 import com.Whowant.Tokki.Utils.SimplePreference;
@@ -58,6 +59,8 @@ public class MyPageActivity extends AppCompatActivity {
     private int nDonationCarrot = 0;                                                        // 후원받은 당근 갯수
     private int nLevel = 1;                                                                 // 당근 갯수에 따라 레벨 결정
 
+    private boolean isPopup = false;
+
     int[] levelRes = new int[]{
             R.drawable.ic_i_level_1, R.drawable.ic_i_level_2, R.drawable.ic_i_level_3, R.drawable.ic_i_level_4, R.drawable.ic_i_level_5,
             R.drawable.ic_i_level_6, R.drawable.ic_i_level_7, R.drawable.ic_i_level_8, R.drawable.ic_i_level_9, R.drawable.ic_i_level_10
@@ -87,23 +90,25 @@ public class MyPageActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        String strPhoto = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_PHOTO", "");
+        if (!isPopup) {
+            String strPhoto = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_PHOTO", "");
 
-        if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
-            if (!strPhoto.startsWith("http"))
-                strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
+            if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
+                if (!strPhoto.startsWith("http"))
+                    strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
 
-            Glide.with(mActivity)
-                    .asBitmap() // some .jpeg files are actually gif
-                    .placeholder(R.drawable.user_icon)
-                    .load(strPhoto)
-                    .apply(new RequestOptions().circleCrop())
-                    .into(photoIv);
-        } else {
-            photoIv.setImageResource(R.drawable.user_icon);
+                Glide.with(mActivity)
+                        .asBitmap() // some .jpeg files are actually gif
+                        .placeholder(R.drawable.user_icon)
+                        .load(strPhoto)
+                        .apply(new RequestOptions().circleCrop())
+                        .into(photoIv);
+            } else {
+                photoIv.setImageResource(R.drawable.user_icon);
+            }
+
+            initData();
         }
-
-        initData();
     }
 
     private void initView() {
@@ -143,6 +148,10 @@ public class MyPageActivity extends AppCompatActivity {
 
         nameTv.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_NAME", ""));
         getMyFollowInfo();
+    }
+
+    public boolean isPopup() {
+        return isPopup;
     }
 
     public class MyPageAdapter extends FragmentStatePagerAdapter {
@@ -187,6 +196,11 @@ public class MyPageActivity extends AppCompatActivity {
     // 계정 설정
     public void btnAccountSetting(View v) {
         startActivity(new Intent(this, MyPageAccountSettingActivity.class));
+    }
+
+    public void btnTokkiSNS(View v) {
+        isPopup = true;
+        startActivity(new Intent(this, TokkiSNSPopup.class));
     }
 
     // 작품수

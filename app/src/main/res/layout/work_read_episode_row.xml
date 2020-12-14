@@ -28,7 +28,7 @@
                 android:ellipsize="end"
                 android:textSize="18sp"
                 android:textColor="@color/colorBlack"
-                android:text="1회차"/>
+                android:text="1화"/>
 
             <TextView
                 android:id="@+id/postAvailableView"
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:textColor="#d1d1d1"
-                    android:text="2019.09.28"/>
+                    android:text="2020.01.01"/>
 
                 <LinearLayout
                     android:id="@+id/pointLayout"

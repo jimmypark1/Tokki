@@ -214,7 +214,7 @@ public class EpisodeReportSelectActivity extends AppCompatActivity {            
                         CommonUtils.hideProgressDialog();
 
                         if(nResult == 0) {
-                            Toast.makeText(EpisodeReportSelectActivity.this, "신고 되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EpisodeReportSelectActivity.this, "신고되었습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         } else if(nResult == 1) {
                             Toast.makeText(EpisodeReportSelectActivity.this, "이미 신고한 회차입니다.", Toast.LENGTH_SHORT).show();

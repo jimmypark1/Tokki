@@ -216,6 +216,11 @@ public class TagRegActivity extends AppCompatActivity {
             this.arrayList = arrayList;
         }
 
+        public void setData(ArrayList<TagVo> tagList) {
+            this.arrayList = tagList;
+            notifyDataSetChanged();
+        }
+
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -283,12 +288,13 @@ public class TagRegActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mArrayList.addAll(HttpClient.getTagInfo(new OkHttpClient(), tagName));
+                mArrayList = HttpClient.getTagInfo(new OkHttpClient(), tagName);
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.notifyDataSetChanged();
+                        adapter.setData(mArrayList);
+//                        adapter.notifyDataSetChanged();
                     }
                 });
             }

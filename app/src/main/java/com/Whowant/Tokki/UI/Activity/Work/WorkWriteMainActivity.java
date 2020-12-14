@@ -509,6 +509,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                         }
 
                         intent.putExtra("EPISODE_INDEX", nOrder);
+                        intent.putExtra("EPISODE_ORDER", nOrder+1);
                         intent.putExtra("EPISODE_TITLE", strTitle);
                         startActivity(intent);
                     }
@@ -581,16 +582,16 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                     }
                 });
             } else {
-                LinearLayout writeLl = holder.itemView.findViewById(R.id.ll_work_main_episode_row_write);
-                writeLl.setVisibility(itemsList.size() - 1 == position ? View.VISIBLE : View.GONE);
-                writeLl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        requestCreateEpisode();
-                    }
-                });
-                TextView writeTv = holder.itemView.findViewById(R.id.tv_work_main_episode_row_write);
-                writeTv.setText(newEpsisodeBtn.getText().toString());
+//                LinearLayout writeLl = holder.itemView.findViewById(R.id.ll_work_main_episode_row_write);
+//                writeLl.setVisibility(itemsList.size() - 1 == position ? View.VISIBLE : View.GONE);
+//                writeLl.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        requestCreateEpisode();
+//                    }
+//                });
+//                TextView writeTv = holder.itemView.findViewById(R.id.tv_work_main_episode_row_write);
+//                writeTv.setText(newEpsisodeBtn.getText().toString());
 
                 if (showingList.get(1).equals("EMPTY"))
                     return;
@@ -607,7 +608,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                 TextView commentCountView = holder.itemView.findViewById(R.id.commentCountView);
 //                LinearLayout chatCountLayout = holder.itemView.findViewById(R.id.chatCountLayout);
                 TextView chatCountView = holder.itemView.findViewById(R.id.chatCountView);
-                TextView tabCountView = holder.itemView.findViewById(R.id.tabCountView);
+//                TextView tabCountView = holder.itemView.findViewById(R.id.tabCountView);
 
                 episodeTitleView.setText(vo.getStrTitle());
                 dateTimeView.setText(vo.getStrDate().substring(0, 10));
@@ -621,7 +622,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                 menuBtn.setVisibility(View.VISIBLE);
 
                 chatCountView.setText("" + vo.getnChatCount());
-                tabCountView.setText("" + vo.getnTapCount());
+//                tabCountView.setText("" + vo.getnTapCount());
 
                 if (vo.getStrSubmit().equals("N")) {                                                        // 작품 제출상태(심사요청 상태) 표시. N(None), W(Waiting), Y(Yes), F(Failed) 로 구분하여 사용
                     postAvailableView.setText("제출대기");
@@ -771,7 +772,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                             CommonUtils.hideProgressDialog();
 
                             if (bResult) {
-                                Toast.makeText(WorkWriteMainActivity.this, "게시 승인 되었습니다.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(WorkWriteMainActivity.this, "게시 승인되었습니다.", Toast.LENGTH_SHORT).show();
                                 getWorkInfo();
                             } else {
                                 Toast.makeText(WorkWriteMainActivity.this, "게시 승인에 실패하였습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
@@ -846,6 +847,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                         intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
                                         intent.putExtra("EPISODE_INDEX", nPosition);
+                                        intent.putExtra("EPISODE_ORDER", workVO.getEpisodeList().get(nPosition).getnOrder());
                                         intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
                                         intent.putExtra("SUBMIT", workVO.getEpisodeList().get(nPosition).getStrSubmit());
                                         intent.putExtra("EXCEL_UPLOADED", workVO.getEpisodeList().get(nPosition).isExcelUploaded());
@@ -859,6 +861,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                             intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
                                             intent.putExtra("EPISODE_INDEX", nPosition);
+                                            intent.putExtra("EPISODE_ORDER", workVO.getEpisodeList().get(nPosition).getnOrder());
                                             intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
                                             intent.putExtra("SUBMIT", workVO.getEpisodeList().get(nPosition).getStrSubmit());
                                             intent.putExtra("EXCEL_UPLOADED", workVO.getEpisodeList().get(nPosition).isExcelUploaded());

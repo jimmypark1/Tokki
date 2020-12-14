@@ -23,15 +23,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".UI.Activity.Login.PWRegisterActivity"
+        <activity android:name=".UI.Popup.TokkiSNSPopup"
             android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity android:name=".UI.Activity.Login.PhoneNumAuthActivity"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity
+            android:name=".UI.Activity.Login.PWRegisterActivity"
             android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activity.Login.PhoneNumAuthActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.Activity.Admin.WriterWorkListActivity"
             android:configChanges="screenSize|orientation"
@@ -79,7 +81,7 @@
         <activity
             android:name=".UI.Popup.EditPopup"
             android:configChanges="screenSize|orientation"
-            android:theme="@style/Theme.AppCompat.Translucent"  />
+            android:theme="@style/Theme.AppCompat.Translucent" />
         <activity
             android:name=".UI.Activity.TagRegActivity"
             android:configChanges="screenSize|orientation"
