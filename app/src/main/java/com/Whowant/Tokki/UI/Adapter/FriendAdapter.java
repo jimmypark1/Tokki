@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.Whowant.Tokki.UI.Fragment.Friend.FriendFindFragment;
-import com.Whowant.Tokki.UI.Fragment.Friend.FriendInviteFragment;
+import com.Whowant.Tokki.UI.Fragment.Friend.FriendRecommendFragment;
+import com.Whowant.Tokki.UI.Fragment.Friend.FriendListFragment;
 import com.Whowant.Tokki.UI.Fragment.Friend.FriendMessageFragment;
 
 import java.util.ArrayList;
@@ -24,12 +24,12 @@ public class FriendAdapter extends FragmentPagerAdapter {
 
         this.mContext = context;
 
-        fragments.add(new FriendFindFragment());
-        fragments.add(new FriendInviteFragment());
+        fragments.add(new FriendRecommendFragment());
+        fragments.add(new FriendListFragment());
         fragments.add(new FriendMessageFragment());
 
-        titles.add("친구 찾기");
-        titles.add("친구 초대");
+        titles.add("친구 추천");
+        titles.add("친구 목록");
         titles.add("메시지");
     }
 

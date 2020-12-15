@@ -23,7 +23,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UI.Popup.TokkiSNSPopup"
+
+        <activity
+            android:name=".UI.Fragment.Friend.MessageDetailActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".UI.Popup.TokkiSNSPopup"
             android:configChanges="screenSize|orientation"
             android:theme="@style/Theme.AppCompat.Translucent" />
         <activity

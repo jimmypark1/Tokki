@@ -167,13 +167,15 @@ public class UserProfileActivity extends AppCompatActivity {
                 intent.putExtra("USER_EMAIL", pref.getString("USER_EMAIL", ""));
                 startActivity(intent);
             } else if (requestCode == FROM_CAMERA) {
-                ThumbnailPreviewActivity.nNextType = TYPE_PROFILE.ordinal();
-                CropImage.activity(mPhotoUri)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setActivityTitle("My Crop")
-                        .setCropShape(CropImageView.CropShape.OVAL)
-                        .setAspectRatio(1, 1)
-                        .start(UserProfileActivity.this);
+                if (requestCode == FROM_CAMERA) {
+                    ThumbnailPreviewActivity.nNextType = TYPE_PROFILE.ordinal();
+                    CropImage.activity(mPhotoUri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setActivityTitle("My Crop")
+                            .setCropShape(CropImageView.CropShape.OVAL)
+                            .setAspectRatio(1, 1)
+                            .start(UserProfileActivity.this);
+                }
             }
         }
     }

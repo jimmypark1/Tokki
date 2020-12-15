@@ -939,6 +939,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             ColorPickerDialog.newBuilder()
                     .setDialogType(ColorPickerDialog.TYPE_PRESETS)
                     .setAllowPresets(false)
+                    .setDialogTitle(R.string.title_color_palette)
                     .setDialogId(1010)
                     .setDialogTitle(R.string.title_color_palette)
                     .setColor(nBgColor)

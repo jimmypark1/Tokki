@@ -68,7 +68,7 @@ public class SearchResultActivity extends AppCompatActivity {
         if (getIntent() != null && getIntent().getExtras() != null) {
             searchEt.setText(getIntent().getStringExtra("search"));
             searchEt.setSelection(searchEt.getText().toString().length());
-            getSearchWorkList(searchEt.getText().toString().trim(), 0);
+            getSearchWorkList(searchEt.getText().toString(), 0);
         }
     }
 

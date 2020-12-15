@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Writer.WriterPageActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
+import com.Whowant.Tokki.VO.FriendVO;
 import com.Whowant.Tokki.VO.MessageThreadVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -29,21 +32,21 @@ import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 
-public class FriendMessageFragment extends Fragment {
+public class FriendListFragment extends Fragment {
+
     private RecyclerView recyclerView;
-    private FriendMessageAdapter adapter;
-    private ArrayList<MessageThreadVO> messageList = new ArrayList<>();
+    private FriendInviteAdapter adapter;
+    private ArrayList<FriendVO> friendList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_friend_message, container, false);
+        View v = inflater.inflate(R.layout.fragment_friend_invite, container, false);
 
         recyclerView = v.findViewById(R.id.recyclerView);
-        adapter = new FriendMessageAdapter(getContext());
+        adapter = new FriendInviteAdapter(getActivity(), friendList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
-
 
         return v;
     }
@@ -51,58 +54,90 @@ public class FriendMessageFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getMessageData();
+        getFriendList();
     }
 
-    private void getMessageData() {
+    public void getFriendList() {
         SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
-        messageList.clear();
+        friendList.clear();
 
         CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다.");
         new Thread(new Runnable() {
             @Override
             public void run() {
-                messageList = HttpClient.getMessageThreadList(new OkHttpClient(), pref.getString("USER_ID", "Guest"));
+                friendList = HttpClient.getFriendList(new OkHttpClient(), pref.getString("USER_ID", "Guest"));
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
-                        if(messageList == null) {
+                        if(friendList == null) {
                             Toast.makeText(getActivity(), "서버와의 통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        adapter.setData(messageList);
+                        adapter.setData(friendList);
                     }
                 });
             }
         }).start();
     }
 
-    public void onClickAddBtn(View view) {
+    private void getMessageData(final String strPartnerID) {
+        SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
 
+        CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다.");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                MessageThreadVO vo = HttpClient.getMessageThreadByID(new OkHttpClient(), pref.getString("USER_ID", "Guest"), strPartnerID);
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+                        if(vo == null) {
+                            Toast.makeText(getActivity(), "서버와의 통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
+                        String strMyID = pref.getString("USER_ID", "Guest");
+                        int nThreadID = vo.getThreadID();
+                        Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
+                        intent.putExtra("THREAD_ID", nThreadID);
+
+                        if(strMyID.equals(vo.getUserID()))
+                            intent.putExtra("RECEIVER_ID", vo.getPartnerID());
+                        else
+                            intent.putExtra("RECEIVER_ID", vo.getUserID());
+                        startActivity(intent);
+                    }
+                });
+            }
+        }).start();
     }
 
-    public class FriendMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public class FriendInviteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-        private Context context;
-        private ArrayList<MessageThreadVO> dataList = new ArrayList<>();
+        Context context;
+        ArrayList<FriendVO> dataList = new ArrayList<>();
 
-        public FriendMessageAdapter(Context context) {
+        public FriendInviteAdapter(Context context, ArrayList<FriendVO> friendList) {
             this.context = context;
+            this.dataList = friendList;
         }
 
-        public void setData(ArrayList<MessageThreadVO> list) {
-            this.dataList = list;
+        public void setData(ArrayList<FriendVO> friendList) {
+            this.dataList = friendList;
             notifyDataSetChanged();
         }
 
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(context).inflate(R.layout.row_friend_message_fragment, parent, false);
-            return new FriendMessageViewHolder(v);
+            View v = LayoutInflater.from(context).inflate(R.layout.friend_list_row, parent, false);
+            return new FriendInviteViewHolder(v);
         }
 
         @Override
@@ -110,9 +145,8 @@ public class FriendMessageFragment extends Fragment {
             if(dataList.size() <= position)
                 return;
 
-            MessageThreadVO vo = dataList.get(position);
-            FriendMessageViewHolder viewHolder = (FriendMessageViewHolder)holder;
-
+            FriendVO vo = dataList.get(position);
+            FriendInviteViewHolder viewHolder = (FriendInviteViewHolder) holder;
             String strPhoto = vo.getUserPhoto();
             viewHolder.photoIv.setClipToOutline(true);
             if(strPhoto != null && !strPhoto.equals("null") && !strPhoto.equals("NULL") && strPhoto.length() > 0) {
@@ -133,26 +167,19 @@ public class FriendMessageFragment extends Fragment {
             }
 
             viewHolder.nameTv.setText(vo.getUserName());
-
-            if(vo.getLastMsg() != null && vo.getLastMsg().length() > 0 && !vo.getLastMsg().equals("null"))
-                viewHolder.commentTv.setText(vo.getLastMsg());
-            else
-                viewHolder.commentTv.setText("");
-            viewHolder.dateTv.setText(vo.getCreatedDate());
+            viewHolder.addLl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getMessageData(vo.getUserId());
+                }
+            });
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
-                    String strMyID = pref.getString("USER_ID", "Guest");
-                    int nThreadID = vo.getThreadID();
-                    Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
-                    intent.putExtra("THREAD_ID", nThreadID);
-
-                    if(strMyID.equals(vo.getUserID()))
-                        intent.putExtra("RECEIVER_ID", vo.getPartnerID());
-                    else
-                        intent.putExtra("RECEIVER_ID", vo.getUserID());
+                    String writerId = vo.getUserId();
+                    Intent intent = new Intent(getActivity(), WriterPageActivity.class);
+                    intent.putExtra("writerId", writerId);
                     startActivity(intent);
                 }
             });
@@ -164,20 +191,18 @@ public class FriendMessageFragment extends Fragment {
         }
     }
 
-    public class FriendMessageViewHolder extends RecyclerView.ViewHolder {
+    public class FriendInviteViewHolder extends RecyclerView.ViewHolder {
 
         ImageView photoIv;
         TextView nameTv;
-        TextView commentTv;
-        TextView dateTv;
+        LinearLayout addLl;
 
-        public FriendMessageViewHolder(@NonNull View itemView) {
+        public FriendInviteViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            photoIv = itemView.findViewById(R.id.iv_row_friend_message_photo);
-            nameTv = itemView.findViewById(R.id.tv_row_friend_message_name);
-            commentTv = itemView.findViewById(R.id.tv_row_friend_message_comment);
-            dateTv = itemView.findViewById(R.id.tv_row_friend_message_date);
+            photoIv = itemView.findViewById(R.id.iv_row_friend_find_photo);
+            nameTv = itemView.findViewById(R.id.tv_row_friend_find_name);
+            addLl = itemView.findViewById(R.id.ll_row_friend_find_add);
         }
     }
 }

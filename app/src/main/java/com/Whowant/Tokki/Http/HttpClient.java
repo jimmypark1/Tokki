@@ -19,7 +19,10 @@ import com.Whowant.Tokki.VO.CommentVO;
 import com.Whowant.Tokki.VO.ContestVO;
 import com.Whowant.Tokki.VO.EpisodeVO;
 import com.Whowant.Tokki.VO.EventVO;
+import com.Whowant.Tokki.VO.FriendVO;
 import com.Whowant.Tokki.VO.MainCardVO;
+import com.Whowant.Tokki.VO.MessageThreadVO;
+import com.Whowant.Tokki.VO.MessageVO;
 import com.Whowant.Tokki.VO.NoticeVO;
 import com.Whowant.Tokki.VO.TagVo;
 import com.Whowant.Tokki.VO.UserInfoVO;
@@ -1008,7 +1011,6 @@ public class HttpClient {
                 vo.setnAccumCarrot(object.getInt("CARROT_ACCUMULATION"));
                 vo.setnDonationCarrot(object.getInt("CARROT_DONATION"));
                 vo.setnPurchaseCarrot(object.getInt("CARROT_PURCHASE"));
-
                 resultList.add(vo);
             }
         } catch (IOException e) {
@@ -1233,6 +1235,238 @@ public class HttpClient {
                 workVO.setnTarget(object.getInt("TARGET"));
 
                 resultList.add(workVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static boolean requestSendMessage(OkHttpClient httpClient, String senderID, String receiverID, String strContents, int nThreadID) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=SendMsg&SENDER_ID=" + senderID + "&RECEIVER_ID=" + receiverID + "&CONTENTS=" + strContents + "&THREAD_ID=" + nThreadID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            if (resultObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+            else
+                return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static ArrayList<MessageVO> getMessageList(OkHttpClient httpClient, int nThreadID) {                              // 모든 작품 목록 가져오기
+        ArrayList<MessageVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=GetMSGDetail&THREAD_ID=" + nThreadID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("MSG_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                MessageVO vo = new MessageVO();
+                vo.setThreadID(object.getInt("THREAD_ID"));
+                vo.setMessageID(object.getInt("MESSAGE_ID"));
+                vo.setReceiverID(object.getString("RECEIVER_ID"));
+                vo.setReceiverName(object.getString("RECEIVER_NAME"));
+                vo.setReceiverPhoto(object.getString("RECEIVER_PHOTO"));
+                vo.setSenderID(object.getString("SENDER_ID"));
+                vo.setSenderName(object.getString("SENDER_NAME"));
+                vo.setSenderPhoto(object.getString("SENDER_PHOTO"));
+                vo.setCreatedDate(object.getString("CREATED_DATE"));
+                vo.setMsgContents(object.getString("MESSAGE_CONTENTS"));
+                resultList.add(vo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static MessageThreadVO getMessageThreadByID(OkHttpClient httpClient, String strUserID, String strPartnerID) {                              // 모든 작품 목록 가져오기
+        MessageThreadVO vo = null;
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=GetMsgThreadByID&USER_ID=" + strUserID + "&PARTNER_ID=" + strPartnerID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("MSG_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+                vo = new MessageThreadVO();
+                vo.setThreadID(object.getInt("THREAD_ID"));
+                vo.setUserID(object.getString("USER_ID"));
+                vo.setPartnerID(object.getString("PARTNER_ID"));
+                vo.setUserName(object.getString("USER_NAME"));
+                vo.setUserPhoto(object.getString("USER_PHOTO"));
+                vo.setCreatedDate(object.getString("CREATED_DATE"));
+                vo.setLastMsg(object.getString("LAST_MESSAGE"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return vo;
+    }
+
+    public static ArrayList<MessageThreadVO> getMessageThreadList(OkHttpClient httpClient, String strUserID) {                              // 모든 작품 목록 가져오기
+        ArrayList<MessageThreadVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=GetMsgThreadList&USER_ID=" + strUserID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("MSG_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                MessageThreadVO vo = new MessageThreadVO();
+                vo.setThreadID(object.getInt("THREAD_ID"));
+                vo.setUserID(object.getString("USER_ID"));
+                vo.setPartnerID(object.getString("PARTNER_ID"));
+                vo.setUserName(object.getString("USER_NAME"));
+                vo.setUserPhoto(object.getString("USER_PHOTO"));
+                vo.setCreatedDate(object.getString("CREATED_DATE"));
+                vo.setLastMsg(object.getString("LAST_MESSAGE"));
+                resultList.add(vo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static ArrayList<FriendVO> getFriendList(OkHttpClient httpClient, String strUserID) {                              // 모든 작품 목록 가져오기
+        ArrayList<FriendVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiFriend.jsp?CMD=GetMyFriendList&USER_ID=" + strUserID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("RECOMMEND_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                FriendVO vo = new FriendVO();
+                vo.setUserId(object.getString("USER_ID"));
+                vo.setUserName(object.getString("USER_NAME"));
+                vo.setUserPhoto(object.getString("USER_PHOTO"));
+                resultList.add(vo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static ArrayList<FriendVO> getFriendRecommendList(OkHttpClient httpClient, String strUserID) {                              // 모든 작품 목록 가져오기
+        ArrayList<FriendVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiFriend.jsp?CMD=GetRecommendList&USER_ID=" + strUserID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("RECOMMEND_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                FriendVO vo = new FriendVO();
+                vo.setUserId(object.getString("USER_ID"));
+                vo.setUserName(object.getString("USER_NAME"));
+                vo.setUserPhoto(object.getString("USER_PHOTO"));
+//                WorkVO workVO = new WorkVO();
+//                workVO.setWorkID(object.getInt("WORK_ID"));
+//                workVO.setCreatedDate(object.getString("CREATED_DATE"));
+//                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+//                workVO.setWriteID(object.getString("WRITER_ID"));
+//                workVO.setStrWriterName(object.getString("WRITER_NAME"));
+//                workVO.setTitle(object.getString("WORK_TITLE"));
+//                workVO.setCoverFile(object.getString("COVER_IMG"));
+//                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+//                workVO.setnTapCount(object.getInt("TAB_COUNT"));
+//                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+//                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+//                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+//                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+//                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+//                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+//                workVO.setnTarget(object.getInt("TARGET"));
+
+                resultList.add(vo);
             }
         } catch (IOException e) {
             e.printStackTrace();

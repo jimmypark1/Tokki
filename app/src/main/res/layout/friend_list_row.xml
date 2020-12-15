@@ -44,7 +44,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_i_follow" />
+                android:src="@drawable/msg_bubble" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
