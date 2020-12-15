@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import okhttp3.OkHttpClient;
 
 public class MyPageFeedFragment extends Fragment {
-
     RecyclerView recyclerView;
     MyPageFeedAdapter adapter;
     ArrayList<WorkVO> myArrayList = new ArrayList<>();
@@ -51,7 +50,6 @@ public class MyPageFeedFragment extends Fragment {
     ArrayList<WriterVO> followArrayList = new ArrayList<>();
 
     ArrayList<MyPageFeedVo> mArrayList = new ArrayList<>();
-
     String writerId;
 
     @Override
@@ -96,9 +94,17 @@ public class MyPageFeedFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        MyPageActivity activity = (MyPageActivity) getActivity();
-        if(activity.isPopup())
-            return;
+
+        try {
+            MyPageActivity activity = (MyPageActivity) getActivity();
+            if(activity.isPopup()) {
+                activity.clearPopup();
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         getAllWorkWithWriterID();
     }
 

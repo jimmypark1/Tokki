@@ -56,11 +56,11 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
     private ArrayList<String> tagList, genreList;
     private RecyclerView listView;
     private ImageView coverImgView;
-    private TextView titleView, writerNameView;
+    private TextView titleView, writerNameView, genreView;
     private TextView synopsisView;
     private EpisodeAdapter aa;
     //    private CEpisodeListAdapter aa;
-    private FlowLayout taglayout, genreLayout;
+    private FlowLayout taglayout;
     private Button newEpsisodeBtn;
     private LinearLayout topEditLayout;
     private ArrayList<String> showingList;
@@ -101,9 +101,9 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         titleView = findViewById(R.id.workTitleView);
         synopsisView = findViewById(R.id.synopsisView);
         taglayout = findViewById(R.id.taglayout);
-        genreLayout = findViewById(R.id.genreLayout);
         newEpsisodeBtn = findViewById(R.id.newEpsisodeBtn);
         listView = findViewById(R.id.listView);
+        genreView = findViewById(R.id.genreView);
 
         coverImgView.setClipToOutline(true);                    // 라운드 처리.  xml 에서 ImageView 의 Background 로 round 처리되어 있음 xml 을 주었을때, clipToOutline 을 true 로 설정해주면 해당 xml 밤위 밖으로 이미지를 표시하지 않음. 토키 코드에서 많이 사용함
     }
@@ -419,23 +419,29 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
             taglayout.addView(tv);
         }
 
-        genreLayout.removeAllViews();
+//        genreLayout.removeAllViews();
 
         int nIndex = 0;
-        for (String strGenre : genreList) {
-            TextView tv = new TextView(WorkWriteMainActivity.this);
-            if (nIndex > 0)
-                strGenre = " / " + strGenre;
-
-            tv.setText(strGenre);
-            tv.setTextColor(Color.BLACK);
-            tv.setTextSize(15);
-            tv.setIncludeFontPadding(false);
-            FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(20, 20);
-            tv.setLayoutParams(params);
-            genreLayout.addView(tv);
-            nIndex++;
+        String strGenre = "";
+        for (String genre : genreList) {
+            if(strGenre.length() > 0)
+                strGenre = strGenre + " / ";
+            strGenre = strGenre + genre;
+//            TextView tv = new TextView(WorkWriteMainActivity.this);
+//            if (nIndex > 0)
+//                strGenre = " / " + strGenre;
+//
+//            tv.setText(strGenre);
+//            tv.setTextColor(Color.BLACK);
+//            tv.setTextSize(15);
+//            tv.setIncludeFontPadding(false);
+//            FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(20, 20);
+//            tv.setLayoutParams(params);
+//            genreLayout.addView(tv);
+//            nIndex++;
         }
+
+        genreView.setText(strGenre);
 
         Log.d("asdf", "INIT End");
         CommonUtils.hideProgressDialog();

@@ -41,7 +41,8 @@
                 android:id="@+id/iv_row_search_category_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/round_4_dddddd" />
+                android:background="@drawable/round_4_dddddd"
+                android:scaleType="centerCrop"/>
 
             <LinearLayout
                 android:id="@+id/ll_row_search_category_rank"
@@ -51,7 +52,8 @@
                 android:layout_marginTop="2dp"
                 android:background="#ffffff"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_row_search_category_rank"
@@ -175,6 +177,8 @@
                 android:lineSpacingExtra="7sp"
                 android:text="일이삼사오육칠팔구십일이삼사오육칠팔구십 일이삼사오육칠팔구십일이삼사오육칠팔구십"
                 android:textColor="#999999"
+                android:maxLines="3"
+                android:ellipsize="end"
                 android:textSize="13sp"
                 android:textStyle="normal" />
         </LinearLayout>

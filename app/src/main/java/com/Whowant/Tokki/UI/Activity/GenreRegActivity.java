@@ -7,18 +7,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Search.SearchCategoryActivity;
+import com.Whowant.Tokki.UI.Custom.FlowLayout;
+import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import okhttp3.OkHttpClient;
+
 public class GenreRegActivity extends AppCompatActivity {
 
-    LinearLayout genreLl;
+//    LinearLayout genreLl;
+    FlowLayout flowLayout;
     ArrayList<String> mArrayList = new ArrayList<>();
     ArrayList<String> checkList = new ArrayList<>();
 
@@ -45,15 +53,16 @@ public class GenreRegActivity extends AppCompatActivity {
         findViewById(R.id.ib_top_layout_back).setOnClickListener((v) -> finish());
         findViewById(R.id.ib_top_layout_back).setVisibility(View.VISIBLE);
 
-        String[] tmp = new String[]{
-                "SF", "공포, 스릴러", "로맨스", "코미디", "드라마", "판타지", "리얼스토리", "팬픽션"
-        };
 
-        mArrayList.addAll(Arrays.asList(tmp));
+//        String[] tmp = new String[]{
+//                "SF", "공포, 스릴러", "로맨스", "코미디", "드라마", "판타지", "리얼스토리", "팬픽션"
+//        };
+//        mArrayList.addAll(Arrays.asList(tmp));
+//        genreLl = findViewById(R.id.ll_genre);
 
-        genreLl = findViewById(R.id.ll_genre);
+        getGenreList();
+        flowLayout = findViewById(R.id.genreLayout);
 
-        setGenreView();
     }
 
     private void setGenreView() {
@@ -62,16 +71,18 @@ public class GenreRegActivity extends AppCompatActivity {
         LinearLayout genreChildLl = null;
 
         for (String genre : mArrayList) {
-            if (count++ % 4 == 0) {
-                if (genreChildLl != null) {
-                    genreLl.addView(genreChildLl);
-                }
-                genreChildLl = addGenreLinearLayout();
-            } else if (count == mArrayList.size()) {
-                genreLl.addView(genreChildLl);
-            }
+//            if (count++ % 4 == 0) {
+//                if (genreChildLl != null) {
+//                    genreLl.addView(genreChildLl);
+//                }
+//                genreChildLl = addGenreLinearLayout();
+//            } else if (count == mArrayList.size()) {
+//                genreLl.addView(genreChildLl);
+//            }
+//
+//            genreChildLl.addView(addGenreTextView(genre));
 
-            genreChildLl.addView(addGenreTextView(genre));
+            flowLayout.addView(addGenreTextView(genre));
         }
     }
 
@@ -86,6 +97,8 @@ public class GenreRegActivity extends AppCompatActivity {
 
     private View addGenreTextView(String name) {
         View v = LayoutInflater.from(this).inflate(R.layout.view_genre, null);
+        FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(20, 15);
+        v.setLayoutParams(params);
         TextView nameTv = v.findViewById(R.id.tv_genre_child_name);
         nameTv.setText(name);
         LinearLayout childLl = v.findViewById(R.id.ll_genre_child);
@@ -95,7 +108,7 @@ public class GenreRegActivity extends AppCompatActivity {
                 boolean isSelected = childLl.isSelected();
 
                 checkList.clear();
-                checkTagView(genreLl);
+                checkTagView(flowLayout);
 
                 if (checkList.size() == 3 && !isSelected) {
                     return;
@@ -144,7 +157,7 @@ public class GenreRegActivity extends AppCompatActivity {
 
     public void btnSave(View v) {
         checkList.clear();
-        checkTagView(genreLl);
+        checkTagView(flowLayout);
 
         StringBuffer stringBuffer = new StringBuffer();
         for (String str : checkList) {
@@ -157,5 +170,35 @@ public class GenreRegActivity extends AppCompatActivity {
         intent.putExtra("genre", stringBuffer.toString());
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    private void getGenreList() {
+        mArrayList.clear();
+
+        CommonUtils.showProgressDialog(GenreRegActivity.this, "서버와 통신중입니다. 잠시만 기다려주세요.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<String> tmp = HttpClient.getAllGenreList(new OkHttpClient());
+                if (tmp != null) {
+                    mArrayList.addAll(tmp);
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        if (tmp == null) {
+                            Toast.makeText(GenreRegActivity.this, "장르 목록을 가져오는데 실패했습니다.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        setGenreView();
+                    }
+                });
+            }
+        }).start();
     }
 }

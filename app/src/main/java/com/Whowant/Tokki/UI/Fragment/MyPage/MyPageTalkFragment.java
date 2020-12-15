@@ -110,9 +110,16 @@ public class MyPageTalkFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        MyPageActivity activity = (MyPageActivity) getActivity();
-        if(activity.isPopup())
-            return;
+        try {
+            MyPageActivity activity = (MyPageActivity) getActivity();
+            if(activity.isPopup()) {
+                activity.clearPopup();
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         getWriterChat();
     }
 

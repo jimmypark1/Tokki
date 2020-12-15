@@ -116,8 +116,8 @@ public class StorageBoxBookListDetailActivity extends AppCompatActivity {
                 if (strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
                     Glide.with(context)
                             .asBitmap() // some .jpeg files are actually gif
-                            .placeholder(R.drawable.round_4_dddddd)
-                            .load(R.drawable.round_4_dddddd)
+                            .placeholder(R.drawable.no_poster)
+                            .load(R.drawable.no_poster_vertical)
                             .into(viewHolder.photoIv);
                 } else {
                     if (!strImgUrl.startsWith("http")) {
@@ -126,7 +126,7 @@ public class StorageBoxBookListDetailActivity extends AppCompatActivity {
 
                     Glide.with(context)
                             .asBitmap() // some .jpeg files are actually gif
-                            .placeholder(R.drawable.round_4_dddddd)
+                            .placeholder(R.drawable.no_poster)
                             .load(strImgUrl)
                             .into(viewHolder.photoIv);
                 }

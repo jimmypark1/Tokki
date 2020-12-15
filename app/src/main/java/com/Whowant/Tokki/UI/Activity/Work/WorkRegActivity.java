@@ -328,7 +328,7 @@ public class WorkRegActivity extends AppCompatActivity {
     // 장르 버튼
     public void btnGenre(View v) {
         Intent intent = new Intent(mActivity, GenreRegActivity.class);
-        intent.putExtra("genre", genreTv.getText().toString().replace(" ", ""));
+        intent.putExtra("genre", genreTv.getText().toString().replace(" / ", "/"));
         startActivityForResult(intent, 911);
     }
 

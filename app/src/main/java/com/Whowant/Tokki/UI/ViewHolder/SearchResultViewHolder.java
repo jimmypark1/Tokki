@@ -43,6 +43,7 @@ public class SearchResultViewHolder extends RecyclerView.ViewHolder {
                 listener.onClick(0, getAdapterPosition());
             }
         });
+        optionIv.setVisibility(View.GONE);
         writerTv = itemView.findViewById(R.id.tv_row_search_category_writer);
         heartTv = itemView.findViewById(R.id.tv_row_search_category_heart);
         starTv = itemView.findViewById(R.id.tv_row_search_category_star);

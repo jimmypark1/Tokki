@@ -91,7 +91,7 @@ public class MyPageActivity extends AppCompatActivity {
         super.onResume();
 
         if (isPopup) {
-            isPopup = false;
+//            isPopup = false;
             return;
         }
 
@@ -155,6 +155,10 @@ public class MyPageActivity extends AppCompatActivity {
 
     public boolean isPopup() {
         return isPopup;
+    }
+
+    public void clearPopup() {
+        isPopup = false;
     }
 
     public class MyPageAdapter extends FragmentStatePagerAdapter {
