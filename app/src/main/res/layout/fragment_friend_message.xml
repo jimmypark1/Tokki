@@ -24,16 +24,21 @@
 <!--            android:layout_gravity="center"-->
 <!--            android:text="준비중입니다." />-->
 
-        <Button
+        <RelativeLayout
+            android:id="@+id/floatingBtn"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/circle_shadow"
+            android:background="@drawable/floating_bg"
             android:layout_margin="30dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:onClick="onClickAddBtn"
-            android:textSize="30sp"
-            android:text="+"/>
+            android:layout_alignParentBottom="true">
+            
+            <ImageView
+                android:layout_width="31dp"
+                android:layout_height="22dp"
+                android:background="@drawable/i_floating"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
     </RelativeLayout>
 
 

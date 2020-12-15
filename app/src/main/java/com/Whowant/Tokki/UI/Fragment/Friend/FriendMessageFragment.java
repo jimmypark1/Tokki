@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,13 @@ public class FriendMessageFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
+        RelativeLayout floatingBtn = v.findViewById(R.id.floatingBtn);
+        floatingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), FriendSelectActivity.class));
+            }
+        });
 
         return v;
     }
@@ -78,10 +86,6 @@ public class FriendMessageFragment extends Fragment {
                 });
             }
         }).start();
-    }
-
-    public void onClickAddBtn(View view) {
-
     }
 
     public class FriendMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
