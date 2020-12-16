@@ -4395,6 +4395,7 @@ public class HttpClient {
                                     String strUserName = resultObject.getString("USER_NAME");
                                     String strUserEmail = resultObject.getString("USER_EMAIL");
                                     String strUserPhoto = resultObject.getString("USER_PHOTO");
+                                    String strRecommendCode = resultObject.getString("RECOMMEND_CODE");
                                     String strUserPhoneNum = resultObject.getString("USER_PHONENUM");
                                     int nRegisterSNS = resultObject.getInt("REGISTER_SNS");
                                     String strSNSID = resultObject.getString("SNS_ID");
@@ -4419,6 +4420,7 @@ public class HttpClient {
                                     editor.putString("USER_BIRTHDAY", strBirthday);
                                     editor.putInt("USER_GENDER", nGender);
                                     editor.putInt("COIN_COUNT", nCoinCount);
+                                    editor.putString("RECOMMEND_CODE", strRecommendCode);
 
                                     editor.commit();
 

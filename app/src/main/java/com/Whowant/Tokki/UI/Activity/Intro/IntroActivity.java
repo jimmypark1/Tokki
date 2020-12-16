@@ -264,6 +264,7 @@ public class IntroActivity extends AppCompatActivity {
                                     String strUserAdmin = resultObject.getString("USER_ADMIN");
                                     String strUserDesc = resultObject.getString("USER_DESC");
                                     int    nCoinCount = resultObject.getInt("COIN_COUNT");
+                                    String strRecommendCode = resultObject.getString("RECOMMEND_CODE");
 
                                     SharedPreferences.Editor editor = pref.edit();
                                     String strBirthday = resultObject.getString("USER_BIRTHDAY");
@@ -281,6 +282,7 @@ public class IntroActivity extends AppCompatActivity {
                                     editor.putString("USER_BIRTHDAY", strBirthday);
                                     editor.putInt("USER_GENDER", nGender);
                                     editor.putInt("COIN_COUNT", nCoinCount);
+                                    editor.putString("RECOMMEND_CODE", strRecommendCode);
                                     editor.commit();
 
                                     new Handler().postDelayed(new Runnable()
@@ -376,6 +378,7 @@ public class IntroActivity extends AppCompatActivity {
                                     String strUserDesc = resultObject.getString("USER_DESC");
                                     String strBirthday = resultObject.getString("USER_BIRTHDAY");
                                     int nGender = resultObject.getInt("USER_GENDER");
+                                    String strRecommendCode = resultObject.getString("RECOMMEND_CODE");
 //                                    int    nCoinCount = resultObject.getInt("COIN_COUNT");
 
                                     SharedPreferences.Editor editor = pref.edit();
@@ -392,6 +395,7 @@ public class IntroActivity extends AppCompatActivity {
                                     editor.putString("USER_BIRTHDAY", strBirthday);
                                     editor.putInt("USER_GENDER", nGender);
                                     editor.putInt("COIN_COUNT", 0);
+                                    editor.putString("strRecommendCode", strRecommendCode);
                                     editor.commit();
 
                                     new Handler().postDelayed(new Runnable()

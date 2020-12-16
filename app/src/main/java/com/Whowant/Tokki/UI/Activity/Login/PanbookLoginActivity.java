@@ -235,6 +235,7 @@ public class PanbookLoginActivity extends AppCompatActivity {
                                     String strUserAdmin = resultObject.getString("USER_ADMIN");
                                     String strUserDesc = resultObject.getString("USER_DESC");
                                     String strBirthday = resultObject.getString("USER_BIRTHDAY");
+                                    String strRecommendCode = resultObject.getString("RECOMMEND_CODE");
                                     int nGender = resultObject.getInt("USER_GENDER");
                                     int    nCoinCount = resultObject.getInt("COIN_COUNT");
 
@@ -252,6 +253,7 @@ public class PanbookLoginActivity extends AppCompatActivity {
                                     editor.putString("USER_BIRTHDAY", strBirthday);
                                     editor.putInt("USER_GENDER", nGender);
                                     editor.putInt("COIN_COUNT", nCoinCount);
+                                    editor.putString("RECOMMEND_CODE", strRecommendCode);
 
                                     editor.commit();
 

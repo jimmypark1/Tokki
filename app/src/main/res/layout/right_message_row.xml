@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/contentsTextView"
+    <View
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/i_talk_b_1"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="5dp"
-        android:lineSpacingExtra="7sp"
-        android:text="안"
-        android:textColor="#000000"
-        android:textSize="15sp"
-        android:textStyle="normal" />
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/contentsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/i_talk_b_1"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="5dp"
+            android:lineSpacingExtra="7sp"
+            android:text="안"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="normal" />
+    </RelativeLayout>
+</LinearLayout>

@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView profileIv;
     private ImageView faceView;
     private TextView titleView;
+    private TextView inviteView;
     private ImageView alarmNewIconView, noticeNewIconView, eventNewIconView;                // 서랍메뉴 에서 알림, 공지사항, 이벤트 등에 찍히는 빨간 점. 읽었는지 여부는 SharedPreference 에서 판단(애초에 없던 기능을 추가한거라 그렇게 구현함)
     private boolean bCreated = true;                        // 이벤트 팝업이 생성되었는지를 가늠하는 플래그
 
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         centerLogoView = findViewById(R.id.cenverLogoView);
         leftBtn = findViewById(R.id.leftBtn);
         rightBtn = findViewById(R.id.rightBtn);
+        inviteView = findViewById(R.id.inviteView);
         reportBtn = findViewById(R.id.ib_top_bar_report);
         addBtn = findViewById(R.id.ib_top_bar_add);
         profileIv = findViewById(R.id.iv_top_bar_profile);
@@ -145,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 profileIv.setVisibility(View.GONE);
                 reportBtn.setVisibility(View.GONE);
                 addBtn.setVisibility(View.GONE);
+                inviteView.setVisibility(View.GONE);
 
                 if (position == 0) {
                     centerLogoView.setVisibility(View.VISIBLE);
@@ -176,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (position == 4) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("친구");
+                    inviteView.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -468,6 +472,17 @@ public class MainActivity extends AppCompatActivity {
         } /*else if(nPosition == 4) {
             startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
         }*/
+    }
+
+    public void onClickInviteBtn(View view) {
+        String strURL = "https://tokki.page.link/1ux2?CMD=workmain&WORK_ID=0\n\n추천인 코드 : " + pref.getString("RECOMMEND_CODE", "");
+        //String strURL = "panbook://workmain?WORK_ID=" + workVO.getnWorkID();
+
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Tokki 에서 친구 초대가 도착했습니다!"); // 제목
+        shareIntent.putExtra(Intent.EXTRA_TEXT, strURL); // 내용
+        startActivity(Intent.createChooser(shareIntent, "친구 초대")); // 공유창 제목
     }
 
     public void onClickTopProfileBtn(View view) {
