@@ -95,6 +95,8 @@ public class MyPageFeedFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        mArrayList.clear();
+
         try {
             MyPageActivity activity = (MyPageActivity) getActivity();
             if(activity.isPopup()) {

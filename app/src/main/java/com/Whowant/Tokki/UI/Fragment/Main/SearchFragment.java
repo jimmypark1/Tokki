@@ -2,6 +2,7 @@ package com.Whowant.Tokki.UI.Fragment.Main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -29,8 +30,13 @@ import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Decoration.StorageBoxItemDecoration;
 import com.Whowant.Tokki.UI.Activity.Search.SearchCategoryActivity;
 import com.Whowant.Tokki.UI.Activity.Search.SearchResultActivity;
+import com.Whowant.Tokki.UI.Fragment.Friend.FriendListFragment;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.ItemClickSupport;
+import com.Whowant.Tokki.VO.FriendVO;
+import com.Whowant.Tokki.VO.GenreVO;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -47,7 +53,7 @@ public class SearchFragment extends Fragment {
 
     RecyclerView recyclerView;
     SearchAdapter adapter;
-    ArrayList<String> mArrayList = new ArrayList<>();
+    ArrayList<GenreVO> mArrayList = new ArrayList<>();
     private InputMethodManager imm;
 
     public static Fragment newInstance() {
@@ -151,10 +157,10 @@ public class SearchFragment extends Fragment {
         ItemClickSupport.addTo(recyclerView).setItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClick(RecyclerView parent, View view, int position, long id) {
-                String item = mArrayList.get(position);
+                GenreVO vo = mArrayList.get(position);
 
                 Intent intent = new Intent(getActivity(), SearchCategoryActivity.class);
-                intent.putExtra("genre", item);
+                intent.putExtra("genre", vo.getGenreName());
                 startActivity(intent);
             }
         });
@@ -187,9 +193,9 @@ public class SearchFragment extends Fragment {
     public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         Context context;
-        ArrayList<String> arrayList;
+        ArrayList<GenreVO> arrayList;
 
-        public SearchAdapter(Context context, ArrayList<String> arrayList) {
+        public SearchAdapter(Context context, ArrayList<GenreVO> arrayList) {
             this.context = context;
             this.arrayList = arrayList;
         }
@@ -203,12 +209,31 @@ public class SearchFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            String item = arrayList.get(position);
+            GenreVO vo = arrayList.get(position);
 
             if (holder instanceof SearchViewHolder) {
                 SearchViewHolder viewHolder = (SearchViewHolder) holder;
 
-                viewHolder.titleTv.setText(item);
+                viewHolder.titleTv.setText(vo.getGenreName());
+//                viewHolder.titleTv.setShadowLayer(1, 1, 1, Color.parseColor("#a8000000"));
+
+                String strPhoto = vo.getGenreImg();
+                viewHolder.bgIm.setClipToOutline(true);
+                if(strPhoto != null && !strPhoto.equals("null") && !strPhoto.equals("NULL") && strPhoto.length() > 0) {
+                    if(!strPhoto.startsWith("http"))
+                        strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
+
+                    Glide.with(getActivity())
+                            .asBitmap() // some .jpeg files are actually gif
+                            .load(strPhoto)
+                            .apply(new RequestOptions().centerCrop())
+                            .into(viewHolder.bgIm);
+                } else {
+                    Glide.with(getActivity())
+                            .asBitmap() // some .jpeg files are actually gif
+                            .load(R.drawable.round_8_cc222222)
+                            .into(viewHolder.bgIm);
+                }
             }
         }
 
@@ -220,13 +245,15 @@ public class SearchFragment extends Fragment {
 
     public class SearchViewHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout bgLl;
+//        LinearLayout bgLl;
+        ImageView bgIm;
         TextView titleTv;
 
         public SearchViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            bgLl = itemView.findViewById(R.id.ll_row_search_bg);
+//            bgLl = itemView.findViewById(R.id.ll_row_search_bg);
+            bgIm = itemView.findViewById(R.id.im_row_search_bg);
             titleTv = itemView.findViewById(R.id.tv_row_search_title);
         }
     }
@@ -239,7 +266,7 @@ public class SearchFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                ArrayList<String> tmp = HttpClient.getAllGenreList(new OkHttpClient());
+                ArrayList<GenreVO> tmp = HttpClient.getGenreInfo(new OkHttpClient());
                 if (tmp != null) {
                     mArrayList.addAll(tmp);
                 }

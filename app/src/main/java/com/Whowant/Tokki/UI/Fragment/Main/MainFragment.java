@@ -27,6 +27,7 @@ import com.Whowant.Tokki.UI.Activity.Main.SearchActivity;
 import com.Whowant.Tokki.UI.Adapter.MainCardListAdapter;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.MainCardVO;
+import com.Whowant.Tokki.VO.WorkVO;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -120,6 +121,12 @@ public class MainFragment extends Fragment {                                    
 
                         MainCardVO vo = new MainCardVO();
                         vo.setViewType(3);
+
+                        WorkVO emptyVO = new WorkVO();
+                        ArrayList<WorkVO> emptyList = new ArrayList<>();
+                        emptyList.add(emptyVO);
+                        emptyList.add(emptyVO);
+                        vo.setAllItemInCard(emptyList);
                         recommendCardList.clear();
                         recommendCardList.add(vo);
 

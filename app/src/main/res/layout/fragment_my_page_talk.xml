@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fafafa"
@@ -15,5 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/emptyViewTokkiTalk"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="대화가 없습니다."
+            android:textSize="18dp"
+            android:visibility="invisible"
+            android:gravity="center"/>
+
+    </RelativeLayout>
 </LinearLayout>

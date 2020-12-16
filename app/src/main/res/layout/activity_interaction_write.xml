@@ -12,28 +12,28 @@
         android:id="@+id/topBarLayout"
         android:layout_width="match_parent"
         android:clipChildren="false"
-        android:layout_height="52dp">
+        android:layout_height="40dp">
 
         <ImageButton
             android:id="@+id/leftBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="17dp"
+            android:layout_marginStart="20dp"
             android:background="@null"
             android:onClick="onClickTopLeftBtn"
-            android:src="@drawable/back_button"/>
+            android:src="@drawable/ic_i_back"/>
 
         <ImageButton
             android:id="@+id/rightBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="17dp"
+            android:layout_marginEnd="20dp"
             android:background="@null"
             android:onClick="onClickTopRightBtn"
-            android:src="@drawable/dot_menu"/>
+            android:src="@drawable/ic_i_dots_black"/>
 
         <Button
             android:id="@+id/emptyBtn"
@@ -51,7 +51,7 @@
             android:id="@+id/submitBtn"
             android:layout_width="79dp"
             android:layout_height="29.3dp"
-            android:background="@drawable/send_button"
+            android:background="@drawable/post_button"
             android:layout_toLeftOf="@+id/rightBtn"
             android:layout_centerVertical="true"
             android:onClick="onClickSubmitBtn"
@@ -63,9 +63,11 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/leftBtn"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:textSize="20sp"
-            android:textColor="@color/colorBlack"
+            android:layout_marginStart="20dp"
+            android:lineSpacingExtra="3sp"
+            android:textColor="#999999"
+            android:textSize="17sp"
+            android:textStyle="normal"
             android:text="1화"/>
 
         <LinearLayout
@@ -81,25 +83,27 @@
                 android:id="@+id/episodeTitleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="10dp"
                 android:layout_centerVertical="true"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textSize="14sp"
-                android:textColor="@color/colorBlack"
-                android:text="인생은 멀리서 보면 비극"/>
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:lineSpacingExtra="3sp"
+                android:text="회차 제목"
+                android:textColor="#222222"
+                android:textSize="17sp"
+                android:textStyle="normal"/>
 
             <TextView
                 android:id="@+id/editBtn"
-                android:layout_width="32dp"
-                android:layout_height="28dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:textSize="14sp"
                 android:textColor="@color/colorPrimary"
                 android:onClick="clickEditTitleBtn"
                 android:layout_toRightOf="@+id/episodeTitleView"
                 android:layout_centerVertical="true"
-                android:background="@drawable/info_edit_button"/>
+                android:background="@drawable/ic_i_edit"/>
         </LinearLayout>
     </RelativeLayout>
 

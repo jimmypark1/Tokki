@@ -17,6 +17,7 @@ import com.Whowant.Tokki.UI.Activity.Search.SearchCategoryActivity;
 import com.Whowant.Tokki.UI.Custom.FlowLayout;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.DeviceUtils;
+import com.Whowant.Tokki.VO.GenreVO;
 
 import java.util.ArrayList;
 import java.util.Arrays;

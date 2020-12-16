@@ -20,6 +20,7 @@ import com.Whowant.Tokki.VO.ContestVO;
 import com.Whowant.Tokki.VO.EpisodeVO;
 import com.Whowant.Tokki.VO.EventVO;
 import com.Whowant.Tokki.VO.FriendVO;
+import com.Whowant.Tokki.VO.GenreVO;
 import com.Whowant.Tokki.VO.MainCardVO;
 import com.Whowant.Tokki.VO.MessageThreadVO;
 import com.Whowant.Tokki.VO.MessageVO;
@@ -1378,6 +1379,10 @@ public class HttpClient {
                 vo.setUserPhoto(object.getString("USER_PHOTO"));
                 vo.setCreatedDate(object.getString("CREATED_DATE"));
                 vo.setLastMsg(object.getString("LAST_MESSAGE"));
+
+                if(object.getString("LAST_MESSAGE") == null || object.getString("LAST_MESSAGE").equals("null"))
+                    continue;
+
                 resultList.add(vo);
             }
         } catch (IOException e) {
@@ -5114,6 +5119,43 @@ public class HttpClient {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static ArrayList<GenreVO> getGenreInfo(OkHttpClient httpClient) {
+        ArrayList<GenreVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetGenreList")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("GENRE_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                GenreVO vo = new GenreVO();
+                vo.setGenreName(object.getString("GENRE_NAME"));
+                vo.setGenreImg(object.getString("GENRE_IMG"));
+
+                resultList.add(vo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultList = null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            resultList = null;
         }
 
         return resultList;
