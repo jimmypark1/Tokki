@@ -808,7 +808,7 @@ public class MainActivity extends AppCompatActivity {
         drawer.closeDrawer(Gravity.LEFT, true);
         Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
 
-        viewPager.setCurrentItem(0);
+//        viewPager.setCurrentItem(0);
 
         Intent intent = new Intent(MainActivity.this, PanbookLoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

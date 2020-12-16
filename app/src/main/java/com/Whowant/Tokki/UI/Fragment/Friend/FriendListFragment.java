@@ -156,6 +156,7 @@ public class FriendListFragment extends Fragment {
                 Glide.with(getActivity())
                         .asBitmap() // some .jpeg files are actually gif
                         .load(strPhoto)
+                        .placeholder(R.drawable.user_icon)
                         .apply(new RequestOptions().circleCrop())
                         .into(viewHolder.photoIv);
             } else {

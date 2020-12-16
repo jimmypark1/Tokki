@@ -18,7 +18,8 @@
             android:id="@+id/iv_row_my_page_following_photo"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/circle_cccccc" />
+            android:background="@drawable/circle_cccccc"
+            android:src="@drawable/user_icon"/>
 
         <TextView
             android:id="@+id/tv_row_my_page_following_name"

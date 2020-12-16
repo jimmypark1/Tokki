@@ -120,11 +120,22 @@ public class MyPageFollowerFragment extends Fragment {
                 MyPageFollowerFollowerViewHolder viewHolder = (MyPageFollowerFollowerViewHolder) holder;
 
                 String photoUrl = item.getStrWriterPhoto();
-                if (!TextUtils.isEmpty(photoUrl)) {
+                if(photoUrl == null || photoUrl.equals("null") || photoUrl.equals("NULL") || photoUrl.length() == 0) {
                     Glide.with(getActivity())
                             .asBitmap() // some .jpeg files are actually gif
-                            .placeholder(R.drawable.user_icon)
+                            .load(R.drawable.user_icon)
+                            .apply(new RequestOptions().circleCrop())
+                            .into(viewHolder.photoIv);
+                    return;
+                } else {
+                    if(!photoUrl.startsWith("http")) {
+                        photoUrl = CommonUtils.strDefaultUrl + "images/" + photoUrl;
+                    }
+
+                    Glide.with(getActivity())
+                            .asBitmap() // some .jpeg files are actually gif
                             .load(photoUrl)
+                            .placeholder(R.drawable.user_icon)
                             .apply(new RequestOptions().circleCrop())
                             .into(viewHolder.photoIv);
                 }

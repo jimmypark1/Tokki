@@ -126,6 +126,7 @@ public class MainFragment extends Fragment {                                    
                         ArrayList<WorkVO> emptyList = new ArrayList<>();
                         emptyList.add(emptyVO);
                         emptyList.add(emptyVO);
+                        emptyList.add(emptyVO);
                         vo.setAllItemInCard(emptyList);
                         recommendCardList.clear();
                         recommendCardList.add(vo);
