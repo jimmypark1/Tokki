@@ -191,6 +191,10 @@ public class FriendSelectActivity extends AppCompatActivity {
         }
     }
 
+    public void onClickTopLeftBtn(View view) {
+        finish();
+    }
+
     public class FriendFindViewHolder extends RecyclerView.ViewHolder {
         ImageView photoIv;
         TextView nameTv;
