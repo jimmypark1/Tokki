@@ -966,7 +966,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 StringBuffer gerneBuffer = new StringBuffer();
                 for (int i = 0; i < genreList.size(); i++) {
                     if (i != 0) {
-                        gerneBuffer.append("/");
+                        gerneBuffer.append(" / ");
                     }
                     gerneBuffer.append(genreList.get(i));
                 }

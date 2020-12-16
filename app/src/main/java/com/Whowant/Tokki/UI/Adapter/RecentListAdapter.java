@@ -99,6 +99,10 @@ public class RecentListAdapter extends RecyclerView.Adapter<RecentListAdapter.Wi
                 public void onClick(View v) {
                     int nPosition = getAdapterPosition();
                     WorkVO vo = itemsList.get(nPosition);
+
+                    if (vo.getnWorkID() == 0)
+                        return;
+
                     Intent intent = new Intent(mContext, WorkMainActivity.class);
                     intent.putExtra("WORK_ID", vo.getnWorkID());
                     mContext.startActivity(intent);

@@ -201,7 +201,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
         if (isExcelUploaded || workVO.getnUserStatus() == 10 || workVO.getnUserStatus() == 20) {
             submitBtn.setBackgroundResource(R.drawable.send_button);
         } else {
-            submitBtn.setBackgroundResource(R.drawable.post_botton);
+            submitBtn.setBackgroundResource(R.drawable.post_button);
         }
 
         int nKeyboard = getResources().getConfiguration().keyboard;

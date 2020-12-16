@@ -140,8 +140,10 @@ public class FriendMessageFragment extends Fragment {
 
             if(vo.getLastMsg() != null && vo.getLastMsg().length() > 0 && !vo.getLastMsg().equals("null"))
                 viewHolder.commentTv.setText(vo.getLastMsg());
-            else
-                viewHolder.commentTv.setText("");
+//            else
+//                viewHolder.itemView.setVisibility(View.GONE);
+//                viewHolder.commentTv.setText("");
+
             viewHolder.dateTv.setText(vo.getCreatedDate());
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +154,7 @@ public class FriendMessageFragment extends Fragment {
                     int nThreadID = vo.getThreadID();
                     Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
                     intent.putExtra("THREAD_ID", nThreadID);
+                    intent.putExtra("RECEIVER_NAME", vo.getUserName());
 
                     if(strMyID.equals(vo.getUserID()))
                         intent.putExtra("RECEIVER_ID", vo.getPartnerID());

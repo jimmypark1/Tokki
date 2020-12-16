@@ -332,7 +332,8 @@ public class MyPageTalkFragment extends Fragment {
                         }
 
                         if (mArrayList.size() == 0) {
-                            return;
+                            TextView textView = getView().findViewById(R.id.emptyViewTokkiTalk);
+                            textView.setVisibility(View.VISIBLE);
                         }
 
                         adapter.notifyDataSetChanged();

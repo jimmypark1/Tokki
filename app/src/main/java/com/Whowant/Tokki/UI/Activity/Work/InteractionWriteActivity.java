@@ -1,6 +1,7 @@
 package com.Whowant.Tokki.UI.Activity.Work;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,6 +26,7 @@ import com.Whowant.Tokki.UI.Adapter.InteractionAdapter;
 import com.Whowant.Tokki.UI.Fragment.Work.InteractionMainFragment;
 import com.Whowant.Tokki.UI.Popup.ChangeTitlePopup;
 import com.Whowant.Tokki.UI.Popup.LegalNoticePopup;
+import com.Whowant.Tokki.UI.Popup.WorkPostPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
 import com.Whowant.Tokki.VO.WorkVO;
@@ -42,6 +44,7 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
     private ViewPager viewPager;
     private InteractionAdapter pagerAdapter;
     private TextView titleView, episodeNumView;
+    private ProgressDialog mProgressDialog;
 
     public String strTitle;
     public int nEpisodeID;
@@ -76,10 +79,10 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         isExcelUploaded = getIntent().getBooleanExtra("EXCEL_UPLOADED", false);
         ImageButton submitBtn = findViewById(R.id.submitBtn);
 
-        if(isExcelUploaded || workVO.getnUserStatus() == 1 || workVO.getnUserStatus() == 20) {
+        if(isExcelUploaded || workVO.getnUserStatus() == 10 || workVO.getnUserStatus() == 20) {
             submitBtn.setBackgroundResource(R.drawable.send_button);
         } else {
-            submitBtn.setBackgroundResource(R.drawable.post_botton);
+            submitBtn.setBackgroundResource(R.drawable.post_button);
         }
 
         strTitle = getIntent().getStringExtra("TITLE");
@@ -94,6 +97,10 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setCancelable(false);
+
         startActivity(new Intent(this, LegalNoticePopup.class));
         overridePendingTransition(R.anim.cross_fade_in, R.anim.cross_fade_out);
     }
@@ -105,6 +112,8 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
             if (requestCode == 1100) {                    // 제목 변경
                 strTitle = data.getStringExtra("TITLE");
                 titleView.setText(strTitle);
+            } else if (requestCode == 9000) {                                           // 게시 처리 팝업
+                sendEpisodePost();
             }
         }
     }
@@ -215,55 +224,93 @@ public class InteractionWriteActivity extends AppCompatActivity implements Color
         }
     }
 
-    private void requestEpisodePost() {                                                                   // 심사 요청(제출)
-        AlertDialog.Builder builder = new AlertDialog.Builder(InteractionWriteActivity.this);
-        builder.setTitle("회차 제출");
-        builder.setMessage("회차를 게시하면 즉시 독자들에게 게시됩니다.\n회차를 게시하시겠습니까?");
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                CommonUtils.showProgressDialog(InteractionWriteActivity.this, "작품을 게시 중입니다.");
+    private void sendEpisodePost() {
+        mProgressDialog.setMessage("작품을 게시 중입니다.");
+        mProgressDialog.show();
 
-                new Thread(new Runnable() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject resultObject = HttpClient.requestEpisodePost(new OkHttpClient(), nEpisodeID);
+
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        JSONObject resultObject = HttpClient.requestEpisodePost(new OkHttpClient(), nEpisodeID);
+                        try {
+                            mProgressDialog.dismiss();
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    CommonUtils.hideProgressDialog();
-
-                                    if(resultObject == null) {
-                                        Toast.makeText(InteractionWriteActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
-                                        return;
-                                    }
-
-                                    if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                        Toast.makeText(InteractionWriteActivity.this, "게시되었습니다.", Toast.LENGTH_LONG).show();
-                                        finish();
-                                    } else {
-                                        Toast.makeText(InteractionWriteActivity.this, "게시에 실패하였습니다.", Toast.LENGTH_LONG).show();
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                            if (resultObject == null) {
+                                Toast.makeText(InteractionWriteActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
+                                return;
                             }
-                        });
+
+                            if (resultObject.getString("RESULT").equals("SUCCESS")) {
+                                Toast.makeText(InteractionWriteActivity.this, "게시되었습니다.", Toast.LENGTH_LONG).show();
+                                finish();
+                            } else {
+                                Toast.makeText(InteractionWriteActivity.this, "게시에 실패하였습니다.", Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }).start();
+                });
             }
-        });
+        }).start();
+    }
 
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
+    private void requestEpisodePost() {                                                                   // 심사 요청(제출)
+        Intent intent = new Intent(InteractionWriteActivity.this, WorkPostPopup.class);
+        startActivityForResult(intent, 9000);
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(InteractionWriteActivity.this);
+//        builder.setTitle("회차 제출");
+//        builder.setMessage("회차를 게시하면 즉시 독자들에게 게시됩니다.\n회차를 게시하시겠습니까?");
+//        builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
+//            @Override
+//            public void onClick(DialogInterface dialog, int id) {
+//                CommonUtils.showProgressDialog(InteractionWriteActivity.this, "작품을 게시 중입니다.");
+//
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        JSONObject resultObject = HttpClient.requestEpisodePost(new OkHttpClient(), nEpisodeID);
+//
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                try {
+//                                    CommonUtils.hideProgressDialog();
+//
+//                                    if(resultObject == null) {
+//                                        Toast.makeText(InteractionWriteActivity.this, "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
+//                                        return;
+//                                    }
+//
+//                                    if(resultObject.getString("RESULT").equals("SUCCESS")) {
+//                                        Toast.makeText(InteractionWriteActivity.this, "게시되었습니다.", Toast.LENGTH_LONG).show();
+//                                        finish();
+//                                    } else {
+//                                        Toast.makeText(InteractionWriteActivity.this, "게시에 실패하였습니다.", Toast.LENGTH_LONG).show();
+//                                    }
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        });
+//                    }
+//                }).start();
+//            }
+//        });
+//
+//        builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
+//            @Override
+//            public void onClick(DialogInterface dialog, int id) {
+//            }
+//        });
+//
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
     }
 
     private void requestEpisodeSubmit() {

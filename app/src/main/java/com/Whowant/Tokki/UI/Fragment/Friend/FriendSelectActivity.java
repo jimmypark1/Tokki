@@ -102,6 +102,7 @@ public class FriendSelectActivity extends AppCompatActivity {
                         int nThreadID = vo.getThreadID();
                         Intent intent = new Intent(FriendSelectActivity.this, MessageDetailActivity.class);
                         intent.putExtra("THREAD_ID", nThreadID);
+                        intent.putExtra("RECEIVER_NAME", vo.getUserName());
 
                         if(strMyID.equals(vo.getUserID()))
                             intent.putExtra("RECEIVER_ID", vo.getPartnerID());
@@ -112,6 +113,10 @@ public class FriendSelectActivity extends AppCompatActivity {
                 });
             }
         }).start();
+    }
+
+    public void onClickTopLeftBtn(View view) {
+        finish();
     }
 
     public class FriendFindAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

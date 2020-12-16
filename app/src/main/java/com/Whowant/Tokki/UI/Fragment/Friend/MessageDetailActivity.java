@@ -24,6 +24,8 @@ import com.Whowant.Tokki.VO.MessageVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +33,13 @@ import okhttp3.OkHttpClient;
 
 public class MessageDetailActivity extends AppCompatActivity {
     private int nThreadID;
-    private String strReceiverID;
+    private String strReceiverID, strReceiverName;
     private ArrayList<MessageVO> messageList = new ArrayList<>();
     private CMessageArrayAdapter adapter;
     private ListView messageListView;
     private EditText inputTextView;
+
+    private TextView titleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +48,11 @@ public class MessageDetailActivity extends AppCompatActivity {
 
         inputTextView = findViewById(R.id.inputTextView);
         messageListView = findViewById(R.id.chattingListView);
+        titleView = findViewById(R.id.titleView);
         nThreadID = getIntent().getIntExtra("THREAD_ID", 0);
         strReceiverID = getIntent().getStringExtra("RECEIVER_ID");
+        strReceiverName = getIntent().getStringExtra("RECEIVER_NAME");
+        titleView.setText(strReceiverName);
         adapter = new CMessageArrayAdapter(this, R.layout.left_message_row, messageList);
         messageListView.setAdapter(adapter);
     }

@@ -667,8 +667,8 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                 switch (item.getItemId()) {
                                     case R.id.delete:
                                         if (pref.getString("ADMIN", "N").equals("Y")) {
-                                            builder.setTitle("작품 삭제");
-                                            builder.setMessage("작품을 삭제하면 작성했던 모든 회차 정보도 함께 삭제됩니다. 정말 삭제하시겠습니까?");
+                                            builder.setTitle("회차 삭제");
+                                            builder.setMessage("회차를 삭제하면 작성했던 모든 회차 정보도 함께 삭제됩니다. 정말 삭제하시겠습니까?");
                                             builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int id) {
@@ -690,8 +690,8 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                                 Toast.makeText(WorkWriteMainActivity.this, "접근 권한이 없습니다", Toast.LENGTH_SHORT).show();
                                                 return true;
                                             } else {
-                                                builder.setTitle("작품 삭제");
-                                                builder.setMessage("작품을 삭제하면 작성했던 모든 회차 정보도 함께 삭제됩니다. 정말 삭제하시겠습니까?");
+                                                builder.setTitle("회차 삭제");
+                                                builder.setMessage("화차를 삭제하면 작성했던 모든 회차 정보도 함께 삭제됩니다. 정말 삭제하시겠습니까?");
                                                 builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int id) {

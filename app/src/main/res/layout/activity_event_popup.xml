@@ -76,7 +76,7 @@
                 android:layout_marginLeft="5dp"
                 android:textColor="@color/colorBlack"
                 android:textSize="13.3sp"
-                android:text="오늘 하루 이 내용 보지 않기"/>
+                android:text="다시 보지 않기"/>
         </LinearLayout>
     </RelativeLayout>
 
