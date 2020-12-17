@@ -8,8 +8,8 @@ android {
         applicationId "com.Whowant.Tokki"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 33
-        versionName "1.0.33"
+        versionCode 35
+        versionName "1.1.01"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

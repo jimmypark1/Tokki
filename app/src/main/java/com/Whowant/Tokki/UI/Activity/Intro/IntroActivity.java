@@ -122,7 +122,14 @@ public class IntroActivity extends AppCompatActivity {
                         }
 
                         if (strVersion != null) {
-                            if (strV[0] > appV[0]) {
+                            if((appV[0] > strV[0])) {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        goNextStep();
+                                    }
+                                }, 2000);
+                            } else if (strV[0] > appV[0]) {
                                 builder.setPositiveButton("업데이트", (dialogInterface, i) -> {
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
                                     intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -135,7 +142,13 @@ public class IntroActivity extends AppCompatActivity {
                                         android.os.Process.killProcess(android.os.Process.myPid()));
                                 builder.show();
                                 return;
-
+                            } else if(appV[1] > strV[1]) {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        goNextStep();
+                                    }
+                                }, 2000);
                             } else if (strV[1] > appV[1]) {
                                 builder.setPositiveButton("업데이트", (dialogInterface, i) -> {
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -150,6 +163,13 @@ public class IntroActivity extends AppCompatActivity {
                                 builder.show();
                                 return;
 
+                            } else if(appV[2] > strV[2]) {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        goNextStep();
+                                    }
+                                }, 2000);
                             } else if (strV[2] > appV[2]) {
                                 builder.setPositiveButton("업데이트", new DialogInterface.OnClickListener() {
                                     @Override

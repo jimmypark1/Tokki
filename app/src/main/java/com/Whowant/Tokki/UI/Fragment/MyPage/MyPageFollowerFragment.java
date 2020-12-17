@@ -188,11 +188,17 @@ public class MyPageFollowerFragment extends Fragment {
         CommonUtils.showProgressDialog(getActivity(), "팔로우 리스트를 가져오고 있습니다.");
         writerList.clear();
 
+
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String userId = SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest");
-                writerList.addAll(HttpClient.getMyFollowerList(new OkHttpClient(), writerId));
+                if(userId.equals(writerId)) {
+                    writerList.addAll(HttpClient.getMyFollowerList(new OkHttpClient(), writerId));
+                } else {
+                    writerList.addAll(HttpClient.getWriterFollowerList(new OkHttpClient(), userId, writerId));
+                }
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override

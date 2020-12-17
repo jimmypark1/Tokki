@@ -186,7 +186,12 @@ public class MyPageFollowingFragment extends Fragment {
             @Override
             public void run() {
                 String userId = SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest");
-                writerList.addAll(HttpClient.getMyFollowingList(new OkHttpClient(), writerId));
+
+                if(userId.equals(writerId)) {
+                    writerList.addAll(HttpClient.getMyFollowingList(new OkHttpClient(), writerId));
+                } else {
+                    writerList.addAll(HttpClient.getWriterFollowingList(new OkHttpClient(), userId, writerId));
+                }
 
                 for (int i = 0; i < writerList.size(); i++) {
                     WriterVO vo = writerList.get(i);

@@ -2473,6 +2473,50 @@ public class HttpClient {
 
     //GetMyFollowInfo
 
+    public static ArrayList<WriterVO> getWriterFollowerList(OkHttpClient httpClient, String strMyID, String strWriterID) {
+        ArrayList<WriterVO> writerList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWriterFollowerList&USER_ID=" + strMyID + "&WRITER_ID=" + strWriterID)
+                .get()
+                .build();
+
+        JSONObject resultObject = null;
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            resultObject = new JSONObject(strResult);
+            JSONArray writerArray = resultObject.getJSONArray("WRITER_LIST");
+
+            for (int i = 0; i < writerArray.length(); i++) {
+                JSONObject object = writerArray.getJSONObject(i);
+
+                WriterVO vo = new WriterVO();
+                vo.setStrWriterID(object.getString("USER_ID"));
+                vo.setStrWriterName(object.getString("USER_NAME"));
+                vo.setStrWriterPhoto(object.getString("USER_PHOTO"));
+                vo.setStrWriterComment(object.getString("USER_COMMENT"));
+//                vo.setnFollowcount(object.getInt("FOLLOW_COUNT"));
+                vo.setnFollowingCount(object.getInt("FOLLOWING_COUNT"));
+                vo.setnDonationCarrot(object.getInt("DONATION_CARROT"));
+                vo.setnFollowcount(object.getInt("FOLLOW_ME"));
+
+                writerList.add(vo);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            resultObject = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultObject = null;
+        }
+
+        return writerList;
+    }
+
     public static ArrayList<WriterVO> getMyFollowerList(OkHttpClient httpClient, String strMyID) {
         ArrayList<WriterVO> writerList = new ArrayList<>();
 
@@ -2499,9 +2543,10 @@ public class HttpClient {
                 vo.setStrWriterName(object.getString("USER_NAME"));
                 vo.setStrWriterPhoto(object.getString("USER_PHOTO"));
                 vo.setStrWriterComment(object.getString("USER_COMMENT"));
-                vo.setnFollowcount(object.getInt("FOLLOW_COUNT"));
+//                vo.setnFollowcount(object.getInt("FOLLOW_COUNT"));
                 vo.setnFollowingCount(object.getInt("FOLLOWING_COUNT"));
                 vo.setnDonationCarrot(object.getInt("DONATION_CARROT"));
+                vo.setnFollowcount(object.getInt("FOLLOW_ME"));
 
                 writerList.add(vo);
             }
@@ -2542,7 +2587,50 @@ public class HttpClient {
                 vo.setStrWriterName(object.getString("USER_NAME"));
                 vo.setStrWriterPhoto(object.getString("USER_PHOTO"));
                 vo.setStrWriterComment(object.getString("USER_COMMENT"));
-                vo.setnFollowcount(object.getInt("FOLLOW_COUNT"));
+                vo.setnFollowcount(1);
+                vo.setnFollowingCount(object.getInt("FOLLOWING_COUNT"));
+                vo.setnDonationCarrot(object.getInt("DONATION_CARROT"));
+
+                writerList.add(vo);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            resultObject = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultObject = null;
+        }
+
+        return writerList;
+    }
+
+    public static ArrayList<WriterVO> getWriterFollowingList(OkHttpClient httpClient, String strMyID, String strWriterID) {
+        ArrayList<WriterVO> writerList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWriterFollowingList&USER_ID=" + strMyID + "&WRITER_ID=" + strWriterID)
+                .get()
+                .build();
+
+        JSONObject resultObject = null;
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            resultObject = new JSONObject(strResult);
+            JSONArray writerArray = resultObject.getJSONArray("WRITER_LIST");
+
+            for (int i = 0; i < writerArray.length(); i++) {
+                JSONObject object = writerArray.getJSONObject(i);
+
+                WriterVO vo = new WriterVO();
+                vo.setStrWriterID(object.getString("USER_ID"));
+                vo.setStrWriterName(object.getString("USER_NAME"));
+                vo.setStrWriterPhoto(object.getString("USER_PHOTO"));
+                vo.setStrWriterComment(object.getString("USER_COMMENT"));
+                vo.setnFollowcount(object.getInt("FOLLOW_ME"));
                 vo.setnFollowingCount(object.getInt("FOLLOWING_COUNT"));
                 vo.setnDonationCarrot(object.getInt("DONATION_CARROT"));
 
