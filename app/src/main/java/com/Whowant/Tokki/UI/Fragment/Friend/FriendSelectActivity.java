@@ -169,13 +169,15 @@ public class FriendSelectActivity extends AppCompatActivity {
 
             viewHolder.nameTv.setText(vo.getUserName());
 
-            if(vo.isFriend()) {
-                viewHolder.addLl.setBackgroundResource(R.drawable.round_4_5a9aff);
-                viewHolder.icFollow.setImageResource(R.drawable.ic_i_follow_white);
-            } else {
-                viewHolder.addLl.setBackgroundResource(R.drawable.round_4_ffffff_b1_33000000);
-                viewHolder.icFollow.setImageResource(R.drawable.ic_i_follow);
-            }
+            viewHolder.addLl.setVisibility(View.GONE);
+
+//            if(vo.isFriend()) {
+//                viewHolder.addLl.setBackgroundResource(R.drawable.round_4_5a9aff);
+//                viewHolder.icFollow.setImageResource(R.drawable.ic_i_follow_white);
+//            } else {
+//                viewHolder.addLl.setBackgroundResource(R.drawable.round_4_ffffff_b1_33000000);
+//                viewHolder.icFollow.setImageResource(R.drawable.ic_i_follow);
+//            }
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

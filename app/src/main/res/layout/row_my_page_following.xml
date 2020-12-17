@@ -28,7 +28,7 @@
             android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:lineSpacingExtra="5sp"
-            android:text="박"
+            android:text="닉네임"
             android:textColor="#222222"
             android:textSize="15sp"
             android:textStyle="normal" />

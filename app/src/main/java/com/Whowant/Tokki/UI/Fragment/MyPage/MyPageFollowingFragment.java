@@ -125,7 +125,6 @@ public class MyPageFollowingFragment extends Fragment {
                             .load(R.drawable.user_icon)
                             .apply(new RequestOptions().circleCrop())
                             .into(viewHolder.photoIv);
-                    return;
                 } else {
                     if(!photoUrl.startsWith("http")) {
                         photoUrl = CommonUtils.strDefaultUrl + "images/" + photoUrl;
@@ -191,7 +190,7 @@ public class MyPageFollowingFragment extends Fragment {
 
                 for (int i = 0; i < writerList.size(); i++) {
                     WriterVO vo = writerList.get(i);
-                    if (vo.getStrWriterID().equals(userId)) {
+                    if (vo.getStrWriterID().equals(writerId)) {
                         writerList.remove(i);
                     }
                 }

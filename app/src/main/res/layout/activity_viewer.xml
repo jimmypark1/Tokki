@@ -83,7 +83,8 @@
                     android:dividerHeight="0dp"
                     android:listSelector="@android:color/transparent"
                     android:paddingBottom="15dp"
-                    android:clipToPadding="false"/>
+                    android:clipToPadding="false"
+                    android:scrollbars="none"/>
 
 <!--            <LinearLayout-->
 <!--                android:id="@+id/weightEmptyView"-->
