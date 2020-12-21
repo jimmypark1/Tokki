@@ -1600,7 +1600,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                             noCommentView.setVisibility(View.GONE);
 
                             for(int i = 0 ; i < commentList.size() ; i ++) {
-                                if(i >= 3)
+                                if(i >= 2)
                                     break;
 
                                 CommentVO vo = commentList.get(i);

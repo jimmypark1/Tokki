@@ -128,6 +128,7 @@
         <activity
             android:name=".UI.Activity.Mypage.MyPageActivity"
             android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.Activity.Rank.RankActivity"

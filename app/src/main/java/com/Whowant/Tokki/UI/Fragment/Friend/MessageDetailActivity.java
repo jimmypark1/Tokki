@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,6 +42,8 @@ public class MessageDetailActivity extends AppCompatActivity {
     private EditText inputTextView;
 
     private TextView titleView;
+    private InputMethodManager imm;
+    private float fX, fY;                               // 롱클릭 등을 위해 터치 좌표 저장
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +57,29 @@ public class MessageDetailActivity extends AppCompatActivity {
         strReceiverID = getIntent().getStringExtra("RECEIVER_ID");
         strReceiverName = getIntent().getStringExtra("RECEIVER_NAME");
         titleView.setText(strReceiverName);
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         adapter = new CMessageArrayAdapter(this, R.layout.left_message_row, messageList);
         messageListView.setAdapter(adapter);
+
+        messageListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    fX = motionEvent.getX();
+                    fY = motionEvent.getY();
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
+                    float fEndX = motionEvent.getX();
+                    float fEndY = motionEvent.getY();
+
+                    if (fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
+                        return false;
+                    } else {
+                        imm.hideSoftInputFromWindow(inputTextView.getWindowToken(), 0);
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override

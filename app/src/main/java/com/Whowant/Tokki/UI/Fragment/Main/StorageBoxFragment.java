@@ -164,16 +164,16 @@ public class StorageBoxFragment extends Fragment {
 
                 Fragment fragment = getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.getCurrentItem());
 
-                if (fragment != null) {
-                    switch (viewPager.getCurrentItem()) {
-                        case 0:
-                            ((StorageBoxReadingFragment) fragment).refreshData(readingOrder);
-                            break;
-                        case 1:
-                            ((StorageBoxKeepFragment) fragment).refreshData(storageOrder);
-                            break;
-                    }
-                }
+//                if (fragment != null) {
+//                    switch (viewPager.getCurrentItem()) {
+//                        case 0:
+//                            ((StorageBoxReadingFragment) fragment).refreshData(readingOrder);
+//                            break;
+//                        case 1:
+//                            ((StorageBoxKeepFragment) fragment).refreshData(storageOrder);
+//                            break;
+//                    }
+//                }
             }
         }
     }
