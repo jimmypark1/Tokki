@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Decoration.StorageBoxItemDecoration;
+import com.Whowant.Tokki.UI.Activity.Work.ReportSelectActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.UI.TypeViewOnClickListener;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -275,7 +276,6 @@ public class StorageBoxKeepFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int pos) {
                                     addReadingList(workId, String.valueOf(bookListVos.get(pos).getID()));
-                                    Toast.makeText(getActivity(), "독서목록에 추가되었습니다.", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
@@ -318,15 +318,19 @@ public class StorageBoxKeepFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean result = HttpClient.addReadingList(new OkHttpClient(), workId, readingId);
+                final int result = HttpClient.addReadingList(new OkHttpClient(), workId, readingId);
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if (result) {
-
+                        if(result == 0) {
+                            Toast.makeText(getActivity(), "독서목록에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                        } else if(result == 1) {
+                            Toast.makeText(getActivity(), "이미 추가된 작품입니다.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), "독서목록에 추가되지 않았습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -336,6 +340,6 @@ public class StorageBoxKeepFragment extends Fragment {
 
     public void refreshData(String order) {
         strKeepOrder = order;
-        getKeepListData();
+//        getKeepListData();
     }
 }

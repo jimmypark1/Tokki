@@ -4948,7 +4948,7 @@ public class HttpClient {
     }
 
     // 독서 목록에 작품 추가
-    public static boolean addReadingList(OkHttpClient httpClient, String workId, String readingId) {
+    public static int addReadingList(OkHttpClient httpClient, String workId, String readingId) {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=AddReadingList&WORK_ID=" + workId + "&READING_ID=" + readingId)
                 .get()
@@ -4956,20 +4956,23 @@ public class HttpClient {
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
-                return false;
+                return -1;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
             if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
-                return true;
+                return 0;
+            else if (resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+                return 1;
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return false;
+        return -1;
     }
 
     // 장르별 리스트 검색

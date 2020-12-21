@@ -28,6 +28,7 @@ public class FilterActivity extends AppCompatActivity {
 
     String title = "";
     String order = "";
+    boolean isStorage = false;
 
     public static final int TYPE_SEARCH_REUSLT = 0;
     public static final int TYPE_STORAGE_BOX = 1;
@@ -49,6 +50,7 @@ public class FilterActivity extends AppCompatActivity {
             title = getIntent().getStringExtra("title");
             type = getIntent().getIntExtra("type", TYPE_SEARCH_REUSLT);
             order = getIntent().getStringExtra("order");
+            isStorage = getIntent().getBooleanExtra("storage", false);
         }
     }
 
@@ -91,7 +93,8 @@ public class FilterActivity extends AppCompatActivity {
                 mArrayList.add(new FilterVo("제목", "TITLE", order.equals("TITLE")));
                 mArrayList.add(new FilterVo("저자", "WRITER", order.equals("WRITER")));
                 mArrayList.add(new FilterVo("최근에 읽은", "RECENTLY", order.equals("RECENTLY")));
-                mArrayList.add(new FilterVo("최근에 추가된", "UPDATE", order.equals("UPDATE")));
+                if (!isStorage)
+                    mArrayList.add(new FilterVo("최근에 추가된", "UPDATE", order.equals("UPDATE")));
                 break;
         }
 

@@ -353,19 +353,19 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
         coverImgView.setClipToOutline(true);
 
-        if (workVO.getStrThumbFile() != null && !workVO.getStrThumbFile().equals("null") && workVO.getStrThumbFile().length() > 0) {
-            Glide.with(this)
-                    .asBitmap() // some .jpeg files are actually gif
-                    .placeholder(R.drawable.ic_i_artwork_empty)
-                    .load(CommonUtils.strDefaultUrl + "images/" + workVO.getStrThumbFile())
-                    .into(coverImgView);
-        } else {
+//        if (workVO.getStrThumbFile() != null && !workVO.getStrThumbFile().equals("null") && workVO.getStrThumbFile().length() > 0) {
+//            Glide.with(this)
+//                    .asBitmap() // some .jpeg files are actually gif
+//                    .placeholder(R.drawable.ic_i_artwork_empty)
+//                    .load(CommonUtils.strDefaultUrl + "images/" + workVO.getStrThumbFile())
+//                    .into(coverImgView);
+//        } else {
             Glide.with(this)
                     .asBitmap() // some .jpeg files are actually gif
                     .placeholder(R.drawable.ic_i_artwork_empty)
                     .load(CommonUtils.strDefaultUrl + "images/" + workVO.getCoverFile())
                     .into(coverImgView);
-        }
+//        }
 
 
         if (workVO.getEpisodeList() != null) {

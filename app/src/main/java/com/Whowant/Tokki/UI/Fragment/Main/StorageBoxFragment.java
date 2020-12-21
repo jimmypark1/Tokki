@@ -29,8 +29,9 @@ public class StorageBoxFragment extends Fragment {
     private ViewPager viewPager;
     private StorageBoxAdapter pagerAdapter;
 
-    String readingOrder = "UPDATE";
-    String storageOrder = "UPDATE";
+    String readingOrder = "RECENTLY";
+    String storageOrder = "TITLE";
+    boolean isStorage = true;
 
     public static Fragment newInstance() {
         StorageBoxFragment fragment = new StorageBoxFragment();
@@ -77,10 +78,13 @@ public class StorageBoxFragment extends Fragment {
                             Intent intent = new Intent(getContext(), FilterActivity.class);
                             intent.putExtra("title", "정렬");
                             intent.putExtra("type", FilterActivity.TYPE_STORAGE_BOX);
-                            if (currentPosition == 0)
+                            if (currentPosition == 0) {
                                 intent.putExtra("order", readingOrder);
-                            if (currentPosition == 1)
+                            }
+                            if (currentPosition == 1) {
                                 intent.putExtra("order", storageOrder);
+                                intent.putExtra("storage", isStorage);
+                            }
                             startActivityForResult(intent, 101);
                             break;
                     }
@@ -164,16 +168,16 @@ public class StorageBoxFragment extends Fragment {
 
                 Fragment fragment = getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.getCurrentItem());
 
-//                if (fragment != null) {
-//                    switch (viewPager.getCurrentItem()) {
-//                        case 0:
-//                            ((StorageBoxReadingFragment) fragment).refreshData(readingOrder);
-//                            break;
-//                        case 1:
-//                            ((StorageBoxKeepFragment) fragment).refreshData(storageOrder);
-//                            break;
-//                    }
-//                }
+                if (fragment != null) {
+                    switch (viewPager.getCurrentItem()) {
+                        case 0:
+                            ((StorageBoxReadingFragment) fragment).refreshData(readingOrder);
+                            break;
+                        case 1:
+                            ((StorageBoxKeepFragment) fragment).refreshData(storageOrder);
+                            break;
+                    }
+                }
             }
         }
     }

@@ -51,7 +51,7 @@ public class StorageBoxReadingFragment extends Fragment {
     private final String READ_ORDER_RECENTLY = "RECENTLY";
     private final String READ_ORDER_TITLE = "TITLE";
 
-    private String strReadOrder = READ_ORDER_UPDATE;
+    private String strReadOrder = READ_ORDER_RECENTLY;
 
     @Nullable
     @Override
@@ -273,15 +273,19 @@ public class StorageBoxReadingFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean result = HttpClient.addReadingList(new OkHttpClient(), workId, readingId);
+                final int result = HttpClient.addReadingList(new OkHttpClient(), workId, readingId);
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if (result) {
-
+                        if(result == 0) {
+                            Toast.makeText(getActivity(), "독서목록에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                        } else if(result == 1) {
+                            Toast.makeText(getActivity(), "이미 추가된 작품입니다.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), "독서목록에 추가되지 않았습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -313,7 +317,6 @@ public class StorageBoxReadingFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int pos) {
                                     addReadingList(workId, String.valueOf(bookListVos.get(pos).getID()));
-                                    Toast.makeText(getActivity(), "독서목록에 추가되었습니다.", Toast.LENGTH_LONG).show();
                                 }
                             });
                         };
@@ -325,6 +328,6 @@ public class StorageBoxReadingFragment extends Fragment {
 
     public void refreshData(String order) {
         strReadOrder = order;
-        getReadListData();
+//        getReadListData();
     }
 }
