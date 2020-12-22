@@ -1489,7 +1489,9 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
                             if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                 characterList.remove(nIndex);
-                                resetCharacterLayout();
+//                                resetCharacterLayout();
+                                nSelectedCharacterIndex = 0;
+                                getCharacterData(true);
                                 Toast.makeText(getActivity(), "삭제되었습니다.", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(getActivity(), "등장인물 삭제를 실패하였습니다.", Toast.LENGTH_LONG).show();
@@ -1505,14 +1507,17 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
     private void getCharacterData(boolean bReload) {
         CommonUtils.showProgressDialog(getActivity(), "서버에서 작품 데이터를 가져오고 있습니다.");
+        characterList.clear();
+        characterList.add(null);
+        nameList.add("지문");
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                characterList.clear();
-                nameList.clear();
-                characterList.add(null);
-                nameList.add("지문");
+//                characterList.clear();
+//                nameList.clear();
+//                characterList.add(null);
+//                nameList.add("지문");
                 characterList.addAll(HttpClient.getCharacterDataWithEpisodeID(new OkHttpClient(), "" + InteractionWriteActivity.workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID()));
 
                 if (characterList == null) {
@@ -1703,9 +1708,37 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             }
                         }
 
-                        nSelectedCharacterIndex = nBeforeCharacterIndex = nIndex;
+//                        characterAddBtn.setImageResource((int) v.getTag());
 
-                        characterAddBtn.setImageResource((int) v.getTag());
+                        CharacterVO characterVO = characterList.get(nIndex);
+                        if (characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
+                            Glide.with(getActivity())
+                                    .asBitmap() // some .jpeg files are actually gif
+                                    .load(characterVO.getImage())
+                                    .placeholder((int) v.getTag())
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(characterAddBtn);
+                        } else if (characterVO.getStrImgFile() != null && !characterVO.getStrImgFile().equals("null")) {
+                            String strUrl = characterVO.getStrImgFile();
+
+                            if (!strUrl.startsWith("http"))
+                                strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
+
+                            Glide.with(getActivity())
+                                    .asBitmap() // some .jpeg files are actually gif
+                                    .placeholder((int) v.getTag())
+                                    .load(strUrl)
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(characterAddBtn);
+                        } else {
+                            Glide.with(getActivity())
+                                    .asBitmap() // some .jpeg files
+                                    .load((int) v.getTag())
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(characterAddBtn);
+                        }
+
+                        nSelectedCharacterIndex = nBeforeCharacterIndex = nIndex;
                     }
                 });
             }
@@ -1735,6 +1768,10 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
             speakerAddLayout.addView(view);
             characterViewList.add(view);
+        }
+
+        if(nSelectedCharacterIndex == 0 && characterAddBtn != null) {
+            characterAddBtn.setImageResource(R.drawable.ic_i_chracter);
         }
     }
 
@@ -2679,10 +2716,10 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             final ImageView leftLine = convertView.findViewById(R.id.leftLine);
             final ImageView rightLine = convertView.findViewById(R.id.rightLine);
             final TextView txtView = convertView.findViewById(R.id.txtView);
-            if (position == chattingList.size() - 1)
-                addBtn.setVisibility(View.INVISIBLE);
-            else
-                addBtn.setVisibility(View.VISIBLE);
+//            if (position == chattingList.size() - 1)
+//                addBtn.setVisibility(View.INVISIBLE);
+//            else
+//                addBtn.setVisibility(View.VISIBLE);
 
             ImageView faceView = convertView.findViewById(R.id.faceView);
             if (faceView != null) {
@@ -2768,7 +2805,9 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 }
             }
 
-            if (position == chattingList.size() - 1 || nType == ChatVO.TYPE_DISTRACTOR)
+            if (position == chattingList.size() - 1)
+                addBtn.setVisibility(View.INVISIBLE);
+            else if (nType == ChatVO.TYPE_DISTRACTOR)
                 addBtn.setVisibility(View.GONE);
             else
                 addBtn.setVisibility(View.VISIBLE);

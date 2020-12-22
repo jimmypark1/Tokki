@@ -1392,7 +1392,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
     }
 
     private void getCharacterData() {                                           // 등장인물 데이터 가져오기
-        mProgressDialog.setMessage("서버에서 작품 데이터를 가져오고 있습니다...");
+        mProgressDialog.setMessage("서버에서 작품 데이터를 가져오고 있습니다.");
         mProgressDialog.show();
         characterList.clear();
         characterList.add(null);

@@ -141,6 +141,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                             .setCropShape(CropImageView.CropShape.RECTANGLE);
 
                     if(nType == TYPE_FACE_IMG.ordinal()) {
+                        ThumbnailPreviewActivity.nNextType = TYPE_FACE_IMG.ordinal();
                         cropImgBuilder.setAspectRatio(1, 1)
                                 .setCropShape(CropImageView.CropShape.OVAL);
                     } else if(nType == TYPE_COVER.ordinal()) {
