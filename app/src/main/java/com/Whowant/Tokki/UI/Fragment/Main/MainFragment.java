@@ -114,7 +114,7 @@ public class MainFragment extends Fragment {                                    
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(mainCardList == null) {
+                        if(mainCardList == null || mainCardList.size() == 0) {
                             Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
