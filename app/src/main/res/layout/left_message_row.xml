@@ -43,7 +43,9 @@
                 android:background="@drawable/i_talk_a_1"
                 android:layout_marginTop="10dp"
                 android:lineSpacingExtra="7sp"
-                android:text="안"
+                android:text="내용"
+                android:linksClickable="true"
+                android:autoLink="web|email"
                 android:textColor="#000000"
                 android:textSize="15sp"
                 android:textStyle="normal" />

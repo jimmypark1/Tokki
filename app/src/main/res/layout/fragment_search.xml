@@ -22,7 +22,7 @@
             android:background="#ffffff"
             android:gravity="center_vertical"
             android:imeOptions="actionSearch"
-            android:hint="스토리, 사용자, 또는 읽기 목록 검색"
+            android:hint="작품 제목, 작가명 검색"
             android:inputType="text"
             android:paddingEnd="10dp" />
 

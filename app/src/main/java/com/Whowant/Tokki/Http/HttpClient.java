@@ -4922,7 +4922,7 @@ public class HttpClient {
         return false;
     }
 
-    // 독서 목록 이름 변경
+    // 독서 목록 삭제
     public static boolean dropReadingList(OkHttpClient httpClient, String userId, String readingId) {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=DropReadingList&USER_ID=" + userId + "&READING_ID=" + readingId)
@@ -5025,8 +5025,9 @@ public class HttpClient {
 
             if (resultJsonObject.getString("message").equals("success"))
                 return 0;
-            else if (resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+            if (resultJsonObject.getString("message").equals("DUPLICATE")) {
                 return 1;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {

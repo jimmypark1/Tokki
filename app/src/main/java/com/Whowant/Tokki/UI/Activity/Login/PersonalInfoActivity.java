@@ -50,10 +50,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
     private String strProfileImageUrl;
     private String strPhoneNum;
     private String strBirthday;
+    private String strBirth;
     private final String emailValidation = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private final int GENDER_MALE = 0;
     private final int GENDER_FEMALE = 1;
-    private int    nGender = GENDER_MALE;
+    private int    nGender = GENDER_FEMALE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,9 @@ public class PersonalInfoActivity extends AppCompatActivity {
         femaleCheckLayout = findViewById(R.id.femaleCheckLayout);
         maleCheck = findViewById(R.id.maleCheck);
         femaleCheck = findViewById(R.id.femaleCheck);
+
+        maleCheck.setImageResource(0);
+        femaleCheck.setImageResource(R.drawable.check_box_on);
 
         maleCheckLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +126,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                     @Override
                     public void onDateChoose(int year, int month, int day) {
                         strBirthday = String.format("%d%02d%02d", year, month, day);
-                        String strBirth = String.format("%d년 %02d월 %02d일",  year, month, day);
+                        strBirth = String.format("%d년 %02d월 %02d일",  year, month, day);
                         inputBirthView.setText(strBirth);
                     }
                 });
@@ -154,7 +158,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
             @Override
             public void onDateChoose(int year, int month, int day) {
                 strBirthday = String.format("%d%02d%02d", year, month, day);
-                String strBirth = String.format("%d년 %02d월 %02d일",  year, month, day);
+                strBirth = String.format("%d년 %02d월 %02d일",  year, month, day);
                 inputBirthView.setText(strBirth);
 //                inputBirthView.setText(strBirthday);
             }
@@ -218,7 +222,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
             return;
         }
 
-        if(strBirthday.length() < 8) {
+        if(strBirth == null) {
             Toast.makeText(PersonalInfoActivity.this, "생년월일을 선택해주세요", Toast.LENGTH_LONG).show();
             return;
         }

@@ -388,7 +388,20 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#b2b2b2"
-            android:text="Tel/Fax : 031-896-8539\nE-mail : whowant@whowant.kr"/>
+            android:linksClickable="true"
+            android:autoLink="phone"
+            android:textColorLink="#b2b2b2"
+            android:text="Tel/Fax : 031-896-8539"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#b2b2b2"
+            android:linksClickable="true"
+            android:autoLink="email"
+            android:textColorLink="#b2b2b2"
+            android:text="E-mail : whowant@whowant.kr"/>
 
         <TextView
             android:layout_width="wrap_content"

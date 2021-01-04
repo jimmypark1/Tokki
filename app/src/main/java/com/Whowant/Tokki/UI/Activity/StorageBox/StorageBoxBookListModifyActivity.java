@@ -112,7 +112,7 @@ public class StorageBoxBookListModifyActivity extends AppCompatActivity {
                             switch (item.getItemId()) {
                                 case R.id.delete: {
                                     Intent intent = new Intent(mActivity, MessagePopup.class);
-                                    intent.putExtra("message", "독서 목록을 삭제하시겠어요?");
+                                    intent.putExtra("message", vo.getREADING_NAME() + "을 삭제하시겠어요? 삭제하시면 독서 목록 내 작품 리스트도 같이 삭제됩니다.");
                                     intent.putExtra("readingId", String.valueOf(vo.getID()));
                                     startActivityForResult(intent, 901);
                                 }
@@ -232,7 +232,7 @@ public class StorageBoxBookListModifyActivity extends AppCompatActivity {
     }
 
     private void dropReadingList(String userId, String readingId) {
-        CommonUtils.showProgressDialog(mActivity, "서버와 통신중입니다.");
+        CommonUtils.showProgressDialog(mActivity, "서버와 통신 중입니다.");
 
         new Thread(new Runnable() {
             @Override

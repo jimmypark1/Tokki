@@ -80,7 +80,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
     private String strBtnTitle = "무료로 첫화보기";
     //    private ActionBar actionBar;
     private boolean bModify = false;
-    private boolean bDesc = false;
+    private boolean bDesc = true;
     private TextView titleView, carrotCountView;
     private Button showBtn;
     private Toast toast;
