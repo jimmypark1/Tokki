@@ -14,7 +14,7 @@
         android:onClick="onClickTopLeftBtn"
         android:src="@drawable/i_hamburger_3_line" />
 
-    <ImageButtonz
+    <ImageButton
         android:id="@+id/rightBtn"
         android:layout_width="25dp"
         android:layout_height="25dp"
