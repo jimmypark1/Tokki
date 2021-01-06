@@ -90,6 +90,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.Whowant.Tokki.Utils.CommonUtils.from;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG_NAR;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_VIDEO;
@@ -1420,7 +1421,21 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 }
 
                                 Uri fileUri = data.getData();
-                                readExcel(fileUri);
+                                File file = null;
+
+                                try {
+                                    file = from(getActivity(), fileUri);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                if (file != null && file.exists()) {
+                                    Log.d("asdf", "asdf");
+                                }
+
+                                final String filePath = file.getAbsolutePath();
+
+                                readExcel(fileUri, filePath);
                             }
                         });
                     }
@@ -1439,8 +1454,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         });
     }
 
-    private void readExcel(final Uri fileUri) {
-        final String filePath = CommonUtils.getRealPathFromURI(getActivity(), fileUri);
+    private void readExcel(final Uri fileUri, final String filePath) {
+//        final String filePath = CommonUtils.getRealPathFromURI(getActivity(), fileUri);
 
         new Thread(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.N)

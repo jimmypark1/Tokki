@@ -12,9 +12,9 @@
         android:layout_marginLeft="16.6dp"
         android:background="@null"
         android:onClick="onClickTopLeftBtn"
-        android:src="@drawable/hamburger_black" />
+        android:src="@drawable/i_hamburger_3_line" />
 
-    <ImageButton
+    <ImageButtonz
         android:id="@+id/rightBtn"
         android:layout_width="25dp"
         android:layout_height="25dp"

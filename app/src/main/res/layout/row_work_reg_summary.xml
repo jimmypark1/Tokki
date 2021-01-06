@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:src="@drawable/ic_i_tap_gray" />
+            android:src="@drawable/ic_i_tap_999999" />
 
         <TextView
             android:layout_width="wrap_content"

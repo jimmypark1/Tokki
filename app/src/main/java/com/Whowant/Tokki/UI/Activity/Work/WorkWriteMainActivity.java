@@ -385,7 +385,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                         newEpsisodeBtn.setText("새로운 회차 쓰기");
                     } else {
                         nOrder = nOldOrder + 1;
-                        newEpsisodeBtn.setText(nOrder + "회차 쓰기");
+                        newEpsisodeBtn.setText(nOrder + "화 쓰기");
                         break;
                     }
                 } else {
@@ -394,7 +394,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                         newEpsisodeBtn.setText("새로운 회차 쓰기");
                     } else {
                         nOrder = nOldOrder - 1;
-                        newEpsisodeBtn.setText(nOrder + "회차 쓰기");
+                        newEpsisodeBtn.setText(nOrder + "화 쓰기");
                         break;
                     }
                 }
