@@ -46,7 +46,7 @@ public class ExcelReader {                                                      
         this.nEpisodeID = nEpisodeID;
     }
 
-    public void readExcel(String strExcelPath, boolean bInteraction) throws IOException, InvalidFormatException {
+    public void readExcel(String strExcelPath, boolean bInteraction) throws IOException, InvalidFormatException, Exception {
         File excelFile = new File(strExcelPath);
         if(!excelFile.exists())
             return;

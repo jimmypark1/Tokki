@@ -2039,10 +2039,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                 chatVO.setStrContentsFile(CommonUtils.getRealPathFromURI(LiteratureWriteActivity.this, fileUri));
 
                 requestUploadMessage(chatVO, bEdit);
-            } else if (requestCode == 1040) {                    // 엑셀파일 가져오
-                mProgressDialog.setMessage("엑셀 파일을 읽고 있습니다. 잠시만 기다려 주세요.");
-                mProgressDialog.show();
-
+            } else if (requestCode == 1040) {                    // 엑셀파일 가져오기
+                CommonUtils.showProgressDialog(LiteratureWriteActivity.this, "엑셀 파일을 읽고 있습니다. 잠시만 기다려 주세요.");
                 Uri fileUri = data.getData();
                 File file = null;
 
@@ -2067,8 +2065,32 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                             excelReader.readExcel(filePath, false);
                         } catch (IOException e) {
                             e.printStackTrace();
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    CommonUtils.hideProgressDialog();
+                                    Toast.makeText(LiteratureWriteActivity.this, "올바른 양식의 엑셀 파일이 아닙니다.", Toast.LENGTH_LONG).show();
+                                }
+                            });
                         } catch (InvalidFormatException e) {
                             e.printStackTrace();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    CommonUtils.hideProgressDialog();
+                                    Toast.makeText(LiteratureWriteActivity.this, "올바른 양식의 엑셀 파일이 아닙니다.", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    CommonUtils.hideProgressDialog();
+                                    Toast.makeText(LiteratureWriteActivity.this, "올바른 양식의 엑셀 파일이 아닙니다.", Toast.LENGTH_LONG).show();
+                                }
+                            });
                         }
                     }
                 }).start();
@@ -2216,14 +2238,37 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                     excelReader.readExcel(filePath, false);
                 } catch (IOException e) {
                     e.printStackTrace();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+                            Toast.makeText(LiteratureWriteActivity.this, "올바른 양식의 엑셀 파일이 아닙니다.", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 } catch (InvalidFormatException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+                            Toast.makeText(LiteratureWriteActivity.this, "올바른 양식의 엑셀 파일이 아닙니다.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+                            Toast.makeText(LiteratureWriteActivity.this, "올바른 양식의 엑셀 파일이 아닙니다.", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CommonUtils.hideProgressDialog();
                         getCharacterData();
                     }
                 });

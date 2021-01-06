@@ -1345,6 +1345,8 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                     e.printStackTrace();
                 } catch (InvalidFormatException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }).start();

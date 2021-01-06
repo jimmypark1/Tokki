@@ -146,6 +146,9 @@ public class ViewerActivity extends AppCompatActivity {                         
 
         setContentView(R.layout.activity_viewer);
 
+        fileObserver.startWatching();
+        lgFileObserver.startWatching();
+
         bFirst = true;
         Thread.UncaughtExceptionHandler handler = Thread.getDefaultUncaughtExceptionHandler();
 
@@ -284,6 +287,21 @@ public class ViewerActivity extends AppCompatActivity {                         
         }
     };
 
+    FileObserver lgFileObserver = new FileObserver(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/Screenshots") {
+        @Override
+        public void onEvent(int event, @Nullable String path) {
+            if (event == FileObserver.CREATE) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ViewerActivity.this, "캡쳐 후 불법 유포 시 처벌받을 수 있습니다.", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+        }
+    };
+
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -397,6 +415,7 @@ public class ViewerActivity extends AppCompatActivity {                         
         super.onPause();
 
         fileObserver.stopWatching();
+        lgFileObserver.stopWatching();
 
         if(mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
@@ -432,6 +451,7 @@ public class ViewerActivity extends AppCompatActivity {                         
         getInteraction();
 
         fileObserver.startWatching();
+        lgFileObserver.startWatching();
 
 //        commentList = new ArrayList<>();
 //        getCommentData();
@@ -547,7 +567,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                         aa.notifyDataSetChanged();
 
                         if(nShoingIndex <= 0)
-                            Toast.makeText(ViewerActivity.this, "화면을 터치하시면 내용이 진행됩니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ViewerActivity.this, "화면을 터치하시면 내용이 진행됩니다.", Toast.LENGTH_LONG).show();
 
                         chattingListView.setSelection(aa.getCount() - 1);
                     }
@@ -673,6 +693,9 @@ public class ViewerActivity extends AppCompatActivity {                         
     public void onDestroy() {
 //        workVO = null;
         super.onDestroy();
+
+        fileObserver.stopWatching();
+        lgFileObserver.stopWatching();
 
         if(autoScrollTimer != null) {
             autoScrollTimer.cancel();

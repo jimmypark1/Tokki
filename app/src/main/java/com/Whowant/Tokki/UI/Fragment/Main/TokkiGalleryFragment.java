@@ -119,11 +119,13 @@ public class TokkiGalleryFragment extends Fragment implements AdapterView.OnItem
                                 .setCropShape(CropImageView.CropShape.OVAL);
                     } else if(nType == TYPE_COVER.ordinal()) {
                         ThumbnailPreviewActivity.nNextType = TYPE_COVER.ordinal();
+                        cropImgBuilder.setAspectRatio(100, 155);
                     } else if(nType == TYPE_COVER_THUMB.ordinal()) {
                         ThumbnailPreviewActivity.nNextType = TYPE_COVER_THUMB.ordinal();
                         cropImgBuilder.setAspectRatio(25, 20);
                     } else if(nType == TYPE_COVER_IMG_MODIFY.ordinal()) {
                         ThumbnailPreviewActivity.nNextType = TYPE_MODIFY.ordinal();
+                        cropImgBuilder.setAspectRatio(100, 155);
                     } else if(nType == TYPE_MODIFY_THUMB.ordinal()) {
                         ThumbnailPreviewActivity.nNextType = TYPE_MODIFY_THUMB.ordinal();
                         cropImgBuilder.setAspectRatio(25, 20);

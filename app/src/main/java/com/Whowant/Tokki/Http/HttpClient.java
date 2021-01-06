@@ -40,6 +40,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1247,30 +1249,86 @@ public class HttpClient {
     }
 
     public static boolean requestSendMessage(OkHttpClient httpClient, String senderID, String receiverID, String strContents, int nThreadID) {
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=SendMsg&SENDER_ID=" + senderID + "&RECEIVER_ID=" + receiverID + "&CONTENTS=" + strContents + "&THREAD_ID=" + nThreadID)
-                .get()
-                .build();
+        boolean bResult = false;
 
-        try (Response response = httpClient.newCall(request).execute()) {
-            if (response.code() != 200)
-                return false;
+        JSONObject jsonBody = new JSONObject();
 
-            String strResult = response.body().string();
-            JSONObject resultObject = new JSONObject(strResult);
+        try {
+            strContents = URLEncoder.encode(strContents, "UTF-8");
+            jsonBody.put("SENDER_ID", senderID);
+            jsonBody.put("RECEIVER_ID", receiverID);
+            jsonBody.put("CONTENTS", strContents);
+            jsonBody.put("THREAD_ID", "" + nThreadID);
 
-            if (resultObject.getString("RESULT").equals("SUCCESS"))
-                return true;
-            else
-                return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+//            Request request = new Request.Builder()
+//                    .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=SendMsg&SENDER_ID=" + senderID + "&RECEIVER_ID=" + receiverID + "&CONTENTS=" + strContents + "&THREAD_ID=" + nThreadID)
+//                    .get()
+//                    .build();
+
+            String jsonString = jsonBody.toString();
+            RequestBody requestBody = RequestBody.create(JSON, jsonString);
+
+            Request request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=SendMsg")
+                    .post(requestBody)
+                    .build();
+
+            try (Response response = httpClient.newCall(request).execute()) {
+                if (response.code() != 200)
+                    return false;
+
+                String strResult = response.body().string();
+                JSONObject resultJsonObject = new JSONObject(strResult);
+
+                if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                    return true;
+                else
+                    return false;
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } catch (JSONException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        return false;
+        return bResult;
     }
+
+//    public static boolean requestSendMessage(OkHttpClient httpClient, String senderID, String receiverID, String strContents, int nThreadID) {
+//        JSONObject jsonBody = new JSONObject();
+//
+//        try {
+//            jsonBody.put("USER_ID", dataMap.get("USER_ID"));
+//            jsonBody.put("COMMENT", dataMap.get("COMMENT"));
+//            jsonBody.put("EPISODE_ID", dataMap.get("EPISODE_ID"));
+//            jsonBody.put("CHAT_ID", dataMap.get("CHAT_ID"));
+//        }
+//        Request request = new Request.Builder()
+//                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=SendMsg&SENDER_ID=" + senderID + "&RECEIVER_ID=" + receiverID + "&CONTENTS=" + strContents + "&THREAD_ID=" + nThreadID)
+//                .get()
+//                .build();
+//
+//        try (Response response = httpClient.newCall(request).execute()) {
+//            if (response.code() != 200)
+//                return false;
+//
+//            String strResult = response.body().string();
+//            JSONObject resultObject = new JSONObject(strResult);
+//
+//            if (resultObject.getString("RESULT").equals("SUCCESS"))
+//                return true;
+//            else
+//                return false;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return false;
+//    }
 
     public static ArrayList<MessageVO> getMessageList(OkHttpClient httpClient, int nThreadID) {                              // 모든 작품 목록 가져오기
         ArrayList<MessageVO> resultList = new ArrayList<>();

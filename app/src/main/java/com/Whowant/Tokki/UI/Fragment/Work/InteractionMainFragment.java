@@ -1451,8 +1451,32 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     excelReader.readExcel(filePath, true);
                 } catch (IOException e) {
                     e.printStackTrace();
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+                            Toast.makeText(getActivity(), "올바른 양식의 엑셀 파일이 아닙니다.", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 } catch (InvalidFormatException e) {
                     e.printStackTrace();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+                            Toast.makeText(getActivity(), "올바른 양식의 엑셀 파일이 아닙니다.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+                            Toast.makeText(getActivity(), "올바른 양식의 엑셀 파일이 아닙니다.", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             }
         }).start();
