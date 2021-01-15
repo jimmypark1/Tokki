@@ -17,6 +17,7 @@ import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
 
 public class AgreementActivity extends AppCompatActivity {
+    private String strID;
     private String strEmail;
     private String strSNSID;
     private String strNickName;
@@ -47,6 +48,7 @@ public class AgreementActivity extends AppCompatActivity {
         bShowTemrs1 = false;
         bShowTerms2 = false;
 
+        strID = getIntent().getStringExtra("ID");
         strEmail = getIntent().getStringExtra("USER_EMAIL");
         strSNSID = getIntent().getStringExtra("SNS_ID");
         strNickName = getIntent().getStringExtra("USER_NAME");
@@ -57,19 +59,11 @@ public class AgreementActivity extends AppCompatActivity {
         totalCheckbox = findViewById(R.id.totalCheckbox);
         checkBtn1 = findViewById(R.id.checkBtn1);
         checkBtn2 = findViewById(R.id.checkBtn2);
-
-        /*
-        intent.putExtra("USER_EMAIL", strEmail);
-                intent.putExtra("SNS_ID", strSNSID);
-                intent.putExtra("USER_NAME", strNickName);
-                intent.putExtra("USER_PHOTO", strPhoto);
-         */
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        KakaoSDKAdapter.unregisterKakaoTalk(AgreementActivity.this);
     }
 
     public void onClickTotakCheckBtn(View view) {
@@ -152,7 +146,8 @@ public class AgreementActivity extends AppCompatActivity {
             return;
         }
 
-        Intent intent = new Intent(AgreementActivity.this, PersonalInfoActivity.class);                 // 약관 동의시 개인정보 입력화면으로 이동
+        Intent intent = new Intent(AgreementActivity.this, PWRegisterActivity.class);                 // 약관 동의시 개인정보 입력화면으로 이동
+        intent.putExtra("ID", strID);
         intent.putExtra("SNS", nSNS);
         intent.putExtra("SNS_ID", strSNSID);
         intent.putExtra("USER_NAME", strNickName);

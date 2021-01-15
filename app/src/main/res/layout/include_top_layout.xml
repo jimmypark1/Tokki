@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_b1_f2f2f2"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <LinearLayout
+            android:id="@+id/ll_top_layout_carrot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_i_carrot" />
+
+            <TextView
+                android:id="@+id/tv_top_layout_carrot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="3sp"
+                android:text="2,300 개"
+                android:textColor="#ff5800"
+                android:textSize="17sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/ib_top_layout_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/ic_i_back"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_top_layout_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/ib_top_layout_back"
+            android:layout_toLeftOf="@+id/ib_top_layout_dot"
+            android:lineSpacingExtra="3sp"
+            android:textColor="#222222"
+            android:ellipsize="end"
+            android:textSize="17sp"
+            android:maxLines="1"
+            android:text="제목"
+            android:textStyle="normal" />
+
+        <ImageButton
+            android:id="@+id/ib_top_layout_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_i_filter"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/ib_top_layout_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_i_dots_black"
+            android:visibility="invisible" />
+
+        <ImageButton
+            android:id="@+id/ib_top_layout_close_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_i_close_black"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/ib_top_layout_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_i_plus"
+            android:visibility="gone" />
+    </RelativeLayout>
+</LinearLayout>

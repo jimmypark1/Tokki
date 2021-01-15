@@ -39,4 +39,14 @@
         android:layout_below="@+id/topBarLayout"
         android:dividerHeight="0dp"
         android:divider="#00000000"/>
+
+    <TextView
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBarLayout"
+        android:text="알림이 없습니다."
+        android:gravity="center"
+        android:textSize="18dp"
+        android:visibility="invisible"/>
 </RelativeLayout>

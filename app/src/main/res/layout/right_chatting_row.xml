@@ -1,139 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clipChildren="false">
+    android:clipChildren="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/nameView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:text="홍길동"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:id="@+id/contentsLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/nameView"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/round_8_ffffff"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/contentsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="7sp"
+                    android:text="a"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/deleteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/contentsLayout"
+                android:layout_alignTop="@+id/contentsLayout"
+                android:layout_marginStart="-10dp"
+                android:layout_marginTop="-10dp"
+                android:src="@drawable/ic_i_delete" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/faceView"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/caracter_b_icon" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/emptyLayout"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_alignParentLeft="true"
         android:clipChildren="false"
-        android:layout_alignParentLeft="true"/>
+        android:orientation="vertical" />
 
     <RelativeLayout
         android:id="@+id/rightLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/emptyLayout"
         android:clipChildren="false"
-        android:layout_alignParentRight="true">
+        android:visibility="gone">
 
         <RelativeLayout
             android:id="@+id/faceBGLayout"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/gray_face_bg"
             android:layout_alignParentRight="true"
             android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/gray_face_bg"
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/faceView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/caracter_a_icon"/>
+                android:src="@drawable/caracter_a_icon" />
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/nameView"
+            android:id="@+id/nameView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
             android:layout_alignTop="@+id/faceBGLayout"
+            android:layout_marginRight="8dp"
             android:layout_toLeftOf="@+id/faceBGLayout"
-            android:textSize="14sp"
+            android:text="홍길동"
             android:textColor="@color/colorBlack"
-            android:text="홍길동"/>
+            android:textSize="14sp" />
 
         <RelativeLayout
-            android:id="@+id/contentsLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/nameView"
-            android:layout_marginRight="67dp"
-            android:layout_marginTop="7dp"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="40dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="67dp"
             android:background="@drawable/right_chat_bg">
 
             <TextView
-                android:id="@+id/contentsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ㅁㄴㅇㄹㅁㅇㄹㄴㅁㅇㄹㄴㅁㅇㄹㅁㄴㄹㄴㅁㄴㅇㄹㅁㄴㄹㅁㄴㅇㄹㅁㄴㄹㅇㄴㅁㅇㄹㅁㄴㅇㄹㄴㅁㅇㄹㄴㅁㅇㄹㅁㅇ"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/imageContentsView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/commentCountView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/contentsLayout"
-            android:layout_alignRight="@+id/deleteBtn"
+            android:text="0"
             android:textColor="@color/colorTextGray"
-            android:visibility="invisible"
-            android:text="0"/>
+            android:visibility="invisible" />
 
         <ImageView
-            android:id="@+id/deleteBtn"
             android:layout_width="23dp"
             android:layout_height="24dp"
-            android:layout_alignTop="@+id/contentsLayout"
-            android:layout_alignLeft="@+id/contentsLayout"
             android:layout_marginLeft="-12dp"
             android:layout_marginTop="-12dp"
-            android:focusable="false"
+            android:background="@drawable/delet_button"
             android:clickable="false"
-            android:background="@drawable/delet_button"/>
+            android:focusable="false" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/addBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
         android:layout_below="@+id/rightLayout"
-        android:focusable="false"
-        android:clickable="false">
+        android:layout_margin="20dp"
+        android:clickable="false"
+        android:focusable="false">
 
         <TextView
             android:id="@+id/txtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="12sp"
-            android:textColor="@color/colorBlack"
-            android:gravity="center"
-            android:text="사이에 추가"/>
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="7sp"
+            android:text="사이에 추가"
+            android:textColor="#000000"
+            android:textSize="13sp"
+            android:textStyle="normal" />
 
         <ImageView
             android:id="@+id/leftLine"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_toLeftOf="@+id/txtView"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:background="@color/colorBlack"/>
+            android:layout_marginEnd="10dp"
+            android:layout_toLeftOf="@+id/txtView"
+            android:background="#222222" />
 
         <ImageView
             android:id="@+id/rightLine"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_toRightOf="@+id/txtView"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:background="@color/colorBlack"/>
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/txtView"
+            android:background="#222222" />
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

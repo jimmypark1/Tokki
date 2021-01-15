@@ -4,16 +4,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.Whowant.Tokki.UI.Fragment.Main.FriendFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.KeepFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.LiteratureFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.MainFragment;
-import com.Whowant.Tokki.UI.Fragment.Main.MyFragment;
+import com.Whowant.Tokki.UI.Fragment.Main.SearchFragment;
+import com.Whowant.Tokki.UI.Fragment.Main.StorageBoxFragment;
 
 public class MainViewpagerAdapter extends FragmentPagerAdapter {
     private MainFragment mainFragment;
+    private SearchFragment searchFragment;
     private KeepFragment keepFragment;
+    private StorageBoxFragment storageBoxFragment;
     private LiteratureFragment literatureFragment;
-    private MyFragment myFragment;
+    private FriendFragment friendFragment;
 
     public MainViewpagerAdapter(FragmentManager fm) {
         super(fm);
@@ -23,23 +27,27 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
 //        literatureFragment = (LiteratureFragment)LiteratureFragment.newInstance();
 //        myFragment = (MyFragment)MyFragment.newInstance();
         mainFragment = new MainFragment();
-        keepFragment = new KeepFragment();
+        searchFragment = new SearchFragment();
+//        keepFragment = new KeepFragment();
+        storageBoxFragment = new StorageBoxFragment();
         literatureFragment = new LiteratureFragment();
-        myFragment = new MyFragment();
-
+        friendFragment = new FriendFragment();
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch(position) {
+        switch (position) {
             case 0:
                 return mainFragment;
             case 1:
-                return keepFragment;
+                return searchFragment;
             case 2:
-                return literatureFragment;
+//                return keepFragment;
+                return storageBoxFragment;
             case 3:
-                return myFragment;
+                return literatureFragment;
+            case 4:
+                return friendFragment;
             default:
                 return mainFragment;
         }
@@ -47,19 +55,21 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 5;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if(position == 0)
+        if (position == 0)
             return "Panbook";
-        else if(position == 1)
+        else if (position == 1)
             return "보관함";
-        else if(position == 2) {
+        else if (position == 2) {
             return "작품쓰기";
-        } else if(position == 3) {
+        } else if (position == 3) {
             return "마이 페이지";
+        } else if (position == 4) {
+            return "친구";
         }
 
         return "";

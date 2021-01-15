@@ -307,7 +307,7 @@ public class ContestInputActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (bResult) {
-                            Toast.makeText(ContestInputActivity.this, "공모전에 등록 되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ContestInputActivity.this, "공모전에 등록되었습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             Toast.makeText(ContestInputActivity.this, "공모전 등록을 실패했습니다.", Toast.LENGTH_SHORT).show();

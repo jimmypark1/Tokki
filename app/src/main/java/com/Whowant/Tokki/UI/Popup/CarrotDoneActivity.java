@@ -409,7 +409,7 @@ public class CarrotDoneActivity extends AppCompatActivity implements OnKeyboardV
                 boolean isShown = heightDiff >= estimatedKeyboardHeight;
 
                 if (isShown == alreadyOpen) {
-                    Log.i("Keyboard state", "Ignoring global layout change...");
+                    Log.i("Keyboard state", "Ignoring global round_squre_stroke_gray_bg change...");
                     return;
                 }
                 alreadyOpen = isShown;

@@ -56,11 +56,11 @@ public class MemberWithdrawActivity extends AppCompatActivity {
                         CommonUtils.hideProgressDialog();
 
                         if(bResult) {
-                            Toast.makeText(MemberWithdrawActivity.this, "탈퇴 처리 되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MemberWithdrawActivity.this, "탈퇴 처리되었습니다.", Toast.LENGTH_SHORT).show();
                             setResult(RESULT_OK);
                             finish();
                         } else {
-                            Toast.makeText(MemberWithdrawActivity.this, "퇼퇴 되지 않았습니다..", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MemberWithdrawActivity.this, "탈퇴되지 않았습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }

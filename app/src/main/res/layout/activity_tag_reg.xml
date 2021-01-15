@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/include_top_layout" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="9sp"
+                android:text="태그 추가"
+                android:textColor="#666666"
+                android:textSize="11sp"
+                android:textStyle="normal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_tag_reg"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="태그를 입력 및 선택하세요"
+                    android:textColorHint="#cccccc"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tv_tag_reg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:lineSpacingExtra="5sp"
+                    android:text="등록"
+                    android:textColor="#cccccc"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#666666" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
+        <ScrollView
+            android:id="@+id/sv_tag_reg"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.Whowant.Tokki.UI.Custom.TagFlowLayout
+                android:id="@+id/tagsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp" />
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/round_22_5a9aff"
+            android:gravity="center"
+            android:onClick="btnSave">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="7sp"
+                android:text="저장"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

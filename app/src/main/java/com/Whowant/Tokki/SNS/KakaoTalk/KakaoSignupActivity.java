@@ -13,6 +13,7 @@ import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Login.AgreementActivity;
 import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Login.PersonalInfoActivity;
 import com.kakao.auth.ApiResponseCallback;
 import com.kakao.network.ErrorResult;
@@ -125,7 +126,7 @@ public class KakaoSignupActivity extends AppCompatActivity {
     }
 
     protected void redirectLoginActivity() {
-        Intent intent = new Intent(this, LoginSelectActivity.class);
+        Intent intent = new Intent(this, PanbookLoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

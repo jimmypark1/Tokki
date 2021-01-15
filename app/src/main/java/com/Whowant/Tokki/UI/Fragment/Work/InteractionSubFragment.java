@@ -509,7 +509,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
 //        actionBar.setDisplayShowCustomEnabled(true);
 //
 //        LayoutInflater viewinflater = (LayoutInflater)getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-//        View customActionbar = viewinflater.inflate(R.layout.custom_actionbar, null);
+//        View customActionbar = viewinflater.inflate(R.round_squre_stroke_gray_bg.custom_actionbar, null);
 //
 //        actionBar.setCustomView(customActionbar);
 //        actionBar.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
@@ -582,25 +582,29 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                 return;
 
             case 2:
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("회차 삭제");
-                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
-                builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        requestDeleteAllMessage();
-                    }
-                });
+                if (!chattingList.isEmpty()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("회차 삭제");
+                    builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            requestDeleteAllMessage();
+                        }
+                    });
 
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
 
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                return;
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    return;
+                } else {
+                    Toast.makeText(getActivity(), "삭제할 내용이 없습니다.", Toast.LENGTH_LONG).show();
+                }
         }
     }
 
@@ -660,25 +664,29 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                 return true;
 
             case R.id.action_btn4:
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("회차 삭제");
-                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
-                builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        requestDeleteAllMessage();
-                    }
-                });
+                if (!chattingList.isEmpty()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("회차 삭제");
+                    builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            requestDeleteAllMessage();
+                        }
+                    });
 
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
 
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                return true;
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    return true;
+                } else {
+                    Toast.makeText(getActivity(), "삭제할 내용이 없습니다.", Toast.LENGTH_LONG).show();
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -1336,6 +1344,8 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InvalidFormatException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -2508,7 +2518,7 @@ public class InteractionSubFragment extends Fragment implements View.OnClickList
 //                    chattingList.remove(position);
                         if(nType == ChatVO.TYPE_DISTRACTOR) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setTitle("분기 삭");
+                            builder.setTitle("분기 삭제");
                             builder.setMessage("분기를 삭제하시면 분기 이후의 모든 회차 및 채팅 정보가 삭제됩니다.\n정말로 삭제하시겠습니까?");
                             builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
                                 @Override

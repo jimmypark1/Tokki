@@ -4,37 +4,244 @@
     android:layout_height="wrap_content"
     android:background="#fff">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:ellipsize="end"
+            android:lineSpacingExtra="8sp"
+            android:text="제목"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textColor="#222222"
+            android:textSize="20sp"
+            android:textStyle="normal" />
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/iv_level"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_i_level_5" />
+
+            <ImageView
+                android:id="@+id/iv_profile_photo"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="34dp"
+                android:background="@drawable/user_icon" />
+
+            <TextView
+                android:id="@+id/tv_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:text="LV.5"
+                android:textColor="#ffffff"
+                android:textSize="7sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_writer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/writerNameView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="5sp"
+                android:text="달뮤가나"
+                android:textColor="#222222"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/writerNameView"
+                android:src="@drawable/ic_i_right_arrow" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/carrotView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/circle_fafafa_2_33000000"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_i_carrot" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_carrot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="0sp"
+                    android:text="2,300 개"
+                    android:textColor="#ff5800"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:lineSpacingExtra="7sp"
+                    android:text="응원받은 작품이예요"
+                    android:textColor="#222222"
+                    android:textSize="13sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_i_heart" />
+
+            <TextView
+                android:id="@+id/heartPointView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:lineSpacingExtra="5sp"
+                android:text="9999"
+                android:textColor="#999999"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_i_star" />
+
+            <TextView
+                android:id="@+id/startPointView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5sp"
+                android:text="5.0"
+                android:textColor="#999999"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_i_tap_999999" />
+
+            <TextView
+                android:id="@+id/tapCountView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:lineSpacingExtra="5sp"
+                android:text="999"
+                android:textColor="#999999"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_i_chat" />
+
+            <TextView
+                android:id="@+id/commentCountView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:lineSpacingExtra="5sp"
+                android:text="999"
+                android:textColor="#999999"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+    </LinearLayout>
+
+
     <TextView
-        android:id="@+id/titleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:gravity="center"
-        android:maxLines="2"
         android:ellipsize="end"
+        android:gravity="center"
+        android:lineSpacingExtra="8sp"
+        android:maxLines="2"
+        android:text="대도시의 사랑법"
+        android:textColor="#222222"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorBlack"
-        android:layout_centerHorizontal="true"
-        android:text="대도시의 사랑법"/>
+        android:textStyle="normal"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/writerInfoLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/titleView"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:visibility="gone">
 
         <RelativeLayout
             android:id="@+id/profileImgLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:clipChildren="false"
-            android:layout_marginLeft="26.7dp">
+            android:layout_marginLeft="26.7dp"
+            android:clipChildren="false">
 
             <RelativeLayout
                 android:id="@+id/levelIconView"
@@ -42,8 +249,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/levelBGView"
                 android:layout_alignRight="@+id/levelBGView"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true">
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp">
 
                 <ImageView
                     android:id="@+id/lv1IconView"
@@ -51,7 +258,7 @@
                     android:layout_height="12.9dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="-0.5dp"
-                    android:background="@drawable/icon_lv1"/>
+                    android:background="@drawable/icon_lv1" />
 
                 <ImageView
                     android:id="@+id/lv5IconView"
@@ -59,8 +266,8 @@
                     android:layout_height="26.8dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="-2.2dp"
-                    android:visibility="gone"
-                    android:background="@drawable/icon_lv5"/>
+                    android:background="@drawable/icon_lv5"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/lv10IconView"
@@ -68,14 +275,14 @@
                     android:layout_height="22.8dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="-0.3dp"
-                    android:visibility="gone"
-                    android:background="@drawable/icon_lv10"/>
+                    android:background="@drawable/icon_lv10"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/emptyIconView"
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -89,13 +296,14 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/circle_bg"/>
+                    android:background="@drawable/circle_bg" />
+
                 <ImageView
                     android:id="@+id/faceView"
                     android:layout_width="53dp"
                     android:layout_height="53dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/user_icon"/>
+                    android:src="@drawable/user_icon" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -109,32 +317,32 @@
                     android:id="@+id/smallLvView"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:background="@drawable/lv1_bg"
                     android:layout_centerInParent="true"
+                    android:background="@drawable/lv1_bg"
                     android:gravity="center"
-                    android:textSize="6.2sp"
-                    android:textStyle="bold"
+                    android:text="LV.1"
                     android:textColor="@color/colorWhite"
-                    android:text="LV.1"/>
+                    android:textSize="6.2sp"
+                    android:textStyle="bold" />
 
                 <RelativeLayout
                     android:id="@+id/smallLv10View"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:visibility="gone"
-                    android:background="@drawable/lv10_bg"
                     android:layout_centerInParent="true"
-                    android:gravity="center">
+                    android:background="@drawable/lv10_bg"
+                    android:gravity="center"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/smallLv10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:textSize="4.1sp"
-                        android:textStyle="bold"
+                        android:text="LV."
                         android:textColor="@color/colorWhite"
-                        android:text="LV."/>
+                        android:textSize="4.1sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -143,10 +351,10 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="-2.5dp"
                         android:gravity="center"
-                        android:textSize="8sp"
-                        android:textStyle="bold"
+                        android:text="10"
                         android:textColor="@color/colorWhite"
-                        android:text="10"/>
+                        android:textSize="8sp"
+                        android:textStyle="bold" />
                 </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
@@ -155,92 +363,88 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profileImgLayout"
-            android:layout_marginTop="6dp">
+            android:layout_marginTop="5dp">
 
             <TextView
-                android:id="@+id/writerNameView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:textSize="15.3sp"
-                android:textColor="@color/colorBlack"
-                android:text="박상영"/>
+                android:text="박상영"
+                android:textColor="#222222"
+                android:textSize="15sp" />
 
             <ImageView
-                android:layout_width="5.5dp"
-                android:layout_height="10dp"
-                android:layout_marginLeft="7.7dp"
-                android:layout_toRightOf="@+id/writerNameView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:background="@drawable/right_arrow_black"/>
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_i_right_arrow" />
         </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/writerInfoLayout"
         android:layout_marginTop="14dp"
-        android:layout_below="@+id/writerInfoLayout">
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/pointLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_centerHorizontal="true"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="14dp"
                 android:layout_height="14dp"
-                android:src="@drawable/icon_star"/>
+                android:src="@drawable/icon_star" />
 
             <TextView
-                android:id="@+id/startPointView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:text="5.0"
-                android:textSize="14sp"
-                android:textColor="#d1d1d1"/>
+                android:textColor="#d1d1d1"
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="14dp"
                 android:layout_height="15dp"
                 android:layout_marginLeft="12dp"
-                android:src="@drawable/icon_wap_gray"/>
+                android:src="@drawable/icon_wap_gray" />
 
             <TextView
-                android:id="@+id/tapCountView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
-                android:textSize="14sp"
                 android:text="999"
-                android:textColor="#d1d1d1"/>
+                android:textColor="#d1d1d1"
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="14dp"
                 android:layout_height="15dp"
                 android:layout_marginLeft="12dp"
-                android:src="@drawable/icon_speech_bubble_gray"/>
+                android:src="@drawable/icon_speech_bubble_gray" />
 
             <TextView
-                android:id="@+id/commentCountView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
-                android:textSize="14sp"
                 android:text="999"
-                android:textColor="#d1d1d1"/>
+                android:textColor="#d1d1d1"
+                android:textSize="14sp" />
         </LinearLayout>
-        
+
         <ImageView
             android:layout_width="5.5dp"
             android:layout_height="10dp"
-            android:layout_toRightOf="@+id/pointLayout"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/more_botton"/>
+            android:layout_toRightOf="@+id/pointLayout"
+            android:background="@drawable/more_botton" />
     </RelativeLayout>
 </RelativeLayout>

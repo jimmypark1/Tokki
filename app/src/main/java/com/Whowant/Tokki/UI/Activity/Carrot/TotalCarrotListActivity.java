@@ -109,7 +109,7 @@ public class TotalCarrotListActivity extends AppCompatActivity {
             if(vo.getType() == 11) {
                 strDesc = String.format("%s 님으로부터 추천인 입력", vo.getDonationFrom());
             } else if(vo.getType() == 2) {
-                strDesc = String.format("%s 님으로부터 '%s' 작품 응원", vo.getDonationName(), vo.getDonationWorkTitle());
+                strDesc = String.format("%s 님으로부터 '%s' 작품 응원받음", vo.getDonationName(), vo.getDonationWorkTitle());
             } else if(vo.getType() == 20) {
                 strDesc = String.format("출석체크");
             } else if(vo.getType() == 3) {

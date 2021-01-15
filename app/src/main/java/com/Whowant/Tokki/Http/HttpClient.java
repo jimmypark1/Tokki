@@ -11,6 +11,7 @@ import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.AlarmVO;
 import com.Whowant.Tokki.VO.BillingLogVO;
+import com.Whowant.Tokki.VO.BookListVo;
 import com.Whowant.Tokki.VO.CarrotVO;
 import com.Whowant.Tokki.VO.CharacterVO;
 import com.Whowant.Tokki.VO.ChatVO;
@@ -18,12 +19,20 @@ import com.Whowant.Tokki.VO.CommentVO;
 import com.Whowant.Tokki.VO.ContestVO;
 import com.Whowant.Tokki.VO.EpisodeVO;
 import com.Whowant.Tokki.VO.EventVO;
+import com.Whowant.Tokki.VO.FriendVO;
+import com.Whowant.Tokki.VO.GenreVO;
 import com.Whowant.Tokki.VO.MainCardVO;
+import com.Whowant.Tokki.VO.MessageThreadVO;
+import com.Whowant.Tokki.VO.MessageVO;
 import com.Whowant.Tokki.VO.NoticeVO;
+import com.Whowant.Tokki.VO.TagVo;
 import com.Whowant.Tokki.VO.UserInfoVO;
 import com.Whowant.Tokki.VO.WaitingVO;
+import com.Whowant.Tokki.VO.WorkListVo;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.Whowant.Tokki.VO.WriterVO;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,10 +40,11 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -44,6 +54,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class HttpClient {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -1003,7 +1014,6 @@ public class HttpClient {
                 vo.setnAccumCarrot(object.getInt("CARROT_ACCUMULATION"));
                 vo.setnDonationCarrot(object.getInt("CARROT_DONATION"));
                 vo.setnPurchaseCarrot(object.getInt("CARROT_PURCHASE"));
-
                 resultList.add(vo);
             }
         } catch (IOException e) {
@@ -1238,6 +1248,316 @@ public class HttpClient {
         return resultList;
     }
 
+    public static boolean requestSendMessage(OkHttpClient httpClient, String senderID, String receiverID, String strContents, int nThreadID) {
+        boolean bResult = false;
+
+        JSONObject jsonBody = new JSONObject();
+
+        try {
+            strContents = URLEncoder.encode(strContents, "UTF-8");
+            jsonBody.put("SENDER_ID", senderID);
+            jsonBody.put("RECEIVER_ID", receiverID);
+            jsonBody.put("CONTENTS", strContents);
+            jsonBody.put("THREAD_ID", "" + nThreadID);
+
+//            Request request = new Request.Builder()
+//                    .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=SendMsg&SENDER_ID=" + senderID + "&RECEIVER_ID=" + receiverID + "&CONTENTS=" + strContents + "&THREAD_ID=" + nThreadID)
+//                    .get()
+//                    .build();
+
+            String jsonString = jsonBody.toString();
+            RequestBody requestBody = RequestBody.create(JSON, jsonString);
+
+            Request request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=SendMsg")
+                    .post(requestBody)
+                    .build();
+
+            try (Response response = httpClient.newCall(request).execute()) {
+                if (response.code() != 200)
+                    return false;
+
+                String strResult = response.body().string();
+                JSONObject resultJsonObject = new JSONObject(strResult);
+
+                if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                    return true;
+                else
+                    return false;
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } catch (JSONException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return bResult;
+    }
+
+//    public static boolean requestSendMessage(OkHttpClient httpClient, String senderID, String receiverID, String strContents, int nThreadID) {
+//        JSONObject jsonBody = new JSONObject();
+//
+//        try {
+//            jsonBody.put("USER_ID", dataMap.get("USER_ID"));
+//            jsonBody.put("COMMENT", dataMap.get("COMMENT"));
+//            jsonBody.put("EPISODE_ID", dataMap.get("EPISODE_ID"));
+//            jsonBody.put("CHAT_ID", dataMap.get("CHAT_ID"));
+//        }
+//        Request request = new Request.Builder()
+//                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=SendMsg&SENDER_ID=" + senderID + "&RECEIVER_ID=" + receiverID + "&CONTENTS=" + strContents + "&THREAD_ID=" + nThreadID)
+//                .get()
+//                .build();
+//
+//        try (Response response = httpClient.newCall(request).execute()) {
+//            if (response.code() != 200)
+//                return false;
+//
+//            String strResult = response.body().string();
+//            JSONObject resultObject = new JSONObject(strResult);
+//
+//            if (resultObject.getString("RESULT").equals("SUCCESS"))
+//                return true;
+//            else
+//                return false;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return false;
+//    }
+
+    public static ArrayList<MessageVO> getMessageList(OkHttpClient httpClient, int nThreadID) {                              // 모든 작품 목록 가져오기
+        ArrayList<MessageVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=GetMSGDetail&THREAD_ID=" + nThreadID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("MSG_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                MessageVO vo = new MessageVO();
+                vo.setThreadID(object.getInt("THREAD_ID"));
+                vo.setMessageID(object.getInt("MESSAGE_ID"));
+                vo.setReceiverID(object.getString("RECEIVER_ID"));
+                vo.setReceiverName(object.getString("RECEIVER_NAME"));
+                vo.setReceiverPhoto(object.getString("RECEIVER_PHOTO"));
+                vo.setSenderID(object.getString("SENDER_ID"));
+                vo.setSenderName(object.getString("SENDER_NAME"));
+                vo.setSenderPhoto(object.getString("SENDER_PHOTO"));
+                vo.setCreatedDate(object.getString("CREATED_DATE"));
+                vo.setMsgContents(object.getString("MESSAGE_CONTENTS"));
+                resultList.add(vo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static MessageThreadVO getMessageThreadByID(OkHttpClient httpClient, String strUserID, String strPartnerID) {                              // 모든 작품 목록 가져오기
+        MessageThreadVO vo = null;
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=GetMsgThreadByID&USER_ID=" + strUserID + "&PARTNER_ID=" + strPartnerID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("MSG_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+                vo = new MessageThreadVO();
+                vo.setThreadID(object.getInt("THREAD_ID"));
+                vo.setUserID(object.getString("USER_ID"));
+                vo.setPartnerID(object.getString("PARTNER_ID"));
+                vo.setUserName(object.getString("USER_NAME"));
+                vo.setUserPhoto(object.getString("USER_PHOTO"));
+                vo.setCreatedDate(object.getString("CREATED_DATE"));
+                vo.setLastMsg(object.getString("LAST_MESSAGE"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return vo;
+    }
+
+    public static ArrayList<MessageThreadVO> getMessageThreadList(OkHttpClient httpClient, String strUserID) {                              // 모든 작품 목록 가져오기
+        ArrayList<MessageThreadVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=GetMsgThreadList&USER_ID=" + strUserID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("MSG_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                MessageThreadVO vo = new MessageThreadVO();
+                vo.setThreadID(object.getInt("THREAD_ID"));
+                vo.setUserID(object.getString("USER_ID"));
+                vo.setPartnerID(object.getString("PARTNER_ID"));
+                vo.setUserName(object.getString("USER_NAME"));
+                vo.setUserPhoto(object.getString("USER_PHOTO"));
+                vo.setCreatedDate(object.getString("CREATED_DATE"));
+                vo.setLastMsg(object.getString("LAST_MESSAGE"));
+
+                if(object.getString("LAST_MESSAGE") == null || object.getString("LAST_MESSAGE").equals("null"))
+                    continue;
+
+                resultList.add(vo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static ArrayList<FriendVO> getFriendList(OkHttpClient httpClient, String strUserID) {                              // 모든 작품 목록 가져오기
+        ArrayList<FriendVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiFriend.jsp?CMD=GetMyFriendList&USER_ID=" + strUserID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("RECOMMEND_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                FriendVO vo = new FriendVO();
+                vo.setUserId(object.getString("USER_ID"));
+                vo.setUserName(object.getString("USER_NAME"));
+                vo.setUserPhoto(object.getString("USER_PHOTO"));
+                resultList.add(vo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static ArrayList<FriendVO> getAllFriendList(OkHttpClient httpClient, String strUserID) {                              // 모든 작품 목록 가져오기
+        ArrayList<FriendVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiFriend.jsp?CMD=GetAllFriendList&USER_ID=" + strUserID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("RECOMMEND_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                FriendVO vo = new FriendVO();
+                vo.setUserId(object.getString("USER_ID"));
+                vo.setUserName(object.getString("USER_NAME"));
+                vo.setUserPhoto(object.getString("USER_PHOTO"));
+                vo.setFriend(object.getString("FRIEND").equals("Y") ? true : false);
+                resultList.add(vo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static ArrayList<FriendVO> getFriendRecommendList(OkHttpClient httpClient, String strUserID) {                              // 모든 작품 목록 가져오기
+        ArrayList<FriendVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiFriend.jsp?CMD=GetRecommendList&USER_ID=" + strUserID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("RECOMMEND_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                FriendVO vo = new FriendVO();
+                vo.setUserId(object.getString("USER_ID"));
+                vo.setUserName(object.getString("USER_NAME"));
+                vo.setUserPhoto(object.getString("USER_PHOTO"));
+                resultList.add(vo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
     public static ArrayList<WorkVO> getNewRankingList(OkHttpClient httpClient) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
 
@@ -1458,8 +1778,8 @@ public class HttpClient {
             JSONArray bestRankingJsonArray = resultObject.getJSONArray("BEST_RANKING");
             MainCardVO bestRankingVO = new MainCardVO();
             ArrayList<WorkVO> bestWorkList = new ArrayList<>();
-            bestRankingVO.setStrHeaderTitle("인기작");
-            bestRankingVO.setViewType(1);
+            bestRankingVO.setStrHeaderTitle("장르별 순위");
+            bestRankingVO.setViewType(2);
 
             for (int i = 0; i < bestRankingJsonArray.length(); i++) {
                 JSONObject object = bestRankingJsonArray.getJSONObject(i);
@@ -1488,34 +1808,38 @@ public class HttpClient {
             bestRankingVO.setAllItemInCard(bestWorkList);
             mainCardList.add(bestRankingVO);
 
-//            JSONArray genreRankingJsonArray = resultObject.getJSONArray("GENRE_RANKING");
-//            MainCardVO genreRankingVO = new MainCardVO();
-//            ArrayList<WorkVO> genroWorkList = new ArrayList<>();
-//            genreRankingVO.setStrHeaderTitle("장르별 순위");
-//            genreRankingVO.setViewType(1);
-//
-//            for(int i = 0 ; i < genreRankingJsonArray.length() ; i++) {
-//                JSONObject object = genreRankingJsonArray.getJSONObject(i);
-//
-//                WorkVO workVO = new WorkVO();
-//                workVO.setWorkID(object.getInt("WORK_ID"));
-//                workVO.setCreatedDate(object.getString("CREATED_DATE"));
-//                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-//                workVO.setWriteID(object.getString("WRITER_ID"));
-//                workVO.setStrWriterName(object.getString("WRITER_NAME"));
-//                workVO.setTitle(object.getString("WORK_TITLE"));
-//                workVO.setCoverFile(object.getString("COVER_IMG"));
-//                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
-//                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
-//                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
-//                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
-//                workVO.setnTarget(object.getInt("TARGET"));
-//
-//                genroWorkList.add(workVO);
-//            }
-//
-//            genreRankingVO.setAllItemInCard(genroWorkList);
-//            mainCardList.add(genreRankingVO);
+            JSONArray genreRankingJsonArray = resultObject.getJSONArray("GENRE_RANKING");
+            MainCardVO genreRankingVO = new MainCardVO();
+            ArrayList<WorkVO> genroWorkList = new ArrayList<>();
+            genreRankingVO.setStrHeaderTitle("인기작");
+            genreRankingVO.setViewType(2);
+
+            for (int i = 0; i < genreRankingJsonArray.length(); i++) {
+                JSONObject object = genreRankingJsonArray.getJSONObject(i);
+
+                WorkVO workVO = new WorkVO();
+                workVO.setWorkID(object.getInt("WORK_ID"));
+                workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                workVO.setWriteID(object.getString("WRITER_ID"));
+                workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                workVO.setTitle(object.getString("WORK_TITLE"));
+                workVO.setCoverFile(object.getString("COVER_IMG"));
+                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                workVO.setnTarget(object.getInt("TARGET"));
+
+                genroWorkList.add(workVO);
+            }
+
+            genreRankingVO.setAllItemInCard(genroWorkList);
+            mainCardList.add(genreRankingVO);
 
             /*
             {"NEW_WORK":["value", "value", "value"]}
@@ -1554,6 +1878,72 @@ public class HttpClient {
 
             newRankingVO.setAllItemInCard(newWorkList);
             mainCardList.add(newRankingVO);
+
+            JSONArray realStoryRankingJsonArray = resultObject.getJSONArray("REALSTORY_WORK");
+            MainCardVO realStoryRankingVO = new MainCardVO();
+            ArrayList<WorkVO> realStoryWorkList = new ArrayList<>();
+            realStoryRankingVO.setStrHeaderTitle("리얼 스토리");
+            realStoryRankingVO.setViewType(2);
+
+            for (int i = 0; i < realStoryRankingJsonArray.length(); i++) {
+                JSONObject object = realStoryRankingJsonArray.getJSONObject(i);
+
+                WorkVO workVO = new WorkVO();
+                workVO.setWorkID(object.getInt("WORK_ID"));
+                workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                workVO.setWriteID(object.getString("WRITER_ID"));
+                workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                workVO.setTitle(object.getString("WORK_TITLE"));
+                workVO.setCoverFile(object.getString("COVER_IMG"));
+                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                workVO.setnTarget(object.getInt("TARGET"));
+
+                realStoryWorkList.add(workVO);
+            }
+
+            realStoryRankingVO.setAllItemInCard(realStoryWorkList);
+            mainCardList.add(realStoryRankingVO);
+
+            JSONArray fanFicRankingJsonArray = resultObject.getJSONArray("FANFICTION_WORK");
+            MainCardVO fanFicRankingVO = new MainCardVO();
+            ArrayList<WorkVO> fanFicWorkList = new ArrayList<>();
+            fanFicRankingVO.setStrHeaderTitle("팬픽션");
+            fanFicRankingVO.setViewType(2);
+
+            for (int i = 0; i < fanFicRankingJsonArray.length(); i++) {
+                JSONObject object = fanFicRankingJsonArray.getJSONObject(i);
+
+                WorkVO workVO = new WorkVO();
+                workVO.setWorkID(object.getInt("WORK_ID"));
+                workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                workVO.setWriteID(object.getString("WRITER_ID"));
+                workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                workVO.setTitle(object.getString("WORK_TITLE"));
+                workVO.setCoverFile(object.getString("COVER_IMG"));
+                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                workVO.setnTarget(object.getInt("TARGET"));
+
+                fanFicWorkList.add(workVO);
+            }
+
+            fanFicRankingVO.setAllItemInCard(fanFicWorkList);
+            mainCardList.add(fanFicRankingVO);
 
 //            JSONArray recommandsonArray = resultObject.getJSONArray("RECOMMAND");
 //            MainCardVO recommandVO = new MainCardVO();
@@ -2141,6 +2531,50 @@ public class HttpClient {
 
     //GetMyFollowInfo
 
+    public static ArrayList<WriterVO> getWriterFollowerList(OkHttpClient httpClient, String strMyID, String strWriterID) {
+        ArrayList<WriterVO> writerList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWriterFollowerList&USER_ID=" + strMyID + "&WRITER_ID=" + strWriterID)
+                .get()
+                .build();
+
+        JSONObject resultObject = null;
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            resultObject = new JSONObject(strResult);
+            JSONArray writerArray = resultObject.getJSONArray("WRITER_LIST");
+
+            for (int i = 0; i < writerArray.length(); i++) {
+                JSONObject object = writerArray.getJSONObject(i);
+
+                WriterVO vo = new WriterVO();
+                vo.setStrWriterID(object.getString("USER_ID"));
+                vo.setStrWriterName(object.getString("USER_NAME"));
+                vo.setStrWriterPhoto(object.getString("USER_PHOTO"));
+                vo.setStrWriterComment(object.getString("USER_COMMENT"));
+//                vo.setnFollowcount(object.getInt("FOLLOW_COUNT"));
+                vo.setnFollowingCount(object.getInt("FOLLOWING_COUNT"));
+                vo.setnDonationCarrot(object.getInt("DONATION_CARROT"));
+                vo.setnFollowcount(object.getInt("FOLLOW_ME"));
+
+                writerList.add(vo);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            resultObject = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultObject = null;
+        }
+
+        return writerList;
+    }
+
     public static ArrayList<WriterVO> getMyFollowerList(OkHttpClient httpClient, String strMyID) {
         ArrayList<WriterVO> writerList = new ArrayList<>();
 
@@ -2167,9 +2601,10 @@ public class HttpClient {
                 vo.setStrWriterName(object.getString("USER_NAME"));
                 vo.setStrWriterPhoto(object.getString("USER_PHOTO"));
                 vo.setStrWriterComment(object.getString("USER_COMMENT"));
-                vo.setnFollowcount(object.getInt("FOLLOW_COUNT"));
+//                vo.setnFollowcount(object.getInt("FOLLOW_COUNT"));
                 vo.setnFollowingCount(object.getInt("FOLLOWING_COUNT"));
                 vo.setnDonationCarrot(object.getInt("DONATION_CARROT"));
+                vo.setnFollowcount(object.getInt("FOLLOW_ME"));
 
                 writerList.add(vo);
             }
@@ -2210,7 +2645,50 @@ public class HttpClient {
                 vo.setStrWriterName(object.getString("USER_NAME"));
                 vo.setStrWriterPhoto(object.getString("USER_PHOTO"));
                 vo.setStrWriterComment(object.getString("USER_COMMENT"));
-                vo.setnFollowcount(object.getInt("FOLLOW_COUNT"));
+                vo.setnFollowcount(1);
+                vo.setnFollowingCount(object.getInt("FOLLOWING_COUNT"));
+                vo.setnDonationCarrot(object.getInt("DONATION_CARROT"));
+
+                writerList.add(vo);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            resultObject = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultObject = null;
+        }
+
+        return writerList;
+    }
+
+    public static ArrayList<WriterVO> getWriterFollowingList(OkHttpClient httpClient, String strMyID, String strWriterID) {
+        ArrayList<WriterVO> writerList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWriterFollowingList&USER_ID=" + strMyID + "&WRITER_ID=" + strWriterID)
+                .get()
+                .build();
+
+        JSONObject resultObject = null;
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            resultObject = new JSONObject(strResult);
+            JSONArray writerArray = resultObject.getJSONArray("WRITER_LIST");
+
+            for (int i = 0; i < writerArray.length(); i++) {
+                JSONObject object = writerArray.getJSONObject(i);
+
+                WriterVO vo = new WriterVO();
+                vo.setStrWriterID(object.getString("USER_ID"));
+                vo.setStrWriterName(object.getString("USER_NAME"));
+                vo.setStrWriterPhoto(object.getString("USER_PHOTO"));
+                vo.setStrWriterComment(object.getString("USER_COMMENT"));
+                vo.setnFollowcount(object.getInt("FOLLOW_ME"));
                 vo.setnFollowingCount(object.getInt("FOLLOWING_COUNT"));
                 vo.setnDonationCarrot(object.getInt("DONATION_CARROT"));
 
@@ -3794,6 +4272,8 @@ public class HttpClient {
                 .get()
                 .build();
 
+        httpClient = addNetworkInterceptor(httpClient);
+
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
                 return null;
@@ -4066,6 +4546,7 @@ public class HttpClient {
                                     String strUserName = resultObject.getString("USER_NAME");
                                     String strUserEmail = resultObject.getString("USER_EMAIL");
                                     String strUserPhoto = resultObject.getString("USER_PHOTO");
+                                    String strRecommendCode = resultObject.getString("RECOMMEND_CODE");
                                     String strUserPhoneNum = resultObject.getString("USER_PHONENUM");
                                     int nRegisterSNS = resultObject.getInt("REGISTER_SNS");
                                     String strSNSID = resultObject.getString("SNS_ID");
@@ -4090,6 +4571,7 @@ public class HttpClient {
                                     editor.putString("USER_BIRTHDAY", strBirthday);
                                     editor.putInt("USER_GENDER", nGender);
                                     editor.putInt("COIN_COUNT", nCoinCount);
+                                    editor.putString("RECOMMEND_CODE", strRecommendCode);
 
                                     editor.commit();
 
@@ -4325,6 +4807,498 @@ public class HttpClient {
             for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
                 resultList.add(object.getString("FILE_NAME"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultList = null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            resultList = null;
+        }
+
+        return resultList;
+    }
+
+    public static boolean CreateReadingList(OkHttpClient httpClient, String strUserID, String readingName) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=CreateReadingList&USER_ID=" + strUserID + "&READING_NAME=" + readingName)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // 태그 검색
+    public static ArrayList<TagVo> getTagInfo(OkHttpClient httpClient, String tagName) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiTag.jsp?CMD=GetTagInfo&TAG_NAME=" + tagName)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return new ArrayList<>();
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            ArrayList<TagVo> list = new Gson().fromJson(resultJsonObject.getJSONArray("READING_LIST").toString(), new TypeToken<ArrayList<TagVo>>() {
+            }.getType());
+
+            return list;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+    // 태그 목록 추가
+    public static int addTag(OkHttpClient httpClient, String tagName) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiTag.jsp?CMD=AddTag&TAG_NAME=" + tagName)
+                .get()
+                .build();
+
+        httpClient = addNetworkInterceptor(httpClient);
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return -1;
+
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return 0;
+            else if (resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+                return 1;
+            else
+                return -1;
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
+    // 독서 목록
+    public static ArrayList<BookListVo> getReadingList(OkHttpClient httpClient, String userId) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=GetReadingList&USER_ID=" + userId)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return new ArrayList<>();
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+
+            ArrayList<BookListVo> list = new Gson().fromJson(resultJsonObject.getJSONArray("READING_LIST").toString(), new TypeToken<ArrayList<BookListVo>>() {
+            }.getType());
+
+            return list;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+    // 독서 목록 상세
+    public static ArrayList<WorkListVo> getReadingListDetail(OkHttpClient httpClient, String readingId) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=GetReadingListDetail&READING_ID=" + readingId)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return new ArrayList<>();
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            ArrayList<WorkListVo> list = new Gson().fromJson(resultJsonObject.getJSONArray("WORK_LIST").toString(), new TypeToken<ArrayList<WorkListVo>>() {
+            }.getType());
+
+            return list;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+    // 독서 목록 이름 변경
+    public static boolean renameReadingList(OkHttpClient httpClient, String readingId, String readingName) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=RenameReadingList&READING_ID=" + readingId + "&READING_NAME=" + readingName)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // 독서 목록 삭제
+    public static boolean dropReadingList(OkHttpClient httpClient, String userId, String readingId) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=DropReadingList&USER_ID=" + userId + "&READING_ID=" + readingId)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // 독서 목록에 작품 추가
+    public static int addReadingList(OkHttpClient httpClient, String workId, String readingId) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiReadingList.jsp?CMD=AddReadingList&WORK_ID=" + workId + "&READING_ID=" + readingId)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return -1;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return 0;
+            else if (resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+                return 1;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
+    // 장르별 리스트 검색
+    public static ArrayList<WorkListVo> getGenreWorkList(OkHttpClient httpClient, String genre, String order) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetGenreWorkList&GENRE=" + genre + "&ORDER=" + order)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return new ArrayList<>();
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            ArrayList<WorkListVo> list = new Gson().fromJson(resultJsonObject.getJSONArray("WORK_LIST").toString(), new TypeToken<ArrayList<WorkListVo>>() {
+            }.getType());
+
+            return list;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+//    GetMsgThreadList
+
+    public static OkHttpClient addNetworkInterceptor(OkHttpClient okHttpClient) {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        return okHttpClient.newBuilder().addNetworkInterceptor(interceptor).build();
+    }
+
+    public static int requestAuthNum(OkHttpClient httpClient, String strPhoneNum) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiSmsAuth.jsp?CMD=RequestAuthNum&PHONE_NUM=" + strPhoneNum)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return -1;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("message").equals("success"))
+                return 0;
+            if (resultJsonObject.getString("message").equals("DUPLICATE")) {
+                return 1;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
+    public static String requestAuth(OkHttpClient httpClient, String strPhoneNum, String authNum) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiSmsAuth.jsp?CMD=RequestAuth&PHONE_NUM=" + strPhoneNum + "&AUTH_NUM=" + authNum)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            return resultJsonObject.getString("RESULT");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // 개인별 추천작 리스트
+    public static ArrayList<MainCardVO> getRecommendList(OkHttpClient httpClient, String strUserID) {                              // 추천작 가져오기
+        ArrayList<MainCardVO> mainCardList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiRecommendList.jsp?CMD=GetRecommendList&USER_ID=" + strUserID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray newJsonArray = resultObject.getJSONArray("WORK_LIST");
+            MainCardVO personalRecommendVO = new MainCardVO();
+            ArrayList<WorkVO> recommendWorkList = new ArrayList<>();
+            personalRecommendVO.setStrHeaderTitle("님을 위한 추천 작품");
+            personalRecommendVO.setViewType(3);
+
+            for (int i = 0; i < newJsonArray.length(); i++) {
+                JSONObject object = newJsonArray.getJSONObject(i);
+
+                WorkVO workVO = new WorkVO();
+                workVO.setWorkID(object.getInt("WORK_ID"));
+                workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                workVO.setStrUpdateDate(object.getString("UPDATE_DATE"));
+                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                workVO.setWriteID(object.getString("WRITER_ID"));
+                workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                workVO.setTitle(object.getString("WORK_TITLE"));
+                workVO.setCoverFile(object.getString("COVER_IMG"));
+                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                workVO.setnTarget(object.getInt("TARGET"));
+
+                recommendWorkList.add(workVO);
+            }
+
+            personalRecommendVO.setAllItemInCard(recommendWorkList);
+            mainCardList.add(personalRecommendVO);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return mainCardList;
+    }
+
+    public static ArrayList<WorkVO> getRealStoryRankingList(OkHttpClient httpClient) {                              // 모든 작품 목록 가져오기
+        ArrayList<WorkVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetRealStoryRanking")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                WorkVO workVO = new WorkVO();
+                workVO.setWorkID(object.getInt("WORK_ID"));
+                workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                workVO.setWriteID(object.getString("WRITER_ID"));
+                workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                workVO.setTitle(object.getString("WORK_TITLE"));
+                workVO.setCoverFile(object.getString("COVER_IMG"));
+                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+//                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+//                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                workVO.setnTarget(object.getInt("TARGET"));
+
+                resultList.add(workVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static ArrayList<WorkVO> getFanFictionRankingList(OkHttpClient httpClient) {                              // 모든 작품 목록 가져오기
+        ArrayList<WorkVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetFanFictionRanking")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                WorkVO workVO = new WorkVO();
+                workVO.setWorkID(object.getInt("WORK_ID"));
+                workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                workVO.setWriteID(object.getString("WRITER_ID"));
+                workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                workVO.setTitle(object.getString("WORK_TITLE"));
+                workVO.setCoverFile(object.getString("COVER_IMG"));
+                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+//                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+//                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                workVO.setnTarget(object.getInt("TARGET"));
+
+                resultList.add(workVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static ArrayList<GenreVO> getGenreInfo(OkHttpClient httpClient) {
+        ArrayList<GenreVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetGenreList")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("GENRE_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                GenreVO vo = new GenreVO();
+                vo.setGenreName(object.getString("GENRE_NAME"));
+                vo.setGenreImg(object.getString("GENRE_IMG"));
+
+                resultList.add(vo);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -22,29 +22,29 @@
                 android:id="@+id/faceView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/caracter_b_icon"/>
+                android:src="@drawable/caracter_b_icon" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/nameView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_alignTop="@+id/faceBGLayout"
+            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/faceBGLayout"
-            android:textSize="14sp"
+            android:text="홍길동"
             android:textColor="@color/colorBlack"
-            android:text="홍길동"/>
+            android:textSize="14sp" />
 
         <LinearLayout
             android:id="@+id/contentsLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_below="@+id/nameView"
-            android:layout_marginTop="7dp"
             android:layout_marginLeft="67dp"
-            android:clipChildren="false">
+            android:layout_marginTop="7dp"
+            android:clipChildren="false"
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -64,33 +64,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/rounded_img_bg"
-                        android:scaleType="fitCenter">
-                    </ImageView>
+                        android:scaleType="fitCenter"></ImageView>
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/rounded_dimm"
                         android:layout_alignLeft="@+id/videoThumbnailView"
-                        android:layout_alignRight="@+id/videoThumbnailView"
                         android:layout_alignTop="@+id/videoThumbnailView"
+                        android:layout_alignRight="@+id/videoThumbnailView"
                         android:layout_alignBottom="@+id/videoThumbnailView"
-                        android:scaleType="fitCenter">
-                    </ImageView>
+                        android:background="@drawable/rounded_dimm"
+                        android:scaleType="fitCenter"></ImageView>
 
                     <RelativeLayout
                         android:id="@+id/playBtnlayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:layout_centerInParent="true">
+                        android:layout_centerInParent="true"
+                        android:padding="10dp">
 
                         <ImageView
                             android:id="@+id/playBtn"
                             android:layout_width="17dp"
                             android:layout_height="22dp"
-                            android:src="@drawable/play_button"
-                            android:layout_centerInParent="true"/>
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/play_button" />
                     </RelativeLayout>
                 </RelativeLayout>
 
@@ -99,12 +97,12 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignTop="@+id/videoThumbLayout"
-                    android:layout_toRightOf="@+id/videoThumbLayout"
-                    android:layout_marginTop="-11dp"
                     android:layout_marginLeft="-12dp"
-                    android:focusable="false"
+                    android:layout_marginTop="-11dp"
+                    android:layout_toRightOf="@+id/videoThumbLayout"
+                    android:background="@drawable/delet_button"
                     android:clickable="false"
-                    android:background="@drawable/delet_button"/>
+                    android:focusable="false" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -117,17 +115,17 @@
                     android:layout_width="13dp"
                     android:layout_height="13dp"
                     android:layout_marginLeft="5dp"
-                    android:focusable="false"
-                    android:clickable="false"/>
+                    android:clickable="false"
+                    android:focusable="false" />
 
                 <TextView
                     android:id="@+id/commentCountView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
                     android:layout_alignParentBottom="true"
-                    android:textColor="@color/colorBlack"
-                    android:text="0"/>
+                    android:layout_marginLeft="7dp"
+                    android:text="0"
+                    android:textColor="@color/colorBlack" />
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -136,40 +134,39 @@
         android:id="@+id/addBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
         android:layout_below="@+id/contentsLayout"
-        android:focusable="false"
-        android:clickable="false">
+        android:layout_margin="20dp"
+        android:clickable="false"
+        android:focusable="false">
 
         <TextView
             android:id="@+id/txtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="12sp"
-            android:textColor="@color/colorBlack"
-            android:gravity="center"
-            android:text="사이에 추가"/>
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="7sp"
+            android:text="사이에 추가"
+            android:textColor="#000000"
+            android:textSize="13sp"
+            android:textStyle="normal" />
 
         <ImageView
             android:id="@+id/leftLine"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_toLeftOf="@+id/txtView"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:background="@color/colorBlack"/>
+            android:layout_marginEnd="10dp"
+            android:layout_toLeftOf="@+id/txtView"
+            android:background="#222222" />
 
         <ImageView
             android:id="@+id/rightLine"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_toRightOf="@+id/txtView"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:background="@color/colorBlack"/>
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/txtView"
+            android:background="#222222" />
     </RelativeLayout>
 </RelativeLayout>

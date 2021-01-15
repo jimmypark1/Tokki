@@ -1,7 +1,5 @@
 package com.Whowant.Tokki.UI.Activity.Photopicker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +12,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
@@ -152,7 +152,7 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                     public void run() {
                         CommonUtils.hideProgressDialog();
 
-                        if(imageList == null || imageList.size() == 0) {
+                        if (imageList == null || imageList.size() == 0) {
                             Toast.makeText(SeesoGalleryActivity.this, "갤러리를 불러오는데 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -163,7 +163,7 @@ public class SeesoGalleryActivity extends AppCompatActivity {
                         if (mAdapter.getNumColumns() == 0) {
                             final int numColumns = (int) Math.floor(mGridView.getWidth() / (mImageThumbSize + mImageThumbSpacing));
                             if (numColumns > 0) {
-                                final int columnWidth =  (mGridView.getWidth() / numColumns) - mImageThumbSpacing;
+                                final int columnWidth = (mGridView.getWidth() / numColumns) - mImageThumbSpacing;
                                 mAdapter.setNumColumns(numColumns);
                                 mAdapter.setItemHeight(columnWidth);
                             }
@@ -211,11 +211,11 @@ public class SeesoGalleryActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView==null)
+            if (convertView == null)
                 convertView = inf.inflate(R.layout.image_row, null);
 
             convertView.setLayoutParams(mImageViewLayoutParams);
-            ImageView iv = (ImageView)convertView.findViewById(R.id.imageView);
+            ImageView iv = (ImageView) convertView.findViewById(R.id.imageView);
             String strUrl = CommonUtils.strDefaultUrl + "talk_image/" + imgList.get(position);
 
             Glide.with(SeesoGalleryActivity.this)

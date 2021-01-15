@@ -82,32 +82,14 @@ public class UserProfileActivity extends AppCompatActivity {
             Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
         }
 
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setTitle("사용자 프로필");
         pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
-
         strUserBirthday = pref.getString("USER_BIRTHDAY", "");
-        if(strUserBirthday.length() == 6)
-            strUserBirthday = "19" + strUserBirthday;
-
         faceView = findViewById(R.id.faceView);
         nameView = findViewById(R.id.nameView);
         emailView = findViewById(R.id.emailView);
         genderView = findViewById(R.id.genderView);
         birthdayView = findViewById(R.id.birthdayView);
         phoneNumView = findViewById(R.id.phoneNumView);
-
-//        editor.putString("USER_ID", strID);
-//        editor.putString("USER_PW", strPW1);
-//        editor.putString("USER_NAME", strName);
-//        editor.putString("USER_EMAIL", strEmail);
-//        editor.putString("USER_PHONENUM", strPhoneNum);
-//        editor.putString("USER_PHOTO", strProfileImageUrl);
-//        editor.putInt("REGISTER_SNS", nSNS);
-//        editor.putString("SNS_ID", strSNSID);
-//        editor.putString("ADMIN", "N");
-//        editor.commit();
     }
 
     @Override
@@ -185,13 +167,15 @@ public class UserProfileActivity extends AppCompatActivity {
                 intent.putExtra("USER_EMAIL", pref.getString("USER_EMAIL", ""));
                 startActivity(intent);
             } else if (requestCode == FROM_CAMERA) {
-                ThumbnailPreviewActivity.nNextType = TYPE_PROFILE.ordinal();
-                CropImage.activity(mPhotoUri)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setActivityTitle("My Crop")
-                        .setCropShape(CropImageView.CropShape.OVAL)
-                        .setAspectRatio(1, 1)
-                        .start(UserProfileActivity.this);
+                if (requestCode == FROM_CAMERA) {
+                    ThumbnailPreviewActivity.nNextType = TYPE_PROFILE.ordinal();
+                    CropImage.activity(mPhotoUri)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setActivityTitle("My Crop")
+                            .setCropShape(CropImageView.CropShape.OVAL)
+                            .setAspectRatio(1, 1)
+                            .start(UserProfileActivity.this);
+                }
             }
         }
     }
@@ -328,7 +312,7 @@ public class UserProfileActivity extends AppCompatActivity {
 //        startActivity(intent);
 
         int nYear = 1999;
-        int nMonth = 0;
+        int nMonth = 1;
         int nDay = 1;
 
         if(strUserBirthday != null && strUserBirthday.length() > 0 && !strUserBirthday.equals("null")) {

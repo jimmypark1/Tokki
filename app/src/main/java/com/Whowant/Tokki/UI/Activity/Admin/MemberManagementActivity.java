@@ -1,8 +1,5 @@
 package com.Whowant.Tokki.UI.Activity.Admin;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
@@ -48,6 +48,8 @@ public class MemberManagementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_management);
+
+        initView();
 
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
@@ -87,6 +89,13 @@ public class MemberManagementActivity extends AppCompatActivity {
         });
     }
 
+    private void initView() {
+        ((TextView) findViewById(R.id.tv_top_layout_title)).setText("회원관리");
+
+        findViewById(R.id.ib_top_layout_back).setVisibility(View.VISIBLE);
+        findViewById(R.id.ib_top_layout_back).setOnClickListener((v) -> finish());
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -109,11 +118,11 @@ public class MemberManagementActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(list != null) {
+                        if (list != null) {
                             userInfoList.addAll(list);
                             aa.notifyDataSetChanged();
 
-                            if(list.size() == 0) {
+                            if (list.size() == 0) {
                                 emptyView.setVisibility(View.VISIBLE);
                             }
                             CommonUtils.hideProgressDialog();
@@ -134,8 +143,8 @@ public class MemberManagementActivity extends AppCompatActivity {
     private void requestSearch() {
         imm.hideSoftInputFromWindow(inputSearchTextView.getWindowToken(), 0);
         String strKeyword = inputSearchTextView.getText().toString();
-        
-        if(strKeyword.length() == 0) {
+
+        if (strKeyword.length() == 0) {
             Toast.makeText(this, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -151,11 +160,11 @@ public class MemberManagementActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(list != null) {
+                        if (list != null) {
                             userInfoList.addAll(list);
                             aa.notifyDataSetChanged();
 
-                            if(list.size() == 0) {
+                            if (list.size() == 0) {
                                 emptyView.setVisibility(View.VISIBLE);
                             }
                             CommonUtils.hideProgressDialog();
@@ -169,20 +178,17 @@ public class MemberManagementActivity extends AppCompatActivity {
         }).start();
     }
 
-    public class CUserInfoArrayAdapter extends ArrayAdapter<Object>
-    {
+    public class CUserInfoArrayAdapter extends ArrayAdapter<Object> {
         private LayoutInflater mLiInflater;
 
-        CUserInfoArrayAdapter(Context context, int layout, List titles)
-        {
+        CUserInfoArrayAdapter(Context context, int layout, List titles) {
             super(context, layout, titles);
-            mLiInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mLiInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent)
-        {
-            if(convertView == null)
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            if (convertView == null)
                 convertView = mLiInflater.inflate(R.layout.admin_member_row, parent, false);
 
             UserInfoVO vo = userInfoList.get(position);
@@ -197,7 +203,7 @@ public class MemberManagementActivity extends AppCompatActivity {
 
             String strPhoto = vo.getStrUserPhoto();
 
-            if(!strPhoto.startsWith("http"))
+            if (!strPhoto.startsWith("http"))
                 strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
 
             Glide.with(MemberManagementActivity.this)
@@ -219,7 +225,7 @@ public class MemberManagementActivity extends AppCompatActivity {
                     popup.getMenuInflater().inflate(R.menu.writer_admin_menu, popup.getMenu());
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         public boolean onMenuItemClick(MenuItem item) {
-                            switch(item.getItemId()) {
+                            switch (item.getItemId()) {
                                 case R.id.action_btn3:
                                     requestMemberWithdraw(vo.getStrUserID());
                                     break;

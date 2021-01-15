@@ -150,7 +150,9 @@ public class EmailAuthActivity extends AppCompatActivity {
                         }
 
                         if(bProfile) {
-                            setResult(RESULT_OK);
+                            Intent oldIntent = getIntent();
+                            oldIntent.putExtra("NEW_EMAIL", inputEmailView.getText().toString());
+                            setResult(RESULT_OK, oldIntent);
                             finish();
                             return;
                         }

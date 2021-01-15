@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fafafa"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/emptyViewFollowing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="아직 아무도 팔로우하고 있지 않습니다."
+            android:textSize="18dp"
+            android:visibility="invisible"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/emptyViewFollower"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="팔로워가 없습니다."
+            android:textSize="18dp"
+            android:visibility="invisible"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+</LinearLayout>

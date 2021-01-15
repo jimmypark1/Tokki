@@ -40,6 +40,7 @@ import androidx.core.content.ContextCompat;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterMainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
@@ -115,7 +116,7 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
                 if(!bLogin && !showLogin) {
                     showLogin = true;
                     Toast.makeText(EpisodeCommentActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(EpisodeCommentActivity.this, LoginSelectActivity.class));
+                    startActivity(new Intent(EpisodeCommentActivity.this, PanbookLoginActivity.class));
                     return;
                 }
 
@@ -1003,7 +1004,7 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
         boolean bLogin = CommonUtils.bLocinCheck(pref);
         if(!bLogin && !showLogin) {
             Toast.makeText(EpisodeCommentActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(EpisodeCommentActivity.this, LoginSelectActivity.class));
+            startActivity(new Intent(EpisodeCommentActivity.this, PanbookLoginActivity.class));
             showLogin = true;
             inputTextView.setText("");
             return;

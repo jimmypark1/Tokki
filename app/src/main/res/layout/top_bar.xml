@@ -12,25 +12,25 @@
         android:layout_marginLeft="16.6dp"
         android:background="@null"
         android:onClick="onClickTopLeftBtn"
-        android:src="@drawable/hamburger_black"/>
+        android:src="@drawable/i_hamburger_3_line" />
 
     <ImageButton
         android:id="@+id/rightBtn"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_marginRight="17.5dp"
         android:background="@null"
         android:onClick="onClickTopRightBtn"
-        android:src="@drawable/serch_icon_balck"/>
+        android:src="@drawable/serch_icon_balck" />
 
     <ImageView
         android:id="@+id/cenverLogoView"
         android:layout_width="56.6dp"
         android:layout_height="17.2dp"
         android:layout_centerInParent="true"
-        android:background="@drawable/tokki_home_logo"/>
+        android:background="@drawable/tokki_home_logo" />
 
     <LinearLayout
         android:id="@+id/topEditLayout"
@@ -38,21 +38,21 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:visibility="gone"
-        android:gravity="center_vertical">
+        android:visibility="gone">
 
         <ImageButton
             android:layout_width="52.3dp"
             android:layout_height="19.7dp"
             android:background="@drawable/top_edit_button"
-            android:onClick="onClickTopEditBtn"/>
+            android:onClick="onClickTopEditBtn" />
 
         <ImageButton
             android:layout_width="52.3dp"
             android:layout_height="19.7dp"
             android:background="@drawable/top_delet_button"
-            android:onClick="onClickTopDelBtn"/>
+            android:onClick="onClickTopDelBtn" />
     </LinearLayout>
 
 
@@ -60,12 +60,60 @@
         android:id="@+id/titleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textColor="@color/colorBlack"
-        android:maxLines="1"
         android:ellipsize="end"
-        android:textSize="18sp"
         android:gravity="center"
-        android:layout_centerVertical="true"/>
+        android:maxLines="1"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/iv_top_bar_profile"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/circle_cccccc"
+        android:onClick="onClickTopProfileBtn"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/ib_top_bar_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:layout_toStartOf="@+id/rightBtn"
+        android:background="@drawable/ic_i_report_bug"
+        android:onClick="onClickTopReportBtn"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/ib_top_bar_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/ic_i_plus"
+        android:onClick="onClickTopAdd"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/inviteView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:onClick="onClickInviteBtn"
+        android:textColor="#000"
+        android:textSize="12sp"
+        android:text="초대하기"
+        android:visibility="gone"/>
+
+
 </RelativeLayout>

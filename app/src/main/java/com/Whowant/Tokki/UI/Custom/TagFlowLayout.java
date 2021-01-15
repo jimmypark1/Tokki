@@ -10,8 +10,8 @@ public class TagFlowLayout extends ViewGroup {
 
     public static class LayoutParams extends ViewGroup.LayoutParams {
 
-        public final int horizontal_spacing;
-        public final int vertical_spacing;
+        public final int horizontal_spacing = 30;
+        public final int vertical_spacing = 30;
 
         /**
          * @param horizontal_spacing Pixels between items, horizontally 우측 마진
@@ -19,8 +19,8 @@ public class TagFlowLayout extends ViewGroup {
          */
         public LayoutParams(int horizontal_spacing, int vertical_spacing) {
             super(horizontal_spacing, vertical_spacing);
-            this.horizontal_spacing = horizontal_spacing;
-            this.vertical_spacing = vertical_spacing;
+//            this.horizontal_spacing = horizontal_spacing;
+//            this.vertical_spacing = vertical_spacing;
         }
     }
 

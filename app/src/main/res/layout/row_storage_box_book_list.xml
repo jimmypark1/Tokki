@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="116dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_4_19000000" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="140dp"
+                android:background="@drawable/round_4_tbr_33000000" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="120dp"
+                android:background="@drawable/round_4_tbr_66000000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="25dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_row_storage_box_book_list_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="5sp"
+                android:text="아이스하키"
+                android:textColor="#222222"
+                android:textSize="17sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tv_row_storage_box_book_list_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="7sp"
+                android:text="3 스토리"
+                android:textColor="#999999"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_row_storage_box_book_list_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_i_dots_black" />
+    </LinearLayout>
+</LinearLayout>

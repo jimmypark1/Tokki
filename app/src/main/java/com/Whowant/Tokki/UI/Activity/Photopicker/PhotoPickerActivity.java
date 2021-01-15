@@ -115,7 +115,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 to,
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
-        mGridView = (GridView)findViewById(R.id.gridView);
+        mGridView = (GridView) findViewById(R.id.gridView);
         mGridView.setAdapter(mAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -141,15 +141,18 @@ public class PhotoPickerActivity extends AppCompatActivity {
                             .setCropShape(CropImageView.CropShape.RECTANGLE);
 
                     if(nType == TYPE_FACE_IMG.ordinal()) {
+                        ThumbnailPreviewActivity.nNextType = TYPE_FACE_IMG.ordinal();
                         cropImgBuilder.setAspectRatio(1, 1)
                                 .setCropShape(CropImageView.CropShape.OVAL);
                     } else if(nType == TYPE_COVER.ordinal()) {
                         ThumbnailPreviewActivity.nNextType = TYPE_COVER.ordinal();
+                        cropImgBuilder.setAspectRatio(100, 155);
                     } else if(nType == TYPE_COVER_THUMB.ordinal()) {
                         ThumbnailPreviewActivity.nNextType = TYPE_COVER_THUMB.ordinal();
                         cropImgBuilder.setAspectRatio(25, 20);
                     } else if(nType == TYPE_COVER_IMG_MODIFY.ordinal()) {
                         ThumbnailPreviewActivity.nNextType = TYPE_MODIFY.ordinal();
+                        cropImgBuilder.setAspectRatio(100, 155);
                     } else if(nType == TYPE_MODIFY_THUMB.ordinal()) {
                         ThumbnailPreviewActivity.nNextType = TYPE_MODIFY_THUMB.ordinal();
                         cropImgBuilder.setAspectRatio(25, 20);
@@ -180,15 +183,16 @@ public class PhotoPickerActivity extends AppCompatActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
-        if(hasFocus) {
+        if (hasFocus) {
             mGridView.getViewTreeObserver().addOnGlobalLayoutListener(
                     new ViewTreeObserver.OnGlobalLayoutListener() {
-                        @SuppressLint("NewApi") @Override
+                        @SuppressLint("NewApi")
+                        @Override
                         public void onGlobalLayout() {
                             if (mAdapter.getNumColumns() == 0) {
                                 final int numColumns = (int) Math.floor(mGridView.getWidth() / (mImageThumbSize + mImageThumbSpacing));
                                 if (numColumns > 0) {
-                                    final int columnWidth =  (mGridView.getWidth() / numColumns) - mImageThumbSpacing;
+                                    final int columnWidth = (mGridView.getWidth() / numColumns) - mImageThumbSpacing;
                                     mAdapter.setNumColumns(numColumns);
                                     mAdapter.setItemHeight(columnWidth);
 
@@ -200,8 +204,8 @@ public class PhotoPickerActivity extends AppCompatActivity {
         }
     }
 
-    public String[] getPath(){
-        final String[] columns = { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID };
+    public String[] getPath() {
+        final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
         final String orderBy = MediaStore.Images.Media._ID;
         //Stores all the images from the gallery in Cursor
         Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
@@ -216,7 +220,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
             cursor.moveToPosition(i);
             int dataColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
             //Store the path of the image
-            arrPath[i]= cursor.getString(dataColumnIndex);
+            arrPath[i] = cursor.getString(dataColumnIndex);
         }
 
         cursor.close();

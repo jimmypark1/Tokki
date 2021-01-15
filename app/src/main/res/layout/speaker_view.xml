@@ -20,6 +20,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
+        android:maxWidth="65dp"
+        android:ellipsize="end"
+        android:maxLength="8"
+        android:lines="1"
         android:textColor="@color/colorBlack"
         android:textSize="10sp"
         android:text="인물 추가"/>

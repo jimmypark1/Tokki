@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fafafa"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fafafa" />
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:text="준비중입니다." />-->
+
+        <RelativeLayout
+            android:id="@+id/floatingBtn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/floating_bg"
+            android:layout_margin="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true">
+            
+            <ImageView
+                android:layout_width="31dp"
+                android:layout_height="22dp"
+                android:background="@drawable/i_floating"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>

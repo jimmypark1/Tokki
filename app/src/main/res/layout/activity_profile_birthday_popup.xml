@@ -57,7 +57,7 @@
             android:inputType="number"
             android:maxLength="6"
             android:textSize="14sp"
-            android:hint="생년월일 6자리를 입력해주세요(예:990101)"/>
+            android:hint="생년월일 8자리를 입력해주세요(예:19990101)"/>
 
 
 

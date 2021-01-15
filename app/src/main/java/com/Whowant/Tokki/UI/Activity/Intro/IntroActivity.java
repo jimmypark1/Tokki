@@ -1,10 +1,5 @@
 package com.Whowant.Tokki.UI.Activity.Intro;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import okhttp3.OkHttpClient;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,9 +10,13 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
@@ -29,6 +28,8 @@ import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import okhttp3.OkHttpClient;
 
 public class IntroActivity extends AppCompatActivity {
     private String strFCMToken;
@@ -121,7 +122,14 @@ public class IntroActivity extends AppCompatActivity {
                         }
 
                         if (strVersion != null) {
-                            if (strV[0] > appV[0]) {
+                            if((appV[0] > strV[0])) {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        goNextStep();
+                                    }
+                                }, 2000);
+                            } else if (strV[0] > appV[0]) {
                                 builder.setPositiveButton("업데이트", (dialogInterface, i) -> {
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
                                     intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -134,7 +142,13 @@ public class IntroActivity extends AppCompatActivity {
                                         android.os.Process.killProcess(android.os.Process.myPid()));
                                 builder.show();
                                 return;
-
+                            } else if(appV[1] > strV[1]) {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        goNextStep();
+                                    }
+                                }, 2000);
                             } else if (strV[1] > appV[1]) {
                                 builder.setPositiveButton("업데이트", (dialogInterface, i) -> {
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -149,6 +163,13 @@ public class IntroActivity extends AppCompatActivity {
                                 builder.show();
                                 return;
 
+                            } else if(appV[2] > strV[2]) {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        goNextStep();
+                                    }
+                                }, 2000);
                             } else if (strV[2] > appV[2]) {
                                 builder.setPositiveButton("업데이트", new DialogInterface.OnClickListener() {
                                     @Override
@@ -199,7 +220,7 @@ public class IntroActivity extends AppCompatActivity {
             if(strUserID.length() > 0 && strUserPW.length() > 0 && !strUserID.equals("Guest")) {
                 requestPanbookLogin(strUserID, strUserPW);
             } else {
-                startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                startActivity(new Intent(IntroActivity.this, PanbookLoginActivity.class));
                 finish();
             }
         } else {
@@ -208,7 +229,7 @@ public class IntroActivity extends AppCompatActivity {
             if(strSNSID.length() > 0 && !strUserID.equals("Guest")) {             // 소셜 로그인 이라면
                 requestSNSLogin(strUserID, strSNSID);
             } else {
-                startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                startActivity(new Intent(IntroActivity.this, PanbookLoginActivity.class));
                 finish();
             }
         }
@@ -222,11 +243,9 @@ public class IntroActivity extends AppCompatActivity {
         editor.putString("USER_NAME", "Guest");
         editor.commit();
 
-        new Handler().postDelayed(new Runnable()
-        {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 Intent intent = new Intent(IntroActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -265,6 +284,7 @@ public class IntroActivity extends AppCompatActivity {
                                     String strUserAdmin = resultObject.getString("USER_ADMIN");
                                     String strUserDesc = resultObject.getString("USER_DESC");
                                     int    nCoinCount = resultObject.getInt("COIN_COUNT");
+                                    String strRecommendCode = resultObject.getString("RECOMMEND_CODE");
 
                                     SharedPreferences.Editor editor = pref.edit();
                                     String strBirthday = resultObject.getString("USER_BIRTHDAY");
@@ -282,6 +302,7 @@ public class IntroActivity extends AppCompatActivity {
                                     editor.putString("USER_BIRTHDAY", strBirthday);
                                     editor.putInt("USER_GENDER", nGender);
                                     editor.putInt("COIN_COUNT", nCoinCount);
+                                    editor.putString("RECOMMEND_CODE", strRecommendCode);
                                     editor.commit();
 
                                     new Handler().postDelayed(new Runnable()
@@ -359,7 +380,7 @@ public class IntroActivity extends AppCompatActivity {
 
                             if(resultObject == null) {
                                 Toast.makeText(IntroActivity.this, "서버와의 연결이 원활하지 않습니다. 수동으로 로그인해 주세요.", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                                startActivity(new Intent(IntroActivity.this, PanbookLoginActivity.class));
                                 finish();
                                 return;
                             }
@@ -377,7 +398,8 @@ public class IntroActivity extends AppCompatActivity {
                                     String strUserDesc = resultObject.getString("USER_DESC");
                                     String strBirthday = resultObject.getString("USER_BIRTHDAY");
                                     int nGender = resultObject.getInt("USER_GENDER");
-                                    int    nCoinCount = resultObject.getInt("COIN_COUNT");
+                                    String strRecommendCode = resultObject.getString("RECOMMEND_CODE");
+//                                    int    nCoinCount = resultObject.getInt("COIN_COUNT");
 
                                     SharedPreferences.Editor editor = pref.edit();
 
@@ -392,7 +414,8 @@ public class IntroActivity extends AppCompatActivity {
                                     editor.putString("USER_DESC", strUserDesc);
                                     editor.putString("USER_BIRTHDAY", strBirthday);
                                     editor.putInt("USER_GENDER", nGender);
-                                    editor.putInt("COIN_COUNT", nCoinCount);
+                                    editor.putInt("COIN_COUNT", 0);
+                                    editor.putString("strRecommendCode", strRecommendCode);
                                     editor.commit();
 
                                     new Handler().postDelayed(new Runnable()
@@ -415,7 +438,7 @@ public class IntroActivity extends AppCompatActivity {
                                         @Override
                                         public void run()
                                         {
-                                            startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                                            startActivity(new Intent(IntroActivity.this, PanbookLoginActivity.class));
                                             finish();
                                         }
                                     }, 500);
@@ -431,7 +454,7 @@ public class IntroActivity extends AppCompatActivity {
                                     @Override
                                     public void run()
                                     {
-                                        startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                                        startActivity(new Intent(IntroActivity.this, PanbookLoginActivity.class));
                                         finish();
                                     }
                                 }, 500);
@@ -449,7 +472,7 @@ public class IntroActivity extends AppCompatActivity {
                         @Override
                         public void run()
                         {
-                            startActivity(new Intent(IntroActivity.this, LoginSelectActivity.class));
+                            startActivity(new Intent(IntroActivity.this, PanbookLoginActivity.class));
                             finish();
                         }
                     }, 500);

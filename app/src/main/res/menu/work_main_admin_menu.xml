@@ -12,6 +12,6 @@
         app:showAsAction="always" />
 
     <item android:id="@+id/action_btn3"
-        android:title="삭제사기"
+        android:title="삭제하기"
         app:showAsAction="never" />
 </menu>

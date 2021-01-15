@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Fragment.Friend.MessageDetailActivity">
+
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/back_button"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:text="메시지"/>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/chattingListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBarLayout"
+        android:layout_above="@+id/bottomLayout"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:clipToPadding="false"
+        android:background="#dddddd"
+        android:dividerHeight="0dp"
+        android:divider="#00000000"
+        android:transcriptMode="normal"
+        android:listSelector="@android:color/transparent"/>
+
+    <RelativeLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp"
+        android:background="#fff">
+
+        <EditText
+            android:id="@+id/inputTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_20_f7f7f7"
+            android:hint="대화를 입력하세요"
+            android:inputType="textMultiLine"
+            android:isScrollContainer="true"
+            android:lineSpacingExtra="7sp"
+            android:layout_toLeftOf="@+id/sendBtn"
+            android:maxHeight="74dp"
+            android:minHeight="40dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/sendBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:lineSpacingExtra="7sp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="등록"
+            android:onClick="onClickSendBtn"
+            android:textColor="#5a9aff"
+            android:textSize="15sp"
+            android:textStyle="normal" />
+    </RelativeLayout>
+</RelativeLayout>

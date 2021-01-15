@@ -69,6 +69,8 @@ public class EventPopupActivity extends AppCompatActivity {
 
             }
         });
+
+        setRemoveText(0);
     }
 
     public void onClickCloseBtn(View view) {

@@ -63,9 +63,9 @@ public class EpisodeAproveCancelPopup extends AppCompatActivity {
 
                         if(bResult) {
                             if(bCancel)
-                                Toast.makeText(EpisodeAproveCancelPopup.this, "게시 취소 되었습니다.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EpisodeAproveCancelPopup.this, "게시 취소되었습니다.", Toast.LENGTH_SHORT).show();
                             else
-                                Toast.makeText(EpisodeAproveCancelPopup.this, "게시 거절 되었습니다.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EpisodeAproveCancelPopup.this, "게시 거절되었습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             if(bCancel)

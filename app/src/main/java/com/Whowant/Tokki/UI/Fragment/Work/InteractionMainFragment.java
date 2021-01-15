@@ -26,9 +26,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -48,8 +46,9 @@ import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.InteractionPhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
-import com.Whowant.Tokki.UI.Activity.Work.CreateCharacterActivity;
+import com.Whowant.Tokki.UI.Activity.Work.CharacterRegActivity;
 import com.Whowant.Tokki.UI.Activity.Work.InteractionWriteActivity;
+import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.ViewerActivity;
 import com.Whowant.Tokki.UI.Popup.BGImageSelectPopup;
 import com.Whowant.Tokki.UI.Popup.DistractorPopup;
@@ -91,6 +90,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.Whowant.Tokki.Utils.CommonUtils.from;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_CONTENTS_IMG_NAR;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_VIDEO;
@@ -108,7 +108,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     private EditText inputTextView;
     private InputMethodManager imm;
     private HashMap<String, Bitmap> thumbBitmapList = new HashMap<>();
-    private ImageButton contentsAddBtn;
+    private LinearLayout contentsAddBtn;
 
     private ListView chattingListView;
     private CChattingArrayAdapter aa;
@@ -116,7 +116,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     private LinearLayout bgSettingView, imgSettingView, videoSettingView, distractorView, soundSettingView;
     private float fX, fY;
 
-    private int    nBgColor;
+    private int nBgColor;
     private String bgColor;
     private boolean bColorPicker = false;
 
@@ -138,17 +138,32 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     private InteractionWriteActivity interactionWriteActivity;
 
     private boolean bEdit = false;
-    private int     nOrder = -1;
-    private int     nInteracionOrder = -1;
+    private int nOrder = -1;
+    private int nInteracionOrder = -1;
     private int nPlayingIndex = -1;
     private ImageView oldPlayBtn;
     private ProgressBar oldPB;
     private boolean bSubmit = false;
-    private Button sendBtn;
+    // winhmoon
+    private TextView sendBtn;
     private ViewGroup viewGroup;
     private SoftKeyboard softKeyboard;
 
     private int nInteractionIndex = 0;
+
+    // [S] winhmoon
+    final int TYPE_TEXT = 0;
+    final int TYPE_CHARACTER = 1;
+    final int TYPE_MEDIA = 2;
+    int type = TYPE_TEXT;
+
+    ImageView textAddBtn;
+    ImageView characterAddBtn;
+    LinearLayout bottomCharacterLayout;
+    ImageView contentsAddImg;
+
+    int nBeforeCharacterIndex = 0;
+    // [E] winhmoon
 
     public static Fragment newInstance(int nIndex) {
         InteractionMainFragment fragment = new InteractionMainFragment(nIndex);
@@ -166,14 +181,12 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     }
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflaterView = inflater.inflate(R.layout.interaction_fragment_layout, container, false);
 
         newFileList = new ArrayList<>();
-        interactionWriteActivity = (InteractionWriteActivity)getActivity();
+        interactionWriteActivity = (InteractionWriteActivity) getActivity();
 
         strTitle = interactionWriteActivity.strTitle;
         nEpisodeID = interactionWriteActivity.nEpisodeID;
@@ -190,15 +203,17 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         speakerAddView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
-                startActivityForResult(new Intent(getActivity(), CreateCharacterActivity.class), 1010);
+                CharacterRegActivity.nameList = new ArrayList<String>(nameList);
+                startActivityForResult(new Intent(getActivity(), CharacterRegActivity.class), 1010);
+//                CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
+//                startActivityForResult(new Intent(getActivity(), CreateCharacterActivity.class), 1010);
             }
         });
 
         nBgColor = ContextCompat.getColor(getActivity(), R.color.colorDefaultBG);
         bgColor = String.format("#%06X", (0xFFFFFF & nBgColor));
 
-        imm = (InputMethodManager)interactionWriteActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm = (InputMethodManager) interactionWriteActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 
         speakerAddLayout = inflaterView.findViewById(R.id.speakerAddLayout);
         bottomSettingLayout = inflaterView.findViewById(R.id.bottomSettingLayout);
@@ -221,11 +236,11 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(inputTextView.getText().toString().length() > 0) {
-                    sendBtn.setBackgroundResource(R.drawable.common_btn_bg);
+                if (inputTextView.getText().toString().length() > 0) {
+                    sendBtn.setTextColor(Color.parseColor("#5a9aff"));
                     sendBtn.setEnabled(true);
                 } else {
-                    sendBtn.setBackgroundResource(R.drawable.common_btn_disable_bg);
+                    sendBtn.setTextColor(Color.parseColor("#cccccc"));
                     sendBtn.setEnabled(false);
                 }
             }
@@ -240,15 +255,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             @Override
             public void onClick(View view) {
                 imm.hideSoftInputFromWindow(inputTextView.getWindowToken(), 0);
-                bShowMenu = !bShowMenu;
 
-                if(bShowMenu) {
-                    bottomSettingLayout.setVisibility(View.VISIBLE);
-                    contentsAddBtn.setImageResource(R.drawable.pop_close);
-                } else {
-                    bottomSettingLayout.setVisibility(View.GONE);
-                    contentsAddBtn.setImageResource(R.drawable.selectionplus);
-                }
+                setSelectBottomLayout(TYPE_MEDIA);
             }
         });
 
@@ -261,20 +269,20 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         chattingListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                if(nInteracionOrder > -1 && position == nInteracionOrder+1) {
+                if (nInteracionOrder > -1 && position == nInteracionOrder + 1) {
                     position -= 1;
                 }
 
                 ChatVO vo = chattingList.get(position);
                 int nType = vo.getType();
 
-                if(nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_NARRATION) {
+                if (nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_NARRATION) {
                     nEditIndex = position;
                     Intent intent = new Intent(getActivity(), TextEditPopup.class);
                     intent.putExtra("TEXT", vo.getContents());
                     intent.putExtra("ORDER", position);
                     startActivityForResult(intent, 1050);
-                } else if(nType == ChatVO.TYPE_IMAGE || nType == ChatVO.TYPE_VIDEO) {
+                } else if (nType == ChatVO.TYPE_IMAGE || nType == ChatVO.TYPE_VIDEO) {
                     int finalPosition = position;
                     TedPermission.with(getActivity())
                             .setPermissionListener(new PermissionListener() {
@@ -282,7 +290,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 public void onPermissionGranted() {
                                     Intent intent = new Intent(getActivity(), MediaSelectPopup.class);
                                     intent.putExtra("INTERACTION", true);
-                                    if(nType == ChatVO.TYPE_IMAGE) {
+                                    if (nType == ChatVO.TYPE_IMAGE) {
                                         intent.putExtra("TYPE", TYPE_CONTENTS_IMG.ordinal());
                                     } else {
                                         intent.putExtra("TYPE", TYPE_VIDEO.ordinal());
@@ -300,7 +308,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             })
                             .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                             .check();
-                } else if(nType == ChatVO.TYPE_SOUND) {
+                } else if (nType == ChatVO.TYPE_SOUND) {
                     int finalPosition1 = position;
                     TedPermission.with(getActivity())
                             .setPermissionListener(new PermissionListener() {
@@ -319,7 +327,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             })
                             .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                             .check();
-                } else if(nType == ChatVO.TYPE_CHANGE_BG || nType == ChatVO.TYPE_CHANGE_BG_COLOR) {
+                } else if (nType == ChatVO.TYPE_CHANGE_BG || nType == ChatVO.TYPE_CHANGE_BG_COLOR) {
                     int finalPosition2 = position;
                     TedPermission.with(getActivity())
                             .setPermissionListener(new PermissionListener() {
@@ -339,7 +347,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             })
                             .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                             .check();
-                } else if(nType == ChatVO.TYPE_DISTRACTOR) {
+                } else if (nType == ChatVO.TYPE_DISTRACTOR) {
                     int finalPosition3 = position;
                     TedPermission.with(getActivity())
                             .setPermissionListener(new PermissionListener() {
@@ -359,7 +367,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             })
                             .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                             .check();
-                } else if(nType == ChatVO.TYPE_IMAGE_NAR) {                                                                         // 나레이션 이미지 라면 이미지 선택 화면으로 이동
+                } else if (nType == ChatVO.TYPE_IMAGE_NAR) {                                                                         // 나레이션 이미지 라면 이미지 선택 화면으로 이동
                     Intent intent = new Intent(getActivity(), MediaSelectPopup.class);
                     intent.putExtra("TYPE", TYPE_CONTENTS_IMG_NAR.ordinal());
                     intent.putExtra("EDIT", true);
@@ -372,20 +380,19 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             }
         });
 
-        chattingListView.setOnTouchListener(new View.OnTouchListener()
-        {
+        chattingListView.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     fX = motionEvent.getX();
                     fY = motionEvent.getY();
-                } else if(motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
                     float fEndX = motionEvent.getX();
                     float fEndY = motionEvent.getY();
 
-                    if(fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
+                    if (fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
                         return false;
                     } else {
                         imm.hideSoftInputFromWindow(inputTextView.getWindowToken(), 0);
@@ -401,7 +408,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         distractorView.setOnClickListener(bottomBtnClickListener);
         soundSettingView.setOnClickListener(bottomBtnClickListener);
 
-        if(nEpisodeID > -1) {
+        if (nEpisodeID > -1) {
             getCharacterData(true);
         }
 
@@ -411,7 +418,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             public void onClick(View view) {
                 String strContents = inputTextView.getText().toString();
 
-                if(strContents.length() == 0) {
+                if (strContents.length() == 0) {
                     Toast.makeText(getActivity(), "내용을 입력하세요.", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -419,7 +426,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다. 잠시만 기다려주세요.");
 
                 String strFobiddenWords = CommonUtils.checkForbiddenWords(strContents);
-                if(strFobiddenWords.length() > 0) {
+                if (strFobiddenWords.length() > 0) {
                     CommonUtils.hideProgressDialog();
                     Intent intent = new Intent(getActivity(), SlangPopup.class);
                     intent.putExtra("SLANG", strFobiddenWords);
@@ -432,7 +439,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
                 ChatVO chatVO = new ChatVO();
 
-                if(nSelectedCharacterIndex == 0) {                   // 나레이션
+                if (nSelectedCharacterIndex == 0) {                   // 나레이션
                     chatVO.setType(ChatVO.TYPE_NARRATION);
                 } else {                                             // 사람이 선택돼있을 경우
                     chatVO.setType(ChatVO.TYPE_TEXT);
@@ -440,24 +447,24 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     chatVO.setCharacter(characterVO);
                 }
 
-                if(nEditIndex > -1) {
+                if (nEditIndex > -1) {
                     chatVO = chattingList.get(nEditIndex);
                 } else {
-                    if(nAddIndex > -1) {            // 사이에 추가
+                    if (nAddIndex > -1) {            // 사이에 추가
                         ChatVO currentVO = chattingList.get(nAddIndex);
                         int nIndex = 0;
 
-                        if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                        if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                             nIndex = currentVO.getnOrder();
-                            chatVO.setnOrder(nIndex+1);
+                            chatVO.setnOrder(nIndex + 1);
                         }
                     } else {
-                        if(chattingList.size() == 0)
+                        if (chattingList.size() == 0)
                             chatVO.setnOrder(0);
                         else {
-                            ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                            ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                             int nIndex = currentVO.getnOrder();
-                            chatVO.setnOrder(nIndex+1);
+                            chatVO.setnOrder(nIndex + 1);
                         }
                     }
                 }
@@ -467,10 +474,10 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             }
         });
 
-        if(InteractionWriteActivity.workVO.getEpisodeList().get(nEpisodeIndex).getStrSubmit().equals("Y")) {
+        if (InteractionWriteActivity.workVO.getEpisodeList().get(nEpisodeIndex).getStrSubmit().equals("Y")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage("이미 게시된 작품입니다. 게시된 작품을 수정하시면 게시 취소가 되어 다시 제출하셔야 합니다.");
-            builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
                 }
@@ -481,16 +488,173 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         }
 
         int nKeyboard = getResources().getConfiguration().keyboard;
-        if(nKeyboard != 2) {
+        if (nKeyboard != 2) {
             setKeyboardEvent();
         }
+
+        initView(inflaterView);
 
         return inflaterView;
     }
 
+    // [S] winhmoon
+    private void initView(View v) {
+        inputTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                boolean isTextShow = textAddBtn.isShown();
+                boolean isCharacterShow = characterAddBtn.isShown();
+                boolean isContentsShow = contentsAddBtn.isShown();
+
+                if (hasFocus && (isTextShow && isCharacterShow && isContentsShow) || (nBeforeCharacterIndex == 0 && type != TYPE_TEXT)) {
+                    nSelectedCharacterIndex = 0;
+                    setSelectBottomLayout(TYPE_TEXT);
+                } else if (isCharacterShow && isContentsShow) {
+                    setSelectBottomLayout(TYPE_CHARACTER);
+                }
+            }
+        });
+
+        inputTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isTextShow = textAddBtn.isShown();
+                boolean isCharacterShow = characterAddBtn.isShown();
+                boolean isContentsShow = contentsAddBtn.isShown();
+
+                if ((isTextShow && isCharacterShow && isContentsShow) || (nBeforeCharacterIndex == 0 && type != TYPE_TEXT)) {
+                    nSelectedCharacterIndex = 0;
+                    setSelectBottomLayout(TYPE_TEXT);
+                } else if (isCharacterShow && isContentsShow) {
+                    setSelectBottomLayout(TYPE_CHARACTER);
+                }
+            }
+        });
+
+        textAddBtn = v.findViewById(R.id.textAddBtn);
+        textAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nSelectedCharacterIndex = 0;
+                setSelectBottomLayout(TYPE_TEXT);
+            }
+        });
+        characterAddBtn = v.findViewById(R.id.characterAddBtn);
+        characterAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nSelectedCharacterIndex = nBeforeCharacterIndex;
+                setSelectBottomLayout(TYPE_CHARACTER);
+            }
+        });
+
+        bottomCharacterLayout = v.findViewById(R.id.bottomCharacterLayout);
+        bottomCharacterLayout.setVisibility(View.GONE);
+        contentsAddImg = v.findViewById(R.id.contentsAddImg);
+    }
+
+    // 지문, 등장인물, + 버튼 초기
+    private void resetBottomLayout() {
+        textAddBtn.setVisibility(View.VISIBLE);
+        textAddBtn.setImageResource(R.drawable.ic_i_text);
+        textAddBtn.setSelected(false);
+        characterAddBtn.setVisibility(View.VISIBLE);
+        characterAddBtn.setSelected(false);
+        contentsAddBtn.setVisibility(View.VISIBLE);
+        contentsAddBtn.setSelected(false);
+        bottomSettingLayout.setVisibility(View.GONE);
+        bottomCharacterLayout.setVisibility(View.GONE);
+        contentsAddBtn.setBackgroundResource(R.drawable.circle_cccccc);
+        contentsAddImg.setImageResource(R.drawable.ic_i_plus);
+    }
+
+    private void setSelectBottomLayout(int type) {
+        boolean isTextSelected = !textAddBtn.isSelected();
+        boolean isTextShow = textAddBtn.isShown();
+        boolean isCharacterSelected = !characterAddBtn.isSelected();
+        boolean isContentsSelected = !contentsAddBtn.isSelected();
+
+        resetBottomLayout();
+
+        if (this.type != type) {
+            switch (type) {
+                case TYPE_TEXT:
+                    showBottomText(true);
+                    showBottomCharacter(false, false, false);
+                    showBottomContents(true, false, false);
+                    break;
+                case TYPE_CHARACTER:
+                    showBottomText(false);
+                    showBottomCharacter(true, true, true);
+                    showBottomContents(true, false, false);
+                    break;
+                case TYPE_MEDIA:
+                    switch (this.type) {
+                        case TYPE_CHARACTER:
+                            showBottomText(false);
+                            showBottomCharacter(true, false, false);
+                            showBottomContents(true, true, true);
+                            break;
+                        default:
+                            showBottomText(true);
+                            showBottomCharacter(false, false, false);
+                            showBottomContents(true, true, true);
+                            break;
+                    }
+                    break;
+            }
+        } else {
+            switch (type) {
+                case TYPE_TEXT:
+                    if (isTextSelected) {
+                        showBottomText(true);
+                        showBottomCharacter(false, false, false);
+                        showBottomContents(true, false, false);
+                    }
+                    break;
+                case TYPE_CHARACTER:
+                    if (isCharacterSelected) {
+                        if (isTextShow) {
+                            showBottomText(false);
+                            showBottomCharacter(true, true, true);
+                            showBottomContents(true, false, false);
+                        }
+                    } else {
+                        showBottomText(false);
+                        showBottomCharacter(true, false, false);
+                        showBottomContents(true, false, false);
+                    }
+                    break;
+            }
+        }
+
+        this.type = type;
+    }
+
+    private void showBottomText(boolean isSelected) {
+        textAddBtn.setVisibility(isSelected ? View.VISIBLE : View.GONE);
+        textAddBtn.setSelected(isSelected);
+        textAddBtn.setImageResource(isSelected ? R.drawable.i_text_black : R.drawable.ic_i_text);
+    }
+
+    private void showBottomCharacter(boolean isShow, boolean isSelected, boolean isLayout) {
+        characterAddBtn.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        characterAddBtn.setSelected(isSelected);
+        bottomCharacterLayout.setVisibility(isLayout ? View.VISIBLE : View.GONE);
+    }
+
+    private void showBottomContents(boolean isShow, boolean isSelected, boolean isLayout) {
+        contentsAddBtn.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        contentsAddBtn.setSelected(isSelected);
+        contentsAddBtn.setBackgroundResource(isSelected ? R.drawable.circle_222222 : R.drawable.circle_cccccc);
+        contentsAddImg.setImageResource(isSelected ? R.drawable.ic_i_plus_white : R.drawable.ic_i_plus);
+        bottomSettingLayout.setVisibility(isLayout ? View.VISIBLE : View.GONE);
+    }
+    // [E] winhmoon
+
     public void setKeyboardEvent() {
         hideBottomView();
-        viewGroup = (ViewGroup) ((ViewGroup)getActivity().findViewById(android.R.id.content)).getChildAt(0);
+        viewGroup = (ViewGroup) ((ViewGroup) getActivity().findViewById(android.R.id.content)).getChildAt(0);
         softKeyboard = new SoftKeyboard(viewGroup, imm);
         softKeyboard.setSoftKeyboardCallback(new SoftKeyboard.SoftKeyboardChanged() {
             @Override
@@ -526,7 +690,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 //        actionBar.setDisplayShowCustomEnabled(true);
 //
 //        LayoutInflater viewinflater = (LayoutInflater)getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-//        View customActionbar = viewinflater.inflate(R.layout.custom_actionbar, null);
+//        View customActionbar = viewinflater.inflate(R.round_squre_stroke_gray_bg.custom_actionbar, null);
 //
 //        actionBar.setCustomView(customActionbar);
 //        actionBar.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
@@ -556,20 +720,20 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
         switch (nPosition) {
             case 0:
-                if(chattingList.size() > 1) {
+                if (chattingList.size() > 1) {
                     Toast.makeText(getActivity(), "입력된 내용이 없어야만 엑셀 파일을 로딩할 수 있습니다.", Toast.LENGTH_LONG).show();
                     return;
-                } else if(characterList.size() > 1) {
+                } else if (characterList.size() > 1) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage("이미 저장된 등장인물이 있습니다. 엑셀 파일을 로딩하면 저장된 등장인물은 모두 삭제됩니다.\n정말 엑셀파일을 로딩하시겠습니까?");
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             filePermission();
                         }
                     });
 
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                         }
@@ -601,25 +765,29 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 return;
 
             case 2:
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("회차 삭제");
-                builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
-                builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        requestDeleteAllMessage();
-                    }
-                });
+                if (!chattingList.isEmpty()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("회차 삭제");
+                    builder.setMessage("회차의 모든 내용이 삭제됩니다.\n삭제하시겠습니까?");
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            requestDeleteAllMessage();
+                        }
+                    });
 
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
 
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                return;
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    return;
+                } else {
+                    Toast.makeText(getActivity(), "삭제할 내용이 없습니다.", Toast.LENGTH_LONG).show();
+                }
         }
     }
 
@@ -637,7 +805,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                         try {
                             CommonUtils.hideProgressDialog();
 
-                            if(resultObject != null && resultObject.getString("RESULT").equals("SUCCESS")) {
+                            if (resultObject != null && resultObject.getString("RESULT").equals("SUCCESS")) {
                                 bgView.setBackgroundResource(0);
                                 bgView.setImageBitmap(null);
                                 bgView.setBackgroundColor(getResources().getColor(R.color.colorDefaultBG));
@@ -664,7 +832,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("회차 제출");
         builder.setMessage("회차를 제출하면 승인 대기 상태가 됩니다. 관리자가 회차를 승인한 이후부터 회차가 독자들에게 게시됩니다.\n회차를 제출하시겠습니까?");
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 CommonUtils.showProgressDialog(getActivity(), "작품을 제출하고 있습니다.");
@@ -680,12 +848,12 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 try {
                                     CommonUtils.hideProgressDialog();
 
-                                    if(resultObject == null) {
+                                    if (resultObject == null) {
                                         Toast.makeText(getActivity(), "제출에 실패하였습니다.", Toast.LENGTH_LONG).show();
                                         return;
                                     }
 
-                                    if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                    if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                         Toast.makeText(getActivity(), "제출되었습니다.", Toast.LENGTH_LONG).show();
                                         getActivity().finish();
                                     } else {
@@ -701,7 +869,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             }
         });
 
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
             }
@@ -734,7 +902,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     public void onResume() {
         super.onResume();
 
-        if(bColorPicker) {
+        if (bColorPicker) {
             bColorPicker = false;
             ColorPickerDialog.newBuilder()
                     .setDialogType(ColorPickerDialog.TYPE_PRESETS)
@@ -750,7 +918,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     public void onPause() {
         super.onPause();
 
-        if(mediaPlayer != null && mediaPlayer.isPlaying()) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer = null;
             timer.cancel();
@@ -762,9 +930,9 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     }
 
     public void onBackpress() {
-        if(bShowMenu) {
+        if (bShowMenu) {
             bottomSettingLayout.setVisibility(View.GONE);
-            contentsAddBtn.setImageResource(R.drawable.selectionplus);
+//            contentsAddBtn.setImageResource(R.drawable.selectionplus);
             bShowMenu = false;
         } else {
             getActivity().finish();
@@ -781,24 +949,24 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
         chatVO.setType(ChatVO.TYPE_CHANGE_BG_COLOR);
 
-        if(nEditIndex > -1) {
+        if (nEditIndex > -1) {
             chatVO = chattingList.get(nEditIndex);
         } else {
-            if(nAddIndex > -1) {
+            if (nAddIndex > -1) {
                 ChatVO currentVO = chattingList.get(nAddIndex);
                 int nIndex = 0;
 
-                if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                     nIndex = currentVO.getnOrder();
-                    chatVO.setnOrder(nIndex+1);
+                    chatVO.setnOrder(nIndex + 1);
                 }
             } else {
-                if(chattingList.size() == 0)
+                if (chattingList.size() == 0)
                     chatVO.setnOrder(0);
                 else {
-                    ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                    ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                     int nIndex = currentVO.getnOrder();
-                    chatVO.setnOrder(nIndex+1);
+                    chatVO.setnOrder(nIndex + 1);
                 }
             }
 
@@ -806,7 +974,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
         chatVO.setStrContentsFile(bgColor);
 
-        if(nEditIndex > -1)
+        if (nEditIndex > -1)
             requestUploadMessage(chatVO, true);
         else
             requestUploadMessage(chatVO, false);
@@ -819,7 +987,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         public void onClick(View v) {
             Intent intent = null;
 
-            switch(v.getId()) {
+            switch (v.getId()) {
                 case R.id.bgSettingView:
                     TedPermission.with(getActivity())
                             .setPermissionListener(new PermissionListener() {
@@ -851,12 +1019,12 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                     Intent intent = new Intent(getActivity(), MediaSelectPopup.class);
 //                                    startActivityForResult(intent, InteractionWriteActivity.MEDIA_SELECT_POPUP);
                                     intent.putExtra("INTERACTION", true);
-                                    if(nSelectedCharacterIndex == 0)
+                                    if (nSelectedCharacterIndex == 0)
                                         intent.putExtra("TYPE", TYPE_CONTENTS_IMG_NAR.ordinal());
                                     else
                                         intent.putExtra("TYPE", TYPE_CONTENTS_IMG.ordinal());
                                     intent.putExtra("ORDER", nAddIndex);
-                                    if(nEditIndex > -1)
+                                    if (nEditIndex > -1)
                                         intent.putExtra("EDIT", true);
                                     startActivity(intent);
                                 }
@@ -876,7 +1044,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 //                    break;
 
                 case R.id.videoSettingView:
-                    if(nSelectedCharacterIndex == 0) {
+                    if (nSelectedCharacterIndex == 0) {
                         Toast.makeText(getActivity(), "지문은 동영상을 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
                         return;
                     }
@@ -907,7 +1075,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     break;
 
                 case R.id.soundSettingView:
-                    if(nSelectedCharacterIndex == 0) {
+                    if (nSelectedCharacterIndex == 0) {
                         Toast.makeText(getActivity(), "지문은 음원을 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
                         return;
                     }
@@ -939,44 +1107,44 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == Activity.RESULT_OK) {
-            if(requestCode == InteractionWriteActivity.MEDIA_SELECT_POPUP) {                // 이미지 선택
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == InteractionWriteActivity.MEDIA_SELECT_POPUP) {                // 이미지 선택
                 String strSelection = data.getStringExtra("SELECTION");
 
-                if(strSelection.equals("GALLERY")) {
+                if (strSelection.equals("GALLERY")) {
 //                    Intent intent = new Intent(getActivity(), SeesoGalleryInteractionActivity.class);
                     Intent intent = new Intent(getActivity(), TokkiGalleryActivity.class);
                     intent.putExtra("Interaction", 100);
                     startActivityForResult(intent, InteractionWriteActivity.PHOTOPICKER_CONTENTS_IMAGE);
-                } else if(strSelection.equals("ALBUM")) {
+                } else if (strSelection.equals("ALBUM")) {
                     Intent intent = new Intent(getActivity(), InteractionPhotoPickerActivity.class);
                     startActivityForResult(intent, InteractionWriteActivity.PHOTOPICKER_CONTENTS_IMAGE);
                 }
-            } else if(requestCode == InteractionWriteActivity.BG_SELECT_POPUP) {
+            } else if (requestCode == InteractionWriteActivity.BG_SELECT_POPUP) {
                 String strSelection = data.getStringExtra("SELECTION");
 
-                if(strSelection.equals("GALLERY")) {
+                if (strSelection.equals("GALLERY")) {
 //                    Intent intent = new Intent(getActivity(), SeesoGalleryInteractionActivity.class);
                     Intent intent = new Intent(getActivity(), TokkiGalleryActivity.class);
                     intent.putExtra("Interaction", 100);
                     startActivityForResult(intent, InteractionWriteActivity.PHOTOPICKER_BG_IMAGE);
-                } else if(strSelection.equals("ALBUM")) {
+                } else if (strSelection.equals("ALBUM")) {
                     Intent intent = new Intent(getActivity(), InteractionPhotoPickerActivity.class);
                     startActivityForResult(intent, InteractionWriteActivity.PHOTOPICKER_BG_IMAGE);
-                } else if(strSelection.equals("COLOR")) {
+                } else if (strSelection.equals("COLOR")) {
                     bColorPicker = true;
                 }
-            } else if(requestCode == InteractionWriteActivity.MEDIA_SELECT_POPUP_VIDEO) {
+            } else if (requestCode == InteractionWriteActivity.MEDIA_SELECT_POPUP_VIDEO) {
                 String strSelection = data.getStringExtra("SELECTION");
 
-                if(strSelection.equals("GALLERY")) {
+                if (strSelection.equals("GALLERY")) {
                     Toast.makeText(getActivity(), "준비중입니다.", Toast.LENGTH_LONG).show();
-                } else if(strSelection.equals("ALBUM")) {
+                } else if (strSelection.equals("ALBUM")) {
                     Intent intent = new Intent(getActivity(), InteractionPhotoPickerActivity.class);
                     intent.putExtra("TYPE", 3);
                     startActivityForResult(intent, InteractionWriteActivity.PHOTOPICKER_CONTENTS_VIDEO);
                 }
-            } else if(requestCode == InteractionWriteActivity.PHOTOPICKER_BG_IMAGE) {
+            } else if (requestCode == InteractionWriteActivity.PHOTOPICKER_BG_IMAGE) {
                 String imgUri = data.getStringExtra("URI");
 
                 Glide.with(this)
@@ -989,25 +1157,25 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
                 ChatVO chatVO = null;
 
-                if(bEdit) {                     // 수정 이라면
+                if (bEdit) {                     // 수정 이라면
                     chatVO = chattingList.get(nEditIndex);
                 } else {                        // 신규 일때만 오더를 정해준다
                     chatVO = new ChatVO();
-                    if(nAddIndex > -1) {
+                    if (nAddIndex > -1) {
                         ChatVO currentVO = chattingList.get(nAddIndex);
                         int nIndex = 0;
 
-                        if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                        if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                             nIndex = currentVO.getnOrder();
-                            chatVO.setnOrder(nIndex+1);
+                            chatVO.setnOrder(nIndex + 1);
                         }
                     } else {
-                        if(chattingList.size() == 0)
+                        if (chattingList.size() == 0)
                             chatVO.setnOrder(0);
                         else {
-                            ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                            ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                             int nIndex = currentVO.getnOrder();
-                            chatVO.setnOrder(nIndex+1);
+                            chatVO.setnOrder(nIndex + 1);
                         }
                     }
                 }
@@ -1027,34 +1195,34 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 bEdit = false;
                 nOrder = -1;
                 return;
-            } else if(requestCode == InteractionWriteActivity.PHOTOPICKER_CONTENTS_IMAGE) {
+            } else if (requestCode == InteractionWriteActivity.PHOTOPICKER_CONTENTS_IMAGE) {
                 String imgUri = data.getStringExtra("URI");
-                if(imgUri != null) {                                    // 일반 채팅 이미지 라면
+                if (imgUri != null) {                                    // 일반 채팅 이미지 라면
                     ChatVO chatVO = null;
 
-                    if(bEdit) {                     // 수정 이라면
+                    if (bEdit) {                     // 수정 이라면
                         chatVO = chattingList.get(nEditIndex);
                     } else {                        // 신규 일때만 오더를 정해준다
                         chatVO = new ChatVO();
-                        if(nAddIndex > -1) {
+                        if (nAddIndex > -1) {
                             ChatVO currentVO = chattingList.get(nAddIndex);
                             int nIndex = 0;
 
-                            if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                            if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                                 nIndex = currentVO.getnOrder();
-                                chatVO.setnOrder(nIndex+1);
+                                chatVO.setnOrder(nIndex + 1);
                             }
                         } else {
-                            if(chattingList.size() == 0)
+                            if (chattingList.size() == 0)
                                 chatVO.setnOrder(0);
                             else {
-                                ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                                ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                                 int nIndex = currentVO.getnOrder();
-                                chatVO.setnOrder(nIndex+1);
+                                chatVO.setnOrder(nIndex + 1);
                             }
                         }
 
-                        if(nSelectedCharacterIndex > 0) {
+                        if (nSelectedCharacterIndex > 0) {
                             CharacterVO characterVO = characterList.get(nSelectedCharacterIndex);
                             chatVO.setCharacter(characterVO);
                             chatVO.setType(ChatVO.TYPE_IMAGE);
@@ -1068,30 +1236,30 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     requestUploadMessage(chatVO, bEdit);
                     return;
                 }
-            } else if(requestCode == InteractionWriteActivity.PHOTOPICKER_CONTENTS_VIDEO) {
+            } else if (requestCode == InteractionWriteActivity.PHOTOPICKER_CONTENTS_VIDEO) {
                 String imgUri = data.getStringExtra("URI");
-                if(imgUri != null) {
+                if (imgUri != null) {
                     ChatVO chatVO = null;
 
-                    if(bEdit) {                     // 수정 이라면
+                    if (bEdit) {                     // 수정 이라면
                         chatVO = chattingList.get(nEditIndex);
                     } else {                        // 신규 일때만 오더를 정해준다
                         chatVO = new ChatVO();
-                        if(nAddIndex > -1) {
+                        if (nAddIndex > -1) {
                             ChatVO currentVO = chattingList.get(nAddIndex);
                             int nIndex = 0;
 
-                            if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                            if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                                 nIndex = currentVO.getnOrder();
-                                chatVO.setnOrder(nIndex+1);
+                                chatVO.setnOrder(nIndex + 1);
                             }
                         } else {
-                            if(chattingList.size() == 0)
+                            if (chattingList.size() == 0)
                                 chatVO.setnOrder(0);
                             else {
-                                ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                                ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                                 int nIndex = currentVO.getnOrder();
-                                chatVO.setnOrder(nIndex+1);
+                                chatVO.setnOrder(nIndex + 1);
                             }
                         }
 
@@ -1122,7 +1290,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     characterVO.setImage(Uri.parse(strUri));
 
                 requestCreateCharacter(characterVO);
-            } else if(requestCode == 1011) {                            // 캐릭터 변경/삭제
+            } else if (requestCode == 1011) {                            // 캐릭터 변경/삭제
                 int nIndex = data.getIntExtra("INDEX", -1);
                 boolean bDelete = data.getBooleanExtra("DELETE", false);
 
@@ -1150,14 +1318,14 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     characterVO.setImage(Uri.parse(strUri));
 
                 requestUpdateCharacter(characterVO, nIndex);
-            } else if(requestCode == 1000) {                            // 베경 색 설정
+            } else if (requestCode == 1000) {                            // 베경 색 설정
                 isEdit = data.getBooleanExtra("EDIT", false);
 
-                if(isEdit)
+                if (isEdit)
                     nEditIndex = data.getIntExtra("ORDER", -1);
 
                 bColorPicker = true;
-            } else if(requestCode == 1025) {                            // 선택지 추가
+            } else if (requestCode == 1025) {                            // 선택지 추가
                 ChatVO chatVO = chattingList.get(nOrder);
                 int nOrder = data.getIntExtra("ORDER", -1);
 
@@ -1172,42 +1340,42 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 String strFilePath = CommonUtils.getRealPathFromURI(getActivity(), fileUri);
                 File sourceFile = new File(strFilePath);
 
-                if(!sourceFile.exists()) {
+                if (!sourceFile.exists()) {
                     CommonUtils.hideProgressDialog();
                     Toast.makeText(getActivity(), "음원 파일이 잘못되었습니다.", Toast.LENGTH_LONG).show();
 
                     return;
                 }
 
-                String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
 
                 ChatVO chatVO = null;
 
                 boolean bEdit = false;
 
-                if(requestCode == 1030) {
+                if (requestCode == 1030) {
                     chatVO = new ChatVO();
                     CharacterVO characterVO = characterList.get(nSelectedCharacterIndex);
                     chatVO.setCharacter(characterVO);
 
-                    if(nAddIndex > -1) {
+                    if (nAddIndex > -1) {
                         ChatVO currentVO = chattingList.get(nAddIndex);
                         int nIndex = 0;
 
-                        if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                        if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                             nIndex = currentVO.getnOrder();
-                            chatVO.setnOrder(nIndex+1);
+                            chatVO.setnOrder(nIndex + 1);
                         }
                     } else {
-                        if(chattingList.size() == 0)
+                        if (chattingList.size() == 0)
                             chatVO.setnOrder(0);
                         else {
-                            ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                            ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                             int nIndex = currentVO.getnOrder();
-                            chatVO.setnOrder(nIndex+1);
+                            chatVO.setnOrder(nIndex + 1);
                         }
                     }
-                } else if(requestCode == 1035) {
+                } else if (requestCode == 1035) {
                     chatVO = chattingList.get(nEditIndex);
                     bEdit = true;
                 }
@@ -1217,7 +1385,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 chatVO.setStrContentsFile(CommonUtils.getRealPathFromURI(getActivity(), fileUri));
 
                 requestUploadMessage(chatVO, bEdit);
-            } else if(requestCode == 1050) {
+            } else if (requestCode == 1050) {
                 String strContents = data.getStringExtra("EDITED_TEXT");
                 int nOrder = data.getIntExtra("ORDER", -1);
 
@@ -1225,10 +1393,10 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 chatVO.setContents(strContents);
 
                 requestUploadMessage(chatVO, true);
-            } else if(requestCode == 1100) {                    // 제목 변경
+            } else if (requestCode == 1100) {                    // 제목 변경
                 strTitle = data.getStringExtra("TITLE");
                 interactionWriteActivity.setTitle(strTitle);
-            } else if(requestCode == InteractionWriteActivity.EXCEL) {              // 엑셀파일 로딩
+            } else if (requestCode == InteractionWriteActivity.EXCEL) {              // 엑셀파일 로딩
                 CommonUtils.showProgressDialog(getActivity(), "엑셀파일을 불러오고 있습니다. 잠시만 기다려주세요.");
 
                 new Thread(new Runnable() {
@@ -1236,7 +1404,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     public void run() {
                         boolean bTemp = false;
 
-                        if(characterList.size() <= 1)
+                        if (characterList.size() <= 1)
                             bTemp = true;
                         else
                             bTemp = HttpClient.requestDeleteAllCharacter(new OkHttpClient(), nEpisodeID);
@@ -1246,14 +1414,28 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if(!bResult) {
+                                if (!bResult) {
                                     CommonUtils.hideProgressDialog();
                                     Toast.makeText(getActivity(), "엑셀파일 로딩에 실패했습니다.", Toast.LENGTH_LONG).show();
                                     return;
                                 }
 
                                 Uri fileUri = data.getData();
-                                readExcel(fileUri);
+                                File file = null;
+
+                                try {
+                                    file = from(getActivity(), fileUri);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                if (file != null && file.exists()) {
+                                    Log.d("asdf", "asdf");
+                                }
+
+                                final String filePath = file.getAbsolutePath();
+
+                                readExcel(fileUri, filePath);
                             }
                         });
                     }
@@ -1272,8 +1454,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         });
     }
 
-    private void readExcel(final Uri fileUri) {
-        final String filePath = CommonUtils.getRealPathFromURI(getActivity(), fileUri);
+    private void readExcel(final Uri fileUri, final String filePath) {
+//        final String filePath = CommonUtils.getRealPathFromURI(getActivity(), fileUri);
 
         new Thread(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -1284,8 +1466,32 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     excelReader.readExcel(filePath, true);
                 } catch (IOException e) {
                     e.printStackTrace();
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+                            Toast.makeText(getActivity(), "올바른 양식의 엑셀 파일이 아닙니다.", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 } catch (InvalidFormatException e) {
                     e.printStackTrace();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+                            Toast.makeText(getActivity(), "올바른 양식의 엑셀 파일이 아닙니다.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+                            Toast.makeText(getActivity(), "올바른 양식의 엑셀 파일이 아닙니다.", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             }
         }).start();
@@ -1295,8 +1501,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        if(isVisibleToUser) {
-            if(characterList == null || characterList.size() == 0)
+        if (isVisibleToUser) {
+            if (characterList == null || characterList.size() == 0)
                 return;
 
             strTitle = interactionWriteActivity.strTitle;
@@ -1320,9 +1526,11 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                         try {
                             CommonUtils.hideProgressDialog();
 
-                            if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                            if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                 characterList.remove(nIndex);
-                                resetCharacterLayout();
+//                                resetCharacterLayout();
+                                nSelectedCharacterIndex = 0;
+                                getCharacterData(true);
                                 Toast.makeText(getActivity(), "삭제되었습니다.", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(getActivity(), "등장인물 삭제를 실패하였습니다.", Toast.LENGTH_LONG).show();
@@ -1338,21 +1546,24 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
     private void getCharacterData(boolean bReload) {
         CommonUtils.showProgressDialog(getActivity(), "서버에서 작품 데이터를 가져오고 있습니다.");
+        characterList.clear();
+        characterList.add(null);
+        nameList.add("지문");
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                characterList.clear();
-                nameList.clear();
-                characterList.add(null);
-                nameList.add("지문");
+//                characterList.clear();
+//                nameList.clear();
+//                characterList.add(null);
+//                nameList.add("지문");
                 characterList.addAll(HttpClient.getCharacterDataWithEpisodeID(new OkHttpClient(), "" + InteractionWriteActivity.workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID()));
 
-                if(characterList == null) {
+                if (characterList == null) {
                     Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                for(int i = 1 ; i < characterList.size() ; i++) {
+                for (int i = 1; i < characterList.size(); i++) {
                     nameList.add(characterList.get(i).getName());
                 }
 
@@ -1361,7 +1572,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     public void run() {
                         resetCharacterLayout();
 
-                        if(bReload)
+                        if (bReload)
                             getEpisodeChatData();
                         else
                             CommonUtils.hideProgressDialog();
@@ -1382,11 +1593,11 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
-                        if(chattingList == null) {
+                        if (chattingList == null) {
                             Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if(chattingList.size() > 0) {
+                        if (chattingList.size() > 0) {
                             ChatVO vo = new ChatVO();
                             vo.setType(ChatVO.TYPE_EMPTY);
                             chattingList.add(0, vo);
@@ -1394,14 +1605,14 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
                         aa.notifyDataSetChanged();
 
-                        if(nAddIndex == -1 && nEditIndex == -1)
+                        if (nAddIndex == -1 && nEditIndex == -1)
                             chattingListView.setSelection(aa.getCount() - 1);
-                        else if(nAddIndex != -1) {
+                        else if (nAddIndex != -1) {
                             chattingListView.setSelection(nAddIndex);
-                        } else if(nEditIndex != -1) {
+                        } else if (nEditIndex != -1) {
                             chattingListView.setSelection(nEditIndex);
-                        } else if(nDeleteIndex != -1) {
-                            if(nDeleteIndex > 0)
+                        } else if (nDeleteIndex != -1) {
+                            if (nDeleteIndex > 0)
                                 nDeleteIndex -= 1;
                             chattingListView.setSelection(nDeleteIndex);
                         }
@@ -1418,16 +1629,16 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     private void hideBottomView() {
         bShowMenu = false;
         bottomSettingLayout.setVisibility(View.GONE);
-        contentsAddBtn.setImageResource(R.drawable.selectionplus);
+//        contentsAddBtn.setImageResource(R.drawable.selectionplus);
     }
 
     private void resetCharacterLayout() {
         speakerAddLayout.removeAllViews();
         characterViewList.clear();
 
-        LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        for(int i = 0 ; i < characterList.size() ; i++) {
+        for (int i = 0; i < characterList.size(); i++) {
             final int nIndex = i;
             View view = inflater.inflate(R.layout.speaker_view, null);
             CharacterVO vo = characterList.get(i);
@@ -1439,7 +1650,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             int nImg = 0;
 
             int newi = i % 10;
-            switch(newi) {
+            switch (newi) {
                 case 1:
                     nImg = R.drawable.user_icon_01;
                     break;
@@ -1472,25 +1683,24 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     break;
             }
 
-            if(i == 0) {
-                faceView.setImageResource(R.drawable.narration_button);
-                nameView.setText("지문");
+            if (i == 0) {
+                faceView.setImageResource(R.drawable.caracter_plus_botton);
+                nameView.setText("인물 추가");
                 nameView.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlack));
                 selectedView.setVisibility(View.VISIBLE);
-                nSelectedCharacterIndex = 0;
             } else {
-                if(vo.getImage() != null && !vo.getImage().equals("null")) {
+                if (vo.getImage() != null && !vo.getImage().equals("null")) {
                     Glide.with(this)
                             .asBitmap() // some .jpeg files are actually gif
                             .load(vo.getImage())
                             .placeholder(nImg)
                             .apply(new RequestOptions().circleCrop())
                             .into(faceView);
-                } else if(vo.getStrImgFile() != null && !vo.getStrImgFile().equals("null")) {
+                } else if (vo.getStrImgFile() != null && !vo.getStrImgFile().equals("null")) {
                     String strUrl = vo.getStrImgFile();
 //                    strUrl = strUrl.replaceAll(" ", "");
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     Glide.with(getActivity())
@@ -1509,38 +1719,86 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             }
 
             LinearLayout faceLayout = view.findViewById(R.id.faceLayout);
-            faceLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    for(int i = 0 ; i < characterViewList.size() ; i++) {
-                        View view = characterViewList.get(i);
+            faceLayout.setTag(nImg);
 
-                        TextView nameView = view.findViewById(R.id.nameView);
-                        ImageView selectedView = view.findViewById(R.id.selectedView);
+            if (i == 0) {
+                faceLayout.setOnClickListener((v) -> {
+                    CharacterRegActivity.nameList = new ArrayList<String>(nameList);
+                    startActivityForResult(new Intent(getActivity(), CharacterRegActivity.class), 1010);
+//                    CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
+//                    startActivityForResult(new Intent(getContext(), CreateCharacterActivity.class), 1010);
+                });
+            } else {
+                faceLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (int i = 1; i < characterViewList.size(); i++) {
+                            View view = characterViewList.get(i);
 
-                        if(i == nIndex) {
-                            nameView.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlack));
-                            selectedView.setVisibility(View.VISIBLE);
-                        } else {
-                            nameView.setTextColor(Color.parseColor("#e9e9e9"));
-                            selectedView.setVisibility(View.INVISIBLE);
+                            TextView nameView = view.findViewById(R.id.nameView);
+                            ImageView selectedView = view.findViewById(R.id.selectedView);
+
+                            if (i == nIndex) {
+                                nameView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorBlack));
+                                selectedView.setVisibility(View.VISIBLE);
+                            } else {
+                                nameView.setTextColor(Color.parseColor("#e9e9e9"));
+                                selectedView.setVisibility(View.INVISIBLE);
+                            }
                         }
+
+//                        characterAddBtn.setImageResource((int) v.getTag());
+
+                        CharacterVO characterVO = characterList.get(nIndex);
+                        if (characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
+                            Glide.with(getActivity())
+                                    .asBitmap() // some .jpeg files are actually gif
+                                    .load(characterVO.getImage())
+                                    .placeholder((int) v.getTag())
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(characterAddBtn);
+                        } else if (characterVO.getStrImgFile() != null && !characterVO.getStrImgFile().equals("null")) {
+                            String strUrl = characterVO.getStrImgFile();
+
+                            if (!strUrl.startsWith("http"))
+                                strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
+
+                            Glide.with(getActivity())
+                                    .asBitmap() // some .jpeg files are actually gif
+                                    .placeholder((int) v.getTag())
+                                    .load(strUrl)
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(characterAddBtn);
+                        } else {
+                            Glide.with(getActivity())
+                                    .asBitmap() // some .jpeg files
+                                    .load((int) v.getTag())
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(characterAddBtn);
+                        }
+
+                        nSelectedCharacterIndex = nBeforeCharacterIndex = nIndex;
                     }
+                });
+            }
 
-                    nSelectedCharacterIndex = nIndex;
-                }
-            });
-
-            if(i > 0) {
+            if (i > 0) {
                 faceLayout.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
-                        CreateCharacterActivity.characterVO = characterList.get(nIndex);
+                        CharacterRegActivity.nameList = new ArrayList<String>(nameList);
+                        CharacterRegActivity.characterVO = characterList.get(nIndex);
 
-                        Intent intent = new Intent(getActivity(), CreateCharacterActivity.class);
+                        Intent intent = new Intent(getActivity(), CharacterRegActivity.class);
                         intent.putExtra("INDEX", nIndex);
                         startActivityForResult(intent, 1011);
+
+//                        CreateCharacterActivity.nameList = new ArrayList<String>(nameList);
+//                        CreateCharacterActivity.characterVO = characterList.get(nIndex);
+//
+//                        Intent intent = new Intent(getActivity(), CreateCharacterActivity.class);
+//                        intent.putExtra("INDEX", nIndex);
+//                        startActivityForResult(intent, 1011);
 
                         return false;
                     }
@@ -1550,19 +1808,23 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             speakerAddLayout.addView(view);
             characterViewList.add(view);
         }
+
+        if(nSelectedCharacterIndex == 0 && characterAddBtn != null) {
+            characterAddBtn.setImageResource(R.drawable.ic_i_chracter);
+        }
     }
 
     public void OnClickSendBtn(View view) {
         String strContents = inputTextView.getText().toString();
 
-        if(strContents.length() == 0) {
+        if (strContents.length() == 0) {
             Toast.makeText(interactionWriteActivity, "내용을 입력하세요.", Toast.LENGTH_LONG).show();
             return;
         }
 
         ChatVO chatVO = new ChatVO();
 
-        if(nSelectedCharacterIndex == 0) {                   // 나레이션
+        if (nSelectedCharacterIndex == 0) {                   // 나레이션
             chatVO.setType(ChatVO.TYPE_NARRATION);
         } else {                                             // 사람이 선택돼있을 경우
             chatVO.setType(ChatVO.TYPE_TEXT);
@@ -1570,8 +1832,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             chatVO.setCharacter(characterVO);
         }
 
-        if(nAddIndex > -1)
-            chatVO.setnOrder(nAddIndex+1);
+        if (nAddIndex > -1)
+            chatVO.setnOrder(nAddIndex + 1);
         else
             chatVO.setnOrder(chattingList.size());
 
@@ -1587,10 +1849,10 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     }
 
     private void requestUploadMessage(final ChatVO chatVO, final boolean bEdit) {
-        if(!bEdit)
+        if (!bEdit)
             nEditIndex = -1;
 
-        if(mediaPlayer != null && mediaPlayer.isPlaying()) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             oldPlayBtn.setImageResource(R.drawable.talk_play1);
             oldPlayBtn = null;
@@ -1611,16 +1873,16 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
             JSONObject sendObject = new JSONObject();
 
-            if(nEpisodeID > -1)
+            if (nEpisodeID > -1)
                 sendObject.put("EPISODE_ID", nEpisodeID);
 
-            if(nAddIndex > -1) {
+            if (nAddIndex > -1) {
                 sendObject.put("CHAT_INTERCEPT", true);
             } else {
                 sendObject.put("CHAT_INTERCEPT", false);
             }
 
-            if(bEdit)
+            if (bEdit)
                 sendObject.put("CHAT_MODIFY", true);
             else
                 sendObject.put("CHAT_MODIFY", false);
@@ -1632,21 +1894,21 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             chatObject.put("EPISODE_ID", nEpisodeID);
             chatObject.put("CHAT_TYPE", nType);
 
-            if(chatVO.getCharacterVO() != null)
+            if (chatVO.getCharacterVO() != null)
                 chatObject.put("CHARACTER_ID", chatVO.getCharacterVO().getnCharacterID());
 
             chatObject.put("CHAT_ORDER", chatVO.getnOrder());
 
-            if(nAddIndex > -1) {                                // 사이에 추가의 경우, 인터렉션 이전인지 이후인지 구분이 필요하다. 그래야 값을 가져오는데 문제가 없다.
+            if (nAddIndex > -1) {                                // 사이에 추가의 경우, 인터렉션 이전인지 이후인지 구분이 필요하다. 그래야 값을 가져오는데 문제가 없다.
                 ChatVO preVO = chattingList.get(nAddIndex);
 
-                if(preVO.getType() == ChatVO.TYPE_EMPTY) {
-                    preVO = chattingList.get(nAddIndex+1);
+                if (preVO.getType() == ChatVO.TYPE_EMPTY) {
+                    preVO = chattingList.get(nAddIndex + 1);
                 }
 
                 Log.d("prevo", preVO.getnChatID() + "");
                 chatObject.put("CHAT_DISTRACTOR", preVO.getnInteractionNum());
-            } else if(nEditIndex > -1) {                        // 수정의 경우에도 마찬가지
+            } else if (nEditIndex > -1) {                        // 수정의 경우에도 마찬가지
                 ChatVO preVO = chattingList.get(nEditIndex);
                 chatObject.put("CHAT_DISTRACTOR", preVO.getnInteractionNum());
                 chatVO.setnInteractionNum(preVO.getnInteractionNum());
@@ -1655,16 +1917,16 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 chatVO.setnInteractionNum(nInteractionIndex);
             }
 
-            if(nType == 1 || nType == 2 || nType == 7) {
+            if (nType == 1 || nType == 2 || nType == 7) {
                 chatObject.put("CHAT_CONTENTS", chatVO.getContents());
-            } else if(nType == 3 || nType == 4 || nType == 5 || nType == 8 || nType == 11) {           // 파일일 경우 파일 명만 보내야함
+            } else if (nType == 3 || nType == 4 || nType == 5 || nType == 8 || nType == 11) {           // 파일일 경우 파일 명만 보내야함
                 String strPath = chatVO.getStrContentsFile();
 
-                if(strPath == null || strPath.length() == 0) {
-                    if(chatVO.getContentsUri() != null)
+                if (strPath == null || strPath.length() == 0) {
+                    if (chatVO.getContentsUri() != null)
                         chatObject.put("CHAT_CONTENTS", chatVO.getContentsUri().toString());
                 } else {
-                    String filename = strPath.substring(strPath.lastIndexOf("/")+1);
+                    String filename = strPath.substring(strPath.lastIndexOf("/") + 1);
                     chatObject.put("CHAT_CONTENTS", filename);
                 }
             } else {
@@ -1679,11 +1941,11 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             builder.setType(MultipartBody.FORM)
                     .addFormDataPart("JSON_BODY", sendObject.toString());
 
-            if(nType == 3 || nType == 4 || nType == 5 || nType == 8 || nType == 11) {
+            if (nType == 3 || nType == 4 || nType == 5 || nType == 8 || nType == 11) {
                 String strPath = chatVO.getStrContentsFile();
-                if(strPath != null && strPath.length() > 0) {
+                if (strPath != null && strPath.length() > 0) {
                     sourceFile = new File(strPath);
-                    String filename = strPath.substring(strPath.lastIndexOf("/")+1);
+                    String filename = strPath.substring(strPath.lastIndexOf("/") + 1);
                     builder.addFormDataPart(filename, filename, RequestBody.create(MultipartBody.FORM, sourceFile));
                 }
             }
@@ -1729,8 +1991,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             try {
                                 JSONObject resultObject = new JSONObject(strResult);
 
-                                if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                    if(resultObject.has("CHAT_ID")) {
+                                if (resultObject.getString("RESULT").equals("SUCCESS")) {
+                                    if (resultObject.has("CHAT_ID")) {
                                         int nChatID = resultObject.getInt("CHAT_ID");
                                         chatVO.setnChatID(nChatID);
                                     }
@@ -1792,7 +2054,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             MultipartBody.Builder builder = new MultipartBody.Builder();
 
             String strBalloon = characterVO.getStrBalloonColor();
-            if(strBalloon == null)
+            if (strBalloon == null)
                 strBalloon = "null";
 
             builder.setType(MultipartBody.FORM)
@@ -1804,18 +2066,18 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     .addFormDataPart("BLACK_TEXT", characterVO.isbBlackText() == true ? "Y" : "N")
                     .addFormDataPart("BLACK_NAME", characterVO.isbBlackName() == true ? "Y" : "N");
 
-            if(characterVO.getImage() != null) {
+            if (characterVO.getImage() != null) {
                 strFilePath = CommonUtils.getRealPathFromURI(interactionWriteActivity, characterVO.getImage());
                 sourceFile = new File(strFilePath);
 
-                if(!sourceFile.exists()) {
+                if (!sourceFile.exists()) {
                     CommonUtils.hideProgressDialog();
                     Toast.makeText(interactionWriteActivity, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
 
                     return;
                 }
 
-                String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
                 builder.addFormDataPart(filename, filename, RequestBody.create(MultipartBody.FORM, sourceFile));
             }
 
@@ -1845,7 +2107,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             try {
                                 JSONObject resultObject = new JSONObject(strResult);
 
-                                if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                     nameList.set(nIndex, characterVO.getName());
                                     characterList.set(nIndex, characterVO);
                                     getCharacterData(true);
@@ -1887,7 +2149,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             MultipartBody.Builder builder = new MultipartBody.Builder();
 
             String strBalloon = characterVO.getStrBalloonColor();
-            if(strBalloon == null)
+            if (strBalloon == null)
                 strBalloon = "null";
 
             builder.setType(MultipartBody.FORM)
@@ -1898,18 +2160,18 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     .addFormDataPart("BLACK_TEXT", characterVO.isbBlackText() == true ? "Y" : "N")
                     .addFormDataPart("BLACK_NAME", characterVO.isbBlackName() == true ? "Y" : "N");
 
-            if(characterVO.getImage() != null) {
+            if (characterVO.getImage() != null) {
                 strFilePath = CommonUtils.getRealPathFromURI(interactionWriteActivity, characterVO.getImage());
                 sourceFile = new File(strFilePath);
 
-                if(!sourceFile.exists()) {
+                if (!sourceFile.exists()) {
                     CommonUtils.hideProgressDialog();
                     Toast.makeText(interactionWriteActivity, "이미지가 잘못되었습니다.", Toast.LENGTH_LONG).show();
 
                     return;
                 }
 
-                String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
                 builder.addFormDataPart(filename, filename, RequestBody.create(MultipartBody.FORM, sourceFile));
             }
 
@@ -1939,7 +2201,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             try {
                                 JSONObject resultObject = new JSONObject(strResult);
 
-                                if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                     String strCharacterID = resultObject.getString("CHARACTER_ID");
                                     characterVO.setnCharacterID(Integer.valueOf(strCharacterID));
 
@@ -1977,22 +2239,19 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
     }
 
-    public class CChattingArrayAdapter extends ArrayAdapter<Object>
-    {
+    public class CChattingArrayAdapter extends ArrayAdapter<Object> {
         private int mCellLayout;
         private LayoutInflater mLiInflater;
 
-        CChattingArrayAdapter(Context context, int layout, List titles)
-        {
+        CChattingArrayAdapter(Context context, int layout, List titles) {
             super(context, layout, titles);
             mCellLayout = layout;
-            mLiInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mLiInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent)
-        {
-            if(position >= chattingList.size()) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            if (position >= chattingList.size()) {
                 convertView = mLiInflater.inflate(R.layout.empty_chatting_row, parent, false);
                 return convertView;
             }
@@ -2000,13 +2259,13 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             CharacterVO characterVO = chatVO.getCharacterVO();
 
             int nType = chatVO.getType();
-            int nWidth = (int)((float)chattingListView.getWidth() * (float)(1.7f/3.0f));
+            int nWidth = (int) ((float) chattingListView.getWidth() * (float) (1.7f / 3.0f));
             int nDirection = 0;
 
-            if(nType == ChatVO.TYPE_TEXT) {
+            if (nType == ChatVO.TYPE_TEXT) {
                 nDirection = characterVO.getDirection();
 
-                if(nDirection == 0)             // left
+                if (nDirection == 0)             // left
                     convertView = mLiInflater.inflate(R.layout.left_chatting_row, parent, false);
                 else
                     convertView = mLiInflater.inflate(R.layout.right_chatting_row, parent, false);
@@ -2014,7 +2273,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 TextView nameView = convertView.findViewById(R.id.nameView);
                 nameView.setText(characterVO.getName());
 
-                if(characterVO.isbBlackName())
+                if (characterVO.isbBlackName())
                     nameView.setTextColor(Color.parseColor("#000000"));
                 else
                     nameView.setTextColor(Color.parseColor("#ffffff"));
@@ -2022,7 +2281,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
                 contentsTextView.setText(chatVO.getContents());
 
-                if(characterVO.isbBlackText()) {
+                if (characterVO.isbBlackText()) {
                     contentsTextView.setTextColor(getResources().getColor(R.color.colorBlack));
                 } else {
                     contentsTextView.setTextColor(getResources().getColor(R.color.colorWhite));
@@ -2030,17 +2289,17 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
                 ImageView imageContentsView = convertView.findViewById(R.id.imageContentsView);
 
-                if(chatVO.getContentsUri() != null) {
+                if (chatVO.getContentsUri() != null) {
                     Glide.with(getActivity())
                             .asBitmap()
                             .load(chatVO.getContentsUri())
                             .apply(new RequestOptions().override(800, 800))
                             .into(imageContentsView);
-                } else if(chatVO.getStrContentsFile() != null) {
+                } else if (chatVO.getStrContentsFile() != null) {
                     String strUrl = characterVO.getStrImgFile();
 //                    strUrl = strUrl.replaceAll(" ", "");
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     Glide.with(getActivity())
@@ -2049,17 +2308,17 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             .apply(new RequestOptions().override(800, 800))
                             .into(imageContentsView);
                 }
-            } else if(nType == ChatVO.TYPE_SOUND) {
+            } else if (nType == ChatVO.TYPE_SOUND) {
                 nDirection = characterVO.getDirection();
 
-                if(nDirection == 0)             // left
+                if (nDirection == 0)             // left
                     convertView = mLiInflater.inflate(R.layout.left_audio_row, parent, false);
                 else
                     convertView = mLiInflater.inflate(R.layout.right_audio_row, parent, false);
 
                 TextView nameView = convertView.findViewById(R.id.nameView);
                 nameView.setText(characterVO.getName());
-                if(characterVO.isbBlackName())
+                if (characterVO.isbBlackName())
                     nameView.setTextColor(Color.parseColor("#000000"));
                 else
                     nameView.setTextColor(Color.parseColor("#ffffff"));
@@ -2069,8 +2328,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 RelativeLayout playBtnlayout = convertView.findViewById(R.id.playBtnlayout);
                 ImageView playBtn = convertView.findViewById(R.id.playBtn);
 
-                if(nPlayingIndex == position) {         // 현재 플레이중이라면
-                    if(timer != null) {
+                if (nPlayingIndex == position) {         // 현재 플레이중이라면
+                    if (timer != null) {
                         timer.cancel();
                         timer = null;
                     }
@@ -2083,7 +2342,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            if(mediaPlayer != null && mediaPlayer.isPlaying())
+                            if (mediaPlayer != null && mediaPlayer.isPlaying())
                                 pb.setProgress(mediaPlayer.getCurrentPosition());
                             else {
                                 timer.cancel();
@@ -2096,8 +2355,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 playBtnlayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(mediaPlayer != null && mediaPlayer.isPlaying()) {
-                            if(nPlayingIndex == position) {
+                        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                            if (nPlayingIndex == position) {
                                 mediaPlayer.pause();
                                 playBtn.setImageResource(R.drawable.talk_play1);
                                 timer.cancel();
@@ -2113,8 +2372,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 timer = null;
                                 nPlayingIndex = -1;
                             }
-                        } else if(mediaPlayer != null && !mediaPlayer.isPlaying()) {
-                            if(nPlayingIndex == position) {
+                        } else if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+                            if (nPlayingIndex == position) {
                                 mediaPlayer.start();
                                 playBtn.setImageResource(R.drawable.pause);
 
@@ -2122,10 +2381,10 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 timer.schedule(new TimerTask() {
                                     @Override
                                     public void run() {
-                                        if(mediaPlayer != null && mediaPlayer.isPlaying())
+                                        if (mediaPlayer != null && mediaPlayer.isPlaying())
                                             pb.setProgress(mediaPlayer.getCurrentPosition());
                                         else {
-                                            if(timer != null) {
+                                            if (timer != null) {
                                                 timer.cancel();
                                                 timer = null;
                                             }
@@ -2142,7 +2401,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                         String strUrl = chatVO.getStrContentsFile();
 //                        strUrl = strUrl.replaceAll(" ", "");
 
-                        if(!strUrl.startsWith("http")) {
+                        if (!strUrl.startsWith("http")) {
                             try {
                                 strUrl = URLEncoder.encode(strUrl, "UTF-8");
                             } catch (UnsupportedEncodingException e) {
@@ -2171,7 +2430,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                     timer.schedule(new TimerTask() {
                                         @Override
                                         public void run() {
-                                            if(mediaPlayer != null && mediaPlayer.isPlaying())
+                                            if (mediaPlayer != null && mediaPlayer.isPlaying())
                                                 pb.setProgress(mediaPlayer.getCurrentPosition());
                                             else {
                                                 timer.cancel();
@@ -2188,7 +2447,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                     mediaPlayer.stop();
                                     mediaPlayer = null;
                                     playBtn.setImageResource(R.drawable.talk_play1);
-                                    if(timer != null) {
+                                    if (timer != null) {
                                         timer.cancel();
                                         timer = null;
                                     }
@@ -2216,22 +2475,22 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
                     }
                 });
-            } else if(nType == ChatVO.TYPE_IMAGE_NAR) {
+            } else if (nType == ChatVO.TYPE_IMAGE_NAR) {
                 convertView = mLiInflater.inflate(R.layout.narration_image_row, parent, false);
 
                 ImageView imageContentsView = convertView.findViewById(R.id.imageContentsView);
                 imageContentsView.setClipToOutline(true);
 
-                if(chatVO.getContentsUri() != null) {
+                if (chatVO.getContentsUri() != null) {
                     Glide.with(getActivity())
                             .asBitmap() // some .jpeg files are actually gif
                             .load(chatVO.getContentsUri())
                             .apply(new RequestOptions().override(nWidth, nWidth))
                             .into(imageContentsView);
-                } else if(chatVO.getStrContentsFile() != null) {
+                } else if (chatVO.getStrContentsFile() != null) {
                     String strUrl = chatVO.getStrContentsFile();
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     Glide.with(getActivity())
@@ -2240,17 +2499,17 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             .apply(new RequestOptions().override(nWidth, nWidth))
                             .into(imageContentsView);
                 }
-            } else if(nType == ChatVO.TYPE_IMAGE) {
+            } else if (nType == ChatVO.TYPE_IMAGE) {
                 nDirection = characterVO.getDirection();
 
-                if(nDirection == 0)             // left
+                if (nDirection == 0)             // left
                     convertView = mLiInflater.inflate(R.layout.left_image_row, parent, false);
                 else
                     convertView = mLiInflater.inflate(R.layout.right_image_row, parent, false);
 
                 TextView nameView = convertView.findViewById(R.id.nameView);
                 nameView.setText(characterVO.getName());
-                if(characterVO.isbBlackName())
+                if (characterVO.isbBlackName())
                     nameView.setTextColor(Color.parseColor("#000000"));
                 else
                     nameView.setTextColor(Color.parseColor("#ffffff"));
@@ -2258,17 +2517,17 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 ImageView imageContentsView = convertView.findViewById(R.id.imageContentsView);
                 imageContentsView.setClipToOutline(true);
 
-                if(chatVO.getContentsUri() != null) {
+                if (chatVO.getContentsUri() != null) {
                     Glide.with(getActivity())
                             .asBitmap() // some .jpeg files are actually gif
                             .load(chatVO.getContentsUri())
                             .apply(new RequestOptions().override(nWidth, nWidth))
                             .into(imageContentsView);
-                } else if(chatVO.getStrContentsFile() != null) {
+                } else if (chatVO.getStrContentsFile() != null) {
                     String strUrl = chatVO.getStrContentsFile();
 //                    strUrl = strUrl.replaceAll(" ", "");
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     Glide.with(getActivity())
@@ -2279,22 +2538,22 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 }
 
                 imageContentsView.setClipToOutline(true);
-            } else if(nType == ChatVO.TYPE_NARRATION) {
+            } else if (nType == ChatVO.TYPE_NARRATION) {
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
 
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
                 contentsTextView.setText(chatVO.getContents());
-            } else if(nType == ChatVO.TYPE_VIDEO) {
+            } else if (nType == ChatVO.TYPE_VIDEO) {
                 nDirection = characterVO.getDirection();
 
-                if(nDirection == 0)             // left
+                if (nDirection == 0)             // left
                     convertView = mLiInflater.inflate(R.layout.left_video_row, parent, false);
                 else
                     convertView = mLiInflater.inflate(R.layout.right_video_row, parent, false);
 
                 TextView nameView = convertView.findViewById(R.id.nameView);
                 nameView.setText(characterVO.getName());
-                if(characterVO.isbBlackName())
+                if (characterVO.isbBlackName())
                     nameView.setTextColor(Color.parseColor("#000000"));
                 else
                     nameView.setTextColor(Color.parseColor("#ffffff"));
@@ -2307,7 +2566,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     @Override
                     public void onClick(View view) {
                         String strUrl = chatVO.getStrContentsFile();
-                        if(!strUrl.startsWith("http"))
+                        if (!strUrl.startsWith("http"))
                             strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                         Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
@@ -2316,12 +2575,12 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     }
                 });
 
-                if(chatVO.getContentsUri() != null) {
-                    if(thumbBitmapList.containsKey(chatVO.getContentsUri().toString())) {
+                if (chatVO.getContentsUri() != null) {
+                    if (thumbBitmapList.containsKey(chatVO.getContentsUri().toString())) {
 //                        imageContentsView.setImageBitmap(thumbBitmapList.get(chatVO.getContentsUri().toString()));
                         Glide.with(getActivity())
                                 .load(thumbBitmapList.get(chatVO.getContentsUri().toString()))
-                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                .apply(new RequestOptions().override(nWidth - 50, nWidth - 50))
                                 .into(imageContentsView);
                     } else {
                         new Thread(new Runnable() {
@@ -2330,13 +2589,13 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(chatVO.getContentsUri());
                                 thumbBitmapList.put(chatVO.getContentsUri().toString(), thumbnailBitmap);
 
-                                if(getActivity() != null) {
+                                if (getActivity() != null) {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             Glide.with(getActivity())
                                                     .load(thumbnailBitmap)
-                                                    .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                                    .apply(new RequestOptions().override(nWidth - 50, nWidth - 50))
                                                     .into(imageContentsView);
                                         }
                                     });
@@ -2350,23 +2609,23 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             thumbBitmapList.put(chatVO.getContentsUri().toString(), thumbnailBitmap);
                             Glide.with(getActivity())
                                     .load(thumbnailBitmap)
-                                    .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                    .apply(new RequestOptions().override(nWidth - 50, nWidth - 50))
                                     .into(imageContentsView);
                         } catch (Throwable throwable) {
                             throwable.printStackTrace();
                         }
                     }
-                } else if(chatVO.getStrContentsFile() != null) {
+                } else if (chatVO.getStrContentsFile() != null) {
                     String strUrl = chatVO.getStrContentsFile();
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
-                    if(thumbBitmapList.containsKey(strUrl)) {
+                    if (thumbBitmapList.containsKey(strUrl)) {
 //                        imageContentsView.setImageBitmap(thumbBitmapList.get(strUrl));
                         Glide.with(getActivity())
                                 .load(thumbBitmapList.get(strUrl))
-                                .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                .apply(new RequestOptions().override(nWidth - 50, nWidth - 50))
                                 .into(imageContentsView);
                     } else {
                         final String finalUrl = strUrl;
@@ -2376,13 +2635,13 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                                 Bitmap thumbnailBitmap = CommonUtils.getVideoThumbnail(Uri.parse(finalUrl));
                                 thumbBitmapList.put(finalUrl, thumbnailBitmap);
 
-                                if(getActivity() != null) {
+                                if (getActivity() != null) {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             Glide.with(getActivity())
                                                     .load(thumbnailBitmap)
-                                                    .apply(new RequestOptions().override(nWidth-50, nWidth-50))
+                                                    .apply(new RequestOptions().override(nWidth - 50, nWidth - 50))
                                                     .into(imageContentsView);
                                         }
                                     });
@@ -2391,28 +2650,28 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                         }).start();
                     }
                 }
-            } else if(nType == ChatVO.TYPE_DISTRACTOR) {
+            } else if (nType == ChatVO.TYPE_DISTRACTOR) {
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
                 String strContents = chatVO.getContents();
-                strContents = "분기 설정 : " + strContents.substring(0, strContents.indexOf("╋")) + ", " + strContents.substring(strContents.indexOf("╋")+1);
+                strContents = "분기 설정 : " + strContents.substring(0, strContents.indexOf("╋")) + ", " + strContents.substring(strContents.indexOf("╋") + 1);
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
                 contentsTextView.setText(strContents);
-            } else if(nType == ChatVO.TYPE_CHANGE_BG) {
+            } else if (nType == ChatVO.TYPE_CHANGE_BG) {
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
                 contentsTextView.setText("배경 이미지 변경");
 
-                if(chatVO.getContentsUri() != null) {
+                if (chatVO.getContentsUri() != null) {
                     Glide.with(getActivity())
                             .asBitmap() // some .jpeg files are actually gif
                             .load(chatVO.getContentsUri())
                             .transition(BitmapTransitionOptions.withCrossFade())
                             .into(bgView);
-                } else if(chatVO.getStrContentsFile() != null) {
+                } else if (chatVO.getStrContentsFile() != null) {
                     String strUrl = chatVO.getStrContentsFile();
 //                    strUrl = strUrl.replaceAll(" ", "");
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     Glide.with(getActivity())
@@ -2421,7 +2680,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                             .transition(BitmapTransitionOptions.withCrossFade())
                             .into(bgView);
                 }
-            } else if(nType == ChatVO.TYPE_CHANGE_BG_COLOR) {
+            } else if (nType == ChatVO.TYPE_CHANGE_BG_COLOR) {
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
 
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
@@ -2430,29 +2689,29 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 String strColor = chatVO.getStrContentsFile();
                 int nColor = Color.parseColor(strColor);
                 bgView.setBackgroundColor(nColor);
-            } else if(nType == ChatVO.TYPE_EMPTY) {
+            } else if (nType == ChatVO.TYPE_EMPTY) {
                 convertView = mLiInflater.inflate(R.layout.empty_chatting_row, parent, false);
             }
 
             ImageView deleteBtn = convertView.findViewById(R.id.deleteBtn);
-            if(deleteBtn != null) {
+            if (deleteBtn != null) {
                 deleteBtn.setClipToOutline(true);
                 deleteBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 //                    chattingList.remove(position);
-                        if(nType == ChatVO.TYPE_DISTRACTOR) {
+                        if (nType == ChatVO.TYPE_DISTRACTOR) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setTitle("분기 삭");
+                            builder.setTitle("분기 삭제");
                             builder.setMessage("분기를 삭제하시면 분기 이후의 모든 회차 및 채팅 정보가 삭제됩니다.\n정말로 삭제하시겠습니까?");
-                            builder.setPositiveButton("예", new DialogInterface.OnClickListener(){
+                            builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     requestDeleteInteraction(position);
                                 }
                             });
 
-                            builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                 }
@@ -2463,9 +2722,9 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                     }
                 });
 
-                if(position > 1) {
-                    ChatVO preVo = chattingList.get(position-1);
-                    if(preVo.getType() == ChatVO.TYPE_DISTRACTOR)
+                if (position > 1) {
+                    ChatVO preVo = chattingList.get(position - 1);
+                    if (preVo.getType() == ChatVO.TYPE_DISTRACTOR)
                         deleteBtn.setVisibility(View.INVISIBLE);
                     else
                         deleteBtn.setVisibility(View.VISIBLE);
@@ -2474,19 +2733,19 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 }
             }
 
-            if(characterVO != null && (nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_SOUND)) {
+            if (characterVO != null && (nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_SOUND)) {
                 RelativeLayout contentsLayout = convertView.findViewById(R.id.contentsLayout);
-                if(contentsLayout != null) {
+                if (contentsLayout != null) {
                     String strBalloonColor = characterVO.getStrBalloonColor();
 
-                    if(strBalloonColor != null && !strBalloonColor.equals("null") && strBalloonColor.length() > 0) {
-                        if(contentsLayout != null && contentsLayout.getBackground() != null) {
+                    if (strBalloonColor != null && !strBalloonColor.equals("null") && strBalloonColor.length() > 0) {
+                        if (contentsLayout != null && contentsLayout.getBackground() != null) {
                             int nColor = Color.parseColor(strBalloonColor);
                             PorterDuffColorFilter greyFilter = new PorterDuffColorFilter(nColor, PorterDuff.Mode.MULTIPLY);
                             contentsLayout.getBackground().setColorFilter(greyFilter);
                         }
                     } else {
-                        if(contentsLayout != null && contentsLayout.getBackground() != null)
+                        if (contentsLayout != null && contentsLayout.getBackground() != null)
                             contentsLayout.getBackground().setColorFilter(null);
                     }
                 }
@@ -2496,16 +2755,16 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             final ImageView leftLine = convertView.findViewById(R.id.leftLine);
             final ImageView rightLine = convertView.findViewById(R.id.rightLine);
             final TextView txtView = convertView.findViewById(R.id.txtView);
-            if(position == chattingList.size() - 1)
-                addBtn.setVisibility(View.INVISIBLE);
-            else
-                addBtn.setVisibility(View.VISIBLE);
+//            if (position == chattingList.size() - 1)
+//                addBtn.setVisibility(View.INVISIBLE);
+//            else
+//                addBtn.setVisibility(View.VISIBLE);
 
             ImageView faceView = convertView.findViewById(R.id.faceView);
-            if(faceView != null) {
+            if (faceView != null) {
                 int nPlaceHolder = 0;
                 int faceIndex = getCharacterIndex(characterVO) % 10;
-                switch(faceIndex) {
+                switch (faceIndex) {
                     case 1:
                         nPlaceHolder = R.drawable.user_icon_01;
                         break;
@@ -2538,18 +2797,18 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                         break;
                 }
 
-                if(characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
+                if (characterVO.getImage() != null && !characterVO.getImage().equals("null")) {
                     Glide.with(getActivity())
                             .asBitmap() // some .jpeg files are actually gif
                             .load(characterVO.getImage())
                             .placeholder(nPlaceHolder)
                             .apply(new RequestOptions().circleCrop())
                             .into(faceView);
-                } else if(characterVO.getStrImgFile() != null && !characterVO.getStrImgFile().equals("null")) {
+                } else if (characterVO.getStrImgFile() != null && !characterVO.getStrImgFile().equals("null")) {
                     String strUrl = characterVO.getStrImgFile();
 //                    strUrl = strUrl.replaceAll(" ", "");
 
-                    if(!strUrl.startsWith("http"))
+                    if (!strUrl.startsWith("http"))
                         strUrl = CommonUtils.strDefaultUrl + "images/" + strUrl;
 
                     Glide.with(getActivity())
@@ -2567,30 +2826,32 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                 }
             }
 
-            if(characterVO != null && (nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_SOUND)) {
+            if (characterVO != null && (nType == ChatVO.TYPE_TEXT || nType == ChatVO.TYPE_SOUND)) {
                 RelativeLayout contentsLayout = convertView.findViewById(R.id.contentsLayout);
-                if(contentsLayout != null) {
+                if (contentsLayout != null) {
                     String strBalloonColor = characterVO.getStrBalloonColor();
 
-                    if(strBalloonColor != null && !strBalloonColor.equals("null") && strBalloonColor.length() > 0) {
-                        if(contentsLayout != null && contentsLayout.getBackground() != null) {
+                    if (strBalloonColor != null && !strBalloonColor.equals("null") && strBalloonColor.length() > 0) {
+                        if (contentsLayout != null && contentsLayout.getBackground() != null) {
                             int nColor = Color.parseColor(strBalloonColor);
                             PorterDuffColorFilter greyFilter = new PorterDuffColorFilter(nColor, PorterDuff.Mode.MULTIPLY);
                             contentsLayout.getBackground().setColorFilter(greyFilter);
                         }
                     } else {
-                        if(contentsLayout != null && contentsLayout.getBackground() != null)
+                        if (contentsLayout != null && contentsLayout.getBackground() != null)
                             contentsLayout.getBackground().setColorFilter(null);
                     }
                 }
             }
 
-            if(position == chattingList.size() - 1 || nType == ChatVO.TYPE_DISTRACTOR)
+            if (position == chattingList.size() - 1)
+                addBtn.setVisibility(View.INVISIBLE);
+            else if (nType == ChatVO.TYPE_DISTRACTOR)
                 addBtn.setVisibility(View.GONE);
             else
                 addBtn.setVisibility(View.VISIBLE);
 
-            if(nAddIndex == position) {
+            if (nAddIndex == position) {
 //                addBtn.setBackgroundResource(R.drawable.common_selected_rounded_btn_bg);
                 txtView.setText("취소");
                 leftLine.setBackgroundColor(Color.parseColor("#ff0000"));
@@ -2607,7 +2868,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(nAddIndex == position) {
+                    if (nAddIndex == position) {
                         nAddIndex = -1;
                         aa.notifyDataSetChanged();
                     } else {
@@ -2619,7 +2880,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
             });
 
             TextView commentCountView = convertView.findViewById(R.id.commentCountView);
-            if(commentCountView != null) {
+            if (commentCountView != null) {
                 commentCountView.setVisibility(View.INVISIBLE);
             }
 
@@ -2630,11 +2891,11 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
     private int getCharacterIndex(CharacterVO vo) {
         int characterID = vo.getnCharacterID();
 
-        for(int i = 1 ; i < characterList.size() ; i++) {
+        for (int i = 1; i < characterList.size(); i++) {
             CharacterVO characterVO = characterList.get(i);
-            if(characterVO == null)
+            if (characterVO == null)
                 return 1;
-            if(characterVO.getnCharacterID() == characterID)
+            if (characterVO.getnCharacterID() == characterID)
                 return i;
         }
 
@@ -2657,7 +2918,7 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                         try {
                             CommonUtils.hideProgressDialog();
 
-                            if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                            if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                 Toast.makeText(interactionWriteActivity, "삭제되었습니다.", Toast.LENGTH_LONG).show();
                                 getActivity().finish();
                             } else {
@@ -2688,8 +2949,8 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
                         try {
                             CommonUtils.hideProgressDialog();
 
-                            if(resultObject.getString("RESULT").equals("SUCCESS")) {
-                                if(vo.getType() == ChatVO.TYPE_CHANGE_BG || vo.getType() == ChatVO.TYPE_CHANGE_BG_COLOR) {
+                            if (resultObject.getString("RESULT").equals("SUCCESS")) {
+                                if (vo.getType() == ChatVO.TYPE_CHANGE_BG || vo.getType() == ChatVO.TYPE_CHANGE_BG_COLOR) {
                                     bgView.setBackgroundResource(0);
                                     bgView.setImageBitmap(null);
                                     bgView.setBackgroundColor(getResources().getColor(R.color.colorDefaultBG));
@@ -2712,33 +2973,33 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
 
     public void imageSetting(Intent intent) {
         boolean bEdit = intent.getBooleanExtra("EDIT", false);
-        int     nOrder = intent.getIntExtra("ORDER", -1);
+        int nOrder = intent.getIntExtra("ORDER", -1);
         String imgUri = intent.getStringExtra("BG_URI");
-        if(imgUri != null) {                    // 배경 변경 이라면
+        if (imgUri != null) {                    // 배경 변경 이라면
             String strFilePath = CommonUtils.getRealPathFromURI(getActivity(), Uri.parse(imgUri));
             newFileList.add(strFilePath);
 
             ChatVO chatVO = null;
 
-            if(bEdit) {
+            if (bEdit) {
                 chatVO = chattingList.get(nOrder);
             } else {
                 chatVO = new ChatVO();
-                if(nAddIndex > -1) {
+                if (nAddIndex > -1) {
                     ChatVO currentVO = chattingList.get(nAddIndex);
                     int nIndex = 0;
 
-                    if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                    if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                         nIndex = currentVO.getnOrder();
-                        chatVO.setnOrder(nIndex+1);
+                        chatVO.setnOrder(nIndex + 1);
                     }
                 } else {
-                    if(chattingList.size() == 0)
+                    if (chattingList.size() == 0)
                         chatVO.setnOrder(0);
                     else {
-                        ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                        ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                         int nIndex = currentVO.getnOrder();
-                        chatVO.setnOrder(nIndex+1);
+                        chatVO.setnOrder(nIndex + 1);
                     }
                 }
             }
@@ -2761,38 +3022,38 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         }
 
         imgUri = intent.getStringExtra("IMG_URI");
-        if(imgUri != null) {                                    // 일반 채팅 이미지 라면
+        if (imgUri != null) {                                    // 일반 채팅 이미지 라면
             int nType = intent.getIntExtra("TYPE", 0);
             ChatVO chatVO = null;
 
-            if(bEdit) {
+            if (bEdit) {
                 chatVO = chattingList.get(nOrder);
             } else {
                 chatVO = new ChatVO();
-                if(nAddIndex > -1) {
+                if (nAddIndex > -1) {
                     ChatVO currentVO = chattingList.get(nAddIndex);
                     int nIndex = 0;
 
-                    if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                    if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                         nIndex = currentVO.getnOrder();
-                        chatVO.setnOrder(nIndex+1);
+                        chatVO.setnOrder(nIndex + 1);
                     }
                 } else {
-                    if(chattingList.size() == 0)
+                    if (chattingList.size() == 0)
                         chatVO.setnOrder(0);
                     else {
-                        ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                        ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                         int nIndex = currentVO.getnOrder();
-                        chatVO.setnOrder(nIndex+1);
+                        chatVO.setnOrder(nIndex + 1);
                     }
                 }
             }
 
-            if(nType == TYPE_CONTENTS_IMG.ordinal()) {
+            if (nType == TYPE_CONTENTS_IMG.ordinal()) {
                 CharacterVO characterVO = characterList.get(nSelectedCharacterIndex);
                 chatVO.setCharacter(characterVO);
                 chatVO.setType(ChatVO.TYPE_IMAGE);
-            } else if(nType == TYPE_CONTENTS_IMG_NAR.ordinal()) {
+            } else if (nType == TYPE_CONTENTS_IMG_NAR.ordinal()) {
                 chatVO.setType(ChatVO.TYPE_IMAGE_NAR);
             }
 
@@ -2806,28 +3067,28 @@ public class InteractionMainFragment extends Fragment implements View.OnClickLis
         }
 
         imgUri = intent.getStringExtra("VIDEO_URI");
-        if(imgUri != null) {
+        if (imgUri != null) {
             ChatVO chatVO = null;
 
-            if(bEdit) {
+            if (bEdit) {
                 chatVO = chattingList.get(nOrder);
             } else {
                 chatVO = new ChatVO();
-                if(nAddIndex > -1) {
+                if (nAddIndex > -1) {
                     ChatVO currentVO = chattingList.get(nAddIndex);
                     int nIndex = 0;
 
-                    if(currentVO.getType() != ChatVO.TYPE_EMPTY) {
+                    if (currentVO.getType() != ChatVO.TYPE_EMPTY) {
                         nIndex = currentVO.getnOrder();
-                        chatVO.setnOrder(nIndex+1);
+                        chatVO.setnOrder(nIndex + 1);
                     }
                 } else {
-                    if(chattingList.size() == 0)
+                    if (chattingList.size() == 0)
                         chatVO.setnOrder(0);
                     else {
-                        ChatVO currentVO = chattingList.get(chattingList.size()-1);
+                        ChatVO currentVO = chattingList.get(chattingList.size() - 1);
                         int nIndex = currentVO.getnOrder();
-                        chatVO.setnOrder(nIndex+1);
+                        chatVO.setnOrder(nIndex + 1);
                     }
                 }
             }

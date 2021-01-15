@@ -7,22 +7,40 @@
     android:background="#fff"
     tools:context=".UI.Activity.Login.AgreementActivity">
 
-    <ImageButton
-        android:id="@+id/backBtn"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="64dp"
-        android:layout_marginTop="56dp"
-        android:background="@null"
-        android:onClick="onClickTopLeftBtn"
-        android:src="@drawable/back_button"/>
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16.6dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/back_button" />
+    </RelativeLayout>
+
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/backBtn"-->
+<!--        android:layout_width="20dp"-->
+<!--        android:layout_height="20dp"-->
+<!--        android:layout_marginLeft="64dp"-->
+<!--        android:layout_marginTop="56dp"-->
+<!--        android:background="@null"-->
+<!--        android:onClick="onClickTopLeftBtn"-->
+<!--        android:src="@drawable/back_button"/>-->
 
     <ImageView
         android:id="@+id/logoView"
         android:layout_width="82dp"
         android:layout_height="24.8dp"
         android:layout_marginLeft="64dp"
-        android:layout_below="@+id/backBtn"
+        android:layout_below="@+id/topBarLayout"
         android:layout_marginTop="38.8dp"
         android:background="@drawable/text_logo"/>
 
@@ -35,7 +53,7 @@
         android:layout_marginTop="11.5dp"
         android:textSize="22sp"
         android:textColor="@color/colorBlack"
-        android:text="에 오신걸 환영합니다."/>
+        android:text="에 오신 걸 환영합니다."/>
 
     <LinearLayout
         android:id="@+id/totalAgreeLayout"

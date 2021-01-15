@@ -283,7 +283,7 @@ public class MyFragment extends Fragment {                                      
                     ClipboardManager clipboardManager = (ClipboardManager)getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
                     ClipData clipData = ClipData.newPlainText("추천인 코드", strRecommendCode);
                     clipboardManager.setPrimaryClip(clipData);
-                    Toast.makeText(getActivity(), "클립보드에 복사 되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "클립보드에 복사되었습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

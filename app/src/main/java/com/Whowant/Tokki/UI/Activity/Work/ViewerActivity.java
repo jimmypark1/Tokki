@@ -2,11 +2,13 @@ package com.Whowant.Tokki.UI.Activity.Work;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -18,6 +20,7 @@ import android.os.Environment;
 import android.os.FileObserver;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,7 +48,7 @@ import androidx.palette.graphics.Palette;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Login.LoginSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
 import com.Whowant.Tokki.UI.Popup.InteractionPopup;
 import com.Whowant.Tokki.UI.Popup.StarPointPopup;
@@ -91,6 +94,7 @@ public class ViewerActivity extends AppCompatActivity {                         
     private boolean bShoingPlus = false;
 
     private ListView chattingListView;
+    private LinearLayout weightEmptyView;
     private ImageView bgView;
     private Bitmap    bgBitmap;
     private HashMap<String, Bitmap> thumbBitmapList = new HashMap<>();
@@ -135,11 +139,15 @@ public class ViewerActivity extends AppCompatActivity {                         
 
     boolean isSlideUp;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_viewer);
+
+        fileObserver.startWatching();
+        lgFileObserver.startWatching();
 
         bFirst = true;
         Thread.UncaughtExceptionHandler handler = Thread.getDefaultUncaughtExceptionHandler();
@@ -177,6 +185,8 @@ public class ViewerActivity extends AppCompatActivity {                         
         autoScrollLayout = findViewById(R.id.autoScrollLayout);
         bgView = findViewById(R.id.bgView);
         chattingListView = findViewById(R.id.listView);
+//        weightEmptyView = findViewById(R.id.weightEmptyView);
+
         chattingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -186,98 +196,8 @@ public class ViewerActivity extends AppCompatActivity {                         
 
         isSlideUp = false;
 
-        chattingListView.setOnTouchListener(new View.OnTouchListener()
-        {
-
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    fX = motionEvent.getX();
-                    fY = motionEvent.getY();
-
-                    if(bShowingAutoscroll) {
-                        slide(autoScrollLevel1Btn, 0, 1500);
-                        slide(autoScrollLevel2Btn, 0, 1000);
-                        slide(autoScrollLevel3Btn, 0, 500);
-
-//                        autoScrollLayout.setVisibility(View.INVISIBLE);
-                        bShowingAutoscroll = false;
-                        return false;
-                    }
-
-                    if(autoScrollTimer != null) {
-                        autoScrollTimer.cancel();
-                        autoScrollTimer = null;
-                        Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-
-                    bLong = true;
-
-                    if(uiTimer != null) {
-                        uiTimer.cancel();
-                        uiTimer = null;
-                    }
-
-                    uiTimer = new Timer();
-                    uiTimer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if(bLong) {
-                                        bLong = false;
-                                        bShowingAutoscroll = true;
-                                        if(autoScrollTimer != null) {
-                                            autoScrollTimer.cancel();
-                                            autoScrollTimer = null;
-                                        }
-
-                                        autoScrollLayout.setVisibility(View.VISIBLE);
-
-                                        slide(autoScrollLevel1Btn, 1500, 0);
-                                        slide(autoScrollLevel2Btn, 1000, 0);
-                                        slide(autoScrollLevel3Btn, 500, 0);
-                                        isSlideUp = !isSlideUp;
-                                    }
-                                }
-                            });
-                        }
-                    }, 400);
-                } else if(motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
-                    float fEndX = motionEvent.getX();
-                    float fEndY = motionEvent.getY();
-
-                    bLong = false;
-                    if(uiTimer != null) {
-                        uiTimer.cancel();
-                        uiTimer = null;
-                    }
-
-                    if(fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
-                        return false;
-                    } else {
-                        if(!bShowingAutoscroll)
-                            setNextChat();
-                    }
-                } else if(motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-                    float fEndX = motionEvent.getX();
-                    float fEndY = motionEvent.getY();
-
-                    if(fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
-                        bLong = false;
-                        if(uiTimer != null) {
-                            uiTimer.cancel();
-                            uiTimer = null;
-                        }
-                        return false;
-                    }
-                }
-                return false;
-            }
-        });
+        chattingListView.setOnTouchListener(onTouchListener);
+//        weightEmptyView.setOnTouchListener(onTouchListener);
 
 //        bgView.setOnLongClickListener(new View.OnLongClickListener() {
 //            @Override
@@ -336,6 +256,22 @@ public class ViewerActivity extends AppCompatActivity {                         
         bottomSheetBehavior = BottomSheetBehavior.from(photoSelectBottomSheet);
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        if (hasFocus) {
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size); // size.x size.y
+            int height = size.y;
+            height *= 0.2;
+
+            ListView listView = findViewById(R.id.listView);
+            listView.setPadding(0, 0, 0, height); // 화면 해상도 계산 후 paddingBottom
+        }
+    }
+
     FileObserver fileObserver = new FileObserver(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Screenshots") {
         @Override
         public void onEvent(int event, @Nullable String path) {
@@ -348,6 +284,117 @@ public class ViewerActivity extends AppCompatActivity {                         
                 });
 
             }
+        }
+    };
+
+    FileObserver lgFileObserver = new FileObserver(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/Screenshots") {
+        @Override
+        public void onEvent(int event, @Nullable String path) {
+            if (event == FileObserver.CREATE) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ViewerActivity.this, "캡쳐 후 불법 유포 시 처벌받을 수 있습니다.", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+        }
+    };
+
+    private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+
+            if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                fX = motionEvent.getX();
+                fY = motionEvent.getY();
+
+                if(bShowingAutoscroll) {
+                    slide(autoScrollLevel1Btn, 0, 1500);
+                    slide(autoScrollLevel2Btn, 0, 1000);
+                    slide(autoScrollLevel3Btn, 0, 500);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            autoScrollLayout.setVisibility(View.INVISIBLE);
+                        }
+                    }, 500);
+//                        autoScrollLayout.setVisibility(View.INVISIBLE);
+                    bShowingAutoscroll = false;
+                    return false;
+                }
+
+                if(autoScrollTimer != null) {
+                    autoScrollTimer.cancel();
+                    autoScrollTimer = null;
+                    Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                bLong = true;
+
+                if(uiTimer != null) {
+                    uiTimer.cancel();
+                    uiTimer = null;
+                }
+
+                uiTimer = new Timer();
+                uiTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(bLong) {
+                                    bLong = false;
+                                    bShowingAutoscroll = true;
+                                    if(autoScrollTimer != null) {
+                                        autoScrollTimer.cancel();
+                                        autoScrollTimer = null;
+                                    }
+
+                                    autoScrollLayout.setVisibility(View.VISIBLE);
+
+                                    slide(autoScrollLevel1Btn, 1500, 0);
+                                    slide(autoScrollLevel2Btn, 1000, 0);
+                                    slide(autoScrollLevel3Btn, 500, 0);
+                                    isSlideUp = !isSlideUp;
+                                }
+                            }
+                        });
+                    }
+                }, 400);
+            } else if(motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
+                float fEndX = motionEvent.getX();
+                float fEndY = motionEvent.getY();
+
+                bLong = false;
+                if(uiTimer != null) {
+                    uiTimer.cancel();
+                    uiTimer = null;
+                }
+
+                if(fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
+                    return false;
+                } else {
+                    if(!bShowingAutoscroll)
+                        setNextChat();
+                }
+            } else if(motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
+                float fEndX = motionEvent.getX();
+                float fEndY = motionEvent.getY();
+
+                if(fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
+                    bLong = false;
+                    if(uiTimer != null) {
+                        uiTimer.cancel();
+                        uiTimer = null;
+                    }
+                    return false;
+                }
+            }
+            return false;
         }
     };
 
@@ -368,6 +415,7 @@ public class ViewerActivity extends AppCompatActivity {                         
         super.onPause();
 
         fileObserver.stopWatching();
+        lgFileObserver.stopWatching();
 
         if(mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
@@ -403,6 +451,7 @@ public class ViewerActivity extends AppCompatActivity {                         
         getInteraction();
 
         fileObserver.startWatching();
+        lgFileObserver.startWatching();
 
 //        commentList = new ArrayList<>();
 //        getCommentData();
@@ -419,7 +468,7 @@ public class ViewerActivity extends AppCompatActivity {                         
             return;
         }
 
-        if(nShoingIndex >= 0) {
+        if(nShoingIndex >= 0 && !bPreview) {
             sendViewing(nShoingIndex);
             return;
         } else
@@ -518,7 +567,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                         aa.notifyDataSetChanged();
 
                         if(nShoingIndex <= 0)
-                            Toast.makeText(ViewerActivity.this, "화면을 터치하시면 내용이 진행됩니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ViewerActivity.this, "화면을 터치하시면 내용이 진행됩니다.", Toast.LENGTH_LONG).show();
 
                         chattingListView.setSelection(aa.getCount() - 1);
                     }
@@ -644,6 +693,9 @@ public class ViewerActivity extends AppCompatActivity {                         
     public void onDestroy() {
 //        workVO = null;
         super.onDestroy();
+
+        fileObserver.stopWatching();
+        lgFileObserver.stopWatching();
 
         if(autoScrollTimer != null) {
             autoScrollTimer.cancel();
@@ -895,21 +947,11 @@ public class ViewerActivity extends AppCompatActivity {                         
                             .into(imageContentsView);
                 }
 
-                RelativeLayout faceBGLayout = convertView.findViewById(R.id.faceBGLayout);
-
-                if(characterVO.isbFaceShow()) {
-                    faceBGLayout.setVisibility(View.VISIBLE);
-                    nameView.setVisibility(View.VISIBLE);
-                } else {
-                    faceBGLayout.setVisibility(View.GONE);
-                    nameView.setVisibility(View.GONE);
-
-                    if(nDirection == 0) {
-                        contentsLayout.setBackgroundResource(R.drawable.left_sub_balloon);
-                    } else {
-                        contentsLayout.setBackgroundResource(R.drawable.right_sub_balloon);
-                    }
-                }
+//                if(nDirection == 0) {
+//                    contentsLayout.setBackgroundResource(R.drawable.left_sub_balloon);
+//                } else {
+//                    contentsLayout.setBackgroundResource(R.drawable.right_sub_balloon);
+//                }
             } else if(nType == ChatVO.TYPE_SOUND) {
                 nDirection = characterVO.getDirection();
 
@@ -1076,21 +1118,12 @@ public class ViewerActivity extends AppCompatActivity {                         
                     }
                 });
 
-                RelativeLayout faceBGLayout = convertView.findViewById(R.id.faceBGLayout);
-                RelativeLayout contentsLayout = convertView.findViewById(R.id.contentsLayout);
-                if(characterVO.isbFaceShow()) {
-                    faceBGLayout.setVisibility(View.VISIBLE);
-                    nameView.setVisibility(View.VISIBLE);
-                } else {
-                    faceBGLayout.setVisibility(View.GONE);
-                    nameView.setVisibility(View.GONE);
-
-                    if(nDirection == 0) {
-                        contentsLayout.setBackgroundResource(R.drawable.left_sub_balloon);
-                    } else {
-                        contentsLayout.setBackgroundResource(R.drawable.right_sub_balloon);
-                    }
-                }
+//                RelativeLayout contentsLayout = convertView.findViewById(R.id.contentsLayout);
+//                if(nDirection == 0) {
+//                    contentsLayout.setBackgroundResource(R.drawable.left_sub_balloon);
+//                } else {
+//                    contentsLayout.setBackgroundResource(R.drawable.right_sub_balloon);
+//                }
             } else if(nType == ChatVO.TYPE_IMAGE_NAR) {
                 convertView = mLiInflater.inflate(R.layout.narration_image_row, parent, false);
                 int nWidth = (int)((float)chattingListView.getWidth() * (float)(1.7f/3.0f));
@@ -1153,15 +1186,6 @@ public class ViewerActivity extends AppCompatActivity {                         
                             .load(strUrl)
                             .apply(new RequestOptions().override(nWidth-50, nWidth-50))
                             .into(imageContentsView);
-                }
-
-                RelativeLayout faceBGLayout = convertView.findViewById(R.id.faceBGLayout);
-                if(characterVO.isbFaceShow()) {
-                    faceBGLayout.setVisibility(View.VISIBLE);
-                    nameView.setVisibility(View.VISIBLE);
-                } else {
-                    faceBGLayout.setVisibility(View.GONE);
-                    nameView.setVisibility(View.GONE);
                 }
             } else if(nType == ChatVO.TYPE_NARRATION) {
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
@@ -1269,15 +1293,6 @@ public class ViewerActivity extends AppCompatActivity {                         
                         }).start();
                     }
                 }
-
-                RelativeLayout faceBGLayout = convertView.findViewById(R.id.faceBGLayout);
-                if(characterVO.isbFaceShow()) {
-                    faceBGLayout.setVisibility(View.VISIBLE);
-                    nameView.setVisibility(View.VISIBLE);
-                } else {
-                    faceBGLayout.setVisibility(View.GONE);
-                    nameView.setVisibility(View.GONE);
-                }
             } else if(nType == ChatVO.TYPE_DISTRACTOR) {
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
@@ -1357,7 +1372,17 @@ public class ViewerActivity extends AppCompatActivity {                         
             }
 
             ImageView faceView = convertView.findViewById(R.id.faceView);
+            TextView nameView = convertView.findViewById(R.id.nameView);
             if(faceView != null) {
+
+                if(characterVO.isbFaceShow()) {
+                    faceView.setVisibility(View.VISIBLE);
+                    nameView.setVisibility(View.VISIBLE);
+                } else {
+                    faceView.setVisibility(View.INVISIBLE);
+                    nameView.setVisibility(View.GONE);
+                }
+
                 int nPlaceHolder = 0;
                 int faceIndex = characterVO.getIndex() % 10;
                 switch(faceIndex) {
@@ -1568,7 +1593,7 @@ public class ViewerActivity extends AppCompatActivity {                         
 
                                 if(!bLogin) {
                                     Toast.makeText(ViewerActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(ViewerActivity.this, LoginSelectActivity.class));
+                                    startActivity(new Intent(ViewerActivity.this, PanbookLoginActivity.class));
                                     return;
                                 }
 
@@ -1598,7 +1623,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                             noCommentView.setVisibility(View.GONE);
 
                             for(int i = 0 ; i < commentList.size() ; i ++) {
-                                if(i >= 3)
+                                if(i >= 2)
                                     break;
 
                                 CommentVO vo = commentList.get(i);
@@ -1684,7 +1709,7 @@ public class ViewerActivity extends AppCompatActivity {                         
 
         if(!bLogin) {
             Toast.makeText(ViewerActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(ViewerActivity.this, LoginSelectActivity.class));
+            startActivity(new Intent(ViewerActivity.this, PanbookLoginActivity.class));
             return;
         }
 
@@ -1711,6 +1736,9 @@ public class ViewerActivity extends AppCompatActivity {                         
     }
 
     private void startAutoScroll(int nLevel) {
+        if (!bShowingAutoscroll)
+            return;
+
         if(autoScrollTimer != null) {
             autoScrollTimer.cancel();
             autoScrollTimer = null;
@@ -1744,6 +1772,13 @@ public class ViewerActivity extends AppCompatActivity {                         
         slide(autoScrollLevel1Btn, 0, 1500);
         slide(autoScrollLevel2Btn, 0, 1000);
         slide(autoScrollLevel3Btn, 0, 500);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                autoScrollLayout.setVisibility(View.INVISIBLE);
+            }
+        }, 500);
         bShowingAutoscroll = false;
     }
 }

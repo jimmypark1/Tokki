@@ -64,6 +64,8 @@ public class LiteratureFragment extends Fragment {                              
                 Intent intent = new Intent(getActivity(), WorkWriteMainActivity.class);
                 intent.putExtra("WORK_ID", "" + workVO.getnWorkID());
                 startActivity(intent);
+
+//                startActivity(new Intent(getActivity(), WorkRegSummaryActivity.class));
             }
         });
 
@@ -110,7 +112,8 @@ public class LiteratureFragment extends Fragment {                              
                             return;
                         }
 
-                        aa = new CWorkListAdapter(getActivity(), R.layout.my_work_write_row, workList);
+                        aa = new CWorkListAdapter(getActivity(), R.layout.row_literature, workList);
+//                        aa = new CWorkListAdapter(getActivity(), R.round_squre_stroke_gray_bg.my_work_write_row, workList);
                         listView.setAdapter(aa);
 
                         if(workList.size() == 0) {
@@ -143,22 +146,28 @@ public class LiteratureFragment extends Fragment {                              
             WorkVO workVO = workList.get(position);
 
             if(convertView == null) {
-                convertView = mLiInflater.inflate(R.layout.my_work_write_row, parent, false);
+                convertView = mLiInflater.inflate(R.layout.row_literature, parent, false);
+//                convertView = mLiInflater.inflate(R.round_squre_stroke_gray_bg.my_work_write_row, parent, false);
             }
 
-            ImageView coverImgView = convertView.findViewById(R.id.coverImgView);
-            TextView titleView = convertView.findViewById(R.id.titleView);
-            TextView synopsisView = convertView.findViewById(R.id.synopsisView);
-            TextView writerNameView = convertView.findViewById(R.id.writerNameView);
-            TextView dateView = convertView.findViewById(R.id.dateView);
+            ImageView coverImgView = convertView.findViewById(R.id.iv_row_literature_photo);
+            TextView titleView = convertView.findViewById(R.id.tv_row_literature_title);
+            TextView synopsisView = convertView.findViewById(R.id.tv_row_literature_contents);
+//            TextView writerNameView = convertView.findViewById(R.id.writerNameView);
+            TextView dateView = convertView.findViewById(R.id.tv_row_literature_date);
             coverImgView.setClipToOutline(true);
+//            ImageView coverImgView = convertView.findViewById(R.id.coverImgView);
+//            TextView titleView = convertView.findViewById(R.id.titleView);
+//            TextView synopsisView = convertView.findViewById(R.id.synopsisView);
+//            TextView writerNameView = convertView.findViewById(R.id.writerNameView);
+//            TextView dateView = convertView.findViewById(R.id.dateView);
 
             String strImgUrl = workVO.getCoverFile();
             if(strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
                 Glide.with(getActivity())
                         .asBitmap() // some .jpeg files are actually gif
                         .load(R.drawable.no_poster)
-                        .apply(new RequestOptions().override(800, 800))
+//                        .apply(new RequestOptions().override(800, 800))
                         .into(coverImgView);
             } else {
                 if(!strImgUrl.startsWith("http")) {
@@ -175,7 +184,7 @@ public class LiteratureFragment extends Fragment {                              
 
             titleView.setText(workVO.getTitle());
             synopsisView.setText(workVO.getSynopsis());
-            writerNameView.setText("by " + workVO.getStrWriterName());
+//            writerNameView.setText("by " + workVO.getStrWriterName());
             dateView.setText(workVO.getCreatedDate().substring(0, 10));
 
             return convertView;

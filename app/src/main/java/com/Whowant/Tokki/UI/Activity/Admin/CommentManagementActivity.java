@@ -259,7 +259,7 @@ public class CommentManagementActivity extends AppCompatActivity {
                         CommonUtils.hideProgressDialog();
 
                         if(bResult) {
-                            Toast.makeText(CommentManagementActivity.this, "신고가 철회 되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CommentManagementActivity.this, "신고가 철회되었습니다.", Toast.LENGTH_SHORT).show();
                             getReportsData();
                         } else {
                             Toast.makeText(CommentManagementActivity.this, "신고를 철회하지 못했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();

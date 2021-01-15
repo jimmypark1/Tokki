@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fafafa"
+    tools:context=".UI.Activity.Login.PWRegisterActivity">
+
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="52dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="17sp"
+            android:textColor="#222222"
+            android:text="비밀번호 등록"/>
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16.6dp"
+            android:background="@null"
+            android:onClick="onClickBackBtn"
+            android:src="@drawable/back_button" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBarLayout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/subTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="30dp"
+                android:textSize="15sp"
+                android:textColor="#666666"
+                android:text="토키 로그인 시 사용할 비밀번호"/>
+
+            <LinearLayout
+                android:id="@+id/inputPhoneNumLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_below="@+id/subTitleView"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textColor="#666666"
+                    android:text="비밀번호"/>
+
+                <EditText
+                    android:id="@+id/inputPWView"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="6dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="17sp"
+                    android:hint="비밀번호 입력"
+                    android:inputType="textPassword"
+                    android:background="@drawable/round_square_gray_stroke_bg"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textSize="11sp"
+                    android:textColor="#666666"
+                    android:text="*영문, 숫자를 포함한 9~15자 조합"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/inputAuthNumLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="40dp"
+                android:layout_below="@+id/inputPhoneNumLayout"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textColor="#666666"
+                    android:text="비밀번호 확인"/>
+
+                <EditText
+                    android:id="@+id/inputPWCheckView"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="6dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="17sp"
+                    android:hint="비밀번호 재입력"
+                    android:inputType="textPassword"
+                    android:background="@drawable/round_square_gray_stroke_bg"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/nextBtn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/inputAuthNumLayout"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="20dp"
+                android:text="다음"
+                android:textSize="15sp"
+                android:enabled="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/common_btn_disable_bg"
+                android:textColor="#999999"
+                android:onClick="onClickNextBtn"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -24,4 +24,12 @@
     <color name="colorLevel8">#ff92af</color>
     <color name="colorLevel9">#ff754a</color>
     <color name="colorLevel10">#ff3159</color>
+
+    <color name="genre_default">#cccccc</color>
+    <color name="genre_selected">#5a9aff</color>
+
+    <color name="character_selected_f">#666666</color>
+    <color name="character_selected_t">#5a9aff</color>
+
+    <color name="selector_tab_interaction_write">#222222</color>
 </resources>

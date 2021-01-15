@@ -11,11 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageAccountSettingActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
+import com.Whowant.Tokki.UI.Activity.Work.CharacterRegActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CreateCharacterActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CreateWorkActivity;
 import com.Whowant.Tokki.UI.Activity.Work.InteractionWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkEditActivity;
+import com.Whowant.Tokki.UI.Activity.Work.WorkRegActivity;
 import com.Whowant.Tokki.Utils.cropper.CropImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -23,6 +27,7 @@ import com.bumptech.glide.request.RequestOptions;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_BG_CROP;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER_THUMB;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_FACE_IMG;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_IMG_CROP;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY_THUMB;
@@ -32,11 +37,11 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
     private ImageView cropedImageView;
     public static CropImageView.CropResult result;
 
-    public static int     nNextType = -1;
+    public static int nNextType = -1;
 
     public static boolean bEdit = false;
-    public static int     nType;
-    public static int     nOrder;
+    public static int nType;
+    public static int nOrder;
     private String resultUri = "";
     public static boolean bInteraction = false;
 
@@ -47,19 +52,19 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thumbnail_preview);
 
-        cropedImageView = (ImageView)findViewById(R.id.cropedImageView);
+        cropedImageView = (ImageView) findViewById(R.id.cropedImageView);
         resultUri = result.getUri().toString();
 
-        if (nNextType != TYPE_PROFILE.ordinal()) {
+        if (nNextType == TYPE_PROFILE.ordinal() || nNextType == TYPE_FACE_IMG.ordinal()) {
             Glide.with(this)
                     .asBitmap() // some .jpeg files are actually gif
                     .load(result.getUri())
+                    .apply(new RequestOptions().circleCrop())
                     .into(cropedImageView);
         } else {
             Glide.with(this)
                     .asBitmap() // some .jpeg files are actually gif
                     .load(result.getUri())
-                    .apply(new RequestOptions().circleCrop())
                     .into(cropedImageView);
         }
 
@@ -71,7 +76,7 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
             }
         });
 
-        Button okBtn = (Button)findViewById(R.id.okBtn);
+        Button okBtn = (Button) findViewById(R.id.okBtn);
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,13 +88,13 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
     private void moveToNext() {
         Intent intent = null;
         if (nNextType == TYPE_PROFILE.ordinal()) {
-            intent = new Intent(ThumbnailPreviewActivity.this, MainActivity.class);
+            intent = new Intent(ThumbnailPreviewActivity.this, MyPageAccountSettingActivity.class);
             intent.putExtra("URI", resultUri);
         } else if (nNextType == TYPE_COVER.ordinal()) {
-            intent = new Intent(ThumbnailPreviewActivity.this, CreateWorkActivity.class);
+            intent = new Intent(ThumbnailPreviewActivity.this, WorkRegActivity.class);
             intent.putExtra("IMG_URI", resultUri);
         } else if (nNextType == TYPE_COVER_THUMB.ordinal()) {
-            intent = new Intent(ThumbnailPreviewActivity.this, CreateWorkActivity.class);
+            intent = new Intent(ThumbnailPreviewActivity.this, WorkRegActivity.class);
             intent.putExtra("THUMBNAIL", true);
             intent.putExtra("IMG_URI", resultUri);
         } else if (nNextType == TYPE_MODIFY.ordinal()) {
@@ -119,7 +124,7 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
             intent.putExtra("EDIT", bEdit);
             intent.putExtra("ORDER", nOrder);
         } else {
-            intent = new Intent(ThumbnailPreviewActivity.this, CreateCharacterActivity.class);
+            intent = new Intent(ThumbnailPreviewActivity.this, CharacterRegActivity.class);
             intent.putExtra("URI", resultUri);
         }
 

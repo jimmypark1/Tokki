@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_row_search_category_noti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="-10dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_row_search_category_noti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="5sp"
+            android:text="쓰고있는 작품"
+            android:textColor="#666666"
+            android:textSize="15sp"
+            android:textStyle="normal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <RelativeLayout
+            android:layout_width="120dp"
+            android:layout_height="180dp">
+
+            <ImageView
+                android:id="@+id/iv_row_search_category_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_4_dddddd"
+                android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                android:id="@+id/ll_row_search_category_rank"
+                android:layout_width="30dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_row_search_category_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="7sp"
+                    android:text="#1"
+                    android:textColor="#222222"
+                    android:textSize="13sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_row_search_category_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="5sp"
+                    android:lines="1"
+                    android:text="아무래도 이번에는"
+                    android:textColor="#222222"
+                    android:textSize="17sp"
+                    android:textStyle="normal" />
+
+                <ImageView
+                    android:id="@+id/iv_row_search_category_option"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_i_dots_black" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_row_search_category_writer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="7sp"
+                android:text="by 강나래"
+                android:textColor="#999999"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_i_heart" />
+
+                <TextView
+                    android:id="@+id/tv_row_search_category_heart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:lineSpacingExtra="5sp"
+                    android:text="9999"
+                    android:textColor="#999999"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_i_star" />
+
+                <TextView
+                    android:id="@+id/tv_row_search_category_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:lineSpacingExtra="5sp"
+                    android:text="5.0"
+                    android:textColor="#999999"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_i_tap_999999" />
+
+                <TextView
+                    android:id="@+id/tv_row_search_category_tab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:lineSpacingExtra="5sp"
+                    android:text="999"
+                    android:textColor="#999999"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_row_search_category_synopsis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="7sp"
+                android:text="일이삼사오육칠팔구십일이삼사오육칠팔구십 일이삼사오육칠팔구십일이삼사오육칠팔구십"
+                android:textColor="#999999"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -7,8 +7,11 @@
     android:background="#fff"
     tools:context=".UI.Activity.Work.CreateWorkActivity">
 
-    <RelativeLayout
+    <include
         android:id="@+id/topBarLayout"
+        layout="@layout/include_top_layout" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="52dp">
 
@@ -20,23 +23,25 @@
             android:layout_marginLeft="17dp"
             android:background="@null"
             android:onClick="onClickTopLeftBtn"
-            android:src="@drawable/back_button"/>
+            android:src="@drawable/back_button"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/titleView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="20sp"
+            android:text="작품 등록"
             android:textColor="@color/colorBlack"
-            android:text="작품 등록"/>
+            android:textSize="20sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:layout_below="@+id/topBarLayout">
+        android:layout_below="@+id/topBarLayout"
+        android:fillViewport="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -47,50 +52,54 @@
                 android:id="@+id/photoLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
                 android:clipChildren="false">
 
                 <ImageView
                     android:id="@+id/coverImgView"
-                    android:layout_width="150dp"
-                    android:layout_height="225dp"
-                    android:background="@drawable/round_white_card_bg"
+                    android:layout_width="160dp"
+                    android:layout_height="250dp"
                     android:layout_centerHorizontal="true"
-                    android:scaleType="centerCrop"
-                    android:onClick="OnClickPhotoBtn"/>
+                    android:background="@drawable/round_white_card_bg"
+                    android:src="@drawable/ic_i_artwork_empty"
+                    android:onClick="OnClickPhotoBtn"
+                    android:scaleType="centerCrop" />
 
                 <RelativeLayout
                     android:id="@+id/coverImgBtn"
-                    android:layout_width="150dp"
-                    android:layout_height="225dp"
-                    android:layout_alignTop="@+id/coverImgView"
+                    android:layout_width="160dp"
+                    android:layout_height="250dp"
                     android:layout_alignLeft="@+id/coverImgView"
+                    android:layout_alignTop="@+id/coverImgView"
                     android:layout_alignRight="@+id/coverImgView"
                     android:layout_alignBottom="@+id/coverImgView"
-                    android:orientation="vertical"
+                    android:visibility="gone"
                     android:layout_centerInParent="true"
                     android:background="@drawable/poster_bg"
-                    android:onClick="OnClickPhotoBtn">
+                    android:onClick="OnClickPhotoBtn"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
+                        android:visibility="gone"
                         android:layout_centerInParent="true"
                         android:gravity="center"
-                        android:text="포스터를\n등록 해주세요."/>
+                        android:text="포스터를\n등록 해주세요."
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:layout_marginTop="5dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
+                        android:layout_marginTop="5dp"
                         android:layout_marginRight="-10dp"
                         android:layout_marginBottom="-10dp"
-                        android:src="@drawable/camera_icon"/>
+                        android:src="@drawable/camera_icon"
+                        android:visibility="gone" />
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -99,25 +108,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/photoLayout"
-                android:layout_marginTop="31dp"
                 android:layout_marginLeft="70dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_marginTop="31dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:text="제목"
                     android:textColor="@color/colorBlack"
-                    android:text="제목"/>
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="*"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"
-                    android:text="*"/>
+                    android:textSize="20sp" />
             </LinearLayout>
 
 
@@ -128,36 +137,36 @@
                 android:layout_below="@+id/writeSubTitleView"
                 android:layout_marginLeft="65dp"
                 android:layout_marginRight="65dp"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"
-                android:singleLine="true"
+                android:hint="제목을 입력하세요"
                 android:imeOptions="actionNext"
-                android:hint="제목을 입력하세요"/>
+                android:singleLine="true"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:id="@+id/writeSubTitle2View"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="70dp"
                 android:layout_below="@+id/inputTitleView"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:text="줄거리"
                     android:textColor="@color/colorBlack"
-                    android:text="줄거리"/>
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="*"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"
-                    android:text="*"/>
+                    android:textSize="20sp" />
             </LinearLayout>
 
 
@@ -168,42 +177,42 @@
                 android:layout_below="@+id/writeSubTitle2View"
                 android:layout_marginLeft="65dp"
                 android:layout_marginRight="65dp"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"
-                android:singleLine="true"
+                android:hint="@string/text_please_input_synopsis"
                 android:imeOptions="actionNext"
-                android:hint="@string/text_please_input_synopsis"/>
+                android:singleLine="true"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:id="@+id/genreLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/inputSynopsisView"
                 android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:layout_below="@+id/inputSynopsisView">
+                android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorBlack"
-                    android:text="장르"/>
+                    android:layout_marginLeft="70dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"
-                    android:text="*"/>
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="장르"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/inputGenreView"
@@ -211,44 +220,44 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="65dp"
                     android:layout_marginRight="65dp"
-                    android:imeOptions="actionNext"
-                    android:focusable="false"
                     android:clickable="false"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorBlack"
+                    android:focusable="false"
+                    android:hint="3가지 장르를 선택해주세요"
+                    android:imeOptions="actionNext"
                     android:singleLine="true"
-                    android:hint="3가지 장르를 선택해주세요"/>
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/tagLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_below="@+id/genreLayout"
                 android:layout_marginTop="20dp"
-                android:layout_below="@+id/genreLayout">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="70dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:text="태그"
                         android:textColor="@color/colorBlack"
-                        android:text="태그"/>
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text=""
                         android:textColor="@color/colorPrimary"
-                        android:textSize="20sp"
-                        android:text=""/>
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <EditText
@@ -257,13 +266,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="65dp"
                     android:layout_marginRight="65dp"
-                    android:imeOptions="actionNext"
-                    android:focusable="false"
                     android:clickable="false"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorBlack"
+                    android:focusable="false"
+                    android:hint="태그를 입력해주세요"
+                    android:imeOptions="actionNext"
                     android:singleLine="true"
-                    android:hint="태그를 입력해주세요"/>
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <RelativeLayout
@@ -284,17 +293,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:text="섬네일 등록"
                         android:textColor="@color/colorBlack"
-                        android:text="섬네일 등록"/>
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="13.3dp"
                         android:layout_height="14.3dp"
+                        android:layout_marginLeft="5.7dp"
                         android:background="@drawable/yellow_question"
-                        android:onClick="onClickQuestionBtn"
-                        android:layout_marginLeft="5.7dp"/>
+                        android:onClick="onClickQuestionBtn" />
                 </LinearLayout>
 
 
@@ -302,18 +311,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/posterTitleView"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal"
                     android:layout_marginLeft="65dp"
-                    android:layout_marginRight="65dp">
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="65dp"
+                    android:orientation="horizontal">
 
                     <RelativeLayout
                         android:id="@+id/posterThumbnailLayout"
                         android:layout_width="0dp"
                         android:layout_height="130dp"
                         android:layout_weight="1"
-                        android:onClick="onClickPosterThumbnailBtn"
-                        android:background="@drawable/round_shadow_btn_white_bg">
+                        android:background="@drawable/round_shadow_btn_white_bg"
+                        android:onClick="onClickPosterThumbnailBtn">
 
                         <ImageView
                             android:id="@+id/posterCheckView"
@@ -321,18 +330,18 @@
                             android:layout_height="17dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
-                            android:background="@drawable/check_bg_img"/>
+                            android:background="@drawable/check_bg_img" />
 
                         <ImageView
                             android:id="@+id/posterThumbnailView"
                             android:layout_width="100dp"
                             android:layout_height="52dp"
                             android:layout_below="@+id/posterCheckView"
-                            android:background="@drawable/round_translucent_bg"
-                            android:src="@drawable/poster_sombnail"
-                            android:scaleType="centerCrop"
+                            android:layout_centerHorizontal="true"
                             android:layout_marginTop="3dp"
-                            android:layout_centerHorizontal="true"/>
+                            android:background="@drawable/round_translucent_bg"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/poster_sombnail" />
 
                         <TextView
                             android:id="@+id/posterThumbnailTextView"
@@ -340,22 +349,22 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/posterThumbnailView"
                             android:layout_centerHorizontal="true"
-                            android:gravity="center"
                             android:layout_marginTop="3dp"
-                            android:textSize="12sp"
-                            android:textColor="#d1d1d1"
+                            android:gravity="center"
                             android:lineSpacingExtra="2sp"
-                            android:text="포스터로\n섬네일 지정"/>
+                            android:text="포스터로\n섬네일 지정"
+                            android:textColor="#d1d1d1"
+                            android:textSize="12sp" />
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/galleryThumbnailLayout"
                         android:layout_width="0dp"
                         android:layout_height="130dp"
-                        android:layout_weight="1"
                         android:layout_marginLeft="10dp"
-                        android:onClick="onClickGalleryThumbnailBtn"
-                        android:background="@drawable/round_shadow_btn_white_bg">
+                        android:layout_weight="1"
+                        android:background="@drawable/round_shadow_btn_white_bg"
+                        android:onClick="onClickGalleryThumbnailBtn">
 
                         <ImageView
                             android:id="@+id/galleryCheckView"
@@ -363,18 +372,18 @@
                             android:layout_height="17dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
-                            android:background="@drawable/check_bg_img"/>
+                            android:background="@drawable/check_bg_img" />
 
                         <ImageView
                             android:id="@+id/galleryThumbnailView"
                             android:layout_width="100dp"
                             android:layout_height="52dp"
                             android:layout_below="@+id/galleryCheckView"
-                            android:background="@drawable/round_translucent_bg"
-                            android:src="@drawable/empty_thumbnail_img"
+                            android:layout_centerHorizontal="true"
                             android:layout_marginTop="3dp"
+                            android:background="@drawable/round_translucent_bg"
                             android:scaleType="centerCrop"
-                            android:layout_centerHorizontal="true"/>
+                            android:src="@drawable/empty_thumbnail_img" />
 
                         <TextView
                             android:id="@+id/galleryThumbnailTextView"
@@ -382,12 +391,12 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/galleryThumbnailView"
                             android:layout_centerHorizontal="true"
-                            android:gravity="center"
                             android:layout_marginTop="3dp"
-                            android:textSize="12sp"
-                            android:textColor="#d1d1d1"
+                            android:gravity="center"
                             android:lineSpacingExtra="2sp"
-                            android:text="갤러리에서\n새로운 섬네일 지정"/>
+                            android:text="갤러리에서\n새로운 섬네일 지정"
+                            android:textColor="#d1d1d1"
+                            android:textSize="12sp" />
                     </RelativeLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -399,37 +408,37 @@
                 android:layout_below="@+id/posterLayout"
                 android:layout_marginLeft="70dp"
                 android:layout_marginTop="19dp"
-                android:textSize="16sp"
+                android:text="완결 상태"
                 android:textColor="#d1d1d1"
-                android:textStyle="bold"
-                android:text="완결 상태"/>
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/check1Layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/completeTitleView"
-                android:layout_marginTop="9.7dp"
                 android:layout_marginLeft="70dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_marginTop="9.7dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/checkbox1"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:background="@drawable/check_box_non"
-                    android:src="@drawable/check2"
-                    android:scaleType="center"/>
+                    android:scaleType="center"
+                    android:src="@drawable/check2" />
 
                 <TextView
                     android:id="@+id/unCompleteTitleview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5.5dp"
-                    android:textSize="15sp"
+                    android:text="미완결"
                     android:textColor="#d1d1d1"
-                    android:text="미완결"/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -437,11 +446,11 @@
                 android:id="@+id/check2Layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/check1Layout"
                 android:layout_alignTop="@+id/check1Layout"
                 android:layout_marginLeft="17.8dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_toRightOf="@+id/check1Layout"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/checkbox2"
@@ -449,16 +458,16 @@
                     android:layout_height="14dp"
                     android:layout_marginLeft="17.8dp"
                     android:background="@drawable/check_box_non"
-                    android:scaleType="center"/>
+                    android:scaleType="center" />
 
                 <TextView
                     android:id="@+id/completeTitleview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5.5dp"
-                    android:textSize="15sp"
+                    android:text="완결"
                     android:textColor="#d1d1d1"
-                    android:text="완결"/>
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -467,30 +476,30 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/check2Layout"
                 android:layout_marginTop="41dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="70dp"
+                    android:text="*"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"
-                    android:text="*"/>
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:text=" 항목은 필수 입력 항목입니다"
                     android:textColor="@color/colorBlack"
-                    android:text=" 항목은 필수 입력 항목입니다"/>
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_below="@+id/textLayout"/>
+                android:layout_below="@+id/textLayout" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -508,9 +517,9 @@
                     android:layout_marginRight="33dp"
                     android:background="@color/colorPrimary"
                     android:onClick="OnClickOkBtn"
+                    android:text="저장"
                     android:textColor="@color/colorWhite"
-                    android:textSize="14dp"
-                    android:text="저장"/>
+                    android:textSize="14dp" />
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

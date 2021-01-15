@@ -50,7 +50,7 @@ public class NoticeActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         emptyView = findViewById(R.id.emptyView);
 //        ea = new ExpandAdapter(this, noticeList);
-//        aa = new CNoticeArrayAdapter(this, R.layout.notice_row, noticeList);
+//        aa = new CNoticeArrayAdapter(this, R.round_squre_stroke_gray_bg.notice_row, noticeList);
 //        listView.setAdapter(aa);
 
         getNoticeData();
