@@ -1122,9 +1122,9 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 episodeTitleView.setText(vo.getStrTitle());
 
                 String strTitle = vo.getStrTitle();
-                String[] titleArr = strTitle.split("화 ");
+                String[] titleArr = strTitle.split("화");
 
-                if(titleArr.length >= 2) {
+                if(titleArr.length >= 1) {
                     if(titleArr[0].length() <= 4) {
                         String strIndex = titleArr[0] + "화";
                         SpannableStringBuilder sb = new SpannableStringBuilder();

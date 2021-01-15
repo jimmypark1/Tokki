@@ -53,10 +53,9 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
 public class CommonUtils {                                                                  // Const 등을 사용하지 않고 잡다한 static 변수 및 펑션등을 모아놓은 클래스
     private static ProgressDialog mProgressDialog;
 
-//    public static String strDefaultUrl = "http://220.126.60.144:8080/howmuch_web/";
-//    public static String strDefaultUrl = "http://192.168.43.249:8080/howmuch_web/";
-//    public static String strDefaultUrl = "http://10.140.61.69:8080/howmuch_web/";
+//    public static String strDefaultUrl = "http://172.30.80.1:8080/howmuch_web/";                               // 테스트 서버 주소
     public static String strDefaultUrl = "http://175.123.253.231:8080/howmuch_web/";                        // 상용 서버 주소
+
     public static Toast toast = null;                                                                       // 연속으로 Toast 를 띄울때 이걸 사용하면 딜레이 없이 토스트 사용 가능
     public static ArrayList<String> forbiddenWords = new ArrayList<>();                                     // 비속어 필터
     private static boolean isComplete = false;                                                              // forbiddenWords 를 서버에서 모두 받아왔는지 확인하는 flag. 신경 안써도 됨
