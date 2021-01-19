@@ -58,6 +58,7 @@ public class MyPageActivity extends AppCompatActivity {
     private int nTotalUsedCarrot = 0;                                                       // 총 당근 갯수
     private int nDonationCarrot = 0;                                                        // 후원받은 당근 갯수
     private int nLevel = 1;                                                                 // 당근 갯수에 따라 레벨 결정
+    private int  nTotalAcquireCarrot = 0;
 
     private boolean isPopup = false;
 
@@ -287,6 +288,7 @@ public class MyPageActivity extends AppCompatActivity {
                 String userId = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_ID", "Guest");
 
                 JSONObject resultObject = HttpClient.getMyCarrotInfo(new OkHttpClient(), userId);
+               // JSONObject resultObject = HttpClient.getMyInfo(new OkHttpClient(), userId);
                 CommonUtils.hideProgressDialog();
 
                 runOnUiThread(new Runnable() {
@@ -304,7 +306,7 @@ public class MyPageActivity extends AppCompatActivity {
 //                                carrotTv.setText(resultObject.getString("CURRENT_CARROT") + " 개");
 //                                nTotalUsedCarrot = resultObject.getInt("USED_CARROT");
                                 nDonationCarrot = resultObject.getInt("DONATION_CARROT");
-//                                nTotalAcquireCarrot = resultObject.getInt("ACQUIRE_CARROT");
+                                nTotalAcquireCarrot = resultObject.getInt("ACQUIRE_CARROT");
 //                                strRecommendCode = resultObject.getString("RECOMMEND_CODE");
 //                                currentCarrotCountView.setText(CommonUtils.comma(nCurrentCarrot));
 //                                cumulativeUsageCarrotCountView.setText(CommonUtils.comma(nTotalUsedCarrot));
@@ -313,7 +315,9 @@ public class MyPageActivity extends AppCompatActivity {
 
                             carrotTv.setText(new DecimalFormat("###,###").format(nCurrentCarrot) + " 개");
 
-                            nLevel = CommonUtils.getLevel(nDonationCarrot);
+                        //    nLevel = CommonUtils.getLevel(nDonationCarrot);
+                            nLevel = CommonUtils.getLevel(nCurrentCarrot   );
+
                             levelIv.setImageResource(levelRes[nLevel - 1]);
                             levelTv.setText(levelName[nLevel - 1]);
                         } catch (JSONException e) {
