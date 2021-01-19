@@ -837,8 +837,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
 
             requestUploadMessage(chatVO, bEdit);
 
-            nEditIndex = -1;
-            nAddIndex = -1;
+//            nEditIndex = -1;
+//            nAddIndex = -1;
             return;
         }
 
@@ -882,8 +882,8 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             chatVO.setStrContentsFile(CommonUtils.getRealPathFromURI(LiteratureWriteActivity.this, Uri.parse(imgUri)));
             requestUploadMessage(chatVO, bEdit);
 
-            nEditIndex = -1;
-            nAddIndex = -1;
+//            nEditIndex = -1;
+//            nAddIndex = -1;
             return;
         }
 
@@ -922,13 +922,13 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
             chatVO.setStrContentsFile(CommonUtils.getRealPathFromURI(LiteratureWriteActivity.this, Uri.parse(imgUri)));
             requestUploadMessage(chatVO, bEdit);
 
-            nEditIndex = -1;
-            nAddIndex = -1;
+//            nEditIndex = -1;
+//            nAddIndex = -1;
             return;
         }
 
-        nEditIndex = -1;
-        nAddIndex = -1;
+//        nEditIndex = -1;
+//        nAddIndex = -1;
     }
 
     @Override

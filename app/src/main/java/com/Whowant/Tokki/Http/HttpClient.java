@@ -2205,8 +2205,10 @@ public class HttpClient {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
         }
 
         return chatVOList;
@@ -2923,9 +2925,35 @@ public class HttpClient {
             workVO.setbComplete(resultObject.getString("COMPLETE").equals("Y") ? true : false);
 
             ArrayList<EpisodeVO> episodeList = new ArrayList<>();
+            ArrayList<EpisodeVO> sortedEpisodeList = new ArrayList<>();
 
             if (resultObject.has("EPISODE_LIST")) {
                 JSONArray episodeArray = resultObject.getJSONArray("EPISODE_LIST");
+
+                for (int i = 0 ; i < episodeArray.length(); i++) {
+                    JSONObject object = episodeArray.getJSONObject(i);
+                    EpisodeVO vo = new EpisodeVO();
+
+                    vo.setnEpisodeID(object.getInt("EPISODE_ID"));
+                    vo.setStrTitle(object.getString("EPISODE_TITLE"));
+                    vo.setStrDate(object.getString("CREATED_DATE"));
+                    vo.setnOrder(object.getInt("EPISODE_ORDER"));
+                    vo.setnHitsCount(object.getInt("HITS_COUNT"));
+                    vo.setnTapCount(object.getInt("TAB_COUNT"));
+                    vo.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                    vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                    vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                    vo.setStrSubmit(object.getString("WORK_SUBMIT"));
+                    if(object.has("TRASH_ID")) {
+                        vo.setnTrashID(object.getInt("TRASH_ID"));
+                        vo.setStrIsolatedDate(object.getString("ISOLATED_DATE"));
+                    }
+                    if (object.has("CHAT_COUNT"))
+                        vo.setnChatCount(object.getInt("CHAT_COUNT"));
+
+                    sortedEpisodeList.add(vo);
+                    workVO.setSortedEpisodeList(sortedEpisodeList);
+                }
 
                 if (!bDesc) {
                     for (int i = 0; i < episodeArray.length(); i++) {
@@ -2982,6 +3010,7 @@ public class HttpClient {
                 workVO.setEpisodeList(episodeList);
             } else {
                 workVO.setEpisodeList(episodeList);
+                workVO.setSortedEpisodeList(sortedEpisodeList);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -125,6 +125,7 @@ public class ViewerActivity extends AppCompatActivity {                         
     private boolean bFirst = true;
     private ArrayList<View> viewList;
     private String strCurrentBg = "";
+    private boolean bLoading = false;
 
     private BottomSheetBehavior bottomSheetBehavior;
     private ArrayList<TextView> nameViewList = new ArrayList<>();
@@ -169,14 +170,14 @@ public class ViewerActivity extends AppCompatActivity {                         
 
         chattingListView = findViewById(R.id.chattingListView);
 
-        if(workVO.getEpisodeList() == null) {
+        if(workVO.getSortedEpisodeList() == null) {
             Toast.makeText(this, "작품을 읽어오는 중 문제가 발생했습니다. 다시 로딩해 주세요.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
         TextView titleView = findViewById(R.id.titleView);
-        titleView.setText(workVO.getEpisodeList().get(nEpisodeIndex).getStrTitle());
+        titleView.setText(workVO.getSortedEpisodeList().get(nEpisodeIndex).getStrTitle());
 
         autoScrollLevel1Btn = findViewById(R.id.autoScrollLevel1Btn);
         autoScrollLevel2Btn = findViewById(R.id.autoScrollLevel2Btn);
@@ -499,7 +500,7 @@ public class ViewerActivity extends AppCompatActivity {                         
         new Thread(new Runnable() {
             @Override
             public void run() {
-                EpisodeVO vo = workVO.getEpisodeList().get(nEpisodeIndex);
+                EpisodeVO vo = workVO.getSortedEpisodeList().get(nEpisodeIndex);
                 HttpClient.sendTap(new OkHttpClient(), vo.getnEpisodeID());
             }
         }).start();
@@ -509,7 +510,7 @@ public class ViewerActivity extends AppCompatActivity {                         
         new Thread(new Runnable() {
             @Override
             public void run() {
-                EpisodeVO vo = workVO.getEpisodeList().get(nEpisodeIndex);
+                EpisodeVO vo = workVO.getSortedEpisodeList().get(nEpisodeIndex);
                 HttpClient.sendHitsWork(new OkHttpClient(), workVO.getnWorkID(), vo.getnEpisodeID(), pref.getString("USER_ID", "Guest"), nOrder);
 
                 runOnUiThread(new Runnable() {
@@ -529,7 +530,7 @@ public class ViewerActivity extends AppCompatActivity {                         
         new Thread(new Runnable() {
             @Override
             public void run() {
-                chattingList = HttpClient.getChatDataWithEpisodeID(new OkHttpClient(), "" + workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID());
+                chattingList = HttpClient.getChatDataWithEpisodeID(new OkHttpClient(), "" + workVO.getSortedEpisodeList().get(nEpisodeIndex).getnEpisodeID());
                 nameViewList = new ArrayList<>();
                 ChatVO vo = new ChatVO();
 
@@ -550,15 +551,16 @@ public class ViewerActivity extends AppCompatActivity {                         
 
                         showingList.clear();
                         nameViewList.clear();
+                        bLoading = true;
 
                         if(nLastOrder > 0) {
                             nShoingIndex = nLastOrder;
                             nLastOrder = 0;
                         }
 
-                        for(int i = 0 ; i <= nShoingIndex ; i++) {
-                            if(chattingList.get(i).getType() == ChatVO.TYPE_DISTRACTOR)
-                                continue;
+                            for(int i = 0 ; i <= nShoingIndex ; i++) {
+                                if(chattingList.get(i).getType() == ChatVO.TYPE_DISTRACTOR)
+                                    continue;
 
                             showingList.add(chattingList.get(i));
                             nameViewList.add(null);
@@ -600,7 +602,7 @@ public class ViewerActivity extends AppCompatActivity {                         
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int nEpisodeID = workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID();
+                int nEpisodeID = workVO.getSortedEpisodeList().get(nEpisodeIndex).getnEpisodeID();
                 boolean bResult = HttpClient.setEpisodeInteraction(new OkHttpClient(), workVO.getnWorkID(), pref.getString("USER_ID", "Guest"), nIteraction);
 
                 runOnUiThread(new Runnable() {
@@ -619,7 +621,7 @@ public class ViewerActivity extends AppCompatActivity {                         
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int nEpisodeID = workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID();
+                int nEpisodeID = workVO.getSortedEpisodeList().get(nEpisodeIndex).getnEpisodeID();
                 chattingList = HttpClient.getChatDataWithEpisodeIDAndInteraction(new OkHttpClient(), "" + nEpisodeID, nInteraction);
 
                 ChatVO vo = new ChatVO();
@@ -704,6 +706,9 @@ public class ViewerActivity extends AppCompatActivity {                         
     }
 
     private void setNextChat() {
+        if (!bLoading)
+            return;
+
         bFirst = false;
         if(nShoingIndex >= chattingList.size() - 1) {
             if(bPreview)
@@ -723,7 +728,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(ViewerActivity.this, EpisodeCommentActivity.class);
-                    intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID());
+                    intent.putExtra("EPISODE_ID", workVO.getSortedEpisodeList().get(nEpisodeIndex).getnEpisodeID());
                     startActivity(intent);
                 }
             });
@@ -731,7 +736,7 @@ public class ViewerActivity extends AppCompatActivity {                         
             setComment();
 
             TextView nextEpisodeBtn = findViewById(R.id.nextEpisodeBtn);
-            if(nEpisodeIndex >= workVO.getEpisodeList().size()-1) {         // 마지막 이라면
+            if(nEpisodeIndex >= workVO.getSortedEpisodeList().size()-1) {         // 마지막 이라면
                 nextEpisodeBtn.setVisibility(View.INVISIBLE);
             } else {
                 nextEpisodeBtn.setVisibility(View.VISIBLE);
@@ -1540,7 +1545,7 @@ public class ViewerActivity extends AppCompatActivity {                         
             @Override
             public void run() {
                 commentList.clear();
-                JSONObject resultObject = HttpClient.getEpisodeCommnet(new OkHttpClient(), workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID(), 1, pref.getString("USER_ID", "Guest"));
+                JSONObject resultObject = HttpClient.getEpisodeCommnet(new OkHttpClient(), workVO.getSortedEpisodeList().get(nEpisodeIndex).getnEpisodeID(), 1, pref.getString("USER_ID", "Guest"));
 
                 if(resultObject != null) {
                     try {
@@ -1603,7 +1608,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                                 }
 
                                 Intent intent = new Intent(ViewerActivity.this, StarPointPopup.class);
-                                intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID());
+                                intent.putExtra("EPISODE_ID", workVO.getSortedEpisodeList().get(nEpisodeIndex).getnEpisodeID());
                                 startActivity(intent);
                             }
                         });
@@ -1719,7 +1724,7 @@ public class ViewerActivity extends AppCompatActivity {                         
         }
 
         Intent intent = new Intent(ViewerActivity.this, StarPointPopup.class);
-        intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nEpisodeIndex).getnEpisodeID());
+        intent.putExtra("EPISODE_ID", workVO.getSortedEpisodeList().get(nEpisodeIndex).getnEpisodeID());
         startActivity(intent);
     }
 

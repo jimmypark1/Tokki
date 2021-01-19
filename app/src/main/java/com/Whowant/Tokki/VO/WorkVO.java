@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class WorkVO {
     private ArrayList<EpisodeVO> episodeList;
+    private ArrayList<EpisodeVO> sortedEpisodeList;
     private int    nWorkID;                                 // 작품 ID
     private String strWriterID;                               // 작가 ID
     private String strWriterName;                           // 작가 이름
@@ -230,5 +231,13 @@ public class WorkVO {
 
     public void setnEditAuthority(int nEditAuthority) {
         this.nEditAuthority = nEditAuthority;
+    }
+
+    public ArrayList<EpisodeVO> getSortedEpisodeList() {
+        return sortedEpisodeList;
+    }
+
+    public void setSortedEpisodeList(ArrayList<EpisodeVO> sortedEpisodeList) {
+        this.sortedEpisodeList = sortedEpisodeList;
     }
 }
