@@ -51,6 +51,8 @@ public class MainFragment extends Fragment {                                    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainCardList = new ArrayList<>();
+        recommendCardList = new ArrayList<>();
 //        setHasOptionsMenu(true);
     }
 
@@ -68,8 +70,10 @@ public class MainFragment extends Fragment {                                    
             }
         });
 
-        mainCardList = new ArrayList<>();
-        recommendCardList = new ArrayList<>();
+        mainRecyclerView.setHasFixedSize(true);
+        adapter = new MainCardListAdapter(getActivity(), mainCardList);
+        mainRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        mainRecyclerView.setAdapter(adapter);
 
 //        Intent intent = new Intent(getActivity(), EpisodeCommentActivity.class);
 //        intent.putExtra("WORK_ID", 1172078772);
@@ -103,7 +107,11 @@ public class MainFragment extends Fragment {                                    
     }
 
     private void getMainData() {
+        if(mainCardList == null)
+            return;
+
         CommonUtils.showProgressDialog(getActivity(), "최근 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
+        mainCardList.clear();
 
         new Thread(new Runnable() {
             @Override
@@ -136,10 +144,13 @@ public class MainFragment extends Fragment {                                    
                         if(mainCardList.size() < 7)
                             mainCardList.addAll(1, recommendCardList);
 
-                        mainRecyclerView.setHasFixedSize(true);
-                        adapter = new MainCardListAdapter(getActivity(), mainCardList);
-                        mainRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        mainRecyclerView.setAdapter(adapter);
+//                        mainRecyclerView.setHasFixedSize(true);
+//                        adapter = new MainCardListAdapter(getActivity(), mainCardList);
+//                        mainRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+//                        mainRecyclerView.setAdapter(adapter);
+//                        adapter.notifyDataSetChanged();
+
+                        adapter.setData(mainCardList);
                         getRecommendData();
                     }
                 });

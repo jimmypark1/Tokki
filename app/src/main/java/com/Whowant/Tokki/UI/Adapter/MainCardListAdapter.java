@@ -33,6 +33,8 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
     private Timer timer;
     private int nCurrentItem = 0;
     private final int TIMER_SEC = 2500;
+    private ArrayList singleSectionItems;
+    private ArrayList<RecentListAdapter> adapterList;
 
     private SharedPreferences pref;
 
@@ -41,9 +43,20 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
         this.mainCardList = itemsList;
     }
 
+    public void setData(ArrayList<MainCardVO> itemsList) {
+        this.mainCardList = itemsList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public MainCardHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {                                   // 현재 3줄로 이루어져 있음. 0 - 추천작, 1 - 인기작, 2 - 최신작.  viewType 으로 구분하도록 되어있음
         View v = null;
+
+        adapterList = new ArrayList<>();
+
+        for (int i = 0 ; i < 6 ; i++) {
+            adapterList.add(null);
+        }
 
         if (viewType == 0)
             v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_card_row_renewal, viewGroup, false);
@@ -143,15 +156,22 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             });
         } else if (viewType == 2) {                                    // 최신작, 인기작, 장르별 순위
             final String sectionName = mainCardList.get(position).getStrHeaderTitle();
-            ArrayList singleSectionItems = mainCardList.get(position).getAllItemInCard();
+            singleSectionItems = mainCardList.get(position).getAllItemInCard();
 
             itemRowHolder.headerTitle.setText(sectionName);
-            RecentListAdapter recentListAdapter = new RecentListAdapter(mContext, singleSectionItems, mainCardList.get(position).getViewType());
+            if (adapterList.get(position) == null) {
+                RecentListAdapter recentListAdapter = new RecentListAdapter(mContext, singleSectionItems, mainCardList.get(position).getViewType());
+                adapterList.add(position, recentListAdapter);
+                itemRowHolder.recyclerView.setAdapter(recentListAdapter);
+            } else {
+                adapterList.get(position).setData(singleSectionItems);
+            }
 
-            itemRowHolder.recyclerView.setHasFixedSize(true);
-            LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-            itemRowHolder.recyclerView.setAdapter(recentListAdapter);
-            itemRowHolder.recyclerView.setLayoutManager(lm);
+//            itemRowHolder.recyclerView.setHasFixedSize(true);
+//            LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+//            itemRowHolder.recyclerView.setLayoutManager(lm);
+//            itemRowHolder.recyclerView.setAdapter(recentListAdapter);
+//            recentListAdapter.setData(singleSectionItems);
 
             itemRowHolder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -217,6 +237,10 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             this.btnMore = view.findViewById(R.id.btnMore);
             this.recyclerView = view.findViewById(R.id.recyclerView);
             this.viewPager = view.findViewById(R.id.viewPager);
+
+            recyclerView.setHasFixedSize(true);
+            LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+            recyclerView.setLayoutManager(lm);
         }
     }
 

@@ -30,6 +30,11 @@ public class RecentListAdapter extends RecyclerView.Adapter<RecentListAdapter.Wi
         this.nViewType = nViewType;
     }
 
+    public void setData(ArrayList<WorkVO> itemsList) {
+        this.itemsList = itemsList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public WideBookCardHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 //            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.round_squre_stroke_gray_bg.main_new_row,viewGroup,false);
