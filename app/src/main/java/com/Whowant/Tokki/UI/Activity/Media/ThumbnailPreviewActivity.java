@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageAccountSettingActivity;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CharacterRegActivity;
 import com.Whowant.Tokki.UI.Activity.Work.CreateCharacterActivity;
@@ -20,6 +21,7 @@ import com.Whowant.Tokki.UI.Activity.Work.InteractionWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkEditActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkRegActivity;
+import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageSpaceFragment;
 import com.Whowant.Tokki.Utils.cropper.CropImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -32,6 +34,7 @@ import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_IMG_CROP;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY_THUMB;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_SPACE_IMG;
 
 public class ThumbnailPreviewActivity extends AppCompatActivity {
     private ImageView cropedImageView;
@@ -123,6 +126,9 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
             intent.putExtra("BG_URI", resultUri.toString());
             intent.putExtra("EDIT", bEdit);
             intent.putExtra("ORDER", nOrder);
+        } else if (nNextType == TYPE_SPACE_IMG.ordinal()) {
+            intent = new Intent(ThumbnailPreviewActivity.this, MyPageActivity.class);
+            intent.putExtra("URI", resultUri);
         } else {
             intent = new Intent(ThumbnailPreviewActivity.this, CharacterRegActivity.class);
             intent.putExtra("URI", resultUri);

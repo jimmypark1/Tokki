@@ -54,7 +54,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
 
         adapterList = new ArrayList<>();
 
-        for (int i = 0 ; i < 6 ; i++) {
+        for (int i = 0 ; i < 7 ; i++) {
             adapterList.add(null);
         }
 
@@ -187,19 +187,28 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             });
         } else { // 추천작
             final String sectionName = mainCardList.get(position).getStrHeaderTitle();
-            ArrayList singleSectionItems = mainCardList.get(position).getAllItemInCard();
+            singleSectionItems = mainCardList.get(position).getAllItemInCard();
 
             pref = mContext.getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
             String strUSerID = pref.getString("USER_NAME", "Guest");
 
             String title = strUSerID + "님을 위한 추천 작품";
             itemRowHolder.headerTitle.setText(title);
-            RecentListAdapter recentListAdapter = new RecentListAdapter(mContext, singleSectionItems, mainCardList.get(position).getViewType());
 
-            itemRowHolder.recyclerView.setHasFixedSize(true);
-            LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-            itemRowHolder.recyclerView.setAdapter(recentListAdapter);
-            itemRowHolder.recyclerView.setLayoutManager(lm);
+            if (adapterList.get(position) == null) {
+                RecentListAdapter recentListAdapter = new RecentListAdapter(mContext, singleSectionItems, mainCardList.get(position).getViewType());
+                adapterList.add(position, recentListAdapter);
+                itemRowHolder.recyclerView.setAdapter(recentListAdapter);
+            } else {
+                adapterList.get(position).setData(singleSectionItems);
+            }
+
+//            RecentListAdapter recentListAdapter = new RecentListAdapter(mContext, singleSectionItems, mainCardList.get(position).getViewType());
+//
+//            itemRowHolder.recyclerView.setHasFixedSize(true);
+//            LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+//            itemRowHolder.recyclerView.setAdapter(recentListAdapter);
+//            itemRowHolder.recyclerView.setLayoutManager(lm);
 
             itemRowHolder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override

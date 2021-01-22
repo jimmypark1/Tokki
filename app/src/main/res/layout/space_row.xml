@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/bgView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="13dp"
+        android:background="@drawable/round_shadow_btn_white_bg">
+
+        <RelativeLayout
+            android:id="@+id/profileImgLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12.4dp"
+            android:layout_marginTop="15dp"
+            android:clipChildren="false">
+
+            <ImageView
+                android:id="@+id/faceView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/user_icon" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="21dp"
+            android:layout_toRightOf="@+id/profileImgLayout"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="홍길동"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/dateTimeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameView"
+            android:layout_alignLeft="@+id/nameView"
+            android:layout_marginTop="1dp"
+            android:text="2021.01.21 10:31:08"
+            android:textColor="#d1d1d1"
+            android:textSize="12sp" />
+
+        <RelativeLayout
+            android:id="@+id/menuBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignTop="@+id/profileImgLayout"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12.4dp">
+
+            <ImageView
+                android:id="@+id/kebopBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/kebop_button" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textContentsView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dateTimeView"
+            android:layout_alignLeft="@+id/profileImgLayout"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="12.4dp"
+            android:text="가나다라마바사아자차카타파하"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/imgLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textContentsView"
+            android:layout_alignLeft="@+id/profileImgLayout"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="12.4dp">
+
+        <LinearLayout
+            android:id="@+id/imageContentsView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/no_poster_horizontal" />
+        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgLayout"
+            android:layout_alignLeft="@+id/profileImgLayout"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_i_heart" />
+
+            <TextView
+                android:id="@+id/heartPointView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:lineSpacingExtra="5sp"
+                android:text="0"
+                android:textColor="#999999"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:src="@drawable/ic_i_chat" />
+
+            <TextView
+                android:id="@+id/commentCountView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:lineSpacingExtra="5sp"
+                android:text="0"
+                android:textColor="#999999"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

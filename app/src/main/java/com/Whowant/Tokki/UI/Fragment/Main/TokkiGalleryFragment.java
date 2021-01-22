@@ -39,6 +39,7 @@ import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_IMG_CROP;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY_THUMB;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_SPACE_IMG;
 
 public class TokkiGalleryFragment extends Fragment implements AdapterView.OnItemClickListener {
     private Context mContext;
@@ -144,6 +145,9 @@ public class TokkiGalleryFragment extends Fragment implements AdapterView.OnItem
                         ThumbnailPreviewActivity.bEdit = bEdit;
                         ThumbnailPreviewActivity.nOrder = nOrder;
                         ThumbnailPreviewActivity.bInteraction = bInteraction;
+                    } else if(nType == TYPE_SPACE_IMG.ordinal()) {
+                        ThumbnailPreviewActivity.nNextType = TYPE_SPACE_IMG.ordinal();
+                        cropImgBuilder.setAspectRatio(1, 1);
                     }
 
                     cropImgBuilder.start(getActivity());

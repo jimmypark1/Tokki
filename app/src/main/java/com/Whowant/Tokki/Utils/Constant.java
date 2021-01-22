@@ -15,6 +15,7 @@ public class Constant {
         TYPE_MODIFY_THUMB,
         TYPE_MODIFY,
         TYPE_IMG_CROP,
-        TYPE_BG_CROP
+        TYPE_BG_CROP,
+        TYPE_SPACE_IMG
     }
 }

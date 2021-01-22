@@ -125,24 +125,35 @@ public class MainFragment extends Fragment {                                    
                         if(mainCardList == null || mainCardList.size() == 0) {
                             Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
+                        } else {
+                            if (recommendCardList.size() < 1) {
+                                MainCardVO vo = new MainCardVO();
+                                vo.setViewType(3);
+
+                                WorkVO emptyVO = new WorkVO();
+                                ArrayList<WorkVO> emptyList = new ArrayList<>();
+                                emptyList.add(emptyVO);
+                                emptyList.add(emptyVO);
+                                emptyList.add(emptyVO);
+                                emptyList.add(emptyVO);
+                                emptyList.add(emptyVO);
+                                vo.setAllItemInCard(emptyList);
+                                recommendCardList.clear();
+                                recommendCardList.add(vo);
+
+                                if(mainCardList.size() < 7)
+                                    mainCardList.addAll(1, recommendCardList);
+
+                                getRecommendData();
+                            } else {
+                                mainCardList.addAll(1, recommendCardList);
+                            }
+
+                            adapter.setData(mainCardList);
                         }
 
-                        MainCardVO vo = new MainCardVO();
-                        vo.setViewType(3);
 
-                        WorkVO emptyVO = new WorkVO();
-                        ArrayList<WorkVO> emptyList = new ArrayList<>();
-                        emptyList.add(emptyVO);
-                        emptyList.add(emptyVO);
-                        emptyList.add(emptyVO);
-                        emptyList.add(emptyVO);
-                        emptyList.add(emptyVO);
-                        vo.setAllItemInCard(emptyList);
-                        recommendCardList.clear();
-                        recommendCardList.add(vo);
 
-                        if(mainCardList.size() < 7)
-                            mainCardList.addAll(1, recommendCardList);
 
 //                        mainRecyclerView.setHasFixedSize(true);
 //                        adapter = new MainCardListAdapter(getActivity(), mainCardList);
@@ -150,8 +161,8 @@ public class MainFragment extends Fragment {                                    
 //                        mainRecyclerView.setAdapter(adapter);
 //                        adapter.notifyDataSetChanged();
 
-                        adapter.setData(mainCardList);
-                        getRecommendData();
+//                        adapter.setData(mainCardList);
+//                        getRecommendData();
                     }
                 });
             }
@@ -177,7 +188,8 @@ public class MainFragment extends Fragment {                                    
                             return;
                         }
 
-                        adapter.notifyDataSetChanged();
+                        adapter.setData(mainCardList);
+//                        adapter.notifyDataSetChanged();
                     }
                 });
             }

@@ -21,13 +21,16 @@ import androidx.viewpager.widget.ViewPager;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageFeedFragment;
+import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageSpaceFragment;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageTalkFragment;
+import com.Whowant.Tokki.UI.Fragment.Work.InteractionMainFragment;
 import com.Whowant.Tokki.UI.Popup.TokkiSNSPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.DeviceUtils;
 import com.Whowant.Tokki.Utils.SimplePreference;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
@@ -41,8 +44,11 @@ import okhttp3.OkHttpClient;
 public class MyPageActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
+    AppBarLayout appbar;
     ViewPager viewPager;
     MyPageAdapter myPageAdapter;
+    Fragment fragment;
+    MyPageSpaceFragment.MyPageSpaceAdapter myPageSpaceAdapter;
 
     ImageView photoIv;
     TextView nameTv;
@@ -61,6 +67,7 @@ public class MyPageActivity extends AppCompatActivity {
     private int  nTotalAcquireCarrot = 0;
 
     private boolean isPopup = false;
+    boolean isFirst = true;
 
     int[] levelRes = new int[]{
             R.drawable.ic_i_level_1, R.drawable.ic_i_level_2, R.drawable.ic_i_level_3, R.drawable.ic_i_level_4, R.drawable.ic_i_level_5,
@@ -85,6 +92,14 @@ public class MyPageActivity extends AppCompatActivity {
 
         initView();
 //        initData();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        MyPageSpaceFragment myPageSpaceFragment = (MyPageSpaceFragment) myPageAdapter.getItem(1);
+        myPageSpaceFragment.imageSetting(intent);
     }
 
     @Override
@@ -117,6 +132,7 @@ public class MyPageActivity extends AppCompatActivity {
 
     private void initView() {
         tabLayout = findViewById(R.id.tabLayout);
+        appbar = findViewById(R.id.appBarLayout);
         viewPager = findViewById(R.id.viewPager);
 
         myPageAdapter = new MyPageAdapter(this, getSupportFragmentManager());
@@ -173,10 +189,37 @@ public class MyPageActivity extends AppCompatActivity {
             this.mContext = context;
 
             fragments.add(new MyPageFeedFragment());
-            fragments.add(new MyPageTalkFragment());
+            fragments.add(new MyPageSpaceFragment());
 
             titles.add("피드");
-            titles.add("대화");
+            titles.add("스페이스");
+
+            appbar.setExpanded(true, true);
+
+
+
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    if (!isFirst) {
+                        appbar.setExpanded(false, true);
+                    }
+
+                    isFirst = false;
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+                    appbar.setExpanded(false, true);
+                }
+            });
+
         }
 
         @NonNull

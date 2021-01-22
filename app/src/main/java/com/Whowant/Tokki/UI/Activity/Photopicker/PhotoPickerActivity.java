@@ -38,6 +38,7 @@ import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_COVER_THUMB;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_FACE_IMG;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY_THUMB;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_SPACE_IMG;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_VIDEO;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_BG_CROP;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_IMG_CROP;
@@ -171,6 +172,9 @@ public class PhotoPickerActivity extends AppCompatActivity {
                         ThumbnailPreviewActivity.bEdit = bEdit;
                         ThumbnailPreviewActivity.nOrder = nOrder;
                         ThumbnailPreviewActivity.bInteraction = bInteraction;
+                    } else if (nType == TYPE_SPACE_IMG.ordinal()) {
+                        ThumbnailPreviewActivity.nNextType = TYPE_SPACE_IMG.ordinal();
+                        cropImgBuilder.setAspectRatio(1, 1);
                     }
 
                     cropImgBuilder.start(PhotoPickerActivity.this);

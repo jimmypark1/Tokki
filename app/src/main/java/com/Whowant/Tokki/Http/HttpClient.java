@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Space;
 import android.widget.Toast;
 
 import com.Whowant.Tokki.UI.Popup.CommonPopup;
@@ -25,6 +26,7 @@ import com.Whowant.Tokki.VO.MainCardVO;
 import com.Whowant.Tokki.VO.MessageThreadVO;
 import com.Whowant.Tokki.VO.MessageVO;
 import com.Whowant.Tokki.VO.NoticeVO;
+import com.Whowant.Tokki.VO.SpaceVO;
 import com.Whowant.Tokki.VO.TagVo;
 import com.Whowant.Tokki.VO.UserInfoVO;
 import com.Whowant.Tokki.VO.WaitingVO;
@@ -5335,6 +5337,43 @@ public class HttpClient {
         } catch (JSONException e) {
             e.printStackTrace();
             resultList = null;
+        }
+
+        return resultList;
+    }
+
+    public static ArrayList<SpaceVO> getSpacePosts(OkHttpClient httpClient) {
+        ArrayList<SpaceVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetSpacePosts")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            JSONArray jsonArray = resultJsonObject.getJSONArray("POSTS");
+
+            for (int i = 0 ; i < jsonArray.length() ; i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+
+                SpaceVO vo = new SpaceVO();
+                vo.setUserID(object.getString("USER_ID"));
+                vo.setPostID(object.getInt("POST_ID"));
+                vo.setUserName(object.getString("USER_NAME"));
+                vo.setPoster(object.getString("POSTER"));
+                vo.setDescription(object.getString("DESCRIPTION"));
+                vo.setLikeCount(object.getInt("LIKE_COUNT"));
+                vo.setCommentCount(object.getInt("COMMENT_COUNT"));
+
+                resultList.add(vo);
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
         }
 
         return resultList;
