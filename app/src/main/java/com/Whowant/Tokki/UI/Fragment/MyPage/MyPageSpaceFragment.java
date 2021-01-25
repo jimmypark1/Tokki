@@ -13,23 +13,27 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Mypage.SpacePostCommentActivity;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.SimplePreference;
 import com.Whowant.Tokki.VO.SpaceVO;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -59,7 +63,7 @@ public class MyPageSpaceFragment extends Fragment {
     TextView textView;
     EditText editText;
     MyPageSpaceAdapter adapter;
-    ArrayList<SpaceVO> postList;
+    ArrayList<SpaceVO> postList = new ArrayList<>();
 
     String strFilePath;
 
@@ -75,6 +79,7 @@ public class MyPageSpaceFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_my_page_space, container, false);
+        getSpacePosts();
         recyclerView = v.findViewById(R.id.recyclerView);
         adapter = new MyPageSpaceAdapter(getContext(), postList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -158,20 +163,50 @@ public class MyPageSpaceFragment extends Fragment {
                 Glide.with(context)
                         .asBitmap() // some .jpeg files are actually gif
                         .load(strPhoto)
-                        .placeholder(R.drawable.no_poster_horizontal)
                         .into(viewHolder.posterView);
             } else {
+//                Glide.with(context)
+//                        .asBitmap() // some .jpeg files are actually gif
+//                        .load(R.drawable.no_poster_horizontal)
+//                        .into(viewHolder.posterView);
+            }
+
+            String userPhoto = item.getUserPhoto();
+
+            if (!TextUtils.isEmpty(userPhoto)) {
+                if (!userPhoto.startsWith("http"))
+                    userPhoto = CommonUtils.strDefaultUrl + "images/" + userPhoto;
+
                 Glide.with(context)
                         .asBitmap() // some .jpeg files are actually gif
-                        .load(R.drawable.no_poster_horizontal)
-                        .into(viewHolder.posterView);
+                        .load(userPhoto)
+                        .placeholder(R.drawable.user_icon)
+                        .apply(new RequestOptions().circleCrop())
+                        .into(viewHolder.faceView);
             }
 
             viewHolder.nameView.setText(item.getUserName());
-//            viewHolder.dateView.setText(CommonUtils.strGetTime(item.getDateTime()));
+            viewHolder.dateView.setText(item.getDateTime()); // 날짜 형식 수정해야 함
             viewHolder.contentsView.setText(item.getDescription());
-            viewHolder.likeCountView.setText(item.getLikeCount());
-            viewHolder.commentCountView.setText(item.getCommentCount());
+            viewHolder.likeCountView.setText(item.getLikeCount() + "");
+            viewHolder.commentCountView.setText(item.getCommentCount() + "");
+
+            viewHolder.heartBtnView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    item.setLikeCount(item.getLikeCount() + 1);
+                    clickLikeBtn(item.getPostID());
+                }
+            });
+
+            viewHolder.commentView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), SpacePostCommentActivity.class);
+                    intent.putExtra("POST_ID", item.getPostID());
+                    startActivity(intent);
+                }
+            });
 
             if (item.getUserID().equals(SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest")) || SimplePreference.getStringPreference(context, "USER_INFO", "ADMIN", "N").equals("Y")) {
                 // 삭제 메뉴
@@ -190,6 +225,7 @@ public class MyPageSpaceFragment extends Fragment {
     public class MyPageSpaceViewHolder extends RecyclerView.ViewHolder {
 
         ImageView faceView;
+        ImageView heartBtnView;
         TextView nameView;
         TextView dateView;
         TextView contentsView;
@@ -197,15 +233,18 @@ public class MyPageSpaceFragment extends Fragment {
         TextView commentCountView;
         ImageView posterView;
         RelativeLayout menuLayout;
+        LinearLayout commentView;
 
         public MyPageSpaceViewHolder(@NonNull View itemView) {
             super(itemView);
 
             faceView = itemView.findViewById(R.id.faceView);
+            heartBtnView = itemView.findViewById(R.id.heartBtn);
             nameView = itemView.findViewById(R.id.nameView);
             dateView = itemView.findViewById(R.id.dateTimeView);
             contentsView = itemView.findViewById(R.id.textContentsView);
             likeCountView = itemView.findViewById(R.id.heartPointView);
+            commentView = itemView.findViewById(R.id.commentView);
             commentCountView = itemView.findViewById(R.id.commentCountView);
             posterView = itemView.findViewById(R.id.imageView);
             menuLayout = itemView.findViewById(R.id.menuBtn);
@@ -319,7 +358,8 @@ public class MyPageSpaceFragment extends Fragment {
                     return;
 
                 ArrayList<SpaceVO> arrayList;
-                arrayList = HttpClient.getSpacePosts(new OkHttpClient());
+                String order = "desc";
+                arrayList = HttpClient.getSpacePosts(new OkHttpClient(), order);
 
                 if (arrayList != null)
                     postList.addAll(arrayList);
@@ -338,5 +378,26 @@ public class MyPageSpaceFragment extends Fragment {
                 });
             }
         }).start();
+    }
+
+    public void clickLikeBtn(final int postID) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean bResult = HttpClient.requestLikeSpace(new OkHttpClient(), postID);
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(bResult) {
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getActivity(), "좋아요 표시에 실패하였습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        }).start();
+
     }
 }

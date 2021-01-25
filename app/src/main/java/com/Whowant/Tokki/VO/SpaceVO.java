@@ -8,6 +8,8 @@ public class SpaceVO {
     private String description;
     private int likeCount;
     private int commentCount;
+    private String dateTime;
+    private String userPhoto;
 
     public String getUserID() {
         return userID;
@@ -63,5 +65,21 @@ public class SpaceVO {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public String getUserPhoto() {
+        return userPhoto;
+    }
+
+    public void setUserPhoto(String userPhoto) {
+        this.userPhoto = userPhoto;
     }
 }

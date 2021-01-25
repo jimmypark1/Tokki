@@ -824,7 +824,7 @@ public class HttpClient {
                 vo.setStrEventPopupFile(object.getString("EVENT_POPUP_FILE"));
                 vo.setStrRegisterDate(object.getString("REGISTER_DATE"));
 
-                if(object.getInt("EVENT_TYPE") == 20)
+                if (object.getInt("EVENT_TYPE") == 20)
                     continue;
 
                 vo.setnEventType(object.getInt("EVENT_TYPE"));
@@ -1440,7 +1440,7 @@ public class HttpClient {
                 vo.setCreatedDate(object.getString("CREATED_DATE"));
                 vo.setLastMsg(object.getString("LAST_MESSAGE"));
 
-                if(object.getString("LAST_MESSAGE") == null || object.getString("LAST_MESSAGE").equals("null"))
+                if (object.getString("LAST_MESSAGE") == null || object.getString("LAST_MESSAGE").equals("null"))
                     continue;
 
                 resultList.add(vo);
@@ -2932,7 +2932,7 @@ public class HttpClient {
             if (resultObject.has("EPISODE_LIST")) {
                 JSONArray episodeArray = resultObject.getJSONArray("EPISODE_LIST");
 
-                for (int i = 0 ; i < episodeArray.length(); i++) {
+                for (int i = 0; i < episodeArray.length(); i++) {
                     JSONObject object = episodeArray.getJSONObject(i);
                     EpisodeVO vo = new EpisodeVO();
 
@@ -2946,7 +2946,7 @@ public class HttpClient {
                     vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                     vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                     vo.setStrSubmit(object.getString("WORK_SUBMIT"));
-                    if(object.has("TRASH_ID")) {
+                    if (object.has("TRASH_ID")) {
                         vo.setnTrashID(object.getInt("TRASH_ID"));
                         vo.setStrIsolatedDate(object.getString("ISOLATED_DATE"));
                     }
@@ -2972,7 +2972,7 @@ public class HttpClient {
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
-                        if(object.has("TRASH_ID")) {
+                        if (object.has("TRASH_ID")) {
                             vo.setnTrashID(object.getInt("TRASH_ID"));
                             vo.setStrIsolatedDate(object.getString("ISOLATED_DATE"));
                         }
@@ -2997,7 +2997,7 @@ public class HttpClient {
                         vo.setnCommentCount(object.getInt("COMMENT_COUNT"));
                         vo.setDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                         vo.setStrSubmit(object.getString("WORK_SUBMIT"));
-                        if(object.has("TRASH_ID")) {
+                        if (object.has("TRASH_ID")) {
                             vo.setnTrashID(object.getInt("TRASH_ID"));
                             vo.setStrIsolatedDate(object.getString("ISOLATED_DATE"));
                         }
@@ -5342,11 +5342,11 @@ public class HttpClient {
         return resultList;
     }
 
-    public static ArrayList<SpaceVO> getSpacePosts(OkHttpClient httpClient) {
+    public static ArrayList<SpaceVO> getSpacePosts(OkHttpClient httpClient, String order) {
         ArrayList<SpaceVO> resultList = new ArrayList<>();
 
         Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetSpacePosts")
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetSpacePosts&ORDER=" + order)
                 .get()
                 .build();
 
@@ -5358,7 +5358,7 @@ public class HttpClient {
             JSONObject resultJsonObject = new JSONObject(strResult);
             JSONArray jsonArray = resultJsonObject.getJSONArray("POSTS");
 
-            for (int i = 0 ; i < jsonArray.length() ; i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
 
                 SpaceVO vo = new SpaceVO();
@@ -5369,6 +5369,8 @@ public class HttpClient {
                 vo.setDescription(object.getString("DESCRIPTION"));
                 vo.setLikeCount(object.getInt("LIKE_COUNT"));
                 vo.setCommentCount(object.getInt("COMMENT_COUNT"));
+                vo.setDateTime(object.getString("DATE"));
+                vo.setUserPhoto(object.getString("USER_PHOTO"));
 
                 resultList.add(vo);
             }
@@ -5378,4 +5380,29 @@ public class HttpClient {
 
         return resultList;
     }
+
+    public static boolean requestLikeSpace(OkHttpClient httpClient, int postID) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=ClickLike&POST_ID=" + postID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+            else {
+                return false;
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 }
