@@ -5381,9 +5381,9 @@ public class HttpClient {
         return resultList;
     }
 
-    public static boolean requestLikeSpace(OkHttpClient httpClient, int postID) {
+    public static boolean requestLikeSpace(OkHttpClient httpClient, int postID, String userID) {
         Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=ClickLike&POST_ID=" + postID)
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=ClickLike&POST_ID=" + postID + "&USER_ID=" + userID)
                 .get()
                 .build();
 
@@ -5394,6 +5394,30 @@ public class HttpClient {
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
             if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+            else {
+                return false;
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static boolean checkIsLike(OkHttpClient httpClient, int postID, String userID) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=isLike&POST_ID=" + postID + "&USER_ID=" + userID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            if (resultJsonObject.getString("RESULTS").equals("SUCCESS"))
                 return true;
             else {
                 return false;

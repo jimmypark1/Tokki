@@ -156,6 +156,7 @@ public class MyPageSpaceFragment extends Fragment {
             MyPageSpaceViewHolder viewHolder = (MyPageSpaceViewHolder) holder;
 
             String strPhoto = item.getPoster();
+            viewHolder.posterView.setImageResource(0);
             if (strPhoto != null && !strPhoto.equals("null") && !strPhoto.equals("NULL") && strPhoto.length() > 0) {
                 if (!strPhoto.startsWith("http"))
                     strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
@@ -191,11 +192,31 @@ public class MyPageSpaceFragment extends Fragment {
             viewHolder.likeCountView.setText(item.getLikeCount() + "");
             viewHolder.commentCountView.setText(item.getCommentCount() + "");
 
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final boolean bResult = isLike(item.getPostID(), SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest"));
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (bResult) {
+                                viewHolder.heartBtnView.setImageResource(R.drawable.ic_i_heart_red);
+                            } else {
+                                viewHolder.heartBtnView.setImageResource(R.drawable.ic_i_heart);
+                            }
+                        }
+                    });
+                }
+            }).start();
+
             viewHolder.heartBtnView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    item.setLikeCount(item.getLikeCount() + 1);
-                    clickLikeBtn(item.getPostID());
+                    clickLikeBtn(item.getPostID(), SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest"));
+                    adapter.notifyDataSetChanged();
+                    item.setLikeCount(item.getLikeCount());
+//                    getSpacePosts();
                 }
             });
 
@@ -217,7 +238,6 @@ public class MyPageSpaceFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-//            return 3;
             return postList.size();
         }
     }
@@ -225,7 +245,7 @@ public class MyPageSpaceFragment extends Fragment {
     public class MyPageSpaceViewHolder extends RecyclerView.ViewHolder {
 
         ImageView faceView;
-        ImageView heartBtnView;
+        final ImageView heartBtnView;
         TextView nameView;
         TextView dateView;
         TextView contentsView;
@@ -380,11 +400,11 @@ public class MyPageSpaceFragment extends Fragment {
         }).start();
     }
 
-    public void clickLikeBtn(final int postID) {
+    public void clickLikeBtn(final int postID, String userID) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean bResult = HttpClient.requestLikeSpace(new OkHttpClient(), postID);
+                boolean bResult = HttpClient.requestLikeSpace(new OkHttpClient(), postID, userID);
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -399,5 +419,10 @@ public class MyPageSpaceFragment extends Fragment {
             }
         }).start();
 
+    }
+
+    public boolean isLike(int postID, String userID) {
+        boolean bResult = HttpClient.checkIsLike(new OkHttpClient(), postID, userID);
+        return bResult;
     }
 }

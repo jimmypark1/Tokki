@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Whowant.Tokki.R;
-import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
-import com.Whowant.Tokki.UI.Activity.Work.EpisodeCommentActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
-import com.Whowant.Tokki.VO.CommentVO;
 import com.Whowant.Tokki.VO.SpaceCommentVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -42,8 +41,10 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class SpacePostCommentActivity extends AppCompatActivity {
@@ -79,6 +80,27 @@ public class SpacePostCommentActivity extends AppCompatActivity {
         inputTextView = findViewById(R.id.inputTextView);
         sendBtn = findViewById(R.id.sendBtn);
 
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(inputTextView.getText().toString().length() > 0) {
+                    sendBtn.setBackgroundResource(R.drawable.comment_enter_btn_blue);
+                } else {
+                    sendBtn.setBackgroundResource(R.drawable.comment_enter_btn_gray);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+
+        inputTextView.addTextChangedListener(textWatcher);
+
     }
 
     @Override
@@ -105,13 +127,28 @@ public class SpacePostCommentActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(inputTextView.getWindowToken(), 0);
     }
 
-    private void requestSendComment(final String strComment) {
+    private void requestSendComment(String strComment) {
+        RequestBody requestBody = null;
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+
         try {
-            String url = CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=SetSpaceComment&POST_ID=" + postID + "&USER_ID=" + userID + "&COMMENT=" + strComment;
+//            String url = CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=SetSpaceComment&POST_ID=" + postID + "&USER_ID=" + userID + "&COMMENT=" + strComment;
+//
+//            Request request = new Request.Builder()
+//                    .url(url)
+//                    .get()
+//                    .build();
+
+            builder.setType(MultipartBody.FORM)
+                    .addFormDataPart("USER_ID", userID)
+                    .addFormDataPart("COMMENT", strComment)
+                    .addFormDataPart("POST_ID", ""+ postID);
+
+            requestBody = builder.build();
 
             Request request = new Request.Builder()
-                    .url(url)
-                    .get()
+                    .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=SetSpaceComment")
+                    .post(requestBody)
                     .build();
 
             new OkHttpClient().newCall(request).enqueue(new Callback() {
