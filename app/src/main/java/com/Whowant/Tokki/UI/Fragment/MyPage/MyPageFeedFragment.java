@@ -456,7 +456,7 @@ public class MyPageFeedFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CommonUtils.hideProgressDialog();
+//                        CommonUtils.hideProgressDialog();
 
                         if (readArrayList == null) {
                             Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
@@ -472,7 +472,7 @@ public class MyPageFeedFragment extends Fragment {
 
     // 내가 팔로잉 중인 사람들
     private void getMyFollowingList() {
-        CommonUtils.showProgressDialog(getActivity(), "팔로우 리스트를 가져오고 있습니다.");
+//        CommonUtils.showProgressDialog(getActivity(), "팔로우 리스트를 가져오고 있습니다.");
         followArrayList.clear();
 
         new Thread(new Runnable() {

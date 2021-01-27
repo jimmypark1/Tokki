@@ -5382,6 +5382,7 @@ public class HttpClient {
     }
 
     public static boolean requestLikeSpace(OkHttpClient httpClient, int postID, String userID) {
+//        int likeCount = 0;
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=ClickLike&POST_ID=" + postID + "&USER_ID=" + userID)
                 .get()
@@ -5393,9 +5394,11 @@ public class HttpClient {
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
-            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS")) {
+//                likeCount = resultJsonObject.getInt("COUNT");
+//                return likeCount;
                 return true;
-            else {
+            } else {
                 return false;
             }
         } catch (IOException | JSONException e) {
@@ -5428,5 +5431,46 @@ public class HttpClient {
 
         return false;
     }
+
+//    public static boolean requestSendComment(OkHttpClient httpClient, int postID, String userID, String strComment) {
+//        boolean bResult = false;
+//
+//        JSONObject jsonBody = new JSONObject();
+//
+//        try {
+//            jsonBody.put("USER_ID", userID);
+//            jsonBody.put("POST_ID", postID + "");
+//            jsonBody.put("COMMENT", strComment);
+//
+//            String jsonString = jsonBody.toString();
+//            RequestBody requestBody = RequestBody.create(JSON, jsonString);
+//
+//            Request request = new Request.Builder()
+//                    .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=SetSpaceComment")
+//                    .post(requestBody)
+//                    .build();
+//
+//            try (Response response = httpClient.newCall(request).execute()) {
+//                if (response.code() != 200)
+//                    return false;
+//
+//                String strResult = response.body().string();
+//                JSONObject resultJsonObject = new JSONObject(strResult);
+//
+//                if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+//                    return true;
+//                else
+//                    return false;
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return bResult;
+//    }
 
 }

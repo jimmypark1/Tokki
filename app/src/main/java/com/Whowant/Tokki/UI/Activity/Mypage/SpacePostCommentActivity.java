@@ -41,11 +41,12 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import static com.Whowant.Tokki.Http.HttpClient.JSON;
 
 public class SpacePostCommentActivity extends AppCompatActivity {
     private EditText inputTextView;
@@ -127,9 +128,30 @@ public class SpacePostCommentActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(inputTextView.getWindowToken(), 0);
     }
 
+//    private void requestSendComment(String strComment) {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                boolean bResult = HttpClient.requestSendComment(new OkHttpClient(), postID , userID, strComment);
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (!bResult) {
+//                            Toast.makeText(SpacePostCommentActivity.this, "서버와의 통신에 실패했습니다", Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//
+//                        inputTextView.setText("");
+//                        getCommentList(postID);
+//                    }
+//                });
+//            }
+//        }).start();
+//    }
+
     private void requestSendComment(String strComment) {
-        RequestBody requestBody = null;
-        MultipartBody.Builder builder = new MultipartBody.Builder();
+        JSONObject jsonBody = new JSONObject();
 
         try {
 //            String url = CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=SetSpaceComment&POST_ID=" + postID + "&USER_ID=" + userID + "&COMMENT=" + strComment;
@@ -139,12 +161,12 @@ public class SpacePostCommentActivity extends AppCompatActivity {
 //                    .get()
 //                    .build();
 
-            builder.setType(MultipartBody.FORM)
-                    .addFormDataPart("USER_ID", userID)
-                    .addFormDataPart("COMMENT", strComment)
-                    .addFormDataPart("POST_ID", ""+ postID);
+            jsonBody.put("USER_ID", userID);
+            jsonBody.put("COMMENT", strComment);
+            jsonBody.put("POST_ID", postID + "");
 
-            requestBody = builder.build();
+           String jsonString = jsonBody.toString();
+           RequestBody requestBody = RequestBody.create(JSON, jsonString);
 
             Request request = new Request.Builder()
                     .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=SetSpaceComment")

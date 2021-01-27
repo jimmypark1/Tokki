@@ -173,7 +173,7 @@ public class MainFragment extends Fragment {                                    
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if(getActivity() == null)
+                if(getActivity() == null || mainCardList == null || mainCardList.size() == 0)
                     return;
 
                 SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);

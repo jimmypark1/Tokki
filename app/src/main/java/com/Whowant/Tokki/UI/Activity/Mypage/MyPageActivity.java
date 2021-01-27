@@ -284,7 +284,7 @@ public class MyPageActivity extends AppCompatActivity {
     }
 
     private void getMyFollowInfo() {
-        CommonUtils.showProgressDialog(mActivity, "서버와 통신중입니다. 잠시만 기다려 주세요.");
+//        CommonUtils.showProgressDialog(mActivity, "서버와 통신중입니다. 잠시만 기다려 주세요.");
 
         new Thread(new Runnable() {
             @Override
@@ -297,7 +297,7 @@ public class MyPageActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CommonUtils.hideProgressDialog();
+//                        CommonUtils.hideProgressDialog();
                         try {
                             if (resultObject == null)
                                 return;
@@ -323,7 +323,7 @@ public class MyPageActivity extends AppCompatActivity {
     }
 
     private void getMyCarrotInfo() {
-        CommonUtils.showProgressDialog(mActivity, "서버와 통신중입니다. 잠시만 기다려 주세요.");
+//        CommonUtils.showProgressDialog(mActivity, "서버와 통신중입니다. 잠시만 기다려 주세요.");
 
         new Thread(new Runnable() {
             @Override
@@ -337,7 +337,7 @@ public class MyPageActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CommonUtils.hideProgressDialog();
+//                        CommonUtils.hideProgressDialog();
 
                         try {
                             if (resultObject == null) {

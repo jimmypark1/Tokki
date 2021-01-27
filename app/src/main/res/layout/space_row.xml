@@ -142,7 +142,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_i_chat" />
+                    android:src="@drawable/ic_i_comment" />
 
                 <TextView
                     android:id="@+id/commentCountView"

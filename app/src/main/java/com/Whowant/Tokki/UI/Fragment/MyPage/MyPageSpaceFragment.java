@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -82,10 +83,19 @@ public class MyPageSpaceFragment extends Fragment {
         getSpacePosts();
         recyclerView = v.findViewById(R.id.recyclerView);
         adapter = new MyPageSpaceAdapter(getContext(), postList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
-        imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
+        imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
+                return false;
+            }
+        });
 
         addPhotoBtn = v.findViewById(R.id.contentsAddBtn);
         addPhotoBtn.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +143,22 @@ public class MyPageSpaceFragment extends Fragment {
         getSpacePosts();
     }
 
+    public class WrapContentLinearLayoutManager extends LinearLayoutManager { // IndexOutOfBoundsException 처리용
+
+        public WrapContentLinearLayoutManager(Context context, int vertical, boolean b) {
+            super(context, vertical, b);
+        }
+
+        @Override
+        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            try {
+                super.onLayoutChildren(recycler, state);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public class MyPageSpaceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         Context context;
@@ -141,6 +167,11 @@ public class MyPageSpaceFragment extends Fragment {
         public MyPageSpaceAdapter(Context context, ArrayList<SpaceVO> arrayList) {
             this.context = context;
             this.postList = arrayList;
+        }
+
+        public void setData(ArrayList<SpaceVO> postList) {
+            this.postList = postList;
+            notifyDataSetChanged();
         }
 
         @NonNull
@@ -152,6 +183,9 @@ public class MyPageSpaceFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            if(postList.size() -1 < position)
+                return;
+
             SpaceVO item = postList.get(position);
             MyPageSpaceViewHolder viewHolder = (MyPageSpaceViewHolder) holder;
 
@@ -186,12 +220,6 @@ public class MyPageSpaceFragment extends Fragment {
                         .into(viewHolder.faceView);
             }
 
-            viewHolder.nameView.setText(item.getUserName());
-            viewHolder.dateView.setText(item.getDateTime()); // 날짜 형식 수정해야 함
-            viewHolder.contentsView.setText(item.getDescription());
-            viewHolder.likeCountView.setText(item.getLikeCount() + "");
-            viewHolder.commentCountView.setText(item.getCommentCount() + "");
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -210,13 +238,34 @@ public class MyPageSpaceFragment extends Fragment {
                 }
             }).start();
 
+            viewHolder.nameView.setText(item.getUserName());
+            viewHolder.dateView.setText(item.getDateTime()); // 날짜 형식 수정해야 함
+            viewHolder.contentsView.setText(item.getDescription());
+            viewHolder.likeCountView.setText(item.getLikeCount() + "");
+            viewHolder.commentCountView.setText(item.getCommentCount() + "");
+
             viewHolder.heartBtnView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickLikeBtn(item.getPostID(), SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest"));
-                    adapter.notifyDataSetChanged();
-                    item.setLikeCount(item.getLikeCount());
-//                    getSpacePosts();
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+                            clickLikeBtn(item.getPostID(), SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest"));
+//                            getActivity().runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    getSpacePosts();
+//                                    /*
+//                                    if (likeCount >= 0) {
+//                                        viewHolder.likeCountView.setText(likeCount + "");
+//                                        return;
+//                                    } else
+//                                        Toast.makeText(context, "좋아요 표시에 실패하였습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+//                                     */
+//                                }
+//                            });
+//                        }
+//                    }).start();
                 }
             });
 
@@ -302,19 +351,19 @@ public class MyPageSpaceFragment extends Fragment {
             SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
 
             builder.setType(MultipartBody.FORM)
-                        .addFormDataPart("USER_ID", pref.getString("USER_ID", "Guest"))
-                        .addFormDataPart("USER_NAME", SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_NAME", ""));
+                    .addFormDataPart("USER_ID", pref.getString("USER_ID", "Guest"))
+                    .addFormDataPart("USER_NAME", SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_NAME", ""));
 
             String strDescription = editText.getText().toString();
 
-            if(strDescription.length() > 0)
+            if (strDescription.length() > 0)
                 builder.addFormDataPart("DESCRIPTION", strDescription);
             else
                 builder.addFormDataPart("DESCRIPTION", "");
 
-            if(strFilePath != null) {
+            if (strFilePath != null) {
                 sourceFile = new File(strFilePath);
-                String filename = strFilePath.substring(strFilePath.lastIndexOf("/")+1);
+                String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
                 builder.addFormDataPart("POSTER", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
             }
 
@@ -341,7 +390,7 @@ public class MyPageSpaceFragment extends Fragment {
                             try {
                                 JSONObject resultObject = new JSONObject(strResult);
 
-                                if(resultObject.getString("RESULT").equals("SUCCESS")) {
+                                if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                     Toast.makeText(getActivity(), "등록되었습니다.", Toast.LENGTH_LONG).show();
                                     addPhotoBtn.setImageResource(R.drawable.circle_cccccc);
                                     editText.setText("");
@@ -371,6 +420,7 @@ public class MyPageSpaceFragment extends Fragment {
     public void getSpacePosts() {
         postList.clear();
 
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -393,7 +443,7 @@ public class MyPageSpaceFragment extends Fragment {
                             Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        adapter.notifyDataSetChanged();
+                        adapter.setData(postList);
                     }
                 });
             }
@@ -409,8 +459,9 @@ public class MyPageSpaceFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(bResult) {
-                            adapter.notifyDataSetChanged();
+                        if (bResult) {
+                            getSpacePosts();
+                            //adapter.notifyDataSetChanged();
                         } else {
                             Toast.makeText(getActivity(), "좋아요 표시에 실패하였습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
                         }
@@ -418,7 +469,6 @@ public class MyPageSpaceFragment extends Fragment {
                 });
             }
         }).start();
-
     }
 
     public boolean isLike(int postID, String userID) {
