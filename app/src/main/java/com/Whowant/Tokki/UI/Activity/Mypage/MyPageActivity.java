@@ -50,6 +50,7 @@ public class MyPageActivity extends AppCompatActivity {
     Fragment fragment;
     MyPageSpaceFragment.MyPageSpaceAdapter myPageSpaceAdapter;
 
+    ImageView backIv;
     ImageView photoIv;
     TextView nameTv;
     TextView carrotTv;
@@ -127,6 +128,19 @@ public class MyPageActivity extends AppCompatActivity {
             photoIv.setImageResource(R.drawable.user_icon);
         }
 
+        String strBack = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_BACKGROUND", "");
+
+        if (strBack != null && strBack.length() > 0 && !strBack.equals("null")) {
+            if (!strBack.startsWith("http"))
+                strBack = CommonUtils.strDefaultUrl + "images/" + strBack;
+
+            Glide.with(mActivity)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .load(strBack)
+                    .apply(new RequestOptions().circleCrop())
+                    .into(backIv);
+        }
+
         initData();
     }
 
@@ -139,6 +153,7 @@ public class MyPageActivity extends AppCompatActivity {
         viewPager.setAdapter(myPageAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+        backIv = findViewById(R.id.background);
         photoIv = findViewById(R.id.iv_my_page_photo);
         nameTv = findViewById(R.id.tv_my_page_name);
         carrotTv = findViewById(R.id.tv_my_page_carrot);
@@ -164,6 +179,19 @@ public class MyPageActivity extends AppCompatActivity {
                     .placeholder(R.drawable.user_icon)
                     .apply(new RequestOptions().circleCrop())
                     .into(photoIv);
+        }
+
+        String strBack = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_BACKGROUND", "");
+
+        if (!TextUtils.isEmpty(strBack)) {
+            if (!strBack.startsWith("http"))
+                strBack = CommonUtils.strDefaultUrl + "images/" + strBack;
+
+            Glide.with(mActivity)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .load(strBack)
+                    .apply(new RequestOptions().centerCrop())
+                    .into(backIv);
         }
 
         nameTv.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_NAME", ""));

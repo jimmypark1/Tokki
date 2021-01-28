@@ -55,6 +55,7 @@ import okhttp3.OkHttpClient;
 
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_BG;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE_BG;
 
 public class MyPageAccountSettingActivity extends AppCompatActivity {
 
@@ -92,6 +93,7 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
     private boolean bCamera = false;
     private SharedPreferences pref;
     private Uri mPhotoUri;
+    private Uri mBackgroundUri;
 
     Activity mActivity;
 
@@ -110,18 +112,22 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
                     .load(Uri.parse(profileUri))
                     .apply(new RequestOptions().circleCrop())
                     .into(photoIv);
+
+            mPhotoUri = Uri.parse(profileUri);
+            String strPhotoPath = CommonUtils.getRealPathFromURI(this, mPhotoUri);
+            requestSendPhoto(strPhotoPath);
         }
         if (bgUri != null) {
+            mBackgroundUri = Uri.parse(bgUri);
 //            bgIv.setBackgroundResource(0);
             Glide.with(this)
                     .asBitmap() // some .jpeg files are actually gif
-                    .load(Uri.parse(bgUri))
+                    .load(mBackgroundUri)
                     .into(bgIv);
-        }
 
-        mPhotoUri = Uri.parse(profileUri);
-        String strPhotoPath = CommonUtils.getRealPathFromURI(this, mPhotoUri);
-        requestSendPhoto(strPhotoPath);
+            String strBackgroundPath = CommonUtils.getRealPathFromURI(this, mBackgroundUri);
+            requestSendBackgroundPhoto(strBackgroundPath);
+        }
     }
 
     @Override
@@ -169,6 +175,7 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
     private void initData() {
         // 마이 페이지 화면 갱신
         String photoUrl = SimplePreference.getStringPreference(this, "USER_INFO", "USER_PHOTO", "");
+        String backUrl = SimplePreference.getStringPreference(this, "USER_INFO", "USER_BACKGROUND", "");
 
         if (!TextUtils.isEmpty(photoUrl)) {
             if (!photoUrl.startsWith("http"))
@@ -180,6 +187,18 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
                     .placeholder(R.drawable.user_icon)
                     .apply(new RequestOptions().circleCrop())
                     .into(photoIv);
+        }
+
+        if (!TextUtils.isEmpty(backUrl)) {
+            if (!backUrl.startsWith("http"))
+                backUrl = CommonUtils.strDefaultUrl + "images/" + backUrl;
+
+            Glide.with(mActivity)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .load(backUrl)
+                    .placeholder(R.drawable.round_4_dddddd)
+                    .apply(new RequestOptions().centerCrop())
+                    .into(bgIv);
         }
 
         String strName = SimplePreference.getStringPreference(this, "USER_INFO", "USER_NAME", "");
@@ -320,13 +339,13 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
                     @Override
                     public void onPermissionGranted() {
                         Intent intent = new Intent(mActivity, MediaSelectPopup.class);
-                        intent.putExtra("TYPE", TYPE_BG);
+                        intent.putExtra("TYPE", TYPE_PROFILE_BG.ordinal());
                         startActivity(intent);
                     }
 
                     @Override
                     public void onPermissionDenied(List<String> deniedPermissions) {
-                        Toast.makeText(mActivity, "권한을 거부하셨습니다.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mActivity, "권한을 허용해주셔야 사진 설정이 가능합니다.", Toast.LENGTH_LONG).show();
                     }
                 })
                 .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -516,8 +535,43 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
                                 photoIv.setImageResource(R.drawable.user_icon);
                             }
                         } else {
-                            Toast.makeText(mActivity, "사진 전송에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mActivity, "사진 전송에 실패했습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                         }
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void requestSendBackgroundPhoto(String strBackgroundPath) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean bResult = HttpClient.requestSendUserBackground(new OkHttpClient(), pref.getString("USER_ID", "Guest"), strBackgroundPath);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (bResult) {
+                            String filename = strBackgroundPath.substring(strBackgroundPath.lastIndexOf("/") + 1);
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.putString("USER_BACKGROUND", filename);
+                            editor.commit();
+
+                            String strBack = pref.getString("USER_BACKGROUND","");
+                            if (strBack != null && strBack.length() > 0 && !strBack.equals("null")) {
+                                if (!strBack.startsWith("http"))
+                                    strBack = CommonUtils.strDefaultUrl + "images/" + strBack;
+
+                                Glide.with(mActivity)
+                                        .asBitmap()
+                                        .load(strBack)
+                                        .placeholder(R.drawable.round_4_dddddd)
+                                        .into(bgIv);
+                            } else
+                                bgIv.setImageResource(R.drawable.round_4_dddddd);
+                        } else
+                            Toast.makeText(mActivity, "사진 전송에 실패했습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

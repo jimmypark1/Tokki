@@ -281,7 +281,7 @@ public class MyPageSpaceFragment extends Fragment {
             if (item.getUserID().equals(SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest")) || SimplePreference.getStringPreference(context, "USER_INFO", "ADMIN", "N").equals("Y")) {
                 // 삭제 메뉴
             } else {
-                // 신고 메뉴
+                // 신고 메뉴 (메시지 보내기, 사용자 차단, 게시물 신고)
             }
         }
 

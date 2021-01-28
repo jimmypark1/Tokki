@@ -5473,4 +5473,42 @@ public class HttpClient {
 //        return bResult;
 //    }
 
+    public static boolean requestSendUserBackground(OkHttpClient httpClient, String strUserID, String strFilePath) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM)
+                .addFormDataPart("USER_ID", strUserID);
+
+        File file = new File(strFilePath);
+        String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
+        builder.addFormDataPart(filename, filename, RequestBody.create(MultipartBody.FORM, file));
+
+        builder.addFormDataPart("IS_BACKGROUND", "Y");
+
+        RequestBody requestBody = builder.build();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanbookUserProfile.jsp")
+                .post(requestBody)
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+            else
+                return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 }

@@ -16,6 +16,7 @@ public class Constant {
         TYPE_MODIFY,
         TYPE_IMG_CROP,
         TYPE_BG_CROP,
-        TYPE_SPACE_IMG
+        TYPE_SPACE_IMG,
+        TYPE_PROFILE_BG
     }
 }

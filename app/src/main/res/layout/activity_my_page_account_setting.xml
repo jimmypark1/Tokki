@@ -96,20 +96,20 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="#dddddd"
-                android:visibility="gone" />
+                android:background="#dddddd"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/iv_my_page_account_setting_bg"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:background="@drawable/round_4_dddddd"
+                    android:onClick="btnProfileBg"
                     android:scaleType="centerCrop" />
 
                 <LinearLayout

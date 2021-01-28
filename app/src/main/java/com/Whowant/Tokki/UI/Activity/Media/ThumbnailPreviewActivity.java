@@ -34,6 +34,7 @@ import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_IMG_CROP;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_MODIFY_THUMB;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE;
+import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE_BG;
 import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_SPACE_IMG;
 
 public class ThumbnailPreviewActivity extends AppCompatActivity {
@@ -129,6 +130,9 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
         } else if (nNextType == TYPE_SPACE_IMG.ordinal()) {
             intent = new Intent(ThumbnailPreviewActivity.this, MyPageActivity.class);
             intent.putExtra("URI", resultUri);
+        } else if (nNextType == TYPE_PROFILE_BG.ordinal()) {
+            intent = new Intent(ThumbnailPreviewActivity.this, MyPageAccountSettingActivity.class);
+            intent.putExtra("BG_URI", resultUri);
         } else {
             intent = new Intent(ThumbnailPreviewActivity.this, CharacterRegActivity.class);
             intent.putExtra("URI", resultUri);
