@@ -67,6 +67,7 @@ public class MyPageSpaceFragment extends Fragment {
     ArrayList<SpaceVO> postList = new ArrayList<>();
 
     String strFilePath;
+    boolean isThreadRunning = false;
 
     private InputMethodManager imm;
 
@@ -286,6 +287,16 @@ public class MyPageSpaceFragment extends Fragment {
         }
 
         @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return postList.get(position).getPostID();
+        }
+
+        @Override
         public int getItemCount() {
             return postList.size();
         }
@@ -418,21 +429,24 @@ public class MyPageSpaceFragment extends Fragment {
     }
 
     public void getSpacePosts() {
-        postList.clear();
-
+        isThreadRunning = true;
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if (getActivity() == null)
+                if (getActivity() == null) {
+                    isThreadRunning = false;
                     return;
+                }
 
                 ArrayList<SpaceVO> arrayList;
                 String order = "desc";
                 arrayList = HttpClient.getSpacePosts(new OkHttpClient(), order);
 
-                if (arrayList != null)
+                if (arrayList != null) {
+                    postList.clear();
                     postList.addAll(arrayList);
+                }
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -441,9 +455,13 @@ public class MyPageSpaceFragment extends Fragment {
 
                         if (postList == null) {
                             Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            isThreadRunning = false;
                             return;
                         }
+
+                        recyclerView.getRecycledViewPool().clear();
                         adapter.setData(postList);
+                        isThreadRunning = false;
                     }
                 });
             }
@@ -451,6 +469,11 @@ public class MyPageSpaceFragment extends Fragment {
     }
 
     public void clickLikeBtn(final int postID, String userID) {
+        if (isThreadRunning)
+            return;
+
+        isThreadRunning = true;
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -463,6 +486,7 @@ public class MyPageSpaceFragment extends Fragment {
                             getSpacePosts();
                             //adapter.notifyDataSetChanged();
                         } else {
+                            isThreadRunning = false;
                             Toast.makeText(getActivity(), "좋아요 표시에 실패하였습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
                         }
                     }

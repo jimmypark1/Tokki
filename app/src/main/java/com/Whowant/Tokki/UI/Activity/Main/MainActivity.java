@@ -41,6 +41,7 @@ import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Login.TermsActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageFragment;
 import com.Whowant.Tokki.UI.Activity.VersionActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkRegActivity;
@@ -48,6 +49,7 @@ import com.Whowant.Tokki.UI.Adapter.MainViewpagerAdapter;
 import com.Whowant.Tokki.UI.Custom.CustomViewPager;
 import com.Whowant.Tokki.UI.Fragment.Main.MyFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.StorageBoxFragment;
+import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageSpaceFragment;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
 import com.Whowant.Tokki.VO.AlarmVO;
@@ -97,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView inviteView;
     private ImageView alarmNewIconView, noticeNewIconView, eventNewIconView;                // 서랍메뉴 에서 알림, 공지사항, 이벤트 등에 찍히는 빨간 점. 읽었는지 여부는 SharedPreference 에서 판단(애초에 없던 기능을 추가한거라 그렇게 구현함)
     private boolean bCreated = true;                        // 이벤트 팝업이 생성되었는지를 가늠하는 플래그
+
+    MyPageFragment.MyPageAdapter myPageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,9 +166,9 @@ public class MainActivity extends AppCompatActivity {
 //                    rightBtn.setImageResource(R.drawable.dot_menu);
                 } else if (position == 2) {
                     centerLogoView.setVisibility(View.INVISIBLE);
-                    titleView.setText("보관함");
+                    titleView.setText("마이 페이지");
                     rightBtn.setVisibility(View.VISIBLE);
-                    rightBtn.setImageResource(R.drawable.dot_menu);
+                    rightBtn.setImageResource(R.drawable.ic_i_setting_white);
                     reportBtn.setVisibility(View.GONE);
                 } else if (position == 3) {
                     centerLogoView.setVisibility(View.INVISIBLE);
@@ -732,6 +736,9 @@ public class MainActivity extends AppCompatActivity {
         String strUri = intent.getStringExtra("URI");
         MyFragment fragment = (MyFragment) mainPagerAdapter.getItem(3);
         fragment.setImage(strUri);
+
+        MyPageSpaceFragment myPageSpaceFragment = (MyPageSpaceFragment) myPageAdapter.getItem(1);
+        myPageSpaceFragment.imageSetting(intent);
     }
 
     public void setMenuPhoto() {                                                                            // 마이페이지에서 사진 설정시에 좌측 서랍의 사진도 함께 변경하기 위한 부분

@@ -111,7 +111,7 @@ public class MainFragment extends Fragment {                                    
             return;
 
         CommonUtils.showProgressDialog(getActivity(), "최근 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
-        mainCardList.clear();
+//        mainCardList.clear();
 
         new Thread(new Runnable() {
             @Override
