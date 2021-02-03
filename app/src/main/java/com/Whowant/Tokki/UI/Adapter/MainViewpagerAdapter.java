@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.FriendFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.KeepFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.LiteratureFragment;
@@ -16,6 +17,7 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
     private SearchFragment searchFragment;
     private KeepFragment keepFragment;
     private StorageBoxFragment storageBoxFragment;
+    private MyPageFragment myPageFragment;
     private LiteratureFragment literatureFragment;
     private FriendFragment friendFragment;
 
@@ -29,7 +31,8 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
         mainFragment = new MainFragment();
         searchFragment = new SearchFragment();
 //        keepFragment = new KeepFragment();
-        storageBoxFragment = new StorageBoxFragment();
+//        storageBoxFragment = new StorageBoxFragment();
+        myPageFragment = new MyPageFragment();
         literatureFragment = new LiteratureFragment();
         friendFragment = new FriendFragment();
     }
@@ -43,7 +46,8 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
                 return searchFragment;
             case 2:
 //                return keepFragment;
-                return storageBoxFragment;
+//                return storageBoxFragment;
+                return myPageFragment;
             case 3:
                 return literatureFragment;
             case 4:

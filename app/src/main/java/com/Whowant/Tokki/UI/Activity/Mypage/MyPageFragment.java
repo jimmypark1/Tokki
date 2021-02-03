@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageFeedFragment;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageSpaceFragment;
 import com.Whowant.Tokki.UI.Popup.TokkiSNSPopup;
@@ -40,6 +43,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
+
+import static android.app.Activity.RESULT_OK;
 
 public class MyPageFragment extends Fragment {
 
@@ -60,6 +65,12 @@ public class MyPageFragment extends Fragment {
     TextView workCountTv;
     TextView readCountTv;
     TextView followCountTv;
+
+    RelativeLayout btnTokkiSNS;
+    LinearLayout btnFollower;
+    LinearLayout btnCarrot;
+    LinearLayout btnWork;
+    LinearLayout btnRead;
 
     private int nCurrentCarrot = 0;                                                         // 현재 당근 갯수
     private int nTotalUsedCarrot = 0;                                                       // 총 당근 갯수
@@ -159,8 +170,8 @@ public class MyPageFragment extends Fragment {
         appbar = getView().findViewById(R.id.appBarLayout);
         viewPager = getView().findViewById(R.id.viewPager);
 
-        FragmentManager fragmentManager = myContext.getSupportFragmentManager();
-        myPageAdapter = new MyPageAdapter(getContext(), fragmentManager);
+//        FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+        myPageAdapter = new MyPageAdapter(getContext(), getChildFragmentManager());
         viewPager.setAdapter(myPageAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -170,6 +181,50 @@ public class MyPageFragment extends Fragment {
         carrotTv = getView().findViewById(R.id.tv_my_page_carrot);
         levelIv = getView().findViewById(R.id.iv_my_page_level);
         levelTv = getView().findViewById(R.id.tv_my_page_level);
+
+        btnTokkiSNS = getView().findViewById(R.id.btnTokkiSNS);
+        btnTokkiSNS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isPopup = true;
+                startActivity(new Intent(getActivity(), TokkiSNSPopup.class));
+            }
+        });
+
+        btnFollower = getView().findViewById(R.id.btnFollower);
+        btnFollower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MyPageFollowerActivity.class);
+                intent.putExtra("writerId", SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest"));
+                startActivity(intent);
+            }
+        });
+
+        btnCarrot = getView().findViewById(R.id.btnCarrot);
+        btnCarrot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MyPageCarrotInfoActivity.class));
+            }
+        });
+
+        btnWork = getView().findViewById(R.id.btnWork);
+        btnWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).moveViewpager(3);
+
+            }
+        });
+
+        btnRead = getView().findViewById(R.id.ll_my_page_read);
+        btnRead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 보관함 삭제
+            }
+        });
 
         workCountTv = getView().findViewById(R.id.tv_my_page_work_count);
         readCountTv = getView().findViewById(R.id.tv_my_page_read);
@@ -235,8 +290,6 @@ public class MyPageFragment extends Fragment {
 
             appbar.setExpanded(true, true);
 
-
-
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
                 @Override
@@ -277,49 +330,6 @@ public class MyPageFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return titles.get(position);
         }
-    }
-
-//    public void btnBack(View v) {
-//        finish();
-//    }
-
-//  xml onclick 항목 수정 필요    
-    
-    // 계정 설정
-//    public void btnAccountSetting(View v) {
-//        startActivity(new Intent(this, MyPageAccountSettingActivity.class));
-//    }
-
-    public void btnTokkiSNS(View v) {
-        isPopup = true;
-        startActivity(new Intent(getActivity(), TokkiSNSPopup.class));
-    }
-
-    // 작품수
-    public void btnWork(View v) {
-//        Intent intent = new Intent();
-//        intent.putExtra("type", 3);
-//        setResult(RESULT_OK, intent);
-    }
-
-    // 읽는 작품수
-    public void btnRead(View v) {
-//        Intent intent = new Intent();
-//        intent.putExtra("type", 2);
-//        setResult(RESULT_OK, intent);
-    }
-
-    // 팔로워
-    public void btnFollower(View v) {
-        Intent intent = new Intent(getActivity(), MyPageFollowerActivity.class);
-        intent.putExtra("writerId", SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest"));
-        startActivity(intent);
-    }
-
-    //  당근 얻기, 사기
-    public void btnCarrotShop(View v) {
-//        startActivity(new Intent(this, MyPageCarrotShopActivity.class));
-        startActivity(new Intent(getActivity(), MyPageCarrotInfoActivity.class));
     }
 
     private void getMyFollowInfo() {

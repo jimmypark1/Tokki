@@ -38,37 +38,37 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <ImageButton-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:layout_marginStart="20dp"-->
+<!--                        android:background="@drawable/ic_i_back_white"-->
+<!--                        android:onClick="btnBack"-->
+<!--                        android:visibility="visible" />-->
+
+<!--                    <ImageView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:layout_marginEnd="20dp"-->
+<!--                        android:onClick="btnAccountSetting"-->
+<!--                        android:src="@drawable/ic_i_setting_white" />-->
+<!--                </RelativeLayout>-->
+
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:orientation="horizontal">
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:background="@drawable/ic_i_back_white"
-                        android:onClick="btnBack"
-                        android:visibility="visible" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="20dp"
-                        android:onClick="btnAccountSetting"
-                        android:src="@drawable/ic_i_setting_white" />
-                </RelativeLayout>
-
-                <RelativeLayout
+                    android:id="@+id/btnTokkiSNS"
                     android:layout_width="76dp"
                     android:layout_height="25dp"
                     android:background="@drawable/round_18_ffffff_b1_33000000"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:onClick="btnTokkiSNS">
+                    android:layout_marginTop="10dp">
 
                     <ImageView
                         android:id="@+id/logoView"
@@ -129,13 +129,13 @@
                     android:textStyle="normal" />
 
                 <LinearLayout
+                    android:id="@+id/btnCarrot"
                     android:layout_width="160dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/round_18_ffffff_b1_33000000"
                     android:gravity="center_vertical"
-                    android:onClick="btnCarrotShop"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -181,7 +181,6 @@
                         android:layout_height="50dp"
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
-                        android:onClick="btnRead"
                         android:orientation="vertical">
 
                         <TextView
@@ -208,12 +207,12 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/btnFollower"
                         android:layout_width="80dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="10dp"
                         android:layout_toEndOf="@+id/ll_my_page_read"
                         android:gravity="center"
-                        android:onClick="btnFollower"
                         android:orientation="vertical">
 
                         <TextView
@@ -240,12 +239,12 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/btnWork"
                         android:layout_width="80dp"
                         android:layout_height="50dp"
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/ll_my_page_read"
                         android:gravity="center"
-                        android:onClick="btnWork"
                         android:orientation="vertical">
 
                         <TextView

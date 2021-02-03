@@ -40,6 +40,8 @@ public class FriendRecommendFragment extends Fragment {
     private FriendFindAdapter adapter;
     private ArrayList<FriendVO> friendList = new ArrayList<>();
 
+    boolean isFirst = true;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,7 +58,10 @@ public class FriendRecommendFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getFriendRecommendList();
+        if (isFirst) {
+            getFriendRecommendList();
+            isFirst = false;
+        }
     }
 
     public void getFriendRecommendList() {
@@ -86,7 +91,7 @@ public class FriendRecommendFragment extends Fragment {
     }
 
     private void requestFollow(final String strUserID) {
-        CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다.");
+//        CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다.");
 
         new Thread(new Runnable() {
             @Override
@@ -99,7 +104,7 @@ public class FriendRecommendFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CommonUtils.hideProgressDialog();
+//                        CommonUtils.hideProgressDialog();
 
                         if(bResult) {
                             getFriendRecommendList();

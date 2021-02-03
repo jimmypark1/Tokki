@@ -40,6 +40,7 @@ import com.Whowant.Tokki.UI.Activity.DrawerMenu.EventActivity;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Login.TermsActivity;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageAccountSettingActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageFragment;
 import com.Whowant.Tokki.UI.Activity.VersionActivity;
@@ -466,13 +467,13 @@ public class MainActivity extends AppCompatActivity {
         } else if (nPosition == 2) {
 //            KeepFragment fragment = (KeepFragment) mainPagerAdapter.getItem(2);
 //            fragment.showMenus();
-            StorageBoxFragment fragment = (StorageBoxFragment) mainPagerAdapter.getItem(2);
-            fragment.showMenus(view);
+//            StorageBoxFragment fragment = (StorageBoxFragment) mainPagerAdapter.getItem(2);
+//            fragment.showMenus(view);
+            startActivity(new Intent(this, MyPageAccountSettingActivity.class));
         } else if (nPosition == 3) {
 //            mainPagerAdapter.getItem(2);
 //            startActivity(new Intent(MainActivity.this, CreateWorkActivity.class));
 //            startActivity(new Intent(MainActivity.this, WorkRegActivity.class));
-
         } /*else if(nPosition == 4) {
             startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
         }*/
@@ -892,5 +893,10 @@ public class MainActivity extends AppCompatActivity {
                 resetBottomBar(type);
             }
         }
+    }
+
+    public void moveViewpager(int type) {
+        viewPager.setCurrentItem(type);
+        resetBottomBar(type);
     }
 }
