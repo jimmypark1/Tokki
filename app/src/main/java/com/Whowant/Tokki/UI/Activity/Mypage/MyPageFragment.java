@@ -98,8 +98,71 @@ public class MyPageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_my_page, container, false);
 
-        return inflater.inflate(R.layout.fragment_my_page, container, false);
+        tabLayout = v.findViewById(R.id.tabLayout);
+        appbar = v.findViewById(R.id.appBarLayout);
+        viewPager = v.findViewById(R.id.viewPager);
+
+//        FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+        myPageAdapter = new MyPageAdapter(getContext(), getChildFragmentManager());
+        viewPager.setAdapter(myPageAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+        backIv = v.findViewById(R.id.background);
+        photoIv = v.findViewById(R.id.iv_my_page_photo);
+        nameTv = v.findViewById(R.id.tv_my_page_name);
+        carrotTv = v.findViewById(R.id.tv_my_page_carrot);
+        levelIv = v.findViewById(R.id.iv_my_page_level);
+        levelTv = v.findViewById(R.id.tv_my_page_level);
+
+        btnTokkiSNS = v.findViewById(R.id.btnTokkiSNS);
+        btnTokkiSNS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), TokkiSNSPopup.class));
+            }
+        });
+
+        btnFollower = v.findViewById(R.id.btnFollower);
+        btnFollower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MyPageFollowerActivity.class);
+                intent.putExtra("writerId", SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest"));
+                startActivity(intent);
+            }
+        });
+
+        btnCarrot = v.findViewById(R.id.btnCarrot);
+        btnCarrot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MyPageCarrotInfoActivity.class));
+            }
+        });
+
+        btnWork = v.findViewById(R.id.btnWork);
+        btnWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).moveViewpager(3);
+            }
+        });
+
+        btnRead = v.findViewById(R.id.ll_my_page_read);
+        btnRead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 보관함 삭제
+            }
+        });
+
+        workCountTv = v.findViewById(R.id.tv_my_page_work_count);
+        readCountTv = v.findViewById(R.id.tv_my_page_read);
+        followCountTv = v.findViewById(R.id.tv_my_page_follower);
+
+        return v;
     }
 
     @Override
@@ -107,7 +170,6 @@ public class MyPageFragment extends Fragment {
         super.onStart();
 
         mActivity = getActivity();
-        initView();
     }
 
     @Override
@@ -163,72 +225,6 @@ public class MyPageFragment extends Fragment {
         }
 
         initData();
-    }
-
-    private void initView() {
-        tabLayout = getView().findViewById(R.id.tabLayout);
-        appbar = getView().findViewById(R.id.appBarLayout);
-        viewPager = getView().findViewById(R.id.viewPager);
-
-//        FragmentManager fragmentManager = myContext.getSupportFragmentManager();
-        myPageAdapter = new MyPageAdapter(getContext(), getChildFragmentManager());
-        viewPager.setAdapter(myPageAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-
-        backIv = getView().findViewById(R.id.background);
-        photoIv = getView().findViewById(R.id.iv_my_page_photo);
-        nameTv = getView().findViewById(R.id.tv_my_page_name);
-        carrotTv = getView().findViewById(R.id.tv_my_page_carrot);
-        levelIv = getView().findViewById(R.id.iv_my_page_level);
-        levelTv = getView().findViewById(R.id.tv_my_page_level);
-
-        btnTokkiSNS = getView().findViewById(R.id.btnTokkiSNS);
-        btnTokkiSNS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isPopup = true;
-                startActivity(new Intent(getActivity(), TokkiSNSPopup.class));
-            }
-        });
-
-        btnFollower = getView().findViewById(R.id.btnFollower);
-        btnFollower.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyPageFollowerActivity.class);
-                intent.putExtra("writerId", SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest"));
-                startActivity(intent);
-            }
-        });
-
-        btnCarrot = getView().findViewById(R.id.btnCarrot);
-        btnCarrot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MyPageCarrotInfoActivity.class));
-            }
-        });
-
-        btnWork = getView().findViewById(R.id.btnWork);
-        btnWork.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).moveViewpager(3);
-
-            }
-        });
-
-        btnRead = getView().findViewById(R.id.ll_my_page_read);
-        btnRead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 보관함 삭제
-            }
-        });
-
-        workCountTv = getView().findViewById(R.id.tv_my_page_work_count);
-        readCountTv = getView().findViewById(R.id.tv_my_page_read);
-        followCountTv = getView().findViewById(R.id.tv_my_page_follower);
     }
 
     private void initData() {

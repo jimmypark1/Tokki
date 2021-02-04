@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -184,7 +186,7 @@ public class MyPageSpaceFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            if(postList.size() -1 < position)
+            if (postList.size() - 1 < position)
                 return;
 
             SpaceVO item = postList.get(position);
@@ -251,7 +253,7 @@ public class MyPageSpaceFragment extends Fragment {
 //                    new Thread(new Runnable() {
 //                        @Override
 //                        public void run() {
-                            clickLikeBtn(item.getPostID(), SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest"));
+                    clickLikeBtn(item.getPostID(), SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest"));
 //                            getActivity().runOnUiThread(new Runnable() {
 //                                @Override
 //                                public void run() {
@@ -279,11 +281,41 @@ public class MyPageSpaceFragment extends Fragment {
                 }
             });
 
-            if (item.getUserID().equals(SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest")) || SimplePreference.getStringPreference(context, "USER_INFO", "ADMIN", "N").equals("Y")) {
-                // 삭제 메뉴
-            } else {
-                // 신고 메뉴 (메시지 보내기, 사용자 차단, 게시물 신고)
-            }
+            viewHolder.menuLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popupMenu = new PopupMenu(getActivity(), v);
+                    if (item.getUserID().equals(SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest")) || SimplePreference.getStringPreference(context, "USER_INFO", "ADMIN", "N").equals("Y")) {
+                        // 삭제 메뉴
+                        popupMenu.getMenuInflater().inflate(R.menu.delete_menu, popupMenu.getMenu());
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                if (item.getItemId() == R.id.delete) {
+                                }
+                                return true;
+                            }
+                        });
+                        popupMenu.show();
+                    } else {
+                        // 신고 메뉴 (메시지 보내기, 사용자 차단, 게시물 신고)
+                        popupMenu.getMenuInflater().inflate(R.menu.space_row_menu, popupMenu.getMenu());
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                switch (item.getItemId()) {
+                                    case R.id.message:
+                                    case R.id.block:
+                                    case R.id.report:
+                                        break;
+                                }
+                                return true;
+                            }
+                        });
+                        popupMenu.show();
+                    }
+                }
+            });
         }
 
         @Override
@@ -328,12 +360,6 @@ public class MyPageSpaceFragment extends Fragment {
             commentCountView = itemView.findViewById(R.id.commentCountView);
             posterView = itemView.findViewById(R.id.imageView);
             menuLayout = itemView.findViewById(R.id.menuBtn);
-            menuLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
         }
     }
 
