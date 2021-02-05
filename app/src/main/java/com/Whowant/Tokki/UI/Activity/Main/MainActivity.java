@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton rightBtn;
     private ImageButton reportBtn;
     private ImageButton addBtn;
+    private ImageButton alarmBtn, marketBtn;
+    private ImageView alarmNewView;
     private ImageView profileIv;
     private ImageView faceView;
     private TextView titleView;
@@ -124,14 +126,19 @@ public class MainActivity extends AppCompatActivity {
         inviteView = findViewById(R.id.inviteView);
         reportBtn = findViewById(R.id.ib_top_bar_report);
         addBtn = findViewById(R.id.ib_top_bar_add);
+        alarmBtn = findViewById(R.id.alarmBtn);
+        alarmBtn.setVisibility(View.VISIBLE);
+        alarmNewView = findViewById(R.id.alarmNewView);
+        marketBtn = findViewById(R.id.marketBtn);
+        marketBtn.setVisibility(View.VISIBLE);
         profileIv = findViewById(R.id.iv_top_bar_profile);
-        profileIv.setVisibility(View.VISIBLE);
+//        profileIv.setVisibility(View.VISIBLE);
         titleView = findViewById(R.id.titleView);
         rightBtn.setImageResource(R.drawable.serch_icon_balck);
         rightBtn.setVisibility(View.GONE);
         eventNewIconView = findViewById(R.id.eventNewIconView);
         noticeNewIconView = findViewById(R.id.noticeNewIconView);
-        alarmNewIconView = findViewById(R.id.alarmNewIconView);
+//        alarmNewIconView = findViewById(R.id.alarmNewIconView);
 
         pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
 
@@ -153,13 +160,17 @@ public class MainActivity extends AppCompatActivity {
                 reportBtn.setVisibility(View.GONE);
                 addBtn.setVisibility(View.GONE);
                 inviteView.setVisibility(View.GONE);
+                alarmBtn.setVisibility(View.GONE);
+                marketBtn.setVisibility(View.GONE);
 
                 if (position == 0) {
                     centerLogoView.setVisibility(View.VISIBLE);
                     titleView.setText("");
 //                    rightBtn.setVisibility(View.VISIBLE);
 //                    rightBtn.setImageResource(R.drawable.serch_icon_balck);
-                    profileIv.setVisibility(View.VISIBLE);
+//                    profileIv.setVisibility(View.VISIBLE);
+                    alarmBtn.setVisibility(View.VISIBLE);
+                    marketBtn.setVisibility(View.VISIBLE);
                 } else if (position == 1) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("검색");
@@ -288,7 +299,8 @@ public class MainActivity extends AppCompatActivity {
 
                         for (AlarmVO vo : list) {
                             if (!vo.isbRead()) {
-                                alarmNewIconView.setVisibility(View.VISIBLE);
+//                                alarmNewIconView.setVisibility(View.VISIBLE);
+                                alarmNewView.setVisibility(View.VISIBLE);
                                 break;
                             }
                         }
@@ -392,8 +404,9 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         noticeNewIconView.setVisibility(View.INVISIBLE);
-        alarmNewIconView.setVisibility(View.INVISIBLE);
+//        alarmNewIconView.setVisibility(View.INVISIBLE);
         eventNewIconView.setVisibility(View.INVISIBLE);
+        alarmNewView.setVisibility(View.INVISIBLE);
         getAlarmList();
 
         strUserID = pref.getString("USER_ID", "Guest");
@@ -506,6 +519,10 @@ public class MainActivity extends AppCompatActivity {
         WorkRegActivity.workVO = null;
         startActivity(new Intent(MainActivity.this, WorkRegActivity.class));
 //        startActivity(new Intent(MainActivity.this, CreateWorkActivity.class));
+    }
+
+    public void onClickAlarmBtn(View v) {
+        startActivity(new Intent(MainActivity.this, AlarmActivity.class));
     }
 
     private void initMenuViews() {                                                                                  // 좌측 서랍메뉴 설정

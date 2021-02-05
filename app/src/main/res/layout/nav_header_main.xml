@@ -153,18 +153,19 @@
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"
                 android:background="?android:selectableItemBackground"
+                android:visibility="gone"
                 android:text="알림"/>
 
-            <ImageView
-                android:id="@+id/alarmNewIconView"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_alignLeft="@+id/alarmView"
-                android:layout_alignTop="@+id/alarmView"
-                android:visibility="invisible"
-                android:layout_marginLeft="-11dp"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/small_google_circle"/>
+<!--            <ImageView-->
+<!--                android:id="@+id/alarmNewIconView"-->
+<!--                android:layout_width="8dp"-->
+<!--                android:layout_height="8dp"-->
+<!--                android:layout_alignLeft="@+id/alarmView"-->
+<!--                android:layout_alignTop="@+id/alarmView"-->
+<!--                android:visibility="invisible"-->
+<!--                android:layout_marginLeft="-11dp"-->
+<!--                android:layout_marginTop="6dp"-->
+<!--                android:background="@drawable/small_google_circle"/>-->
 
             <TextView
                 android:id="@+id/personalTermsView"

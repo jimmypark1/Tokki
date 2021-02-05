@@ -23,7 +23,8 @@
         android:layout_marginRight="17.5dp"
         android:background="@null"
         android:onClick="onClickTopRightBtn"
-        android:src="@drawable/serch_icon_balck" />
+        android:src="@drawable/serch_icon_balck"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/cenverLogoView"
@@ -115,5 +116,32 @@
         android:text="초대하기"
         android:visibility="gone"/>
 
+    <ImageButton
+        android:id="@+id/marketBtn"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:layout_toStartOf="@+id/alarmBtn"
+        android:background="@drawable/ic_i_market"/>
+
+    <ImageButton
+        android:id="@+id/alarmBtn"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="17.5dp"
+        android:background="@drawable/ic_i_alarm"
+        android:onClick="onClickAlarmBtn"/>
+
+    <ImageView
+        android:id="@+id/alarmNewView"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_alignRight="@+id/alarmBtn"
+        android:layout_alignTop="@+id/alarmBtn"
+        android:visibility="visible"
+        android:background="@drawable/small_tokki_circle_2"/>
 
 </RelativeLayout>
