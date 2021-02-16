@@ -52,6 +52,17 @@
                 android:background="@null"
                 android:src="@drawable/back_button"
                 android:visibility="invisible" />
+
+            <ToggleButton
+                android:id="@+id/settingBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="17dp"
+                android:background="@drawable/ic_i_setting"
+                android:textOff=""
+                android:textOn=""/>
         </RelativeLayout>
 
         <ImageView
@@ -94,6 +105,136 @@
 <!--                android:orientation="horizontal"-->
 <!--                android:clickable="true"/>-->
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/navBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/round_8_ffffff"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:weightSum="7"
+                    android:layout_weight="50"
+                    android:orientation="horizontal">
+
+                    <SeekBar
+                        android:id="@+id/seekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:max="100"
+                        android:progress="0"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="21%"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="334"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_weight="50"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/previousBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="71"
+                        android:gravity="center_vertical"
+                        android:paddingRight="6dp"
+                        android:text="&lt; 이전화"
+                        android:onClick="onClickPreviousEpisode"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="48">
+                        <ImageButton
+                            android:id="@+id/commentBtn"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:onClick="onClickComment"
+                            android:background="@drawable/ic_i_comment_2"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="48">
+                        <ImageButton
+                            android:id="@+id/scrollBtn"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/ic_i_scroll" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="48">
+                        <ImageButton
+                            android:id="@+id/shareBtn"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/ic_i_share_2" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="48">
+                        <ImageButton
+                            android:id="@+id/carrotBtn"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:onClick="onClickCarrotBtn"
+                            android:background="@drawable/ic_i_carrot_2" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/nextBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="71"
+                        android:gravity="center_vertical|right"
+                        android:text="다음화 &gt;"
+                        android:onClick="onClickNextEpisode"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
 
 
         <LinearLayout

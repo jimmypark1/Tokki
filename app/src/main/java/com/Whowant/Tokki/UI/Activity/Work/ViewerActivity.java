@@ -31,6 +31,8 @@ import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -39,6 +41,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,6 +53,7 @@ import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Media.VideoPlayerActivity;
+import com.Whowant.Tokki.UI.Popup.CarrotDoneActivity;
 import com.Whowant.Tokki.UI.Popup.InteractionPopup;
 import com.Whowant.Tokki.UI.Popup.StarPointPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -178,6 +182,28 @@ public class ViewerActivity extends AppCompatActivity {                         
 
         TextView titleView = findViewById(R.id.titleView);
         titleView.setText(workVO.getSortedEpisodeList().get(nEpisodeIndex).getStrTitle());
+
+        ToggleButton settingBtn = findViewById(R.id.settingBtn);
+        TextView previousBtn = findViewById(R.id.previousBtn);
+        TextView nextBtn = findViewById(R.id.nextBtn);
+        ImageButton scrollBtn = findViewById(R.id.scrollBtn);
+//        scrollBtn.setOnTouchListener(onTouchListener);
+        RelativeLayout navBar = findViewById(R.id.navBar);
+        settingBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if(nEpisodeIndex >= workVO.getSortedEpisodeList().size()-1) {
+                        nextBtn.setVisibility(View.INVISIBLE);
+                    } else if (nEpisodeIndex == 0) {
+                        previousBtn.setVisibility(View.INVISIBLE);
+                    }
+                    navBar.setVisibility(View.VISIBLE);
+                } else {
+                    navBar.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
 
         autoScrollLevel1Btn = findViewById(R.id.autoScrollLevel1Btn);
         autoScrollLevel2Btn = findViewById(R.id.autoScrollLevel2Btn);
@@ -1785,5 +1811,37 @@ public class ViewerActivity extends AppCompatActivity {                         
             }
         }, 500);
         bShowingAutoscroll = false;
+    }
+
+    public void onClickPreviousEpisode(View view) {
+        Intent intent = new Intent(ViewerActivity.this, ViewerActivity.class);
+        intent.putExtra("EPISODE_INDEX", nEpisodeIndex-1);
+        intent.putExtra("INTERACTION", bInteraction);
+        startActivity(intent);
+        finish();
+    }
+
+    public void onClickNextEpisode(View view) {
+        Intent intent = new Intent(ViewerActivity.this, ViewerActivity.class);
+        intent.putExtra("EPISODE_INDEX", nEpisodeIndex+1);
+        intent.putExtra("INTERACTION", bInteraction);
+        startActivity(intent);
+        finish();
+    }
+
+    public void onClickComment(View view) {
+        Intent intent = new Intent(ViewerActivity.this, EpisodeCommentActivity.class);
+        intent.putExtra("EPISODE_ID", workVO.getSortedEpisodeList().get(nEpisodeIndex).getnEpisodeID());
+        startActivity(intent);
+    }
+
+    public void onClickCarrotBtn(View view) {
+        if (workVO.getnWriterID().equals(pref.getString("USER_ID", "Guest"))) {
+            CommonUtils.makeText(this, "내 작품에는 후원 하실수 없습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(this, CarrotDoneActivity.class);
+        intent.putExtra("WORK_ID", workVO.getnWorkID());
+        startActivity(intent);
     }
 }
