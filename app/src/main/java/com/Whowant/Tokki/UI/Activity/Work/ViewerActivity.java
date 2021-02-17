@@ -39,6 +39,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -139,6 +140,9 @@ public class ViewerActivity extends AppCompatActivity {                         
     private int   nAutoLevel = -1;
     private LinearLayout autoScrollLayout;
     private RelativeLayout autoScrollLevel1Btn, autoScrollLevel2Btn, autoScrollLevel3Btn;
+    private RelativeLayout starPointLayout, navBar;
+    private SeekBar seekBar;
+    private TextView seekBar_value;
 
     // Animation animation, animation2;
 
@@ -188,7 +192,9 @@ public class ViewerActivity extends AppCompatActivity {                         
         TextView nextBtn = findViewById(R.id.nextBtn);
         ImageButton scrollBtn = findViewById(R.id.scrollBtn);
 //        scrollBtn.setOnTouchListener(onTouchListener);
-        RelativeLayout navBar = findViewById(R.id.navBar);
+        navBar = findViewById(R.id.navBar);
+        starPointLayout = findViewById(R.id.starPointLayout);
+
         settingBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -201,7 +207,48 @@ public class ViewerActivity extends AppCompatActivity {                         
                     navBar.setVisibility(View.VISIBLE);
                 } else {
                     navBar.setVisibility(View.INVISIBLE);
+                    starPointLayout.setVisibility(View.INVISIBLE);
                 }
+            }
+        });
+
+        ToggleButton starBtn = findViewById(R.id.starBtn);
+
+        starBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    getStarPoint();
+                    starPointLayout.setVisibility(View.VISIBLE);
+                } else {
+                    starPointLayout.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        int step = 1;
+        int max = chattingList.size();
+        int min = 0;
+
+        seekBar_value = findViewById(R.id.seekBar_value);
+        seekBar = findViewById(R.id.seekBar);
+
+
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekBar_value.setText(String.valueOf(seekBar.getProgress()));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                chattingListView.setSelection(seekBar.getProgress());
             }
         });
 
@@ -345,6 +392,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                         @Override
                         public void run() {
                             autoScrollLayout.setVisibility(View.INVISIBLE);
+                            navBar.setVisibility(View.VISIBLE);
                         }
                     }, 500);
 //                        autoScrollLayout.setVisibility(View.INVISIBLE);
@@ -359,7 +407,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                     return false;
                 }
 
-                bLong = true;
+//                bLong = true;
 
                 if(uiTimer != null) {
                     uiTimer.cancel();
@@ -476,6 +524,7 @@ public class ViewerActivity extends AppCompatActivity {                         
     public void onResume() {
         super.onResume();
         getInteraction();
+        getStarPoint();
 
         fileObserver.startWatching();
         lgFileObserver.startWatching();
@@ -595,9 +644,12 @@ public class ViewerActivity extends AppCompatActivity {                         
                         aa.notifyDataSetChanged();
 
                         if(nShoingIndex <= 0)
-                            Toast.makeText(ViewerActivity.this, "화면을 터치하시면 내용이 진행됩니다.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ViewerActivity.this, "화면을 터치하시면 내용이 진행됩니다.", Toast.LENGTH_SHORT).show();
 
                         chattingListView.setSelection(aa.getCount() - 1);
+
+                        int max = chattingList.size();
+                        seekBar.setMax(max);
                     }
                 });
             }
@@ -888,6 +940,8 @@ public class ViewerActivity extends AppCompatActivity {                         
 
         chattingListView.setSelection(aa.getCount() - 1);
         bNext = false;
+
+        seekBar.setProgress(showingList.size());
     }
 
     public void getInteraction() {
@@ -1553,6 +1607,61 @@ public class ViewerActivity extends AppCompatActivity {                         
 //        }
     }
 
+    private void getStarPoint() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject resultObject = HttpClient.getEpisodeCommnet(new OkHttpClient(), workVO.getSortedEpisodeList().get(nEpisodeIndex).getnEpisodeID(), 1, pref.getString("USER_ID", "Guest"));
+
+                if (resultObject != null) {
+                    try {
+                        fStarPoint = (float)resultObject.getDouble("STAR_POINT");
+                        nStarCount = resultObject.getInt("STAR_COUNT");
+                        fMyPoint = (float)resultObject.getDouble("MY_POINT");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        RatingBar smallRatingBar = findViewById(R.id.smallRatingBar2);
+                        TextView starPointView = findViewById(R.id.starPointView2);
+                        TextView starCountView = findViewById(R.id.starCountView2);
+
+                        smallRatingBar.setRating(fStarPoint);
+                        starPointView.setText(String.format("%.1f", fStarPoint));
+                        starCountView.setText("(" + nStarCount + "명)");
+
+                        TextView rightView = findViewById(R.id.rightView2);
+                        rightView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                boolean bLogin = CommonUtils.bLocinCheck(pref);
+
+                                if(!bLogin) {
+                                    Toast.makeText(ViewerActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(ViewerActivity.this, PanbookLoginActivity.class));
+                                    return;
+                                }
+
+                                if(fMyPoint > 0) {
+                                    Toast.makeText(ViewerActivity.this, "이미 평가한 작품입니다.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                Intent intent = new Intent(ViewerActivity.this, StarPointPopup.class);
+                                intent.putExtra("EPISODE_ID", workVO.getSortedEpisodeList().get(nEpisodeIndex).getnEpisodeID());
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+            }
+        }).start();
+    }
+
     private void getCommentData() {
         if(bGetComment)
             return;
@@ -1833,6 +1942,33 @@ public class ViewerActivity extends AppCompatActivity {                         
         Intent intent = new Intent(ViewerActivity.this, EpisodeCommentActivity.class);
         intent.putExtra("EPISODE_ID", workVO.getSortedEpisodeList().get(nEpisodeIndex).getnEpisodeID());
         startActivity(intent);
+    }
+
+    public void onClickScroll(View view) {
+        uiTimer = new Timer();
+        uiTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                            bShowingAutoscroll = true;
+                            if(autoScrollTimer != null) {
+                                autoScrollTimer.cancel();
+                                autoScrollTimer = null;
+                            }
+
+                            autoScrollLayout.setVisibility(View.VISIBLE);
+                            navBar.setVisibility(View.INVISIBLE);
+
+                            slide(autoScrollLevel1Btn, 1500, 0);
+                            slide(autoScrollLevel2Btn, 1000, 0);
+                            slide(autoScrollLevel3Btn, 500, 0);
+                            isSlideUp = !isSlideUp;
+                    }
+                });
+            }
+        }, 400);
     }
 
     public void onClickCarrotBtn(View view) {

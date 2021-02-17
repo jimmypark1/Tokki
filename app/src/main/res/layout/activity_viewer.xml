@@ -57,10 +57,21 @@
                 android:id="@+id/settingBtn"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_toLeftOf="@+id/episodeListBtn"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_i_setting"
+                android:textOff=""
+                android:textOn=""/>
+
+            <ToggleButton
+                android:id="@+id/episodeListBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="17dp"
-                android:background="@drawable/ic_i_setting"
+                android:background="@drawable/ic_i_episodelist"
                 android:textOff=""
                 android:textOn=""/>
         </RelativeLayout>
@@ -106,6 +117,89 @@
 <!--                android:clickable="true"/>-->
         </LinearLayout>
 
+
+        <RelativeLayout
+            android:id="@+id/starPointLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/navBar"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_8_ffffff"
+            android:visibility="invisible">
+
+            <LinearLayout
+                android:id="@+id/starLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical">
+
+                <RatingBar
+                    android:id="@+id/smallRatingBar2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:min="0"
+                    android:max="5"
+                    style="@style/myRatingBar"/>
+
+                <TextView
+                    android:id="@+id/starPointView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:text="0.0"/>
+
+                <TextView
+                    android:id="@+id/starCountView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="14sp"
+                    android:visibility="invisible"
+                    android:text="(0명)"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/starLayout"
+                android:layout_alignLeft="@+id/starLayout"
+                android:layout_alignRight="@+id/starLayout"
+                android:layout_alignBottom="@+id/starLayout"
+                android:onClick="onClickStar"/>
+
+            <TextView
+                android:id="@+id/rightView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:textSize="14sp"
+                android:text="별점주기"
+                android:textColor="#969696"
+                android:layout_toLeftOf="@+id/rightArrow2"/>
+
+            <ImageView
+                android:id="@+id/rightArrow2"
+                android:layout_width="8dp"
+                android:layout_height="13dp"
+                android:layout_marginRight="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/right_arrow_dark"/>
+        </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/navBar"
             android:layout_width="wrap_content"
@@ -129,7 +223,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="12dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
                     android:weightSum="7"
@@ -140,16 +234,25 @@
                         android:id="@+id/seekBar"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="6"
+                        android:layout_weight="6.5"
                         android:max="100"
                         android:progress="0"/>
 
                     <TextView
+                        android:id="@+id/seekBar_value"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:gravity="right"
-                        android:text="21%"/>
+                        android:text="0"/>
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/percent"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="0.3"-->
+<!--                        android:gravity="left"-->
+<!--                        android:text="%"/>-->
                 </LinearLayout>
 
                 <LinearLayout
@@ -195,6 +298,7 @@
                             android:id="@+id/scrollBtn"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
+                            android:onClick="onClickScroll"
                             android:background="@drawable/ic_i_scroll" />
                     </LinearLayout>
 
@@ -203,11 +307,13 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:layout_weight="48">
-                        <ImageButton
-                            android:id="@+id/shareBtn"
+                        <ToggleButton
+                            android:id="@+id/starBtn"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:background="@drawable/ic_i_share_2" />
+                            android:background="@drawable/ic_i_star_2"
+                            android:textOff=""
+                            android:textOn=""/>
                     </LinearLayout>
 
                     <LinearLayout
