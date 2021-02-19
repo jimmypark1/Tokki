@@ -143,6 +143,8 @@ public class ViewerActivity extends AppCompatActivity {                         
     private RelativeLayout starPointLayout, navBar;
     private SeekBar seekBar;
     private TextView seekBar_value;
+    private int max = 0;
+    private int autoScrollSpeed;
 
     // Animation animation, animation2;
 
@@ -178,6 +180,8 @@ public class ViewerActivity extends AppCompatActivity {                         
 
         chattingListView = findViewById(R.id.chattingListView);
 
+
+
         if(workVO.getSortedEpisodeList() == null) {
             Toast.makeText(this, "작품을 읽어오는 중 문제가 발생했습니다. 다시 로딩해 주세요.", Toast.LENGTH_SHORT).show();
             finish();
@@ -191,6 +195,40 @@ public class ViewerActivity extends AppCompatActivity {                         
         TextView previousBtn = findViewById(R.id.previousBtn);
         TextView nextBtn = findViewById(R.id.nextBtn);
         ImageButton scrollBtn = findViewById(R.id.scrollBtn);
+
+        autoScrollSpeed = 0;
+
+        scrollBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (autoScrollSpeed == 0) {
+                    autoScrollSpeed = 1;
+                    bShowingAutoscroll = true;
+                    scrollBtn.setBackgroundResource(R.drawable.ic_i_scroll);
+                    Toast.makeText(ViewerActivity.this, "자동 스크롤을 시작합니다.", Toast.LENGTH_SHORT).show();
+                    startAutoScroll(1);
+                } else if (autoScrollSpeed == 1) {
+                    autoScrollSpeed = 2;
+                    bShowingAutoscroll = true;
+                    scrollBtn.setBackgroundResource(R.drawable.ic_i_autoscroll_3);
+                    startAutoScroll(2);
+                } else if (autoScrollSpeed == 2) {
+                    autoScrollSpeed = 3;
+                    bShowingAutoscroll = true;
+                    scrollBtn.setBackgroundResource(R.drawable.ic_i_autoscroll_1);
+                    startAutoScroll(3);
+                } else if (autoScrollSpeed == 3) {
+                    autoScrollSpeed = 0;
+                    bShowingAutoscroll = false;
+                    Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+                    if (autoScrollTimer != null) {
+                        autoScrollTimer.cancel();
+                        autoScrollTimer = null;
+                    }
+                }
+
+            }
+        });
 //        scrollBtn.setOnTouchListener(onTouchListener);
         navBar = findViewById(R.id.navBar);
         starPointLayout = findViewById(R.id.starPointLayout);
@@ -204,10 +242,12 @@ public class ViewerActivity extends AppCompatActivity {                         
                     } else if (nEpisodeIndex == 0) {
                         previousBtn.setVisibility(View.INVISIBLE);
                     }
+                    settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
                     navBar.setVisibility(View.VISIBLE);
                 } else {
                     navBar.setVisibility(View.INVISIBLE);
                     starPointLayout.setVisibility(View.INVISIBLE);
+                    settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
                 }
             }
         });
@@ -226,19 +266,13 @@ public class ViewerActivity extends AppCompatActivity {                         
             }
         });
 
-        int step = 1;
-        int max = chattingList.size();
-        int min = 0;
-
         seekBar_value = findViewById(R.id.seekBar_value);
         seekBar = findViewById(R.id.seekBar);
-
-
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekBar_value.setText(String.valueOf(seekBar.getProgress()));
+                seekBar_value.setText(String.valueOf(seekBar.getProgress() * 100 / max));
             }
 
             @Override
@@ -248,7 +282,16 @@ public class ViewerActivity extends AppCompatActivity {                         
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                chattingListView.setSelection(seekBar.getProgress());
+                int showingIndex = seekBar.getProgress();
+
+                if (showingIndex > showingList.size()) {
+                    for (int i = showingList.size() ; i < showingIndex ; i++) {
+                        setNextChat();
+                    }
+                } else {
+                    chattingListView.setSelection(showingIndex);
+                    seekBar_value.setText(String.valueOf(showingIndex * 100 / max));
+                }
             }
         });
 
@@ -400,12 +443,12 @@ public class ViewerActivity extends AppCompatActivity {                         
                     return false;
                 }
 
-                if(autoScrollTimer != null) {
-                    autoScrollTimer.cancel();
-                    autoScrollTimer = null;
-                    Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
+//                if(autoScrollTimer != null) {
+//                    autoScrollTimer.cancel();
+//                    autoScrollTimer = null;
+//                    Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+//                    return false;
+//                }
 
 //                bLong = true;
 
@@ -648,8 +691,10 @@ public class ViewerActivity extends AppCompatActivity {                         
 
                         chattingListView.setSelection(aa.getCount() - 1);
 
-                        int max = chattingList.size();
+                        max = chattingList.size();
                         seekBar.setMax(max);
+                        seekBar.setProgress(nShoingIndex);
+                        seekBar_value.setText(String.valueOf(seekBar.getProgress() * 100 / max));
                     }
                 });
             }
@@ -792,12 +837,12 @@ public class ViewerActivity extends AppCompatActivity {                         
             if(bPreview)
                 return;
 
-            if(autoScrollTimer != null) {
-                Log.d("TOUCH", "자동스크롤을 정지합니다");
-                autoScrollTimer.cancel();
-                autoScrollTimer = null;
-                Toast.makeText(ViewerActivity.this, "자동스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
-            }
+//            if(autoScrollTimer != null) {
+//                Log.d("TOUCH", "자동스크롤을 정지합니다");
+//                autoScrollTimer.cancel();
+//                autoScrollTimer = null;
+//                Toast.makeText(ViewerActivity.this, "자동스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+//            }
 
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
@@ -941,7 +986,8 @@ public class ViewerActivity extends AppCompatActivity {                         
         chattingListView.setSelection(aa.getCount() - 1);
         bNext = false;
 
-        seekBar.setProgress(showingList.size());
+        max = chattingList.size();
+        seekBar.setProgress(nShoingIndex);
     }
 
     public void getInteraction() {
@@ -1907,7 +1953,7 @@ public class ViewerActivity extends AppCompatActivity {                         
             }
         }, nRepeat, nRepeat);
 
-        Toast.makeText(this, "자동 스크롤을 시작합니다.", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "자동 스크롤을 시작합니다.", Toast.LENGTH_SHORT).show();
 //        autoScrollLayout.setVisibility(View.INVISIBLE);
         slide(autoScrollLevel1Btn, 0, 1500);
         slide(autoScrollLevel2Btn, 0, 1000);
