@@ -879,27 +879,27 @@ public class MainActivity extends AppCompatActivity {
         ImageView writeImgView = findViewById(R.id.writeImgView);
         ImageView myImgView = findViewById(R.id.myImgView);
 
-        homeImgView.setBackgroundResource(R.drawable.ic_home_off);
+        homeImgView.setBackgroundResource(R.drawable.i_tapbar_1_1);
         searchView.setImageResource(R.drawable.ic_i_tapbar_2_1);
-        storageImgView.setBackgroundResource(R.drawable.ic_storage_off);
-        writeImgView.setBackgroundResource(R.drawable.ic_write_off);
-        myImgView.setBackgroundResource(R.drawable.ic_mypage_off);
+        storageImgView.setBackgroundResource(R.drawable.i_tapbar_3_1);
+        writeImgView.setBackgroundResource(R.drawable.i_tapbar_4_1);
+        myImgView.setBackgroundResource(R.drawable.i_tapbar_5_1);
 
         switch (nIndex) {
             case 0:
-                homeImgView.setBackgroundResource(R.drawable.ic_home_on);
+                homeImgView.setBackgroundResource(R.drawable.i_tapbar_1_2);
                 break;
             case 1:
                 searchView.setImageResource(R.drawable.ic_i_tapbar_2_2);
                 break;
             case 2:
-                storageImgView.setBackgroundResource(R.drawable.ic_storage_on);
+                storageImgView.setBackgroundResource(R.drawable.i_tapbar_3_2);
                 break;
             case 3:
-                writeImgView.setBackgroundResource(R.drawable.ic_write_on);
+                writeImgView.setBackgroundResource(R.drawable.i_tapbar_4_2);
                 break;
             case 4:
-                myImgView.setBackgroundResource(R.drawable.ic_mypage_on);
+                myImgView.setBackgroundResource(R.drawable.i_tapbar_5_2);
                 break;
         }
     }
