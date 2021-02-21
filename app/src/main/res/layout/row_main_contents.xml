@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/contentsLayout"
         android:layout_width="180dp"
-        android:layout_height="240dp"
+        android:layout_height="270dp"
         android:layout_marginStart="20dp">
 
         <ImageView
@@ -15,69 +15,95 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/round_4_dddddd"
+
             android:scaleType="centerCrop" />
 
         <View
+            android:id="@+id/coverImgShadowView"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:background="@drawable/gradient_4_d3000000_00515151" />
-
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
         <TextView
             android:id="@+id/titleView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+           android:layout_width="wrap_content"
+            android:layout_height="20dp"
             android:layout_above="@+id/ll_content_bottom"
-            android:layout_marginStart="10dp"
             android:lineSpacingExtra="7sp"
             android:text="아무래도 이번에는"
-            android:textColor="#ffffff"
+            android:textColor="#191919"
             android:textSize="15sp"
             android:textStyle="normal" />
-
+    </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_content_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginStart="20dp"
+
             android:gravity="center_vertical"
             android:orientation="horizontal">
-
+<!--
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_i_tap" />
-
+-->
             <TextView
-                android:id="@+id/tv_row_main_content_tab_count"
+                android:layout_below="@+id/titleView"
+                android:id="@+id/tab_count_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:lineSpacingExtra="1sp"
+                android:text="조회수"
+                android:textColor="#767676"
+                android:textSize="11sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tv_row_main_content_tab_count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/titleView"
+                android:layout_marginStart="2dp"
+                android:lineSpacingExtra="1sp"
                 android:text="999"
-                android:textColor="#ffffff"
+                android:textColor="#767676"
                 android:textSize="11sp"
                 android:textStyle="normal" />
 
             <ImageView
+                android:layout_below="@+id/titleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:src="@drawable/ic_i_speech" />
+                android:src="@drawable/i_speech_dark" />
 
             <TextView
+                android:layout_below="@+id/titleView"
                 android:id="@+id/tv_row_main_content_comment_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:lineSpacingExtra="1sp"
                 android:text="999"
-                android:textColor="#ffffff"
+                android:textColor="#767676"
                 android:textSize="11sp"
                 android:textStyle="normal" />
+
         </LinearLayout>
-    </RelativeLayout>
+
 </LinearLayout>
