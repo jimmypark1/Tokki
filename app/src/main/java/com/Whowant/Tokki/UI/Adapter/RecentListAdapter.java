@@ -48,7 +48,7 @@ public class RecentListAdapter extends RecyclerView.Adapter<RecentListAdapter.Wi
         WorkVO workVO = itemsList.get(position);
 
         holder.titleView.setText(workVO.getTitle());
-        holder.tabCountTv.setText(String.valueOf(workVO.getnTapCount()));
+        holder.tabCountTv.setText(String.valueOf(workVO.getnHitsCount()));
         holder.commentCountTv.setText(String.valueOf(workVO.getnCommentCount()));
 //        holder.writerNameView.setText("By " + workVO.getStrWriterName());
 //        holder.dateView.setText(workVO.getStrUpdateDate().substring(0, 10));
