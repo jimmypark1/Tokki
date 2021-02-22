@@ -823,11 +823,11 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 
                 nLevel = CommonUtils.getLevel(workVO.getnDonationCarrot());
 
-                ImageView levelIv = holder.itemView.findViewById(R.id.iv_level);
-                levelIv.setImageResource(levelRes[nLevel - 1]);
+         //       ImageView levelIv = holder.itemView.findViewById(R.id.iv_level);
+           //     levelIv.setImageResource(levelRes[nLevel - 1]);
 
-                TextView levelTv = holder.itemView.findViewById(R.id.tv_level);
-                levelTv.setText(levelName[nLevel - 1]);
+//                TextView levelTv = holder.itemView.findViewById(R.id.tv_level);
+          //      levelTv.setText(levelName[nLevel - 1]);
 
                 holder.itemView.findViewById(R.id.rl_writer_name).setOnClickListener((v) -> {
                     Intent intent = new Intent(mActivity, WriterPageActivity.class);
@@ -870,7 +870,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 RelativeLayout writerInfoLayout = holder.itemView.findViewById(R.id.writerInfoLayout);
                 writerNameView.setText(workVO.getStrWriterName());
                 startPointView.setText(String.format("%.1f", workVO.getfStarPoint()));
-                tapCountView.setText(CommonUtils.getPointCount(workVO.getnTapCount()));
+                tapCountView.setText(CommonUtils.getPointCount(workVO.getnHitsCount()));
                 commentCountView.setText(CommonUtils.getPointCount(workVO.getnCommentCount()));
 
                 writerInfoLayout.setOnClickListener(new View.OnClickListener() {
@@ -982,6 +982,67 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 }
                 tag.setText(tagBuffer.toString());
 
+
+
+                int nOwner =  workVO.getOwner();
+                int nCopyright =  workVO.getCopyright();
+                int nStatus =  workVO.getStatus();
+                boolean bComplete = workVO.isbComplete();
+
+                String strCareer =  workVO.getStrCareer();
+
+                TextView owner = holder.itemView.findViewById(R.id.tv_owner);
+                TextView copyright = holder.itemView.findViewById(R.id.tv_copyright);
+                TextView status = holder.itemView.findViewById(R.id.tv_status);
+
+                TextView career = holder.itemView.findViewById(R.id.tv_career);
+                TextView episodeCnt = holder.itemView.findViewById(R.id.episodes_count);
+
+                int nEpisode = workVO.getEpisodeList().size();
+                episodeCnt.setText("총"+ String.valueOf(nEpisode) +"개");
+
+                career.setText(strCareer);
+
+                if(nOwner == 0)
+                {
+                    owner.setText("본인소유");
+                }
+                else
+                {
+                    owner.setText("타인소유");
+                }
+
+                if(nCopyright == 0)
+                {
+                    copyright.setText("본인소유");
+                }
+                else
+                {
+                    copyright.setText("타인소유");
+                }
+
+                if(nStatus == 0 && nEpisode == 0)
+                {
+                    status.setText("기획중");
+                }
+                else  if(nStatus == 1 && nEpisode > 0 && bComplete == false)
+                {
+                    status.setText("연재중");
+                }
+                else
+                {
+                    if(bComplete == true || nStatus == 2)
+                    {
+                        status.setText("완결");
+
+                    }
+                    else
+                    {         status.setText("연재중");
+                     
+
+                    }
+                }
+
                 TextView readShowTv = holder.itemView.findViewById(R.id.tv_read_show);
                 readShowTv.setText(showBtn.getText().toString());
 
@@ -1080,7 +1141,20 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 carrotView.setText(CommonUtils.comma(workVO.getnDonationCarrot()));
             } else if(position == 4) {
                 TextView episodeCountView = holder.itemView.findViewById(R.id.episodeCountView);
-                episodeCountView.setText(showingList.get(position));
+                int nEpisode = workVO.getEpisodeList().size();
+                boolean bComplete = workVO.isbComplete();
+                if(bComplete == true)
+                {
+                    episodeCountView.setText("총 " + String.valueOf(nEpisode) +"화 /" + " 완결");
+
+                }
+                else
+                {
+                    episodeCountView.setText("총 " + String.valueOf(nEpisode) +"화 /" + " 미완결");
+
+                }
+
+                //episodeCountView.setText(showingList.get(position));
 
                 RelativeLayout orderBtn = holder.itemView.findViewById(R.id.orderBtn);
                 orderBtn.setOnClickListener(new View.OnClickListener() {
