@@ -250,7 +250,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
     }
 
     private void requestKeepWork() {
-        CommonUtils.showProgressDialog(WorkMainActivity.this, "보관함에 저장 중입니다.");
+      //  CommonUtils.showProgressDialog(WorkMainActivity.this, "보관함에 저장 중입니다.");
+        CommonUtils.showProgressDialog(WorkMainActivity.this, "이 작품을 찜하셨습니다.");
 
         new Thread(new Runnable() {
             @Override
@@ -268,7 +269,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         }
 
                         bKeep = true;
-                        CommonUtils.makeText(WorkMainActivity.this, "보관함에 저장되었습니다.", Toast.LENGTH_SHORT).show();
+                        CommonUtils.makeText(WorkMainActivity.this, "이 작품을 찜하셨습니다.", Toast.LENGTH_SHORT).show();
                         aa.notifyDataSetChanged();
                     }
                 });
@@ -305,7 +306,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
     }
 
     private void requestUnKeepWork() {
-        CommonUtils.showProgressDialog(WorkMainActivity.this, "구독을 취소 중입니다.");
+        CommonUtils.showProgressDialog(WorkMainActivity.this, "이 작품을 찜 해제하셨습니다.");
 
         new Thread(new Runnable() {
             @Override
@@ -323,7 +324,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         }
 
                         bKeep = false;
-                        CommonUtils.makeText(WorkMainActivity.this, "구독이 취소되었습니다.", Toast.LENGTH_SHORT).show();
+                        CommonUtils.makeText(WorkMainActivity.this, "이 작품을 찜 해제하셨습니다.", Toast.LENGTH_SHORT).show();
                         aa.notifyDataSetChanged();
                     }
                 });
@@ -1038,7 +1039,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                     }
                     else
                     {         status.setText("연재중");
-                     
+
 
                     }
                 }
