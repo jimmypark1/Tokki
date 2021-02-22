@@ -1201,6 +1201,38 @@ public class HttpClient {
         return resultList;
     }
 
+    public static ArrayList<String> getMarketTagRank(OkHttpClient httpClient) {                              // 모든 작품 목록 가져오기
+        ArrayList<String> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetMarketTagRank")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("RANKING");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+
+                resultList.add(object.getString("tag"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
     public static ArrayList<WorkVO> getGenreRankingList(OkHttpClient httpClient, String strGenreID) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
 
@@ -2733,7 +2765,32 @@ public class HttpClient {
 
         return resultObject;
     }
+    public static JSONObject getUserInfo(OkHttpClient httpClient, String strMyID) {
+        JSONObject resultObject = null;
 
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetUserInfo&USER_ID=" + strMyID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            resultObject = new JSONObject(strResult);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            resultObject = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultObject = null;
+        }
+
+        return resultObject;
+    }
+
+    //
     public static JSONObject getMyFollowInfo(OkHttpClient httpClient, String strMyID) {
         JSONObject resultObject = null;
 
@@ -3063,6 +3120,11 @@ public class HttpClient {
             workVO.setnUserStatus(resultObject.getInt("USER_STATUS"));
             workVO.setnUserAuthority(resultObject.getInt("USER_AUTHORITY"));
             workVO.setnEditAuthority(resultObject.getInt("EDIT_AUTHORITY"));
+
+            workVO.setStatus(resultObject.getInt("STATUS"));
+            workVO.setCopyright(resultObject.getInt("COPYRIGHT"));
+            workVO.setOwner(resultObject.getInt("OWNERSHIP"));
+            workVO.setStrCareer(resultObject.getString("CAREER"));
 
             ArrayList<EpisodeVO> episodeList = new ArrayList<>();
 

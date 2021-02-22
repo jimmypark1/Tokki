@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.R;
@@ -29,6 +30,7 @@ public class SearchResultViewHolder extends RecyclerView.ViewHolder {
     public SearchResultViewHolder(@NonNull View itemView, TypeOnClickListener listener) {
         super(itemView);
 
+
         notiLl = itemView.findViewById(R.id.ll_row_search_category_noti);
         notiTv = itemView.findViewById(R.id.tv_row_search_category_noti);
         photoIv = itemView.findViewById(R.id.iv_row_search_category_photo);
@@ -49,5 +51,7 @@ public class SearchResultViewHolder extends RecyclerView.ViewHolder {
         starTv = itemView.findViewById(R.id.tv_row_search_category_star);
         tabTv = itemView.findViewById(R.id.tv_row_search_category_tab);
         synopsisTv = itemView.findViewById(R.id.tv_row_search_category_synopsis);
+
+       // setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
     }
 }

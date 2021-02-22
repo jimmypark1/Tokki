@@ -44,7 +44,7 @@
                         android:layout_weight="1"
                         android:lineSpacingExtra="5sp"
                         android:text="아무래도 이번에는"
-                        android:textColor="#222222"
+                        android:textColor="#191919"
                         android:textSize="17sp"
                         android:textStyle="normal" />
 
@@ -60,7 +60,7 @@
                     android:layout_marginTop="10dp"
                     android:lineSpacingExtra="7sp"
                     android:text="by 강나래"
-                    android:textColor="#999999"
+                    android:textColor="#767676"
                     android:textSize="13sp"
                     android:textStyle="normal" />
 
@@ -82,7 +82,7 @@
                         android:layout_marginStart="2dp"
                         android:lineSpacingExtra="5sp"
                         android:text="9999"
-                        android:textColor="#999999"
+                        android:textColor="#767676"
                         android:textSize="15sp"
                         android:textStyle="normal" />
 
@@ -98,23 +98,32 @@
                         android:layout_marginStart="2dp"
                         android:lineSpacingExtra="5sp"
                         android:text="5.0"
-                        android:textColor="#999999"
+                        android:textColor="#767676"
                         android:textSize="15sp"
                         android:textStyle="normal" />
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:lineSpacingExtra="5sp"
+                        android:text="조회수"
+                        android:textColor="#767676"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+<!--
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:src="@drawable/ic_i_tap_999999" />
-
+-->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2dp"
                         android:lineSpacingExtra="5sp"
                         android:text="999"
-                        android:textColor="#999999"
+                        android:textColor="#767676"
                         android:textSize="15sp"
                         android:textStyle="normal" />
                 </LinearLayout>
@@ -125,7 +134,7 @@
                     android:layout_marginTop="10dp"
                     android:lineSpacingExtra="7sp"
                     android:text="일이삼사오육칠팔구십일이삼사오육칠팔구십 일이삼사오육칠팔구십일이삼사오육칠팔구십"
-                    android:textColor="#999999"
+                    android:textColor="#767676"
                     android:textSize="13sp"
                     android:textStyle="normal" />
             </LinearLayout>

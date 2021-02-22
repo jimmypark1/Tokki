@@ -59,7 +59,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="20dp"
                         android:onClick="btnAccountSetting"
-                        android:src="@drawable/ic_i_setting_white" />
+                        android:src="@drawable/i_setting" />
                 </RelativeLayout>
 
                 <RelativeLayout

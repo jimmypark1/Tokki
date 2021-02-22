@@ -68,7 +68,7 @@
                 android:layout_height="24dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="17dp"
-                android:background="@drawable/icon_caarot" />
+                android:background="@drawable/i_carrot_orange" />
         </RelativeLayout>
 
         <Button

@@ -43,5 +43,5 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/coverImgView"
-        android:background="@drawable/ic_i_share" />
+        android:background="@drawable/i_share" />
 </RelativeLayout>

@@ -243,17 +243,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
-                    android:onClick="infoWork"
+
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_marginLeft="10dp"
+                        android:id="@+id/owner0"
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/i_radio_2" />
 
                     <TextView
+                        android:id="@+id/owner0L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="9sp"
@@ -265,12 +267,14 @@
 
                     <ImageView
                         android:layout_marginLeft="30dp"
+                        android:id="@+id/owner1"
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/i_radio_2" />
 
                     <TextView
+                        android:id="@+id/owner1L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="9sp"
@@ -297,17 +301,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
-                    android:onClick="infoWork"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_marginLeft="10dp"
 
+                        android:id="@+id/copyright0"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/i_radio_2" />
 
                     <TextView
+                        android:id="@+id/copyright0L"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="9sp"
@@ -319,6 +325,7 @@
 
                     <ImageView
                         android:layout_marginLeft="30dp"
+                        android:id="@+id/copyright1"
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -327,6 +334,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/copyright1L"
                         android:lineSpacingExtra="9sp"
                         android:layout_marginLeft="10dp"
                         android:text="타인소유"
@@ -352,7 +360,7 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/et_work_career"
+                        android:id="@+id/career"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -382,17 +390,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
-                    android:onClick="infoWork"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_marginLeft="10dp"
+                        android:id="@+id/status0"
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/i_radio_2" />
 
                     <TextView
+                        android:id="@+id/status0L"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="9sp"
@@ -404,12 +414,14 @@
 
                     <ImageView
                         android:layout_marginLeft="30dp"
+                        android:id="@+id/status1"
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/i_radio_2" />
 
                     <TextView
+                        android:id="@+id/status1L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="9sp"
@@ -420,12 +432,14 @@
                         android:textStyle="normal" />
                     <ImageView
                         android:layout_marginLeft="30dp"
+                        android:id="@+id/status2"
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/i_radio_2" />
 
                     <TextView
+                        android:id="@+id/status2L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="9sp"

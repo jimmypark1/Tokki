@@ -151,11 +151,23 @@
                     android:textSize="15sp"
                     android:textStyle="normal" />
 
-                <ImageView
+                <!--
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/ic_i_tap_999999" />
+    -->
+                <TextView
+                    android:id="@+id/tv_row_search_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_i_tap_999999" />
+                    android:lineSpacingExtra="5sp"
+                    android:text="조회수"
+                    android:textColor="#999999"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
 
                 <TextView
                     android:id="@+id/tv_row_search_category_tab"

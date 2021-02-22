@@ -41,6 +41,7 @@ import com.Whowant.Tokki.UI.Activity.DrawerMenu.EventActivity;
 import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Login.TermsActivity;
+import com.Whowant.Tokki.UI.Activity.Market.MarketMainActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageAccountSettingActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageFragment;
@@ -181,13 +182,13 @@ public class MainActivity extends AppCompatActivity {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("마이 페이지");
                     rightBtn.setVisibility(View.VISIBLE);
-                    rightBtn.setImageResource(R.drawable.ic_i_setting_white);
+                    rightBtn.setImageResource(R.drawable.i_setting);
                     reportBtn.setVisibility(View.GONE);
                 } else if (position == 3) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("작품쓰기");
 //                    rightBtn.setVisibility(View.VISIBLE);
-//                    rightBtn.setImageResource(R.drawable.dot_menu);
+                  //  rightBtn.setImageResource(R.drawable.i_dots_black);
                     addBtn.setVisibility(View.VISIBLE);
 //                    centerLogoView.setVisibility(View.INVISIBLE);
 //                    titleView.setText("마이 페이지");
@@ -520,6 +521,11 @@ public class MainActivity extends AppCompatActivity {
         WorkRegActivity.workVO = null;
         startActivity(new Intent(MainActivity.this, WorkRegActivity.class));
 //        startActivity(new Intent(MainActivity.this, CreateWorkActivity.class));
+    }
+
+    //
+    public void onClickMarketBtn(View v) {
+        startActivity(new Intent(MainActivity.this, MarketMainActivity.class));
     }
 
     public void onClickAlarmBtn(View v) {

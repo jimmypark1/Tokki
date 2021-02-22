@@ -65,6 +65,8 @@ public class MyPageFragment extends Fragment {
     TextView workCountTv;
     TextView readCountTv;
     TextView followCountTv;
+    TextView followingCountTv;
+    TextView introductionTv;
 
     RelativeLayout btnTokkiSNS;
     LinearLayout btnFollower;
@@ -116,6 +118,11 @@ public class MyPageFragment extends Fragment {
         levelIv = v.findViewById(R.id.iv_my_page_level);
         levelTv = v.findViewById(R.id.tv_my_page_level);
 
+        introductionTv = v.findViewById(R.id.comment);
+
+        followingCountTv =v.findViewById(R.id.tv_my_page_followeing);
+        //    TextView ;
+
         btnTokkiSNS = v.findViewById(R.id.btnTokkiSNS);
         btnTokkiSNS.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +168,7 @@ public class MyPageFragment extends Fragment {
         workCountTv = v.findViewById(R.id.tv_my_page_work_count);
         readCountTv = v.findViewById(R.id.tv_my_page_read);
         followCountTv = v.findViewById(R.id.tv_my_page_follower);
+
 
         return v;
     }
@@ -281,7 +289,7 @@ public class MyPageFragment extends Fragment {
             fragments.add(new MyPageFeedFragment());
             fragments.add(new MyPageSpaceFragment());
 
-            titles.add("피드");
+            titles.add("작품");
             titles.add("스페이스");
 
             appbar.setExpanded(true, true);
@@ -349,6 +357,9 @@ public class MyPageFragment extends Fragment {
 
                             if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                 int nFollowerCount = resultObject.getInt("FOLLOW_COUNT");
+                                int nFollowingCount = resultObject.getInt("FOLLOWING_COUNT");
+
+                                followingCountTv.setText(CommonUtils.getPointCount(nFollowingCount));
 //                                nFollowingCount = resultObject.getInt("FOLLOWING_COUNT");
 //                                followingView.setText(CommonUtils.getPointCount(resultObject.getInt("FOLLOWING_COUNT")));
 //                                followerView.setText(CommonUtils.getPointCount(resultObject.getInt("FOLLOW_COUNT")));
@@ -361,6 +372,7 @@ public class MyPageFragment extends Fragment {
                         }
 
                         getMyCarrotInfo();
+                        getUserInfo();
                     }
                 });
             }
@@ -404,10 +416,50 @@ public class MyPageFragment extends Fragment {
                             carrotTv.setText(new DecimalFormat("###,###").format(nCurrentCarrot) + " 개");
 
                         //    nLevel = CommonUtils.getLevel(nDonationCarrot);
-                            nLevel = CommonUtils.getLevel(nCurrentCarrot   );
+//                            nLevel = CommonUtils.getLevel(nCurrentCarrot   );
 
+                          /*
                             levelIv.setImageResource(levelRes[nLevel - 1]);
                             levelTv.setText(levelName[nLevel - 1]);
+                            */
+
+                            levelTv.bringToFront();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
+    private void getUserInfo() {
+//        CommonUtils.showProgressDialog(mActivity, "서버와 통신중입니다. 잠시만 기다려 주세요.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String userId = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_ID", "Guest");
+
+                JSONObject resultObject = HttpClient.getUserInfo(new OkHttpClient(), userId);
+                // JSONObject resultObject = HttpClient.getMyInfo(new OkHttpClient(), userId);
+                CommonUtils.hideProgressDialog();
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+//                        CommonUtils.hideProgressDialog();
+
+                        try {
+                            if (resultObject == null) {
+                                return;
+                            }
+
+                            String ret = resultObject.getString("COMMENT");
+                            introductionTv.setText(ret);
+
+
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

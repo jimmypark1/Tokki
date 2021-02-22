@@ -31,9 +31,33 @@ public class WorkVO {
     private int nUserAuthority = 1;                         // 사용자 권한
     private int nEditAuthority = 1;                         // 작품 수정 권한
 
+    private int nStatus = 0;                         // 기획 0 연재중 1 완결 2
+    private int nCopyright = 0;                      // 본인소유 0 타인소유 1
+    private int nOwner = 0;                          // 본인소유 0 타인소유 1
+    private String strCareer;                           // 작품 경력
+
+
     public WorkVO() {
 
     }
+
+    public void setStrCareer(String strCareer) {
+        this.strCareer = strCareer;
+    }
+    public void setOwner(int nOwner) {
+        this.nOwner = nOwner;
+    }
+    public void setCopyright(int nCopyright) {
+        this.nCopyright = nCopyright;
+    }
+    public void setStatus(int nStatus) {
+        this.nStatus = nStatus;
+    }
+
+
+    public int getStatus(){ return nStatus; }
+    public int getOwner(){ return nOwner; }
+    public int getCopyright(){ return nCopyright; }
 
     public void setStrWriterName(String strWriterName) {
         this.strWriterName = strWriterName;
@@ -65,6 +89,10 @@ public class WorkVO {
 
     public void setEpisodeList(ArrayList<EpisodeVO> episodeList) {
         this.episodeList = episodeList;
+    }
+
+    public String getStrCareer() {
+        return strCareer;
     }
 
     public int getnWorkID() {

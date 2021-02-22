@@ -59,12 +59,20 @@
                         android:layout_marginLeft="9dp"
                         android:layout_marginBottom="8dp"
                         android:gravity="center_vertical">
-
+<!--
                         <ImageView
                             android:layout_width="9dp"
                             android:layout_height="10dp"
                             android:background="@drawable/icon_tap"/>
-
+-->
+                        <TextView
+                            android:id="@+id/tapCountLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:textColor="@color/colorWhite"
+                            android:text="조회수"
+                            android:textSize="12sp"/>
 
                         <TextView
                             android:id="@+id/tapCountView1"
@@ -79,7 +87,7 @@
                             android:layout_width="9dp"
                             android:layout_height="10dp"
                             android:layout_marginLeft="8dp"
-                            android:background="@drawable/icon_speech_bubble"/>
+                            android:background="@drawable/i_speech_dark"/>
 
                         <TextView
                             android:id="@+id/commentCountView1"
@@ -129,12 +137,20 @@
                         android:layout_marginLeft="9dp"
                         android:layout_marginBottom="8dp"
                         android:gravity="center_vertical">
-
+<!--
                         <ImageView
                             android:layout_width="9dp"
                             android:layout_height="10dp"
                             android:background="@drawable/icon_tap"/>
-
+-->
+                        <TextView
+                            android:id="@+id/tapCountLabel2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:textColor="@color/colorWhite"
+                            android:text="조회수"
+                            android:textSize="12sp"/>
                         <TextView
                             android:id="@+id/tapCountView2"
                             android:layout_width="wrap_content"

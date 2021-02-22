@@ -27,6 +27,7 @@ import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterPageActivity;
+import com.Whowant.Tokki.UI.Fragment.Main.KeepSubFragment;
 import com.Whowant.Tokki.UI.TypeOnClickListener;
 import com.Whowant.Tokki.UI.ViewHolder.SearchResultViewHolder;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -48,6 +49,8 @@ public class MyPageFeedFragment extends Fragment {
     MyPageFeedAdapter adapter;
     ArrayList<WorkVO> myArrayList = new ArrayList<>();
     ArrayList<WorkVO> readArrayList = new ArrayList<>();
+    ArrayList<WorkVO> keepArrayList = new ArrayList<>();
+
     ArrayList<WriterVO> followArrayList = new ArrayList<>();
 
     ArrayList<MyPageFeedVo> mArrayList = new ArrayList<>();
@@ -156,8 +159,9 @@ public class MyPageFeedFragment extends Fragment {
                 case 0:
                 case 1:
                 case 2:
+                case 4:
 
-                    v = LayoutInflater.from(context).inflate(R.layout.row_search_category2, parent, false);
+                    v = LayoutInflater.from(context).inflate(R.layout.row_search_category, parent, false);
 
 
                     return new MyPageWorkViewHolder(v, new TypeOnClickListener() {
@@ -509,7 +513,6 @@ public class MyPageFeedFragment extends Fragment {
                         mArrayList.add(myPageFeedVo);
                     }
                 }
-
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -519,8 +522,62 @@ public class MyPageFeedFragment extends Fragment {
                             Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
+                        getKeepListData();
 
-                        adapter.notifyDataSetChanged();
+
+                    }
+                });
+            }
+        }).start();
+    }
+    private void getKeepListData() {
+        CommonUtils.showProgressDialog(getActivity(), "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
+
+        keepArrayList.clear();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+
+                keepArrayList = HttpClient.getKeepWorkList(new OkHttpClient(), writerId, "UPDATE");
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        if(keepArrayList == null) {
+                            Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (keepArrayList != null) {
+                            for (int i = 0; i < keepArrayList.size(); i++) {
+                                WorkVO workVO = keepArrayList.get(i);
+                                MyPageFeedVo myPageFeedVo = new MyPageFeedVo();
+                                myPageFeedVo.setType(4);
+                                myPageFeedVo.setWorkVO(workVO);
+
+                                if (i == 0) {
+                                    myPageFeedVo.setNoti("찜한 작품");
+                                }
+                                mArrayList.add(myPageFeedVo);
+                            }
+                        }
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                        CommonUtils.hideProgressDialog();
+
+                                if (keepArrayList == null) {
+                                    Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
                     }
                 });
             }

@@ -99,7 +99,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/ic_i_plus"
+        android:background="@drawable/i_dots_black"
         android:onClick="onClickTopAdd"
         android:visibility="gone" />
 
@@ -123,7 +123,9 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="20dp"
         android:layout_toStartOf="@+id/alarmBtn"
-        android:background="@drawable/ic_i_market"/>
+        android:background="@drawable/ic_i_market"
+        android:onClick="onClickMarketBtn"
+        />
 
     <ImageButton
         android:id="@+id/alarmBtn"
