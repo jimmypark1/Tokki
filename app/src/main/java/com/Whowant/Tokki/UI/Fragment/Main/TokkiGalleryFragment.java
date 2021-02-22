@@ -143,6 +143,8 @@ public class TokkiGalleryFragment extends Fragment implements AdapterView.OnItem
                         ThumbnailPreviewActivity.bInteraction = bInteraction;
                     } else if(nType == TYPE_BG.ordinal()) {
                         ThumbnailPreviewActivity.nNextType = TYPE_BG_CROP.ordinal();
+                        cropImgBuilder.setAspectRatio(1, 1);
+
                         ThumbnailPreviewActivity.bEdit = bEdit;
                         ThumbnailPreviewActivity.nOrder = nOrder;
                         ThumbnailPreviewActivity.bInteraction = bInteraction;
@@ -151,7 +153,7 @@ public class TokkiGalleryFragment extends Fragment implements AdapterView.OnItem
                         cropImgBuilder.setAspectRatio(1, 1);
                     } else if (nType == TYPE_PROFILE_BG.ordinal()) {
                         ThumbnailPreviewActivity.nNextType = TYPE_PROFILE_BG.ordinal();
-                        cropImgBuilder.setAspectRatio(100, 85);
+                        cropImgBuilder.setAspectRatio(100, 100);
                     }
 
                     cropImgBuilder.start(getActivity());
