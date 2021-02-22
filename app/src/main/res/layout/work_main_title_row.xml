@@ -23,41 +23,8 @@
             android:layout_marginRight="30dp"
             android:textColor="#222222"
             android:textSize="20sp"
-            android:textStyle="normal" />
+            android:textStyle="bold" />
 
-        <RelativeLayout
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="20dp">
-
-            <ImageView
-                android:id="@+id/iv_level"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_i_level_5" />
-
-            <ImageView
-                android:id="@+id/iv_profile_photo"
-                android:layout_width="54dp"
-                android:layout_height="54dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="34dp"
-                android:background="@drawable/user_icon" />
-
-            <TextView
-                android:id="@+id/tv_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="13dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_horizontal"
-                android:text="LV.5"
-                android:textColor="#ffffff"
-                android:textSize="7sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_writer_name"
@@ -65,45 +32,64 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp">
 
-            <TextView
-                android:id="@+id/writerNameView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                android:lineSpacingExtra="5sp"
-                android:text="달뮤가나"
-                android:textColor="#222222"
-                android:textSize="15sp"
-                android:textStyle="normal" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@+id/writerNameView"
-                android:src="@drawable/ic_i_right_arrow" />
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/carrotView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+                <ImageView
+                    android:id="@+id/iv_profile_photo"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+
+                    android:background="@drawable/user_icon" />
+                <TextView
+                    android:id="@+id/writerNameView"
+                    android:layout_below="@+id/iv_profile_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="5sp"
+                    android:text="달뮤가나"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#222222"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+                <ImageView
+                    android:layout_below="@+id/iv_profile_photo"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/writerNameView"
+                    android:src="@drawable/ic_i_right_arrow" />
+            </RelativeLayout>
+
+
+
 
             <LinearLayout
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:background="@drawable/circle_fafafa_2_33000000"
                 android:gravity="center"
+                android:layout_marginLeft="30dp"
+
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_i_carrot" />
+                    android:src="@drawable/i_carrot_orange" />
             </LinearLayout>
 
             <LinearLayout
@@ -153,7 +139,7 @@
                 android:layout_marginStart="2dp"
                 android:lineSpacingExtra="5sp"
                 android:text="9999"
-                android:textColor="#999999"
+                android:textColor="#767676"
                 android:textSize="15sp"
                 android:textStyle="normal" />
 
@@ -169,16 +155,26 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="5sp"
                 android:text="5.0"
-                android:textColor="#999999"
+                android:textColor="#767676"
                 android:textSize="15sp"
                 android:textStyle="normal" />
-
+<!--
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:src="@drawable/ic_i_tap_999999" />
-
+-->
+            <TextView
+                android:id="@+id/tapCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:lineSpacingExtra="5sp"
+                android:text="조회수"
+                android:textColor="#999999"
+                android:textSize="15sp"
+                android:textStyle="normal" />
             <TextView
                 android:id="@+id/tapCountView"
                 android:layout_width="wrap_content"
@@ -186,7 +182,7 @@
                 android:layout_marginStart="2dp"
                 android:lineSpacingExtra="5sp"
                 android:text="999"
-                android:textColor="#999999"
+                android:textColor="#767676"
                 android:textSize="15sp"
                 android:textStyle="normal" />
 
@@ -194,7 +190,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/ic_i_chat" />
+                android:src="@drawable/i_chat" />
 
             <TextView
                 android:id="@+id/commentCountView"
@@ -203,7 +199,7 @@
                 android:layout_marginStart="2dp"
                 android:lineSpacingExtra="5sp"
                 android:text="999"
-                android:textColor="#999999"
+                android:textColor="#767676"
                 android:textSize="15sp"
                 android:textStyle="normal" />
         </LinearLayout>
