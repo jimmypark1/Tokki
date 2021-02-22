@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -126,6 +127,7 @@ public class MyPageFeedFragment extends Fragment {
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v;
             switch (viewType) {
+                /*
                 case 0:
                     v = LayoutInflater.from(context).inflate(R.layout.row_my_page_feed_message, parent, false);
                     return new MyPageFeedCommentViewHolder(v, new TypeOnClickListener() {
@@ -136,6 +138,8 @@ public class MyPageFeedFragment extends Fragment {
                             requestUpdateUserDesc(item.getUserDesc());
                         }
                     });
+
+                 */
 //                case 1:
 //                    v = LayoutInflater.from(context).inflate(R.round_squre_stroke_gray_bg.row_search_category, parent, false);
 //                    return new SearchResultViewHolder(v, new TypeOnClickListener() {
@@ -144,13 +148,19 @@ public class MyPageFeedFragment extends Fragment {
 //
 //                        }
 //                    });
-                case 2:
-                    v = LayoutInflater.from(context).inflate(R.layout.row_my_page_feed_follow, parent, false);
-                    return new MyPageFeedFollowViewHolder(v);
+
+               // case 2:
+               //     v = LayoutInflater.from(context).inflate(R.layout.row_my_page_feed_follow, parent, false);
+               //     return new MyPageFeedFollowViewHolder(v);
+               // case 1:
+                case 0:
                 case 1:
-                case 3:
-                    v = LayoutInflater.from(context).inflate(R.layout.row_search_category, parent, false);
-                    return new SearchResultViewHolder(v, new TypeOnClickListener() {
+                case 2:
+
+                    v = LayoutInflater.from(context).inflate(R.layout.row_search_category2, parent, false);
+
+
+                    return new MyPageWorkViewHolder(v, new TypeOnClickListener() {
                         @Override
                         public void onClick(int type, int position) {
 
@@ -190,9 +200,12 @@ public class MyPageFeedFragment extends Fragment {
 
                     }
                 });
-            } else if (holder instanceof SearchResultViewHolder) {
-                SearchResultViewHolder viewHolder = (SearchResultViewHolder) holder;
+            } else if (holder instanceof MyPageWorkViewHolder) {
+                MyPageWorkViewHolder viewHolder = (MyPageWorkViewHolder) holder;
                 WorkVO item = vo.getWorkVO();
+
+                if(item == null)
+                    return;
 
                 String strImgUrl = item.getCoverFile();
 
@@ -217,7 +230,7 @@ public class MyPageFeedFragment extends Fragment {
                 viewHolder.titleTv.setText(item.getTitle());
                 viewHolder.writerTv.setText("by " + item.getStrWriterName());
                 viewHolder.heartTv.setText(CommonUtils.getPointCount(item.getnKeepcount()));
-                viewHolder.tabTv.setText(CommonUtils.getPointCount(item.getnTapCount()));
+                viewHolder.tabTv.setText(CommonUtils.getPointCount(item.getnHitsCount()));
                 viewHolder.synopsisTv.setText(item.getSynopsis());
 
                 if (!TextUtils.isEmpty(vo.getNoti())) {
@@ -273,6 +286,49 @@ public class MyPageFeedFragment extends Fragment {
                     }
                 }
             });
+        }
+    }
+    public class MyPageWorkViewHolder extends RecyclerView.ViewHolder {
+
+        RecyclerView recyclerView;
+        public LinearLayout notiLl;
+        public TextView notiTv;
+        public ImageView photoIv;
+        public LinearLayout rankLl;
+        public TextView rankTv;
+        public TextView titleTv;
+        public ImageView optionIv;
+        public TextView writerTv;
+        public TextView heartTv;
+        public TextView starTv;
+        public TextView tabTv;
+        public TextView synopsisTv;
+        public MyPageWorkViewHolder(@NonNull View itemView, TypeOnClickListener listener) {
+            super(itemView);
+
+         //   recyclerView = itemView.findViewById(R.id.row_recyclerView);
+         //   recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+            notiLl = itemView.findViewById(R.id.ll_row_search_category_noti);
+            notiTv = itemView.findViewById(R.id.tv_row_search_category_noti);
+            photoIv = itemView.findViewById(R.id.iv_row_search_category_photo);
+            photoIv.setClipToOutline(true);
+            rankLl = itemView.findViewById(R.id.ll_row_search_category_rank);
+            rankLl.setVisibility(View.GONE);
+            rankTv = itemView.findViewById(R.id.tv_row_search_category_rank);
+            titleTv = itemView.findViewById(R.id.tv_row_search_category_title);
+            optionIv = itemView.findViewById(R.id.iv_row_search_category_option);
+            optionIv.setOnClickListener((v) -> {
+                if (listener != null) {
+                    listener.onClick(0, getAdapterPosition());
+                }
+            });
+            optionIv.setVisibility(View.GONE);
+            writerTv = itemView.findViewById(R.id.tv_row_search_category_writer);
+            heartTv = itemView.findViewById(R.id.tv_row_search_category_heart);
+            starTv = itemView.findViewById(R.id.tv_row_search_category_star);
+            tabTv = itemView.findViewById(R.id.tv_row_search_category_tab);
+            synopsisTv = itemView.findViewById(R.id.tv_row_search_category_synopsis);
         }
     }
 
@@ -385,8 +441,8 @@ public class MyPageFeedFragment extends Fragment {
         if (SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest").equals(writerId)) {
             MyPageFeedVo desc = new MyPageFeedVo();
             desc.setUserDesc(SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_DESC", ""));
-            desc.setType(0);
-            mArrayList.add(desc);
+     //       desc.setType(0);
+       //     mArrayList.add(desc);
         }
 
         new Thread(new Runnable() {
@@ -418,8 +474,9 @@ public class MyPageFeedFragment extends Fragment {
                             Toast.makeText(getActivity(), "서버와의 통신에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                             return;
                         }
+                        getReadListData();
 
-                        getMyFollowingList();
+                        //    getMyFollowingList();
                     }
                 });
             }
@@ -443,7 +500,7 @@ public class MyPageFeedFragment extends Fragment {
                     for (int i = 0; i < readArrayList.size(); i++) {
                         WorkVO workVO = readArrayList.get(i);
                         MyPageFeedVo myPageFeedVo = new MyPageFeedVo();
-                        myPageFeedVo.setType(3);
+                        myPageFeedVo.setType(2);
                         myPageFeedVo.setWorkVO(workVO);
 
                         if (i == 0) {
@@ -505,8 +562,7 @@ public class MyPageFeedFragment extends Fragment {
                             return;
                         }
 
-                        getReadListData();
-                    }
+                   }
                 });
             }
         }).start();
