@@ -71,6 +71,29 @@ public class WorkRegActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<CharacterRegVo> characterRegVoArrayList = new ArrayList<>();
 
+
+    ImageView owner0;
+    ImageView owner1;
+    TextView owner0L;
+    TextView owner1L;
+
+    ImageView copyright0;
+    ImageView copyright1;
+    TextView copyright0L;
+    TextView copyright1L;
+
+
+    ImageView status0;
+    ImageView status1;
+    ImageView status2;
+    TextView status0L;
+    TextView status1L;
+    TextView status2L;
+
+    TextView career;
+
+
+
     private Uri coverImgUri = null;
     private int nThumbnail = 0;     // 0 = 안함, 1 = 포스터를 썸네일로, 2 = 갤러리에서 썸네일 고르기
 
@@ -82,6 +105,11 @@ public class WorkRegActivity extends AppCompatActivity {
     public static WorkVO workVO;
 
     Activity mActivity;
+
+    int nOwner = 0;
+    int nCopyright = 0;
+    int nStatus = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,6 +238,225 @@ public class WorkRegActivity extends AppCompatActivity {
         });
         adapter = new CharacterAdapter(this, characterRegVoArrayList);
         recyclerView.setAdapter(adapter);
+
+        career = findViewById(R.id.career);
+
+        owner0 = findViewById(R.id.owner0);
+        owner1 = findViewById(R.id.owner1);
+
+        owner0L = findViewById(R.id.owner0L);
+        owner1L = findViewById(R.id.owner1L);
+
+        copyright0 = findViewById(R.id.copyright0);
+        copyright1 = findViewById(R.id.copyright1);
+
+        copyright0L = findViewById(R.id.copyright0L);
+        copyright1L = findViewById(R.id.copyright1L);
+
+
+        status0 = findViewById(R.id.status0);
+        status1 = findViewById(R.id.status1);
+        status2 = findViewById(R.id.status2);
+
+        status0L = findViewById(R.id.status0L);
+        status1L = findViewById(R.id.status1L);
+        status2L = findViewById(R.id.status2L);
+
+
+        nStatus =  workVO.getStatus();
+        nCopyright =  workVO.getCopyright();
+        nOwner =  workVO.getOwner();
+
+
+        if(nOwner == 0)
+        {
+            owner0.setImageResource(R.drawable.i_radio_2);
+            owner1.setImageResource(R.drawable.i_radio_1);
+
+        }
+        else
+        {
+            owner0.setImageResource(R.drawable.i_radio_1);
+            owner1.setImageResource(R.drawable.i_radio_2);
+
+        }
+
+        if(nCopyright == 0)
+        {
+            copyright0.setImageResource(R.drawable.i_radio_2);
+            copyright1.setImageResource(R.drawable.i_radio_1);
+
+        }
+        else
+        {
+            copyright0.setImageResource(R.drawable.i_radio_1);
+            copyright1.setImageResource(R.drawable.i_radio_2);
+
+        }
+
+        if(nStatus == 0)
+        {
+            status0.setImageResource(R.drawable.i_radio_2);
+            status1.setImageResource(R.drawable.i_radio_1);
+            status2.setImageResource(R.drawable.i_radio_1);
+
+        }
+        else if(nStatus == 1)
+        {
+            status0.setImageResource(R.drawable.i_radio_1);
+            status1.setImageResource(R.drawable.i_radio_2);
+            status2.setImageResource(R.drawable.i_radio_1);
+
+        }
+
+        else
+        {
+            status0.setImageResource(R.drawable.i_radio_1);
+            status1.setImageResource(R.drawable.i_radio_1);
+            status2.setImageResource(R.drawable.i_radio_2);
+
+
+        }
+
+/*
+        copyright0.setImageResource(R.drawable.i_radio_2);
+        copyright1.setImageResource(R.drawable.i_radio_1);
+
+
+        status0.setImageResource(R.drawable.i_radio_2);
+        status1.setImageResource(R.drawable.i_radio_1);
+        status2.setImageResource(R.drawable.i_radio_1);
+
+
+ */
+        career.setText(workVO.getStrCareer());
+        status0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                status0.setImageResource(R.drawable.i_radio_2);
+                status1.setImageResource(R.drawable.i_radio_1);
+                status2.setImageResource(R.drawable.i_radio_1);
+
+                nStatus = 0;
+            }
+        });
+        status1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                status0.setImageResource(R.drawable.i_radio_1);
+                status1.setImageResource(R.drawable.i_radio_2);
+                status2.setImageResource(R.drawable.i_radio_1);
+                nStatus = 1;
+            }
+        });
+        status2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                status0.setImageResource(R.drawable.i_radio_1);
+                status1.setImageResource(R.drawable.i_radio_1);
+                status2.setImageResource(R.drawable.i_radio_2);
+                nStatus = 2;
+
+            }
+        });
+        status0L.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                status0.setImageResource(R.drawable.i_radio_2);
+                status1.setImageResource(R.drawable.i_radio_1);
+                status2.setImageResource(R.drawable.i_radio_1);
+                nStatus = 0;
+
+            }
+        });
+        status1L.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                status0.setImageResource(R.drawable.i_radio_1);
+                status1.setImageResource(R.drawable.i_radio_2);
+                status2.setImageResource(R.drawable.i_radio_1);
+                nStatus = 1;
+
+            }
+        });
+        status2L.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                status0.setImageResource(R.drawable.i_radio_1);
+                status1.setImageResource(R.drawable.i_radio_1);
+                status2.setImageResource(R.drawable.i_radio_2);
+                nStatus = 2;
+
+            }
+        });
+        owner0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                owner0.setImageResource(R.drawable.i_radio_2);
+                owner1.setImageResource(R.drawable.i_radio_1);
+                nOwner = 0;
+            }
+        });
+        owner0L.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                owner0.setImageResource(R.drawable.i_radio_2);
+                owner1.setImageResource(R.drawable.i_radio_1);
+                nOwner = 0;
+            }
+        });
+
+        owner1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                owner0.setImageResource(R.drawable.i_radio_1);
+                owner1.setImageResource(R.drawable.i_radio_2);
+                nOwner = 1;
+            }
+        });
+        owner1L.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                owner0.setImageResource(R.drawable.i_radio_1);
+                owner1.setImageResource(R.drawable.i_radio_2);
+                nOwner = 1;
+            }
+        });
+        ////
+
+        copyright0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                copyright0.setImageResource(R.drawable.i_radio_2);
+                copyright1.setImageResource(R.drawable.i_radio_1);
+                nCopyright = 0;
+            }
+        });
+        copyright0L.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                copyright0.setImageResource(R.drawable.i_radio_2);
+                copyright1.setImageResource(R.drawable.i_radio_1);
+                nCopyright = 0;
+            }
+        });
+
+        copyright1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                copyright0.setImageResource(R.drawable.i_radio_1);
+                copyright1.setImageResource(R.drawable.i_radio_2);
+                nCopyright = 1;
+            }
+        });
+        copyright1L.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                copyright0.setImageResource(R.drawable.i_radio_1);
+                copyright1.setImageResource(R.drawable.i_radio_2);
+                nCopyright = 1;
+            }
+        });
     }
 
     public class CharacterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -417,11 +664,22 @@ public class WorkRegActivity extends AppCompatActivity {
 
             MultipartBody.Builder builder = new MultipartBody.Builder();
             SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+/*
+        multipartFormData.append(String(data.status).data(using: String.Encoding.utf8)!, withName: "STATUS")
+
+            multipartFormData.append(data.career.data(using: String.Encoding.utf8)!, withName: "CAREER")
+            multipartFormData.append(String(data.ownership).data(using: String.Encoding.utf8)!, withName: "OWNERSHIP")
+            multipartFormData.append(String(data.copyright).data(using: String.Encoding.utf8)!, withName: "COPYRIGHT")
+ */
 
             builder.setType(MultipartBody.FORM)
                     .addFormDataPart("WRITER_ID", pref.getString("USER_ID", "Guest"))
                     .addFormDataPart("WORK_TITLE", titleEt.getText().toString())
                     .addFormDataPart("WORK_SYNOPSIS", summaryEt.getText().toString())
+                    .addFormDataPart("STATUS", String.valueOf(nStatus))
+                    .addFormDataPart("COPYRIGHT", String.valueOf(nCopyright))
+                    .addFormDataPart("OWNERSHIP", String.valueOf(nOwner))
+                    .addFormDataPart("CAREER", career.getText().toString())
                     .addFormDataPart("WORK_TARGET", "");
 
             String strTags = tagTv.getText().toString();
@@ -614,6 +872,10 @@ public class WorkRegActivity extends AppCompatActivity {
                     .addFormDataPart("WORK_TARGET", "")
 //                    .addFormDataPart("DELETE_THUMBNAIL", isDeleteThumbnail == true ? "Y" : "N")
                     .addFormDataPart("DELETE_THUMBNAIL", "N")
+                    .addFormDataPart("STATUS", String.valueOf(nStatus))
+                    .addFormDataPart("COPYRIGHT", String.valueOf(nCopyright))
+                    .addFormDataPart("OWNERSHIP", String.valueOf(nOwner))
+                    .addFormDataPart("CAREER", career.getText().toString())
                     .addFormDataPart("DELETE_POSTER", isDeletePoster? "Y" : "N");
 
             //
