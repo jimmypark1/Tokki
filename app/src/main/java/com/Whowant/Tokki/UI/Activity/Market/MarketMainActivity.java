@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -208,6 +209,18 @@ public class MarketMainActivity extends AppCompatActivity {
     public void onClickTopLeftBtn(View view) {
         finish();
     }
+
+
+    public void onClickTransactionBtn(View view) {
+
+     //   TransactionActivity
+        //
+        Intent intent = new Intent(this, TransactionActivity.class);
+
+        startActivity(intent);
+    }
+
+
     class HorizontalAdapter extends RecyclerView.Adapter<HorizontalViewHolder> {
 
         private ArrayList<HorizontalData> HorizontalDatas;

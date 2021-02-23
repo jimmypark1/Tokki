@@ -23,6 +23,7 @@ import com.Whowant.Tokki.VO.EventVO;
 import com.Whowant.Tokki.VO.FriendVO;
 import com.Whowant.Tokki.VO.GenreVO;
 import com.Whowant.Tokki.VO.MainCardVO;
+import com.Whowant.Tokki.VO.MarketMsg;
 import com.Whowant.Tokki.VO.MarketVO;
 import com.Whowant.Tokki.VO.MessageThreadVO;
 import com.Whowant.Tokki.VO.MessageVO;
@@ -615,6 +616,144 @@ public class HttpClient {
         }
 
         return resultList;
+    }
+    public static ArrayList<MarketMsg> getTrading(OkHttpClient httpClient, String userID) {
+        ArrayList<MarketMsg> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetTrading&USER_ID=" + userID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("ROOM");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                MarketMsg marketVO = new MarketMsg();
+                marketVO.setTitle(object.getString("WORK_TITLE"));
+                marketVO.setCover(object.getString("WORK_COVER_IMG"));
+                marketVO.setName(object.getString("SENDER_NAME"));
+                marketVO.setThreadId(object.getString("ROOM_ID"));
+                marketVO.setDate(object.getString("RECV_DATE"));
+                marketVO.setSenderId(object.getString("SENDER_ID"));
+                marketVO.setProfile(object.getString("SENDER_PROFILE"));
+                marketVO.setMsg(object.getString("RECV_MESSAGE"));
+
+
+                resultList.add(marketVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+    public static ArrayList<MarketMsg> getTrading2(OkHttpClient httpClient, String userID) {
+        ArrayList<MarketMsg> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetTrading2&USER_ID=" + userID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("ROOM");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                MarketMsg marketVO = new MarketMsg();
+                marketVO.setTitle(object.getString("WORK_TITLE"));
+                marketVO.setCover(object.getString("WORK_COVER_IMG"));
+                marketVO.setName(object.getString("SENDER_NAME"));
+                marketVO.setThreadId(object.getString("ROOM_ID"));
+                marketVO.setDate(object.getString("RECV_DATE"));
+                marketVO.setSenderId(object.getString("SENDER_ID"));
+                marketVO.setProfile(object.getString("SENDER_PROFILE"));
+                marketVO.setMsg(object.getString("RECV_MESSAGE"));
+
+
+                resultList.add(marketVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+    public static boolean isBuyer(OkHttpClient httpClient, String userID) {
+        ArrayList<MarketMsg> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=isBuyer&USER_ID=" + userID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            boolean ret =   resultObject.getBoolean("RESULT");
+
+            return ret;
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public static boolean isWriter(OkHttpClient httpClient, String userID) {
+        ArrayList<MarketMsg> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=isWriter&USER_ID=" + userID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            boolean ret =   resultObject.getBoolean("RESULT");
+
+            return ret;
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
     public static ArrayList<WorkVO> getKeepWorkList(OkHttpClient httpClient, String strUserID, String strOrder) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();

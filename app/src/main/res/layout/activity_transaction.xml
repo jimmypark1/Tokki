@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -29,28 +28,8 @@
             android:layout_centerInParent="true"
             android:textSize="20sp"
             android:textColor="@color/colorBlack"
-            android:text="마켓"/>
+            android:text="거래내역"/>
 
-        <ImageButton
-            android:id="@+id/marketBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:layout_toStartOf="@+id/alarmBtn"
-            android:background="@drawable/i_transfer"
-            android:onClick="onClickTransactionBtn"
-
-            />
-
-        <ImageButton
-            android:id="@+id/alarmBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="17.5dp"
-            android:background="@drawable/i_plus"
 
             />
     </RelativeLayout>
@@ -63,17 +42,12 @@
         app:tabIndicatorColor="@color/colorPrimary"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/colorPrimary" />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_below="@+id/tabLayout"
-        android:layout_width="match_parent"
 
-        android:layout_height="40dp" />
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:layout_below="@+id/recyclerView" />
+        android:layout_below="@+id/tabLayout" />
 
 </RelativeLayout>
