@@ -36,6 +36,7 @@ public class LiteratureFragment extends Fragment {                              
     private TextView emptyView;
     private CWorkListAdapter aa;
     private boolean bVisible = false;
+    int nTarget = 0;
 
     public static Fragment newInstance() {
         LiteratureFragment fragment = new LiteratureFragment();
@@ -63,6 +64,9 @@ public class LiteratureFragment extends Fragment {                              
                 WorkVO workVO = workList.get(position);
                 Intent intent = new Intent(getActivity(), WorkWriteMainActivity.class);
                 intent.putExtra("WORK_ID", "" + workVO.getnWorkID());
+                nTarget = workVO.getnTarget();
+                intent.putExtra("NOVEL_TYPE", nTarget);
+
                 startActivity(intent);
 
 //                startActivity(new Intent(getActivity(), WorkRegSummaryActivity.class));
@@ -163,6 +167,8 @@ public class LiteratureFragment extends Fragment {                              
 //            TextView dateView = convertView.findViewById(R.id.dateView);
 
             String strImgUrl = workVO.getCoverFile();
+            nTarget = workVO.getnTarget();
+
             if(strImgUrl == null || strImgUrl.equals("null") || strImgUrl.equals("NULL") || strImgUrl.length() == 0) {
                 Glide.with(getActivity())
                         .asBitmap() // some .jpeg files are actually gif

@@ -767,6 +767,7 @@ public class WorkRegActivity extends AppCompatActivity {
 
                                     Intent intent = new Intent(mActivity, WorkWriteMainActivity.class);
                                     intent.putExtra("WORK_ID", strWorkID);
+                                    intent.putExtra("NOVEL_TYPE", nTarget);
                                     startActivity(intent);
                                     finish();
                                 } else {

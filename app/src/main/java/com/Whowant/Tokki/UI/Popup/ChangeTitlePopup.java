@@ -33,9 +33,13 @@ public class ChangeTitlePopup extends AppCompatActivity {
         nEpisodeID = oldIntent.getIntExtra("EPISODE_ID", 0);
         strTitle = oldIntent.getStringExtra("TITLE");
 
-        inputTitleView.setText(strTitle);
-        if (strTitle.length() <= 30)
-            inputTitleView.setSelection(strTitle.length());
+        if(strTitle != null)
+        {
+            inputTitleView.setText(strTitle);
+            if (strTitle.length() <= 30)
+                inputTitleView.setSelection(strTitle.length());
+        }
+
         inputTitleView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

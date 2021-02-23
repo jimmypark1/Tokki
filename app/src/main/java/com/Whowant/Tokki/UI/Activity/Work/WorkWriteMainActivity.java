@@ -70,10 +70,15 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
     Activity mActivity;
 
+    int nTarget;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_summary);
+
+        nTarget = getIntent().getIntExtra("NOVEL_TYPE", 0);
+
 
         mActivity = this;
 
@@ -497,27 +502,47 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
 
                         initViews();
 
-                        Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);                              // 회차 생성 클릭하여 회차 생성하면서 작성창으로 이동
-                        LiteratureWriteActivity.workVO = workVO;
-                        intent.putExtra("EPISODE_ID", nEpisodeID);
+                        if(nTarget == 0)
+                        {
+                            Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);                              // 회차 생성 클릭하여 회차 생성하면서 작성창으로 이동
+                            LiteratureWriteActivity.workVO = workVO;
+                            intent.putExtra("EPISODE_ID", nEpisodeID);
 
-                        int nOrder = 0;
-                        String strTitle = "";
-                        for (int i = 0; i < workVO.getEpisodeList().size(); i++) {
-                            EpisodeVO vo = workVO.getEpisodeList().get(i);
-                            if (nEpisodeID == vo.getnEpisodeID()) {
-                                nOrder = i;
-                                strTitle = vo.getStrTitle();
-                                intent.putExtra("SUBMIT", vo.getStrSubmit());
-                                intent.putExtra("EXCEL_UPLOADED", vo.isExcelUploaded());
-                                break;
+                            int nOrder = 0;
+                            String strTitle = "";
+                            for (int i = 0; i < workVO.getEpisodeList().size(); i++) {
+                                EpisodeVO vo = workVO.getEpisodeList().get(i);
+                                if (nEpisodeID == vo.getnEpisodeID()) {
+                                    nOrder = i;
+                                    strTitle = vo.getStrTitle();
+                                    intent.putExtra("SUBMIT", vo.getStrSubmit());
+                                    intent.putExtra("EXCEL_UPLOADED", vo.isExcelUploaded());
+                                    break;
+                                }
                             }
+
+                            intent.putExtra("EPISODE_INDEX", nOrder);
+                            intent.putExtra("EPISODE_ORDER", nOrder+1);
+                            intent.putExtra("EPISODE_TITLE", strTitle);
+                            startActivity(intent);
+                        }
+                        else if(nTarget == 1) // 웹소설
+                        {
+                            Intent intent = new Intent(WorkWriteMainActivity.this, WebNovelWriteActivity.class);                              // 회차 생성 클릭하여 회차 생성하면서 작성창으로 이동
+                            startActivity(intent);
+
+                        }
+                        else if(nTarget == 2) // e소설
+                        {
+
+                        }
+                        else if(nTarget == 3) // 스토리
+                        {
+                            Intent intent = new Intent(WorkWriteMainActivity.this, WebNovelWriteActivity.class);                              // 회차 생성 클릭하여 회차 생성하면서 작성창으로 이동
+                            startActivity(intent);
+
                         }
 
-                        intent.putExtra("EPISODE_INDEX", nOrder);
-                        intent.putExtra("EPISODE_ORDER", nOrder+1);
-                        intent.putExtra("EPISODE_TITLE", strTitle);
-                        startActivity(intent);
                     }
                 });
             }
@@ -848,20 +873,9 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                     nPosition -= 1;
                                     EpisodeVO vo = workVO.getEpisodeList().get(nPosition);
                                     if (pref.getString("ADMIN", "N").equals("Y")) {
-                                        Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);                          // 내 작품 회차 클릭하여 작성창으로 이동
-                                        LiteratureWriteActivity.workVO = workVO;
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                        intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
-                                        intent.putExtra("EPISODE_INDEX", nPosition);
-                                        intent.putExtra("EPISODE_ORDER", workVO.getEpisodeList().get(nPosition).getnOrder());
-                                        intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
-                                        intent.putExtra("SUBMIT", workVO.getEpisodeList().get(nPosition).getStrSubmit());
-                                        intent.putExtra("EXCEL_UPLOADED", workVO.getEpisodeList().get(nPosition).isExcelUploaded());
-                                        startActivity(intent);
-                                    } else {
-                                        if (workVO.getnUserAuthority() < 99 && vo.getnEditAuthority() == 99) {
-                                            Toast.makeText(WorkWriteMainActivity.this, "접근 권한이 없습니다", Toast.LENGTH_SHORT).show();
-                                        } else {
+
+                                        if(nTarget == 0)
+                                        {
                                             Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);                          // 내 작품 회차 클릭하여 작성창으로 이동
                                             LiteratureWriteActivity.workVO = workVO;
                                             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -872,6 +886,68 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                             intent.putExtra("SUBMIT", workVO.getEpisodeList().get(nPosition).getStrSubmit());
                                             intent.putExtra("EXCEL_UPLOADED", workVO.getEpisodeList().get(nPosition).isExcelUploaded());
                                             startActivity(intent);
+                                        }
+                                        else if(nTarget == 1)
+                                        {
+                                            Intent intent = new Intent(WorkWriteMainActivity.this, WebNovelWriteActivity.class);
+                                            intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
+                                            intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
+                                            startActivity(intent);
+
+                                        }
+                                        else if(nTarget == 2)
+                                        {
+
+                                        }
+                                        else if(nTarget == 3)
+                                        {
+                                            Intent intent = new Intent(WorkWriteMainActivity.this, WebNovelWriteActivity.class);
+                                            intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
+                                            intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
+                                            startActivity(intent);
+
+                                        }
+
+
+                                    } else {
+                                        if (workVO.getnUserAuthority() < 99 && vo.getnEditAuthority() == 99) {
+                                            Toast.makeText(WorkWriteMainActivity.this, "접근 권한이 없습니다", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            if(nTarget == 0) {
+                                                Intent intent = new Intent(WorkWriteMainActivity.this, LiteratureWriteActivity.class);                          // 내 작품 회차 클릭하여 작성창으로 이동
+                                                LiteratureWriteActivity.workVO = workVO;
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                                intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
+                                                intent.putExtra("EPISODE_INDEX", nPosition);
+                                                intent.putExtra("EPISODE_ORDER", workVO.getEpisodeList().get(nPosition).getnOrder());
+                                                intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
+                                                intent.putExtra("SUBMIT", workVO.getEpisodeList().get(nPosition).getStrSubmit());
+                                                intent.putExtra("EXCEL_UPLOADED", workVO.getEpisodeList().get(nPosition).isExcelUploaded());
+                                                startActivity(intent);
+                                            }
+                                            else if(nTarget == 1)
+                                            {
+                                                Intent intent = new Intent(WorkWriteMainActivity.this, WebNovelWriteActivity.class);
+                                                intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
+                                                intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
+
+                                                startActivity(intent);
+
+                                            }
+                                            else if(nTarget == 2)
+                                            {
+
+                                            }
+                                            else if(nTarget == 3)
+                                            {
+                                                Intent intent = new Intent(WorkWriteMainActivity.this, WebNovelWriteActivity.class);
+                                                intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
+                                                intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
+                                                startActivity(intent);
+
+                                            }
+
+
                                         }
                                     }
                                 }

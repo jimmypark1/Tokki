@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".UI.Activity.Work.WebNovelWriteActivity">
+
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/ic_i_back" />
+
+        <ImageButton
+            android:id="@+id/rightBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:background="@null"
+            android:src="@drawable/ic_i_dots_black" />
+            <!--android:onClick="onClickTopRightBtn"-->
+
+
+        <Button
+            android:id="@+id/emptyBtn"
+            android:layout_width="32dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="7dp"
+            android:layout_toLeftOf="@+id/submitBtn"
+            android:background="@null"
+            android:onClick="clickEditTitleBtn"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/submitBtn"
+            android:layout_width="58dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/rightBtn"
+            android:onClick="onClickSubmitBtn"
+            android:textSize="15sp"
+            android:text="게시"
+            android:textColor="#5a9aff"
+            android:background="@drawable/round_trans"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/episodeNumView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_toRightOf="@+id/leftBtn"
+            android:lineSpacingExtra="3sp"
+            android:text="1화"
+            android:textColor="#999999"
+            android:textSize="17sp"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            android:id="@+id/titleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/emptyBtn"
+            android:layout_toRightOf="@+id/episodeNumView"
+            android:clipChildren="false"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/episodeTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="end"
+                android:lineSpacingExtra="3sp"
+                android:maxLines="1"
+                android:text="회차 제목"
+                android:textColor="#222222"
+                android:textSize="17sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/editBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/episodeTitleView"
+                android:background="@drawable/ic_i_edit"
+                android:onClick="clickEditTitleBtn"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBarLayout"
+        >
+
+
+        <EditText
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="이곳을 탭해서 쓰기 시작하기"
+            android:maxLength="1024"
+            android:imeOptions="actionDone"
+            android:singleLine="false"
+            android:background="@null"
+            android:textSize="14sp" />
+        <!-- i_edit-->
+
+    </RelativeLayout>
+</RelativeLayout>
