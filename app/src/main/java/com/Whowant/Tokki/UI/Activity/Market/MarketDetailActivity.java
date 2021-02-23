@@ -12,6 +12,8 @@ import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.MarketVO;
 import com.bumptech.glide.Glide;
 
+import java.text.DecimalFormat;
+
 public class MarketDetailActivity extends AppCompatActivity {
 
     private TextView title;
@@ -75,9 +77,18 @@ public class MarketDetailActivity extends AppCompatActivity {
             field.setText("영화");
 
         }
-        price.setText(String.valueOf(market.getPrice()));
+        /*
+          carrotNum.text = String(Int( nPrice! / 120)) + "개"
 
-        
+         */
+        int nPrice = market.getPrice();
+        int nCarrot = nPrice / 120;
+
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+        String formattedPrice = formatter.format(market.getPrice());
+        price.setText( String.valueOf(nCarrot)+ "개 (" + formattedPrice +"원)");
+
+
         title.setText(market.getTitle());
         sypnosis.setText(market.getSypnopsis());
         tag.setText(market.getTag());
