@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,9 +37,12 @@ import com.Whowant.Tokki.VO.CharacterRegVo;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.vansuita.gaussianblur.GaussianBlur;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -111,7 +115,7 @@ public class WorkRegActivity extends AppCompatActivity {
     int nStatus = 0;
 
     int nTarget = 0;
-
+    Bitmap blurredBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,8 +144,23 @@ public class WorkRegActivity extends AppCompatActivity {
                     .asBitmap() // some .jpeg files are actually gif
                     .placeholder(R.drawable.no_poster)
                     .load(CommonUtils.strDefaultUrl + "images/" + workVO.getCoverFile())
-                    .into(photoIv);
+               //     .into(photoIv);
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                            photoIv.setImageBitmap(resource);
+
+                           // GaussianBlur.with(WorkRegActivity.this).size(300).radius(20).put(resource, photoIv);
+                            blurredBitmap = GaussianBlur.with(WorkRegActivity.this).size(300).radius(25).render(resource);
+//                            photoIv.setImageBitmap(blurredBitmap);
+
+                        }
+                    });
+
+
             isDeletePoster = false;
+
+
         }
 
         getTagData();
@@ -454,6 +473,10 @@ public class WorkRegActivity extends AppCompatActivity {
                 nCopyright = 1;
             }
         });
+
+
+
+
     }
 
     public class CharacterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -894,7 +917,7 @@ public class WorkRegActivity extends AppCompatActivity {
                 }
                 builder.addFormDataPart("WORK_GENRE", strGenres);
             }
-
+//      GaussianBlur.with(this).size(300).radius(10).put(R.drawable.user_icon, photoIv);
             if (coverImgUri != null && !coverImgUri.toString().startsWith("http")) {
                 strFilePath = CommonUtils.getRealPathFromURI(mActivity, coverImgUri);
                 sourceFile = new File(strFilePath);
