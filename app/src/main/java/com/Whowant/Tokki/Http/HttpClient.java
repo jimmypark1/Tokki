@@ -23,6 +23,7 @@ import com.Whowant.Tokki.VO.EventVO;
 import com.Whowant.Tokki.VO.FriendVO;
 import com.Whowant.Tokki.VO.GenreVO;
 import com.Whowant.Tokki.VO.MainCardVO;
+import com.Whowant.Tokki.VO.MarketVO;
 import com.Whowant.Tokki.VO.MessageThreadVO;
 import com.Whowant.Tokki.VO.MessageVO;
 import com.Whowant.Tokki.VO.NoticeVO;
@@ -570,7 +571,51 @@ public class HttpClient {
 
         return resultList;
     }
+//
+    public static ArrayList<MarketVO> getWorksOnMarket(OkHttpClient httpClient) {
+        ArrayList<MarketVO> resultList = new ArrayList<>();
 
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWorksOnMarket")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("MARKET");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                MarketVO marketVO = new MarketVO();
+                marketVO.setTitle(object.getString("TITLE"));
+                marketVO.setCover(object.getString("COVER"));
+                marketVO.setSynopsis(object.getString("SYNOPSIS"));
+                marketVO.setName(object.getString("NAME"));
+                marketVO.setGenre(object.getString("GENRES"));
+                marketVO.setTag(object.getString("TAGS"));
+                marketVO.setCopyright0(object.getString("COPYRIGHT0"));
+                marketVO.setCopyright1(object.getString("COPYRIGHT1"));
+                marketVO.setUserId(object.getString("USER_ID"));
+                marketVO.setWorkId(object.getString("WORK_ID"));
+                marketVO.setPrice(object.getInt("PRICE"));
+                marketVO.setStatus(object.getInt("STATUS"));
+
+                resultList.add(marketVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
     public static ArrayList<WorkVO> getKeepWorkList(OkHttpClient httpClient, String strUserID, String strOrder) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
 

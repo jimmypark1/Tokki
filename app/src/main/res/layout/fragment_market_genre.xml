@@ -6,5 +6,9 @@
     tools:context=".UI.Activity.Market.MarketGenreFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text ="Market 2"
+        />
 </FrameLayout>
