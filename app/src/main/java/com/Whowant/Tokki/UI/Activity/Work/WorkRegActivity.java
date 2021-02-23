@@ -110,12 +110,14 @@ public class WorkRegActivity extends AppCompatActivity {
     int nCopyright = 0;
     int nStatus = 0;
 
+    int nTarget = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_reg);
 
+        nTarget = getIntent().getIntExtra("NOVEL_TYPE", 0);
         mActivity = this;
 
         initView();
@@ -213,6 +215,68 @@ public class WorkRegActivity extends AppCompatActivity {
         }
     }
 
+    void initUI()
+    {
+        if(nOwner == 0)
+        {
+            owner0.setImageResource(R.drawable.i_radio_2);
+            owner1.setImageResource(R.drawable.i_radio_1);
+
+        }
+        else
+        {
+            owner0.setImageResource(R.drawable.i_radio_1);
+            owner1.setImageResource(R.drawable.i_radio_2);
+
+        }
+
+        if(nCopyright == 0)
+        {
+            copyright0.setImageResource(R.drawable.i_radio_2);
+            copyright1.setImageResource(R.drawable.i_radio_1);
+
+        }
+        else
+        {
+            copyright0.setImageResource(R.drawable.i_radio_1);
+            copyright1.setImageResource(R.drawable.i_radio_2);
+
+        }
+
+        if(nStatus == 0)
+        {
+            status0.setImageResource(R.drawable.i_radio_2);
+            status1.setImageResource(R.drawable.i_radio_1);
+            status2.setImageResource(R.drawable.i_radio_1);
+
+        }
+        else if(nStatus == 1)
+        {
+            status0.setImageResource(R.drawable.i_radio_1);
+            status1.setImageResource(R.drawable.i_radio_2);
+            status2.setImageResource(R.drawable.i_radio_1);
+
+        }
+
+        else
+        {
+            status0.setImageResource(R.drawable.i_radio_1);
+            status1.setImageResource(R.drawable.i_radio_1);
+            status2.setImageResource(R.drawable.i_radio_2);
+
+
+        }
+        status0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                status0.setImageResource(R.drawable.i_radio_2);
+                status1.setImageResource(R.drawable.i_radio_1);
+                status2.setImageResource(R.drawable.i_radio_1);
+
+                nStatus = 0;
+            }
+        });
+    }
     private void initView() {
         ((TextView) findViewById(R.id.tv_top_layout_title)).setText("작품 등록");
 
@@ -263,83 +327,16 @@ public class WorkRegActivity extends AppCompatActivity {
         status2L = findViewById(R.id.status2L);
 
 
-        nStatus =  workVO.getStatus();
-        nCopyright =  workVO.getCopyright();
-        nOwner =  workVO.getOwner();
-
-
-        if(nOwner == 0)
+        if(workVO != null)
         {
-            owner0.setImageResource(R.drawable.i_radio_2);
-            owner1.setImageResource(R.drawable.i_radio_1);
+            nStatus =  workVO.getStatus();
+            nCopyright =  workVO.getCopyright();
+            nOwner =  workVO.getOwner();
 
+            career.setText(workVO.getStrCareer());
         }
-        else
-        {
-            owner0.setImageResource(R.drawable.i_radio_1);
-            owner1.setImageResource(R.drawable.i_radio_2);
+        initUI();
 
-        }
-
-        if(nCopyright == 0)
-        {
-            copyright0.setImageResource(R.drawable.i_radio_2);
-            copyright1.setImageResource(R.drawable.i_radio_1);
-
-        }
-        else
-        {
-            copyright0.setImageResource(R.drawable.i_radio_1);
-            copyright1.setImageResource(R.drawable.i_radio_2);
-
-        }
-
-        if(nStatus == 0)
-        {
-            status0.setImageResource(R.drawable.i_radio_2);
-            status1.setImageResource(R.drawable.i_radio_1);
-            status2.setImageResource(R.drawable.i_radio_1);
-
-        }
-        else if(nStatus == 1)
-        {
-            status0.setImageResource(R.drawable.i_radio_1);
-            status1.setImageResource(R.drawable.i_radio_2);
-            status2.setImageResource(R.drawable.i_radio_1);
-
-        }
-
-        else
-        {
-            status0.setImageResource(R.drawable.i_radio_1);
-            status1.setImageResource(R.drawable.i_radio_1);
-            status2.setImageResource(R.drawable.i_radio_2);
-
-
-        }
-
-/*
-        copyright0.setImageResource(R.drawable.i_radio_2);
-        copyright1.setImageResource(R.drawable.i_radio_1);
-
-
-        status0.setImageResource(R.drawable.i_radio_2);
-        status1.setImageResource(R.drawable.i_radio_1);
-        status2.setImageResource(R.drawable.i_radio_1);
-
-
- */
-        career.setText(workVO.getStrCareer());
-        status0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                status0.setImageResource(R.drawable.i_radio_2);
-                status1.setImageResource(R.drawable.i_radio_1);
-                status2.setImageResource(R.drawable.i_radio_1);
-
-                nStatus = 0;
-            }
-        });
         status1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -680,7 +677,7 @@ public class WorkRegActivity extends AppCompatActivity {
                     .addFormDataPart("COPYRIGHT", String.valueOf(nCopyright))
                     .addFormDataPart("OWNERSHIP", String.valueOf(nOwner))
                     .addFormDataPart("CAREER", career.getText().toString())
-                    .addFormDataPart("WORK_TARGET", "");
+                    .addFormDataPart("WORK_TARGET", String.valueOf(nTarget));
 
             String strTags = tagTv.getText().toString();
             if (strTags.length() > 0)
@@ -869,7 +866,7 @@ public class WorkRegActivity extends AppCompatActivity {
                     .addFormDataPart("WORK_SYNOPSIS", summaryEt.getText().toString())
 //                    .addFormDataPart("WORK_COMPLETE", bComplete == true ? "Y" : "N")
                     .addFormDataPart("WORK_COMPLETE", "N")
-                    .addFormDataPart("WORK_TARGET", "")
+                    .addFormDataPart("WORK_TARGET", String.valueOf(nTarget))
 //                    .addFormDataPart("DELETE_THUMBNAIL", isDeleteThumbnail == true ? "Y" : "N")
                     .addFormDataPart("DELETE_THUMBNAIL", "N")
                     .addFormDataPart("STATUS", String.valueOf(nStatus))

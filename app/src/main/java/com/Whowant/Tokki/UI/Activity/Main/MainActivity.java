@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -53,6 +55,7 @@ import com.Whowant.Tokki.UI.Custom.CustomViewPager;
 import com.Whowant.Tokki.UI.Fragment.Main.MyFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.StorageBoxFragment;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageSpaceFragment;
+import com.Whowant.Tokki.UI.Popup.EpisodeAproveCancelPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
 import com.Whowant.Tokki.VO.AlarmVO;
@@ -519,8 +522,59 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickTopAdd(View v) {
         WorkRegActivity.workVO = null;
-        startActivity(new Intent(MainActivity.this, WorkRegActivity.class));
-//        startActivity(new Intent(MainActivity.this, CreateWorkActivity.class));
+
+       // startActivity(new Intent(MainActivity.this, WorkRegActivity.class));
+
+
+        PopupMenu popup = new PopupMenu(MainActivity.this, addBtn);
+
+        popup.getMenuInflater().inflate(R.menu.novel_category_menu, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = null;
+               // AlertDialog.Builder builder = new AlertDialog.Builder(AproveWaitingEpisodeListActivity.this);
+               // AlertDialog alertDialog = null;
+
+                switch(item.getItemId()) {
+                    case R.id.chatting_novel:
+
+                        intent = new Intent(MainActivity.this, WorkRegActivity.class);
+                        intent.putExtra("NOVEL_TYPE", 0);
+
+                        startActivity(intent);
+
+                        break;
+                    case R.id.web_novel:
+
+                        intent = new Intent(MainActivity.this, WorkRegActivity.class);
+                        intent.putExtra("NOVEL_TYPE", 1);
+
+                        startActivity(intent);
+
+                        break;
+                    case R.id.e_novel:
+
+                        intent = new Intent(MainActivity.this, WorkRegActivity.class);
+                        intent.putExtra("NOVEL_TYPE", 2);
+
+                        startActivity(intent);
+
+                        break;
+                    case R.id.story_novel:
+
+                        intent = new Intent(MainActivity.this, WorkRegActivity.class);
+                        intent.putExtra("NOVEL_TYPE", 3);
+
+                        startActivity(intent);
+
+                        break;
+                }
+                return true;
+            }
+        });
+
+        popup.show();//showing popup menu
     }
 
     //
