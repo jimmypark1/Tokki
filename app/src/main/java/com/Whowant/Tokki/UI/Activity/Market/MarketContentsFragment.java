@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -173,6 +174,9 @@ public class MarketContentsFragment extends Fragment {
             }
         }).start();
     }
+    public interface ItemClickListener{
+        void onItemClickListener(View v, int position);
+    }
     public class MarketAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         Context context;
         ArrayList<MarketVO> arrayList;
@@ -200,6 +204,8 @@ public class MarketContentsFragment extends Fragment {
         {
             MarketViewHolder viewHolder = (MarketViewHolder) holder;
 
+
+
             MarketVO data = arrayList.get(position);
 
 
@@ -216,8 +222,20 @@ public class MarketContentsFragment extends Fragment {
                             .placeholder(R.drawable.no_poster)
                             .load(strCover)
                             .into(viewHolder.cover);
+/*
+            holder.setItemClickListener(new ItemClickListener() {
 
+                @Override
+                public void onItemClickListener(View v, int position) {
+
+
+                }
+            });
+
+ */
         }
+
+
 
         @Override
         public int getItemCount() {
@@ -226,7 +244,7 @@ public class MarketContentsFragment extends Fragment {
     }
 
 
-    public class MarketViewHolder extends RecyclerView.ViewHolder {
+    public class MarketViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView title;
         TextView sypnopsis;
@@ -235,6 +253,7 @@ public class MarketContentsFragment extends Fragment {
         TextView copyright1;
         TextView career;
         ImageView cover;
+        ItemClickListener itemClickListener;
 
 
         public MarketViewHolder(@NonNull View itemView) {
@@ -248,6 +267,22 @@ public class MarketContentsFragment extends Fragment {
             career = itemView.findViewById(R.id.career);
             cover= itemView.findViewById(R.id.coverImgView);
 
+            itemView.setOnClickListener(this);
+
         }
+        @Override
+        public void onClick(View v){
+           // this.itemClickListener.onItemClickListener(v, getLayoutPosition());
+            int pos = getLayoutPosition();
+            MarketVO market = markets.get(pos);
+            Intent intent = new Intent(getContext(), MarketDetailActivity.class);
+            intent.putExtra("MARKET_DATA", market);
+
+            //MarketDetailActivity
+            getContext().startActivity(intent);
+        }
+
+
+
     }
 }

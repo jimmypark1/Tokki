@@ -1,8 +1,9 @@
 package com.Whowant.Tokki.VO;
 
 
+import java.io.Serializable;
 
-public class MarketVO {
+public class MarketVO implements Serializable {
 
     private String title;
     private String cover;

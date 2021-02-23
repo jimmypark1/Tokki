@@ -1,0 +1,619 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".UI.Activity.Market.MarketMainActivity">
+
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/i_back"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="마켓"/>
+
+
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBarLayout"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/infoFrame"
+
+
+            >
+            <TextView
+                android:id="@+id/workLabel"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#222222"
+                android:layout_marginTop="23dp"
+                 android:layout_marginLeft="20dp"
+
+                android:text="작품정보"
+                android:textStyle="bold"
+                />
+            <RelativeLayout
+                android:id="@+id/line0"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#f2f2f2"
+                android:layout_below="@+id/workLabel"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="6dp"
+
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="23dp"
+                android:layout_marginRight="23dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"
+                android:layout_below="@+id/line0"
+                >
+
+                <ImageView
+                    android:id="@+id/coverImgView"
+                    android:layout_width="120dp"
+                    android:layout_height="180dp"
+
+                    android:background="@drawable/round_gray"/>
+
+                <RelativeLayout
+                    android:id="@+id/info"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/coverImgView"
+                    android:layout_marginLeft="15.7dp"
+                    android:layout_marginRight="11.7dp"
+                    android:layout_toRightOf="@+id/coverImgView">
+
+                    <TextView
+                        android:id="@+id/bestBGView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorBlack"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:visibility="gone"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:text="1"/>
+
+                    <LinearLayout
+                        android:id="@+id/titleLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/menuBtn"
+                        android:orientation="horizontal"
+                        android:layout_toRightOf="@+id/bestBGView">
+
+                        <TextView
+                            android:id="@+id/titleView0"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="12dp"
+                            android:ellipsize="end"
+                            android:textSize="17sp"
+                            android:textColor="#191919"
+                            android:letterSpacing="-0.05"
+                            android:text="제목"/>
+
+                        <TextView
+                            android:id="@+id/newView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorWhite"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginLeft="10dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:layout_toRightOf="@+id/titleView"
+                            android:background="@drawable/new_bg"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:visibility="gone"
+                            android:text="NEW"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/menuBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:padding="15dp"
+                        android:layout_marginRight="5dp"
+                        android:visibility="invisible"
+                        android:src="@drawable/kebop_button"/>
+
+                    <LinearLayout
+                        android:id="@+id/rightLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_below="@+id/titleLayout"
+                        android:visibility="gone"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:id="@+id/rightArrowView"
+                            android:layout_width="5dp"
+                            android:layout_height="7dp"
+                            android:background="@drawable/up_red_arrow"/>
+
+                        <TextView
+                            android:id="@+id/rightTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:gravity="center_vertical"
+                            android:textColor="#ff0000"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:text="3"/>
+                    </LinearLayout>
+
+
+
+                    <TextView
+                        android:id="@+id/synopsisView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_below="@+id/titleLayout"
+                        android:layout_alignLeft="@+id/titleLayout"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#767676"
+                        android:ellipsize="end"
+                        android:textSize="13sp"
+                        android:maxLines="2"
+                        android:text="간략한 시나리오를 설명하는 칸입니다. 시나리오가 이렇게 저렇게 어쩌구 저쩌구"/>
+
+                    <TextView
+                        android:id="@+id/tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_below="@+id/synopsisView"
+                        android:layout_alignLeft="@+id/titleLayout"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#767676"
+                        android:ellipsize="end"
+                        android:textSize="13sp"
+                        android:maxLines="2"
+                        android:text="#로맨스 #호러"/>
+                    <TextView
+                        android:id="@+id/career"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_below="@+id/tag"
+                        android:layout_alignLeft="@+id/titleLayout"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#767676"
+                        android:ellipsize="end"
+                        android:textSize="13sp"
+                        android:maxLines="2"
+                        android:text="네이버 우수상 수상, 조회수 30만회, 매출 1.2억"/>
+                    <TextView
+                        android:id="@+id/copyright0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_below="@+id/career"
+                        android:layout_alignLeft="@+id/titleLayout"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#767676"
+                        android:ellipsize="end"
+                        android:textSize="13sp"
+                        android:maxLines="2"
+                        android:text="저작권: 본인소유"/>
+                    <TextView
+                        android:id="@+id/copyright1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_below="@+id/copyright0"
+                        android:layout_alignLeft="@+id/titleLayout"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#767676"
+                        android:ellipsize="end"
+                        android:textSize="13sp"
+                        android:maxLines="2"
+                        android:text="판권: 영화"/>
+                </RelativeLayout>
+                <TextView
+                    android:id="@+id/workDetailLabel"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="#222222"
+                    android:layout_marginTop="43dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_below="@+id/coverImgView"
+
+                    android:text="작품 상세정보"
+                    android:textStyle="bold"
+                    />
+                <RelativeLayout
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#f2f2f2"
+                    android:layout_below="@+id/workDetailLabel"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="6dp"
+
+                    />
+                <TextView
+                    android:id="@+id/detail0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_below="@+id/line1"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#767676"
+                    android:ellipsize="end"
+                    android:textSize="13sp"
+                    android:maxLines="2"
+                    android:text="저작권"/>
+                <TextView
+                    android:id="@+id/owner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginLeft="11dp"
+                    android:layout_below="@+id/line1"
+                    android:layout_toRightOf="@+id/detail0"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#767676"
+                    android:ellipsize="end"
+                    android:textSize="13sp"
+                    android:maxLines="2"
+                    android:text="본인소유"
+                    android:textStyle="bold"
+
+                    />
+                <TextView
+                    android:id="@+id/detail1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_below="@+id/owner"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#767676"
+                    android:ellipsize="end"
+                    android:textSize="13sp"
+                    android:maxLines="2"
+                    android:text="판권"/>
+                <TextView
+                    android:id="@+id/copyright"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginLeft="11dp"
+                    android:layout_below="@+id/detail0"
+                    android:layout_toRightOf="@+id/detail1"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#767676"
+                    android:ellipsize="end"
+                    android:textSize="13sp"
+                    android:maxLines="2"
+                    android:text="영화"
+                    android:textStyle="bold"
+
+                    />
+                <TextView
+                    android:id="@+id/detail2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_below="@+id/copyright"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#767676"
+                    android:ellipsize="end"
+                    android:textSize="13sp"
+                    android:maxLines="2"
+                    android:text="작품경력"/>
+                <TextView
+                    android:id="@+id/career1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginLeft="11dp"
+                    android:layout_below="@+id/detail1"
+                    android:layout_toRightOf="@+id/detail2"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#767676"
+                    android:ellipsize="end"
+                    android:textSize="13sp"
+                    android:maxLines="2"
+                    android:text="네이버 우수상 수상"
+                    android:textStyle="bold"
+
+                    />
+                <TextView
+                    android:id="@+id/statusLabel"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="#222222"
+                    android:layout_marginTop="43dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_below="@+id/career1"
+
+                    android:text="작품 상태"
+                    android:textStyle="bold"
+                    />
+                <RelativeLayout
+                    android:id="@+id/line3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#f2f2f2"
+                    android:layout_below="@+id/statusLabel"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="6dp"
+
+                    />
+                <TextView
+                    android:id="@+id/statusLabel0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_below="@+id/line3"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#767676"
+                    android:ellipsize="end"
+                    android:textSize="13sp"
+                    android:maxLines="2"
+                    android:text="연재중"/>
+
+                <TextView
+                    android:id="@+id/field"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="#222222"
+                    android:layout_marginTop="43dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_below="@+id/statusLabel0"
+
+                    android:text="사업화 희망분야"
+                    android:textStyle="bold"
+                    />
+                <RelativeLayout
+                    android:id="@+id/line4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#f2f2f2"
+                    android:layout_below="@+id/field"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="6dp"
+
+                    />
+                <TextView
+                    android:id="@+id/statusView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_below="@+id/line4"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#767676"
+                    android:ellipsize="end"
+                    android:textSize="13sp"
+                    android:maxLines="2"
+                    android:text="드라마, 출판, 만화"/>
+
+
+                <TextView
+                    android:id="@+id/genre"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="#222222"
+                    android:layout_marginTop="43dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_below="@+id/statusView"
+
+                    android:text="사업화 희망장르"
+                    android:textStyle="bold"
+                    />
+                <RelativeLayout
+                    android:id="@+id/line5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#f2f2f2"
+                    android:layout_below="@+id/genre"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="6dp"
+
+                    />
+                <TextView
+                    android:id="@+id/genreView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_below="@+id/line5"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#767676"
+                    android:ellipsize="end"
+                    android:textSize="13sp"
+                    android:maxLines="2"
+                    android:text="로맨스"/>
+
+                <TextView
+                    android:id="@+id/tagLabel"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="#222222"
+                    android:layout_marginTop="43dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_below="@+id/genreView"
+
+                    android:text="관심있는소재"
+                    android:textStyle="bold"
+                    />
+                <RelativeLayout
+                    android:id="@+id/line6"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#f2f2f2"
+                    android:layout_below="@+id/tagLabel"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="6dp"
+
+                    />
+                <TextView
+                    android:id="@+id/tagView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:layout_below="@+id/line6"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#767676"
+                    android:ellipsize="end"
+                    android:textSize="13sp"
+                    android:maxLines="2"
+                    android:text="#판타지"/>
+
+
+                <TextView
+                    android:id="@+id/priceLabel"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="#222222"
+                    android:layout_marginTop="43dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_below="@+id/tagView"
+
+                    android:text="판매 가격"
+                    android:textStyle="bold"
+                    />
+                <RelativeLayout
+                    android:id="@+id/line7"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#f2f2f2"
+                    android:layout_below="@+id/priceLabel"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="6dp"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/carrotView"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_below="@+id/line7"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/i_carrot"
+                    />
+
+                <TextView
+                    android:id="@+id/priceView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="18dp"
+
+                    android:layout_below="@+id/line7"
+                    android:layout_toRightOf="@+id/carrotView"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#767676"
+                    android:ellipsize="end"
+                    android:textSize="13sp"
+                    android:maxLines="2"
+                    android:text="100개 (5000000원)"/>
+
+                <TextView
+                    android:id="@+id/messageInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="100dp"
+
+                    android:layout_below="@+id/priceView"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#767676"
+                    android:ellipsize="end"
+                    android:textSize="11sp"
+                    android:maxLines="2"
+                    android:text="메시지를 통해 작가와 메시지를 주고 받을 수 있습니다."/>
+
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/carrot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+
+                android:layout_alignParentBottom="true"
+
+
+                android:padding="10dp"
+                android:text = "메시지 보내기"
+                android:textColor="@color/colorWhite"
+                android:background="#6ca5ff"/>
+
+
+        </RelativeLayout>
+
+
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -77,6 +77,7 @@ public class MarketDetailActivity extends AppCompatActivity {
         }
         price.setText(String.valueOf(market.getPrice()));
 
+        
         title.setText(market.getTitle());
         sypnosis.setText(market.getSypnopsis());
         tag.setText(market.getTag());
