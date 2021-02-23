@@ -130,6 +130,9 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                         case R.id.modify: {
                             WorkRegActivity.workVO = workVO;
                             Intent intent = new Intent(WorkWriteMainActivity.this, WorkRegActivity.class);
+                             intent.putExtra("NOVEL_TYPE", nTarget);
+
+
                             startActivity(intent);
 
 //                            WorkEditActivity.workVO = workVO;

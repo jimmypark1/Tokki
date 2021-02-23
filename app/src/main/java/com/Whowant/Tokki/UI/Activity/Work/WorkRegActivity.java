@@ -224,8 +224,18 @@ public class WorkRegActivity extends AppCompatActivity {
                 Glide.with(this)
                         .asBitmap() // some .jpeg files are actually gif
                         .load(coverImgUri)
-                        .into(photoIv);
+                     //   .into(photoIv);
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                photoIv.setImageBitmap(resource);
 
+                                // GaussianBlur.with(WorkRegActivity.this).size(300).radius(20).put(resource, photoIv);
+                                blurredBitmap = GaussianBlur.with(WorkRegActivity.this).size(300).radius(20).render(resource);
+//                            photoIv.setImageBitmap(blurredBitmap);
+
+                            }
+                        });
                 /*nThumbnail = 1;
                 ThumbnailPreviewActivity.bCoverThumb = true;
                 CropImageActivity.bThumbnail = true;
@@ -685,7 +695,14 @@ public class WorkRegActivity extends AppCompatActivity {
             RequestBody requestBody = null;
 
             File sourceFile = null;
+            File sourceFile0 = null;
+
             String strFilePath = null;
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+            String currentDateandTime = sdf.format(new Date());
+            String filename0 = currentDateandTime ;
+
 
             MultipartBody.Builder builder = new MultipartBody.Builder();
             SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
@@ -727,6 +744,14 @@ public class WorkRegActivity extends AppCompatActivity {
             if (coverImgUri != null) {
                 strFilePath = CommonUtils.getRealPathFromURI(mActivity, coverImgUri);
                 sourceFile = new File(strFilePath);
+                if(blurredBitmap != null)
+                {
+                    String savePath = saveBitmapToJpeg(this,blurredBitmap,filename0);
+
+                    sourceFile0 = new File(savePath);
+                    builder.addFormDataPart("COVER_IMG", filename0, RequestBody.create(MultipartBody.FORM, sourceFile0));
+
+                }
 
                 if (!sourceFile.exists()) {
                     mProgressDialog.dismiss();
@@ -736,6 +761,9 @@ public class WorkRegActivity extends AppCompatActivity {
 
                 String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
                 builder.addFormDataPart("COVER_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
+
+                builder.addFormDataPart("BACKGROUND", filename0 + ".jpg", RequestBody.create(MultipartBody.FORM, sourceFile0      ));
+
             }
 
             if (posterThumbUri != null) {
