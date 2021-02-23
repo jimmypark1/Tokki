@@ -49,9 +49,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -151,7 +156,7 @@ public class WorkRegActivity extends AppCompatActivity {
                             photoIv.setImageBitmap(resource);
 
                            // GaussianBlur.with(WorkRegActivity.this).size(300).radius(20).put(resource, photoIv);
-                            blurredBitmap = GaussianBlur.with(WorkRegActivity.this).size(300).radius(25).render(resource);
+                            blurredBitmap = GaussianBlur.with(WorkRegActivity.this).size(300).radius(20).render(resource);
 //                            photoIv.setImageBitmap(blurredBitmap);
 
                         }
@@ -869,7 +874,31 @@ public class WorkRegActivity extends AppCompatActivity {
             }
         }).start();
     }
+    public String saveBitmapToJpeg(Context context,Bitmap bitmap, String name){
 
+        File storage = context.getCacheDir(); // 이 부분이 임시파일 저장 경로
+
+        String fileName = name + ".jpg";  // 파일이름은 마음대로!
+
+        File tempFile = new File(storage,fileName);
+
+        try{
+            tempFile.createNewFile();  // 파일을 생성해주고
+
+            FileOutputStream out = new FileOutputStream(tempFile);
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100 , out);  // 넘거 받은 bitmap을 jpeg(손실압축)으로 저장해줌
+
+            out.close(); // 마무리로 닫아줍니다.
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return tempFile.getAbsolutePath();   // 임시파일 저장경로를 리턴해주면 끝!
+    }
     private void requestModifyData() {
         CommonUtils.showProgressDialog(mActivity, "작품을 수정하고 있습니다.");
 
@@ -878,7 +907,15 @@ public class WorkRegActivity extends AppCompatActivity {
             RequestBody requestBody = null;
 
             File sourceFile = null;
+            File sourceFile0 = null;
+
             String strFilePath = null;
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+            String currentDateandTime = sdf.format(new Date());
+            String filename0 = currentDateandTime ;
+
+            String savePath = saveBitmapToJpeg(this,blurredBitmap,filename0);
 
             MultipartBody.Builder builder = new MultipartBody.Builder();
             SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
@@ -898,6 +935,8 @@ public class WorkRegActivity extends AppCompatActivity {
                     .addFormDataPart("OWNERSHIP", String.valueOf(nOwner))
                     .addFormDataPart("CAREER", career.getText().toString())
                     .addFormDataPart("DELETE_POSTER", isDeletePoster? "Y" : "N");
+
+         //   BACKGROUND
 
             //
 
@@ -921,6 +960,7 @@ public class WorkRegActivity extends AppCompatActivity {
             if (coverImgUri != null && !coverImgUri.toString().startsWith("http")) {
                 strFilePath = CommonUtils.getRealPathFromURI(mActivity, coverImgUri);
                 sourceFile = new File(strFilePath);
+                sourceFile0 = new File(savePath);
 
                 if (!sourceFile.exists()) {
                     CommonUtils.hideProgressDialog();
@@ -930,7 +970,11 @@ public class WorkRegActivity extends AppCompatActivity {
 
                 String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
                 builder.addFormDataPart("COVER_IMG", filename, RequestBody.create(MultipartBody.FORM, sourceFile));
+
+                builder.addFormDataPart("BACKGROUND", filename0 + ".jpg", RequestBody.create(MultipartBody.FORM, sourceFile0      ));
+
             }
+
 
 //            if (posterThumbUri != null) {
 //                strFilePath = CommonUtils.getRealPathFromURI(mActivity, posterThumbUri);
