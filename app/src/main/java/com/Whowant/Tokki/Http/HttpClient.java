@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Environment;
+import android.text.format.Time;
 import android.util.Log;
 import android.widget.Space;
 import android.widget.Toast;
@@ -42,8 +44,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -51,6 +58,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -59,6 +67,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okio.Buffer;
+
+import static com.google.firebase.analytics.FirebaseAnalytics.Param.CONTENT;
 
 public class HttpClient {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -4890,6 +4901,86 @@ public class HttpClient {
 
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanbookUserProfile.jsp")
+                .post(requestBody)
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+            else
+                return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public static boolean createNovelEpisode(OkHttpClient httpClient,String episodeID, String workId,String content,String pages,String page) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM)
+                .addFormDataPart("PAGES", pages)
+                .addFormDataPart("PAGE", page)
+                .addFormDataPart("WORK_ID", workId);
+
+
+                //  File file = new File(strFilePath);
+      //  String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+        String currentDateandTime = sdf.format(new Date());
+        String filename = currentDateandTime + ".html";
+
+        String foldername = Environment.getExternalStorageDirectory().getAbsolutePath()+"/temp";
+
+        File dir = new File (foldername);
+
+
+
+
+
+       File saveFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/temp"); // 저장 경로
+// 폴더 생성
+
+        if(!dir.exists()){ // 폴더 없을 경우
+            dir.mkdir(); // 폴더 생성
+        }
+        try {
+
+            FileOutputStream fos = new FileOutputStream(foldername+"/"+filename, true);
+            //파일쓰기
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+            writer.write(content);
+            writer.flush();
+
+            writer.close();
+            fos.close();
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        File saveFile0 = new File(foldername+"/"+filename);
+
+
+        builder.addFormDataPart("CONTENT", CONTENT, RequestBody.create(MultipartBody.FORM, saveFile0));
+
+        RequestBody requestBody = builder.build();
+
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppCreateNovelEpisode.jsp?EPISODE_ID=" + episodeID)
                 .post(requestBody)
                 .build();
 
