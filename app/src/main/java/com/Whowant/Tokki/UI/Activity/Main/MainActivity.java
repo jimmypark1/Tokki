@@ -67,6 +67,7 @@ import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.nhn.android.naverlogin.OAuthLogin;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView inviteView;
     private ImageView alarmNewIconView, noticeNewIconView, eventNewIconView;                // 서랍메뉴 에서 알림, 공지사항, 이벤트 등에 찍히는 빨간 점. 읽었는지 여부는 SharedPreference 에서 판단(애초에 없던 기능을 추가한거라 그렇게 구현함)
     private boolean bCreated = true;                        // 이벤트 팝업이 생성되었는지를 가늠하는 플래그
+    private TabLayout tabLayout;
 
     MyPageFragment.MyPageAdapter myPageAdapter;
 
@@ -124,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         if (!(handler instanceof CustomUncaughtExceptionHandler)) {
             Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
         }
+        tabLayout = findViewById(R.id.tabLayout);
 
         centerLogoView = findViewById(R.id.cenverLogoView);
         leftBtn = findViewById(R.id.leftBtn);
@@ -144,6 +147,13 @@ public class MainActivity extends AppCompatActivity {
         eventNewIconView = findViewById(R.id.eventNewIconView);
         noticeNewIconView = findViewById(R.id.noticeNewIconView);
 //        alarmNewIconView = findViewById(R.id.alarmNewIconView);
+
+
+        tabLayout.addTab(tabLayout.newTab().setText("채팅소설"));
+        tabLayout.addTab(tabLayout.newTab().setText("웹소설"));
+        tabLayout.addTab(tabLayout.newTab().setText("e소설"));
+        tabLayout.addTab(tabLayout.newTab().setText("스토리"));
+
 
         pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
 
@@ -174,11 +184,15 @@ public class MainActivity extends AppCompatActivity {
 //                    rightBtn.setVisibility(View.VISIBLE);
 //                    rightBtn.setImageResource(R.drawable.serch_icon_balck);
 //                    profileIv.setVisibility(View.VISIBLE);
+
+                    tabLayout.setVisibility(View.VISIBLE);
                     alarmBtn.setVisibility(View.VISIBLE);
                     marketBtn.setVisibility(View.VISIBLE);
                 } else if (position == 1) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("검색");
+                    tabLayout.setVisibility(View.GONE);
+
 //                    rightBtn.setVisibility(View.VISIBLE);
 //                    rightBtn.setImageResource(R.drawable.dot_menu);
                 } else if (position == 2) {
@@ -187,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
                     rightBtn.setVisibility(View.VISIBLE);
                     rightBtn.setImageResource(R.drawable.i_setting);
                     reportBtn.setVisibility(View.GONE);
+                    tabLayout.setVisibility(View.GONE);
                 } else if (position == 3) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("작품쓰기");
@@ -197,10 +212,12 @@ public class MainActivity extends AppCompatActivity {
 //                    titleView.setText("마이 페이지");
 //                    rightBtn.setVisibility(View.VISIBLE);
 //                    rightBtn.setImageResource(R.drawable.gear_btn);
+                    tabLayout.setVisibility(View.GONE);
                 } else if (position == 4) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("친구");
                     inviteView.setVisibility(View.VISIBLE);
+                    tabLayout.setVisibility(View.GONE);
                 }
             }
 
