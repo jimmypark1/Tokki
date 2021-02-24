@@ -43,11 +43,19 @@ public class MainFragment extends Fragment {                                    
 
     private boolean bVisible = false;
 
+    public int nType = 0;
     public static Fragment newInstance() {
         MainFragment fragment = new MainFragment();
         return fragment;
     }
 
+    public void Clear()
+    {
+      //  mainRecyclerView.smoothScrollToPosition(0);
+        mainCardList.clear();
+        recommendCardList.clear();
+
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +114,7 @@ public class MainFragment extends Fragment {                                    
         }
     }
 
-    private void getMainData() {
+    public void getMainData() {
         if(mainCardList == null)
             return;
 
@@ -116,7 +124,7 @@ public class MainFragment extends Fragment {                                    
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mainCardList = HttpClient.getAllRankingList(new OkHttpClient());
+                mainCardList = HttpClient.getAllRankingList(new OkHttpClient(), nType);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -147,6 +155,9 @@ public class MainFragment extends Fragment {                                    
                                 getRecommendData();
                             } else {
                                 mainCardList.addAll(1, recommendCardList);
+                         //       recommendCardList.clear();
+
+                            //    getRecommendData();
                             }
 
                             adapter.setData(mainCardList);
@@ -177,7 +188,7 @@ public class MainFragment extends Fragment {                                    
                     return;
 
                 SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
-                recommendCardList = HttpClient.getRecommendList(new OkHttpClient(), pref.getString("USER_ID", "Guest"));
+                recommendCardList = HttpClient.getRecommendList(new OkHttpClient(), pref.getString("USER_ID", "Guest"),nType);
                 mainCardList.remove(1);
                 mainCardList.addAll(1, recommendCardList);
                 getActivity().runOnUiThread(new Runnable() {

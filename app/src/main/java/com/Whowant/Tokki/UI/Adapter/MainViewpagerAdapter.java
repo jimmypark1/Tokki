@@ -21,6 +21,8 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
     private LiteratureFragment literatureFragment;
     private FriendFragment friendFragment;
 
+    public int nType = 0;
+
     public MainViewpagerAdapter(FragmentManager fm) {
         super(fm);
 
@@ -29,6 +31,7 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
 //        literatureFragment = (LiteratureFragment)LiteratureFragment.newInstance();
 //        myFragment = (MyFragment)MyFragment.newInstance();
         mainFragment = new MainFragment();
+        mainFragment.nType = nType;
         searchFragment = new SearchFragment();
 //        keepFragment = new KeepFragment();
 //        storageBoxFragment = new StorageBoxFragment();
@@ -37,6 +40,14 @@ public class MainViewpagerAdapter extends FragmentPagerAdapter {
         friendFragment = new FriendFragment();
     }
 
+    public void updateMain()
+    {
+        mainFragment.nType = nType;
+
+        mainFragment.Clear();
+        mainFragment.getMainData();
+
+    }
     @Override
     public Fragment getItem(int position) {
         switch (position) {

@@ -275,16 +275,29 @@ public class MainActivity extends AppCompatActivity {
 
         initMenuViews();
 
-//        if (bFirst) {                                                                                                        // 앱 최초 실행으로 판단되면 튜토리얼 페이지 노출
-//            startActivity(new Intent(MainActivity.this, MainTutorialActivity.class));                                        // UI 변경으로 인해 화면이 맞지 않아서 우선 숨김
-//        }
-
-//        SharedPreferences.Editor editor = pref.edit();
-//        editor.remove("4");
-//        editor.remove("5");
-//        editor.commit();
 
         requestAttendance();                                                                                                            // 출석체크. 무조건 전송하고, 1일 지났는지 성공/실패 여부는 서버에서 판단
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int pos = tab.getPosition();
+
+
+                mainPagerAdapter.nType = pos;
+                mainPagerAdapter.updateMain();
+                mainPagerAdapter.notifyDataSetChanged();
+
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) { }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
+
+        });
+
+
     }
 
     public void requestAttendance() {

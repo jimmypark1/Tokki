@@ -1925,13 +1925,26 @@ public class HttpClient {
         return genreList;
     }
 
-    public static ArrayList<MainCardVO> getAllRankingList(OkHttpClient httpClient) {                              // 모든 작품 목록 가져오기
+    public static ArrayList<MainCardVO> getAllRankingList(OkHttpClient httpClient, int type) {                              // 모든 작품 목록 가져오기
         ArrayList<MainCardVO> mainCardList = new ArrayList<>();
 
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetAllRankingList")
-                .get()
-                .build();
+        Request request;
+        if(type == 0)
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetAllRankingList")
+                    .get()
+                    .build();
+        }
+        else
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetAllRankingList")
+                    .get()
+                    .build();
+
+        }
+
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -1939,65 +1952,70 @@ public class HttpClient {
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
+            if(type == 0)
+            {
+                JSONArray recommandsonArray = resultObject.getJSONArray("RECOMMAND");
+                MainCardVO recommandVO = new MainCardVO();
+                ArrayList<WorkVO> recommandWorkList = new ArrayList<>();
+                recommandVO.setStrHeaderTitle("추천");
+                recommandVO.setViewType(0);
 
-            JSONArray recommandsonArray = resultObject.getJSONArray("RECOMMAND");
-            MainCardVO recommandVO = new MainCardVO();
-            ArrayList<WorkVO> recommandWorkList = new ArrayList<>();
-            recommandVO.setStrHeaderTitle("추천");
-            recommandVO.setViewType(0);
+                for (int i = 0; i < recommandsonArray.length(); i++) {
+                    JSONObject object = recommandsonArray.getJSONObject(i);
 
-            for (int i = 0; i < recommandsonArray.length(); i++) {
-                JSONObject object = recommandsonArray.getJSONObject(i);
+                    WorkVO workVO = new WorkVO();
+                    workVO.setWorkID(object.getInt("WORK_ID"));
+                    workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                    workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                    workVO.setWriteID(object.getString("WRITER_ID"));
+                    workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                    workVO.setTitle(object.getString("WORK_TITLE"));
+                    workVO.setCoverFile(object.getString("COVER_IMG"));
 
-                WorkVO workVO = new WorkVO();
-                workVO.setWorkID(object.getInt("WORK_ID"));
-                workVO.setCreatedDate(object.getString("CREATED_DATE"));
-                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-                workVO.setWriteID(object.getString("WRITER_ID"));
-                workVO.setStrWriterName(object.getString("WRITER_NAME"));
-                workVO.setTitle(object.getString("WORK_TITLE"));
-                workVO.setCoverFile(object.getString("COVER_IMG"));
+                    if (object.has("RECOMMEND_IMG") && object.getString("RECOMMEND_IMG").length() > 0 && !object.getString("RECOMMEND_IMG").equals("null"))
+                        workVO.setCoverFile(object.getString("RECOMMEND_IMG"));
 
-                if (object.has("RECOMMEND_IMG") && object.getString("RECOMMEND_IMG").length() > 0 && !object.getString("RECOMMEND_IMG").equals("null"))
-                    workVO.setCoverFile(object.getString("RECOMMEND_IMG"));
+                    workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                    workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                    workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                    workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                    workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                    workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                    workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                    workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                    workVO.setnTarget(object.getInt("TARGET"));
 
-                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
-                workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
-                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
-                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
-                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
-                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
-                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
-                workVO.setnTarget(object.getInt("TARGET"));
+                    recommandWorkList.add(workVO);
+                }
 
-                recommandWorkList.add(workVO);
+                recommandVO.setAllItemInCard(recommandWorkList);
+                mainCardList.add(recommandVO);
+
+
+                // 2020.09.24 modified by sjy   //////////////////////////////////////
+                String strEndDay = "20201001235959";
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+                Date endDate = null;
+
+                try {
+                    endDate = sdf.parse(strEndDay);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Date toDay = new Date();
+                Log.d("Date", "Today = " + toDay.getTime() + ", EndDay = " + endDate.getTime());
+
+                if (toDay.getTime() <= endDate.getTime()) {
+                    WorkVO carrotEvent = new WorkVO();
+                    carrotEvent.setWorkID(-1);
+                    carrotEvent.setCoverFile("-1");
+                    recommandWorkList.add(0, carrotEvent);
+                    ////////  Modify End //////////////////////////////////////
+                }
             }
 
-            recommandVO.setAllItemInCard(recommandWorkList);
-            mainCardList.add(recommandVO);
 
-            // 2020.09.24 modified by sjy   //////////////////////////////////////
-            String strEndDay = "20201001235959";
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-            Date endDate = null;
-
-            try {
-                endDate = sdf.parse(strEndDay);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            Date toDay = new Date();
-            Log.d("Date", "Today = " + toDay.getTime() + ", EndDay = " + endDate.getTime());
-
-            if (toDay.getTime() <= endDate.getTime()) {
-                WorkVO carrotEvent = new WorkVO();
-                carrotEvent.setWorkID(-1);
-                carrotEvent.setCoverFile("-1");
-                recommandWorkList.add(0, carrotEvent);
-                ////////  Modify End //////////////////////////////////////
-            }
 //            Calendar endDay = Calendar.getInstance();
 //            endDay.setTime(endDate);
 //            Calendar todayCal = Calendar.getInstance();
@@ -5523,13 +5541,25 @@ public class HttpClient {
     }
 
     // 개인별 추천작 리스트
-    public static ArrayList<MainCardVO> getRecommendList(OkHttpClient httpClient, String strUserID) {                              // 추천작 가져오기
+    public static ArrayList<MainCardVO> getRecommendList(OkHttpClient httpClient, String strUserID, int type) {                              // 추천작 가져오기
         ArrayList<MainCardVO> mainCardList = new ArrayList<>();
 
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "TokkiRecommendList.jsp?CMD=GetRecommendList&USER_ID=" + strUserID)
-                .get()
-                .build();
+        Request request;
+        if(type == 0)
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "TokkiRecommendList.jsp?CMD=GetRecommendList&USER_ID=" + strUserID)
+                    .get()
+                    .build();
+        }
+        else
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "TokkiRecommendList.jsp?CMD=GetRecommendList2&USER_ID=" + strUserID)
+                    .get()
+                    .build();
+        }
+
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)

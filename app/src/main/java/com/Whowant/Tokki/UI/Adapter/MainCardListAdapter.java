@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Build;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -84,59 +87,75 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
 
         if (viewType == 0) {                                                     // 추천
             ArrayList singleSectionItems = mainCardList.get(position).getAllItemInCard();
-            MainRecommendAdapter adapter = new MainRecommendAdapter(mContext, singleSectionItems);
-            itemRowHolder.recyclerView.setHasFixedSize(true);
-            LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-            itemRowHolder.recyclerView.setAdapter(adapter);
+            if(singleSectionItems.size() > 0)
+            {
+               // itemRowHolder.bottomShadow.setVisibility(View.VISIBLE);
 
-            LinearLayout dotLayout = itemRowHolder.itemView.findViewById(R.id.dotLayout);
-            dotLayout.removeAllViews();
-            final ArrayList<View> dotViewList = new ArrayList<>();
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+               // itemRowHolder.recyclerView.setVisibility(View.VISIBLE);
 
-            for (int i = 0; i < singleSectionItems.size(); i++) {
-                View view = inflater.inflate(R.layout.dot_view, null);
-                ImageView dotView = view.findViewById(R.id.dotView);
-                if (i == 0) {
-                    dotView.setBackgroundResource(R.drawable.white_dot);
-                } else {
-                    dotView.setBackgroundResource(R.drawable.gray_dot);
+                MainRecommendAdapter adapter = new MainRecommendAdapter(mContext, singleSectionItems);
+                itemRowHolder.recyclerView.setHasFixedSize(true);
+                LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+                itemRowHolder.recyclerView.setAdapter(adapter);
+
+                LinearLayout dotLayout = itemRowHolder.itemView.findViewById(R.id.dotLayout);
+                dotLayout.removeAllViews();
+                final ArrayList<View> dotViewList = new ArrayList<>();
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                for (int i = 0; i < singleSectionItems.size(); i++) {
+                    View view = inflater.inflate(R.layout.dot_view, null);
+                    ImageView dotView = view.findViewById(R.id.dotView);
+                    if (i == 0) {
+                        dotView.setBackgroundResource(R.drawable.white_dot);
+                    } else {
+                        dotView.setBackgroundResource(R.drawable.gray_dot);
+                    }
+
+                    dotLayout.addView(view);
+                    dotViewList.add(view);
                 }
 
-                dotLayout.addView(view);
-                dotViewList.add(view);
-            }
+                PagerSnapHelper snapHelper = new PagerSnapHelper();
+                itemRowHolder.recyclerView.setOnFlingListener(null);
+                snapHelper.attachToRecyclerView(itemRowHolder.recyclerView);
 
-            PagerSnapHelper snapHelper = new PagerSnapHelper();
-            itemRowHolder.recyclerView.setOnFlingListener(null);
-            snapHelper.attachToRecyclerView(itemRowHolder.recyclerView);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    itemRowHolder.recyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                        @Override
+                        public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                            View currentView = snapHelper.findSnapView(lm);
+                            int nPosition = lm.getPosition(currentView);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                itemRowHolder.recyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                    @Override
-                    public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                        View currentView = snapHelper.findSnapView(lm);
-                        int nPosition = lm.getPosition(currentView);
+                            for (int i = 0; i < dotViewList.size(); i++) {
+                                View wrapView = dotViewList.get(i);
 
-                        for (int i = 0; i < dotViewList.size(); i++) {
-                            View wrapView = dotViewList.get(i);
+                                ImageView dotView = wrapView.findViewById(R.id.dotView);
+                                dotView.setBackgroundResource(R.drawable.gray_dot);
 
-                            ImageView dotView = wrapView.findViewById(R.id.dotView);
-                            dotView.setBackgroundResource(R.drawable.gray_dot);
-
-                            if (i == nPosition) {
-                                dotView.setBackgroundResource(R.drawable.white_dot);
+                                if (i == nPosition) {
+                                    dotView.setBackgroundResource(R.drawable.white_dot);
+                                }
                             }
-                        }
 
-                        nCurrentItem = nPosition;
-                        setTimer(singleSectionItems, itemRowHolder.recyclerView);
-                    }
-                });
+                            nCurrentItem = nPosition;
+                            setTimer(singleSectionItems, itemRowHolder.recyclerView);
+                        }
+                    });
+                }
+
+                setTimer(singleSectionItems, itemRowHolder.recyclerView);
+                itemRowHolder.recyclerView.setLayoutManager(lm);
+            }
+            else
+            {
+                LinearLayout dotLayout = itemRowHolder.itemView.findViewById(R.id.dotLayout);
+         //       dotLayout.removeAllViews();
+
+         //       itemRowHolder.bottomShadow.setVisibility(View.GONE);
+         //       itemRowHolder.recyclerView.setVisibility(View.GONE);
             }
 
-            setTimer(singleSectionItems, itemRowHolder.recyclerView);
-            itemRowHolder.recyclerView.setLayoutManager(lm);
         } else if (viewType == 1) {                          //  인기작, 2개씩 ViewPager 로 변환*
             ArrayList singleSectionItems = mainCardList.get(position).getAllItemInCard();
             PopularPagerAdapter adapter = new PopularPagerAdapter(mContext, singleSectionItems);
@@ -237,7 +256,8 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
         protected TextView btnMore;
         protected RecyclerView recyclerView;
         protected RecyclerView viewPager;
-
+        protected RelativeLayout bottomShadow;
+//bottomShadow
 
         public MainCardHolder(View view) {
             super(view);
@@ -246,6 +266,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             this.btnMore = view.findViewById(R.id.btnMore);
             this.recyclerView = view.findViewById(R.id.recyclerView);
             this.viewPager = view.findViewById(R.id.viewPager);
+            this.bottomShadow = view.findViewById(R.id.bottomShadow);
 
             recyclerView.setHasFixedSize(true);
             LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
