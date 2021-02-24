@@ -95,38 +95,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_marginTop="30.7dp"
-                android:layout_marginLeft="64dp"
-                android:layout_marginRight="64dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="@color/colorBlack"
-                    android:text="닉네임"/>
+                    android:layout_height="20dp"
+                    android:textSize="13sp"
+                    android:textColor="#191919"
+                    android:text="이름"/>
 
                 <EditText
                     android:id="@+id/inputNameView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="6dp"
                     android:textSize="16sp"
-                    android:background="@null"
+                    android:background="@drawable/round_square_gray_stroke_bg"
                     android:textColor="@color/colorBlack"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:padding="10dp"
+
                     android:hint="홍길동"/>
 
-                <ImageView
-                    android:id="@+id/inputNicknameLineView"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="7dp"
-                    android:background="#d1d1d1"/>
-            </LinearLayout>
 
+            </LinearLayout>
+<!--
             <LinearLayout
                 android:id="@+id/inputPhoneNumLayout"
                 android:layout_width="match_parent"
@@ -161,40 +158,38 @@
                     android:background="#d1d1d1"
                     android:layout_marginTop="7dp"/>
             </LinearLayout>
-
+-->
 
             <LinearLayout
                 android:id="@+id/inputEmailLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/inputPhoneNumLayout"
+                android:layout_below="@+id/inputNameLayout"
                 android:layout_marginTop="26.3dp"
-                android:layout_marginLeft="64dp"
-                android:layout_marginRight="64dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="@color/colorBlack"
+                    android:textSize="13sp"
+                    android:textColor="#191919"
                     android:text="이메일"/>
 
                 <EditText
                     android:id="@+id/inputEmailView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="6dp"
                     android:inputType="textEmailAddress"
                     android:textSize="16sp"
-                    android:background="@null"/>
+                    android:padding="10dp"
 
-                <ImageView
-                    android:id="@+id/inputEmailLineView"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#d1d1d1"
-                    android:layout_marginTop="7dp"/>
+                    android:background="@drawable/round_square_gray_stroke_bg"
+                    />
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -203,34 +198,32 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/inputEmailLayout"
                 android:layout_marginTop="26.3dp"
-                android:layout_marginLeft="64dp"
-                android:layout_marginRight="64dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="@color/colorBlack"
+                    android:textSize="13sp"
+                    android:textColor="#191919"
                     android:text="생년월일"/>
 
                 <TextView
                     android:id="@+id/inputBirthView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="6dp"
                     android:onClick="OnClickBirthBtn"
                     android:textSize="16sp"
-                    android:background="@null"/>
+                    android:padding="10dp"
 
-                <ImageView
-                    android:id="@+id/inputBirthLineView"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#d1d1d1"
-                    android:layout_marginTop="7dp"/>
+                    android:background="@drawable/round_square_gray_stroke_bg"
+                    />
+
+
             </LinearLayout>
-
+<!--
             <LinearLayout
                 android:id="@+id/genderLayout"
                 android:layout_width="match_parent"
@@ -261,7 +254,8 @@
                         android:layout_width="14dp"
                         android:layout_height="14dp"
                         android:layout_marginLeft="6.7dp"
-                        android:background="@drawable/check_box_non"/>
+
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -284,31 +278,128 @@
                         android:layout_width="14dp"
                         android:layout_height="14dp"
                         android:layout_marginLeft="6.7dp"
-                        android:background="@drawable/check_box_non"/>
+
+                        />
                 </LinearLayout>
+
             </LinearLayout>
+        -->
 
             <LinearLayout
-                android:id="@+id/emptyLayout"
+                android:id="@+id/genderLayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginLeft="64dp"
-                android:layout_marginRight="64dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:gravity="center_vertical"
-                android:layout_below="@+id/genderLayout"
-                android:orientation="horizontal">
+                android:layout_below="@+id/inputBirthLayout"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textColor="#666666"
+                    android:text="성별"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/men"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/common_btn_bg_disable"
+                        android:text="남"
+                        android:onClick="onClickMen"
+                        android:textColor="#999999" />
+
+                    <Button
+                        android:id="@+id/woman"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_toRightOf="@+id/men"
+                        android:background="@drawable/common_btn_bg_enable"
+                        android:text="여"
+                        android:onClick="onClickWoman"
+
+                        android:textColor="#ffffff" />
+                </RelativeLayout>
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/genderLayout"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textColor="#666666"
+                    android:text="어떤 목적으로 이용하실 건가요?"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/reader"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/common_btn_bg_enable"
+                        android:textColor="#fff"
+                        android:text="독자"
+                        android:onClick="onClickReader"
 
+                        />
+                    <Button
+                        android:id="@+id/writer"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/reader"
+                        android:background="@drawable/common_btn_bg_disable"
+                        android:textColor="#999999"
+                        android:text="작가"
+                        android:onClick="onClickWriter"
+
+                        />
+                    <Button
+                        android:id="@+id/producer"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/writer"
+                        android:background="@drawable/common_btn_bg_disable"
+                        android:textColor="#999999"
+                        android:text="제작자"
+                        android:onClick="onClickProducer"
+
+                        />
+                </RelativeLayout>
+
+            </LinearLayout>
             <Button
                 android:id="@+id/registerBtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="44dp"
                 android:layout_marginLeft="33dp"
                 android:layout_marginRight="33dp"
-                android:layout_marginBottom="20dp"
-                android:layout_alignParentBottom="true"
+                android:layout_marginTop="50dp"
+
+                android:layout_below="@+id/type"
+
                 android:background="@drawable/common_btn_bg"
                 android:textColor="@color/colorWhite"
                 android:text="다음"

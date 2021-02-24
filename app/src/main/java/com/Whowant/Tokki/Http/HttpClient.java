@@ -3673,9 +3673,10 @@ public class HttpClient {
         jsonBody.put("USER_PW", userInfoMap.get("USER_PW"));
         jsonBody.put("USER_NAME", userInfoMap.get("USER_NAME"));
         jsonBody.put("USER_EMAIL", userInfoMap.get("USER_EMAIL"));
-        jsonBody.put("USER_PHONENUM", userInfoMap.get("USER_PHONENUM"));
+      //  jsonBody.put("USER_PHONENUM", userInfoMap.get("USER_PHONENUM"));
         jsonBody.put("USER_BIRTHDAY", userInfoMap.get("USER_BIRTHDAY"));
         jsonBody.put("USER_GENDER", userInfoMap.get("USER_GENDER"));
+        jsonBody.put("TYPE", Integer.valueOf(userInfoMap.get("TYPE")));
 
         if (userInfoMap.get("USER_PHOTO") != null)
             jsonBody.put("USER_PHOTO", userInfoMap.get("USER_PHOTO"));

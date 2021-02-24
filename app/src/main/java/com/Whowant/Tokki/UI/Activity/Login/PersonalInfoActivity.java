@@ -4,8 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -56,6 +63,16 @@ public class PersonalInfoActivity extends AppCompatActivity {
     private final int GENDER_FEMALE = 1;
     private int    nGender = GENDER_FEMALE;
 
+    private int    nType = 0;  // 0:독자 1:작가 2 제작자
+
+
+    Button menBt;
+    Button womanBt;
+
+    Button readerBt;
+    Button writerBt;
+    Button producerBt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +98,18 @@ public class PersonalInfoActivity extends AppCompatActivity {
         inputEmailView = findViewById(R.id.inputEmailView);
         inputPhonenumView = findViewById(R.id.inputPhoneNumView);
         inputBirthView = findViewById(R.id.inputBirthView);
+
+        menBt = findViewById(R.id.men);
+        womanBt = findViewById(R.id.woman);
+
+        readerBt = findViewById(R.id.reader);
+        writerBt = findViewById(R.id.writer);
+        producerBt = findViewById(R.id.producer);
+
+        /*
         maleCheckLayout = findViewById(R.id.maleCheckLayout);
         femaleCheckLayout = findViewById(R.id.femaleCheckLayout);
+
         maleCheck = findViewById(R.id.maleCheck);
         femaleCheck = findViewById(R.id.femaleCheck);
 
@@ -104,7 +131,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                 initGenderViews();
             }
         });
-
+        */
         inputBirthView.setFocusable(false);
         inputBirthView.setClickable(false);
         inputBirthView.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +162,131 @@ public class PersonalInfoActivity extends AppCompatActivity {
         });
 
         initViews();
+        initLayout();
+    }
+
+
+    public void onClickMen(View view)
+    {
+        menBt.setBackgroundResource(R.drawable.common_btn_bg_enable);
+        womanBt.setBackgroundResource(R.drawable.common_btn_bg_disable);
+        menBt.setTextColor(Color.parseColor("#ffffff"));
+        womanBt.setTextColor(Color.parseColor("#767676"));
+
+        nGender = GENDER_MALE;
+    }
+    public void onClickWoman(View view)
+    {
+        menBt.setBackgroundResource(R.drawable.common_btn_bg_disable);
+        womanBt.setBackgroundResource(R.drawable.common_btn_bg_enable);
+
+        womanBt.setTextColor(Color.parseColor("#ffffff"));
+        menBt.setTextColor(Color.parseColor("#767676"));
+
+        nGender = GENDER_FEMALE;
+
+
+    }
+    public void onClickReader(View view)
+    {
+        readerBt.setBackgroundResource(R.drawable.common_btn_bg_enable);
+        writerBt.setBackgroundResource(R.drawable.common_btn_bg_disable);
+        producerBt.setBackgroundResource(R.drawable.common_btn_bg_disable);
+
+
+        readerBt.setTextColor(Color.parseColor("#ffffff"));
+        writerBt.setTextColor(Color.parseColor("#767676"));
+        producerBt.setTextColor(Color.parseColor("#767676"));
+
+        nType = 0;
+    }
+    public void onClickWriter(View view)
+    {
+        readerBt.setBackgroundResource(R.drawable.common_btn_bg_disable);
+        writerBt.setBackgroundResource(R.drawable.common_btn_bg_enable);
+        producerBt.setBackgroundResource(R.drawable.common_btn_bg_disable);
+
+
+        readerBt.setTextColor(Color.parseColor("#767676"));
+        writerBt.setTextColor(Color.parseColor("#ffffff"));
+        producerBt.setTextColor(Color.parseColor("#767676"));
+
+        nType = 1;
+
+    }
+    public void onClickProducer(View view)
+    {
+        readerBt.setBackgroundResource(R.drawable.common_btn_bg_disable);
+        writerBt.setBackgroundResource(R.drawable.common_btn_bg_disable);
+        producerBt.setBackgroundResource(R.drawable.common_btn_bg_enable);
+
+
+        readerBt.setTextColor(Color.parseColor("#767676"));
+        writerBt.setTextColor(Color.parseColor("#767676"));
+        producerBt.setTextColor(Color.parseColor("#ffffff"));
+
+        nType = 2;
+
+    }
+
+    int dpToPx(float dp)
+    {
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, dm);
+    }
+    int pxToDp(float dp)
+    {
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, dm);
+    }
+
+
+    void initLayout()
+    {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+
+        int offsetSex = ( width -  dpToPx(30 * 2) - dpToPx(10) ) / 2;
+        int offsetType = ( (width) -  dpToPx(30 * 2) - dpToPx(10*2) ) / 3;
+/*
+        menBt.setWidth(offsetSex);
+        womanBt.setWidth(offsetSex);
+
+        readerBt.setWidth(offsetType);
+        writerBt.setWidth(offsetType);
+        producerBt.setWidth(offsetType);
+
+
+ */
+
+        ViewGroup.LayoutParams params = menBt.getLayoutParams();
+        params.width = offsetSex;
+
+        ViewGroup.LayoutParams params1 = womanBt.getLayoutParams();
+        params1.width = offsetSex;
+
+        ViewGroup.LayoutParams params3 = readerBt.getLayoutParams();
+        params3.width = offsetType;
+        ViewGroup.LayoutParams params4 = writerBt.getLayoutParams();
+        params4.width = offsetType;
+        ViewGroup.LayoutParams params5 = producerBt.getLayoutParams();
+        params5.width = offsetType;
+
+ /*
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(pxToDp(offsetSex), 40);
+        menBt.setLayoutParams(layoutParams);
+        womanBt.setLayoutParams(layoutParams);
+
+        ViewGroup.LayoutParams layoutParams1 = new ViewGroup.LayoutParams(pxToDp(offsetType), 40);
+        readerBt.setLayoutParams(layoutParams);
+        writerBt.setLayoutParams(layoutParams);
+        producerBt.setLayoutParams(layoutParams);
+*/
+        //  button.setLayoutParams(params);
+
+
     }
 
     public void onClickBackBtn(View view) {
@@ -187,20 +339,20 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
         if(strID != null) {
             strPhoneNum = strID;
-            inputPhonenumView.setText(strPhoneNum);
-            inputPhonenumView.setEnabled(false);
+       //     inputPhonenumView.setText(strPhoneNum);
+       //     inputPhonenumView.setEnabled(false);
         }
 
         if(strPhoneNum != null) {
-            inputPhonenumView.setText(strPhoneNum);
-            inputPhonenumView.setEnabled(false);
+         //   inputPhonenumView.setText(strPhoneNum);
+         //   inputPhonenumView.setEnabled(false);
         }
     }
 
     public void onClickRegisterBtn(View view) {
         strName = inputNameView.getText().toString();
         strEmail = inputEmailView.getText().toString();
-        strPhoneNum = inputPhonenumView.getText().toString();
+       // strPhoneNum = inputPhonenumView.getText().toString();
 
         if(strName.length() == 0) {
             Toast.makeText(PersonalInfoActivity.this, "닉네임을 입력해주세요.", Toast.LENGTH_LONG).show();
@@ -216,12 +368,12 @@ public class PersonalInfoActivity extends AppCompatActivity {
             Toast.makeText(PersonalInfoActivity.this, "올바른 이메일 형식이 아닙니다.", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        /*
         if(strPhoneNum.length() == 0) {
             Toast.makeText(PersonalInfoActivity.this, "전화번호를 입력해주세요.", Toast.LENGTH_LONG).show();
             return;
         }
-
+        */
         if(strBirth == null) {
             Toast.makeText(PersonalInfoActivity.this, "생년월일을 선택해주세요", Toast.LENGTH_LONG).show();
             return;
@@ -238,12 +390,13 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
         userInfoMap.put("USER_NAME", strName);
         userInfoMap.put("USER_EMAIL", strEmail);
-        userInfoMap.put("USER_PHONENUM", strPhoneNum);
+    //    userInfoMap.put("USER_PHONENUM", strPhoneNum);
         userInfoMap.put("USER_PHOTO", strProfileImageUrl);
         userInfoMap.put("REGISTER_SNS", "" + nSNS);
         userInfoMap.put("SNS_ID", strSNSID);
         userInfoMap.put("USER_BIRTHDAY", strBirthday);
         userInfoMap.put("USER_GENDER", "" + nGender);
+        userInfoMap.put("TYPE", "" + nType);
 
         CommonUtils.showProgressDialog(PersonalInfoActivity.this, "회원 가입 중입니다. 잠시만 기다려주세요.");
         new Thread(new Runnable() {
