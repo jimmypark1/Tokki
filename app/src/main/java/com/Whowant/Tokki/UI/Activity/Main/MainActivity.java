@@ -631,6 +631,9 @@ public class MainActivity extends AppCompatActivity {
         TextView typeView = navigationView.findViewById(R.id.typeView);
         String strAdmin = pref.getString("ADMIN", "N");
 
+        int nUserType = pref.getInt("USER_TYPE", 0);
+
+
         if (strAdmin.equals("Y")) {          // 관리자 라면 관리자 전용 메뉴 노출
             typeView.setText("관리자");
             managerLayout = navigationView.findViewById(R.id.managerLayout);
@@ -686,7 +689,21 @@ public class MainActivity extends AppCompatActivity {
         } else {
             managerLayout = navigationView.findViewById(R.id.managerLayout);
             managerLayout.setVisibility(View.INVISIBLE);
-            typeView.setText("일반회원");
+            if(nUserType == 0)
+            {
+                typeView.setText("독자");
+
+            }
+            else if(nUserType == 1)
+            {
+                typeView.setText("작가");
+
+            }
+            else if(nUserType == 2)
+            {
+                typeView.setText("제작자");
+
+            }
         }
 
 

@@ -68,6 +68,8 @@ public class MyPageFragment extends Fragment {
     TextView followingCountTv;
     TextView introductionTv;
 
+    TextView typeView;
+
     RelativeLayout btnTokkiSNS;
     LinearLayout btnFollower;
     LinearLayout btnCarrot;
@@ -117,6 +119,8 @@ public class MyPageFragment extends Fragment {
         carrotTv = v.findViewById(R.id.tv_my_page_carrot);
         levelIv = v.findViewById(R.id.iv_my_page_level);
         levelTv = v.findViewById(R.id.tv_my_page_level);
+        typeView    = v.findViewById(R.id.tv_my_page_typel);
+        //
 
         introductionTv = v.findViewById(R.id.comment);
 
@@ -423,7 +427,7 @@ public class MyPageFragment extends Fragment {
                             levelTv.setText(levelName[nLevel - 1]);
                             */
 
-                            levelTv.bringToFront();
+//                            levelTv.bringToFront();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -455,7 +459,39 @@ public class MyPageFragment extends Fragment {
                             }
 
                             String ret = resultObject.getString("COMMENT");
-                            introductionTv.setText(ret);
+                            int nType = resultObject.getInt("STATUS");
+                            if(nType == 0 )
+                            {
+                                typeView.setText("독자");
+                                //
+                                typeView.setBackgroundResource(R.drawable.round_my_blue);
+
+                            }
+                            else if(nType == 1 )
+                            {
+                                typeView.setText("작가");
+                                typeView.setBackgroundResource(R.drawable.round_my_purple);
+
+                            }
+                            else if(nType == 2 )
+                            {
+                                typeView.setText("제작자");
+                                typeView.setBackgroundResource(R.drawable.round_my_red);
+
+                            }
+                            if(ret != "null")
+                            {
+                                introductionTv.setText(ret);
+
+                            }
+                            else
+                            {
+                                introductionTv.setText("");
+
+                            }
+                            String name = resultObject.getString("NAME");
+
+                            nameTv.setText(name);
 
 
 

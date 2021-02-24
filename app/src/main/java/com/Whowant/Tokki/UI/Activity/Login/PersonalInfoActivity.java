@@ -443,6 +443,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
                                     editor.putString("ADMIN", "N");
                                     editor.putString("USER_BIRTHDAY", strBirthday);
                                     editor.putInt("USER_GENDER", nGender);
+                                    editor.putInt("USER_TYPE", nType);
+
                                     editor.putInt("COIN_COUNT", 0);
                                     editor.commit();
 
