@@ -54,6 +54,7 @@ public class CommonUtils {                                                      
     private static ProgressDialog mProgressDialog;
 
 //    public static String strDefaultUrl = "http://172.31.48.1:8080/howmuch_web/";                               // 테스트 서버 주소
+//    public static String strDefaultUrl = "http://192.168.0.10:8080/howmuch_web/";
     public static String strDefaultUrl = "http://175.123.253.231:8080/howmuch_web/";                        // 상용 서버 주소
 
     public static Toast toast = null;                                                                       // 연속으로 Toast 를 띄울때 이걸 사용하면 딜레이 없이 토스트 사용 가능

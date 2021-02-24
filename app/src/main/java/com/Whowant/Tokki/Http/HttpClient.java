@@ -3178,6 +3178,9 @@ public class HttpClient {
             workVO.setnDonationCarrot(resultObject.getInt("CARROT_DONATION"));
             workVO.setbComplete(resultObject.getString("COMPLETE").equals("Y") ? true : false);
 
+            if (resultObject.has("INTERACTION_EPISODE"))
+                workVO.setnInteractionEpisodeID(resultObject.getInt("INTERACTION_EPISODE"));
+
             ArrayList<EpisodeVO> episodeList = new ArrayList<>();
             ArrayList<EpisodeVO> sortedEpisodeList = new ArrayList<>();
 

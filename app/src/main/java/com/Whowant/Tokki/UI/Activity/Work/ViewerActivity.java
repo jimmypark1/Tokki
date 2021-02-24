@@ -3,6 +3,7 @@ package com.Whowant.Tokki.UI.Activity.Work;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -44,11 +44,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
@@ -65,13 +65,8 @@ import com.Whowant.Tokki.VO.CommentVO;
 import com.Whowant.Tokki.VO.EpisodeVO;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
-import com.bumptech.glide.load.resource.bitmap.VideoBitmapDecoder;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import org.json.JSONArray;
@@ -145,10 +140,15 @@ public class ViewerActivity extends AppCompatActivity {                         
     private TextView seekBar_value;
     private int max = 0;
     private int autoScrollSpeed;
+    private RecyclerView episodeListView;
+    private boolean isClickedList = false;
+    private EpisodeListAdapter ea;
+    private ArrayList<EpisodeVO> episodeList;
 
     // Animation animation, animation2;
 
     boolean isSlideUp;
+    Animation translateDown, translateUp;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -180,7 +180,13 @@ public class ViewerActivity extends AppCompatActivity {                         
 
         chattingListView = findViewById(R.id.chattingListView);
 
+        episodeList = workVO.getEpisodeList();
 
+        episodeListView = findViewById(R.id.episodeListView);
+        ea = new EpisodeListAdapter(this, episodeList);
+        episodeListView.setAdapter(ea);
+        episodeListView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        episodeListView.getLayoutManager().scrollToPosition(episodeList.size() - nEpisodeIndex - 1);
 
         if(workVO.getSortedEpisodeList() == null) {
             Toast.makeText(this, "작품을 읽어오는 중 문제가 발생했습니다. 다시 로딩해 주세요.", Toast.LENGTH_SHORT).show();
@@ -215,11 +221,12 @@ public class ViewerActivity extends AppCompatActivity {                         
                 } else if (autoScrollSpeed == 2) {
                     autoScrollSpeed = 3;
                     bShowingAutoscroll = true;
-                    scrollBtn.setBackgroundResource(R.drawable.ic_i_autoscroll_1);
+                    scrollBtn.setBackgroundResource(R.drawable.ic_i_autoscroll_stop);
                     startAutoScroll(3);
                 } else if (autoScrollSpeed == 3) {
                     autoScrollSpeed = 0;
                     bShowingAutoscroll = false;
+                    scrollBtn.setBackgroundResource(R.drawable.ic_i_autoscroll_1);
                     Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
                     if (autoScrollTimer != null) {
                         autoScrollTimer.cancel();
@@ -272,7 +279,9 @@ public class ViewerActivity extends AppCompatActivity {                         
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekBar_value.setText(String.valueOf(seekBar.getProgress() * 100 / max));
+                if (max != 0) {
+                    seekBar_value.setText(String.valueOf(seekBar.getProgress() * 100 / max));
+                }
             }
 
             @Override
@@ -291,6 +300,25 @@ public class ViewerActivity extends AppCompatActivity {                         
                 } else {
                     chattingListView.setSelection(showingIndex);
                     seekBar_value.setText(String.valueOf(showingIndex * 100 / max));
+                }
+            }
+        });
+
+        LinearLayout episodeListLayout = findViewById(R.id.episodeListLayout);
+        ToggleButton episodeListBtn = findViewById(R.id.episodeListBtn);
+        translateDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_down);
+        translateUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_up);
+
+        episodeListBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    episodeListLayout.setVisibility(View.VISIBLE);
+                    translateDown.setFillAfter(true);
+                    episodeListLayout.startAnimation(translateDown);
+                } else {
+                    episodeListLayout.startAnimation(translateUp);
+                    episodeListLayout.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -691,10 +719,12 @@ public class ViewerActivity extends AppCompatActivity {                         
 
                         chattingListView.setSelection(aa.getCount() - 1);
 
-                        max = chattingList.size();
-                        seekBar.setMax(max);
-                        seekBar.setProgress(nShoingIndex);
-                        seekBar_value.setText(String.valueOf(seekBar.getProgress() * 100 / max));
+                        if (chattingList.size() != 0) {
+                            max = chattingList.size();
+                            seekBar.setMax(max);
+                            seekBar.setProgress(nShoingIndex);
+                            seekBar_value.setText(String.valueOf(seekBar.getProgress() * 100 / max));
+                        }
                     }
                 });
             }
@@ -1977,6 +2007,13 @@ public class ViewerActivity extends AppCompatActivity {                         
     }
 
     public void onClickNextEpisode(View view) {
+
+        EpisodeVO episodeVO = workVO.getSortedEpisodeList().get(nEpisodeIndex + 1);
+        if(workVO.getnInteractionEpisodeID() > 0 && episodeVO.getnEpisodeID() > workVO.getnInteractionEpisodeID()) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+            checkInteractionSelect(nEpisodeIndex + 1);
+            return;
+        }
+
         Intent intent = new Intent(ViewerActivity.this, ViewerActivity.class);
         intent.putExtra("EPISODE_INDEX", nEpisodeIndex+1);
         intent.putExtra("INTERACTION", bInteraction);
@@ -2025,5 +2062,148 @@ public class ViewerActivity extends AppCompatActivity {                         
         Intent intent = new Intent(this, CarrotDoneActivity.class);
         intent.putExtra("WORK_ID", workVO.getnWorkID());
         startActivity(intent);
+    }
+
+    public class EpisodeListAdapter extends RecyclerView.Adapter<EpisodeListAdapter.EpisodeListViewHolder> {
+        private ArrayList<EpisodeVO> itemsList;
+        private Activity mContext;
+
+        public EpisodeListAdapter(Activity context, ArrayList<EpisodeVO> itemsList) {
+            this.mContext = context;
+            this.itemsList = itemsList;
+        }
+
+        @Override
+        public EpisodeListViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.work_main_episode_row, null);
+
+            return new EpisodeListViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(EpisodeListViewHolder holder, int position) {
+            if (position >= episodeList.size())
+                return;
+
+                int nIndex = position;
+                EpisodeVO vo = workVO.getEpisodeList().get(nIndex);
+
+                TextView episodeTitleView = holder.itemView.findViewById(R.id.episodeTitleView);
+                TextView postAvailableView = holder.itemView.findViewById(R.id.postAvailableView);
+
+                TextView dateTimeView = holder.itemView.findViewById(R.id.dateTimeView);
+                TextView startPointView = holder.itemView.findViewById(R.id.startPointView);
+                TextView hitsCountView = holder.itemView.findViewById(R.id.hitsCountView);
+                TextView commentCountView = holder.itemView.findViewById(R.id.commentCountView);
+//                LinearLayout chatCountLayout = holder.itemView.findViewById(R.id.chatCountLayout);
+                TextView chatCountView = holder.itemView.findViewById(R.id.chatCountView);
+//                TextView tabCountView = holder.itemView.findViewById(R.id.tabCountView);
+
+                episodeTitleView.setText(vo.getStrTitle());
+                dateTimeView.setText(vo.getStrDate().substring(0, 10));
+                startPointView.setText(String.format("%.1f", vo.getfStarPoint()));
+                hitsCountView.setText(CommonUtils.getPointCount(vo.getnTapCount()));
+                commentCountView.setText(CommonUtils.getPointCount(vo.getnCommentCount()));
+
+                ImageView menuBtn = holder.itemView.findViewById(R.id.menuBtn);
+
+                postAvailableView.setVisibility(View.GONE);
+                menuBtn.setVisibility(View.GONE);
+
+                chatCountView.setText("" + vo.getnChatCount());
+//                tabCountView.setText("" + vo.getnTapCount());
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+        @Override
+        public int getItemCount() {
+            return (null != itemsList ? itemsList.size() : 0);
+        }
+
+        public class EpisodeListViewHolder extends RecyclerView.ViewHolder {
+            public EpisodeListViewHolder(View view) {
+                super(view);
+
+                view.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        switch (motionEvent.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                if (isClickedList)
+                                    return false;
+                                fX = motionEvent.getX();
+                                fY = motionEvent.getY();
+                                break;
+                            case MotionEvent.ACTION_MOVE: {
+                                float fEndX = motionEvent.getX();
+                                float fEndY = motionEvent.getY();
+
+                                if (fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
+                                    return false;
+                                }
+                                break;
+                            }
+                            case MotionEvent.ACTION_CANCEL:
+                                return false;
+                            case MotionEvent.ACTION_UP: {
+                                float fEndX = motionEvent.getX();
+                                float fEndY = motionEvent.getY();
+
+                                if (fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
+                                    return false;
+                                } else {
+                                    int nPosition = getAdapterPosition();
+
+                                        EpisodeVO episodeVO = workVO.getEpisodeList().get(nPosition);
+                                        if(workVO.getnInteractionEpisodeID() > 0 && episodeVO.getnEpisodeID() > workVO.getnInteractionEpisodeID()) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
+                                            checkInteractionSelect(episodeList.size() - nPosition - 1);
+                                            return false;
+                                        }
+
+                                    Intent intent = new Intent(ViewerActivity.this, ViewerActivity.class);
+                                    intent.putExtra("EPISODE_INDEX", episodeList.size() - nPosition - 1);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                            break;
+                        }
+                        return true;
+                    }
+                });
+            }
+        }
+    }
+
+    private void checkInteractionSelect(final int nIndex) {
+        CommonUtils.showProgressDialog(this, "서버와 통신중입니다. 잠시만 기다려주세요.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean bResult = HttpClient.checkInteractionSelect(new OkHttpClient(), pref.getString("USER_ID", "Guest"), workVO.getnWorkID());
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        if(!bResult) {
+                            CommonUtils.makeText(ViewerActivity.this, "분기를 선택하지 않으셨습니다.  작품의 분기를 선택해주세요.", Toast.LENGTH_LONG).show();
+                            return;
+                        } else {
+                            Intent intent = new Intent(ViewerActivity.this, ViewerActivity.class);
+                            intent.putExtra("EPISODE_INDEX", nIndex);
+                            intent.putExtra("INTERACTION", true);
+                            startActivity(intent);
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 }
