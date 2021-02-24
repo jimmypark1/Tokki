@@ -59,6 +59,10 @@ public class AgreementActivity extends AppCompatActivity {
         totalCheckbox = findViewById(R.id.totalCheckbox);
         checkBtn1 = findViewById(R.id.checkBtn1);
         checkBtn2 = findViewById(R.id.checkBtn2);
+
+        bCheck1 = true;
+        bCheck2 = true;
+        initViews();
     }
 
     @Override
@@ -81,38 +85,66 @@ public class AgreementActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        totalAgreeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
-        totalCheckbox.setImageResource(0);
-        checkBtn1.setImageResource(0);
-        checkBtn2.setImageResource(0);
-        addBtn.setBackgroundColor(Color.parseColor("#e8e8e8"));
-        addBtn.setTextColor(Color.parseColor("#969696"));
+       // totalAgreeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+       // totalCheckbox.setImageResource(0);
+       // checkBtn1.setImageResource(0);
+       // checkBtn2.setImageResource(0);
+//        addBtn.setBackgroundColor(Color.parseColor("#e8e8e8"));
+//        addBtn.setTextColor(Color.parseColor("#969696"));
 
-        if(bCheck1) {
-            checkBtn1.setImageResource(R.drawable.check_box_on);
+        addBtn.setBackgroundResource(R.drawable.common_btn_disable_bg);
+        addBtn.setTextColor(Color.parseColor("#999999"));
+
+        if(bCheck1 && bCheck2 == false) {
+            totalCheckbox.setImageResource(R.drawable.i_chck_circle_1);
+
+            checkBtn1.setImageResource(R.drawable.i_chck_circle_2);
+            checkBtn2.setImageResource(R.drawable.i_chck_circle_1);
+
         }
 
-        if(bCheck2) {
-            checkBtn2.setImageResource(R.drawable.check_box_on);
+        else if(bCheck2 && bCheck1 == false) {
+            totalCheckbox.setImageResource(R.drawable.i_chck_circle_1);
+
+            checkBtn1.setImageResource(R.drawable.i_chck_circle_1);
+            checkBtn2.setImageResource(R.drawable.i_chck_circle_2);
         }
 
-        if(bCheck1 && bCheck2) {
+        else if(bCheck1 && bCheck2) {
             bTotakCheck = true;
-            totalAgreeLayout.setBackgroundColor(ContextCompat.getColor(AgreementActivity.this, R.color.colorPrimary));
-            totalCheckbox.setImageResource(R.drawable.all_chek_box);
-            addBtn.setBackgroundColor(ContextCompat.getColor(AgreementActivity.this, R.color.colorPrimary));
+          //  totalAgreeLayout.setBackgroundColor(ContextCompat.getColor(AgreementActivity.this, R.color.colorPrimary));
+            totalCheckbox.setImageResource(R.drawable.i_chck_circle_2);
+            checkBtn1.setImageResource(R.drawable.i_chck_circle_2);
+
+            checkBtn2.setImageResource(R.drawable.i_chck_circle_2);
+
+            //    addBtn.setBackgroundColor(ContextCompat.getColor(AgreementActivity.this, R.color.colorPrimary));
+        //    addBtn.setTextColor(Color.parseColor("#ffffff"));
+
+            addBtn.setBackgroundResource(R.drawable.common_btn_bg);
             addBtn.setTextColor(Color.parseColor("#ffffff"));
-        } else {
+
+         } else {
             bTotakCheck = false;
-            totalAgreeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
-            totalCheckbox.setImageResource(0);
-            addBtn.setBackgroundColor(Color.parseColor("#e8e8e8"));
-            addBtn.setTextColor(Color.parseColor("#969696"));
+            checkBtn1.setImageResource(R.drawable.i_chck_circle_1);
+
+            checkBtn2.setImageResource(R.drawable.i_chck_circle_1);
+
+            //  totalAgreeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+            totalCheckbox.setImageResource(R.drawable.i_chck_circle_1);
+         //   addBtn.setBackgroundColor(Color.parseColor("#e8e8e8"));
+         //   addBtn.setTextColor(Color.parseColor("#969696"));
+            addBtn.setBackgroundResource(R.drawable.common_btn_disable_bg);
+            addBtn.setTextColor(Color.parseColor("#999999"));
+
         }
+
+
     }
 
     public void onClickCheck2(View view) {
         bCheck2 = !bCheck2;
+
 
         if(bCheck2) {
             Intent intent = new Intent(AgreementActivity.this, TermsActivity.class);

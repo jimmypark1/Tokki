@@ -12,7 +12,14 @@
         android:layout_width="match_parent"
         android:background="#ffffff"
         android:layout_height="52dp">
-
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="17sp"
+            android:textColor="#222222"
+            android:text="회원가입 약관 동의"/>
         <ImageButton
             android:id="@+id/leftBtn"
             android:layout_width="25dp"
@@ -21,8 +28,18 @@
             android:layout_marginLeft="16.6dp"
             android:background="@null"
             android:onClick="onClickTopLeftBtn"
-            android:src="@drawable/back_button" />
+            android:src="@drawable/i_back" />
     </RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/topBarLayout"
+    android:background="#fafafa"
+    >
+
+
+</RelativeLayout>
 
 
 <!--    <ImageButton-->
@@ -34,7 +51,7 @@
 <!--        android:background="@null"-->
 <!--        android:onClick="onClickTopLeftBtn"-->
 <!--        android:src="@drawable/back_button"/>-->
-
+<!--
     <ImageView
         android:id="@+id/logoView"
         android:layout_width="82dp"
@@ -54,7 +71,8 @@
         android:textSize="22sp"
         android:textColor="@color/colorBlack"
         android:text="에 오신 걸 환영합니다."/>
-
+-->
+    <!--
     <LinearLayout
         android:id="@+id/totalAgreeLayout"
         android:layout_width="match_parent"
@@ -65,24 +83,51 @@
         android:layout_marginTop="76dp"
         android:gravity="center_vertical"
         android:onClick="onClickTotakCheckBtn"
-        android:background="#e8e8e8">
-        
+        android:background="#e8e8e8"
+        >
+        -->
+    <LinearLayout
+        android:id="@+id/totalAgreeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/subTitleView"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="76dp"
+        android:gravity="center_vertical"
+        android:onClick="onClickTotakCheckBtn"
+
+
+        >
+
         <ImageView
             android:id="@+id/totalCheckbox"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="17dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:layout_marginBottom="14dp"
-            android:background="@color/colorWhite"/>
+            android:background="@color/colorWhite"
+            android:src="@drawable/i_chck_circle_2" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:textSize="14sp"
-            android:textColor="@color/colorBlack"
+            android:textSize="15sp"
+            android:textColor="#222222"
             android:text="모두 동의합니다."/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/totalAgreeLayout"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="#dddddd"
+
+        >
+
     </LinearLayout>
 
     <RelativeLayout
@@ -91,11 +136,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/totalAgreeLayout"
         android:layout_marginTop="17dp"
-        android:layout_marginLeft="64dp"
-        android:layout_marginRight="64dp"
-        android:padding="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:onClick="onClickCheck1">
-
+<!--
         <ImageView
             android:id="@+id/checkBtn1"
             android:layout_width="14dp"
@@ -103,6 +150,16 @@
             android:layout_marginLeft="6.7dp"
             android:layout_centerVertical="true"
             android:background="@drawable/check_box_non"/>
+            -->
+        <ImageView
+            android:id="@+id/checkBtn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:src="@drawable/i_chck_circle_2"
+            />
+
 
         <TextView
             android:id="@+id/check1TextView"
@@ -111,14 +168,14 @@
             android:layout_toRightOf="@+id/checkBtn1"
             android:layout_marginLeft="14dp"
             android:layout_centerVertical="true"
-            android:textColor="@color/colorBlack"
-            android:textSize="14sp"
+            android:textColor="#222222"
+            android:textSize="15sp"
             android:text="개인정보 수집 및 이용 동의 (필수)"/>
 
         <ImageView
             android:layout_width="10dp"
             android:layout_height="16dp"
-            android:background="@drawable/right_arrow_dark"
+            android:background="@drawable/i_right_arrow"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
@@ -128,12 +185,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/agree1Layout"
-        android:layout_marginLeft="64dp"
-        android:layout_marginRight="64dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="7dp"
-        android:padding="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:onClick="onClickCheck2">
-
+<!--
         <ImageView
             android:id="@+id/checkBtn2"
             android:layout_width="14dp"
@@ -141,7 +200,13 @@
             android:layout_marginLeft="6.7dp"
             android:layout_centerVertical="true"
             android:background="@drawable/check_box_non"/>
-
+-->
+        <ImageView
+            android:id="@+id/checkBtn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/i_chck_circle_2"
+            />
         <TextView
             android:id="@+id/check2TextView"
             android:layout_width="wrap_content"
@@ -149,14 +214,14 @@
             android:layout_toRightOf="@+id/checkBtn2"
             android:layout_marginLeft="14dp"
             android:layout_centerVertical="true"
-            android:textColor="@color/colorBlack"
-            android:textSize="14sp"
+            android:textColor="#222222"
+            android:textSize="15sp"
             android:text="서비스 이용 약관 동의 (필수)"/>
 
         <ImageView
             android:layout_width="10dp"
             android:layout_height="16dp"
-            android:background="@drawable/right_arrow_dark"
+            android:background="@drawable/i_right_arrow"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
@@ -164,13 +229,13 @@
     <Button
         android:id="@+id/addBtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="44dp"
         android:layout_marginLeft="33dp"
         android:layout_marginRight="33dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="26.3dp"
-        android:background="#e3e3e3"
-        android:textColor="#969696"
+        android:background="@drawable/common_btn_disable_bg"
+        android:textColor="#999999"
         android:text="다음"
         android:onClick="onClickRegisterBtn"/>
 

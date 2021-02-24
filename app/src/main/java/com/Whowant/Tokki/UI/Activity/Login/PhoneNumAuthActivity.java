@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Whowant.Tokki.BuildConfig;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.UserProfileActivity;
@@ -49,6 +50,12 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
         inputAuthNumView.setEnabled(false);
         authNumBtn = findViewById(R.id.authNumBtn);
         nextBtn = findViewById(R.id.authBtn);
+
+        TextView title = findViewById(R.id.titleView);
+        if(nAuthType == 1)
+        {
+            title.setText("비밀번호 찾기");
+        }
 
         authNumBtn.setEnabled(false);
         nextBtn.setEnabled(false);
@@ -246,20 +253,28 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
                         } else if (strResult.equals("DISCORD")) {
                             Toast.makeText(PhoneNumAuthActivity.this, "인증번호가 맞지 않습니다.", Toast.LENGTH_SHORT).show();
                         }
-                        /*
+
                         else if (strResult.equals("DUPLICATE")) // 테스트용
                         {
-//                            Toast.makeText(PhoneNumAuthActivity.this, "인증번호가 맞지 않습니다.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(PhoneNumAuthActivity.this, PWRegisterActivity.class);
-                            intent.putExtra("SNS", 0);
-                            intent.putExtra("AUTH_TYPE", 1);
+                            if(BuildConfig.DEBUG)
+                            {
+                                Intent intent = new Intent(PhoneNumAuthActivity.this, PWRegisterActivity.class);
+                                intent.putExtra("SNS", 0);
+                                intent.putExtra("AUTH_TYPE", 1);
 
-                            intent.putExtra("ID", inputPhoneNumView.getText().toString());
-                            startActivity(intent);
+                                intent.putExtra("ID", inputPhoneNumView.getText().toString());
+                                startActivity(intent);
+                            }
+                            else
+                            {
+                                Toast.makeText(PhoneNumAuthActivity.this, "본인의 휴대폰이 아닙니다.", Toast.LENGTH_SHORT).show();
+
+                            }
+//
 
                         }
-                        
-                         */
+
+
                     }
                 });
             }

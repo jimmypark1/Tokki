@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:background="#fff"
     tools:context=".UI.Activity.Login.PersonalInfoActivity">
-
+<!--
     <RelativeLayout
         android:id="@+id/topBarLayout"
         android:layout_width="match_parent"
-        android:background="#ffffff"
+        android:background="#fafafa"
         android:layout_height="52dp">
 
         <ImageButton
@@ -22,6 +22,30 @@
             android:background="@null"
             android:onClick="onClickBackBtn"
             android:src="@drawable/back_button" />
+    </RelativeLayout>
+-->
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="52dp">
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="17sp"
+            android:textColor="#222222"
+            android:text="토키 회원가입"/>
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16.6dp"
+            android:background="@null"
+            android:onClick="onClickBackBtn"
+            android:src="@drawable/i_back" />
     </RelativeLayout>
 
 <!--    <ImageButton-->
@@ -38,14 +62,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/topBarLayout"
-        android:layout_marginTop="39dp"
-        android:layout_marginBottom="26.3dp"
+         android:background="#fafafa"
+
         android:fillViewport="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:background="#fafafa"
+            >
+<!--
             <ImageView
                 android:id="@+id/logoView"
                 android:layout_width="82dp"
@@ -63,12 +89,12 @@
                 android:textSize="22sp"
                 android:textColor="@color/colorBlack"
                 android:text="에 오신 걸 환영합니다."/>
-
+-->
             <LinearLayout
                 android:id="@+id/inputNameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/welcomeTextView"
+
                 android:layout_marginTop="30.7dp"
                 android:layout_marginLeft="64dp"
                 android:layout_marginRight="64dp"
@@ -281,8 +307,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="33dp"
                 android:layout_marginRight="33dp"
+                android:layout_marginBottom="20dp"
                 android:layout_alignParentBottom="true"
-                android:background="@drawable/square_btn_bg"
+                android:background="@drawable/common_btn_bg"
                 android:textColor="@color/colorWhite"
                 android:text="다음"
                 android:onClick="onClickRegisterBtn"/>

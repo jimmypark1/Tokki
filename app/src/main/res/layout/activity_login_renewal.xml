@@ -82,7 +82,7 @@
             <Button
                 android:id="@+id/loginBtn"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="44dp"
                 android:layout_below="@+id/inputPWLayout"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -127,7 +127,7 @@
                     android:textSize="13sp"
                     android:textColor="#666666"
                     android:onClick="clickReserPassword"
-                    android:text="비밀번호 재설정"/>
+                    android:text="비밀번호 찾기"/>
             </LinearLayout>
 
             <LinearLayout

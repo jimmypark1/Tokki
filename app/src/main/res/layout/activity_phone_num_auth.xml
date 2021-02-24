@@ -14,7 +14,8 @@
         android:layout_height="52dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/titleView"
+          android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textSize="17sp"
@@ -28,7 +29,7 @@
             android:layout_marginLeft="16.6dp"
             android:background="@null"
             android:onClick="onClickBackBtn"
-            android:src="@drawable/back_button" />
+            android:src="@drawable/i_back" />
     </RelativeLayout>
 
     <ScrollView
@@ -87,12 +88,12 @@
             <Button
                 android:id="@+id/authNumBtn"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="44dp"
                 android:layout_below="@+id/inputPhoneNumLayout"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginTop="20dp"
-                android:text="인증번호 요청"
+                android:text="인증요청"
                 android:textSize="15sp"
                 android:enabled="true"
                 android:layout_centerHorizontal="true"
@@ -150,7 +151,7 @@
             <Button
                 android:id="@+id/authBtn"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="44dp"
                 android:layout_below="@+id/inputAuthNumLayout"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
