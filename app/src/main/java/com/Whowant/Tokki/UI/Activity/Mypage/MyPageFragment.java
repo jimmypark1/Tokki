@@ -493,7 +493,19 @@ public class MyPageFragment extends Fragment {
 
                             nameTv.setText(name);
 
+                            String back = resultObject.getString("BACKGROUND");
 
+
+                            if (!TextUtils.isEmpty(back)) {
+                                if (!back.startsWith("http"))
+                                    back = CommonUtils.strDefaultUrl + "images/" + back;
+
+                                Glide.with(mActivity)
+                                        .asBitmap() // some .jpeg files are actually gif
+                                        .load(back)
+                                        .apply(new RequestOptions().centerCrop())
+                                        .into(backIv);
+                            }
 
 
                         } catch (JSONException e) {

@@ -180,7 +180,7 @@ public class MyPageActivity extends AppCompatActivity {
                     .apply(new RequestOptions().circleCrop())
                     .into(photoIv);
         }
-
+/*
         String strBack = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_BACKGROUND", "");
 
         if (!TextUtils.isEmpty(strBack)) {
@@ -193,7 +193,7 @@ public class MyPageActivity extends AppCompatActivity {
                     .apply(new RequestOptions().centerCrop())
                     .into(backIv);
         }
-
+*/
         nameTv.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_NAME", ""));
         getMyFollowInfo();
     }
