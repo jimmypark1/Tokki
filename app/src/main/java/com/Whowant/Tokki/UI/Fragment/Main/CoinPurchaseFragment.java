@@ -39,7 +39,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CoinPurchaseFragment extends Fragment implements PurchasesUpdatedListener {
+public class CoinPurchaseFragment extends Fragment {//implements PurchasesUpdatedListener {
+    /*
     private BillingClient billingClient;
     private ArrayList<HashMap<String, String>> productList;
     private List<SkuDetails> skuDetailList;
@@ -320,4 +321,6 @@ public class CoinPurchaseFragment extends Fragment implements PurchasesUpdatedLi
             return convertView;
         }
     }
+
+     */
 }

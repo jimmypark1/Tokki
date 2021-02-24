@@ -15,7 +15,7 @@ public class CoinPurchaseAdapter extends FragmentPagerAdapter {
     public CoinPurchaseAdapter(@NonNull FragmentManager fm) {
         super(fm);
 
-        coinPurchaseFragment = (CoinPurchaseFragment) CoinPurchaseFragment.newInstance();
+//        coinPurchaseFragment = (CoinPurchaseFragment) CoinPurchaseFragment.newInstance();
         coinChargeFragment = (CoinChargeFragment) CoinChargeFragment.newInstance();
     }
 
