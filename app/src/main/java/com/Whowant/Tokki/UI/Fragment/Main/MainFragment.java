@@ -201,8 +201,17 @@ public class MainFragment extends Fragment {                                    
 
                 SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
                 recommendCardList = HttpClient.getRecommendList(new OkHttpClient(), pref.getString("USER_ID", "Guest"),nType);
-                mainCardList.remove(1);
-                mainCardList.addAll(1, recommendCardList);
+                if(mainCardList.size() > 0)
+                {
+                    mainCardList.remove(1);
+
+                }
+                if(recommendCardList.size() > 0)
+                {
+                    if(mainCardList.size() > 0)
+                    mainCardList.addAll(1, recommendCardList);
+
+                }
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
