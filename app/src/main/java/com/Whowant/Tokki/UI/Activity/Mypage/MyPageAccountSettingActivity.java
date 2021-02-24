@@ -4,15 +4,21 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,8 +65,8 @@ import static com.Whowant.Tokki.Utils.Constant.CONTENTS_TYPE.TYPE_PROFILE_BG;
 
 public class MyPageAccountSettingActivity extends AppCompatActivity {
 
-    ImageView levelIv;
-    TextView levelTv;
+  //  ImageView levelIv;
+  //  TextView levelTv;
     ImageView photoIv;
     ImageView bgIv;
     TextView nameEt;
@@ -69,6 +75,9 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
     TextView birthEt;
     TextView phoneEt;
     TextView emailEt;
+    EditText introduction;
+
+    LinearLayout top;
 
     private String strUserBirthday;
     private String strNewBirthday;
@@ -140,6 +149,22 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
             initData();
             getMyCarrotInfo();
         }
+      //  InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+      //  imm.hideSoftInputFromWindow(introduction.getWindowToken(), 0);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        introduction.clearFocus();
+    }
+    void initLayout()
+    {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+
+        ViewGroup.LayoutParams params = top.getLayoutParams();
+        params.width = width;
+        params.height = width;
+
     }
 
     @Override
@@ -147,9 +172,14 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_page_account_setting);
 
+
+
         mActivity = this;
         pref = getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
         initView();
+
+      //  imm.showSoftInput(introduction, 0);
+
     }
 
     private void initView() {
@@ -158,11 +188,11 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
         findViewById(R.id.ib_top_layout_back).setOnClickListener((v) -> finish());
         findViewById(R.id.ib_top_layout_back).setVisibility(View.VISIBLE);
 
-        levelIv = findViewById(R.id.iv_my_page_account_setting_level);
-        levelTv = findViewById(R.id.tv_my_page_account_setting_level);
+       // levelIv = findViewById(R.id.iv_my_page_account_setting_level);
+     //   levelTv = findViewById(R.id.tv_my_page_account_setting_level);
         photoIv = findViewById(R.id.iv_my_page_account_setting_photo);
         photoIv.setClipToOutline(true);
-        bgIv = findViewById(R.id.iv_my_page_account_setting_bg);
+        bgIv = findViewById(R.id.back);
         bgIv.setClipToOutline(true);
         nameEt = findViewById(R.id.et_my_page_account_setting_name);
         fullNameEt = findViewById(R.id.et_my_page_account_setting_full_name);
@@ -170,6 +200,10 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
         birthEt = findViewById(R.id.et_my_page_account_setting_birth);
         phoneEt = findViewById(R.id.et_my_page_account_setting_phone);
         emailEt = findViewById(R.id.et_my_page_account_setting_email);
+        introduction = findViewById(R.id.introduction);
+        top = findViewById(R.id.top);
+
+        initLayout();
     }
 
     private void initData() {
@@ -390,9 +424,9 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
 //                                totalCarrotCountView.setText(CommonUtils.comma(nTotalAcquireCarrot));
                             }
 
-                            nLevel = CommonUtils.getLevel(nDonationCarrot);
-                            levelIv.setImageResource(levelRes[nLevel - 1]);
-                            levelTv.setText(levelName[nLevel - 1]);
+                         //   nLevel = CommonUtils.getLevel(nDonationCarrot);
+                         //   levelIv.setImageResource(levelRes[nLevel - 1]);
+                          //  levelTv.setText(levelName[nLevel - 1]);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

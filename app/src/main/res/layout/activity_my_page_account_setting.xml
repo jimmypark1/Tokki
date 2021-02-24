@@ -15,51 +15,132 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="30dp"
-            android:paddingTop="20dp"
-            android:paddingEnd="30dp"
-            android:paddingBottom="47dp">
+            >
 
             <LinearLayout
+                android:id="@+id/top"
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="440dp"
                 android:orientation="horizontal">
 
                 <RelativeLayout
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="-14dp">
-
+                    android:background = "#b3000000"
+                    >
                     <ImageView
-                        android:id="@+id/iv_my_page_account_setting_level"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:id="@+id/back"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:onClick="btnProfilePhoto"
-                        android:src="@drawable/ic_i_level_5" />
+                        />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/background_shadow"/>
 
                     <ImageView
                         android:id="@+id/iv_my_page_account_setting_photo"
-                        android:layout_width="54dp"
-                        android:layout_height="54dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="80dp"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="34dp"
                         android:background="@drawable/user_icon"
                         android:scaleType="centerCrop" />
 
-                    <TextView
-                        android:id="@+id/tv_my_page_account_setting_level"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_below="@+id/iv_my_page_account_setting_photo"
+                        android:layout_toRightOf="@+id/iv_my_page_account_setting_photo"
+                        android:layout_marginTop="-24dp"
+                        android:layout_marginLeft="-20dp"
+                        android:background="@drawable/circle_14"
+                        >
+                        <ImageView
+                            android:id="@+id/photoBt"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_centerInParent="true"
+
+                            android:src="@drawable/i_changephoto_white"
+                            android:scaleType="centerCrop" />
+                    </RelativeLayout>
+                    <EditText
+                        android:id="@+id/introduction"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_below="@+id/iv_my_page_account_setting_photo"
+
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+
+                        android:background="@android:color/transparent"
+                        android:inputType="text"
+                        android:lineSpacingExtra="5sp"
+                        android:hint="소개글입니다."
+                        android:textColorHint = "#d4d4d8"
+                        android:textColor="#d4d4d8"
+                        android:textSize="15sp"
+                        android:textStyle="normal"
+                        android:windowSoftInputMode="stateHidden"
+                        android:textAlignment="center"
+                         />
+
+                    <LinearLayout
+                        android:id="@+id/type_frame"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="vertical"
+                        android:layout_below="@+id/introduction"
+                        android:layout_marginTop="20dp"
+                        >
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/change_back_frame"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/circle_18"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="13dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center_horizontal"
-                        android:text="LV.5"
-                        android:textColor="#ffffff"
-                        android:textSize="7sp"
-                        android:textStyle="bold" />
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:onClick="btnProfileBg"
+
+                        >
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerInParent="true"
+
+                            android:src="@drawable/i_background_white"
+                            android:scaleType="centerCrop" />
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:lineSpacingExtra="5sp"
+                        android:gravity="center"
+                        android:layout_toRightOf="@+id/change_back_frame"
+                        android:text="배경 화면 변경"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="4dp"
+
+                        android:textColor="#fff"
+                        android:textSize="13sp"
+                        android:textStyle="normal"
+                        android:onClick="btnProfileBg"
+
+                        />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -90,69 +171,50 @@
                         android:textStyle="normal" />
                 </LinearLayout>
             </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="#dddddd"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <ImageView
-                    android:id="@+id/iv_my_page_account_setting_bg"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:background="@drawable/round_4_dddddd"
-                    android:onClick="btnProfileBg"
-                    android:scaleType="centerCrop" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="18dp"
-                    android:onClick="btnProfileBg"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:lineSpacingExtra="5sp"
-                        android:text="배경 화면"
-                        android:textColor="#222222"
-                        android:textSize="15sp"
-                        android:textStyle="normal" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:lineSpacingExtra="7sp"
-                        android:text="변경하려면 누르세요"
-                        android:textColor="#999999"
-                        android:textSize="13sp"
-                        android:textStyle="normal" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="#dddddd" />
-
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="9sp"
-                android:text="사용자 닉네임"
+                android:text="나의정보"
+                android:textColor="#222222"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="9dp"
+
+                android:background="#dddddd"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="9sp"
+                android:text="본명"
                 android:textColor="#666666"
                 android:textSize="11sp"
                 android:textStyle="normal" />
@@ -165,7 +227,7 @@
                 android:background="@android:color/transparent"
                 android:inputType="text"
                 android:lineSpacingExtra="5sp"
-                android:text="닉네임"
+                android:text="이름"
                 android:onClick="onClickNameView"
                 android:textColor="#222222"
                 android:textSize="15sp"
@@ -175,7 +237,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="9dp"
-                android:layout_marginBottom="20dp"
+
                 android:background="#dddddd"
                 android:visibility="gone" />
 
@@ -209,7 +271,18 @@
                 android:layout_marginTop="9dp"
                 android:layout_marginBottom="20dp"
                 android:background="#dddddd" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="18dp"
+
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -239,7 +312,18 @@
                 android:layout_marginTop="9dp"
                 android:layout_marginBottom="20dp"
                 android:background="#dddddd" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="18dp"
+
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -269,7 +353,17 @@
                 android:layout_marginTop="9dp"
                 android:layout_marginBottom="20dp"
                 android:background="#dddddd" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="18dp"
 
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -298,7 +392,19 @@
                 android:layout_marginTop="9dp"
                 android:layout_marginBottom="20dp"
                 android:background="#dddddd" />
+        </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="18dp"
+
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -328,11 +434,16 @@
                 android:layout_marginTop="9dp"
                 android:layout_marginBottom="30dp"
                 android:background="#dddddd" />
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_marginBottom="47dp"
+                android:layout_marginTop="47dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+
                 android:background="@drawable/round_22_5a9aff"
                 android:gravity="center"
                 android:onClick="btnSave"

@@ -3,6 +3,7 @@ package com.Whowant.Tokki.UI.Activity.Mypage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -86,6 +87,8 @@ public class MyPageFragment extends Fragment {
     boolean isFirst = true;
 
     private FragmentActivity myContext;
+    SharedPreferences pref;
+
 
     int[] levelRes = new int[]{
             R.drawable.ic_i_level_1, R.drawable.ic_i_level_2, R.drawable.ic_i_level_3, R.drawable.ic_i_level_4, R.drawable.ic_i_level_5,
@@ -103,6 +106,8 @@ public class MyPageFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_page, container, false);
+
+        pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
 
         tabLayout = v.findViewById(R.id.tabLayout);
         appbar = v.findViewById(R.id.appBarLayout);
@@ -505,6 +510,12 @@ public class MyPageFragment extends Fragment {
                                         .load(back)
                                         .apply(new RequestOptions().centerCrop())
                                         .into(backIv);
+
+
+                                SharedPreferences.Editor editor = pref.edit();
+                                editor.putString("USER_BACKGROUND", back);
+                                editor.commit();
+
                             }
 
 
