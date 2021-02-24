@@ -152,6 +152,12 @@ public class PanbookLoginActivity extends AppCompatActivity {
         }
     }
 
+    public void clickReserPassword(View view)
+    {
+        Intent intent = new Intent(PanbookLoginActivity.this,PhoneNumAuthActivity.class);
+        intent.putExtra("AUTH_TYPE",1);
+        startActivity(intent);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {

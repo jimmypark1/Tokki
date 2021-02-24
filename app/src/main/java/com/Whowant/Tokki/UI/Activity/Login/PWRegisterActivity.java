@@ -12,7 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Work.WebNovelWriteActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import okhttp3.OkHttpClient;
 
 public class PWRegisterActivity extends AppCompatActivity {
 
@@ -25,6 +32,7 @@ public class PWRegisterActivity extends AppCompatActivity {
     private String strNickName;
     private String strPhoto;
     private int    nSNS;
+    int nAuthType = 0;
 
     private String pwValidation = "^.*(?=^.{9,15}$)(?=.*[0-9])(?=.*[a-zA-Z]).*$";
 
@@ -32,6 +40,8 @@ public class PWRegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p_w_register);
+
+        nAuthType = getIntent().getIntExtra("AUTH_TYPE",0);
 
         strID = getIntent().getStringExtra("ID");
         strEmail = getIntent().getStringExtra("USER_EMAIL");
@@ -91,14 +101,54 @@ public class PWRegisterActivity extends AppCompatActivity {
             return;
         }
 
-        Intent intent = new Intent(PWRegisterActivity.this, PersonalInfoActivity.class);
-        intent.putExtra("ID", strID);
-        intent.putExtra("PASSWORD", strPW);
-        intent.putExtra("SNS", nSNS);
-        intent.putExtra("SNS_ID", strSNSID);
-        intent.putExtra("USER_NAME", strNickName);
-        intent.putExtra("USER_EMAIL", strEmail);
-        intent.putExtra("USER_PHOTO", strPhoto);
-        startActivity(intent);
+        if(nAuthType == 0)
+        {
+            Intent intent = new Intent(PWRegisterActivity.this, PersonalInfoActivity.class);
+            intent.putExtra("ID", strID);
+            intent.putExtra("PASSWORD", strPW);
+            intent.putExtra("SNS", nSNS);
+            intent.putExtra("SNS_ID", strSNSID);
+            intent.putExtra("USER_NAME", strNickName);
+            intent.putExtra("USER_EMAIL", strEmail);
+            intent.putExtra("USER_PHOTO", strPhoto);
+            startActivity(intent);
+        }
+        else
+        {
+            //ChangePW
+            //changePW
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //createNovelEpisode String workId,String content,String pages,String page)
+                    boolean ret = HttpClient.changePW(new OkHttpClient(),strID, passWord);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(ret == true)
+                            {
+                                Intent intent = new Intent(PWRegisterActivity.this, PanbookLoginActivity.class);
+                                startActivity(intent);
+
+                            }
+                            else
+                            {
+                                Toast.makeText(PWRegisterActivity.this, "비밀번호 변경에 실패했습니다.", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+                    });
+
+
+                }
+            }).start();
+
+
+
+        }
+
     }
 }

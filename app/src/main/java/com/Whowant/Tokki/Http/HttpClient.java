@@ -4115,6 +4115,39 @@ public class HttpClient {
 
         return false;
     }
+    public static boolean changePW(OkHttpClient httpClient, String userID,String password) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM)
+            .addFormDataPart("USER_PASSWORD", password)
+            .addFormDataPart("USER_ID", userID);
+
+
+        RequestBody requestBody = builder.build();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanbookChangePassword.jsp")
+                .post(requestBody)
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+            else
+                return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 
     public static boolean requestAuthNum(OkHttpClient httpClient, String strUserEmail, String strAuthNum) {
         Request request = new Request.Builder()
