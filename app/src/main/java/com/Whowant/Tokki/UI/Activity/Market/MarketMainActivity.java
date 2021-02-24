@@ -219,7 +219,14 @@ public class MarketMainActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
+    public void onClickMarketAdd(View view) {
 
+        //   TransactionActivity
+        //
+        Intent intent = new Intent(this, MarketAddActivity.class);
+
+        startActivity(intent);
+    }
 
     class HorizontalAdapter extends RecyclerView.Adapter<HorizontalViewHolder> {
 

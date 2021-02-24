@@ -2016,11 +2016,6 @@ public class HttpClient {
             }
 
 
-//            Calendar endDay = Calendar.getInstance();
-//            endDay.setTime(endDate);
-//            Calendar todayCal = Calendar.getInstance();
-//            todayCal.setTime(toDay);
-
 
             JSONArray bestRankingJsonArray = resultObject.getJSONArray("BEST_RANKING");
             MainCardVO bestRankingVO = new MainCardVO();

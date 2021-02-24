@@ -4,8 +4,6 @@
     package="com.Whowant.Tokki">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -26,7 +24,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -34,10 +31,15 @@
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
+        <activity android:name=".UI.Activity.Market.MarketAddActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+
 
         <activity
             android:name=".UI.Activity.Work.WebNovelWriteActivity"
-            android:label="@string/title_activity_web_novel_write" android:configChanges="screenSize|orientation"
+            android:configChanges="screenSize|orientation"
+            android:label="@string/title_activity_web_novel_write"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.Activity.Market.TransactionActivity"

@@ -150,7 +150,19 @@ public class MainFragment extends Fragment {                                    
                                 recommendCardList.add(vo);
 
                                 if(mainCardList.size() < 7)
-                                    mainCardList.addAll(1, recommendCardList);
+                                {
+                                    if(nType == 0)
+                                    {
+                                        mainCardList.addAll(1, recommendCardList);
+
+                                    }
+                                    else
+                                    {
+                                     //   mainCardList.addAll(0, recommendCardList);
+
+                                    }
+
+                                }
 
                                 getRecommendData();
                             } else {
