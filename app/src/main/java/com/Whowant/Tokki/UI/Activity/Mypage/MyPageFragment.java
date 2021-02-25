@@ -464,7 +464,7 @@ public class MyPageFragment extends Fragment {
                             }
 
                             String ret = resultObject.getString("COMMENT");
-                            int nType = resultObject.getInt("STATUS");
+                            int nType = resultObject.getInt("TYPE");
                             if(nType == 0 )
                             {
                                 typeView.setText("독자");
@@ -514,6 +514,10 @@ public class MyPageFragment extends Fragment {
 
                                 SharedPreferences.Editor editor = pref.edit();
                                 editor.putString("USER_BACKGROUND", back);
+                                editor.putString("USER_COMMENT", ret);
+                                editor.putInt("USER_TYPE", nType);
+                                editor.putInt("IS_SNS", resultObject.getInt("IS_SNS"));
+
                                 editor.commit();
 
                             }

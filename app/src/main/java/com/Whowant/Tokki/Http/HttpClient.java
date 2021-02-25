@@ -5053,6 +5053,58 @@ public class HttpClient {
 
         return false;
     }
+    public static boolean updateProfile(OkHttpClient httpClient,  UserInfoVO  user) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+
+        if(user.getStrUserID() != null && user.getStrUserID().length() > 0)
+            builder.addFormDataPart("USER_ID", user.getStrUserID());
+
+
+        if(user.getComment() != null && user.getComment().length() > 0)
+            builder.addFormDataPart("USER_COMMENT", user.getComment());
+
+        if(user.getStrUserEmail() != null && user.getStrUserEmail().length() > 0)
+            builder.addFormDataPart("USER_EMAIL", user.getStrUserEmail());
+
+        if(user.getPhone() != null && user.getPhone().length() > 0)
+            builder.addFormDataPart("USER_PHONENUM", user.getPhone());
+
+        if(user.getBirthday() != null && user.getBirthday().length() > 0)
+            builder.addFormDataPart("USER_BIRTHDAY", user.getBirthday());
+
+
+        builder.addFormDataPart("TYPE", String.valueOf(user.getType()));
+        builder.addFormDataPart("USER_GENDER", String.valueOf(user.getGender()));
+
+        //
+
+        RequestBody requestBody = builder.build();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanbookUserProfile.jsp")
+                .post(requestBody)
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+            else
+                return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 
     public static boolean requestSendUserProfile(OkHttpClient httpClient, String strUserID, String strKey, String strValue) {
         MultipartBody.Builder builder = new MultipartBody.Builder();

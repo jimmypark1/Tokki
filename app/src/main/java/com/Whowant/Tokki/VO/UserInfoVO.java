@@ -12,8 +12,61 @@ public class UserInfoVO {
     private int    nDonationCarrot;
     private int    nPurchaseCarrot;
 
+    private int    type;
+    private String comment;
+    private String background;
+    private String birthday;
+    private int gender;
+    private String phone;
+
+
     public UserInfoVO() {
 
+    }
+
+
+    public void setBackground(String background)
+    {
+        this.background = background;
+    }
+    public String getBackground()
+    {
+        return background;
+    }
+    public void setBirthday(String birthday)
+    {
+        this.birthday = birthday;
+    }
+
+    public String getBirthday()
+    {
+        return birthday;
+    }
+    public void setPhone(String phone){
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+    public void setGender(int gender){
+        this.gender = gender;
+    }
+    public int getGender()
+    {
+        return gender;
+    }
+
+    public void setType(int type){ this.type = type;}
+    public int getType(){
+        return type;
+    }
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public String getStrUserID() {

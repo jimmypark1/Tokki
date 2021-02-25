@@ -49,6 +49,7 @@
                         android:layout_marginTop="80dp"
                         android:layout_centerHorizontal="true"
                         android:background="@drawable/user_icon"
+                        android:onClick="btnProfilePhoto"
                         android:scaleType="centerCrop" />
 
                     <RelativeLayout
@@ -65,6 +66,7 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:layout_centerInParent="true"
+                            android:onClick="btnProfilePhoto"
 
                             android:src="@drawable/i_changephoto_white"
                             android:scaleType="centerCrop" />
@@ -94,18 +96,19 @@
                             android:layout_alignParentBottom="true"
                             android:layout_marginBottom="20dp"
                             android:layout_marginLeft="4dp"
+                            android:onClick="onClickWriter"
 
                             android:textColor="#fff"
                             android:textSize="15sp"
                             android:textStyle="normal"
-                            android:onClick="btnProfileBg"
 
                             />
                         <ImageView
+                            android:id="@+id/writer_ck"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginLeft="8dp"
-
+                            android:onClick="onClickWriter"
                             android:src="@drawable/i_radio_1"
                             android:scaleType="centerCrop" />
 
@@ -122,18 +125,22 @@
 
                             android:layout_marginBottom="20dp"
                             android:layout_gravity="center_horizontal"
+                            android:onClick="onClickReader"
 
                             android:textColor="#fff"
                             android:textSize="15sp"
                             android:textStyle="normal"
-                            android:onClick="btnProfileBg"
+
 
                             />
                         <ImageView
+                            android:id="@+id/reader_ck"
+
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="20dp"
+                            android:onClick="onClickReader"
 
                             android:src="@drawable/i_radio_2"
                             android:scaleType="centerCrop" />
@@ -152,13 +159,17 @@
                             android:textColor="#fff"
                             android:textSize="15sp"
                             android:textStyle="normal"
-                            android:onClick="btnProfileBg"
+                            android:onClick="onClickProducer"
+
 
                             />
                         <ImageView
+                            android:id="@+id/producer_ck"
+
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginLeft="8dp"
+                            android:onClick="onClickProducer"
 
                             android:src="@drawable/i_radio_1"
                             android:scaleType="centerCrop" />
@@ -374,19 +385,78 @@
                 android:textSize="11sp"
                 android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/et_my_page_account_setting_gender"
+            <LinearLayout
+                android:id="@+id/gender_frame"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/iv_my_page_account_setting_photo"
                 android:layout_marginTop="10dp"
-                android:background="@android:color/transparent"
-                android:inputType="text"
-                android:lineSpacingExtra="5sp"
-                android:text="남성"
-                android:textColor="#222222"
-                android:textSize="15sp"
-                android:textStyle="normal"
-                android:onClick="onClickGender"/>
+
+
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="5sp"
+                    android:gravity="center"
+                    android:layout_toRightOf="@+id/change_back_frame"
+                    android:text="남성"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="4dp"
+                    android:onClick="onClicMen"
+
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
+
+                    />
+                <ImageView
+                    android:id="@+id/men_ck"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="30dp"
+
+                    android:onClick="onClicMen"
+                    android:src="@drawable/i_radio_1"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="5sp"
+                    android:gravity="center"
+                    android:layout_toRightOf="@+id/change_back_frame"
+                    android:text="여성"
+                    android:layout_alignParentBottom="true"
+
+                    android:layout_marginLeft="20dp"
+
+                    android:layout_gravity="center_horizontal"
+                    android:onClick="onClicWoman"
+
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
+
+
+                    />
+                <ImageView
+                    android:id="@+id/woman_ck"
+
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="20dp"
+                    android:onClick="onClicWoman"
+
+                    android:src="@drawable/i_radio_2"
+                    android:scaleType="centerCrop" />
+
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -536,7 +606,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="7sp"
-                    android:text="확인"
+                    android:text="저장"
                     android:textColor="#ffffff"
                     android:textSize="15sp"
                     android:textStyle="normal" />
