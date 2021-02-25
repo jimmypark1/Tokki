@@ -87,6 +87,8 @@ public class MyPageFeedFragment extends Fragment {
                 if (item.getWorkVO() != null) {
                     Intent intent = new Intent(getContext(), WorkMainActivity.class);
                     intent.putExtra("WORK_ID", item.getWorkVO().getnWorkID());
+                    intent.putExtra("WORK_TYPE", item.getWorkVO().getnTarget());
+
                     getContext().startActivity(intent);
                 }
             }

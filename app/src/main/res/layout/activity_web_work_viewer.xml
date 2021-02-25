@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -28,29 +29,10 @@
             android:layout_centerInParent="true"
             android:textSize="20sp"
             android:textColor="@color/colorBlack"
-            android:text="거래내역"/>
+            android:text="웹소설"/>
 
 
-            />
     </RelativeLayout>
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        android:layout_below="@+id/topBarLayout"
-        app:tabGravity="center"
-        app:tabIndicatorColor="@color/colorPrimary"
-        app:tabMode="scrollable"
-        app:tabTextColor="#191919"
-        app:tabSelectedTextColor="#191919"
-        />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:layout_below="@+id/tabLayout" />
 
 </RelativeLayout>

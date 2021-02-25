@@ -141,6 +141,8 @@ public class PopularPagerAdapter extends RecyclerView.Adapter<PopularPagerAdapte
                     WorkVO vo = itemsList.get(nPosition);//
                     Intent intent = new Intent(mContext, WorkMainActivity.class);
                     intent.putExtra("WORK_ID", vo.getnWorkID());
+                    intent.putExtra("WORK_TYPE", vo.getnTarget());
+
                     mContext.startActivity(intent);
                 }
             });
@@ -152,6 +154,8 @@ public class PopularPagerAdapter extends RecyclerView.Adapter<PopularPagerAdapte
                     WorkVO vo = itemsList.get(nPosition);//
                     Intent intent = new Intent(mContext, WorkMainActivity.class);
                     intent.putExtra("WORK_ID", vo.getnWorkID());
+                    intent.putExtra("WORK_TYPE", vo.getnTarget());
+
                     mContext.startActivity(intent);
                 }
             });

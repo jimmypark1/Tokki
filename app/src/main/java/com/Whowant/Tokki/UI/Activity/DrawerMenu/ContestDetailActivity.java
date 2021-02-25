@@ -46,6 +46,8 @@ public class ContestDetailActivity extends AppCompatActivity {
     public void onClickWorkView(View view) {
         Intent intent = new Intent(ContestDetailActivity.this, WorkMainActivity.class);
         intent.putExtra("WORK_ID", contestVO.getWorkID());
+       // intent.putExtra("WORK_TYPE", contestVO.getnTarget());
+
         startActivity(intent);
     }
 }

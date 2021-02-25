@@ -136,6 +136,8 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
         WorkVO vo = bestList.get(position);
         Intent intent = new Intent(NewRankingActivity.this, WorkMainActivity.class);
         intent.putExtra("WORK_ID", vo.getnWorkID());
+        intent.putExtra("WORK_TYPE", vo.getnTarget());
+
         startActivity(intent);
     }
 
@@ -241,6 +243,8 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
                                 WorkVO vo = bestList.get(position);
                                 Intent intent = new Intent(mActivity, WorkMainActivity.class);
                                 intent.putExtra("WORK_ID", vo.getnWorkID());
+                                intent.putExtra("WORK_TYPE", vo.getnTarget());
+
                                 startActivity(intent);
                             }
                         });

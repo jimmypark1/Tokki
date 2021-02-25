@@ -76,6 +76,8 @@ public class StorageBoxBookListDetailActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(mActivity, WorkMainActivity.class);
                 intent.putExtra("WORK_ID", item.getWORK_ID());
+                intent.putExtra("WORK_TYPE", item.getTARGET());
+
                 startActivity(intent);
             }
         });

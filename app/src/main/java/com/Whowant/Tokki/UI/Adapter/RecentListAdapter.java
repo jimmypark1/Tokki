@@ -110,6 +110,8 @@ public class RecentListAdapter extends RecyclerView.Adapter<RecentListAdapter.Wi
 
                     Intent intent = new Intent(mContext, WorkMainActivity.class);
                     intent.putExtra("WORK_ID", vo.getnWorkID());
+                    intent.putExtra("WORK_TYPE", vo.getnTarget());
+
                     mContext.startActivity(intent);
                 }
             });

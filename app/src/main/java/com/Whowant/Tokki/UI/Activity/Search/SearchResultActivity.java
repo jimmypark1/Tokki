@@ -141,6 +141,8 @@ public class SearchResultActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(mActivity, WorkMainActivity.class);
                 intent.putExtra("WORK_ID", item.getnWorkID());
+                intent.putExtra("WORK_TYPE", item.getnTarget());
+
                 startActivity(intent);
             }
         });

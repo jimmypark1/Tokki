@@ -70,6 +70,8 @@ public class AlarmActivity extends AppCompatActivity {
                     int nWorkID = Integer.valueOf(strWorkID);
                     Intent intent = new Intent(AlarmActivity.this, WorkMainActivity.class);
                     intent.putExtra("WORK_ID", nWorkID);
+                 //   intent.putExtra("WORK_TYPE", vo.getnTarget());
+
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();

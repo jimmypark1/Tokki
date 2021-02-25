@@ -11,20 +11,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
+import com.Whowant.Tokki.UI.Fragment.Main.CoinPurchaseLogFragment;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.CarrotItemVO;
 import com.Whowant.Tokki.VO.CarrotVO;
 import com.Whowant.Tokki.VO.MarketMsg;
+import com.android.billingclient.api.AcknowledgePurchaseParams;
+import com.android.billingclient.api.AcknowledgePurchaseResponseListener;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchaseHistoryResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.SkuDetailsParams;
+import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -35,12 +46,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.android.billingclient.api.BillingClient.SkuType.INAPP;
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CarrotBuyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CarrotBuyFragment extends Fragment  {
+public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -56,7 +70,7 @@ public class CarrotBuyFragment extends Fragment  {
 
 
     CarrotAdapter adapter;
-
+    BillingClient billingClient;
 
     void initCarrots()
     {
@@ -134,6 +148,7 @@ public class CarrotBuyFragment extends Fragment  {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,6 +160,7 @@ public class CarrotBuyFragment extends Fragment  {
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -153,9 +169,75 @@ public class CarrotBuyFragment extends Fragment  {
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        billingClient = BillingClient.newBuilder(getActivity())
+                .enablePendingPurchases()
+                .setListener(this)
+                .build();
+
+        billingClient.startConnection(new BillingClientStateListener() {
+            @Override
+            public void onBillingSetupFinished(@NonNull BillingResult billingResult){
+                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK)
+                {
+                    Purchase.PurchasesResult queryPurchase = billingClient.queryPurchases(INAPP);
+                    List<Purchase> queryPurchases = queryPurchase.getPurchasesList();
+                    if(queryPurchases!=null && queryPurchases.size()>0){
+                        handlePurchases(queryPurchases);
+                    }
+                    //if purchase list is empty that means item is not purchased
+                    //Or purchase is refunded or canceled
+                    else{
+                       // savePurchaseValueToPref(false);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onBillingServiceDisconnected() {
+                Toast.makeText(getActivity(), "결제서비스 연동 실패", Toast.LENGTH_LONG).show();
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+            }
+
+
+        });
         return v;
 
 
+    }
+    private void initiatePurchase() {
+        List<String> skuList = new ArrayList<>();
+        skuList.add("carrot_10");
+   //     skuList.add("carrot_45");
+   //     skuList.add("carrot_120");
+   //     skuList.add("carrot_500");
+   //     skuList.add("carrot_2000");
+
+        SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+        params.setSkusList(skuList).setType(INAPP);
+        billingClient.querySkuDetailsAsync(params.build(),
+                new SkuDetailsResponseListener() {
+                    @Override
+                    public void onSkuDetailsResponse(BillingResult billingResult,
+                                                     List<SkuDetails> skuDetailsList) {
+                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                            if (skuDetailsList != null && skuDetailsList.size() > 0) {
+                                BillingFlowParams flowParams = BillingFlowParams.newBuilder()
+                                        .setSkuDetails(skuDetailsList.get(0))
+                                        .build();
+                                billingClient.launchBillingFlow(getActivity(), flowParams);
+                            }
+                            else{
+                                //try to add item/product id "purchase" inside managed product in google play console
+                                Toast.makeText(getApplicationContext(),"Purchase Item not Found",Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    " Error "+billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
     @Override
     public void onResume() {
@@ -164,34 +246,98 @@ public class CarrotBuyFragment extends Fragment  {
 
     }
 
+    @Override
+    public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
+        // To be implemented in a later section.
 
-    void handlePurchase(Purchase purchase) {
-        // Purchase retrieved from BillingClient#queryPurchases or your PurchasesUpdatedListener.
-        /*
-        Purchase purchase = ...;
+        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
+            handlePurchases(purchases);
+        }
+        //if item already purchased then check and reflect changes
+        else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
+            Purchase.PurchasesResult queryAlreadyPurchasesResult = billingClient.queryPurchases(INAPP);
+            List<Purchase> alreadyPurchases = queryAlreadyPurchasesResult.getPurchasesList();
+            if(alreadyPurchases!=null){
+                handlePurchases(alreadyPurchases);
+            }
+        }
+        //if purchase cancelled
+        else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+            Toast.makeText(getApplicationContext(),"Purchase Canceled",Toast.LENGTH_SHORT).show();
+        }
+        // Handle any other error msgs
+        else {
+            Toast.makeText(getApplicationContext(),"Error "+billingResult.getDebugMessage(),Toast.LENGTH_SHORT).show();
+        }
 
-        // Verify the purchase.
-        // Ensure entitlement was not already granted for this purchaseToken.
-        // Grant entitlement to the user.
+    }
+    void handlePurchases(List<Purchase>  purchases) {
+        for(Purchase purchase:purchases) {
+            //if item is purchased
+           // if (PRODUCT_ID.equals(purchase.getSku()) && purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED)
+            if ( purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED)
+            {
+                /*
+                if (!verifyValidSignature(purchase.getOriginalJson(), purchase.getSignature())) {
+                    // Invalid purchase
+                    // show error to user
+                    Toast.makeText(getApplicationContext(), "Error : Invalid Purchase", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-        ConsumeParams consumeParams =
-                ConsumeParams.newBuilder()
-                        .setPurchaseToken(purchase.getPurchaseToken())
-                        .build();
+                 */
+                // else purchase is valid
+                //if item is purchased and not acknowledged
+                if (!purchase.isAcknowledged()) {
+                    AcknowledgePurchaseParams acknowledgePurchaseParams =
+                            AcknowledgePurchaseParams.newBuilder()
+                                    .setPurchaseToken(purchase.getPurchaseToken())
+                                    .build();
+                    billingClient.acknowledgePurchase(acknowledgePurchaseParams, ackPurchase);
+                }
+                //else item is purchased and also acknowledged
+                else {
+                    // Grant entitlement to the user on item purchase
+                    // restart activity
+                    /*
+                    if(!getPurchaseValueFromPref()){
+                        savePurchaseValueToPref(true);
+                        Toast.makeText(getApplicationContext(), "Item Purchased", Toast.LENGTH_SHORT).show();
+                        this.recreate();
+                    }
 
-        ConsumeResponseListener listener = new ConsumeResponseListener() {
-            @Override
-            public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                    // Handle the success of the consume operation.
+                     */
                 }
             }
-        };
-
-        billingClient.consumeAsync(consumeParams, listener);
-
-         */
+            //if purchase is pending
+            else if(  purchase.getPurchaseState() == Purchase.PurchaseState.PENDING)
+            {
+                Toast.makeText(getApplicationContext(),
+                        "Purchase is Pending. Please complete Transaction", Toast.LENGTH_SHORT).show();
+            }
+            //if purchase is unknown
+            else if( purchase.getPurchaseState() == Purchase.PurchaseState.UNSPECIFIED_STATE)
+            {
+               // savePurchaseValueToPref(false);
+              //  purchaseStatus.setText("Purchase Status : Not Purchased");
+              //  purchaseButton.setVisibility(View.VISIBLE);
+                Toast.makeText(getApplicationContext(), "Purchase Status Unknown", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
+
+    AcknowledgePurchaseResponseListener ackPurchase = new AcknowledgePurchaseResponseListener() {
+        @Override
+        public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
+            if(billingResult.getResponseCode()==BillingClient.BillingResponseCode.OK){
+                //if purchase is acknowledged
+                // Grant entitlement to the user. and restart activity
+               // savePurchaseValueToPref(true);
+                Toast.makeText(getApplicationContext(), "Item Purchased", Toast.LENGTH_SHORT).show();
+                getActivity().recreate();
+            }
+        }
+    };
 
     public class CarrotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         Context context;
@@ -264,6 +410,7 @@ public class CarrotBuyFragment extends Fragment  {
             // this.itemClickListener.onItemClickListener(v, getLayoutPosition());
             int pos = getLayoutPosition();
 
+            initiatePurchase();
         }
 
 

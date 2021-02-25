@@ -12,6 +12,7 @@
     <uses-permission android:name="com.android.vending.BILLING" />
 
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
@@ -24,7 +25,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".UI.Activity.Work.WebWorkViewerActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -32,11 +36,11 @@
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
-        <activity android:name=".UI.Activity.Market.MarketAddActivity"
+
+        <activity
+            android:name=".UI.Activity.Market.MarketAddActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
-
-
         <activity
             android:name=".UI.Activity.Work.WebNovelWriteActivity"
             android:configChanges="screenSize|orientation"

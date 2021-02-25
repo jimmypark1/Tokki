@@ -85,6 +85,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
     private Button showBtn;
     private Toast toast;
 
+    int type = 0;
+
     // [S] winhmoon
     int[] levelRes = new int[]{
             R.drawable.ic_i_level_1, R.drawable.ic_i_level_2, R.drawable.ic_i_level_3, R.drawable.ic_i_level_4, R.drawable.ic_i_level_5,
@@ -104,6 +106,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_main);
+
+       type = getIntent().getIntExtra("WORK_TYPE",0);
 
         mActivity = this;
 
@@ -516,15 +520,25 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                         return;
                                     }
 
-                                    Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
-                                    ViewerActivity.workVO = workVO;
-                                    intent.putExtra("EPISODE_INDEX", nIndex);
-                                    startActivity(intent);
+                                    if(type == 0)
+                                    {
+                                        Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
+                                        ViewerActivity.workVO = workVO;
+                                        intent.putExtra("EPISODE_INDEX", nIndex);
+                                        startActivity(intent);
 
-//                            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
-//                            ViewerActivity.workVO = workVO;
-//                            intent.putExtra("EPISODE_INDEX", 0);
-//                            startActivity(intent);
+                                    }
+                                    else
+                                    {
+                                        // 웹소설,...
+                                        Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
+                                        ViewerActivity.workVO = workVO;
+                                        intent.putExtra("EPISODE_INDEX", nIndex);
+                                        startActivity(intent);
+
+                                    }
+
+
                                 } else {
                                     int nIndex = nLastIndex - 1;
 
@@ -534,16 +548,26 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                         return;
                                     }
 
-                                    Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
-                                    ViewerActivity.workVO = workVO;
-                                    intent.putExtra("EPISODE_INDEX", nIndex);
-                                    intent.putExtra("LAST_ORDER", nLastOrder);
-                                    startActivity(intent);
+                                    if(type == 0)
+                                    {
+                                        Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
+                                        ViewerActivity.workVO = workVO;
+                                        intent.putExtra("EPISODE_INDEX", nIndex);
+                                        intent.putExtra("LAST_ORDER", nLastOrder);
+                                        startActivity(intent);
+                                    }
+                                    else
+                                    {
+                                        Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
+                                        ViewerActivity.workVO = workVO;
+                                        intent.putExtra("EPISODE_INDEX", nIndex);
+                                        intent.putExtra("LAST_ORDER", nLastOrder);
+                                        startActivity(intent);
 
-//                            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
-//                            ViewerActivity.workVO = workVO;
-//                            intent.putExtra("EPISODE_INDEX", nLastIndex);
-//                            startActivity(intent);
+                                    }
+
+
+
                                 }
                             }
                         });
@@ -579,10 +603,24 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
             return;
         }
 
-        Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
-        ViewerActivity.workVO = workVO;
-        intent.putExtra("EPISODE_INDEX", nIndex);
-        startActivity(intent);
+        if(type == 0)
+        {
+            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
+            ViewerActivity.workVO = workVO;
+            intent.putExtra("EPISODE_INDEX", nIndex);
+            startActivity(intent);
+
+
+
+        }
+        else
+        {
+            Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
+            ViewerActivity.workVO = workVO;
+            intent.putExtra("EPISODE_INDEX", nIndex);
+            startActivity(intent);
+        }
+
     }
 
     private void checkInteractionSelect(final int nIndex) {
@@ -602,11 +640,24 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                             CommonUtils.makeText(WorkMainActivity.this, "분기를 선택하지 않으셨습니다.  작품의 분기를 선택해주세요.", Toast.LENGTH_LONG).show();
                             return;
                         } else {
-                            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
-                            ViewerActivity.workVO = workVO;
-                            intent.putExtra("EPISODE_INDEX", nIndex);
-                            intent.putExtra("INTERACTION", true);
-                            startActivity(intent);
+
+                            if(type == 0)
+                            {
+                                Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
+                                ViewerActivity.workVO = workVO;
+                                intent.putExtra("EPISODE_INDEX", nIndex);
+                                intent.putExtra("INTERACTION", true);
+                                startActivity(intent);
+                            }
+                            else
+                            {
+                                Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
+                                ViewerActivity.workVO = workVO;
+                                intent.putExtra("EPISODE_INDEX", nIndex);
+                                startActivity(intent);
+
+                            }
+
                         }
                     }
                 });
@@ -1065,15 +1116,23 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                 return;
                             }
 
-                            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
-                            ViewerActivity.workVO = workVO;
-                            intent.putExtra("EPISODE_INDEX", nIndex);
-                            startActivity(intent);
+                            if(type == 0)
+                            {
+                                Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
+                                ViewerActivity.workVO = workVO;
+                                intent.putExtra("EPISODE_INDEX", nIndex);
+                                startActivity(intent);
+                            }
+                            else
+                            {
+                                Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
+                                ViewerActivity.workVO = workVO;
+                                intent.putExtra("EPISODE_INDEX", nIndex);
+                                startActivity(intent);
 
-//                            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
-//                            ViewerActivity.workVO = workVO;
-//                            intent.putExtra("EPISODE_INDEX", 0);
-//                            startActivity(intent);
+                            }
+
+
                         } else {
                             int nIndex = nLastIndex - 1;
 
@@ -1083,16 +1142,26 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                 return;
                             }
 
-                            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
-                            ViewerActivity.workVO = workVO;
-                            intent.putExtra("EPISODE_INDEX", nIndex);
-                            intent.putExtra("LAST_ORDER", nLastOrder);
-                            startActivity(intent);
+                            if(type == 0)
+                            {
+                                Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
+                                ViewerActivity.workVO = workVO;
+                                intent.putExtra("EPISODE_INDEX", nIndex);
+                                intent.putExtra("LAST_ORDER", nLastOrder);
+                                startActivity(intent);
+                            }
+                            else
+                            {
+                                Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
+                                ViewerActivity.workVO = workVO;
+                                intent.putExtra("EPISODE_INDEX", nIndex);
+                                intent.putExtra("LAST_ORDER", nLastOrder);
+                                startActivity(intent);
 
-//                            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
-//                            ViewerActivity.workVO = workVO;
-//                            intent.putExtra("EPISODE_INDEX", nLastIndex);
-//                            startActivity(intent);
+                            }
+
+
+
                         }
                     }
                 });
@@ -1429,14 +1498,30 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                 return;
                             }
 
-                            Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
-                            ViewerActivity.workVO = workVO;
-                            if (!bDesc) {
-                                intent.putExtra("EPISODE_INDEX", nIndex);
-                            } else {
-                                intent.putExtra("EPISODE_INDEX", workVO.getEpisodeList().size() - nIndex - 1);
+                            if(type == 0)
+                            {
+                                Intent intent = new Intent(WorkMainActivity.this, ViewerActivity.class);
+                                ViewerActivity.workVO = workVO;
+                                if (!bDesc) {
+                                    intent.putExtra("EPISODE_INDEX", nIndex);
+                                } else {
+                                    intent.putExtra("EPISODE_INDEX", workVO.getEpisodeList().size() - nIndex - 1);
+                                }
+                                startActivity(intent);
                             }
-                            startActivity(intent);
+                            else
+                            {
+                                Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
+                                ViewerActivity.workVO = workVO;
+                                if (!bDesc) {
+                                    intent.putExtra("EPISODE_INDEX", nIndex);
+                                } else {
+                                    intent.putExtra("EPISODE_INDEX", workVO.getEpisodeList().size() - nIndex - 1);
+                                }
+                                startActivity(intent);
+
+                            }
+
                         }
                     }
                 });

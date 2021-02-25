@@ -188,6 +188,8 @@ public class KeepSubFragment extends Fragment implements AdapterView.OnItemClick
         WorkVO vo = keepList.get(i);
         Intent intent = new Intent(getActivity(), WorkMainActivity.class);
         intent.putExtra("WORK_ID", vo.getnWorkID());
+        intent.putExtra("WORK_TYPE", vo.getnTarget());
+
         startActivity(intent);
     }
 
