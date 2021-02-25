@@ -93,6 +93,7 @@ dependencies {
     implementation 'com.github.jrvansuita:GaussianBlur:+'
 
     implementation "com.android.billingclient:billing:3.0.0"
+    implementation 'com.wajahatkarim3.easyflipviewpager:easyflipviewpager:2.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

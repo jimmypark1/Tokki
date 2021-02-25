@@ -1,8 +1,9 @@
 package com.Whowant.Tokki.VO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class WorkVO {
+public class WorkVO implements Serializable {
     private ArrayList<EpisodeVO> episodeList;
     private ArrayList<EpisodeVO> sortedEpisodeList;
     private int    nWorkID;                                 // 작품 ID

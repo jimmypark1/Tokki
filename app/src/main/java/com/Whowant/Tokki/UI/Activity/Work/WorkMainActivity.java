@@ -52,6 +52,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -532,7 +533,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                     {
                                         // 웹소설,...
                                         Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
-                                        ViewerActivity.workVO = workVO;
+                                     //   ViewerActivity.workVO = workVO;
+                                        intent.putExtra("WORK", (Serializable) workVO);
                                         intent.putExtra("EPISODE_INDEX", nIndex);
                                         startActivity(intent);
 
@@ -559,8 +561,10 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                     else
                                     {
                                         Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
-                                        ViewerActivity.workVO = workVO;
+                                   //     ViewerActivity.workVO = workVO;
+                                        intent.putExtra("WORK", (Serializable) workVO);
                                         intent.putExtra("EPISODE_INDEX", nIndex);
+
                                         intent.putExtra("LAST_ORDER", nLastOrder);
                                         startActivity(intent);
 
@@ -616,8 +620,11 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
         else
         {
             Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
-            ViewerActivity.workVO = workVO;
+           // ViewerActivity.workVO = workVO;
+           // intent.putExtra("EPISODE_INDEX", nIndex);
+            intent.putExtra("WORK", (Serializable) workVO);
             intent.putExtra("EPISODE_INDEX", nIndex);
+
             startActivity(intent);
         }
 
@@ -652,8 +659,11 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                             else
                             {
                                 Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
-                                ViewerActivity.workVO = workVO;
+                            //    ViewerActivity.workVO = workVO;
+                             //   intent.putExtra("EPISODE_INDEX", nIndex);
+                                intent.putExtra("WORK", (Serializable) workVO);
                                 intent.putExtra("EPISODE_INDEX", nIndex);
+
                                 startActivity(intent);
 
                             }
@@ -1126,8 +1136,11 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                             else
                             {
                                 Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
-                                ViewerActivity.workVO = workVO;
+                               // ViewerActivity.workVO = workVO;
+                               // intent.putExtra("EPISODE_INDEX", nIndex);
+                                intent.putExtra("WORK", (Serializable) workVO);
                                 intent.putExtra("EPISODE_INDEX", nIndex);
+
                                 startActivity(intent);
 
                             }
@@ -1154,8 +1167,13 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                             {
                                 Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
                                 ViewerActivity.workVO = workVO;
-                                intent.putExtra("EPISODE_INDEX", nIndex);
+                               // intent.putExtra("EPISODE_INDEX", nIndex);
+                               // intent.putExtra("LAST_ORDER", nLastOrder);
+                               intent.putExtra("EPISODE_INDEX", nIndex);
+
                                 intent.putExtra("LAST_ORDER", nLastOrder);
+                              //  intent.putExtra("WORK", (Serializable) workVO);
+
                                 startActivity(intent);
 
                             }
@@ -1518,6 +1536,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                 } else {
                                     intent.putExtra("EPISODE_INDEX", workVO.getEpisodeList().size() - nIndex - 1);
                                 }
+                            //    intent.putExtra("WORK", (Serializable) workVO);
+
                                 startActivity(intent);
 
                             }

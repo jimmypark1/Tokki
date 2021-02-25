@@ -34,6 +34,7 @@ import com.Whowant.Tokki.VO.SpaceVO;
 import com.Whowant.Tokki.VO.TagVo;
 import com.Whowant.Tokki.VO.UserInfoVO;
 import com.Whowant.Tokki.VO.WaitingVO;
+import com.Whowant.Tokki.VO.WebWorkVO;
 import com.Whowant.Tokki.VO.WorkListVo;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.Whowant.Tokki.VO.WriterVO;
@@ -1418,6 +1419,45 @@ public class HttpClient {
 
 
                 resultList.add(object.getString("tag"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static ArrayList<WebWorkVO> getEpisodeNovelData(OkHttpClient httpClient, String episodeId) {                              // 모든 작품 목록 가져오기
+        ArrayList<WebWorkVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetEpisodeNovelData&EPISODE_ID="+ episodeId)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("NOVEL_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                WebWorkVO workVO = new WebWorkVO();
+
+                workVO.setContent(object.getString("CONTENT"));
+              //  workVO.setCover(object.getString("COVER"));
+                workVO.setRaw(object.getString("RAW"));
+           //     workVO.setTitle(object.getString("TITLE"));
+
+                resultList.add(workVO);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
