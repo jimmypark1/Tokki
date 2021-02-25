@@ -1,14 +1,21 @@
 package com.Whowant.Tokki.UI.Activity.Work;
 
+import android.graphics.Point;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.VO.WebWorkVO;
@@ -32,6 +39,12 @@ public class WebWorkFragment extends Fragment {
     public WebWorkVO webWork;
 
     WebView webview;
+    TextView prev;
+    TextView next;
+
+    ImageView comment;
+    ImageView rate;
+    ImageView carrot;
 
     public WebWorkFragment() {
         // Required empty public constructor
@@ -63,6 +76,33 @@ public class WebWorkFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    int dpToPx(float dp)
+    {
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, dm);
+    }
+    void initLayout()
+    {
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+
+        int offset = ( width -  dpToPx(20 * 2) - 2 * dpToPx(20) - 2 * dpToPx(47) - 3 * dpToPx(36)) / 5;
+
+
+        ViewGroup.MarginLayoutParams lp0 = (ViewGroup.MarginLayoutParams) comment.getLayoutParams();
+        ViewGroup.MarginLayoutParams lp1 = (ViewGroup.MarginLayoutParams) rate.getLayoutParams();
+        ViewGroup.MarginLayoutParams lp2 = (ViewGroup.MarginLayoutParams) carrot.getLayoutParams();
+
+
+
+        lp0.leftMargin = offset;
+        lp1.leftMargin = offset;
+        lp2.leftMargin = offset;
+
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,8 +114,18 @@ public class WebWorkFragment extends Fragment {
 
         webview = v.findViewById(R.id.webview);
         webview.getSettings().setJavaScriptEnabled(true);//자바스크립트 허용
+        prev = v.findViewById(R.id.prev);
+        next = v.findViewById(R.id.next);
+        comment = v.findViewById(R.id.comment);
+        rate = v.findViewById(R.id.rate);
+
+        carrot = v.findViewById(R.id.carrot);
 
 
+            prev.setText("< 이전화");
+            next.setText("다음화 >");
+
+        initLayout();
         webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
 
         return v;

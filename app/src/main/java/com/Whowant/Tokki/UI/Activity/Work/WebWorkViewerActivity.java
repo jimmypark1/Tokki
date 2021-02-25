@@ -7,9 +7,16 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +51,9 @@ public class WebWorkViewerActivity extends AppCompatActivity {
 
     TextView title;
 
+
+
+
     WebWorkPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
@@ -54,14 +64,18 @@ public class WebWorkViewerActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
 
+        title = findViewById(R.id.titleView );
 
-       title = findViewById(R.id.titleView );
+
+
 /*
         webview = findViewById(R.id.webview);
         webview.getSettings().setJavaScriptEnabled(true);//자바스크립트 허용
 
 
  */
+
+
         work = ViewerActivity.workVO;//(WorkVO)getIntent().getSerializableExtra("WORK");
         episodeIndex = getIntent().getIntExtra("EPISODE_INDEX",0);
         lastOrder = getIntent().getIntExtra("LAST_ORDER",-1);
@@ -78,6 +92,7 @@ public class WebWorkViewerActivity extends AppCompatActivity {
 
 
     }
+
     void getEpisodeNovelData()
     {
 

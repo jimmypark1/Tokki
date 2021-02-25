@@ -27,9 +27,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="20sp"
+            android:textSize="17sp"
             android:textColor="@color/colorBlack"
             android:text="웹소설"/>
+
+        <ImageButton
+            android:id="@+id/marketBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/alarmBtn"
+            android:background="@drawable/i_setting"
+            android:onClick="onClickTransactionBtn"
+
+            />
+
+        <ImageButton
+            android:id="@+id/alarmBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="17.5dp"
+            android:background="@drawable/i_list"
+            android:onClick="onClickMarketAdd"
+
+            />
 
 
     </RelativeLayout>
