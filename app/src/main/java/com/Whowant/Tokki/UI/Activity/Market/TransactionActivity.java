@@ -40,7 +40,20 @@ public class TransactionActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int pos = tab.getPosition();
+                viewPager.setCurrentItem(pos);
 
+                if(pos == 0)
+                {
+
+                }
+                else if(pos == 1)
+                {
+
+                }
+                else if(pos == 1)
+                {
+
+                }
 
 
             }

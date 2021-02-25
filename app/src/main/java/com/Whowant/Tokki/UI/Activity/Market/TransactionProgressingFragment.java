@@ -92,9 +92,15 @@ public class TransactionProgressingFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_transaction_progressing, container, false);
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        getTrading();
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getTrading();
+
     }
 
     private void getTrading() {
