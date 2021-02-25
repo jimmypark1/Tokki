@@ -533,8 +533,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                     {
                                         // 웹소설,...
                                         Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
-                                     //   ViewerActivity.workVO = workVO;
-                                        intent.putExtra("WORK", (Serializable) workVO);
+                                        ViewerActivity.workVO = workVO;
+                                      //  intent.putExtra("WORK", (Serializable) workVO);
                                         intent.putExtra("EPISODE_INDEX", nIndex);
                                         startActivity(intent);
 
@@ -561,8 +561,8 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                     else
                                     {
                                         Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
-                                   //     ViewerActivity.workVO = workVO;
-                                        intent.putExtra("WORK", (Serializable) workVO);
+                                        ViewerActivity.workVO = workVO;
+                                      //  intent.putExtra("WORK", (Serializable) workVO);
                                         intent.putExtra("EPISODE_INDEX", nIndex);
 
                                         intent.putExtra("LAST_ORDER", nLastOrder);
@@ -620,9 +620,9 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
         else
         {
             Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
-           // ViewerActivity.workVO = workVO;
+            ViewerActivity.workVO = workVO;
            // intent.putExtra("EPISODE_INDEX", nIndex);
-            intent.putExtra("WORK", (Serializable) workVO);
+          //  intent.putExtra("WORK", (Serializable) workVO);
             intent.putExtra("EPISODE_INDEX", nIndex);
 
             startActivity(intent);
@@ -659,9 +659,9 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                             else
                             {
                                 Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
-                            //    ViewerActivity.workVO = workVO;
+                                ViewerActivity.workVO = workVO;
                              //   intent.putExtra("EPISODE_INDEX", nIndex);
-                                intent.putExtra("WORK", (Serializable) workVO);
+                            //    intent.putExtra("WORK", (Serializable) workVO);
                                 intent.putExtra("EPISODE_INDEX", nIndex);
 
                                 startActivity(intent);
@@ -1136,9 +1136,9 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                             else
                             {
                                 Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
-                               // ViewerActivity.workVO = workVO;
+                                ViewerActivity.workVO = workVO;
                                // intent.putExtra("EPISODE_INDEX", nIndex);
-                                intent.putExtra("WORK", (Serializable) workVO);
+                               // intent.putExtra("WORK", (Serializable) workVO);
                                 intent.putExtra("EPISODE_INDEX", nIndex);
 
                                 startActivity(intent);
