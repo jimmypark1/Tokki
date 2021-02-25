@@ -1,6 +1,7 @@
 package com.Whowant.Tokki.UI.Activity.Work;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MotionEventCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -10,11 +11,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,21 +29,29 @@ import android.webkit.WebView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Market.MarketContentsFragment;
 import com.Whowant.Tokki.UI.Activity.Market.MarketGenreFragment;
 import com.Whowant.Tokki.UI.Activity.Market.MarketPagerAdapter;
 import com.Whowant.Tokki.UI.Activity.Market.MarketTagFragment;
+import com.Whowant.Tokki.UI.Popup.CarrotDoneActivity;
+import com.Whowant.Tokki.UI.Popup.StarPointPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.EpisodeVO;
 import com.Whowant.Tokki.VO.WebWorkVO;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.wajahatkarim3.easyflipviewpager.BookFlipPageTransformer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -47,7 +59,7 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
-public class WebWorkViewerActivity extends AppCompatActivity {
+public class WebWorkViewerActivity extends AppCompatActivity{
 
     WorkVO work;
     int episodeIndex = 0;
@@ -73,7 +85,184 @@ public class WebWorkViewerActivity extends AppCompatActivity {
     private WebEpisodeListAdapter ea;
     Animation translateDown, translateUp;
 
+    RelativeLayout top;
+    private float fMyPoint = 0;
+    private float fStarPoint = 0;
+    private int   nStarCount = 0;
 
+    int dpToPx(float dp)
+    {
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, dm);
+    }
+    public void showNav(Boolean show)
+    {
+        if(show)
+        {
+            ViewGroup.MarginLayoutParams lp0 = (ViewGroup.MarginLayoutParams) top.getLayoutParams();
+            lp0.height = dpToPx(52);
+
+          //  top.startAnimation(translateDown);
+            top.setVisibility(View.VISIBLE);
+
+
+        }
+        else
+        {
+     //       top.startAnimation(translateUp);
+            top.setVisibility(View.INVISIBLE);
+            ViewGroup.MarginLayoutParams lp0 = (ViewGroup.MarginLayoutParams) top.getLayoutParams();
+            lp0.height = 0;
+
+
+        }
+    }
+
+    public void nextEpisode()
+    {
+      //  episodeIndex = episodeIndex - episodeList.size() -1;
+        episodeIndex --;
+        if(episodeIndex < 0)
+        {
+            episodeIndex = 0;
+        }
+
+        EpisodeVO episode = work.getEpisodeList().get(episodeIndex);
+
+
+        //  EpisodeVO episode = work.getEpisodeList().get(episodeIndex);
+
+        title.setText(episode.getStrTitle());
+
+        episodeID = episode.getnEpisodeID();
+
+        getEpisodeNovelData();
+
+    }
+    public void prevEpisode()
+    {
+      //  episodeIndex = episodeIndex - episodeList.size() -1;
+        episodeIndex ++;
+        if(episodeIndex > episodeList.size() -1)
+        {
+            episodeIndex = episodeList.size() -1;
+        }
+        EpisodeVO episode = work.getEpisodeList().get(episodeIndex);
+
+
+        //  EpisodeVO episode = work.getEpisodeList().get(episodeIndex);
+
+        title.setText(episode.getStrTitle());
+
+        episodeID = episode.getnEpisodeID();
+
+        getEpisodeNovelData();
+
+    }
+    public void onClickComment(View view) {
+        Intent intent = new Intent(WebWorkViewerActivity.this, EpisodeCommentActivity.class);
+        intent.putExtra("EPISODE_ID", work.getSortedEpisodeList().get(episodeIndex).getnEpisodeID());
+        startActivity(intent);
+    }
+    public void onClickPrev(View view) {
+
+        prevEpisode();
+
+    }
+    public void onClickNext(View view) {
+
+       nextEpisode();
+
+    }
+    public void getStarPoint() {
+        SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject resultObject = HttpClient.getEpisodeCommnet(new OkHttpClient(), work.getSortedEpisodeList().get(episodeIndex).getnEpisodeID(), 1, pref.getString("USER_ID", "Guest"));
+
+                if (resultObject != null) {
+                    try {
+                        fStarPoint = (float)resultObject.getDouble("STAR_POINT");
+                        nStarCount = resultObject.getInt("STAR_COUNT");
+                        fMyPoint = (float)resultObject.getDouble("MY_POINT");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        RatingBar smallRatingBar = findViewById(R.id.smallRatingBar2);
+                        TextView starPointView = findViewById(R.id.starPointView2);
+                        TextView starCountView = findViewById(R.id.starCountView2);
+
+                        smallRatingBar.setRating(fStarPoint);
+                        starPointView.setText(String.format("%.1f", fStarPoint));
+                        starCountView.setText("(" + nStarCount + "명)");
+
+                        TextView rightView = findViewById(R.id.rightView2);
+                        rightView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                boolean bLogin = CommonUtils.bLocinCheck(pref);
+
+                                if(!bLogin) {
+                                    Toast.makeText(WebWorkViewerActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(WebWorkViewerActivity.this, PanbookLoginActivity.class));
+                                    return;
+                                }
+
+                                if(fMyPoint > 0) {
+                                    Toast.makeText(WebWorkViewerActivity.this, "이미 평가한 작품입니다.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                Intent intent = new Intent(WebWorkViewerActivity.this, StarPointPopup.class);
+                                intent.putExtra("EPISODE_ID", work.getSortedEpisodeList().get(episodeIndex).getnEpisodeID());
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+            }
+        }).start();
+    }
+
+    public void onClickCarrotBtn(View view) {
+        SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+
+        if (work.getnWriterID().equals(pref.getString("USER_ID", "Guest"))) {
+            CommonUtils.makeText(this, "내 작품에는 후원 하실수 없습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(this, CarrotDoneActivity.class);
+        intent.putExtra("WORK_ID", work.getnWorkID());
+        startActivity(intent);
+    }
+    public void onClickStar(View view) {
+
+        SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+
+        boolean bLogin = CommonUtils.bLocinCheck(pref);
+
+        if(!bLogin) {
+            Toast.makeText(WebWorkViewerActivity.this, "로그인이 필요한 기능입니다. 로그인 해주세요.", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(WebWorkViewerActivity.this, PanbookLoginActivity.class));
+            return;
+        }
+
+        if(fMyPoint > 0) {
+            Toast.makeText(WebWorkViewerActivity.this, "이미 평가한 작품입니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(WebWorkViewerActivity.this, StarPointPopup.class);
+        intent.putExtra("EPISODE_ID", work.getSortedEpisodeList().get(episodeIndex).getnEpisodeID());
+        startActivity(intent);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +279,8 @@ public class WebWorkViewerActivity extends AppCompatActivity {
         lastOrder = getIntent().getIntExtra("LAST_ORDER",-1);
 
         episodeListView = findViewById(R.id.episodeListView);
+        top = findViewById(R.id.topBarLayout);
+
         episodeList = work.getEpisodeList();
 
         ea = new WebEpisodeListAdapter(WebWorkViewerActivity.this, episodeList);
@@ -126,10 +317,51 @@ public class WebWorkViewerActivity extends AppCompatActivity {
             }
         });
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+        {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+            {
+                if(position == 0)
+                {
+                    show = true;
+
+                    WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
+                    fragment.showMenu(true,false);
+
+                }
+                else
+                {
+                    WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
+                    fragment.showMenu(false, false);
+
+                }
+
+            }
+
+            @Override
+            public void onPageSelected(int position)
+            {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state)
+            {
+
+            }
+        });
+
+
+
     }
+
 
     void getEpisodeNovelData()
     {
+
+        if(webs != null && webs.size() > 0)
+            webs.clear();
 
         CommonUtils.showProgressDialog(WebWorkViewerActivity.this, "서버와 통신중입니다. 잠시만 기다려주세요.");
 
@@ -182,15 +414,15 @@ public class WebWorkViewerActivity extends AppCompatActivity {
 
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
-        if(show)
+        if(fragment.bottomMenu.getVisibility() == View.VISIBLE)
         {
-            fragment.showMenu(show);
+            fragment.showMenu(false, true);
             show = false;
 
         }
         else
         {
-            fragment.showMenu(show);
+            fragment.showMenu(true, true);
             show = true;
         }
         if(pos > 0)
@@ -282,61 +514,35 @@ public class WebWorkViewerActivity extends AppCompatActivity {
             return (null != itemsList ? itemsList.size() : 0);
         }
 
-        public class WebEpisodeListViewHolder extends RecyclerView.ViewHolder {
+        public class WebEpisodeListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
             public WebEpisodeListViewHolder(View view) {
                 super(view);
-/*
-                view.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        switch (motionEvent.getAction()) {
-                            case MotionEvent.ACTION_DOWN:
-                                if (isClickedList)
-                                    return false;
-                                fX = motionEvent.getX();
-                                fY = motionEvent.getY();
-                                break;
-                            case MotionEvent.ACTION_MOVE: {
-                                float fEndX = motionEvent.getX();
-                                float fEndY = motionEvent.getY();
 
-                                if (fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
-                                    return false;
-                                }
-                                break;
-                            }
-                            case MotionEvent.ACTION_CANCEL:
-                                return false;
-                            case MotionEvent.ACTION_UP: {
-                                float fEndX = motionEvent.getX();
-                                float fEndY = motionEvent.getY();
+                view.setOnClickListener(this);
 
-                                if (fX >= fEndX + 10 || fX <= fEndX - 10 || fY >= fEndY + 10 || fY <= fEndY - 10) {              // 10px 이상 움직였다면
-                                    return false;
-                                } else {
-                                    int nPosition = getAdapterPosition();
+            }
+            @Override
+            public void onClick(View v){
+                // this.itemClickListener.onItemClickListener(v, getLayoutPosition());
+                int pos = getLayoutPosition();
+                EpisodeVO episodeVO = work.getEpisodeList().get(pos);
 
-                                    EpisodeVO episodeVO = workVO.getEpisodeList().get(nPosition);
-                                    if(workVO.getnInteractionEpisodeID() > 0 && episodeVO.getnEpisodeID() > workVO.getnInteractionEpisodeID()) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면
-                                        checkInteractionSelect(episodeList.size() - nPosition - 1);
-                                        return false;
-                                    }
+                episodeIndex = pos;
 
-                                    Intent intent = new Intent(ViewerActivity.this, ViewerActivity.class);
-                                    intent.putExtra("EPISODE_INDEX", episodeList.size() - nPosition - 1);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                            break;
-                        }
-                        return true;
-                    }
-                });
+                EpisodeVO episode = work.getEpisodeList().get(episodeIndex);
 
- */
+                title.setText(episode.getStrTitle());
+
+                episodeID = episode.getnEpisodeID();
+
+                getEpisodeNovelData();
+
+
+
             }
         }
+
+
     }
 
 }

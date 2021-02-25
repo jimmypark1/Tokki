@@ -1,5 +1,7 @@
 package com.Whowant.Tokki.UI.Activity.Work;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 
@@ -9,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -19,9 +23,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
+import com.Whowant.Tokki.UI.Popup.CarrotDoneActivity;
+import com.Whowant.Tokki.UI.Popup.StarPointPopup;
+import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.WebWorkVO;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,6 +62,12 @@ public class WebWorkFragment extends Fragment {
 
     RelativeLayout bottomMenu;
     Animation translateDown,translateUp;
+    private GestureDetector mDetector;
+
+    public String workId;
+
+
+    RelativeLayout starPointLayout;
 
     public WebWorkFragment() {
         // Required empty public constructor
@@ -74,19 +91,31 @@ public class WebWorkFragment extends Fragment {
         return fragment;
     }
 
-    public void showMenu(Boolean show)
+    public void showMenu(Boolean show, Boolean isAnim )
     {
         translateDown = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_bottom_down);
         translateUp = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_bottom_up);
 
         if(show) {
-            bottomMenu.startAnimation(translateUp);
+            if(isAnim)
+                bottomMenu.startAnimation(translateUp);
             bottomMenu.setVisibility(View.VISIBLE);
-
+/*
+            WebWorkViewerActivity parent = (WebWorkViewerActivity) getActivity();
+            parent.showNav(show);
+*/
         }
         else {
-            bottomMenu.startAnimation(translateDown);
+            if(isAnim)
+                bottomMenu.startAnimation(translateDown);
+
             bottomMenu.setVisibility(View.INVISIBLE);
+/*
+            WebWorkViewerActivity parent = (WebWorkViewerActivity) getActivity();
+            parent.showNav(show);
+
+
+ */
 
         }
 
@@ -120,6 +149,7 @@ public class WebWorkFragment extends Fragment {
 
 
 
+
         lp0.leftMargin = offset;
         lp1.leftMargin = offset;
         lp2.leftMargin = offset;
@@ -127,6 +157,39 @@ public class WebWorkFragment extends Fragment {
 
     }
 
+    public void onClickPrev(View view) {
+
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+         parent.onClickPrev(view);
+
+    }
+    public void onClickNext(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+
+        parent.onClickNext(view);
+
+    }
+    public void onClickComment(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+
+        parent.onClickComment(view);
+    }
+
+    public void onClickStar(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.getStarPoint();
+
+    }
+
+    public void onClickCarrotBtn(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickCarrotBtn(view);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -152,6 +215,66 @@ public class WebWorkFragment extends Fragment {
         initLayout();
         webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
 
+
+        mDetector = new GestureDetector(getActivity(), new MyGestureListener());
+        webview.setLongClickable(false);
+        webview.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                // ... Respond to touch events
+
+             //   return mDetector.onTouchEvent(event);
+                return webview.onTouchEvent(event) ||  mDetector.onTouchEvent(event);
+
+            }
+        });
+
         return v;
+    }
+    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onDown(MotionEvent event) {
+
+            // don't return false here or else none of the other
+            // gestures will work
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+
+            if(bottomMenu.getVisibility() == View.VISIBLE)
+            {
+                showMenu(false,true);
+            }
+            else
+            {
+                showMenu(true,true);
+
+            }
+            return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            return true;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2,
+                                float distanceX, float distanceY) {
+            return true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2,
+                               float velocityX, float velocityY) {
+            return true;
+        }
     }
 }
