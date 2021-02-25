@@ -12,9 +12,12 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.Whowant.Tokki.R;
@@ -46,6 +49,9 @@ public class WebWorkFragment extends Fragment {
     ImageView rate;
     ImageView carrot;
 
+    RelativeLayout bottomMenu;
+    Animation translateDown,translateUp;
+
     public WebWorkFragment() {
         // Required empty public constructor
     }
@@ -68,6 +74,23 @@ public class WebWorkFragment extends Fragment {
         return fragment;
     }
 
+    public void showMenu(Boolean show)
+    {
+        translateDown = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_bottom_down);
+        translateUp = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_bottom_up);
+
+        if(show) {
+            bottomMenu.startAnimation(translateUp);
+            bottomMenu.setVisibility(View.VISIBLE);
+
+        }
+        else {
+            bottomMenu.startAnimation(translateDown);
+            bottomMenu.setVisibility(View.INVISIBLE);
+
+        }
+
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +143,7 @@ public class WebWorkFragment extends Fragment {
         rate = v.findViewById(R.id.rate);
 
         carrot = v.findViewById(R.id.carrot);
+        bottomMenu = v.findViewById(R.id.bottom);
 
 
             prev.setText("< 이전화");

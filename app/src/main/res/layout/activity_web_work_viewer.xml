@@ -31,31 +31,30 @@
             android:textColor="@color/colorBlack"
             android:text="웹소설"/>
 
-        <ImageButton
-            android:id="@+id/marketBtn"
+        <ToggleButton
+            android:id="@+id/settingBtn"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_toLeftOf="@+id/episodeListBtn"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_i_setting"
+            android:onClick="onClickSettingsBtn"
 
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@+id/alarmBtn"
-            android:background="@drawable/i_setting"
-            android:onClick="onClickTransactionBtn"
+            android:textOff=""
+            android:textOn=""
+            tools:ignore="OnClick" />
 
-            />
-
-        <ImageButton
-            android:id="@+id/alarmBtn"
+        <ToggleButton
+            android:id="@+id/episodeListBtn"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="17.5dp"
-            android:background="@drawable/i_list"
-            android:onClick="onClickMarketAdd"
-
-            />
+            android:layout_marginRight="17dp"
+            android:background="@drawable/ic_i_episodelist"
+            android:textOff=""
+            android:textOn=""/>
 
 
     </RelativeLayout>
@@ -82,6 +81,28 @@
         android:layout_height="match_parent"
 
         android:layout_below="@+id/topBarLayout" />
+
+    <LinearLayout
+        android:id="@+id/episodeListLayout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/topBarLayout"
+        android:visibility="invisible"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/episodeListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#00000000"
+            android:dividerHeight="0dp"
+            android:listSelector="@android:color/transparent"
+            android:paddingBottom="15dp"
+            android:clipToPadding="false"
+            android:scrollbars="none"/>
+    </LinearLayout>
+
 
 
 </RelativeLayout>
