@@ -23,6 +23,7 @@ import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.EpisodeVO;
 import com.Whowant.Tokki.VO.WebWorkVO;
 import com.Whowant.Tokki.VO.WorkVO;
+import com.wajahatkarim3.easyflipviewpager.BookFlipPageTransformer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -107,6 +108,12 @@ public class WebWorkViewerActivity extends AppCompatActivity {
 
                         }
                         viewPager.setAdapter(pagerAdapter);
+                        // Create an object of page transformer
+                        BookFlipPageTransformer bookFlipPageTransformer = new BookFlipPageTransformer();
+
+                        bookFlipPageTransformer.setEnableScale(true);
+                        bookFlipPageTransformer.setScaleAmountPercent(10f);
+                        viewPager.setPageTransformer(true, bookFlipPageTransformer);
                         pagerAdapter.notifyDataSetChanged();
 
 
