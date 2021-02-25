@@ -15,6 +15,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -485,7 +486,7 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
             TextView commentView = convertView.findViewById(R.id.commentView);
             LinearLayout likeLayout = convertView.findViewById(R.id.likeLayout);
             TextView likeCountView = convertView.findViewById(R.id.likeCountView);
-            TextView episodeNumView = convertView.findViewById(R.id.episodeNumView);
+          //  TextView episodeNumView = convertView.findViewById(R.id.episodeNumView);
             ImageView thumbIconView = convertView.findViewById(R.id.thumbIconView);
             ImageView arrowBtn = convertView.findViewById(R.id.arrowBtn);
             TextView reportBtn = convertView.findViewById(R.id.reportBtn);
@@ -502,13 +503,13 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
             if(vo.isHasChild()) {
                 arrowBtn.setVisibility(View.VISIBLE);
             } else {
-                arrowBtn.setVisibility(View.INVISIBLE);
+                arrowBtn.setVisibility(View.GONE);
             }
 
             if(isExpanded) {
-                arrowBtn.setBackgroundResource(R.drawable.up_arrow_btn);
+                arrowBtn.setBackgroundResource(R.drawable.i_up_arrow_gray);
             } else {
-                arrowBtn.setBackgroundResource(R.drawable.down_arrow_btn);
+                arrowBtn.setBackgroundResource(R.drawable.i_down_arrow_gray);
             }
 
             if(vo.getUserID().equals(pref.getString("USER_ID", "Guest")) || pref.getString("ADMIN", "N").equals("Y")) {
@@ -565,11 +566,11 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
             dateView.setText(CommonUtils.strGetTime(vo.getRegisterDate()));
             commentView.setText(vo.getStrComment());
 
-            likeLayout.setVisibility(View.VISIBLE);
-            likeCountView.setText(vo.getLikeCount() + "");
+//            likeLayout.setVisibility(View.VISIBLE);
+//            likeCountView.setText(vo.getLikeCount() + "");
 
             int nOrder = vo.getnEpisodeOrder();
-
+/*
             if(nOrder == 0)
                 episodeNumView.setText(vo.getStrWorkTitle());
             else
@@ -578,21 +579,29 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
             if(episodeNumView.getText().toString().equals("null"))
                 episodeNumView.setText("전체댓글");
 
+ */
+
             if(vo.isMyComment()) {
+                /*
                 likeLayout.setBackgroundResource(R.drawable.round_blue_btn_bg);
                 likeCountView.setTextColor(Color.parseColor("#ffffff"));
                 thumbIconView.setBackgroundResource(R.drawable.white_like_box);
+
+                 */
 //                heartView.setBackgroundResource(R.drawable.top_like_active);
 //                heartView.getBackground().setColorFilter(null);
             } else {
+                /*
                 likeLayout.setBackgroundResource(R.drawable.badge_complete);
                 likeCountView.setTextColor(ContextCompat.getColor(EpisodeCommentActivity.this, R.color.colorPrimary));
                 thumbIconView.setBackgroundResource(R.drawable.like_box);
+
+                 */
 //                heartView.setBackgroundResource(R.drawable.top_like);
 //                PorterDuffColorFilter greyFilter = new PorterDuffColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
 //                heartView.getBackground().setColorFilter(greyFilter);
             }
-
+/*
             likeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -612,6 +621,8 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
                     }
                 }
             });
+
+ */
 
             reportBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -660,7 +671,7 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
                     }
                 }
             });
-
+/*
             if(vo.getUserID().equals(pref.getString("USER_ID", "Guest"))) {
                 replyBtn.setVisibility(View.GONE);
             } else {
@@ -679,6 +690,8 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
                 });
             }
 
+ */
+/*
             emptyIconView.setVisibility(View.GONE);
             lv1IconView.setVisibility(View.GONE);
             lv5IconView.setVisibility(View.GONE);
@@ -686,6 +699,7 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
             smallLv10View.setVisibility(View.GONE);
 
             int nLevel = CommonUtils.getLevel(vo.getnDonationCarrot());
+
             switch(nLevel) {
                 case 1:
                     levelBGView.setBackgroundResource(R.drawable.lv1_bg);
@@ -748,10 +762,14 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
                     smallLv10View.setVisibility(View.VISIBLE);
                     break;
             }
-
+            */
             return convertView;
         }
-
+        int dpToPx(float dp)
+        {
+            DisplayMetrics dm = getResources().getDisplayMetrics();
+            return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, dm);
+        }
         @Override
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
             Context context = parent.getContext();
@@ -773,14 +791,29 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
             TextView commentView = convertView.findViewById(R.id.commentView);
             LinearLayout likeLayout = convertView.findViewById(R.id.likeLayout);
             TextView likeCountView = convertView.findViewById(R.id.likeCountView);
-            TextView episodeNumView = convertView.findViewById(R.id.episodeNumView);
+          //  TextView episodeNumView = convertView.findViewById(R.id.episodeNumView);
             ImageView thumbIconView = convertView.findViewById(R.id.thumbIconView);
             ImageView arrowBtn = convertView.findViewById(R.id.arrowBtn);
             TextView reportBtn = convertView.findViewById(R.id.reportBtn);
             TextView replyBtn = convertView.findViewById(R.id.replyBtn);
 
             arrowBtn.setVisibility(View.INVISIBLE);
-            bgView.setBackgroundResource(R.drawable.round_shadow_gray_bg);
+
+            nameView.setTextColor(Color.parseColor("#ffffff"));
+            dateView.setTextColor(Color.parseColor("#b9d4ff"));
+            commentView.setTextColor(Color.parseColor("#ffffff"));
+            reportBtn                          .setTextColor(Color.parseColor("#ffffff"));
+
+            //
+
+            ViewGroup.MarginLayoutParams lp0 = (ViewGroup.MarginLayoutParams) bgView.getLayoutParams();
+            lp0.leftMargin = dpToPx(20);
+
+
+         //   bgView.setPadding(0,0,0,0);
+
+
+            bgView.setBackgroundResource(R.drawable.round_shadow_gray_bg_rev);
 
             String strPhoto = vo.getUserPhoto();
             if(strPhoto != null && !strPhoto.equals("null") && !strPhoto.equals("NULL") && strPhoto.length() > 0) {
@@ -816,11 +849,11 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
             dateView.setText(CommonUtils.strGetTime(vo.getRegisterDate()));
             commentView.setText(vo.getStrComment());
 
-            likeLayout.setVisibility(View.VISIBLE);
-            likeCountView.setText(vo.getLikeCount() + "");
+    //        likeLayout.setVisibility(View.VISIBLE);
+    //        likeCountView.setText(vo.getLikeCount() + "");
 
             int nOrder = vo.getnEpisodeOrder();
-
+/*
             if(nOrder == 0)
                 episodeNumView.setText(vo.getStrWorkTitle());
             else
@@ -829,6 +862,8 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
             if(episodeNumView.getText().toString().equals("null"))
                 episodeNumView.setText("전체댓글");
 
+ */
+/*
             if(vo.isMyComment()) {
                 likeLayout.setBackgroundResource(R.drawable.round_blue_btn_bg);
                 likeCountView.setTextColor(Color.parseColor("#ffffff"));
@@ -863,6 +898,8 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
                     }
                 }
             });
+
+ */
 
             if(vo.getUserID().equals(pref.getString("USER_ID", "Guest")) || pref.getString("ADMIN", "N").equals("Y")) {
                 reportBtn.setText("삭제");
@@ -918,7 +955,7 @@ public class EpisodeCommentActivity extends AppCompatActivity {                 
                 }
             });
 
-            replyBtn.setVisibility(View.GONE);
+        //    replyBtn.setVisibility(View.GONE);
 //            replyBtn.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {
