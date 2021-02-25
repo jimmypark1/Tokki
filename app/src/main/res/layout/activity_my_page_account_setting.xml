@@ -69,11 +69,105 @@
                             android:src="@drawable/i_changephoto_white"
                             android:scaleType="centerCrop" />
                     </RelativeLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/type_frame"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_below="@+id/iv_my_page_account_setting_photo"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:gravity="center_horizontal"
+
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="5sp"
+                            android:gravity="center"
+                            android:layout_toRightOf="@+id/change_back_frame"
+                            android:text="작가"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginLeft="4dp"
+
+                            android:textColor="#fff"
+                            android:textSize="15sp"
+                            android:textStyle="normal"
+                            android:onClick="btnProfileBg"
+
+                            />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="8dp"
+
+                            android:src="@drawable/i_radio_1"
+                            android:scaleType="centerCrop" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="5sp"
+                            android:gravity="center"
+                            android:layout_toRightOf="@+id/change_back_frame"
+                            android:text="독자"
+                            android:layout_alignParentBottom="true"
+
+                            android:layout_marginLeft="20dp"
+
+                            android:layout_marginBottom="20dp"
+                            android:layout_gravity="center_horizontal"
+
+                            android:textColor="#fff"
+                            android:textSize="15sp"
+                            android:textStyle="normal"
+                            android:onClick="btnProfileBg"
+
+                            />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="20dp"
+
+                            android:src="@drawable/i_radio_2"
+                            android:scaleType="centerCrop" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="5sp"
+                            android:gravity="center"
+                            android:layout_toRightOf="@+id/change_back_frame"
+                            android:text="제작자"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginLeft="4dp"
+
+                            android:textColor="#fff"
+                            android:textSize="15sp"
+                            android:textStyle="normal"
+                            android:onClick="btnProfileBg"
+
+                            />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="8dp"
+
+                            android:src="@drawable/i_radio_1"
+                            android:scaleType="centerCrop" />
+                    </LinearLayout>
                     <EditText
                         android:id="@+id/introduction"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_my_page_account_setting_photo"
+                        android:layout_below="@+id/type_frame"
 
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="30dp"
@@ -89,19 +183,7 @@
                         android:textStyle="normal"
                         android:windowSoftInputMode="stateHidden"
                         android:textAlignment="center"
-                         />
-
-                    <LinearLayout
-                        android:id="@+id/type_frame"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:orientation="vertical"
-                        android:layout_below="@+id/introduction"
-                        android:layout_marginTop="20dp"
-                        >
-                    </LinearLayout>
-
+                        />
                     <RelativeLayout
                         android:id="@+id/change_back_frame"
                         android:layout_width="36dp"
