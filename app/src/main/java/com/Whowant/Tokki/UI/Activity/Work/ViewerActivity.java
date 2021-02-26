@@ -2009,6 +2009,8 @@ public class ViewerActivity extends AppCompatActivity {                         
                                 commentView.setText(vo.getStrComment());
                                 container.addView(view);
                                 viewList.add(view);
+
+                                /*
                                 likeCountView.setText(vo.getLikeCount() + "");
 
                                 if(vo.isMyComment()) {
@@ -2021,11 +2023,15 @@ public class ViewerActivity extends AppCompatActivity {                         
                                     thumbIconView.setBackgroundResource(R.drawable.like_box);
                                 }
 
+
                                 if(vo.getUserID().equals(pref.getString("USER_ID", "Guest"))) {
                                     replyBtn.setVisibility(View.GONE);
                                 } else {
                                     replyBtn.setVisibility(View.VISIBLE);
                                 }
+                                */
+
+                                 
                             }
                         } else {
                             noCommentView.setVisibility(View.VISIBLE);
