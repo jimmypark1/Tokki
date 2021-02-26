@@ -142,7 +142,7 @@
         <LinearLayout
             android:id="@+id/fontControlLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="190dp"
             android:layout_below="@+id/topBarLayout"
             android:visibility="invisible"
             android:background="#ffffff"
@@ -202,7 +202,131 @@
                 android:text="서체 변경"
                 android:layout_gravity="center"
                 android:layout_marginTop="17dp"/>
+            <LinearLayout
+                android:layout_width="280dp"
+                android:layout_height="44dp"
+                android:layout_below="@+id/fontLabel"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:id="@+id/fontFrame"
 
+                android:orientation="horizontal"
+                >
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/round_bt"
+                    android:onClick="onClickFont1"
+
+                    >
+                    <TextView
+                        android:id="@+id/font0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginRight="10dp"
+                        android:textSize="13sp"
+                        android:text="가나다"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="17dp"
+                        android:textColor="#666666"
+                        android:fontFamily="@font/nnsquare_font"
+                        />
+                    <ImageView
+                        android:id="@+id/font_ck0"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/i_chck_circle_2"
+                        />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/round_bt"
+                    android:onClick="onClickFont2"
+
+                    >
+                    <TextView
+                        android:id="@+id/font1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginRight="10dp"
+                        android:textSize="13sp"
+                        android:text="가나다"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="17dp"
+                        android:textColor="#666666"
+                        android:fontFamily="@font/nnsquare_round_font"
+                        />
+                    <ImageView
+                        android:id="@+id/font_ck1"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/i_chck_circle_2"
+                        />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/round_bt"
+                    android:onClick="onClickFont3"
+
+                    >
+                    <TextView
+                        android:id="@+id/font2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginRight="10dp"
+                        android:textSize="13sp"
+                        android:text="가나다"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="17dp"
+                        android:textColor="#666666"
+                        android:fontFamily="@font/nnmyeongjo_font"
+                        />
+                    <ImageView
+                        android:id="@+id/font_ck2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/i_chck_circle_2"
+                        />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/round_bt"
+                    android:onClick="onClickFont4"
+
+                    >
+                    <TextView
+                        android:id="@+id/font3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginRight="10dp"
+                        android:textSize="25sp"
+                        android:text="가나다"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="17dp"
+                        android:textColor="#666666"
+                        android:fontFamily="@font/misaeng_font"
+                        />
+                    <ImageView
+                        android:id="@+id/font_ck3"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/i_chck_circle_2"
+                        />
+                </RelativeLayout>
+            </LinearLayout>
+<!--
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -286,7 +410,7 @@
                         android:background="#00ffffff"/>
                 </LinearLayout>
             </LinearLayout>
-
+-->
 
         </LinearLayout>
 

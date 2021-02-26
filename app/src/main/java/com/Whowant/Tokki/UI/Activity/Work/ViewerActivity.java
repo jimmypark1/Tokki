@@ -151,9 +151,16 @@ public class ViewerActivity extends AppCompatActivity {                         
     private int chatFontSize = 15, nameFontSize = 14, narrFontSize = 15;
 
     // Animation animation, animation2;
+    private ImageView fontCk0,fontCk1,fontCk2,fontCk3;
+
 
     boolean isSlideUp;
     Animation translateDown, translateUp;
+
+    void initLayout()
+    {
+        setFont0();
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -161,6 +168,13 @@ public class ViewerActivity extends AppCompatActivity {                         
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_viewer);
+
+        fontCk0 = findViewById(R.id.font_ck0);
+        fontCk1 = findViewById(R.id.font_ck1);
+        fontCk2 = findViewById(R.id.font_ck2);
+        fontCk3 = findViewById(R.id.font_ck3);
+
+        initLayout();
 
         fileObserver.startWatching();
         lgFileObserver.startWatching();
@@ -2328,27 +2342,65 @@ public class ViewerActivity extends AppCompatActivity {                         
             }
         }).start();
     }
+    void setFont0()
+    {
+        fontCk0.setVisibility(View.VISIBLE);
+        fontCk1.setVisibility(View.INVISIBLE);
+        fontCk2.setVisibility(View.INVISIBLE);
+        fontCk3.setVisibility(View.INVISIBLE);
 
+    }
+    void setFont1()
+    {
+        fontCk0.setVisibility(View.INVISIBLE);
+        fontCk1.setVisibility(View.VISIBLE);
+        fontCk2.setVisibility(View.INVISIBLE);
+        fontCk3.setVisibility(View.INVISIBLE);
+
+    }
+    void setFont2()
+    {
+        fontCk0.setVisibility(View.INVISIBLE);
+        fontCk1.setVisibility(View.INVISIBLE);
+        fontCk2.setVisibility(View.VISIBLE);
+        fontCk3.setVisibility(View.INVISIBLE);
+
+    }
+    void setFont3()
+    {
+        fontCk0.setVisibility(View.INVISIBLE);
+        fontCk1.setVisibility(View.INVISIBLE);
+        fontCk2.setVisibility(View.INVISIBLE);
+        fontCk3.setVisibility(View.VISIBLE);
+
+    }
     public void onClickFont1(View view) {
         fontType = 1;
         // check visible
+        setFont0();
+
         aa.notifyDataSetChanged();
     }
 
     public void onClickFont2(View view) {
         fontType = 2;
         // check visible
+        setFont1();
         aa.notifyDataSetChanged();
     }
 
     public void onClickFont3(View view) {
         fontType = 3;
         // check visible
+        setFont2();
+
         aa.notifyDataSetChanged();
     }
 
     public void onClickFont4(View view) {
         fontType = 4;
+        setFont3();
+
         aa.notifyDataSetChanged();
     }
 
