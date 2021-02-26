@@ -15,7 +15,8 @@
         <RelativeLayout
             android:id="@+id/topBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="52dp">
+            android:layout_height="52dp"
+            android:background="#ffffff">
 
             <ImageButton
                 android:id="@+id/leftBtn"
@@ -136,6 +137,145 @@
                 android:paddingBottom="15dp"
                 android:clipToPadding="false"
                 android:scrollbars="none"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fontControlLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/topBarLayout"
+            android:visibility="invisible"
+            android:background="#ffffff"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="글씨 크기 조절"
+                android:layout_gravity="center"
+                android:layout_marginTop="7dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:layout_marginLeft="118dp"
+            android:layout_marginRight="118dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+                <ImageButton
+                    android:id="@+id/minusBtn"
+                    android:layout_width="70dp"
+                    android:layout_height="44dp"
+                    android:onClick="onClickDecreaseFontSize"
+                    android:src="@drawable/i_font_minus"
+                    android:background="@drawable/round_4_ffffff_dddddd"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+                <ImageButton
+                    android:id="@+id/plusBtn"
+                    android:layout_width="70dp"
+                    android:layout_height="44dp"
+                    android:onClick="onClickIncreaseFontSize"
+                    android:src="@drawable/i_font_plus"
+                    android:background="@drawable/round_4_ffffff_dddddd"/>
+            </LinearLayout>
+        </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="서체 변경"
+                android:layout_gravity="center"
+                android:layout_marginTop="17dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="4"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1">
+                    <Button
+                        android:id="@+id/font1"
+                        android:layout_width="70dp"
+                        android:layout_height="44dp"
+                        android:textSize="16sp"
+                        android:text="가나다"
+                        android:onClick="onClickFont1"
+                        android:fontFamily="@font/nnsquare_font"
+                        android:background="@drawable/round_4_ffffff_dddddd"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1">
+                    <Button
+                        android:id="@+id/font2"
+                        android:layout_width="70dp"
+                        android:layout_height="44dp"
+                        android:textSize="16sp"
+                        android:text="가나다"
+                        android:onClick="onClickFont2"
+                        android:fontFamily="@font/nnsquare_round_font"
+                        android:background="@drawable/round_4_ffffff_dddddd"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1">
+                    <Button
+                        android:id="@+id/font3"
+                        android:layout_width="70dp"
+                        android:layout_height="44dp"
+                        android:textSize="16sp"
+                        android:text="가나다"
+                        android:onClick="onClickFont3"
+                        android:fontFamily="@font/nnmyeongjo_font"
+                        android:background="@drawable/round_4_ffffff_dddddd"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1">
+                    <Button
+                        android:id="@+id/font4"
+                        android:layout_width="70dp"
+                        android:layout_height="44dp"
+                        android:text="가나다"
+                        android:onClick="onClickFont4"
+                        android:textSize="25sp"
+                        android:fontFamily="@font/misaeng_font"
+                        android:background="@drawable/round_4_ffffff_dddddd"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
         </LinearLayout>
 
 

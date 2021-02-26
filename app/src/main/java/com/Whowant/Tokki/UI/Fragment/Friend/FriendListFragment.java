@@ -61,7 +61,7 @@ public class FriendListFragment extends Fragment {
         SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
         friendList.clear();
 
-        CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다.");
+//        CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다.");
         new Thread(new Runnable() {
             @Override
             public void run() {
