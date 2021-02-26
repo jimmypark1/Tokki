@@ -408,6 +408,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginTop="17dp"
                     android:textColor="#666666"
+                    android:fontFamily="@font/nnsquare_font"
                     />
                 <ImageView
                     android:id="@+id/font_ck0"
@@ -435,6 +436,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginTop="17dp"
                     android:textColor="#666666"
+                    android:fontFamily="@font/nnsquare_round_font"
                     />
                 <ImageView
                     android:id="@+id/font_ck1"
@@ -462,6 +464,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginTop="17dp"
                     android:textColor="#666666"
+                    android:fontFamily="@font/nnmyeongjo_font"
                     />
                 <ImageView
                     android:id="@+id/font_ck2"
@@ -484,11 +487,12 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginRight="10dp"
-                    android:textSize="13sp"
+                    android:textSize="25sp"
                     android:text="가나다"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="17dp"
                     android:textColor="#666666"
+                    android:fontFamily="@font/misaeng_font"
                     />
                 <ImageView
                     android:id="@+id/font_ck3"

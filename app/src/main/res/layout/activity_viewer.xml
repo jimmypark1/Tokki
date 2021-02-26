@@ -168,6 +168,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:background="@drawable/round_bt"
                 android:layout_weight="1">
                 <ImageButton
                     android:id="@+id/minusBtn"
@@ -175,13 +176,15 @@
                     android:layout_height="44dp"
                     android:onClick="onClickDecreaseFontSize"
                     android:src="@drawable/i_font_minus"
-                    android:background="@drawable/round_4_ffffff_dddddd"/>
+                    android:background="#00ffffff"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:background="@drawable/round_bt"
+
                 android:layout_weight="1">
                 <ImageButton
                     android:id="@+id/plusBtn"
@@ -189,7 +192,7 @@
                     android:layout_height="44dp"
                     android:onClick="onClickIncreaseFontSize"
                     android:src="@drawable/i_font_plus"
-                    android:background="@drawable/round_4_ffffff_dddddd"/>
+                    android:background="#00ffffff"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -227,6 +230,7 @@
                         android:onClick="onClickFont1"
                         android:fontFamily="@font/nnsquare_font"
                         />
+
                 </LinearLayout>
 
                 <LinearLayout
