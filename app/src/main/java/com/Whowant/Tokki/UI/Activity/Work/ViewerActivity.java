@@ -156,6 +156,7 @@ public class ViewerActivity extends AppCompatActivity {                         
 
     boolean isSlideUp;
     Animation translateDown, translateUp;
+    Animation translateTopDown,translateTopUp,translateBottomDown,translateBottomUp;
 
     void initLayout()
     {
@@ -270,10 +271,18 @@ public class ViewerActivity extends AppCompatActivity {                         
                         previousBtn.setVisibility(View.INVISIBLE);
                     }
                     settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
+
+                    navBar.startAnimation(translateBottomUp);
+                    fontControlLayout.startAnimation(translateTopDown);
+
                     navBar.setVisibility(View.VISIBLE);
                     fontControlLayout.setVisibility(View.VISIBLE);
 
                 } else {
+
+                    navBar.startAnimation(translateBottomDown);
+                    fontControlLayout.startAnimation(translateTopUp);
+
                     navBar.setVisibility(View.INVISIBLE);
                     fontControlLayout.setVisibility(View.INVISIBLE);
                     starPointLayout.setVisibility(View.INVISIBLE);
@@ -331,6 +340,13 @@ public class ViewerActivity extends AppCompatActivity {                         
         ToggleButton episodeListBtn = findViewById(R.id.episodeListBtn);
         translateDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_down);
         translateUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_up);
+
+        translateTopDown = AnimationUtils.loadAnimation(this, R.anim.translate_down);
+        translateTopUp = AnimationUtils.loadAnimation(this, R.anim.translate_up);
+        translateBottomDown = AnimationUtils.loadAnimation(this, R.anim.translate_bottom_down);
+        translateBottomUp = AnimationUtils.loadAnimation(this, R.anim.translate_bottom_up);
+
+
 
         episodeListBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
