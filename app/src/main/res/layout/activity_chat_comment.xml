@@ -20,7 +20,7 @@
             android:layout_marginLeft="17dp"
             android:background="@null"
             android:onClick="onClickTopLeftBtn"
-            android:src="@drawable/back_button"/>
+            android:src="@drawable/i_back"/>
 
         <TextView
             android:id="@+id/titleView"
@@ -40,7 +40,7 @@
             android:layout_marginRight="17dp"
             android:background="@null"
             android:onClick="onClickTopRightBtn"
-            android:src="@drawable/dot_menu"/>
+            android:src="@drawable/i_setting"/>
     </RelativeLayout>
 
     <ExpandableListView
@@ -50,6 +50,7 @@
         android:layout_below="@+id/topBarLayout"
         android:layout_above="@+id/inputLayout"
         android:dividerHeight="0dp"
+        android:background="#fafafa"
         android:divider="#00000000"
         android:groupIndicator="@null"/>
 

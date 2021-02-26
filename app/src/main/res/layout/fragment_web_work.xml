@@ -173,5 +173,331 @@
                 android:background="@drawable/right_arrow_dark"/>
         </RelativeLayout>
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="290dp"
+        android:background="#fff"
+        android:id="@+id/topMenu"
 
+        >
+
+        <TextView
+            android:id="@+id/sizeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:textSize="13sp"
+            android:text="글싸 크기 조절"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="17dp"
+            android:textColor="#666666"
+            />
+
+    <LinearLayout
+        android:layout_width="140dp"
+        android:layout_height="44dp"
+        android:layout_below="@+id/sizeLabel"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/sizeCon"
+
+        android:orientation="horizontal"
+        >
+        <RelativeLayout
+            android:layout_width="70dp"
+            android:layout_height="44dp"
+            android:background="@drawable/round_bt"
+
+            >
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/i_font_minus"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="70dp"
+            android:layout_height="44dp"
+            android:background="@drawable/round_bt"
+
+            >
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/i_font_plus"
+
+                />
+        </RelativeLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/backLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sizeCon"
+
+            android:layout_marginRight="10dp"
+            android:textSize="13sp"
+            android:text="배경 테마"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="17dp"
+            android:textColor="#666666"
+            />
+
+        <LinearLayout
+            android:id="@+id/backFramel"
+
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/backLabel"
+            android:layout_marginTop="9dp"
+
+            android:gravity="center"
+
+
+            >
+            <RelativeLayout
+                android:id="@+id/back_white"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/circle_white_back"
+                android:layout_marginRight="9dp"
+                android:onClick="onClickBack0"
+                >
+                <ImageView
+                    android:id="@+id/back_ck0"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/i_chck_circle_2"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/back_gray"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/circle_gray_back"
+                android:layout_marginRight="9dp"
+                android:onClick="onClickBack1"
+
+                >
+                <ImageView
+                    android:id="@+id/back_ck1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/i_chck_circle_2"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/back_beige"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/circle_beige_back"
+                android:layout_marginRight="9dp"
+                android:onClick="onClickBack2"
+
+                >
+                <ImageView
+                    android:id="@+id/back_ck2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/i_chck_circle_2"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/back_melon"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/circle_melon_back"
+                android:layout_marginRight="9dp"
+                android:onClick="onClickBack3"
+
+                >
+                <ImageView
+                    android:id="@+id/back_ck3"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/i_chck_circle_2"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/back_black0"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/circle_black0_back"
+                android:layout_marginRight="9dp"
+                android:onClick="onClickBack4"
+
+                >
+                <ImageView
+                    android:id="@+id/back_ck4"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/i_chck_circle_2"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/back_black1"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/circle_black1_back"
+                android:onClick="onClickBack5"
+
+                >
+                <ImageView
+                    android:id="@+id/back_ck5"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/i_chck_circle_2"
+                    />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/fontLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/backFramel"
+
+            android:layout_marginRight="10dp"
+            android:textSize="13sp"
+            android:text="서체 변경"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="17dp"
+            android:textColor="#666666"
+            />
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="44dp"
+            android:layout_below="@+id/fontLabel"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/fontFrame"
+
+            android:orientation="horizontal"
+            >
+            <RelativeLayout
+                android:layout_width="70dp"
+                android:layout_height="44dp"
+                android:background="@drawable/round_bt"
+                android:onClick="onClickFont0"
+
+                >
+                <TextView
+                    android:id="@+id/font0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginRight="10dp"
+                    android:textSize="13sp"
+                    android:text="가나다"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="17dp"
+                    android:textColor="#666666"
+                    />
+                <ImageView
+                    android:id="@+id/font_ck0"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/i_chck_circle_2"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="70dp"
+                android:layout_height="44dp"
+                android:background="@drawable/round_bt"
+                android:onClick="onClickFont1"
+
+                >
+                <TextView
+                    android:id="@+id/font1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginRight="10dp"
+                    android:textSize="13sp"
+                    android:text="가나다"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="17dp"
+                    android:textColor="#666666"
+                    />
+                <ImageView
+                    android:id="@+id/font_ck1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/i_chck_circle_2"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="70dp"
+                android:layout_height="44dp"
+                android:background="@drawable/round_bt"
+                android:onClick="onClickFont2"
+
+                >
+                <TextView
+                    android:id="@+id/font2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginRight="10dp"
+                    android:textSize="13sp"
+                    android:text="가나다"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="17dp"
+                    android:textColor="#666666"
+                    />
+                <ImageView
+                    android:id="@+id/font_ck2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/i_chck_circle_2"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="70dp"
+                android:layout_height="44dp"
+                android:background="@drawable/round_bt"
+                android:onClick="onClickFont3"
+
+                >
+                <TextView
+                    android:id="@+id/font3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginRight="10dp"
+                    android:textSize="13sp"
+                    android:text="가나다"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="17dp"
+                    android:textColor="#666666"
+                    />
+                <ImageView
+                    android:id="@+id/font_ck3"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/i_chck_circle_2"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>

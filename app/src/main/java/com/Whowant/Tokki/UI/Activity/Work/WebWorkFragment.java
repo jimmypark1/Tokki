@@ -61,13 +61,22 @@ public class WebWorkFragment extends Fragment {
     ImageView carrot;
 
     RelativeLayout bottomMenu;
+
+    public RelativeLayout topMenu;
     Animation translateDown,translateUp;
+    Animation translateTopDown,translateTopUp;
+
     private GestureDetector mDetector;
 
     public String workId;
 
 
     RelativeLayout starPointLayout;
+
+
+    ImageView backCk0,backCk1,backCk2,backCk3,backCk4,backCk5;
+    ImageView fontCk0,fontCk1,fontCk2,fontCk3;
+
 
     public WebWorkFragment() {
         // Required empty public constructor
@@ -91,15 +100,31 @@ public class WebWorkFragment extends Fragment {
         return fragment;
     }
 
-    public void showMenu(Boolean show, Boolean isAnim )
+    public void showMenu(Boolean show, Boolean isAnim, Boolean isCover )
     {
         translateDown = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_bottom_down);
         translateUp = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_bottom_up);
 
+        translateTopDown = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_down);
+        translateTopUp = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_up);
+
+        if(isCover)
+        {
+            topMenu.setVisibility(View.INVISIBLE);
+        }
+
         if(show) {
-            if(isAnim)
+            if(isAnim) {
                 bottomMenu.startAnimation(translateUp);
+                if(isCover == false)
+                    topMenu.startAnimation(translateTopDown);
+
+            }
             bottomMenu.setVisibility(View.VISIBLE);
+            if(isCover == false)
+                topMenu.setVisibility(View.VISIBLE);
+
+
 /*
             WebWorkViewerActivity parent = (WebWorkViewerActivity) getActivity();
             parent.showNav(show);
@@ -107,9 +132,17 @@ public class WebWorkFragment extends Fragment {
         }
         else {
             if(isAnim)
+            {
                 bottomMenu.startAnimation(translateDown);
+                if(isCover == false)
+                    topMenu.startAnimation(translateTopUp);
+
+            }
 
             bottomMenu.setVisibility(View.INVISIBLE);
+            if(isCover == false)
+                topMenu.setVisibility(View.INVISIBLE);
+
 /*
             WebWorkViewerActivity parent = (WebWorkViewerActivity) getActivity();
             parent.showNav(show);
@@ -190,6 +223,180 @@ public class WebWorkFragment extends Fragment {
         WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
         parent.onClickCarrotBtn(view);
     }
+
+    void setBack0()
+    {
+        backCk0.setVisibility(View.VISIBLE);
+        backCk1.setVisibility(View.INVISIBLE);
+        backCk2.setVisibility(View.INVISIBLE);
+        backCk3.setVisibility(View.INVISIBLE);
+        backCk4.setVisibility(View.INVISIBLE);
+        backCk5.setVisibility(View.INVISIBLE);
+
+    }
+    void setBack1()
+    {
+        backCk0.setVisibility(View.INVISIBLE);
+        backCk1.setVisibility(View.VISIBLE);
+        backCk2.setVisibility(View.INVISIBLE);
+        backCk3.setVisibility(View.INVISIBLE);
+        backCk4.setVisibility(View.INVISIBLE);
+        backCk5.setVisibility(View.INVISIBLE);
+
+    }
+    void setBack2()
+    {
+        backCk0.setVisibility(View.INVISIBLE);
+        backCk1.setVisibility(View.INVISIBLE);
+        backCk2.setVisibility(View.VISIBLE);
+        backCk3.setVisibility(View.INVISIBLE);
+        backCk4.setVisibility(View.INVISIBLE);
+        backCk5.setVisibility(View.INVISIBLE);
+
+    }
+    void setBack3()
+    {
+        backCk0.setVisibility(View.INVISIBLE);
+        backCk1.setVisibility(View.INVISIBLE);
+        backCk2.setVisibility(View.INVISIBLE);
+        backCk3.setVisibility(View.VISIBLE);
+        backCk4.setVisibility(View.INVISIBLE);
+        backCk5.setVisibility(View.INVISIBLE);
+
+    }
+    void setBack4()
+    {
+        backCk0.setVisibility(View.INVISIBLE);
+        backCk1.setVisibility(View.INVISIBLE);
+        backCk2.setVisibility(View.INVISIBLE);
+        backCk3.setVisibility(View.INVISIBLE);
+        backCk4.setVisibility(View.VISIBLE);
+        backCk5.setVisibility(View.INVISIBLE);
+
+    }
+    void setBack5()
+    {
+        backCk0.setVisibility(View.INVISIBLE);
+        backCk1.setVisibility(View.INVISIBLE);
+        backCk2.setVisibility(View.INVISIBLE);
+        backCk3.setVisibility(View.INVISIBLE);
+        backCk4.setVisibility(View.INVISIBLE);
+        backCk5.setVisibility(View.VISIBLE);
+
+    }
+    void setFont0()
+    {
+        fontCk0.setVisibility(View.VISIBLE);
+        fontCk1.setVisibility(View.INVISIBLE);
+        fontCk2.setVisibility(View.INVISIBLE);
+        fontCk3.setVisibility(View.INVISIBLE);
+
+    }
+    void setFont1()
+    {
+        fontCk0.setVisibility(View.INVISIBLE);
+        fontCk1.setVisibility(View.VISIBLE);
+        fontCk2.setVisibility(View.INVISIBLE);
+        fontCk3.setVisibility(View.INVISIBLE);
+
+    }
+    void setFont2()
+    {
+        fontCk0.setVisibility(View.INVISIBLE);
+        fontCk1.setVisibility(View.INVISIBLE);
+        fontCk2.setVisibility(View.VISIBLE);
+        fontCk3.setVisibility(View.INVISIBLE);
+
+    }
+    void setFont3()
+    {
+        fontCk0.setVisibility(View.INVISIBLE);
+        fontCk1.setVisibility(View.INVISIBLE);
+        fontCk2.setVisibility(View.INVISIBLE);
+        fontCk3.setVisibility(View.VISIBLE);
+
+    }
+
+    public void onClickBack0(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickBack0(view);
+
+
+    }
+    public void onClickBack1(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickBack1(view);
+
+    }
+    public void onClickBack2(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickBack2(view);
+
+    }
+    public void onClickBack3(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickBack3(view);
+
+    }
+    public void onClickBack4(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickBack4(view);
+
+    }
+    public void onClickBack5(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickBack5(view);
+
+    }
+
+    public void onClickFont0(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickFont0(view);
+
+    }
+    public void onClickFont1(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickFont1(view);
+
+    }
+    public void onClickFont2(View view) {
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickFont2(view);
+
+
+    }
+    public void onClickFont3(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickFont3(view);
+
+    }
+    void initTopUI()
+    {
+
+        backCk0.setVisibility(View.VISIBLE);
+        backCk1.setVisibility(View.INVISIBLE);
+        backCk1.setVisibility(View.INVISIBLE);
+        backCk2.setVisibility(View.INVISIBLE);
+        backCk3.setVisibility(View.INVISIBLE);
+        backCk4.setVisibility(View.INVISIBLE);
+        backCk5.setVisibility(View.INVISIBLE);
+
+        fontCk0.setVisibility(View.VISIBLE);
+        fontCk1.setVisibility(View.INVISIBLE);
+        fontCk2.setVisibility(View.INVISIBLE);
+        fontCk3.setVisibility(View.INVISIBLE);
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -205,11 +412,26 @@ public class WebWorkFragment extends Fragment {
         comment = v.findViewById(R.id.comment);
         rate = v.findViewById(R.id.rate);
 
+        topMenu = v.findViewById(R.id.topMenu);
+
         carrot = v.findViewById(R.id.carrot);
         bottomMenu = v.findViewById(R.id.bottom);
 
+        backCk0 =  v.findViewById(R.id.back_ck0);
+        backCk1 =  v.findViewById(R.id.back_ck1);
+        backCk2 =  v.findViewById(R.id.back_ck2);
+        backCk3 =  v.findViewById(R.id.back_ck3);
+        backCk4 =  v.findViewById(R.id.back_ck4);
+        backCk5 =  v.findViewById(R.id.back_ck5);
 
-            prev.setText("< 이전화");
+        fontCk0 =  v.findViewById(R.id.font_ck0);
+        fontCk1 =  v.findViewById(R.id.font_ck1);
+        fontCk2 =  v.findViewById(R.id.font_ck2);
+        fontCk3 =  v.findViewById(R.id.font_ck3);
+
+
+        initTopUI();
+        prev.setText("< 이전화");
             next.setText("다음화 >");
 
         initLayout();
@@ -245,11 +467,11 @@ public class WebWorkFragment extends Fragment {
 
             if(bottomMenu.getVisibility() == View.VISIBLE)
             {
-                showMenu(false,true);
+          //      showMenu(false,true);
             }
             else
             {
-                showMenu(true,true);
+              //  showMenu(true,true);
 
             }
             return true;

@@ -161,7 +161,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
     }
     public void onClickComment(View view) {
         Intent intent = new Intent(WebWorkViewerActivity.this, EpisodeCommentActivity.class);
-        intent.putExtra("EPISODE_ID", work.getSortedEpisodeList().get(episodeIndex).getnEpisodeID());
+        intent.putExtra("EPISODE_ID", work.getEpisodeList().get(episodeIndex).getnEpisodeID());
         startActivity(intent);
     }
     public void onClickPrev(View view) {
@@ -327,13 +327,13 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                     show = true;
 
                     WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
-                    fragment.showMenu(true,false);
+                    fragment.showMenu(true,false,true);
 
                 }
                 else
                 {
                     WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
-                    fragment.showMenu(false, false);
+                    fragment.showMenu(false, false,false);
 
                 }
 
@@ -413,16 +413,21 @@ public class WebWorkViewerActivity extends AppCompatActivity{
     public void onClickSettingsBtn(View view) {
 
         int pos = viewPager.getCurrentItem();
+        Boolean isCover = false;
+        if(pos==0)
+        {
+            isCover = true;
+        }
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
         if(fragment.bottomMenu.getVisibility() == View.VISIBLE)
         {
-            fragment.showMenu(false, true);
+            fragment.showMenu(false, true,isCover);
             show = false;
 
         }
         else
         {
-            fragment.showMenu(true, true);
+            fragment.showMenu(true, true,isCover);
             show = true;
         }
         if(pos > 0)
@@ -431,7 +436,68 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
         }
     }
+    public void onClickBack0(View view) {
 
+        int pos = viewPager.getCurrentItem();
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+
+        fragment.setBack0();
+
+    }
+    public void onClickBack1(View view) {
+        int pos = viewPager.getCurrentItem();
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+        fragment.setBack1();
+
+    }
+    public void onClickBack2(View view) {
+        int pos = viewPager.getCurrentItem();
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+        fragment.setBack2();
+
+    }
+    public void onClickBack3(View view) {
+        int pos = viewPager.getCurrentItem();
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+        fragment.setBack3();
+
+    }
+    public void onClickBack4(View view) {
+        int pos = viewPager.getCurrentItem();
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+        fragment.setBack4();
+
+    }
+    public void onClickBack5(View view) {
+        int pos = viewPager.getCurrentItem();
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+        fragment.setBack5();
+
+    }
+    public void onClickFont0(View view) {
+        int pos = viewPager.getCurrentItem();
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+        fragment.setFont0();
+
+    }
+    public void onClickFont1(View view) {
+        int pos = viewPager.getCurrentItem();
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+        fragment.setFont1();
+
+    }
+    public void onClickFont2(View view) {
+        int pos = viewPager.getCurrentItem();
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+        fragment.setFont2();
+
+    }
+    public void onClickFont3(View view) {
+        int pos = viewPager.getCurrentItem();
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+        fragment.setFont3();
+
+    }
     public class WebWorkPagerAdapter extends FragmentStatePagerAdapter {
 
         public List<Fragment> fragments=new ArrayList<>();
