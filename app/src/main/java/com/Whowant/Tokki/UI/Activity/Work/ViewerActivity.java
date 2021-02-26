@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -47,6 +48,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -144,6 +146,9 @@ public class ViewerActivity extends AppCompatActivity {                         
     private boolean isClickedList = false;
     private EpisodeListAdapter ea;
     private ArrayList<EpisodeVO> episodeList;
+    private LinearLayout fontControlLayout;
+    private int fontType = 0;
+    private int chatFontSize = 15, nameFontSize = 14, narrFontSize = 15;
 
     // Animation animation, animation2;
 
@@ -239,6 +244,7 @@ public class ViewerActivity extends AppCompatActivity {                         
 //        scrollBtn.setOnTouchListener(onTouchListener);
         navBar = findViewById(R.id.navBar);
         starPointLayout = findViewById(R.id.starPointLayout);
+        fontControlLayout = findViewById(R.id.fontControlLayout);
 
         settingBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -251,8 +257,11 @@ public class ViewerActivity extends AppCompatActivity {                         
                     }
                     settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
                     navBar.setVisibility(View.VISIBLE);
+                    fontControlLayout.setVisibility(View.VISIBLE);
+
                 } else {
                     navBar.setVisibility(View.INVISIBLE);
+                    fontControlLayout.setVisibility(View.INVISIBLE);
                     starPointLayout.setVisibility(View.INVISIBLE);
                     settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
                 }
@@ -867,12 +876,12 @@ public class ViewerActivity extends AppCompatActivity {                         
             if(bPreview)
                 return;
 
-//            if(autoScrollTimer != null) {
-//                Log.d("TOUCH", "자동스크롤을 정지합니다");
-//                autoScrollTimer.cancel();
-//                autoScrollTimer = null;
-//                Toast.makeText(ViewerActivity.this, "자동스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
-//            }
+            if(autoScrollTimer != null) {
+                Log.d("TOUCH", "자동스크롤을 정지합니다");
+                autoScrollTimer.cancel();
+                autoScrollTimer = null;
+                Toast.makeText(ViewerActivity.this, "자동스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+            }
 
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
@@ -1043,13 +1052,11 @@ public class ViewerActivity extends AppCompatActivity {                         
 
     public class CChattingArrayAdapter extends ArrayAdapter<Object>
     {
-        private int mCellLayout;
         private LayoutInflater mLiInflater;
 
         CChattingArrayAdapter(Context context, int layout, List titles)
         {
             super(context, layout, titles);
-            mCellLayout = layout;
             mLiInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
@@ -1084,6 +1091,29 @@ public class ViewerActivity extends AppCompatActivity {                         
                     contentsTextView.setTextColor(getResources().getColor(R.color.colorBlack));
                 } else {
                     contentsTextView.setTextColor(getResources().getColor(R.color.colorWhite));
+                }
+
+                nameView.setTextSize(nameFontSize);
+                contentsTextView.setTextSize(chatFontSize);
+
+                if (fontType == 1) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nn_square_font);
+                    nameView.setTypeface(typeface);
+                    contentsTextView.setTypeface(typeface);
+                } else if (fontType == 2) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nnsquare_round_font);
+                    nameView.setTypeface(typeface);
+                    contentsTextView.setTypeface(typeface);
+                } else if (fontType == 3) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nnmyeongjo_font);
+                    nameView.setTypeface(typeface);
+                    contentsTextView.setTypeface(typeface);
+                } else if (fontType == 4) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.misaeng_font);
+                    nameView.setTypeface(typeface);
+                    contentsTextView.setTypeface(typeface);
+                    nameView.setTextSize(nameFontSize + 8);
+                    contentsTextView.setTextSize(chatFontSize + 8);
                 }
 
                 ImageView imageContentsView = convertView.findViewById(R.id.imageContentsView);
@@ -1126,6 +1156,23 @@ public class ViewerActivity extends AppCompatActivity {                         
 
                 getPaletteColor(nameView);
                 nameViewList.add(position, nameView);
+
+                nameView.setTextSize(nameFontSize);
+
+                if (fontType == 1) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nn_square_font);
+                    nameView.setTypeface(typeface);
+                } else if (fontType == 2) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nnsquare_round_font);
+                    nameView.setTypeface(typeface);
+                } else if (fontType == 3) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nnmyeongjo_font);
+                    nameView.setTypeface(typeface);
+                } else if (fontType == 4) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.misaeng_font);
+                    nameView.setTypeface(typeface);
+                    nameView.setTextSize(nameFontSize + 8);
+                }
 
                 final ProgressBar pb = convertView.findViewById(R.id.progressBar);
                 RelativeLayout playBtnlayout = convertView.findViewById(R.id.playBtnlayout);
@@ -1326,6 +1373,23 @@ public class ViewerActivity extends AppCompatActivity {                         
                 getPaletteColor(nameView);
                 nameViewList.add(position, nameView);
 
+                nameView.setTextSize(nameFontSize);
+
+                if (fontType == 1) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nn_square_font);
+                    nameView.setTypeface(typeface);
+                } else if (fontType == 2) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nnsquare_round_font);
+                    nameView.setTypeface(typeface);
+                } else if (fontType == 3) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nnmyeongjo_font);
+                    nameView.setTypeface(typeface);
+                } else if (fontType == 4) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.misaeng_font);
+                    nameView.setTypeface(typeface);
+                    nameView.setTextSize(nameFontSize + 8);
+                }
+
                 ImageView imageContentsView = convertView.findViewById(R.id.imageContentsView);
                 imageContentsView.setClipToOutline(true);
 
@@ -1353,6 +1417,23 @@ public class ViewerActivity extends AppCompatActivity {                         
 
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
                 contentsTextView.setText(chatVO.getContents());
+
+                contentsTextView.setTextSize(narrFontSize);
+
+                if (fontType == 1) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nn_square_font);
+                    contentsTextView.setTypeface(typeface);
+                } else if (fontType == 2) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nnsquare_round_font);
+                    contentsTextView.setTypeface(typeface);
+                } else if (fontType == 3) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nnmyeongjo_font);
+                    contentsTextView.setTypeface(typeface);
+                } else if (fontType == 4) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.misaeng_font);
+                    contentsTextView.setTypeface(typeface);
+                    contentsTextView.setTextSize(narrFontSize + 8);
+                }
             } else if(nType == ChatVO.TYPE_VIDEO) {
                 nDirection = characterVO.getDirection();
 
@@ -1367,6 +1448,23 @@ public class ViewerActivity extends AppCompatActivity {                         
 
                 getPaletteColor(nameView);
                 nameViewList.add(position, nameView);
+
+                nameView.setTextSize(narrFontSize);
+
+                if (fontType == 1) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nn_square_font);
+                    nameView.setTypeface(typeface);
+                } else if (fontType == 2) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nnsquare_round_font);
+                    nameView.setTypeface(typeface);
+                } else if (fontType == 3) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nnmyeongjo_font);
+                    nameView.setTypeface(typeface);
+                } else if (fontType == 4) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.misaeng_font);
+                    nameView.setTypeface(typeface);
+                    nameView.setTextSize(narrFontSize + 8);
+                }
 
                 ImageView imageContentsView = convertView.findViewById(R.id.videoThumbnailView);
                 imageContentsView.setClipToOutline(true);
@@ -1458,6 +1556,24 @@ public class ViewerActivity extends AppCompatActivity {                         
                 convertView = mLiInflater.inflate(R.layout.narration_chatting_row, parent, false);
                 TextView contentsTextView = convertView.findViewById(R.id.contentsTextView);
                 contentsTextView.setText(chatVO.getContents());
+
+                contentsTextView.setTextSize(narrFontSize);
+
+                if (fontType == 1) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nn_square_font);
+                    contentsTextView.setTypeface(typeface);
+                } else if (fontType == 2) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nnsquare_round_font);
+                    contentsTextView.setTypeface(typeface);
+                } else if (fontType == 3) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.nnmyeongjo_font);
+                    contentsTextView.setTypeface(typeface);
+                } else if (fontType == 4) {
+                    Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.misaeng_font);
+                    contentsTextView.setTypeface(typeface);
+                    contentsTextView.setTextSize(narrFontSize + 8);
+                }
+
             } else if(nType == ChatVO.TYPE_CHANGE_BG) {
                 convertView = mLiInflater.inflate(R.layout.change_bg_row, parent, false);
 
@@ -2205,5 +2321,50 @@ public class ViewerActivity extends AppCompatActivity {                         
                 });
             }
         }).start();
+    }
+
+    public void onClickFont1(View view) {
+        fontType = 1;
+        // check visible
+        aa.notifyDataSetChanged();
+    }
+
+    public void onClickFont2(View view) {
+        fontType = 2;
+        // check visible
+        aa.notifyDataSetChanged();
+    }
+
+    public void onClickFont3(View view) {
+        fontType = 3;
+        // check visible
+        aa.notifyDataSetChanged();
+    }
+
+    public void onClickFont4(View view) {
+        fontType = 4;
+        aa.notifyDataSetChanged();
+    }
+
+    public void onClickIncreaseFontSize(View view) {
+        if (chatFontSize > 18 && narrFontSize > 18 && nameFontSize > 17)
+            return;
+
+        chatFontSize ++;
+        narrFontSize ++;
+        nameFontSize ++;
+
+        aa.notifyDataSetChanged();
+    }
+
+    public void onClickDecreaseFontSize(View view) {
+        if (chatFontSize < 11 && narrFontSize < 11 && nameFontSize < 10)
+            return;
+
+        chatFontSize --;
+        narrFontSize --;
+        nameFontSize --;
+
+        aa.notifyDataSetChanged();
     }
 }
