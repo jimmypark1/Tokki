@@ -2031,7 +2031,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                                 }
                                 */
 
-                                 
+
                             }
                         } else {
                             noCommentView.setVisibility(View.VISIBLE);

@@ -214,6 +214,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:background="@drawable/round_bt"
                     android:layout_weight="1">
                     <Button
                         android:id="@+id/font1"
@@ -221,15 +222,18 @@
                         android:layout_height="44dp"
                         android:textSize="16sp"
                         android:text="가나다"
+                        android:background="#00ffffff"
+
                         android:onClick="onClickFont1"
                         android:fontFamily="@font/nnsquare_font"
-                        android:background="@drawable/round_4_ffffff_dddddd"/>
+                        />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:background="@drawable/round_bt"
                     android:layout_weight="1">
                     <Button
                         android:id="@+id/font2"
@@ -239,13 +243,15 @@
                         android:text="가나다"
                         android:onClick="onClickFont2"
                         android:fontFamily="@font/nnsquare_round_font"
-                        android:background="@drawable/round_4_ffffff_dddddd"/>
+                        android:background="#00ffffff"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:background="@drawable/round_bt"
+
                     android:layout_weight="1">
                     <Button
                         android:id="@+id/font3"
@@ -255,13 +261,15 @@
                         android:text="가나다"
                         android:onClick="onClickFont3"
                         android:fontFamily="@font/nnmyeongjo_font"
-                        android:background="@drawable/round_4_ffffff_dddddd"/>
+                        android:background="#00ffffff"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:background="@drawable/round_bt"
+
                     android:layout_weight="1">
                     <Button
                         android:id="@+id/font4"
@@ -271,7 +279,7 @@
                         android:onClick="onClickFont4"
                         android:textSize="25sp"
                         android:fontFamily="@font/misaeng_font"
-                        android:background="@drawable/round_4_ffffff_dddddd"/>
+                        android:background="#00ffffff"/>
                 </LinearLayout>
             </LinearLayout>
 
