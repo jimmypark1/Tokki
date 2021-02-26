@@ -239,16 +239,16 @@ public class MarketAddActivity extends AppCompatActivity {
         @Override
         public void onClick(View v){
             // this.itemClickListener.onItemClickListener(v, getLayoutPosition());
-            /*
+
             int pos = getLayoutPosition();
-            MarketVO market = markets.get(pos);
-            Intent intent = new Intent(getContext(), MarketDetailActivity.class);
-            intent.putExtra("MARKET_DATA", market);
+            WorkVO work = works.get(pos);
+            Intent intent = new Intent(getApplicationContext() , MarketAddEditActivity.class);
+            intent.putExtra("WORK", work);
 
             //MarketDetailActivity
-            getContext().startActivity(intent);
+            startActivity(intent);
 
-             */
+
         }
 
 

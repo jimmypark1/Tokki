@@ -42,6 +42,70 @@ public class WorkVO implements Serializable {
 
     }
 
+    public int getnCopyright() {
+        return nCopyright;
+    }
+
+    public int getnOwner() {
+        return nOwner;
+    }
+
+    public int getnStatus() {
+        return nStatus;
+    }
+
+    public String getStrCoverFile() {
+        return strCoverFile;
+    }
+
+    public String getStrCreatedDate() {
+        return strCreatedDate;
+    }
+
+    public String getStrSynopsis() {
+        return strSynopsis;
+    }
+
+    public String getStrTitle() {
+        return strTitle;
+    }
+
+    public String getStrWriterID() {
+        return strWriterID;
+    }
+
+    public void setnCopyright(int nCopyright) {
+        this.nCopyright = nCopyright;
+    }
+
+    public void setnOwner(int nOwner) {
+        this.nOwner = nOwner;
+    }
+
+    public void setnStatus(int nStatus) {
+        this.nStatus = nStatus;
+    }
+
+    public void setnWorkID(int nWorkID) {
+        this.nWorkID = nWorkID;
+    }
+
+    public void setStrCoverFile(String strCoverFile) {
+        this.strCoverFile = strCoverFile;
+    }
+
+    public void setStrCreatedDate(String strCreatedDate) {
+        this.strCreatedDate = strCreatedDate;
+    }
+
+    public void setStrTitle(String strTitle) {
+        this.strTitle = strTitle;
+    }
+
+    public void setStrWriterID(String strWriterID) {
+        this.strWriterID = strWriterID;
+    }
+
     public void setStrCareer(String strCareer) {
         this.strCareer = strCareer;
     }

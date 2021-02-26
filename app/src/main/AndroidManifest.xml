@@ -25,17 +25,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UI.Activity.Work.WebWorkViewerActivity"
+        <activity android:name=".UI.Activity.Market.MarketAddEditActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar"
             />
+        <activity
+            android:name=".UI.Activity.Work.WebWorkViewerActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-        <meta-data
-            android:name="com.google.android.wearable.standalone"
-            android:value="true" />
+
 
         <activity
             android:name=".UI.Activity.Market.MarketAddActivity"

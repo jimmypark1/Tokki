@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".UI.Activity.Market.MarketAddEditActivity">
+
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/i_back"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"
+            android:layout_centerInParent="true"
+            android:textSize="17sp"
+            android:textColor="#191919"
+            android:text="작품 등록하기"/>
+
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBarLayout"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+             >
+        <TextView
+            android:id="@+id/work_label"
+
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="작품정보"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="#222222"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            />
+        <ImageView
+            android:id="@+id/iv_row_literature_photo"
+            android:layout_width="120dp"
+            android:layout_height="180dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+
+            android:background="@drawable/round_white_card_bg"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_i_artwork_empty"
+            android:layout_below="@+id/work_label"
+            />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_toEndOf="@+id/iv_row_literature_photo"
+                android:layout_below="@+id/work_label"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_row_literature_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="7sp"
+                    android:text="아무래도 이번에는"
+                    android:textColor="#222222"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tv_row_literature_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:lineSpacingExtra="7sp"
+                    android:text="2020.9.13"
+                    android:textColor="#999999"
+                    android:textSize="13sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tv_row_literature_contents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:text="일이삼사오육칠팔구십일이삼사오육칠팔구십 일이삼사오육칠팔구십일이삼사오육칠팔구십"
+                    android:textColor="#666666"
+                    android:textSize="13sp"
+                    android:textStyle="normal" />
+
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/field_label"
+                android:layout_below="@+id/iv_row_literature_photo"
+
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="사업화 희망콘텐츠"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="#222222"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                />
+                <RelativeLayout
+                    android:id="@+id/fieldFrame"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_below="@+id/field_label"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="17dp"
+                    android:background="@drawable/round_market_combo"
+
+                    >
+                    <TextView
+                        android:id="@+id/field"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="사업화 컨텐츠를 선택하세요"
+                        android:textStyle="normal"
+                        android:textSize="15sp"
+                        android:textColor="#191919"
+                        android:layout_centerVertical="true"
+
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="50dp"
+
+                        />
+                    <ImageView
+                         android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+
+
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/i_down_arrow_gray"
+
+                        />
+
+                </RelativeLayout>
+
+            <TextView
+                android:layout_below="@+id/fieldFrame"
+                android:id="@+id/info"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="현재 판매된 판권은 분야는 선택할 수 없습니다."
+                android:textStyle="normal"
+                android:textSize="11sp"
+                android:textColor="#666666"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="8dp"
+
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="50dp"
+
+                />
+            <TextView
+                android:id="@+id/genre_label"
+                android:layout_below="@+id/info"
+
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="사업화 희망콘텐츠"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="#222222"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                />
+            <RelativeLayout
+                android:id="@+id/genreFrame"
+
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_below="@+id/genre_label"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="17dp"
+                android:background="@drawable/round_market_combo"
+
+                >
+                <TextView
+                    android:id="@+id/genre"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="사업화 희망장르를 선택하세요"
+                    android:textStyle="normal"
+                    android:textSize="15sp"
+                    android:textColor="#191919"
+                    android:layout_centerVertical="true"
+
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="50dp"
+
+                    />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+
+
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/i_down_arrow_gray"
+
+                    />
+
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/price_label"
+                android:layout_below="@+id/genreFrame"
+
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="판매가격 설정"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="#222222"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                />
+            <TextView
+                android:id="@+id/price_desc"
+                android:layout_below="@+id/price_label"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="당근을 통한 거래는 최대 100만원까지 가능합니다.\n작가와 매칭은 메신저를 통해 진행됩니다.\n100만원 초과 시 토끼 매니저가 거래를 중개합니다."
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="#767676"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+
+                />
+            <LinearLayout
+                android:id="@+id/gender_frame"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/price_desc"
+                android:layout_marginTop="26dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+
+
+                >
+
+                <ImageView
+                    android:id="@+id/price0_ck"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+
+                    android:src="@drawable/i_radio_1"
+                    android:scaleType="centerCrop" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="5sp"
+                    android:gravity="center"
+                    android:layout_toRightOf="@+id/change_back_frame"
+                    android:text="100망원 이하"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="8dp"
+
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
+
+                    />
+                <ImageView
+                    android:id="@+id/woman_ck"
+
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="8dp"
+
+                    android:src="@drawable/i_radio_2"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="5sp"
+                    android:gravity="center"
+                    android:layout_toRightOf="@+id/change_back_frame"
+                    android:text="100만원 초과"
+                    android:layout_alignParentBottom="true"
+
+
+                    android:layout_gravity="center_horizontal"
+
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
+
+
+                    />
+
+
+            </LinearLayout>
+<!--
+            <Button
+                android:layout_below="@+id/field_label"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:text="등록"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="20dp"
+                android:background="#6ca5ff"
+                android:textColor="#fff"
+                />
+                -->
+
+
+    </RelativeLayout>
+
+    </ScrollView>
+
+
+
+
+</RelativeLayout>
