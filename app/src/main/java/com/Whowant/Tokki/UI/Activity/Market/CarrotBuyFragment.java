@@ -42,6 +42,8 @@ import com.bumptech.glide.request.RequestOptions;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -75,6 +77,8 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
     void initCarrots()
     {
         caroots.clear();
+        getProduct();
+        /*
         CarrotItemVO data0 = new CarrotItemVO();
         data0.setDesc("당근 10개");
         data0.setPrice(1250);
@@ -108,7 +112,81 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
 
         adapter = new CarrotAdapter(getActivity(),caroots);
         recyclerView.setAdapter(adapter);
+*/
+    }
+    void getProduct()
+    {
+        List<String> skuList = new ArrayList<>();
+        skuList.add("carrot_10");
+        skuList.add("carrot_45");
+        skuList.add("carrot_120");
+        skuList.add("carrot_500");
+        skuList.add("carrot_2000");
 
+        SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+        params.setSkusList(skuList).setType(INAPP);
+        billingClient.querySkuDetailsAsync(params.build(),
+                new SkuDetailsResponseListener() {
+                    @Override
+                    public void onSkuDetailsResponse(BillingResult billingResult,
+                                                     List<SkuDetails> skuDetailsList) {
+                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                            if (skuDetailsList != null && skuDetailsList.size() > 0) {
+
+                                for(int i =0;i<skuDetailsList.size();i++)
+                                {
+                                    CarrotItemVO data0 = new CarrotItemVO();
+                                    SkuDetails detail =  skuDetailsList.get(i);
+
+                                    data0.setDesc(detail.getDescription());
+                                    data0.setStrPrice(detail.getPrice());
+
+                                    if(detail.getSku().contains("carrot_10"))
+                                    {
+                                        data0.setPrice(1200);;
+
+                                    }
+                                    if(detail.getSku().contains("carrot_45"))
+                                    {
+                                        data0.setPrice(5000);;
+
+                                    }
+                                    if(detail.getSku().contains("carrot_120"))
+                                    {
+                                        data0.setPrice(12000);;
+
+                                    }
+                                    if(detail.getSku().contains("carrot_500"))
+                                    {
+                                        data0.setPrice(50000);;
+
+                                    }
+                                    if(detail.getSku() .contains("carrot_2000"))
+                                    {
+                                        data0.setPrice(120000);;
+
+                                    }
+                                    data0.setProductId(detail.getSku());
+                                    caroots.add(data0);
+
+                                }
+                                Collections.sort(caroots) ;
+
+                                adapter = new CarrotAdapter(getActivity(),caroots);
+                                recyclerView.setAdapter(adapter);
+
+
+                            }
+                            else{
+                                //try to add item/product id "purchase" inside managed product in google play console
+                                Toast.makeText(getApplicationContext(),"Purchase Item not Found",Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    " Error "+billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     /*
@@ -179,6 +257,7 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
             public void onBillingSetupFinished(@NonNull BillingResult billingResult){
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK)
                 {
+                    initCarrots();
                     Purchase.PurchasesResult queryPurchase = billingClient.queryPurchases(INAPP);
                     List<Purchase> queryPurchases = queryPurchase.getPurchasesList();
                     if(queryPurchases!=null && queryPurchases.size()>0){
@@ -206,13 +285,23 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
 
 
     }
-    private void initiatePurchase() {
+
+
+
+    private void initiatePurchase(int i) {
         List<String> skuList = new ArrayList<>();
-        skuList.add("carrot_10");
-   //     skuList.add("carrot_45");
-   //     skuList.add("carrot_120");
-   //     skuList.add("carrot_500");
-   //     skuList.add("carrot_2000");
+
+        if(i == 0)
+            skuList.add("carrot_10");
+        if(i == 1)
+            skuList.add("carrot_45");
+        if(i == 2)
+            skuList.add("carrot_120");
+        if(i == 3)
+            skuList.add("carrot_500");
+        if(i == 4)
+            skuList.add("carrot_2000");
+
 
         SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
         params.setSkusList(skuList).setType(INAPP);
@@ -242,7 +331,7 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
     @Override
     public void onResume() {
         super.onResume();
-        initCarrots();
+
 
     }
 
@@ -375,7 +464,8 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
 
             viewHolder.desc.setText(data.getDesc());
 
-            viewHolder.price.setText(String.valueOf(data.getPrice()) +"원");
+          //  viewHolder.price.setText(String.valueOf(data.getPrice()) +"원");
+            viewHolder.price.setText(data.getStrPrice());
 
 
         }
@@ -410,7 +500,7 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
             // this.itemClickListener.onItemClickListener(v, getLayoutPosition());
             int pos = getLayoutPosition();
 
-            initiatePurchase();
+            initiatePurchase(pos);
         }
 
 
