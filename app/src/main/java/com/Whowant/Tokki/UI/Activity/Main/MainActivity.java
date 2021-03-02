@@ -142,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
         profileIv = findViewById(R.id.iv_top_bar_profile);
 //        profileIv.setVisibility(View.VISIBLE);
         titleView = findViewById(R.id.titleView);
-        rightBtn.setImageResource(R.drawable.serch_icon_balck);
-        rightBtn.setVisibility(View.GONE);
+    //    rightBtn.setImageResource(R.drawable.serch_icon_balck);
+    //    rightBtn.setVisibility(View.GONE);
         eventNewIconView = findViewById(R.id.eventNewIconView);
         noticeNewIconView = findViewById(R.id.noticeNewIconView);
 //        alarmNewIconView = findViewById(R.id.alarmNewIconView);

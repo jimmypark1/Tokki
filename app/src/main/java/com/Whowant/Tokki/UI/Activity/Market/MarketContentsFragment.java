@@ -214,6 +214,13 @@ public class MarketContentsFragment extends Fragment {
             viewHolder.copyright0.setText(data.getCopyright0());
             viewHolder.copyright1.setText(data.getCopyright1());
             viewHolder.career.setText(data.getCareer());
+            /*
+                  carrotNum.text = String(Int( nPrice! / 120)) + "개"
+               // let dPrice =  Double(dummy)! * 0.8
+                let dNPrice =  Int(Double(dummy)! * 0.8)
+             */
+            int nCarrot = data.getPrice() / 120;
+            viewHolder.price.setText(String.valueOf(nCarrot) + "개" +" (" + String.valueOf(data.getPrice()) +"원)");
 
             String strCover = CommonUtils.strDefaultUrl + "images/" + data.getCover();
 
@@ -253,6 +260,7 @@ public class MarketContentsFragment extends Fragment {
         TextView copyright1;
         TextView career;
         ImageView cover;
+        TextView price;
         ItemClickListener itemClickListener;
 
 
@@ -266,6 +274,8 @@ public class MarketContentsFragment extends Fragment {
             copyright1 = itemView.findViewById(R.id.copyright1);
             career = itemView.findViewById(R.id.career);
             cover= itemView.findViewById(R.id.coverImgView);
+
+            price = itemView.findViewById(R.id.price);
 
             itemView.setOnClickListener(this);
 

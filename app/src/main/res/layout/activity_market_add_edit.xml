@@ -128,7 +128,7 @@
                 android:layout_marginLeft="20dp"
                 />
                 <RelativeLayout
-                    android:id="@+id/fieldFrame"
+                    android:id="@+id/field_Frame"
 
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
@@ -152,16 +152,20 @@
 
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="50dp"
+                        android:onClick="onClickWantToField"
 
                         />
                     <ImageView
-                         android:layout_width="20dp"
+                        android:id="@+id/fieldDown"
+
+                        android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginRight="10dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
+                        android:onClick="onClickWantToField"
 
 
                         android:scaleType="centerCrop"
@@ -172,7 +176,7 @@
                 </RelativeLayout>
 
             <TextView
-                android:layout_below="@+id/fieldFrame"
+                android:layout_below="@+id/field_Frame"
                 android:id="@+id/info"
 
                 android:layout_width="match_parent"
@@ -181,7 +185,6 @@
                 android:textStyle="normal"
                 android:textSize="11sp"
                 android:textColor="#666666"
-                android:layout_centerVertical="true"
                 android:layout_marginTop="8dp"
 
                 android:layout_marginLeft="20dp"
@@ -194,7 +197,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:text="사업화 희망콘텐츠"
+                android:text="사업화 희망장르"
                 android:textStyle="bold"
                 android:textSize="15sp"
                 android:textColor="#222222"
@@ -223,12 +226,14 @@
                     android:textSize="15sp"
                     android:textColor="#191919"
                     android:layout_centerVertical="true"
+                    android:onClick="onClickWantToGenre"
 
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="50dp"
 
                     />
                 <ImageView
+                    android:id="@+id/genreDown"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="20dp"
@@ -237,6 +242,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
 
+                    android:onClick="onClickWantToGenre"
 
                     android:scaleType="centerCrop"
                     android:src="@drawable/i_down_arrow_gray"
@@ -292,6 +298,7 @@
                     android:layout_height="20dp"
 
                     android:src="@drawable/i_radio_1"
+                    android:onClick="onClickBelow100"
                     android:scaleType="centerCrop" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -302,6 +309,7 @@
                     android:text="100망원 이하"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="8dp"
+                    android:onClick="onClickBelow100"
 
                     android:textColor="#000"
                     android:textSize="15sp"
@@ -309,7 +317,7 @@
 
                     />
                 <ImageView
-                    android:id="@+id/woman_ck"
+                    android:id="@+id/price1_ck"
 
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -317,6 +325,7 @@
                     android:layout_marginRight="8dp"
 
                     android:src="@drawable/i_radio_2"
+                    android:onClick="onClickAbove100"
                     android:scaleType="centerCrop" />
 
                 <TextView
@@ -324,6 +333,8 @@
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="5sp"
                     android:gravity="center"
+                    android:onClick="onClickAbove100"
+
                     android:layout_toRightOf="@+id/change_back_frame"
                     android:text="100만원 초과"
                     android:layout_alignParentBottom="true"
@@ -340,8 +351,80 @@
 
 
             </LinearLayout>
-            <Button
+            <EditText
+                android:id="@+id/price_input"
                 android:layout_below="@+id/price_frame"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="가격을 입력하세요."
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:maxLength="1024"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/price_frame_info"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/price_input"
+                android:layout_marginTop="26dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+
+
+                >
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+
+                    android:src="@drawable/i_carrot"
+                    android:onClick="onClickBelow100"
+                    android:scaleType="centerCrop" />
+                <TextView
+                    android:id="@+id/price_info0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:lineSpacingExtra="5sp"
+                    android:gravity="center"
+                    android:layout_toRightOf="@+id/change_back_frame"
+                    android:text="100개"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="8dp"
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
+
+                    />
+
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/price_info1"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/price_frame_info"
+                android:lineSpacingExtra="5sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/change_back_frame"
+                android:text="수수료 : 20% (정산시 xx원)"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:textStyle="normal"
+
+                />
+
+            <Button
+                android:layout_below="@+id/price_info1"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:text="등록"
@@ -349,6 +432,7 @@
                 android:layout_marginTop="50dp"
                 android:background="#6ca5ff"
                 android:textColor="#fff"
+                android:onClick="onClickRegister"
                 />
 <!--
 

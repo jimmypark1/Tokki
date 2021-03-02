@@ -466,6 +466,48 @@ public class HttpClient {
 
         return false;
     }
+    public static boolean registerWorkOnMarket(OkHttpClient httpClient, MarketVO market) {
+        JSONObject jsonBody = new JSONObject();
+
+        try {
+            jsonBody.put("PRICE", market.getPrice());
+            jsonBody.put("WORK_ID", market.getWorkId());
+            jsonBody.put("STATUS", market.getStatus());
+            jsonBody.put("COPYRIGHT0", market.getCopyright0());
+            jsonBody.put("COPYRIGHT1", market.getCopyright1());
+            jsonBody.put("CAREER", market.getCareer());
+
+            String jsonString = jsonBody.toString();
+
+            RequestBody requestBody = RequestBody.create(JSON, jsonString);
+
+            Request request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RegisterWorkOnMarket")
+                    .post(requestBody)
+                    .build();
+
+            try (Response response = httpClient.newCall(request).execute()) {
+                if (response.code() != 200)
+                    return false;
+
+                String strResult = response.body().string();
+                JSONObject resultJsonObject = new JSONObject(strResult);
+
+                if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                    return true;
+                else
+                    return false;
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 
     public static ArrayList<WorkVO> getSearchWorkList(OkHttpClient httpClient, String strKeyword, int nMode) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
@@ -610,8 +652,16 @@ public class HttpClient {
                 marketVO.setCover(object.getString("COVER"));
                 marketVO.setSynopsis(object.getString("SYNOPSIS"));
                 marketVO.setName(object.getString("NAME"));
-                marketVO.setGenre(object.getString("GENRES"));
-                marketVO.setTag(object.getString("TAGS"));
+                if(object.getString("GENRES" ) != null)
+                {
+                    marketVO.setGenre(object.getString("GENRES"));
+
+                }
+                if(object.getString("TAGS") != null)
+                {
+                    marketVO.setTag(object.getString("TAGS"));
+
+                }
                 marketVO.setCopyright0(object.getString("COPYRIGHT0"));
                 marketVO.setCopyright1(object.getString("COPYRIGHT1"));
                 marketVO.setUserId(object.getString("USER_ID"));

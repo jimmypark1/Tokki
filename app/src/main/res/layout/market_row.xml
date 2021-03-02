@@ -11,7 +11,7 @@
         android:layout_marginLeft="23dp"
         android:layout_marginRight="23dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         >
 
         <ImageView
@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="0dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textSize="17sp"
@@ -190,22 +190,28 @@
                 android:textSize="13sp"
                 android:maxLines="2"
                 android:text="판권: 영화"/>
+            <ImageView
+                android:id="@+id/carrot"
+                android:layout_below="@+id/copyright1"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/i_carrot"
+                />
+            <TextView
+                android:id="@+id/price"
+                android:layout_below="@+id/copyright1"
+                android:layout_toRightOf="@+id/carrot"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:textColor="#767676"
+                android:ellipsize="end"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:text="100개"/>
         </RelativeLayout>
-        <Button
-            android:id="@+id/carrot"
-             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/coverImgView"
-            android:layout_marginTop="10dp"
 
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-
-            android:padding="10dp"
-            android:layout_centerVertical="true"
-            android:text = "당근100개"
-            android:textColor="@color/colorWhite"
-            android:background="@drawable/round_blue"/>
     </RelativeLayout>
 
 </RelativeLayout>
