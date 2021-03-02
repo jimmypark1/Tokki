@@ -5,6 +5,7 @@ import androidx.appcompat.widget.PopupMenu;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,7 +25,10 @@ import android.widget.Toast;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Admin.MemberManagementActivity;
+import com.Whowant.Tokki.UI.Activity.Market.MainCompletePopup;
+import com.Whowant.Tokki.UI.Activity.Market.MarketDealPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
+import com.Whowant.Tokki.Utils.SimplePreference;
 import com.Whowant.Tokki.VO.ContestVO;
 import com.Whowant.Tokki.VO.MessageVO;
 import com.bumptech.glide.Glide;
@@ -54,6 +58,8 @@ public class MessageDetailActivity extends AppCompatActivity {
 
     int type = 0;
 
+    String writeId = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +77,7 @@ public class MessageDetailActivity extends AppCompatActivity {
         {
             dealBt.setVisibility(View.INVISIBLE);
         }
-
+        writeId = getIntent().getStringExtra("WRITER_ID");
 
         strReceiverID = getIntent().getStringExtra("RECEIVER_ID");
         strReceiverName = getIntent().getStringExtra("RECEIVER_NAME");
@@ -99,6 +105,16 @@ public class MessageDetailActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        dealBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MessageDetailActivity.this, MarketDealPopup.class);
+                startActivityForResult(intent,1000);
+            }
+        });
+
+
     }
 
     @Override
@@ -106,6 +122,72 @@ public class MessageDetailActivity extends AppCompatActivity {
         super.onResume();
         getMessageList();
     }
+    public  String convertUTF8ToString(String s) {
+        String out = null;
+        try {
+            out = new String(s.getBytes("ISO-8859-1"), "UTF-8");
+        } catch (java.io.UnsupportedEncodingException e) {
+            return null;
+        }
+        return out;
+    }
+    public  String convertStringToUTF8(String s) {
+        String out = null;
+        try {
+            out = new String(s.getBytes("UTF-8"), "ISO-8859-1");
+        } catch (java.io.UnsupportedEncodingException e) {
+            return null;
+        }
+        return out;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK)
+        {
+            //intent.putExtra("CARROT",carrot.getText().toString());
+            if(requestCode == 1000)
+            {
+                String strCarrot = data.getStringExtra("CARROT");
+                int nCarrot = Integer.parseInt(strCarrot);
+
+                /*
+                  var msg = carrotNum + "개로 거래를 제안합니다. 만족하시면 거래수락 버튼을 눌러주세요"
+
+                    if(writerId == userId)
+                    {
+
+                        msg = carrotNum + "개로 거래를 제안합니다. 만족하시면 결제하기 버튼을 눌러주세요"
+
+                 */
+
+                if(nCarrot > 0)
+                {
+                    String msg = "당근 " + strCarrot + "개로 거래를 제안합니다. 만족하시면 거래수락 버튼을 눌러주세요.";
+
+                    SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+                    String strUserID = pref.getString("USER_ID", "Guest");
+                    if(strUserID.contains(writeId))
+                    {
+                        msg = "당근 " + strCarrot + "개로 거래를 제안합니다. 만족하시면 결제하기 버튼을 눌러주세요";
+                        requestSendMessage(msg.toString(),nCarrot,"Y");
+                    }
+                    else
+                    {
+                        requestSendMessage(msg.toString(),nCarrot,"N");
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
 
     public void onClickSendBtn(View view) {
         String strText = inputTextView.getText().toString();
@@ -115,16 +197,16 @@ public class MessageDetailActivity extends AppCompatActivity {
             return;
         }
 
-        requestSendMessage(strText);
+        requestSendMessage(strText,0,"N");
     }
 
-    private void requestSendMessage(String strText) {
+    private void requestSendMessage(String strText, int nCarrot ,String complete) {
         SharedPreferences pref = getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
         CommonUtils.showProgressDialog(MessageDetailActivity.this, "서버와 통신중입니다.");
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final boolean bResult = HttpClient.requestSendMessage(new OkHttpClient(), pref.getString("USER_ID", "Guest"), strReceiverID, strText, nThreadID);
+                final boolean bResult = HttpClient.requestSendMessage(new OkHttpClient(), pref.getString("USER_ID", "Guest"), strReceiverID, strText, nThreadID,nCarrot,complete);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -223,19 +305,91 @@ public class MessageDetailActivity extends AppCompatActivity {
                     lp0.topMargin = 0;
                     lp0.bottomMargin = 0;
 
-                    TextView msgView = convertView.findViewById(R.id.contentsTextView);
 
-                    ViewGroup.MarginLayoutParams lp1 = (ViewGroup.MarginLayoutParams) msgView.getLayoutParams();
-                    lp1.topMargin = 10;
 
                     //
 
                 }
                 else
                 {
+
+
+                    TextView msgView = convertView.findViewById(R.id.contentsTextView);
+
+                    ViewGroup.MarginLayoutParams lp1 = (ViewGroup.MarginLayoutParams) msgView.getLayoutParams();
+                    lp1.topMargin = 10;
+
+                    String userId = SimplePreference.getStringPreference(MessageDetailActivity.this, "USER_INFO", "USER_ID", "Guest");
+
+
+                    if(writeId.contains(userId))
+                    {
+                        if(vo.getContract_complete().contains("B"))
+                        {
+                            ViewGroup.LayoutParams params = buyBt.getLayoutParams();
+
+                            params.height = 0;
+
+                            ViewGroup.MarginLayoutParams lp0 = (ViewGroup.MarginLayoutParams) buyBt.getLayoutParams();
+                            lp0.topMargin = 0;
+                            lp0.bottomMargin = 0;
+
+
+                        }
+                        else
+                        {
+                            //거래수락
+                            buyBt.setText("거래수락");
+                        }
+
+                    }
+                    else
+                    {
+                        if(vo.getContract_complete().contains("Y"))
+                        {
+                            buyBt.setText("결재하기");
+                        }
+                        else
+                        {
+                            ViewGroup.LayoutParams params = buyBt.getLayoutParams();
+
+                            params.height = 0;
+
+                            ViewGroup.MarginLayoutParams lp0 = (ViewGroup.MarginLayoutParams) buyBt.getLayoutParams();
+                            lp0.topMargin = 0;
+                            lp0.bottomMargin = 0;
+
+
+                        }
+
+                    }
                     buyBt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            //MainCompletePopup
+                            if(writeId.contains(userId)== false)
+                            {
+                                // 결제하기
+                                Intent intent = new Intent(MessageDetailActivity.this, MainCompletePopup.class);
+                                startActivityForResult(intent,2000);
+
+                            }
+                            else
+                            {
+                                // 거래수락
+
+                                SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+                                String strUserID = pref.getString("USER_ID", "Guest");
+                                String strCarrot = String.valueOf(vo.getCarrot());
+                                if(strUserID.contains(writeId))
+                                {
+                                    String msg = "당근 " + strCarrot + "개로 거래를 체결합니다. 결제하기 버튼을 눌러주세요.";
+                                    requestSendMessage(msg.toString(),vo.getCarrot(),"Y");
+                                }
+
+                            }
+
+
 
                         }
                     });

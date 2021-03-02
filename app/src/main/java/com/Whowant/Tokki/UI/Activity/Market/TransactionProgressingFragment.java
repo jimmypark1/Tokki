@@ -121,6 +121,9 @@ public class TransactionProgressingFragment extends Fragment {
 
                 if(isWriter)
                 {
+                    //let userId = UserDefaults.standard.string(forKey: "USER_ID")
+
+
                     marketMsgs = HttpClient.getTrading(new OkHttpClient(),userId);
 
                 }
@@ -354,6 +357,7 @@ public class TransactionProgressingFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
                         intent.putExtra("RECEIVER_ID", data.getSenderID());
                         intent.putExtra("RECEIVER_NAME", data.getName());
+                        intent.putExtra("WRITER_ID", data.getWriterId());
 
 
                       //  int nThreadID = vo.getThreadID();
@@ -372,6 +376,7 @@ public class TransactionProgressingFragment extends Fragment {
                         intent.putExtra("RECEIVER_NAME", data.getRecvname());
                         intent.putExtra("THREAD_ID", Integer.parseInt( data.getThreadID()));
                         intent.putExtra("MSG_TYPE", 1);
+                        intent.putExtra("WRITER_ID", data.getWriterId());
 
                         startActivity(intent);
 

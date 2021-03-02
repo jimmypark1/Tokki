@@ -13,6 +13,34 @@ public class MessageVO {
     private String createdDate;
     private boolean isUnread;
     private String readDate;
+    private int carrot;
+    private String contract_complete;
+    private int type;
+
+
+    public void setCarrot(int carrot) {
+        this.carrot = carrot;
+    }
+
+    public void setContract_complete(String contract_complete) {
+        this.contract_complete = contract_complete;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getCarrot() {
+        return carrot;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public String getContract_complete() {
+        return contract_complete;
+    }
 
     public int getThreadID() {
         return threadID;

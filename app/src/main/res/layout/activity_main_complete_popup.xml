@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cc222222">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_popup_bg"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_centerInParent="true">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="7dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="15dp"
+                android:textColor="#222222"
+                android:textSize="16sp"
+                android:text="거래정책 안내"/>
+
+            <ImageButton
+                android:id="@+id/closeBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/pop_close"
+                android:onClick="onClickCloseBtn"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/desc0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/topLayout"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="OnClickGalleryBtn">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#191919"
+                android:text="거래 전 꼭! 확인해주세요. 작가와 제작자와의 거래는 아래와 같은 절차로 진행됩니다."/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/desc1"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/desc0"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#191919"
+                android:textStyle="bold"
+                android:text="1단계 결제요청"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/desc1"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#191919"
+                android:textStyle="normal"
+                android:text="제작자가 거래수락을 통해 결제를 진행합니다."/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/desc2"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/desc1"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingTop="30dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#191919"
+                android:textStyle="bold"
+                android:text="2단계 결제요청"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/desc3"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/desc2"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#191919"
+                android:textStyle="normal"
+                android:text="아래 표준계약서 다운로드 후 작가, 제작사가 계약을 진행합니다. 계약이 완료되면 계약서 사본을 아래 메일로 전송 000@000.com"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/desc4"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/desc3"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+           android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#191919"
+                android:textStyle="bold"
+                android:text="3단계 결제요청"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/desc5"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/desc4"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#191919"
+                android:textStyle="normal"
+                android:text="관리자 확인 후 작가에게 정산금이 지급됩니다. 계약 불발 시 구매하신 금액은 환불됩니다."/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bt0"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/desc5"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:paddingTop="20dp"
+
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:textSize="13sp"
+                android:textColor="#6ca5ff"
+                android:textStyle="normal"
+                android:background="@drawable/round_blue_inv_market_message"
+
+                android:text="계약서 다운로드"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bt1"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt0"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:paddingBottom="20dp"
+            android:background="?attr/selectableItemBackground"
+            >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:textSize="13sp"
+                android:textColor="#ffffff"
+                android:textStyle="normal"
+                android:background="@drawable/round_blue_market_message"
+                android:text="확인"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -702,6 +702,7 @@ public class HttpClient {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 MarketMsg marketVO = new MarketMsg();
+                marketVO.setWriterId(userID);
                 marketVO.setTitle(object.getString("WORK_TITLE"));
                 marketVO.setCover(object.getString("WORK_COVER_IMG"));
                 marketVO.setName(object.getString("SENDER_NAME"));
@@ -753,6 +754,9 @@ public class HttpClient {
                 marketVO.setMsg(object.getString("RECV_MESSAGE"));
 
                 marketVO.setRecvID(object.getString("RECV_ID"));
+                //RECV_ID
+                marketVO.setWriterId(object.getString("RECV_ID"));
+
                 marketVO.setRecvname(object.getString("RECV_NAME"));
 
                 resultList.add(marketVO);
@@ -1571,17 +1575,20 @@ public class HttpClient {
         return resultList;
     }
 
-    public static boolean requestSendMessage(OkHttpClient httpClient, String senderID, String receiverID, String strContents, int nThreadID) {
+    public static boolean requestSendMessage(OkHttpClient httpClient, String senderID, String receiverID, String strContents, int nThreadID, int carrot, String complete) {
         boolean bResult = false;
 
         JSONObject jsonBody = new JSONObject();
 
         try {
-            strContents = URLEncoder.encode(strContents, "UTF-8");
+       //     strContents = URLEncoder.encode(strContents, "UTF-8");
             jsonBody.put("SENDER_ID", senderID);
             jsonBody.put("RECEIVER_ID", receiverID);
             jsonBody.put("CONTENTS", strContents);
             jsonBody.put("THREAD_ID", "" + nThreadID);
+            jsonBody.put("CARROT", "" + carrot);
+
+            jsonBody.put("contract_complete", complete);
 
 //            Request request = new Request.Builder()
 //                    .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=SendMsg&SENDER_ID=" + senderID + "&RECEIVER_ID=" + receiverID + "&CONTENTS=" + strContents + "&THREAD_ID=" + nThreadID)
@@ -1612,7 +1619,7 @@ public class HttpClient {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } catch (JSONException | UnsupportedEncodingException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
@@ -1684,6 +1691,14 @@ public class HttpClient {
                 vo.setSenderPhoto(object.getString("SENDER_PHOTO"));
                 vo.setCreatedDate(object.getString("CREATED_DATE"));
                 vo.setMsgContents(object.getString("MESSAGE_CONTENTS"));
+                vo.setCarrot(object.getInt("CARROT"));
+                vo.setContract_complete(object.getString("contract_complete"));
+
+
+//                msgThread.carrot = message["CARROT"].intValue
+ //               msgThread.contract_complete = message["contract_complete"].stringValue
+
+
                 resultList.add(vo);
             }
         } catch (IOException e) {

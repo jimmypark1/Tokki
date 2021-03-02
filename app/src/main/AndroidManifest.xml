@@ -25,10 +25,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UI.Activity.Market.MarketAddEditActivity"
+        <activity android:name=".UI.Activity.Market.MainCompletePopup"
             android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize"  />
+        <activity
+            android:name=".UI.Activity.Market.MarketDealPopup"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Activity.Market.MarketAddEditActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.Activity.Work.WebWorkViewerActivity"
             android:configChanges="screenSize|orientation"
@@ -37,8 +46,6 @@
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-
-
         <activity
             android:name=".UI.Activity.Market.MarketAddActivity"
             android:configChanges="screenSize|orientation"

@@ -19,9 +19,18 @@ public class MarketMsg implements Serializable {
     private String title;
     private String threadID;
 
+    private String writerId;
 
     public MarketMsg() {
 
+    }
+
+    public void setWriterId(String writerId) {
+        this.writerId = writerId;
+    }
+
+    public String getWriterId() {
+        return writerId;
     }
 
     public void setRecvname(String recvname) {

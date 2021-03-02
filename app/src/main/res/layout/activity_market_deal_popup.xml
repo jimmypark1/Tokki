@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cc222222">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_popup_bg"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_centerInParent="true">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="7dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="15dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:text="거래하기"/>
+
+            <ImageButton
+                android:id="@+id/closeBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/pop_close"
+                android:onClick="onClickCloseBtn"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/galleryView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/topLayout"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="OnClickGalleryBtn">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="제안하실 당근갯수를 입력하세요."/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/albumView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/galleryView"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="OnClickAlbumBtn">
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/carrot_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/albumView"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="OnClickColorBtn">
+
+            <EditText
+                android:id="@+id/carrot"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:inputType="number"
+                android:hint="0"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/carrot_frame"
+            android:layout_marginTop="20dp"
+
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+
+            >
+        <Button
+            android:id="@+id/done"
+
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/round_blue_market_message"
+            android:textColor="#ffffff"
+            android:text="확인"
+            android:onClick="onClickDoneBtn"
+
+            />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
