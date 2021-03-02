@@ -1,17 +1,20 @@
 package com.Whowant.Tokki.UI.Fragment.Friend;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -20,6 +23,7 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Admin.MemberManagementActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.ContestVO;
 import com.Whowant.Tokki.VO.MessageVO;
@@ -42,8 +46,13 @@ public class MessageDetailActivity extends AppCompatActivity {
     private EditText inputTextView;
 
     private TextView titleView;
+
+    TextView dealBt;
     private InputMethodManager imm;
+    Button buyBt;
     private float fX, fY;                               // 롱클릭 등을 위해 터치 좌표 저장
+
+    int type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +62,17 @@ public class MessageDetailActivity extends AppCompatActivity {
         inputTextView = findViewById(R.id.inputTextView);
         messageListView = findViewById(R.id.chattingListView);
         titleView = findViewById(R.id.titleView);
+        dealBt = findViewById(R.id.dealBtn);
+
         nThreadID = getIntent().getIntExtra("THREAD_ID", 0);
+
+        type = getIntent().getIntExtra("MSG_TYPE", 0);
+        if(type == 0)
+        {
+            dealBt.setVisibility(View.INVISIBLE);
+        }
+
+
         strReceiverID = getIntent().getStringExtra("RECEIVER_ID");
         strReceiverName = getIntent().getStringExtra("RECEIVER_NAME");
         titleView.setText(strReceiverName);
@@ -191,6 +210,37 @@ public class MessageDetailActivity extends AppCompatActivity {
             } else {
                 convertView = mLiInflater.inflate(R.layout.left_message_row, parent, false);
                 ImageView faceView = convertView.findViewById(R.id.faceView);
+
+                Button buyBt = convertView.findViewById(R.id.buy);
+                if(type == 0)
+                {
+                    ViewGroup.LayoutParams params = buyBt.getLayoutParams();
+
+                    params.height = 0;
+
+                    ViewGroup.MarginLayoutParams lp0 = (ViewGroup.MarginLayoutParams) buyBt.getLayoutParams();
+
+                    lp0.topMargin = 0;
+                    lp0.bottomMargin = 0;
+
+                    TextView msgView = convertView.findViewById(R.id.contentsTextView);
+
+                    ViewGroup.MarginLayoutParams lp1 = (ViewGroup.MarginLayoutParams) msgView.getLayoutParams();
+                    lp1.topMargin = 10;
+
+                    //
+
+                }
+                else
+                {
+                    buyBt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    });
+                }
+
                 faceView.setClipToOutline(true);
                 String strPhoto = vo.getSenderPhoto();
                 if(strPhoto != null && !strPhoto.equals("null") && !strPhoto.equals("NULL") && strPhoto.length() > 0) {

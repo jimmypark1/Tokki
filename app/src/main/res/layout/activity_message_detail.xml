@@ -29,6 +29,19 @@
             android:textSize="18sp"
             android:textColor="@color/colorBlack"
             android:text="메시지"/>
+
+        <TextView
+            android:id="@+id/dealBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"
+            android:text = "거래하기"
+            android:textColor="#6ca5ff"
+
+            />
+
     </RelativeLayout>
 
     <ListView

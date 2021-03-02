@@ -8,6 +8,10 @@ public class MarketMsg implements Serializable {
     private String profile;
 
     private String senderID;
+    private String recvID;
+    private String recvname;
+
+
     private String msg;
 
     private String date;
@@ -18,6 +22,30 @@ public class MarketMsg implements Serializable {
 
     public MarketMsg() {
 
+    }
+
+    public void setRecvname(String recvname) {
+        this.recvname = recvname;
+    }
+
+    public void setRecvID(String recvD) {
+        this.recvID = recvD;
+    }
+
+    public void setSenderID(String senderID) {
+        this.senderID = senderID;
+    }
+
+    public void setThreadID(String threadID) {
+        this.threadID = threadID;
+    }
+
+    public String getRecvname() {
+        return recvname;
+    }
+
+    public String getRecvID() {
+        return recvID;
     }
 
     public void setName(String name){

@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Fragment.Friend.FriendSelectActivity;
+import com.Whowant.Tokki.UI.Fragment.Friend.MessageDetailActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.SimplePreference;
 import com.Whowant.Tokki.VO.MarketMsg;
@@ -336,6 +338,65 @@ public class TransactionProgressingFragment extends Fragment {
         public void onClick(View v){
             // this.itemClickListener.onItemClickListener(v, getLayoutPosition());
             int pos = getLayoutPosition();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String userId = SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest");
+
+                    //    userId = "1511869881";
+                    MarketMsg data = marketMsgs.get(pos);
+
+                    boolean isWriter =  HttpClient.isWriter(new OkHttpClient(),userId);
+
+                    if(isWriter)
+                    {
+                        Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
+                        intent.putExtra("RECEIVER_ID", data.getSenderID());
+                        intent.putExtra("RECEIVER_NAME", data.getName());
+
+
+                      //  int nThreadID = vo.getThreadID();
+                      //  Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
+                        intent.putExtra("THREAD_ID", Integer.parseInt( data.getThreadID()));
+                        intent.putExtra("MSG_TYPE", 1);
+
+                        //
+
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
+                        intent.putExtra("RECEIVER_ID", data.getRecvID());
+                        intent.putExtra("RECEIVER_NAME", data.getRecvname());
+                        intent.putExtra("THREAD_ID", Integer.parseInt( data.getThreadID()));
+                        intent.putExtra("MSG_TYPE", 1);
+
+                        startActivity(intent);
+
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+                        }
+                    });
+                }
+            }).start();
+
+
+       //     intent.putExtra("THREAD_ID", nThreadID);
+         //   intent.putExtra("RECEIVER_NAME", vo.getUserName());
+/*
+            if(strMyID.equals(vo.getUserID()))
+                intent.putExtra("RECEIVER_ID", vo.getPartnerID());
+            else
+                intent.putExtra("RECEIVER_ID", vo.getUserID());
+
+ */
 
         }
 

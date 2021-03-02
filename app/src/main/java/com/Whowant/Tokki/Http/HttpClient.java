@@ -752,6 +752,8 @@ public class HttpClient {
                 marketVO.setProfile(object.getString("SENDER_PROFILE"));
                 marketVO.setMsg(object.getString("RECV_MESSAGE"));
 
+                marketVO.setRecvID(object.getString("RECV_ID"));
+                marketVO.setRecvname(object.getString("RECV_NAME"));
 
                 resultList.add(marketVO);
             }
