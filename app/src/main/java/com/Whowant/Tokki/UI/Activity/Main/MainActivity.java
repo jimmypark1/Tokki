@@ -148,11 +148,10 @@ public class MainActivity extends AppCompatActivity {
         noticeNewIconView = findViewById(R.id.noticeNewIconView);
 //        alarmNewIconView = findViewById(R.id.alarmNewIconView);
 
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
         tabLayout.addTab(tabLayout.newTab().setText("채팅소설"));
         tabLayout.addTab(tabLayout.newTab().setText("웹소설"));
-       // tabLayout.addTab(tabLayout.newTab().setText("e소설"));
+        tabLayout.addTab(tabLayout.newTab().setText("e소설"));
         tabLayout.addTab(tabLayout.newTab().setText("스토리"));
 
 
