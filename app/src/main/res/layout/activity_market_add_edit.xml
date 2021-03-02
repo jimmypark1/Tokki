@@ -351,6 +351,7 @@
 
 
             </LinearLayout>
+
             <EditText
                 android:id="@+id/price_input"
                 android:layout_below="@+id/price_frame"
@@ -359,13 +360,55 @@
                 android:layout_height="wrap_content"
                 android:hint="가격을 입력하세요."
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="40dp"
+
                 android:layout_marginTop="10dp"
                 android:maxLength="1024"
                 android:imeOptions="actionDone"
                 android:singleLine="true"
                 android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/price_frame"
+                android:layout_marginTop="20dp"
+                android:lineSpacingExtra="5sp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
 
+                android:text="원"
+                android:layout_alignParentEnd="true"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:textStyle="normal"
+
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/price_above_info_frame"
+
+                android:orientation="vertical"
+                android:layout_below="@+id/price_input"
+
+                >
+                <TextView
+                    android:id="@+id/price_above_info1"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="5sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="거래 성사시 토끼 매니저가 계약을 중재합니다."
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
+
+                    />
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/price_frame_info"
 
@@ -381,6 +424,8 @@
                 >
 
                 <ImageView
+                    android:id="@+id/carrot_img"
+
                     android:layout_width="36dp"
                     android:layout_height="36dp"
 
@@ -404,27 +449,36 @@
                     />
 
 
-            </LinearLayout>
-            <TextView
-                android:id="@+id/price_info1"
 
+
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/price_info1_frame"
+
+                android:orientation="vertical"
                 android:layout_below="@+id/price_frame_info"
-                android:lineSpacingExtra="5sp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/change_back_frame"
-                android:text="수수료 : 20% (정산시 xx원)"
-                android:textColor="#000"
-                android:textSize="15sp"
-                android:textStyle="normal"
 
-                />
+                >
+                <TextView
+                    android:id="@+id/price_info1"
 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="5sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="수수료 : 20% (정산시 xx원)"
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
+
+                    />
+            </LinearLayout>
             <Button
-                android:layout_below="@+id/price_info1"
+                android:layout_below="@+id/price_info1_frame"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:text="등록"

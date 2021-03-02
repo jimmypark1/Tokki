@@ -45,6 +45,7 @@ import com.Whowant.Tokki.VO.WriterVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -112,9 +113,15 @@ public class MarketContentsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        getMarketData();
+     //   getMarketData();
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getMarketData();
     }
 
     private void getMarketData() {
@@ -151,23 +158,6 @@ public class MarketContentsFragment extends Fragment {
                             }
                         });
 
-//                        recyclerView.notifyAll();
-
-                        //  recyclerView.setAdapter(aa);
-                       // adapter = new MyPageFeedFragment.MyPageFeedAdapter(getContext(), mArrayList);
-                        /*
-                        aa = new MarketAdapter(getActivity());
-
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                        recyclerView.setAdapter(aa);
-                        ItemClickSupport.addTo(recyclerView).setItemClickListener(new ItemClickSupport.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(RecyclerView parent, View view, int position, long id) {
-
-                            }
-                        });
-
-                         */
 
                     }
                 });
@@ -210,17 +200,45 @@ public class MarketContentsFragment extends Fragment {
 
 
             viewHolder.title.setText(data.getTitle());
+            viewHolder.sypnopsis.setText(data.getSypnopsis());
+
             viewHolder.tag.setText(data.getTag());
-            viewHolder.copyright0.setText(data.getCopyright0());
-            viewHolder.copyright1.setText(data.getCopyright1());
+            viewHolder.copyright0.setText("저작권 : " + data.getCopyright0());
+            if(data.getStrField()!= null && data.getStrField().length() > 0)
+                viewHolder.copyright1.setText("판권 :" + data.getStrField());
+            else
+                viewHolder.copyright1.setText("");
+
             viewHolder.career.setText(data.getCareer());
             /*
                   carrotNum.text = String(Int( nPrice! / 120)) + "개"
                // let dPrice =  Double(dummy)! * 0.8
                 let dNPrice =  Int(Double(dummy)! * 0.8)
              */
-            int nCarrot = data.getPrice() / 120;
-            viewHolder.price.setText(String.valueOf(nCarrot) + "개" +" (" + String.valueOf(data.getPrice()) +"원)");
+
+            float div = data.getPrice() / 1000000;
+            if(div < 1)
+            {
+                int nCarrot = (int)data.getPrice() / 120;
+
+
+                String strPrice =  String.format("%,d", data.getPrice());
+                viewHolder.price.setText(String.valueOf(nCarrot) + "개" +" (" + strPrice +"원)");
+            }
+            else
+            {
+                ViewGroup.LayoutParams params = viewHolder.carrot.getLayoutParams();
+                params.width = 0;
+
+                viewHolder.carrot.setVisibility(View.INVISIBLE);
+
+
+                String strPrice =  String.format("%,d", data.getPrice());
+
+                viewHolder.price.setText(strPrice +"원");
+
+            }
+
 
             String strCover = CommonUtils.strDefaultUrl + "images/" + data.getCover();
 
@@ -261,6 +279,7 @@ public class MarketContentsFragment extends Fragment {
         TextView career;
         ImageView cover;
         TextView price;
+        ImageView carrot;
         ItemClickListener itemClickListener;
 
 
@@ -274,6 +293,7 @@ public class MarketContentsFragment extends Fragment {
             copyright1 = itemView.findViewById(R.id.copyright1);
             career = itemView.findViewById(R.id.career);
             cover= itemView.findViewById(R.id.coverImgView);
+            carrot= itemView.findViewById(R.id.carrot);
 
             price = itemView.findViewById(R.id.price);
 

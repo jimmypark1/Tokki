@@ -15,7 +15,7 @@ public class MarketVO implements Serializable {
     private String copywright1;
     private int field;
     private String fieldName;
-    private int price;
+    private long price;
     private String career;
     private String workId;
     private String synopsis;
@@ -23,10 +23,45 @@ public class MarketVO implements Serializable {
     private String genre;
     private String writerId;
     private String userId;
+    private String strField;
+
 
     public MarketVO() {
 
     }
+
+    public void setCopywright0(String copywright0) {
+        this.copywright0 = copywright0;
+    }
+
+    public void setCopywright1(String copywright1) {
+        this.copywright1 = copywright1;
+    }
+
+    public void setStrField(String strField) {
+        this.strField = strField;
+    }
+
+    public String getCopywright0() {
+        return copywright0;
+    }
+
+    public String getCopywright1() {
+        return copywright1;
+    }
+
+    public String getStrField() {
+        return strField;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public String getWriterId() {
+        return writerId;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -86,7 +121,7 @@ public class MarketVO implements Serializable {
     public String getCover(){ return cover;}
 
     public String getNameAndGenre(){ return nameAndGenre;}
-    public int getPrice(){ return price;}
+    public long getPrice(){ return price;}
     public int getField(){ return field;}
     public int getStatus(){ return status;}
     public String getTag(){ return tag;}

@@ -476,6 +476,7 @@ public class HttpClient {
             jsonBody.put("COPYRIGHT0", market.getCopyright0());
             jsonBody.put("COPYRIGHT1", market.getCopyright1());
             jsonBody.put("CAREER", market.getCareer());
+            jsonBody.put("FIELD", market.getStrField());
 
             String jsonString = jsonBody.toString();
 
@@ -664,6 +665,7 @@ public class HttpClient {
                 }
                 marketVO.setCopyright0(object.getString("COPYRIGHT0"));
                 marketVO.setCopyright1(object.getString("COPYRIGHT1"));
+                marketVO.setStrField(object.getString("FIELD"));
                 marketVO.setUserId(object.getString("USER_ID"));
                 marketVO.setWorkId(object.getString("WORK_ID"));
                 marketVO.setPrice(object.getInt("PRICE"));

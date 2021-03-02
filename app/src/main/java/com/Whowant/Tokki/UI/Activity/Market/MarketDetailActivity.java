@@ -81,8 +81,8 @@ public class MarketDetailActivity extends AppCompatActivity {
           carrotNum.text = String(Int( nPrice! / 120)) + "개"
 
          */
-        int nPrice = market.getPrice();
-        int nCarrot = nPrice / 120;
+        long nPrice = market.getPrice();
+        int nCarrot = (int)nPrice / 120;
 
         DecimalFormat formatter = new DecimalFormat("#,###,###");
         String formattedPrice = formatter.format(market.getPrice());
