@@ -1,18 +1,26 @@
 package com.Whowant.Tokki.UI.Activity.Market;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Fragment.Friend.MessageDetailActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
+import com.Whowant.Tokki.Utils.SimplePreference;
 import com.Whowant.Tokki.VO.MarketVO;
 import com.bumptech.glide.Glide;
 
 import java.text.DecimalFormat;
+
+import okhttp3.OkHttpClient;
 
 public class MarketDetailActivity extends AppCompatActivity {
 
@@ -30,8 +38,10 @@ public class MarketDetailActivity extends AppCompatActivity {
 
     private TextView field;
     private TextView price;
+    Button sendBt;
 
     ImageView cover;
+    MarketVO market;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +62,17 @@ public class MarketDetailActivity extends AppCompatActivity {
         status = findViewById(R.id.statusLabel0);
         field = findViewById(R.id.statusView);
         price = findViewById(R.id.priceView);
+        sendBt = findViewById(R.id.send);
 
-        //
+        String userId = SimplePreference.getStringPreference(MarketDetailActivity.this, "USER_INFO", "USER_ID", "Guest");
 
-        MarketVO market = (MarketVO)getIntent().getSerializableExtra("MARKET_DATA");
 
+
+        market = (MarketVO)getIntent().getSerializableExtra("MARKET_DATA");
+        if(market.getWriteId().contains(userId))
+        {
+            sendBt.setVisibility(View.GONE);
+        }
         int nStatus = market.getStatus();
         if(nStatus==0)
         {
@@ -113,5 +129,75 @@ public class MarketDetailActivity extends AppCompatActivity {
     public void onClickTopLeftBtn(View view) {
         finish();
     }
+    public void onClickSendMsgBtn(View view) {
+
+        CommonUtils.showProgressDialog(MarketDetailActivity.this, "서버와 통신중입니다.");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String userId = SimplePreference.getStringPreference(MarketDetailActivity.this, "USER_INFO", "USER_ID", "Guest");
+
+
+                final int oldThreadId =  HttpClient.getMarketMsgThreadId(new OkHttpClient(),userId,market.getWorkId());
+
+                if(oldThreadId == 0)
+                {
+                    final int threadId = HttpClient.createRoomForWriterOnMarket(new OkHttpClient(),userId,market.getWriteId(),market.getWorkId());
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+                            if(threadId == 0) {
+                                Toast.makeText(MarketDetailActivity.this, "서버와의 통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            Intent intent = new Intent(MarketDetailActivity.this, MessageDetailActivity.class);
+                            intent.putExtra("RECEIVER_ID", market.getWriteId());
+                            intent.putExtra("RECEIVER_NAME", market.getName());
+                            intent.putExtra("WRITER_ID", market.getWriterId());
+
+                            intent.putExtra("THREAD_ID", threadId);
+                            intent.putExtra("MSG_TYPE", 1);
+                            startActivity(intent);
+
+                        }
+                    });
+                }
+                else
+                {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+
+                            Intent intent = new Intent(MarketDetailActivity.this, MessageDetailActivity.class);
+                            intent.putExtra("RECEIVER_ID", market.getWriteId());
+                            intent.putExtra("RECEIVER_NAME", market.getName());
+                            intent.putExtra("WRITER_ID", market.getWriterId());
+
+                            intent.putExtra("THREAD_ID", oldThreadId);
+                            intent.putExtra("MSG_TYPE", 1);
+                            startActivity(intent);
+
+                        }
+                    });
+                }
+
+            }
+        }).start();
+
+    }
+    /*
+       TokkiAPI.shared.createRoomForWriterOnMarket(userID: userId!, partnerId: partnerId!, workId: market.workId, completion: { [self](success,value) in
+            if(success == true)
+            {
+                let json = JSON(value)
+                let threadId =  json["THREAD_ID"].intValue
+                performSegue(withIdentifier: "exec_market_message", sender: threadId)
+
+            }
+        })
+     */
 
 }

@@ -19,7 +19,7 @@
             android:layout_marginLeft="17dp"
             android:background="@null"
             android:onClick="onClickTopLeftBtn"
-            android:src="@drawable/back_button"/>
+            android:src="@drawable/i_back"/>
 
         <TextView
             android:id="@+id/titleView"

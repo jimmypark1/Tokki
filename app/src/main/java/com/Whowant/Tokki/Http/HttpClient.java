@@ -667,6 +667,8 @@ public class HttpClient {
                 marketVO.setCopyright1(object.getString("COPYRIGHT1"));
                 marketVO.setStrField(object.getString("FIELD"));
                 marketVO.setUserId(object.getString("USER_ID"));
+                marketVO.setWriterId(object.getString("USER_ID"));
+
                 marketVO.setWorkId(object.getString("WORK_ID"));
                 marketVO.setPrice(object.getInt("PRICE"));
                 marketVO.setStatus(object.getInt("STATUS"));
@@ -1709,7 +1711,67 @@ public class HttpClient {
 
         return resultList;
     }
+    public static int createRoomForWriterOnMarket(OkHttpClient httpClient, String userId,String partnerId,String workId) {                              // 모든 작품 목록 가져오기
+        ArrayList<MessageVO> resultList = new ArrayList<>();
 
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=CreateRoomForWriterOnMarket&USER_ID=" + userId +"&PARTNER_ID=" + partnerId + "&WORK_ID=" +workId )
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return 0;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            if (resultObject.getString("RESULT").equals("SUCCESS")) {
+
+                int nThreadId= resultObject.getInt("THREAD_ID");
+                return nThreadId;
+            }
+            return 1;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+    public static int getMarketMsgThreadId(OkHttpClient httpClient, String userId,String workId) {                              // 모든 작품 목록 가져오기
+        ArrayList<MessageVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetMarketMsgThreadId&USER_ID=" + userId + "&WORK_ID=" +workId )
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return 0;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            if (resultObject.getString("RESULT").equals("SUCCESS")) {
+
+                int nThreadId= resultObject.getInt("ROOM_ID");
+                return nThreadId;
+            }
+            return 0;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+    //
     public static MessageThreadVO getMessageThreadByID(OkHttpClient httpClient, String strUserID, String strPartnerID) {                              // 모든 작품 목록 가져오기
         MessageThreadVO vo = null;
 
@@ -1751,7 +1813,7 @@ public class HttpClient {
         ArrayList<MessageThreadVO> resultList = new ArrayList<>();
 
         Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=GetMsgThreadList&USER_ID=" + strUserID)
+                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=                                                     &USER_ID=" + strUserID)
                 .get()
                 .build();
 

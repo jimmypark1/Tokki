@@ -153,16 +153,7 @@ public class MessageDetailActivity extends AppCompatActivity {
                 String strCarrot = data.getStringExtra("CARROT");
                 int nCarrot = Integer.parseInt(strCarrot);
 
-                /*
-                  var msg = carrotNum + "개로 거래를 제안합니다. 만족하시면 거래수락 버튼을 눌러주세요"
-
-                    if(writerId == userId)
-                    {
-
-                        msg = carrotNum + "개로 거래를 제안합니다. 만족하시면 결제하기 버튼을 눌러주세요"
-
-                 */
-
+              
                 if(nCarrot > 0)
                 {
                     String msg = "당근 " + strCarrot + "개로 거래를 제안합니다. 만족하시면 거래수락 버튼을 눌러주세요.";
