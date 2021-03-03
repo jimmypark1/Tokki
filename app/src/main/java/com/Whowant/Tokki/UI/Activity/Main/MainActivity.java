@@ -585,6 +585,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
 
                         break;
+                        /*
                     case R.id.e_novel:
 
                         intent = new Intent(MainActivity.this, WorkRegActivity.class);
@@ -593,6 +594,8 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
 
                         break;
+                        
+                         */
                     case R.id.story_novel:
 
                         intent = new Intent(MainActivity.this, WorkRegActivity.class);

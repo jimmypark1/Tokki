@@ -8,9 +8,7 @@
         android:id="@+id/web_novel"
         android:title="웹소설"/>
 
-    <item
-        android:id="@+id/e_novel"
-        android:title="e소설"/>
+
     <item
         android:id="@+id/story_novel"
         android:title="스토리"/>
