@@ -594,7 +594,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
 
                         break;
-                        
+
                          */
                     case R.id.story_novel:
 

@@ -109,10 +109,12 @@ public class LiteratureFragment extends Fragment {                              
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CommonUtils.hideProgressDialog();
+                    //    CommonUtils.hideProgressDialog();
 
                         if(workList == null) {
                             emptyView.setVisibility(View.VISIBLE);
+                            CommonUtils.hideProgressDialog();
+
                             return;
                         }
 
@@ -125,6 +127,8 @@ public class LiteratureFragment extends Fragment {                              
                         } else {
                             emptyView.setVisibility(View.INVISIBLE);
                         }
+                        CommonUtils.hideProgressDialog();
+
                     }
                 });
             }
