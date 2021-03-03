@@ -322,6 +322,11 @@ public class MarketMainActivity extends AppCompatActivity {
 
                 }
             }
+            HorizontalData hField =  (HorizontalData)data.get(selectedIndex);
+            MarketContentsFragment fragment =  (MarketContentsFragment)pagerAdapter.getItem(0);
+            fragment.Update(selectedIndex,hField.getText());
+
+            pagerAdapter.notifyDataSetChanged();
             //mHorizontalView.smoothScrollToPosition(selectedIndex);
 
         }

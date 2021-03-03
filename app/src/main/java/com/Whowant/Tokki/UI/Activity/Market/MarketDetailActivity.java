@@ -45,6 +45,7 @@ public class MarketDetailActivity extends AppCompatActivity {
     TextView name;
     ImageView cover;
     MarketVO market;
+    int mode = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +115,7 @@ public class MarketDetailActivity extends AppCompatActivity {
             infoView.setText("거래요청을 하시면 토키 관리자가 중개를 지원해드립니다");
             infoView.setTextColor(Color.parseColor("#767676"));
 
+            mode = 1;
 
         } else {
             DecimalFormat formatter = new DecimalFormat("#,###,###");
@@ -192,63 +194,75 @@ public class MarketDetailActivity extends AppCompatActivity {
     }
     public void onClickSendMsgBtn(View view) {
 
-        CommonUtils.showProgressDialog(MarketDetailActivity.this, "서버와 통신중입니다.");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String userId = SimplePreference.getStringPreference(MarketDetailActivity.this, "USER_INFO", "USER_ID", "Guest");
+        if(mode == 0)
+        {
+            CommonUtils.showProgressDialog(MarketDetailActivity.this, "서버와 통신중입니다.");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String userId = SimplePreference.getStringPreference(MarketDetailActivity.this, "USER_INFO", "USER_ID", "Guest");
 
 
-                final int oldThreadId =  HttpClient.getMarketMsgThreadId(new OkHttpClient(),userId,market.getWorkId());
+                    final int oldThreadId =  HttpClient.getMarketMsgThreadId(new OkHttpClient(),userId,market.getWorkId());
 
-                if(oldThreadId == 0)
-                {
-                    final int threadId = HttpClient.createRoomForWriterOnMarket(new OkHttpClient(),userId,market.getWriteId(),market.getWorkId());
+                    if(oldThreadId == 0)
+                    {
+                        final int threadId = HttpClient.createRoomForWriterOnMarket(new OkHttpClient(),userId,market.getWriteId(),market.getWorkId());
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            CommonUtils.hideProgressDialog();
-                            if(threadId == 0) {
-                                Toast.makeText(MarketDetailActivity.this, "서버와의 통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                                return;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                CommonUtils.hideProgressDialog();
+                                if(threadId == 0) {
+                                    Toast.makeText(MarketDetailActivity.this, "서버와의 통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                Intent intent = new Intent(MarketDetailActivity.this, MessageDetailActivity.class);
+                                intent.putExtra("RECEIVER_ID", market.getWriteId());
+                                intent.putExtra("RECEIVER_NAME", market.getName());
+                                intent.putExtra("WRITER_ID", market.getWriterId());
+                                intent.putExtra("WORK_TITLE",market.getTitle());
+
+                                intent.putExtra("THREAD_ID", threadId);
+                                intent.putExtra("MSG_TYPE", 1);
+                                startActivity(intent);
+
                             }
-                            Intent intent = new Intent(MarketDetailActivity.this, MessageDetailActivity.class);
-                            intent.putExtra("RECEIVER_ID", market.getWriteId());
-                            intent.putExtra("RECEIVER_NAME", market.getName());
-                            intent.putExtra("WRITER_ID", market.getWriterId());
-                            intent.putExtra("WORK_TITLE",market.getTitle());
+                        });
+                    }
+                    else
+                    {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                CommonUtils.hideProgressDialog();
 
-                            intent.putExtra("THREAD_ID", threadId);
-                            intent.putExtra("MSG_TYPE", 1);
-                            startActivity(intent);
+                                Intent intent = new Intent(MarketDetailActivity.this, MessageDetailActivity.class);
+                                intent.putExtra("RECEIVER_ID", market.getWriteId());
+                                intent.putExtra("RECEIVER_NAME", market.getName());
+                                intent.putExtra("WRITER_ID", market.getWriterId());
+                                intent.putExtra("WORK_TITLE",market.getTitle());
 
-                        }
-                    });
+                                intent.putExtra("THREAD_ID", oldThreadId);
+                                intent.putExtra("MSG_TYPE", 1);
+                                startActivity(intent);
+
+                            }
+                        });
+                    }
+
                 }
-                else
-                {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            CommonUtils.hideProgressDialog();
+            }).start();
+        }
+        else
+        {
+            Intent intent = new Intent(MarketDetailActivity.this, MarketDealPopup2.class);
 
-                            Intent intent = new Intent(MarketDetailActivity.this, MessageDetailActivity.class);
-                            intent.putExtra("RECEIVER_ID", market.getWriteId());
-                            intent.putExtra("RECEIVER_NAME", market.getName());
-                            intent.putExtra("WRITER_ID", market.getWriterId());
-                            intent.putExtra("WORK_TITLE",market.getTitle());
+            startActivity(intent);
+        }
 
-                            intent.putExtra("THREAD_ID", oldThreadId);
-                            intent.putExtra("MSG_TYPE", 1);
-                            startActivity(intent);
 
-                        }
-                    });
-                }
 
-            }
-        }).start();
 
     }
     /*

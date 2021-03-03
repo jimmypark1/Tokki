@@ -555,6 +555,39 @@ public class HttpClient {
 
         return resultList;
     }
+    public static ArrayList<String> getFieldForWork(OkHttpClient httpClient, String workId) {
+        ArrayList<String> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetFieldForWork&WORK_ID=" + workId)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("FIELDS");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                String field = object.getString("FIELD");
+
+
+                resultList.add(field);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
 
     public static int getInteractionEpisodeID(OkHttpClient httpClient, int nWorkID) {
         Request request = new Request.Builder()
@@ -683,6 +716,62 @@ public class HttpClient {
 
         return resultList;
     }
+    public static ArrayList<MarketVO> getWorksSorByContentOnMarket(OkHttpClient httpClient,String field) {
+        ArrayList<MarketVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWorksSorByContentOnMarket&FIELD="+ field)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("MARKET");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                MarketVO marketVO = new MarketVO();
+                marketVO.setTitle(object.getString("TITLE"));
+                marketVO.setCover(object.getString("COVER"));
+                marketVO.setSynopsis(object.getString("SYNOPSIS"));
+                marketVO.setName(object.getString("NAME"));
+                if(object.getString("GENRES" ) != null)
+                {
+                    marketVO.setGenre(object.getString("GENRES"));
+
+                }
+                if(object.getString("TAGS") != null)
+                {
+                    marketVO.setTag(object.getString("TAGS"));
+
+                }
+                marketVO.setCopyright0(object.getString("COPYRIGHT0"));
+                marketVO.setCopyright1(object.getString("COPYRIGHT1"));
+                marketVO.setStrField(object.getString("FIELD"));
+                marketVO.setUserId(object.getString("USER_ID"));
+                marketVO.setWriterId(object.getString("USER_ID"));
+
+                marketVO.setWorkId(object.getString("WORK_ID"));
+                marketVO.setPrice(object.getInt("PRICE"));
+                marketVO.setStatus(object.getInt("STATUS"));
+
+                resultList.add(marketVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+    //
     public static ArrayList<MarketMsg> getTrading(OkHttpClient httpClient, String userID) {
         ArrayList<MarketMsg> resultList = new ArrayList<>();
 

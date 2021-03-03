@@ -149,6 +149,27 @@ public class MarketAddEditActivity extends AppCompatActivity {
         finish();
     }
 
+    void getFields()
+    {
+        //getFieldForWork
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+
+                ArrayList<String> ret = HttpClient.getFieldForWork(new OkHttpClient(),String.valueOf(work.getnWorkID()));
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+
+                    }
+                });
+            }
+        }).start();
+
+    }
     void proceeAbove100()
     {
         below100Ck.setImageResource(R.drawable.i_radio_1);
@@ -190,7 +211,94 @@ public class MarketAddEditActivity extends AppCompatActivity {
 
         popup.getMenuInflater().inflate(R.menu.market_field_menu, popup.getMenu());
 
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+/*
+  <item
+        android:id="@+id/drama"
+        android:title="드라마"/>
+
+    <item
+        android:id="@+id/web_drama"
+        android:title="웹드라마"/>
+
+    <item
+        android:id="@+id/screen"
+        android:title="영화"/>
+    <item
+        android:id="@+id/publish"
+        android:title="출판"/>
+    <item
+        android:id="@+id/comic"
+        android:title="만화(웹툰)"/>
+    <item
+        android:id="@+id/animation"
+        android:title="애니매이션"/>
+    <item
+        android:id="@+id/performance"
+        android:title="공연"/>
+    <item
+        android:id="@+id/etc"
+        android:title="기타"/>
+ */
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+
+                ArrayList<String> ret = HttpClient.getFieldForWork(new OkHttpClient(),String.valueOf(work.getnWorkID()));
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+
+                        for(int i=0;i<ret.size();i++)
+                        {
+                            String field = ret.get(i);
+                            if(field.equals("드라마"))
+                            {
+                                popup.getMenu().removeItem(R.id.drama);
+
+                            }
+                            else if(field.equals("웹드라마"))
+                            {
+                                popup.getMenu().removeItem(R.id.web_drama);
+
+                            }
+
+                            else if(field.equals("영화"))
+                            {
+                                popup.getMenu().removeItem(R.id.screen);
+
+                            }
+                            else if(field.equals("출판"))
+                            {
+                                popup.getMenu().removeItem(R.id.publish);
+
+                            }
+                            else if(field.equals("만화(웹툰)"))
+                            {
+                                popup.getMenu().removeItem(R.id.comic);
+
+                            }
+                            else if(field.equals("애니매이션"))
+                            {
+                                popup.getMenu().removeItem(R.id.animation);
+
+                            }
+                            else if(field.equals("공연"))
+                            {
+                                popup.getMenu().removeItem(R.id.performance);
+
+                            }
+                         }
+
+                    }
+                });
+            }
+        }).start();
+
+
+         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = null;
                 // AlertDialog.Builder builder = new AlertDialog.Builder(AproveWaitingEpisodeListActivity.this);

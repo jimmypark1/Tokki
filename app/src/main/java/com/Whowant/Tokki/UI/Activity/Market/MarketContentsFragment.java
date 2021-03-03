@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,6 +74,8 @@ public class MarketContentsFragment extends Fragment {
 
     RecyclerView recyclerView;
 
+    public int position = 0;
+
     public MarketContentsFragment() {
         // Required empty public constructor
     }
@@ -118,12 +121,68 @@ public class MarketContentsFragment extends Fragment {
         return v;
     }
 
+    public void Update(int pos, String content)
+    {
+        if(pos > 0)
+        {
+
+            getMarketDataSort(content);
+        }
+        else
+        {
+            getMarketData();
+        }
+
+    }
     @Override
     public void onResume() {
         super.onResume();
-        getMarketData();
-    }
+        if(position == 0)
+        {
+            getMarketData();
+        }
 
+    }
+    private void getMarketDataSort(String field) {
+//        CommonUtils.showProgressDialog(getActivity(), "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
+
+        if(markets != null)
+            markets.clear();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                markets = HttpClient.getWorksSorByContentOnMarket(new OkHttpClient(),field);
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //       CommonUtils.hideProgressDialog();
+
+
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(markets == null) {
+                                    Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                marketAdapter = new MarketAdapter(getActivity(),markets);
+                                recyclerView.setAdapter(marketAdapter);
+
+                                //                       marketAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+
+                    }
+                });
+            }
+        }).start();
+    }
     private void getMarketData() {
 //        CommonUtils.showProgressDialog(getActivity(), "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
 
@@ -188,7 +247,9 @@ public class MarketContentsFragment extends Fragment {
             return new MarketViewHolder(v);
         }
 
-
+        private int dpToPx(Context context, int dp) {
+            return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+        }
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position)
         {
@@ -221,6 +282,11 @@ public class MarketContentsFragment extends Fragment {
             {
                 int nCarrot = (int)data.getPrice() / 120;
 
+
+                viewHolder.carrot.setVisibility(View.VISIBLE);
+                ViewGroup.LayoutParams params = viewHolder.carrot.getLayoutParams();
+                params.width = dpToPx(getActivity(),36);
+                params.height = dpToPx(getActivity(),36);
 
                 String strPrice =  String.format("%,d", data.getPrice());
                 viewHolder.price.setText(String.valueOf(nCarrot) + "개" +" (" + strPrice +"원)");
