@@ -383,7 +383,7 @@ public class TransactionProgressingFragment extends Fragment {
                         startActivity(intent);
                     }
 
-                   
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override

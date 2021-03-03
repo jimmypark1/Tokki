@@ -215,6 +215,7 @@
                 android:layout_height="24dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/i_font_minus"
+                android:onClick="onClickDecreaseFont"
                 />
         </RelativeLayout>
         <RelativeLayout
@@ -227,6 +228,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerInParent="true"
+                android:onClick="onClickIncreaseFont"
                 android:src="@drawable/i_font_plus"
 
                 />
@@ -437,7 +439,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginTop="17dp"
                     android:textColor="#666666"
-                    android:fontFamily="@font/nnsquare_round_font"
+                    android:fontFamily="@font/nnmyeongjo_font"
                     />
                 <ImageView
                     android:id="@+id/font_ck1"
@@ -465,7 +467,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginTop="17dp"
                     android:textColor="#666666"
-                    android:fontFamily="@font/nnmyeongjo_font"
+                    android:fontFamily="@font/nnsquare_round_font"
                     />
                 <ImageView
                     android:id="@+id/font_ck2"

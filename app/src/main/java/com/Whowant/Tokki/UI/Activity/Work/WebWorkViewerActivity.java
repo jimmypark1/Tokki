@@ -498,6 +498,23 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         fragment.setFont3();
 
     }
+
+    public void onClickDecreaseFont(View view) {
+
+        int pos = viewPager.getCurrentItem();
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+        fragment.setDecreaseFont();
+
+    }
+
+    public void onClickIncreaseFont(View view) {
+
+        int pos = viewPager.getCurrentItem();
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+        fragment.setIncreaseFont();
+
+    }
+
     public class WebWorkPagerAdapter extends FragmentStatePagerAdapter {
 
         public List<Fragment> fragments=new ArrayList<>();

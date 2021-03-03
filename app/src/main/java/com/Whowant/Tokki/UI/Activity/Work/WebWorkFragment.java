@@ -1,7 +1,9 @@
 package com.Whowant.Tokki.UI.Activity.Work;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -77,6 +80,11 @@ public class WebWorkFragment extends Fragment {
     ImageView backCk0,backCk1,backCk2,backCk3,backCk4,backCk5;
     ImageView fontCk0,fontCk1,fontCk2,fontCk3;
 
+    int nBack = 0;
+    int nFont = 0;
+
+    int fontSizeStep = 0;
+    float defaultFontSize = 18.0f;
 
     public WebWorkFragment() {
         // Required empty public constructor
@@ -223,6 +231,9 @@ public class WebWorkFragment extends Fragment {
         WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
         parent.onClickCarrotBtn(view);
     }
+    private int dpToPx(Context context, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
 
     void setBack0()
     {
@@ -232,6 +243,66 @@ public class WebWorkFragment extends Fragment {
         backCk3.setVisibility(View.INVISIBLE);
         backCk4.setVisibility(View.INVISIBLE);
         backCk5.setVisibility(View.INVISIBLE);
+
+        nBack = 0;
+        String html =  webWork.getRaw();
+        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+
+        String font= "  @font-face {\n" +
+                "        font-family: \"NanumSquareOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nn_square_font.ttf\")"  +
+                "    }" +
+                "  @font-face {\n" +
+                "        font-family: \"NanumMyeongjoOTF\";\n" +
+                "        src: url(\"file:///android_res/font/nnmyeongjo_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"NanumSquareRoundOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nnsquare_round_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"SDMiSaeng\";\n" +
+                "        src: url(\"file:///android_res/font/misaeng_font.ttf\")"  +
+                "    }";
+
+        String fontFamily = "";
+        if(nFont == 0)
+        {
+            fontFamily =  "body{ font-family:NanumSquareOTFR }";
+
+        }
+        else if(nFont == 1)
+        {
+            fontFamily =  "body{ font-family:NanumMyeongjoOTF }";
+
+        }
+        else if(nFont == 2)
+        {
+            fontFamily =  "body{ font-family:NanumSquareRoundOTFR }";
+
+        }
+        else if(nFont == 3)
+        {
+            fontFamily =  "body{ font-family:SDMiSaeng }";
+
+        }
+
+        String text = "<html><head>"
+                + "<style type=\"text/css\">body{ background-color:#ffffff; color: black }"
+                + font
+                + fontFamily
+                + fontSize
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+        //   webview.setBackgroundColor(Color.parseColor("#404040"));
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        //    webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
 
     }
     void setBack1()
@@ -243,6 +314,65 @@ public class WebWorkFragment extends Fragment {
         backCk4.setVisibility(View.INVISIBLE);
         backCk5.setVisibility(View.INVISIBLE);
 
+        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+
+        nBack = 1;
+
+        String font= "  @font-face {\n" +
+                "        font-family: \"NanumSquareOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nn_square_font.ttf\")"  +
+                "    }" +
+                "  @font-face {\n" +
+                "        font-family: \"NanumMyeongjoOTF\";\n" +
+                "        src: url(\"file:///android_res/font/nnmyeongjo_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"NanumSquareRoundOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nnsquare_round_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"SDMiSaeng\";\n" +
+                "        src: url(\"file:///android_res/font/misaeng_font.ttf\")"  +
+                "    }";
+
+        String fontFamily = "";
+        if(nFont == 0)
+        {
+            fontFamily =  "body{ font-family:NanumSquareOTFR }";
+
+        }
+        else if(nFont == 1)
+        {
+            fontFamily =  "body{ font-family:NanumMyeongjoOTF }";
+
+        }
+        else if(nFont == 2)
+        {
+            fontFamily =  "body{ font-family:NanumSquareRoundOTFR }";
+
+        }
+        else if(nFont == 3)
+        {
+            fontFamily =  "body{ font-family:SDMiSaeng }";
+
+        }
+        String text = "<html><head>"
+                + "<style type=\"text/css\">body{ background-color:#efeff4; color: black }"
+                + font+ fontFamily
+                + fontSize
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+        //   webview.setBackgroundColor(Color.parseColor("#404040"));
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        //    webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
+
+
     }
     void setBack2()
     {
@@ -252,6 +382,63 @@ public class WebWorkFragment extends Fragment {
         backCk3.setVisibility(View.INVISIBLE);
         backCk4.setVisibility(View.INVISIBLE);
         backCk5.setVisibility(View.INVISIBLE);
+        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+
+        nBack = 2;
+        String font= "  @font-face {\n" +
+                "        font-family: \"NanumSquareOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nn_square_font.ttf\")"  +
+                "    }" +
+                "  @font-face {\n" +
+                "        font-family: \"NanumMyeongjoOTF\";\n" +
+                "        src: url(\"file:///android_res/font/nnmyeongjo_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"NanumSquareRoundOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nnsquare_round_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"SDMiSaeng\";\n" +
+                "        src: url(\"file:///android_res/font/misaeng_font.ttf\")"  +
+                "    }";
+
+        String fontFamily = "";
+        if(nFont == 0)
+        {
+            fontFamily =  "body{ font-family:NanumSquareOTFR }";
+
+        }
+        else if(nFont == 1)
+        {
+            fontFamily =  "body{ font-family:NanumMyeongjoOTF }";
+
+        }
+        else if(nFont == 2)
+        {
+            fontFamily =  "body{ font-family:NanumSquareRoundOTFR }";
+
+        }
+        else if(nFont == 3)
+        {
+            fontFamily =  "body{ font-family:SDMiSaeng }";
+
+        }
+        String text = "<html><head>"
+                + "<style type=\"text/css\">body{ background-color:#fcf3de; color: black }"
+                + font
+                + fontFamily
+                + fontSize
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+        //   webview.setBackgroundColor(Color.parseColor("#404040"));
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        //    webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
 
     }
     void setBack3()
@@ -263,6 +450,64 @@ public class WebWorkFragment extends Fragment {
         backCk4.setVisibility(View.INVISIBLE);
         backCk5.setVisibility(View.INVISIBLE);
 
+        nBack = 3;
+        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+
+        String font= "  @font-face {\n" +
+                "        font-family: \"NanumSquareOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nn_square_font.ttf\")"  +
+                "    }" +
+                "  @font-face {\n" +
+                "        font-family: \"NanumMyeongjoOTF\";\n" +
+                "        src: url(\"file:///android_res/font/nnmyeongjo_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"NanumSquareRoundOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nnsquare_round_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"SDMiSaeng\";\n" +
+                "        src: url(\"file:///android_res/font/misaeng_font.ttf\")"  +
+                "    }";
+
+        String fontFamily = "";
+        if(nFont == 0)
+        {
+            fontFamily =  "body{ font-family:NanumSquareOTFR }";
+
+        }
+        else if(nFont == 1)
+        {
+            fontFamily =  "body{ font-family:NanumMyeongjoOTF }";
+
+        }
+        else if(nFont == 2)
+        {
+            fontFamily =  "body{ font-family:NanumSquareRoundOTFR }";
+
+        }
+        else if(nFont == 3)
+        {
+            fontFamily =  "body{ font-family:SDMiSaeng }";
+
+        }
+        String text = "<html><head>"
+                + "<style type=\"text/css\">body{ background-color:#edfdee; color: black }"
+                + font
+                + fontFamily
+                + fontSize
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+        //   webview.setBackgroundColor(Color.parseColor("#404040"));
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        //    webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
+
     }
     void setBack4()
     {
@@ -272,6 +517,75 @@ public class WebWorkFragment extends Fragment {
         backCk3.setVisibility(View.INVISIBLE);
         backCk4.setVisibility(View.VISIBLE);
         backCk5.setVisibility(View.INVISIBLE);
+
+        nBack = 4;
+        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+
+        String font= "  @font-face {\n" +
+                "        font-family: \"NanumSquareOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nn_square_font.ttf\")"  +
+                "    }" +
+                "  @font-face {\n" +
+                "        font-family: \"NanumMyeongjoOTF\";\n" +
+                "        src: url(\"file:///android_res/font/nnmyeongjo_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"NanumSquareRoundOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nnsquare_round_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"SDMiSaeng\";\n" +
+                "        src: url(\"file:///android_res/font/misaeng_font.ttf\")"  +
+                "    }";
+
+        String fontFamily = "";
+        if(nFont == 0)
+        {
+            fontFamily =  "body{ font-family:NanumSquareOTFR }";
+
+        }
+        else if(nFont == 1)
+        {
+            fontFamily =  "body{ font-family:NanumMyeongjoOTF }";
+
+        }
+        else if(nFont == 2)
+        {
+            fontFamily =  "body{ font-family:NanumSquareRoundOTFR }";
+
+        }
+        else if(nFont == 3)
+        {
+            fontFamily =  "body{ font-family:SDMiSaeng }";
+
+        }
+        String text = "<html><head>"
+                + "<style type=\"text/css\">body{ background-color:#404040; color: white }"
+                + font
+                + fontFamily
+                + fontSize
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+     //   webview.setBackgroundColor(Color.parseColor("#404040"));
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+    //    webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
+        /*
+        webview.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                view.loadUrl(
+                        "javascript:document.body.style.setProperty(\"color\", \"white\");"
+                );
+            }
+        });
+
+
+         */
 
     }
     void setBack5()
@@ -283,6 +597,64 @@ public class WebWorkFragment extends Fragment {
         backCk4.setVisibility(View.INVISIBLE);
         backCk5.setVisibility(View.VISIBLE);
 
+        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+
+        nBack = 5;
+        String font= "  @font-face {\n" +
+                "        font-family: \"NanumSquareOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nn_square_font.ttf\")"  +
+                "    }" +
+                "  @font-face {\n" +
+                "        font-family: \"NanumMyeongjoOTF\";\n" +
+                "        src: url(\"file:///android_res/font/nnmyeongjo_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"NanumSquareRoundOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nnsquare_round_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"SDMiSaeng\";\n" +
+                "        src: url(\"file:///android_res/font/misaeng_font.ttf\")"  +
+                "    }";
+
+        String fontFamily = "";
+        if(nFont == 0)
+        {
+            fontFamily =  "body{ font-family:NanumSquareOTFR }";
+
+        }
+        else if(nFont == 1)
+        {
+            fontFamily =  "body{ font-family:NanumMyeongjoOTF }";
+
+        }
+        else if(nFont == 2)
+        {
+            fontFamily =  "body{ font-family:NanumSquareRoundOTFR }";
+
+        }
+        else if(nFont == 3)
+        {
+            fontFamily =  "body{ font-family:SDMiSaeng }";
+
+        }
+        String text = "<html><head>"
+                + "<style type=\"text/css\">body{ background-color:#191919; color: white }"
+                + font
+                + fontFamily
+                + fontSize
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+        //   webview.setBackgroundColor(Color.parseColor("#404040"));
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        //    webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
+
     }
     void setFont0()
     {
@@ -290,6 +662,106 @@ public class WebWorkFragment extends Fragment {
         fontCk1.setVisibility(View.INVISIBLE);
         fontCk2.setVisibility(View.INVISIBLE);
         fontCk3.setVisibility(View.INVISIBLE);
+        nFont = 0;
+/*
+        @font-face
+        {
+            font-family: 'SDMiSaeng';
+            src: local('SDMiSaeng'),url('SDMiSaeng.ttf') format('truetype');
+        }
+        @font-face
+        {
+            font-family: 'NanumSquareRoundR';
+            src: local('NanumSquareRoundR'),url('NanumSquareRoundR.ttf') format('truetype');
+        }
+        @font-face
+        {
+            font-family: 'AppleMyungjo';
+            src: local('AppleMyungjo'),url('AppleMyungjo.ttf') format('truetype');
+        }
+        @font-face
+        {
+            font-family: 'AppleSDGothicNeoL00';
+            src: local('AppleSDGothicNeoL00'),url('AppleSDGothicNeoL.ttf') format('truetype');
+        }
+
+        body
+        {
+            font-size: 56px;
+            font-weight: normal;
+
+        }
+
+ */
+        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+
+        String font= "  @font-face {\n" +
+                "        font-family: \"NanumSquareOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nn_square_font.ttf\")"  +
+                "    }" +
+                "  @font-face {\n" +
+                "        font-family: \"NanumMyeongjoOTF\";\n" +
+                "        src: url(\"file:///android_res/font/nnmyeongjo_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"NanumSquareRoundOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nnsquare_round_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"SDMiSaeng\";\n" +
+                "        src: url(\"file:///android_res/font/misaeng_font.ttf\")"  +
+                "    }";
+
+        String back = "";
+        if(nBack == 0)
+        {
+            back = "body{ background-color:#ffffff ;color:black}";
+
+        }
+        else if(nBack == 1)
+        {
+            back = "body{ background-color:#efeff4 ;color:black}";
+
+        }
+        else if(nBack == 2)
+        {
+            back = "body{ background-color:#fcf3de ;color:black}";
+
+        }
+        else if(nBack == 3)
+        {
+            back = "body{ background-color:#edfdee ;color:black}";
+
+        }
+        else if(nBack == 4)
+        {
+            back = "body{ background-color:#404040 ;color:white}";
+
+        }
+        else if(nBack == 5)
+        {
+            back = "body{ background-color:#191919 ;color:white}";
+
+        }
+
+        String text = "<html><head>"
+                + "<style type=\"text/css\">"
+                + font
+                + "body{ font-family:NanumSquareOTFR }"
+                + back
+                + fontSize
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+        //   webview.setBackgroundColor(Color.parseColor("#404040"));
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        //    webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
+
 
     }
     void setFont1()
@@ -299,6 +771,77 @@ public class WebWorkFragment extends Fragment {
         fontCk2.setVisibility(View.INVISIBLE);
         fontCk3.setVisibility(View.INVISIBLE);
 
+        nFont = 1;
+
+        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+
+        String font= "  @font-face {\n" +
+                "        font-family: \"NanumSquareOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nn_square_font.ttf\")"  +
+                "    }" +
+                "  @font-face {\n" +
+                "        font-family: \"NanumMyeongjoOTF\";\n" +
+                "        src: url(\"file:///android_res/font/nnmyeongjo_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"NanumSquareRoundOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nnsquare_round_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"SDMiSaeng\";\n" +
+                "        src: url(\"file:///android_res/font/misaeng_font.ttf\")"  +
+                "    }";
+        String back = "";
+        if(nBack == 0)
+        {
+            back = "body{ background-color:#ffffff ;color:black}";
+
+        }
+        else if(nBack == 1)
+        {
+            back = "body{ background-color:#efeff4 ;color:black}";
+
+        }
+        else if(nBack == 2)
+        {
+            back = "body{ background-color:#fcf3de ;color:black}";
+
+        }
+        else if(nBack == 3)
+        {
+            back = "body{ background-color:#edfdee ;color:black}";
+
+        }
+        else if(nBack == 4)
+        {
+            back = "body{ background-color:#404040 ;color:white}";
+
+        }
+        else if(nBack == 5)
+        {
+            back = "body{ background-color:#191919 ;color:white}";
+
+        }
+
+        String text = "<html><head>"
+                + "<style type=\"text/css\">"
+                + font
+                + "body{ font-family:NanumMyeongjoOTF }"
+                + back
+                + fontSize
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+        //   webview.setBackgroundColor(Color.parseColor("#404040"));
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        //    webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
+
+
     }
     void setFont2()
     {
@@ -306,6 +849,75 @@ public class WebWorkFragment extends Fragment {
         fontCk1.setVisibility(View.INVISIBLE);
         fontCk2.setVisibility(View.VISIBLE);
         fontCk3.setVisibility(View.INVISIBLE);
+        nFont = 2;
+        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+
+        String font= "  @font-face {\n" +
+                "        font-family: \"NanumSquareOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nn_square_font.ttf\")"  +
+                "    }" +
+                "  @font-face {\n" +
+                "        font-family: \"NanumMyeongjoOTF\";\n" +
+                "        src: url(\"file:///android_res/font/nnmyeongjo_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"NanumSquareRoundOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nnsquare_round_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"SDMiSaeng\";\n" +
+                "        src: url(\"file:///android_res/font/misaeng_font.ttf\")"  +
+                "    }";
+
+        String back = "";
+        if(nBack == 0)
+        {
+            back = "body{ background-color:#ffffff ;color:black}";
+
+        }
+        else if(nBack == 1)
+        {
+            back = "body{ background-color:#efeff4 ;color:black}";
+
+        }
+        else if(nBack == 2)
+        {
+            back = "body{ background-color:#fcf3de ;color:black}";
+
+        }
+        else if(nBack == 3)
+        {
+            back = "body{ background-color:#edfdee ;color:black}";
+
+        }
+        else if(nBack == 4)
+        {
+            back = "body{ background-color:#404040 ;color:white}";
+
+        }
+        else if(nBack == 5)
+        {
+            back = "body{ background-color:#191919 ;color:white}";
+
+        }
+
+        String text = "<html><head>"
+                + "<style type=\"text/css\">"
+                + font
+                + back
+                + fontSize
+                + "body{ font-family:NanumSquareRoundOTFR }"
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+        //   webview.setBackgroundColor(Color.parseColor("#404040"));
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        //    webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
 
     }
     void setFont3()
@@ -315,8 +927,301 @@ public class WebWorkFragment extends Fragment {
         fontCk2.setVisibility(View.INVISIBLE);
         fontCk3.setVisibility(View.VISIBLE);
 
+        nFont = 3;
+
+        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+
+        String font= "  @font-face {\n" +
+                "        font-family: \"NanumSquareOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nn_square_font.ttf\")"  +
+                "    }" +
+                "  @font-face {\n" +
+                "        font-family: \"NanumMyeongjoOTF\";\n" +
+                "        src: url(\"file:///android_res/font/nnmyeongjo_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"NanumSquareRoundOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nnsquare_round_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"SDMiSaeng\";\n" +
+                "        src: url(\"file:///android_res/font/misaeng_font.ttf\")"  +
+                "    }";
+
+        String back = "";
+        if(nBack == 0)
+        {
+            back = "body{ background-color:#ffffff ;color:black}";
+
+        }
+        else if(nBack == 1)
+        {
+            back = "body{ background-color:#efeff4 ;color:black}";
+
+        }
+        else if(nBack == 2)
+        {
+            back = "body{ background-color:#fcf3de ;color:black}";
+
+        }
+        else if(nBack == 3)
+        {
+            back = "body{ background-color:#edfdee ;color:black}";
+
+        }
+        else if(nBack == 4)
+        {
+            back = "body{ background-color:#404040 ;color:white}";
+
+        }
+        else if(nBack == 5)
+        {
+            back = "body{ background-color:#191919 ;color:white}";
+
+        }
+
+        String text = "<html><head>"
+                + "<style type=\"text/css\">"
+                + font
+                + "body{ font-family:SDMiSaeng }"
+                + back
+                + fontSize
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+        //   webview.setBackgroundColor(Color.parseColor("#404040"));
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        //    webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
+
     }
 
+    void setIncreaseFont()
+    {
+
+        fontSizeStep ++;
+        if(fontSizeStep > 4)
+        {
+            fontSizeStep = 4;
+        }
+        else
+        {
+            defaultFontSize =   (1+ 0.2f * fontSizeStep) * defaultFontSize;
+
+        }
+
+
+
+         String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+
+        String font= "  @font-face {\n" +
+                "        font-family: \"NanumSquareOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nn_square_font.ttf\")"  +
+                "    }" +
+                "  @font-face {\n" +
+                "        font-family: \"NanumMyeongjoOTF\";\n" +
+                "        src: url(\"file:///android_res/font/nnmyeongjo_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"NanumSquareRoundOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nnsquare_round_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"SDMiSaeng\";\n" +
+                "        src: url(\"file:///android_res/font/misaeng_font.ttf\")"  +
+                "    }";
+
+        String fontFamily = "";
+        if(nFont == 0)
+        {
+            fontFamily =  "body{ font-family:NanumSquareOTFR }";
+
+        }
+        else if(nFont == 1)
+        {
+            fontFamily =  "body{ font-family:NanumMyeongjoOTF }";
+
+        }
+        else if(nFont == 2)
+        {
+            fontFamily =  "body{ font-family:NanumSquareRoundOTFR }";
+
+        }
+        else if(nFont == 3)
+        {
+            fontFamily =  "body{ font-family:SDMiSaeng }";
+
+        }
+        String back = "";
+        if(nBack == 0)
+        {
+            back = "body{ background-color:#ffffff ;color:black}";
+
+        }
+        else if(nBack == 1)
+        {
+            back = "body{ background-color:#efeff4 ;color:black}";
+
+        }
+        else if(nBack == 2)
+        {
+            back = "body{ background-color:#fcf3de ;color:black}";
+
+        }
+        else if(nBack == 3)
+        {
+            back = "body{ background-color:#edfdee ;color:black}";
+
+        }
+        else if(nBack == 4)
+        {
+            back = "body{ background-color:#404040 ;color:white}";
+
+        }
+        else if(nBack == 5)
+        {
+            back = "body{ background-color:#191919 ;color:white}";
+
+        }
+
+        String text = "<html><head>"
+                + "<style type=\"text/css\">"
+                + font
+                + fontFamily
+                + back
+                + fontSize
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+        //   webview.setBackgroundColor(Color.parseColor("#404040"));
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        //    webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
+
+    }
+    void setDecreaseFont()
+    {
+        fontSizeStep --;
+        if(fontSizeStep < 0)
+        {
+            fontSizeStep = 0;
+        }
+        defaultFontSize =   (1- 0.2f * fontSizeStep) * defaultFontSize;
+
+        //  defaultFontSize =  defaultFontSize + (0.02f * (float)fontSizeStep) * defaultFontSize;
+        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+
+        String font= "  @font-face {\n" +
+                "        font-family: \"NanumSquareOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nn_square_font.ttf\")"  +
+                "    }" +
+                "  @font-face {\n" +
+                "        font-family: \"NanumMyeongjoOTF\";\n" +
+                "        src: url(\"file:///android_res/font/nnmyeongjo_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"NanumSquareRoundOTFR\";\n" +
+                "        src: url(\"file:///android_res/font/nnsquare_round_font.ttf\")"  +
+                "    }"+
+                "  @font-face {\n" +
+                "        font-family: \"SDMiSaeng\";\n" +
+                "        src: url(\"file:///android_res/font/misaeng_font.ttf\")"  +
+                "    }";
+
+        String fontFamily = "";
+        if(nFont == 0)
+        {
+            fontFamily =  "body{ font-family:NanumSquareOTFR }";
+
+        }
+        else if(nFont == 1)
+        {
+            fontFamily =  "body{ font-family:NanumMyeongjoOTF }";
+
+        }
+        else if(nFont == 2)
+        {
+            fontFamily =  "body{ font-family:NanumSquareRoundOTFR }";
+
+        }
+        else if(nFont == 3)
+        {
+            fontFamily =  "body{ font-family:SDMiSaeng }";
+
+        }
+        String back = "";
+        if(nBack == 0)
+        {
+            back = "body{ background-color:#ffffff ;color:black}";
+
+        }
+        else if(nBack == 1)
+        {
+            back = "body{ background-color:#efeff4 ;color:black}";
+
+        }
+        else if(nBack == 2)
+        {
+            back = "body{ background-color:#fcf3de ;color:black}";
+
+        }
+        else if(nBack == 3)
+        {
+            back = "body{ background-color:#edfdee ;color:black}";
+
+        }
+        else if(nBack == 4)
+        {
+            back = "body{ background-color:#404040 ;color:white}";
+
+        }
+        else if(nBack == 5)
+        {
+            back = "body{ background-color:#191919 ;color:white}";
+
+        }
+
+        String text = "<html><head>"
+                + "<style type=\"text/css\">"
+                + font
+                + fontFamily
+                + back
+                + fontSize
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+        //   webview.setBackgroundColor(Color.parseColor("#404040"));
+
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        //    webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
+
+    }
+    public void onClickDecreaseFont(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickDecreaseFont(view);
+
+
+    }
+    public void onClickIncreaseFont(View view) {
+
+        WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
+        parent.onClickIncreaseFont(view);
+
+
+    }
     public void onClickBack0(View view) {
 
         WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
@@ -437,6 +1342,7 @@ public class WebWorkFragment extends Fragment {
         initLayout();
         webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
 
+        webview.getSettings().setDomStorageEnabled(true);
 
         mDetector = new GestureDetector(getActivity(), new MyGestureListener());
         webview.setLongClickable(false);
