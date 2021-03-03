@@ -24,10 +24,24 @@ public class MarketVO implements Serializable {
     private String writerId;
     private String userId;
     private String strField;
+    private String strGenre;
+    private String strTag;
 
 
     public MarketVO() {
 
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
+    public void setStrGenre(String strGenre) {
+        this.strGenre = strGenre;
+    }
+
+    public void setStrTag(String strTag) {
+        this.strTag = strTag;
     }
 
     public void setCopywright0(String copywright0) {
@@ -116,6 +130,14 @@ public class MarketVO implements Serializable {
         this.writerId = writerId;
     }
 
+
+    public String getStrGenre() {
+        return strGenre;
+    }
+
+    public String getStrTag() {
+        return strTag;
+    }
 
     public String getTitle(){ return title;}
     public String getCover(){ return cover;}

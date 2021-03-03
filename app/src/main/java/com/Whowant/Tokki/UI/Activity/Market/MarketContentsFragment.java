@@ -75,6 +75,7 @@ public class MarketContentsFragment extends Fragment {
     RecyclerView recyclerView;
 
     public int position = 0;
+    public int topPosition = 0;
 
     public MarketContentsFragment() {
         // Required empty public constructor
@@ -123,24 +124,32 @@ public class MarketContentsFragment extends Fragment {
 
     public void Update(int pos, String content)
     {
-        if(pos > 0)
+        if(topPosition == 0)
         {
+            if(pos > 0)
+            {
 
-            getMarketDataSort(content);
+                getMarketDataSort(content);
+            }
+            else
+            {
+                getMarketData();
+            }
         }
-        else
-        {
-            getMarketData();
-        }
+
 
     }
     @Override
     public void onResume() {
         super.onResume();
-        if(position == 0)
+        if(topPosition == 0)
         {
-            getMarketData();
+            if(position == 0)
+            {
+                getMarketData();
+            }
         }
+
 
     }
     private void getMarketDataSort(String field) {

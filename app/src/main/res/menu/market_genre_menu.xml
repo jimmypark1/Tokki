@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/drama"
-        android:title="드라마"/>
+        android:id="@+id/horror"
+        android:title="호러"/>
 
     <item
-        android:id="@+id/web_drama"
-        android:title="웹드라마"/>
+        android:id="@+id/romance"
+        android:title="로맨스"/>
 
     <item
-        android:id="@+id/screen"
-        android:title="영화"/>
+        android:id="@+id/action"
+        android:title="액션"/>
     <item
-        android:id="@+id/publish"
-        android:title="출판"/>
+        android:id="@+id/fanfic"
+        android:title="펜픽"/>
     <item
-        android:id="@+id/comic"
-        android:title="만화(웹툰)"/>
-    <item
-        android:id="@+id/animation"
-        android:title="출판"/>
-    <item
-        android:id="@+id/performance"
-        android:title="공연"/>
-    <item
-        android:id="@+id/etc"
-        android:title="기타"/>
+        android:id="@+id/bl"
+        android:title="BL"/>
+
 
 </menu>

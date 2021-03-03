@@ -63,7 +63,8 @@
         app:tabGravity="center"
         app:tabIndicatorColor="@color/colorPrimary"
         app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/colorPrimary" />
+        app:tabTextColor="#767676"
+        app:tabSelectedTextColor="#222222" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_below="@+id/tabLayout"

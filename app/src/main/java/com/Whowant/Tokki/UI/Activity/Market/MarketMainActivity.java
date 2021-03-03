@@ -37,6 +37,8 @@ public class MarketMainActivity extends AppCompatActivity {
     private RecyclerView mHorizontalView;
     private HorizontalAdapter mAdapter;
     public int selectedIndex = 0;
+    public int selectedTopIndex = 0;
+
     ArrayList<HorizontalData> data = new ArrayList<>();
     ArrayList<String> datas = new ArrayList<String>();
 
@@ -63,6 +65,8 @@ public class MarketMainActivity extends AppCompatActivity {
 
         mAdapter = new HorizontalAdapter();
 
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         data.add(new HorizontalData( "전체",0));
         data.add(new HorizontalData( "드라마",1));
@@ -90,10 +94,13 @@ public class MarketMainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int pos = tab.getPosition();
+                selectedTopIndex = pos;
                 data.clear();
                 if(pos == 0)
                 {
                     selectedIndex = 0;
+                    selectedTopIndex = 0;
+
                     data.add(new HorizontalData( "전체",0));
                     data.add(new HorizontalData( "드라마",1));
                     data.add(new HorizontalData( "웹드라마",2));
@@ -102,6 +109,10 @@ public class MarketMainActivity extends AppCompatActivity {
                     data.add(new HorizontalData( "만화",5));
                     mAdapter.setData(data);
                     mAdapter.notifyDataSetChanged();
+
+                    MarketContentsFragment fragment =  (MarketContentsFragment)pagerAdapter.getItem(selectedTopIndex);
+                    fragment.topPosition = selectedTopIndex;
+
                     viewPager.setCurrentItem(pos);
                     scrollCenter();
 
@@ -109,6 +120,7 @@ public class MarketMainActivity extends AppCompatActivity {
                 else if(pos == 1)
                 {
                     selectedIndex = 0;
+                    selectedTopIndex = 1;
 
                     data.add(new HorizontalData( "전체",0));
                     data.add(new HorizontalData( "호러",1));
@@ -118,14 +130,20 @@ public class MarketMainActivity extends AppCompatActivity {
                     data.add(new HorizontalData( "BL",5));
                     mAdapter.setData(data);
                     mAdapter.notifyDataSetChanged();
+
+                    //      fragment.Update(selectedIndex,hField.getText());
                     viewPager.setCurrentItem(pos);
                     scrollCenter();
+
+                    pagerAdapter.notifyDataSetChanged();
 
                 }
                 else if(pos == 2)
                 {
-                    viewPager.setCurrentItem(pos);
                     selectedIndex = 0;
+                    selectedTopIndex = 2;
+
+                    viewPager.setCurrentItem(pos);
 
                     new Thread(new Runnable() {
                         @Override
@@ -323,8 +341,21 @@ public class MarketMainActivity extends AppCompatActivity {
                 }
             }
             HorizontalData hField =  (HorizontalData)data.get(selectedIndex);
-            MarketContentsFragment fragment =  (MarketContentsFragment)pagerAdapter.getItem(0);
-            fragment.Update(selectedIndex,hField.getText());
+            if(selectedTopIndex == 0)
+            {
+                MarketContentsFragment fragment =  (MarketContentsFragment)pagerAdapter.getItem(selectedTopIndex);
+                fragment.topPosition = selectedTopIndex;
+                fragment.Update(selectedIndex,hField.getText());
+
+            }
+            else if(selectedTopIndex == 1)
+            {
+                MarketGenreFragment fragment =  (MarketGenreFragment)pagerAdapter.getItem(selectedTopIndex);
+                fragment.topPosition = selectedTopIndex;
+                fragment.Update(selectedIndex,hField.getText());
+
+            }
+
 
             pagerAdapter.notifyDataSetChanged();
             //mHorizontalView.smoothScrollToPosition(selectedIndex);

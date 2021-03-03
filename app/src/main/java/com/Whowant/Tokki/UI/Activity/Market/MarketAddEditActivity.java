@@ -51,11 +51,14 @@ public class MarketAddEditActivity extends AppCompatActivity {
     LinearLayout priceFrame1;
     LinearLayout preceAboveInfoFrame;
     TextView field;
+    TextView genre;
+
     TextView carrotNum;
     TextView priceDetail;
 
 
     String strField = "";
+    String strGenre = "";
 
 
 
@@ -82,6 +85,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
         preceAboveInfoFrame = findViewById(R.id.price_above_info_frame);
 
         field = findViewById(R.id.field);
+        genre = findViewById(R.id.genre);
         carrotNum = findViewById(R.id.price_info0);
         priceDetail= findViewById(R.id.price_info1);
 
@@ -211,34 +215,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
 
         popup.getMenuInflater().inflate(R.menu.market_field_menu, popup.getMenu());
 
-/*
-  <item
-        android:id="@+id/drama"
-        android:title="드라마"/>
 
-    <item
-        android:id="@+id/web_drama"
-        android:title="웹드라마"/>
-
-    <item
-        android:id="@+id/screen"
-        android:title="영화"/>
-    <item
-        android:id="@+id/publish"
-        android:title="출판"/>
-    <item
-        android:id="@+id/comic"
-        android:title="만화(웹툰)"/>
-    <item
-        android:id="@+id/animation"
-        android:title="애니매이션"/>
-    <item
-        android:id="@+id/performance"
-        android:title="공연"/>
-    <item
-        android:id="@+id/etc"
-        android:title="기타"/>
- */
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -350,14 +327,8 @@ public class MarketAddEditActivity extends AppCompatActivity {
 
 
                         break;
-                    case R.id.etc:
-                        nField = 7;
-                        strField  = item.getTitle().toString();
-                        field.setText(item.getTitle());
 
-
-                        break;
-                }
+                   }
                 return true;
             }
         });
@@ -368,7 +339,136 @@ public class MarketAddEditActivity extends AppCompatActivity {
     //int nCarrot = data.getPrice() / 120;
     public void onClickWantToGenre(View view) {
 
+        PopupMenu popup = new PopupMenu(MarketAddEditActivity.this, genreDownBt);
 
+        popup.getMenuInflater().inflate(R.menu.market_genre_menu, popup.getMenu());
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+
+                ArrayList<String> ret = HttpClient.getFieldForWork(new OkHttpClient(),String.valueOf(work.getnWorkID()));
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+
+                        for(int i=0;i<ret.size();i++)
+                        {
+                            String field = ret.get(i);
+                            if(field.equals("호러"))
+                            {
+                                popup.getMenu().removeItem(R.id.drama);
+
+                            }
+                            else if(field.equals("로맨스"))
+                            {
+                                popup.getMenu().removeItem(R.id.web_drama);
+
+                            }
+
+                            else if(field.equals("액션"))
+                            {
+                                popup.getMenu().removeItem(R.id.screen);
+
+                            }
+                            else if(field.equals("펜픽"))
+                            {
+                                popup.getMenu().removeItem(R.id.publish);
+
+                            }
+                            else if(field.equals("BL"))
+                            {
+                                popup.getMenu().removeItem(R.id.comic);
+
+                            }
+                            else if(field.equals("애니매이션"))
+                            {
+                                popup.getMenu().removeItem(R.id.animation);
+
+                            }
+                            else if(field.equals("공연"))
+                            {
+                                popup.getMenu().removeItem(R.id.performance);
+
+                            }
+                        }
+
+                    }
+                });
+            }
+        }).start();
+
+/*
+ <item
+        android:id="@+id/horror"
+        android:title="호러"/>
+
+    <item
+        android:id="@+id/romance"
+        android:title="로맨스"/>
+
+    <item
+        android:id="@+id/action"
+        android:title="액션"/>
+    <item
+        android:id="@+id/fanfic"
+        android:title="펜픽"/>
+    <item
+        android:id="@+id/bl"
+        android:title="BL"/>
+
+ */
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = null;
+                // AlertDialog.Builder builder = new AlertDialog.Builder(AproveWaitingEpisodeListActivity.this);
+                // AlertDialog alertDialog = null;
+
+                switch(item.getItemId()) {
+                    case R.id.horror:
+                        nGenre = 0;
+                        strGenre  = item.getTitle().toString();
+                        genre.setText(item.getTitle());
+                        break;
+                    case R.id.romance:
+                        nGenre = 1;
+                        strGenre  = item.getTitle().toString();
+                        genre.setText(item.getTitle());
+
+                        break;
+                    case R.id.action:
+                        nGenre = 2;
+                        strGenre  = item.getTitle().toString();
+                        genre.setText(item.getTitle());
+
+
+                        break;
+                    case R.id.fanfic:
+                        nGenre = 3;
+                        strGenre  = item.getTitle().toString();
+                        genre.setText(item.getTitle());
+
+
+                        break;
+                    case R.id.bl:
+                        nGenre = 4;
+                        strGenre  = item.getTitle().toString();
+                        genre.setText(item.getTitle());
+
+
+                        break;
+
+
+                }
+                return true;
+            }
+        });
+
+        popup.show();//showing popup menu
 
     }
     public void onClickRegister(View view) {
@@ -417,6 +517,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
                 market.setPrice(Integer.parseInt(priceInput.getText().toString()));
                 market.setField(nField);
                 market.setCareer(work.getStrCareer());
+                market.setStrGenre(strGenre);
 
                 boolean ret = HttpClient.registerWorkOnMarket(new OkHttpClient(),market);
 
