@@ -355,7 +355,13 @@ public class MarketMainActivity extends AppCompatActivity {
                 fragment.Update(selectedIndex,hField.getText());
 
             }
+            else if(selectedTopIndex == 2)
+            {
+                MarketTagFragment fragment =  (MarketTagFragment)pagerAdapter.getItem(selectedTopIndex);
+                fragment.topPosition = selectedTopIndex;
+                fragment.Update(selectedIndex,hField.getText());
 
+            }
 
             pagerAdapter.notifyDataSetChanged();
             //mHorizontalView.smoothScrollToPosition(selectedIndex);

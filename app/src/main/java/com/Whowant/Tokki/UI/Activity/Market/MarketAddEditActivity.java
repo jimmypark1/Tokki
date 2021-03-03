@@ -52,6 +52,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
     LinearLayout preceAboveInfoFrame;
     TextView field;
     TextView genre;
+    TextView tag;
 
     TextView carrotNum;
     TextView priceDetail;
@@ -59,6 +60,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
 
     String strField = "";
     String strGenre = "";
+    String strTag = "";
 
 
 
@@ -88,6 +90,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
         genre = findViewById(R.id.genre);
         carrotNum = findViewById(R.id.price_info0);
         priceDetail= findViewById(R.id.price_info1);
+        tag = findViewById(R.id.tag);
 
 
         synopsis = findViewById(R.id.tv_row_literature_contents);
@@ -471,6 +474,45 @@ public class MarketAddEditActivity extends AppCompatActivity {
         popup.show();//showing popup menu
 
     }
+    public void onClickWantToTag(View view) {
+
+        PopupMenu popup = new PopupMenu(MarketAddEditActivity.this, genreDownBt);
+
+      //  popup.getMenuInflater().inflate(R.menu.market_genre_menu, popup.getMenu());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<String> datas = HttpClient.getMarketTagRank(new OkHttpClient());
+
+                for(int i=0;i<datas.size();i++)
+                {
+                    String tag = datas.get(i);
+                    popup.getMenu().add(tag);
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        popup.show();//showing popup menu
+
+                    }
+                });
+
+
+            }
+         }).start();
+
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+
+                strTag  = item.getTitle().toString();
+                tag.setText(item.getTitle());
+
+                return true;
+            }
+        });
+
+
+    }
     public void onClickRegister(View view) {
 
 //registerWorkOnMarket
@@ -489,6 +531,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
                 market.setStatus(work.getStatus());
                 market.setWorkId(String.valueOf(work.getnWorkID()));
                 market.setCareer(work.getStrCareer());
+            //    market.setStrTag(work.());
                 if(work.getnOwner() == 0)
                 {
                     market.setCopyright0("본인소유");
@@ -518,6 +561,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
                 market.setField(nField);
                 market.setCareer(work.getStrCareer());
                 market.setStrGenre(strGenre);
+                market.setStrTag(strTag);
 
                 boolean ret = HttpClient.registerWorkOnMarket(new OkHttpClient(),market);
 

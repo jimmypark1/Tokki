@@ -37,9 +37,18 @@ public class WorkVO implements Serializable {
     private int nOwner = 0;                          // 본인소유 0 타인소유 1
     private String strCareer;                           // 작품 경력
 
+    private String strTag;                           //
 
     public WorkVO() {
 
+    }
+
+    public void setStrTag(String strTag) {
+        this.strTag = strTag;
+    }
+
+    public String getStrTag() {
+        return strTag;
     }
 
     public int getnCopyright() {

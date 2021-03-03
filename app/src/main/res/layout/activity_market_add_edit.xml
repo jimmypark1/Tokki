@@ -250,9 +250,70 @@
                     />
 
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tag_label"
+                android:layout_below="@+id/genreFrame"
+
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="관심있는 소재"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="#222222"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                />
+            <RelativeLayout
+                android:id="@+id/tagFrame"
+
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_below="@+id/tag_label"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="17dp"
+                android:background="@drawable/round_market_combo"
+
+                >
+                <TextView
+                    android:id="@+id/tag"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="관심있는 소재를 선택하세요"
+                    android:textStyle="normal"
+                    android:textSize="15sp"
+                    android:textColor="#191919"
+                    android:layout_centerVertical="true"
+                    android:onClick="onClickWantToTag"
+
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="50dp"
+
+                    />
+                <ImageView
+                    android:id="@+id/tageDown"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+
+                    android:onClick="onClickWantToTag"
+
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/i_down_arrow_gray"
+
+                    />
+
+            </RelativeLayout>
+
             <TextView
                 android:id="@+id/price_label"
-                android:layout_below="@+id/genreFrame"
+                android:layout_below="@+id/tagFrame"
 
                 android:layout_width="match_parent"
                 android:layout_height="20dp"

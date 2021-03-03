@@ -76,6 +76,7 @@ public class MarketVO implements Serializable {
         return writerId;
     }
 
+
     public void setTitle(String title) {
         this.title = title;
     }
