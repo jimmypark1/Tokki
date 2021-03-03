@@ -954,7 +954,32 @@ public class HttpClient {
             e.printStackTrace();
         }
     }
+    public static boolean setViewsOnMarket(OkHttpClient httpClient, String strWorkID) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=SetViewsOnMarket&WORK_ID=" + strWorkID )
+                .get()
+                .build();
 
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            if (resultObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+            else
+                return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+//VIEWS
     public static ArrayList<String> getAllGenreList(OkHttpClient httpClient) {
         ArrayList<String> resultList = new ArrayList<>();
 

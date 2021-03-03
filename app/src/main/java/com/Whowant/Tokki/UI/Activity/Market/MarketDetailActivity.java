@@ -170,7 +170,23 @@ public class MarketDetailActivity extends AppCompatActivity {
                 .into(cover);
 
 
+        setViews();
     }
+
+    void setViews()
+    {
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Boolean ret = HttpClient.setViewsOnMarket(new OkHttpClient(),market.getWorkId());
+
+
+            }
+        }).start();
+    }
+
     public void onClickTopLeftBtn(View view) {
         finish();
     }
