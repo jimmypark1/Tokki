@@ -191,7 +191,7 @@
 
 
                     <TextView
-                        android:id="@+id/synopsisView"
+                        android:id="@+id/writer_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -202,53 +202,42 @@
                         android:ellipsize="end"
                         android:textSize="13sp"
                         android:maxLines="2"
-                        android:text="간략한 시나리오를 설명하는 칸입니다. 시나리오가 이렇게 저렇게 어쩌구 저쩌구"/>
+                        android:text="Jimmy"/>
+
 
                     <TextView
-                        android:id="@+id/tag"
+                        android:id="@+id/synopsisView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
+                        android:layout_below="@+id/writer_name"
+                        android:layout_alignLeft="@+id/titleLayout"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#767676"
+                        android:ellipsize="end"
+                        android:textSize="13sp"
+                        android:maxLines="2"
+                        android:text="줄거리1234abcdefghijklmop"/>
+
+                    <TextView
+                        android:id="@+id/work_genre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/synopsisView"
                         android:layout_alignLeft="@+id/titleLayout"
+                        android:layout_marginTop="4dp"
                         android:layout_marginRight="10dp"
-                        android:textColor="#767676"
                         android:ellipsize="end"
-                        android:textSize="13sp"
                         android:maxLines="2"
-                        android:text="#로맨스 #호러"/>
+                        android:text="로맨스/ 호러"
+                        android:textColor="#767676"
+                        android:textSize="13sp" />
                     <TextView
-                        android:id="@+id/career"
+                        android:id="@+id/work_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_below="@+id/tag"
-                        android:layout_alignLeft="@+id/titleLayout"
-                        android:layout_marginRight="10dp"
-                        android:textColor="#767676"
-                        android:ellipsize="end"
-                        android:textSize="13sp"
-                        android:maxLines="2"
-                        android:text="네이버 우수상 수상, 조회수 30만회, 매출 1.2억"/>
-                    <TextView
-                        android:id="@+id/copyright0"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_below="@+id/career"
-                        android:layout_alignLeft="@+id/titleLayout"
-                        android:layout_marginRight="10dp"
-                        android:textColor="#767676"
-                        android:ellipsize="end"
-                        android:textSize="13sp"
-                        android:maxLines="2"
-                        android:text="저작권: 본인소유"/>
-                    <TextView
-                        android:id="@+id/copyright1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_below="@+id/copyright0"
+                        android:layout_below="@+id/work_genre"
                         android:layout_alignLeft="@+id/titleLayout"
                         android:layout_marginRight="10dp"
                         android:textColor="#767676"
@@ -293,13 +282,13 @@
                     android:ellipsize="end"
                     android:textSize="13sp"
                     android:maxLines="2"
-                    android:text="저작권"/>
+                    android:text="저작권:"/>
                 <TextView
                     android:id="@+id/owner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="11dp"
-                    android:layout_marginLeft="11dp"
+                    android:layout_marginLeft="2dp"
                     android:layout_below="@+id/line1"
                     android:layout_toRightOf="@+id/detail0"
                     android:layout_marginRight="10dp"
@@ -322,13 +311,13 @@
                     android:ellipsize="end"
                     android:textSize="13sp"
                     android:maxLines="2"
-                    android:text="판권"/>
+                    android:text="판권:"/>
                 <TextView
                     android:id="@+id/copyright"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="11dp"
-                    android:layout_marginLeft="11dp"
+                    android:layout_marginLeft="2dp"
                     android:layout_below="@+id/detail0"
                     android:layout_toRightOf="@+id/detail1"
                     android:layout_marginRight="10dp"
@@ -351,13 +340,13 @@
                     android:ellipsize="end"
                     android:textSize="13sp"
                     android:maxLines="2"
-                    android:text="작품경력"/>
+                    android:text="작품경력:"/>
                 <TextView
                     android:id="@+id/career1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="11dp"
-                    android:layout_marginLeft="11dp"
+                    android:layout_marginLeft="2dp"
                     android:layout_below="@+id/detail1"
                     android:layout_toRightOf="@+id/detail2"
                     android:layout_marginRight="10dp"
@@ -568,7 +557,7 @@
                     android:layout_below="@+id/line7"
                     android:layout_toRightOf="@+id/carrotView"
                     android:layout_marginRight="10dp"
-                    android:textColor="#767676"
+                    android:textColor="#191919"
                     android:ellipsize="end"
                     android:textSize="13sp"
                     android:maxLines="2"

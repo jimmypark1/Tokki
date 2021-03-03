@@ -1,8 +1,10 @@
 package com.Whowant.Tokki.UI.Activity.Market;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,6 +42,7 @@ public class MarketDetailActivity extends AppCompatActivity {
     private TextView price;
     Button sendBt;
 
+    TextView name;
     ImageView cover;
     MarketVO market;
     @Override
@@ -50,14 +53,16 @@ public class MarketDetailActivity extends AppCompatActivity {
         cover = findViewById(R.id.coverImgView);
         title = findViewById(R.id.titleView0);
         sypnosis = findViewById(R.id.synopsisView);
-        tag = findViewById(R.id.tag);
-        career = findViewById(R.id.career);
-        owner = findViewById(R.id.copyright0);
-        copyright = findViewById(R.id.copyright0);
+        //   tag = findViewById(R.id.tag);
+        //   career = findViewById(R.id.career);
+        owner = findViewById(R.id.work_genre);
+        copyright = findViewById(R.id.work_tag);
 
         owner1 = findViewById(R.id.owner);
         copyright1 = findViewById(R.id.copyright);
         career1 = findViewById(R.id.career1);
+
+        name = findViewById(R.id.writer_name);
 
         status = findViewById(R.id.statusLabel0);
         field = findViewById(R.id.statusView);
@@ -67,29 +72,21 @@ public class MarketDetailActivity extends AppCompatActivity {
         String userId = SimplePreference.getStringPreference(MarketDetailActivity.this, "USER_INFO", "USER_ID", "Guest");
 
 
-
-        market = (MarketVO)getIntent().getSerializableExtra("MARKET_DATA");
-        if(market.getWriteId().contains(userId))
-        {
+        market = (MarketVO) getIntent().getSerializableExtra("MARKET_DATA");
+        if (market.getWriteId().contains(userId)) {
             sendBt.setVisibility(View.GONE);
         }
         int nStatus = market.getStatus();
-        if(nStatus==0)
-        {
+        if (nStatus == 0) {
             status.setText("기획중");
-        }
-        else if(nStatus==1)
-        {
+        } else if (nStatus == 1) {
             status.setText("연재중");
-        }
-        else if(nStatus==2)
-        {
+        } else if (nStatus == 2) {
             status.setText("완결");
 
         }
         int nField = market.getField();
-        if(nField == 0)
-        {
+        if (nField == 0) {
             field.setText("영화");
 
         }
@@ -98,23 +95,71 @@ public class MarketDetailActivity extends AppCompatActivity {
 
          */
         long nPrice = market.getPrice();
-        int nCarrot = (int)nPrice / 120;
 
-        DecimalFormat formatter = new DecimalFormat("#,###,###");
-        String formattedPrice = formatter.format(market.getPrice());
-        price.setText( String.valueOf(nCarrot)+ "개 (" + formattedPrice +"원)");
+        int nCarrot = (int) nPrice / 120;
+        float div = (float) nPrice / 1000000f;
+        if (div > 1) {
+            sendBt.setText("거래요청");
+
+            ImageView carrotView = findViewById(R.id.carrotView);
+            ViewGroup.LayoutParams params = carrotView.getLayoutParams();
+            params.width = 0;
+            carrotView.setVisibility(View.GONE);
+            DecimalFormat formatter = new DecimalFormat("#,###,###");
+            String formattedPrice = formatter.format(market.getPrice());
+
+            price.setText(formattedPrice + "원");
+
+            TextView infoView = findViewById(R.id.messageInfo);
+            infoView.setText("거래요청을 하시면 토키 관리자가 중개를 지원해드립니다");
+            infoView.setTextColor(Color.parseColor("#767676"));
 
 
+        } else {
+            DecimalFormat formatter = new DecimalFormat("#,###,###");
+            String formattedPrice = formatter.format(market.getPrice());
+            price.setText(String.valueOf(nCarrot) + "개 (" + formattedPrice + "원)");
+
+            TextView infoView = findViewById(R.id.messageInfo);
+            infoView.setTextColor(Color.parseColor("#767676"));
+
+
+        }
+
+
+        name.setText(market.getName());
         title.setText(market.getTitle());
         sypnosis.setText(market.getSypnopsis());
-        tag.setText(market.getTag());
-        career.setText(market.getCareer());
-        owner.setText("저작권 :" +market.getCopyright0());
-        copyright.setText("판권 :" +market.getCopyright1());
+
+        //   career.setText(market.getCareer());
+
+        if (market.getGenre() != null && market.getGenre().length() > 0) {
+
+            String strGenre = market.getGenre();
+            strGenre = strGenre.replace(",", " / ");
+
+            owner.setText(strGenre);
+        } else
+            owner.setText("");
+
+
+        if (market.getTag() != null && market.getTag().length() > 0)
+            copyright.setText(market.getTag());
+        else
+            copyright.setText("");
 
         career1.setText(market.getCareer());
         owner1.setText(market.getCopyright0());
-        copyright1.setText(market.getCopyright1());
+        if (market.getCopyright1() != null && market.getCopyright1().length() > 0)
+        {
+            copyright1.setText("본인소유");
+
+        }
+        else
+        {
+            copyright1.setText("");
+
+        }
 
         String strCover = CommonUtils.strDefaultUrl + "images/" + market.getCover();
 
