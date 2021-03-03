@@ -1,6 +1,8 @@
 package com.Whowant.Tokki.VO;
 
-public class MessageVO {
+import java.io.Serializable;
+
+public class MessageVO implements Serializable {
     private int threadID;
     private int messageID;
     private String receiverID;

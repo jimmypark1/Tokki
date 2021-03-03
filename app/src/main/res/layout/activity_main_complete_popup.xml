@@ -259,6 +259,7 @@
                 android:textColor="#ffffff"
                 android:textStyle="normal"
                 android:background="@drawable/round_blue_market_message"
+                android:onClick="onClickOKBtn"
                 android:text="확인"/>
         </LinearLayout>
     </RelativeLayout>

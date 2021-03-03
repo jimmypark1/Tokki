@@ -30,6 +30,7 @@ import com.Whowant.Tokki.UI.Activity.Market.MarketDealPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.SimplePreference;
 import com.Whowant.Tokki.VO.ContestVO;
+import com.Whowant.Tokki.VO.MarketVO;
 import com.Whowant.Tokki.VO.MessageVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -59,6 +60,7 @@ public class MessageDetailActivity extends AppCompatActivity {
     int type = 0;
 
     String writeId = "";
+    String workTitle = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class MessageDetailActivity extends AppCompatActivity {
             dealBt.setVisibility(View.INVISIBLE);
         }
         writeId = getIntent().getStringExtra("WRITER_ID");
+        workTitle = getIntent().getStringExtra("WORK_TITLE");
 
         strReceiverID = getIntent().getStringExtra("RECEIVER_ID");
         strReceiverName = getIntent().getStringExtra("RECEIVER_NAME");
@@ -153,7 +156,7 @@ public class MessageDetailActivity extends AppCompatActivity {
                 String strCarrot = data.getStringExtra("CARROT");
                 int nCarrot = Integer.parseInt(strCarrot);
 
-              
+
                 if(nCarrot > 0)
                 {
                     String msg = "당근 " + strCarrot + "개로 거래를 제안합니다. 만족하시면 거래수락 버튼을 눌러주세요.";
@@ -172,6 +175,17 @@ public class MessageDetailActivity extends AppCompatActivity {
                     }
 
                 }
+
+            }
+            else if(requestCode == 2000 )
+            {
+//                let msg =  "결제가 완료되었습니다.\n" + "작품명 : " + parentCon.trading.title + "\n가격 : 당근 " + String(messageData.carrot) + " 개"
+
+                String strEnd = data.getStringExtra("MESSAGE_END");
+                int nCarrot = data.getIntExtra("CARROT_END",0);
+                String msg = strEnd + "작품명 : " + workTitle + "\n가격 : 당근 " + String.valueOf(nCarrot) + " 개";
+
+                requestSendMessage(msg.toString(),nCarrot,"B");
 
             }
 
@@ -362,6 +376,8 @@ public class MessageDetailActivity extends AppCompatActivity {
                             {
                                 // 결제하기
                                 Intent intent = new Intent(MessageDetailActivity.this, MainCompletePopup.class);
+                                intent.putExtra("MESSAGE_DATA", vo);
+
                                 startActivityForResult(intent,2000);
 
                             }

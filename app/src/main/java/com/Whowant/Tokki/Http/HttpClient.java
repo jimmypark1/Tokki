@@ -704,7 +704,6 @@ public class HttpClient {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 MarketMsg marketVO = new MarketMsg();
-                marketVO.setWriterId(userID);
                 marketVO.setTitle(object.getString("WORK_TITLE"));
                 marketVO.setCover(object.getString("WORK_COVER_IMG"));
                 marketVO.setName(object.getString("SENDER_NAME"));
@@ -713,10 +712,13 @@ public class HttpClient {
                 marketVO.setSenderId(object.getString("SENDER_ID"));
                 marketVO.setProfile(object.getString("SENDER_PROFILE"));
                 marketVO.setMsg(object.getString("RECV_MESSAGE"));
+                marketVO.setWorkId(object.getString("WORK_ID"));
+                marketVO.setWriterId(object.getString("WRITER_ID"));
 
 
                 resultList.add(marketVO);
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -799,11 +801,11 @@ public class HttpClient {
 
         return false;
     }
-    public static boolean isWriter(OkHttpClient httpClient, String userID) {
+    public static boolean isWriter(OkHttpClient httpClient, String userID,String workId) {
         ArrayList<MarketMsg> resultList = new ArrayList<>();
 
         Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=isWriter&USER_ID=" + userID)
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=isWriter&USER_ID=" + userID )
                 .get()
                 .build();
 

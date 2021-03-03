@@ -117,8 +117,8 @@ public class TransactionProgressingFragment extends Fragment {
                 String userId = SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest");
 
             //    userId = "1511869881";
-                boolean isWriter =  HttpClient.isWriter(new OkHttpClient(),userId);
-
+            //    boolean isWriter =  HttpClient.isWriter(new OkHttpClient(),userId,"");
+/*
                 if(isWriter)
                 {
                     //let userId = UserDefaults.standard.string(forKey: "USER_ID")
@@ -132,6 +132,10 @@ public class TransactionProgressingFragment extends Fragment {
                     marketMsgs = HttpClient.getTrading2(new OkHttpClient(),userId);
 
                 }
+
+ */
+                marketMsgs = HttpClient.getTrading(new OkHttpClient(),userId);
+
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -350,18 +354,14 @@ public class TransactionProgressingFragment extends Fragment {
                     //    userId = "1511869881";
                     MarketMsg data = marketMsgs.get(pos);
 
-                    boolean isWriter =  HttpClient.isWriter(new OkHttpClient(),userId);
-
-                    if(isWriter)
+                    if(data.getWriterId().contains(userId) == true)
                     {
                         Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
                         intent.putExtra("RECEIVER_ID", data.getSenderID());
                         intent.putExtra("RECEIVER_NAME", data.getName());
                         intent.putExtra("WRITER_ID", data.getWriterId());
 
-
-                      //  int nThreadID = vo.getThreadID();
-                      //  Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
+                        intent.putExtra("WORK_TITLE",data.getTitle());
                         intent.putExtra("THREAD_ID", Integer.parseInt( data.getThreadID()));
                         intent.putExtra("MSG_TYPE", 1);
 
@@ -374,13 +374,16 @@ public class TransactionProgressingFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
                         intent.putExtra("RECEIVER_ID", data.getRecvID());
                         intent.putExtra("RECEIVER_NAME", data.getRecvname());
-                        intent.putExtra("THREAD_ID", Integer.parseInt( data.getThreadID()));
-                        intent.putExtra("MSG_TYPE", 1);
                         intent.putExtra("WRITER_ID", data.getWriterId());
 
-                        startActivity(intent);
+                        intent.putExtra("WORK_TITLE",data.getTitle());
+                        intent.putExtra("THREAD_ID", Integer.parseInt( data.getThreadID()));
+                        intent.putExtra("MSG_TYPE", 1);
 
+                        startActivity(intent);
                     }
+
+                   
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -393,15 +396,6 @@ public class TransactionProgressingFragment extends Fragment {
             }).start();
 
 
-       //     intent.putExtra("THREAD_ID", nThreadID);
-         //   intent.putExtra("RECEIVER_NAME", vo.getUserName());
-/*
-            if(strMyID.equals(vo.getUserID()))
-                intent.putExtra("RECEIVER_ID", vo.getPartnerID());
-            else
-                intent.putExtra("RECEIVER_ID", vo.getUserID());
-
- */
 
         }
 
