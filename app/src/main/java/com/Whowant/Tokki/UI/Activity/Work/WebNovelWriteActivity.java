@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.ExcelReader;
 import com.Whowant.Tokki.VO.CharacterVO;
 import com.Whowant.Tokki.VO.ChatVO;
+import com.Whowant.Tokki.VO.WebWorkVO;
 import com.darsh.multipleimageselect.activities.AlbumSelectActivity;
 import com.darsh.multipleimageselect.helpers.Constants;
 import com.darsh.multipleimageselect.models.Image;
@@ -51,15 +54,21 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
 
     private EditText content;
+    TextView page;
 
     private ProgressDialog mProgressDialog;
+    int nPage = 0;
+    int readPageCnt = 0;
 
+    ArrayList<WebWorkVO> novels = new ArrayList<WebWorkVO>();
+    ArrayList<WebWorkVO> publishContent = new ArrayList<WebWorkVO>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_novel_write);
         titleView = findViewById(R.id.episodeTitleView);
+        page = findViewById(R.id.page);
 
         content = findViewById(R.id.content);
 
@@ -81,6 +90,13 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         // Enables Always-on
       //  imm.showSoftInput(content, 0);
         imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
+     //   content.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        content.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        content.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+
+        getEpisodeData();
     }
     public void onClickTopLeftBtn(View view) {
         finish();
@@ -104,6 +120,107 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         //PanAppCreateNovelEpisode
         sendEpisodePost();
     }
+
+    public void onClickPrev(View view) {
+
+        nPage = nPage - 1;
+        if(nPage < 0)
+        {
+            nPage = 0;
+        }
+        page.setText(String.valueOf(nPage+1));
+
+        if(novels.size() > 0)
+        {
+            WebWorkVO work =  novels.get(nPage);
+            /*
+            if(content.getText().length() > 0)
+            {
+                WebWorkVO work0 = new WebWorkVO();
+                work0.setRaw(content.getText().toString());
+                work0.setContent(content.getText().toString());
+
+                novels.add(work0);
+                readPageCnt = novels.size();
+            }
+
+             */
+            content.setText(work.getRaw());
+        }
+        if(publishContent.size() > 0)
+        {
+            if(nPage <= publishContent.size()) {
+                publishContent.remove(nPage);
+            }
+        }
+
+    }
+    public void onClickNext(View view) {
+
+
+
+
+
+        WebWorkVO work = new WebWorkVO();
+        work.setRaw(content.getText().toString());
+        work.setContent(content.getText().toString());
+
+
+        nPage++;
+
+        publishContent.add(work);
+
+        if(novels.size() > 0)
+        {
+            if(nPage < novels.size())
+            {
+                WebWorkVO work0 = novels.get(nPage);
+                content.setText(work0.getRaw());
+
+            }
+            else
+            {
+                content.setText("");
+
+            }
+
+        }
+        else
+        {
+            content.setText("");
+
+        }
+        page.setText(String.valueOf(nPage+1));
+
+        /*
+        if(nPage < readPageCnt)
+        {
+            WebWorkVO work = novels.get(nPage);
+            content.setText(work.getRaw());
+
+        }
+        else if(nPage == readPageCnt)
+        {
+            content.setText("");
+
+        }
+        else
+        {
+
+            WebWorkVO work = new WebWorkVO();
+            work.setRaw(content.getText().toString());
+            work.setContent(content.getText().toString());
+
+            novels.add(work);
+            readPageCnt = novels.size();
+            content.setText("");
+
+        }
+
+         */
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {                                 // 이미지 설정 등의 데이터가 거쳐감
         super.onActivityResult(requestCode, resultCode, data);
@@ -117,15 +234,62 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
     }
 
+    void getEpisodeData()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //createNovelEpisode String workId,String content,String pages,String page)
+                novels = HttpClient.getEpisodeNovelEditData(new OkHttpClient(),nEpisodeID);
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(novels.size() > 0)
+                        {
+                            readPageCnt = novels.size();
+
+                            WebWorkVO work = novels.get(0);
+                            content.setText(work.getRaw());
+                            content.setSelection(work.getRaw().length() );
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
+
     private void sendEpisodePost() {
         mProgressDialog.setMessage("작품을 게시 중입니다.");
         mProgressDialog.show();
+
+
+        if(content.getText().length() > 0)
+        {
+            WebWorkVO work = new WebWorkVO();
+            work.setRaw(content.getText().toString());
+            work.setContent(content.getText().toString());
+
+            publishContent.add(work);
+        }
+
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 //createNovelEpisode String workId,String content,String pages,String page)
-                boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content.getText().toString(),String.valueOf(1),String.valueOf(1));
+
+                for(int i=0;i<novels.size();i++)
+                {
+                    boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),publishContent.get(i).getRaw(),String.valueOf(novels.size()),String.valueOf(i+1));
+
+                    while(ret == false)
+                    {
+
+                    }
+                }
+            //    boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content.getText().toString(),String.valueOf(1),String.valueOf(1));
 
 
                 JSONObject resultObject = HttpClient.requestEpisodePost(new OkHttpClient(), nEpisodeID);

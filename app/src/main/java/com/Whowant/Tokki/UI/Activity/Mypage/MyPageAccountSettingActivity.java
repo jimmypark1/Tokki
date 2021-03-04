@@ -168,6 +168,9 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
       //  imm.hideSoftInputFromWindow(introduction.getWindowToken(), 0);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         introduction.clearFocus();
+
+        emailEt.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_EMAIL", ""));
+
     }
     void initLayout()
     {

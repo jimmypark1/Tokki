@@ -112,23 +112,81 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/editer"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/topBarLayout"
+        android:layout_marginBottom="60dp"
         >
 
 
         <EditText
             android:id="@+id/content"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="이곳을 탭해서 쓰기 시작하기"
+             android:hint="이곳을 탭해서 쓰기 시작하기"
+            android:inputType="textMultiLine"
             android:maxLength="1024"
             android:imeOptions="actionDone"
             android:singleLine="false"
             android:background="@null"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:imeActionLabel="Done"
+
             android:textSize="14sp" />
         <!-- i_edit-->
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        >
+
+        <ImageView
+            android:id="@+id/prev"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:onClick="onClickPrev"
+
+            android:src="@drawable/i_historyback" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/prev"
+            android:layout_marginLeft="40dp"
+            android:onClick="onClickNext"
+
+            android:src="@drawable/i_historyfoward" />
+        <TextView
+            android:id="@+id/page_label"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/page"
+
+            android:textSize="15sp"
+            android:text="페이지:"
+            android:gravity="center"
+        />
+        <TextView
+            android:id="@+id/page"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="20dp"
+            android:textAlignment="viewStart"
+            android:textSize="15sp"
+            android:text="1"
+            android:gravity="center"
+            />
+
 
     </RelativeLayout>
 </RelativeLayout>

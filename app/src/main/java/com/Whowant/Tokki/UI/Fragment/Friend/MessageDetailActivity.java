@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -35,6 +36,8 @@ import com.Whowant.Tokki.VO.MessageVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -187,12 +190,39 @@ public class MessageDetailActivity extends AppCompatActivity {
 
                 requestSendMessage(msg.toString(),nCarrot,"B");
 
+                sendMailToWriter();
+
             }
 
         }
 
     }
+    private void sendMailToWriter() {
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                JSONObject resultObject = HttpClient.getUserInfo(new OkHttpClient(), writeId);
+                // JSONObject resultObject = HttpClient.getMyInfo(new OkHttpClient(), userId);
+                try {
+                    if (resultObject == null) {
+                        return;
+                    }
+
+                    String email = resultObject.getString("EMAIL");
+
+                    boolean ret = HttpClient.requestMarketSendMailToWriter(new OkHttpClient(),email);
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+    }
 
     public void onClickSendBtn(View view) {
         String strText = inputTextView.getText().toString();

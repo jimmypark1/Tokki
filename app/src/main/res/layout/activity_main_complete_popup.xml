@@ -158,7 +158,7 @@
                 android:textSize="13sp"
                 android:textColor="#191919"
                 android:textStyle="normal"
-                android:text="아래 표준계약서 다운로드 후 작가, 제작사가 계약을 진행합니다. 계약이 완료되면 계약서 사본을 아래 메일로 전송 000@000.com"/>
+                android:text="아래 표준계약서 다운로드 후 작가, 제작사가 계약을 진행합니다.\n계약이 완료되면 계약서 사본을 아래 메일로 전송\nwhowant@whowant.kr"/>
         </LinearLayout>
 
         <LinearLayout
@@ -233,6 +233,7 @@
                 android:textColor="#6ca5ff"
                 android:textStyle="normal"
                 android:background="@drawable/round_blue_inv_market_message"
+                android:onClick="onClickDownBtn"
 
                 android:text="계약서 다운로드"/>
         </LinearLayout>

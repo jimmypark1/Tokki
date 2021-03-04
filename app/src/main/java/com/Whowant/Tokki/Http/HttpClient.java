@@ -1963,6 +1963,43 @@ public class HttpClient {
 
         return resultList;
     }
+    public static ArrayList<WebWorkVO> getEpisodeNovelEditData(OkHttpClient httpClient, int nEpisodeID) {                              // 모든 작품 목록 가져오기
+        ArrayList<WebWorkVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetEpisodeNovelEditData&EPISODE_ID=" + nEpisodeID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("NOVEL_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                WebWorkVO vo = new WebWorkVO();
+
+                vo.setTitle(object.getString("TITLE"));
+                vo.setRaw(object.getString("RAW"));
+
+                resultList.add(vo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    //requestEpisodePost
     public static int createRoomForWriterOnMarket(OkHttpClient httpClient, String userId,String partnerId,String workId) {                              // 모든 작품 목록 가져오기
         ArrayList<MessageVO> resultList = new ArrayList<>();
 
@@ -5272,6 +5309,52 @@ public class HttpClient {
         }
 
         return null;
+    }
+    public static boolean requestMarketSendMail(OkHttpClient httpClient, String strMail) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "SendEmail.jsp?EMAIL=" + strMail)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public static boolean requestMarketSendMailToWriter(OkHttpClient httpClient, String strMail) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "SendEmaiToWriter.jsp?EMAIL=" + strMail)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     public static JSONObject requestNaverME(OkHttpClient httpClient, String strToken, String strTokenType) {
