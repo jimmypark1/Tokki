@@ -3,14 +3,22 @@ package com.Whowant.Tokki.UI.Activity.Market;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Fragment.Friend.MessageDetailActivity;
+import com.Whowant.Tokki.UI.Popup.EditMyCommentPopup;
+import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.SimplePreference;
 import com.Whowant.Tokki.VO.MessageVO;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import okhttp3.OkHttpClient;
 
@@ -37,15 +45,66 @@ public class MainCompletePopup extends AppCompatActivity {
 
         if(downComplete == true)
         {
-            oldIntent.putExtra("MESSAGE_END","결제가 완료되었습니다.\n");
-            oldIntent.putExtra("CARROT_END",message.getCarrot());
-            setResult(RESULT_OK, oldIntent);
 
-            finish();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String userId = SimplePreference.getStringPreference(MainCompletePopup.this, "USER_INFO", "USER_ID", "Guest");
+
+                    JSONObject resultObject = HttpClient.getUserInfo(new OkHttpClient(), userId);
+                    // JSONObject resultObject = HttpClient.getMyInfo(new OkHttpClient(), userId);
+                    try {
+                        if (resultObject == null) {
+                            return;
+                        }
+                        int nMyCarrot = resultObject.getInt("CARROT_ACCUMULATION");
+                        int nCarrot = message.getCarrot();
+                        // nMyCarrot = 3000;
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if(nCarrot <= nMyCarrot)
+                                {
+                                    oldIntent.putExtra("MESSAGE_END","결제가 완료되었습니다.\n");
+                                    oldIntent.putExtra("CARROT_END",message.getCarrot());
+                                    setResult(RESULT_OK, oldIntent);
+
+                                    finish();
+                                }
+                                else
+                                {
+                                    Toast.makeText(MainCompletePopup.this, "당근이 부족합니다.충전하시고 결제하세요", Toast.LENGTH_SHORT).show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                           // YourActivity.this.finish();
+                                            //TransactionActivity
+                                            Intent intent = new Intent(MainCompletePopup.this, TransactionActivity.class);
+
+                                            intent.putExtra("INTO_MSG_INFO",1);
+                                            startActivity(intent);
+                                        }
+                                    }, 1000);
+                                }
+                            }
+                        });
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
+
+
         }
         else
         {
-            Toast.makeText(MainCompletePopup.this, "계약서 다운로드를 먼저 눌러주세.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainCompletePopup.this, "계약서 다운로드를 먼저 눌러주세요.", Toast.LENGTH_SHORT).show();
 
 
         }

@@ -35,6 +35,16 @@ public class TransactionActivity extends AppCompatActivity {
 
         viewPager.setAdapter(pagerAdapter);
 
+
+
+       int nMsgInfo =  getIntent().getIntExtra("INTO_MSG_INFO",0);
+       if(nMsgInfo > 0)
+       {
+           viewPager.setCurrentItem(2);
+
+       }
+
+
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
