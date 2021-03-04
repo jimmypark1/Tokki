@@ -168,11 +168,11 @@ public class MainFragment extends Fragment {                                    
 
                                      */
                                     mainCardList.addAll(1, recommendCardList);
+                                    getRecommendData();
 
                                 }
 
-                                getRecommendData();
-                                CommonUtils.hideProgressDialog();
+                               CommonUtils.hideProgressDialog();
 
                             } else {
                                 mainCardList.addAll(1, recommendCardList);
