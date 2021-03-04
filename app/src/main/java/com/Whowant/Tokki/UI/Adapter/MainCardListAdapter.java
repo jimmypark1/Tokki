@@ -40,10 +40,12 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
     private ArrayList<RecentListAdapter> adapterList;
 
     private SharedPreferences pref;
+    public int nType = 0;
 
-    public MainCardListAdapter(Activity context, ArrayList<MainCardVO> itemsList) {
+    public MainCardListAdapter(Activity context, ArrayList<MainCardVO> itemsList, int type) {
         this.mContext = context;
         this.mainCardList = itemsList;
+        this.nType = type;
     }
 
     public void setData(ArrayList<MainCardVO> itemsList) {
@@ -93,7 +95,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
 
                // itemRowHolder.recyclerView.setVisibility(View.VISIBLE);
 
-                MainRecommendAdapter adapter = new MainRecommendAdapter(mContext, singleSectionItems);
+                MainRecommendAdapter adapter = new MainRecommendAdapter(mContext, singleSectionItems,nType);
                 itemRowHolder.recyclerView.setHasFixedSize(true);
                 LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
                 itemRowHolder.recyclerView.setAdapter(adapter);

@@ -79,7 +79,7 @@ public class MainFragment extends Fragment {                                    
         });
 
         mainRecyclerView.setHasFixedSize(true);
-        adapter = new MainCardListAdapter(getActivity(), mainCardList);
+        adapter = new MainCardListAdapter(getActivity(), mainCardList,nType);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mainRecyclerView.setAdapter(adapter);
 
@@ -128,10 +128,13 @@ public class MainFragment extends Fragment {                                    
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CommonUtils.hideProgressDialog();
 
                         if(mainCardList == null || mainCardList.size() == 0) {
+                            CommonUtils.hideProgressDialog();
+
                             Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+
+
                             return;
                         } else {
                             if (recommendCardList.size() < 1) {
@@ -151,6 +154,7 @@ public class MainFragment extends Fragment {                                    
 
                                 if(mainCardList.size() < 7)
                                 {
+                                    /*
                                     if(nType == 0)
                                     {
                                         mainCardList.addAll(1, recommendCardList);
@@ -158,19 +162,27 @@ public class MainFragment extends Fragment {                                    
                                     }
                                     else
                                     {
-                                     //   mainCardList.addAll(0, recommendCardList);
+                                        mainCardList.addAll(0, recommendCardList);
 
                                     }
+
+                                     */
+                                    mainCardList.addAll(1, recommendCardList);
 
                                 }
 
                                 getRecommendData();
+                                CommonUtils.hideProgressDialog();
+
                             } else {
                                 mainCardList.addAll(1, recommendCardList);
                          //       recommendCardList.clear();
 
                             //    getRecommendData();
+                                CommonUtils.hideProgressDialog();
+
                             }
+                            adapter.nType = nType;
 
                             adapter.setData(mainCardList);
                         }

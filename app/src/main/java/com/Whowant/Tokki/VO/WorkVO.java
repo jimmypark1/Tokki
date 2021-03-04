@@ -38,6 +38,8 @@ public class WorkVO implements Serializable {
     private String strCareer;                           // 작품 경력
 
     private String strTag;                           //
+    private String strCoverBlurFile;                            // 커버 이미지 파일명
+
 
     public WorkVO() {
 
@@ -45,6 +47,14 @@ public class WorkVO implements Serializable {
 
     public void setStrTag(String strTag) {
         this.strTag = strTag;
+    }
+
+    public void setStrCoverBlurFile(String strCoverBlurFile) {
+        this.strCoverBlurFile = strCoverBlurFile;
+    }
+
+    public String getStrCoverBlurFile() {
+        return strCoverBlurFile;
     }
 
     public String getStrTag() {

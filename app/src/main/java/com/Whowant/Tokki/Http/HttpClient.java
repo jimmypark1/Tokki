@@ -2351,7 +2351,7 @@ public class HttpClient {
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
-            if(type == 0)
+          //  if(type == 0)
             {
                 JSONArray recommandsonArray = resultObject.getJSONArray("RECOMMAND");
                 MainCardVO recommandVO = new MainCardVO();
@@ -2383,6 +2383,8 @@ public class HttpClient {
                     workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
                     workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
                     workVO.setnTarget(object.getInt("TARGET"));
+                    if(object.has("BACKGROUND") && object.getString("BACKGROUND").length() > 0)
+                        workVO.setStrCoverBlurFile(object.getString("BACKGROUND"));
 
                     recommandWorkList.add(workVO);
                 }
@@ -5991,6 +5993,7 @@ public class HttpClient {
         ArrayList<MainCardVO> mainCardList = new ArrayList<>();
 
         Request request;
+        /*
         if(type == 0)
         {
             request = new Request.Builder()
@@ -6005,7 +6008,11 @@ public class HttpClient {
                     .get()
                     .build();
         }
-
+         */
+        request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiRecommendList.jsp?CMD=GetRecommendList&USER_ID=" + strUserID+"&TARGET=" + String.valueOf(type))
+                .get()
+                .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
