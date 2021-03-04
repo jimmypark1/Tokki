@@ -5333,6 +5333,7 @@ public class HttpClient {
 
         return false;
     }
+    //
     public static boolean requestMarketSendMailToWriter(OkHttpClient httpClient, String strMail) {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "SendEmaiToWriter.jsp?EMAIL=" + strMail)
@@ -6381,7 +6382,146 @@ public class HttpClient {
 
         return resultList;
     }
+    public static ArrayList<MarketVO> getBuyerTransactionCompleted(OkHttpClient httpClient, String userID) {
+        ArrayList<MarketVO> resultList = new ArrayList<>();
 
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetBuyerTransactionCompleted&BUYER_ID=" + userID )
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("MARKET");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                MarketVO marketVO = new MarketVO();
+                marketVO.setTitle(object.getString("TITLE"));
+                marketVO.setCover(object.getString("COVER"));
+                marketVO.setSynopsis(object.getString("SYNOPSIS"));
+                marketVO.setName(object.getString("NAME"));
+                if(object.getString("GENRES" ) != null)
+                {
+                    marketVO.setGenre(object.getString("GENRES"));
+
+                }
+                if(object.getString("TAGS") != null)
+                {
+                    marketVO.setTag(object.getString("TAGS"));
+
+                }
+                marketVO.setCopyright0(object.getString("COPYRIGHT0"));
+                marketVO.setCopyright1(object.getString("COPYRIGHT1"));
+                marketVO.setStrField(object.getString("FIELD"));
+                marketVO.setUserId(object.getString("USER_ID"));
+                marketVO.setWriterId(object.getString("USER_ID"));
+
+                marketVO.setWorkId(object.getString("WORK_ID"));
+                marketVO.setPrice(object.getInt("PRICE"));
+                marketVO.setStatus(object.getInt("STATUS"));
+
+                marketVO.setTransactionPrice(object.getInt("transaction_price"));
+
+                resultList.add(marketVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+    public static ArrayList<MarketVO> getWriterTransactionCompleted(OkHttpClient httpClient, String userID) {
+
+        ArrayList<MarketVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWriterTransactionCompleted&WRITER_ID=" + userID )
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("MARKET");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                MarketVO marketVO = new MarketVO();
+                marketVO.setTitle(object.getString("TITLE"));
+                marketVO.setCover(object.getString("COVER"));
+                marketVO.setSynopsis(object.getString("SYNOPSIS"));
+                marketVO.setName(object.getString("NAME"));
+                if(object.getString("GENRES" ) != null)
+                {
+                    marketVO.setGenre(object.getString("GENRES"));
+
+                }
+                if(object.getString("TAGS") != null)
+                {
+                    marketVO.setTag(object.getString("TAGS"));
+
+                }
+                marketVO.setCopyright0(object.getString("COPYRIGHT0"));
+                marketVO.setCopyright1(object.getString("COPYRIGHT1"));
+                marketVO.setStrField(object.getString("FIELD"));
+                marketVO.setUserId(object.getString("USER_ID"));
+                marketVO.setWriterId(object.getString("USER_ID"));
+
+                marketVO.setWorkId(object.getString("WORK_ID"));
+                marketVO.setPrice(object.getInt("PRICE"));
+                marketVO.setStatus(object.getInt("STATUS"));
+                marketVO.setTransactionPrice(object.getInt("transaction_price"));
+//
+                resultList.add(marketVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+    public static boolean transactionComplete(OkHttpClient httpClient, String userID,String writerID,String workID, String carrot, String threadId) {
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=TransactionComplete&USER_ID=" + userID +"&WRITER_ID=" +writerID+"&WORK_ID=" + workID + "&CARROT=" + carrot + "&ROOM_ID=" + threadId)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS")) {
+//                likeCount = resultJsonObject.getInt("COUNT");
+//                return likeCount;
+                return true;
+            } else {
+                return false;
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
     public static boolean requestLikeSpace(OkHttpClient httpClient, int postID, String userID) {
 //        int likeCount = 0;
         Request request = new Request.Builder()
@@ -6408,6 +6548,7 @@ public class HttpClient {
 
         return false;
     }
+    //
 
     public static boolean checkIsLike(OkHttpClient httpClient, int postID, String userID) {
         Request request = new Request.Builder()

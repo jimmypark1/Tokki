@@ -64,6 +64,7 @@ public class MessageDetailActivity extends AppCompatActivity {
 
     String writeId = "";
     String workTitle = "";
+    String workId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,8 @@ public class MessageDetailActivity extends AppCompatActivity {
         {
             dealBt.setVisibility(View.INVISIBLE);
         }
+
+        workId = getIntent().getStringExtra("WORK_ID");
         writeId = getIntent().getStringExtra("WRITER_ID");
         workTitle = getIntent().getStringExtra("WORK_TITLE");
 
@@ -190,14 +193,14 @@ public class MessageDetailActivity extends AppCompatActivity {
 
                 requestSendMessage(msg.toString(),nCarrot,"B");
 
-                sendMailToWriter();
+                sendMailToWriter(nCarrot);
 
             }
 
         }
 
     }
-    private void sendMailToWriter() {
+    private void sendMailToWriter(int nCarrot) {
 
         new Thread(new Runnable() {
             @Override
@@ -213,8 +216,12 @@ public class MessageDetailActivity extends AppCompatActivity {
                     String email = resultObject.getString("EMAIL");
 
                     boolean ret = HttpClient.requestMarketSendMailToWriter(new OkHttpClient(),email);
+                    SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+                    String strUserID = pref.getString("USER_ID", "Guest");
 
 
+                    HttpClient.transactionComplete(new OkHttpClient(),strUserID,writeId,workId,String.valueOf(nCarrot), String.valueOf(nThreadID));
+                   // transactionComplete(OkHttpClient httpClient, String userID,String writerID,String workID, String carrot)
 
                 } catch (JSONException e) {
                     e.printStackTrace();

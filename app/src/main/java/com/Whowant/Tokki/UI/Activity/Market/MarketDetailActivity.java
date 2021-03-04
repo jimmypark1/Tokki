@@ -222,6 +222,7 @@ public class MarketDetailActivity extends AppCompatActivity {
                                 intent.putExtra("RECEIVER_NAME", market.getName());
                                 intent.putExtra("WRITER_ID", market.getWriterId());
                                 intent.putExtra("WORK_TITLE",market.getTitle());
+                                intent.putExtra("WORK_ID", market.getWorkId());
 
                                 intent.putExtra("THREAD_ID", threadId);
                                 intent.putExtra("MSG_TYPE", 1);
@@ -242,6 +243,8 @@ public class MarketDetailActivity extends AppCompatActivity {
                                 intent.putExtra("RECEIVER_NAME", market.getName());
                                 intent.putExtra("WRITER_ID", market.getWriterId());
                                 intent.putExtra("WORK_TITLE",market.getTitle());
+                                intent.putExtra("WORK_ID", market.getWorkId());
+
 
                                 intent.putExtra("THREAD_ID", oldThreadId);
                                 intent.putExtra("MSG_TYPE", 1);

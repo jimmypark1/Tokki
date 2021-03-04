@@ -360,6 +360,7 @@ public class TransactionProgressingFragment extends Fragment {
                         intent.putExtra("RECEIVER_ID", data.getSenderID());
                         intent.putExtra("RECEIVER_NAME", data.getName());
                         intent.putExtra("WRITER_ID", data.getWriterId());
+                        intent.putExtra("WORK_ID", data.getWorkId());
 
                         intent.putExtra("WORK_TITLE",data.getTitle());
                         intent.putExtra("THREAD_ID", Integer.parseInt( data.getThreadID()));
@@ -375,6 +376,7 @@ public class TransactionProgressingFragment extends Fragment {
                         intent.putExtra("RECEIVER_ID", data.getRecvID());
                         intent.putExtra("RECEIVER_NAME", data.getRecvname());
                         intent.putExtra("WRITER_ID", data.getWriterId());
+                        intent.putExtra("WORK_ID", data.getWorkId());
 
                         intent.putExtra("WORK_TITLE",data.getTitle());
                         intent.putExtra("THREAD_ID", Integer.parseInt( data.getThreadID()));

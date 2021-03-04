@@ -26,10 +26,19 @@ public class MarketVO implements Serializable {
     private String strField;
     private String strGenre;
     private String strTag;
+    private int transactionPrice;
 
 
     public MarketVO() {
 
+    }
+
+    public void setTransactionPrice(int transactionPrice) {
+        this.transactionPrice = transactionPrice;
+    }
+
+    public int getTransactionPrice() {
+        return transactionPrice;
     }
 
     public void setPrice(long price) {
