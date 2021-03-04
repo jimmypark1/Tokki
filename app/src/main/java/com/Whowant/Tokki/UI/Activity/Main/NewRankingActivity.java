@@ -39,6 +39,7 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
     String title = "";
 
     Activity mActivity;
+    int type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,8 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
         setContentView(R.layout.activity_new_ranking);
 
         mActivity = this;
+
+        type = getIntent().getIntExtra("NOVEL_TYPE",0);
 
         getData();
         initView();
@@ -111,7 +114,7 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
         new Thread(new Runnable() {
             @Override
             public void run() {
-                bestList = HttpClient.getNewRankingList(new OkHttpClient());
+                bestList = HttpClient.getNewRankingList(new OkHttpClient(),type);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -163,12 +166,14 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
             TextView synopsisView = convertView.findViewById(R.id.synopsisView);
             TextView starPointView = convertView.findViewById(R.id.startPointView);
             TextView hitsCountView = convertView.findViewById(R.id.hitsCountView);
-            TextView commentCountView = convertView.findViewById(R.id.commentCountView);
-            TextView subcriptionCountView = convertView.findViewById(R.id.subcriptionCountView);
+          //  TextView commentCountView = convertView.findViewById(R.id.commentCountView);
+          //  TextView subcriptionCountView = convertView.findViewById(R.id.subcriptionCountView);
             TextView newView = convertView.findViewById(R.id.newView);
             LinearLayout rightLayout = convertView.findViewById(R.id.rightLayout);
             rightLayout.setVisibility(View.GONE);
             TextView bestBGView = convertView.findViewById(R.id.bestBGView);
+            TextView keepCountView = convertView.findViewById(R.id.keepPointView);
+
             bestBGView.setVisibility(View.GONE);
 //            newView.setVisibility(View.VISIBLE);
             coverView.setClipToOutline(true);
@@ -204,9 +209,10 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
             else
                 starPointView.setText(String.format("%.1f", vo.getfStarPoint()));
 
-            hitsCountView.setText(CommonUtils.getPointCount(vo.getnTapCount()));
-            commentCountView.setText(CommonUtils.getPointCount(vo.getnCommentCount()));
-            subcriptionCountView.setText(CommonUtils.getPointCount(vo.getnKeepcount()));
+            hitsCountView.setText(CommonUtils.getPointCount(vo.getnHitsCount()));
+         //   commentCountView.setText(CommonUtils.getPointCount(vo.getnCommentCount()));
+         //   subcriptionCountView.setText(CommonUtils.getPointCount(vo.getnKeepcount()));
+            keepCountView.setText(CommonUtils.getPointCount(vo.getnKeepcount()));
 
             return convertView;
         }
@@ -222,7 +228,7 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
         new Thread(new Runnable() {
             @Override
             public void run() {
-                bestList = HttpClient.getBestRankingList(new OkHttpClient());
+                bestList = HttpClient.getBestRankingList(new OkHttpClient(),type);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -260,7 +266,7 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
         new Thread(new Runnable() {
             @Override
             public void run() {
-                bestList = HttpClient.getRealStoryRankingList(new OkHttpClient());
+                bestList = HttpClient.getRealStoryRankingList(new OkHttpClient(),type);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -286,7 +292,7 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
         new Thread(new Runnable() {
             @Override
             public void run() {
-                bestList = HttpClient.getFanFictionRankingList(new OkHttpClient());
+                bestList = HttpClient.getFanFictionRankingList(new OkHttpClient(),type);
 
                 runOnUiThread(new Runnable() {
                     @Override

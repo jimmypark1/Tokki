@@ -172,7 +172,10 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             itemRowHolder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, PopularActivity.class));
+                    Intent intent = new Intent(mContext, PopularActivity.class);
+                    intent.putExtra("NOVEL_TYPE", nType);
+
+                    mContext.startActivity(intent);
                 }
             });
         } else if (viewType == 2) {                                    // 최신작, 인기작, 장르별 순위
@@ -198,10 +201,16 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
                 @Override
                 public void onClick(View v) {
                     if ("장르별 순위".equals(sectionName)) {
-                        mContext.startActivity(new Intent(mContext, PopularActivity.class));
+                        Intent intent = new Intent(mContext, PopularActivity.class);
+
+                        intent.putExtra("NOVEL_TYPE", nType);
+
+                        mContext.startActivity(intent);
                     } else {
                         Intent intent = new Intent(mContext, NewRankingActivity.class);
                         intent.putExtra("title", sectionName);
+                        intent.putExtra("NOVEL_TYPE", nType);
+
                         mContext.startActivity(intent);
                     }
                 }
@@ -239,6 +248,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
                     NewRankingActivity.bestList.addAll(mainCardList.get(1).getAllItemInCard());
                     Intent intent = new Intent(mContext, NewRankingActivity.class);
                     intent.putExtra("title", title);
+                    intent.putExtra("NOVEL_TYPE", nType);
                     mContext.startActivity(intent);
                 }
             });

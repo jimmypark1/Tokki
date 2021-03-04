@@ -10,13 +10,14 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="23dp"
         android:layout_marginRight="23dp"
-        android:layout_marginBottom="3dp"
-        android:background="@drawable/round_shadow_btn_white_bg">
+        android:paddingBottom="0dp"
+        android:paddingTop="20dp"
+        >
 
         <ImageView
             android:id="@+id/coverImgView"
-            android:layout_width="77.4dp"
-            android:layout_height="120dp"
+            android:layout_width="120dp"
+            android:layout_height="180dp"
             android:scaleType="fitXY"
             android:src="@drawable/no_poster"
             android:background="@drawable/big_poster_round_bg"/>
@@ -59,8 +60,8 @@
                     android:layout_marginTop="12dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textSize="19sp"
-                    android:textColor="@color/colorBlack"
+                    android:textSize="17sp"
+                    android:textColor="#191919"
                     android:letterSpacing="-0.05"
                     android:text="제목"/>
 
@@ -125,10 +126,11 @@
                 android:id="@+id/writerNameView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="10dp"
                 android:layout_alignLeft="@id/titleLayout"
                 android:layout_below="@+id/titleLayout"
                 android:textSize="13sp"
+                android:textColor="#767676"
                 android:text="By 작가명"/>
 
             <LinearLayout
@@ -136,15 +138,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_toRightOf="@+id/writerNameView"
-                android:layout_alignTop="@+id/writerNameView"
-                android:layout_marginLeft="7dp"
+                android:layout_below="@+id/writerNameView"
+                android:layout_marginTop="10dp"
+
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:src="@drawable/icon_star_gray"/>
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/i_heart_1"/>
+
+                <TextView
+                    android:id="@+id/keepPointView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:textSize="13sp"
+                    android:textColor="#767676"
+                    android:text="9999"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="7dp"
+                    android:src="@drawable/i_star"/>
 
                 <TextView
                     android:id="@+id/startPointView"
@@ -152,30 +169,33 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:textSize="13sp"
-                    android:textColor="#969696"
+                    android:textColor="#767676"
                     android:text="5.0"/>
 
+
+<!--
                 <ImageView
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_marginLeft="7dp"
-                    android:src="@drawable/icon_tap_gray"/>
-
+                    android:src="@drawable/icon_speech_button_empty" />
+-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="13sp"
+                    android:textColor="#767676"
+                    android:text="조회수"/>
                 <TextView
                     android:id="@+id/hitsCountView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:textSize="13sp"
-                    android:textColor="#969696"
+                    android:textColor="#767676"
                     android:text="500"/>
-
-                <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_marginLeft="7dp"
-                    android:src="@drawable/icon_speech_button_empty" />
-
+                <!--
                 <TextView
                     android:id="@+id/commentCountView"
                     android:layout_width="wrap_content"
@@ -184,6 +204,7 @@
                     android:textSize="13sp"
                     android:text="500"
                     android:textColor="#969696"/>
+                    -->
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -191,7 +212,7 @@
                     android:layout_marginLeft="4dp"
                     android:src="@drawable/heart_icon"
                     android:visibility="gone"/>
-
+<!--
                 <TextView
                     android:id="@+id/subcriptionCountView"
                     android:layout_width="wrap_content"
@@ -200,7 +221,7 @@
                     android:textSize="11sp"
                     android:textColor="@color/colorTextGray"
                     android:visibility="gone"/>
-
+-->
             </LinearLayout>
 
             <TextView
@@ -208,10 +229,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/writerNameView"
+                android:layout_below="@+id/pointLayout"
                 android:layout_alignLeft="@+id/titleLayout"
                 android:layout_marginRight="10dp"
-                android:textColor="@color/colorBlack"
+                android:textColor="#767676"
                 android:ellipsize="end"
                 android:textSize="13sp"
                 android:maxLines="2"

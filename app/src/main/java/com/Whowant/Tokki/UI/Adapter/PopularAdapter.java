@@ -19,13 +19,16 @@ public class PopularAdapter extends FragmentPagerAdapter {
     private ArrayList<PopularFragment> fragmentList = new ArrayList<>();
     private Context mContext;
 
-    public PopularAdapter(Context context, @NonNull FragmentManager fm, ArrayList<HashMap<String, String>> genreList) {             // genreList -> 타이틀, genreID
+    public int type = 0;
+    public PopularAdapter(Context context, @NonNull FragmentManager fm, ArrayList<HashMap<String, String>> genreList,int type) {             // genreList -> 타이틀, genreID
         super(fm);
 
         this.genreList = genreList;
         this.mContext = context;
+        this.type = type;
         for(HashMap<String, String> currentMap : this.genreList) {
             PopularFragment fragment = new PopularFragment(this.mContext, currentMap.get("GENRE_ID"));
+            fragment.type = type;
             this.fragmentList.add(fragment);
         }
     }

@@ -37,6 +37,7 @@ public class PopularFragment extends Fragment implements AdapterView.OnItemClick
     private CGenreRankingArrayAdapter aa;
     private String strGenreID;
     private SharedPreferences pref;
+    public int type = 0;
 
     public PopularFragment(Context context, String genreID) {
         this.mContext = context;
@@ -71,7 +72,7 @@ public class PopularFragment extends Fragment implements AdapterView.OnItemClick
         new Thread(new Runnable() {
             @Override
             public void run() {
-                workList = HttpClient.getGenreRankingList(new OkHttpClient(), strGenreID);
+                workList = HttpClient.getGenreRankingList(new OkHttpClient(), strGenreID,type);
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -142,8 +143,9 @@ public class PopularFragment extends Fragment implements AdapterView.OnItemClick
             TextView synopsisView = convertView.findViewById(R.id.synopsisView);
             TextView starPointView = convertView.findViewById(R.id.startPointView);
             TextView hitsCountView = convertView.findViewById(R.id.hitsCountView);
-            TextView commentCountView = convertView.findViewById(R.id.commentCountView);
-            TextView subcriptionCountView = convertView.findViewById(R.id.subcriptionCountView);
+            TextView keepCountView = convertView.findViewById(R.id.keepPointView);
+         //   TextView commentCountView = convertView.findViewById(R.id.commentCountView);
+       //     TextView subcriptionCountView = convertView.findViewById(R.id.subcriptionCountView);
             TextView writerNameView = convertView.findViewById(R.id.writerNameView);
             coverView.setClipToOutline(true);
 
@@ -176,9 +178,11 @@ public class PopularFragment extends Fragment implements AdapterView.OnItemClick
                 starPointView.setText(String.format("%.1f", vo.getfStarPoint()));
 
             writerNameView.setText(vo.getStrWriterName());
-            hitsCountView.setText(CommonUtils.getPointCount(vo.getnTapCount()));
-            commentCountView.setText(CommonUtils.getPointCount(vo.getnCommentCount()));
-            subcriptionCountView.setText(CommonUtils.getPointCount(vo.getnKeepcount()));
+            hitsCountView.setText(CommonUtils.getPointCount(vo.getnHitsCount()));
+         //   commentCountView.setText(CommonUtils.getPointCount(vo.getnCommentCount()));
+
+            keepCountView.setText(CommonUtils.getPointCount(vo.getnKeepcount()));
+         //   subcriptionCountView.setText(CommonUtils.getPointCount(vo.getnKeepcount()));
 
             return convertView;
         }

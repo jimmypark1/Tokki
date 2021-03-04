@@ -102,7 +102,15 @@ public class MainRecommendAdapter extends RecyclerView.Adapter<MainRecommendAdap
                         public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                             Bitmap blurredBitmap = GaussianBlur.with(mContext).size(300).radius(20).render(resource);
 //
-                            holder.blurView.setImageBitmap(blurredBitmap);
+                            if(blurredBitmap != null)
+                            {
+                                holder.blurView.setImageBitmap(blurredBitmap);
+                            }
+                            else
+                            {
+                                holder.blurView.setImageBitmap(resource);
+                            }
+
 //                            photoIv.setImageBitmap(blurredBitmap);
 
                         }

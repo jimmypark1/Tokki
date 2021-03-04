@@ -24,6 +24,7 @@ public class PopularActivity extends AppCompatActivity {                    // ì
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private PopularAdapter pagerAdapter;
+    private int type = 0;
 
 
     @Override
@@ -31,6 +32,7 @@ public class PopularActivity extends AppCompatActivity {                    // ì
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popular);
 
+        type = getIntent().getIntExtra("NOVEL_TYPE",0);
         initView();
 
         tabLayout = findViewById(R.id.tabLayout);
@@ -64,7 +66,9 @@ public class PopularActivity extends AppCompatActivity {                    // ì
                             return;
                         }
 
-                        pagerAdapter = new PopularAdapter(PopularActivity.this, getSupportFragmentManager(), genreList);
+                        pagerAdapter = new PopularAdapter(PopularActivity.this, getSupportFragmentManager(), genreList,type);
+
+                        pagerAdapter.type = type;
                         viewPager.setAdapter(pagerAdapter);
                         tabLayout.setupWithViewPager(viewPager);
                     }

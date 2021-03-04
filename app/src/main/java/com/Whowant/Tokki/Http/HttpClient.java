@@ -1636,13 +1636,25 @@ public class HttpClient {
         return resultList;
     }
 
-    public static ArrayList<WorkVO> getBestRankingList(OkHttpClient httpClient) {                              // 모든 작품 목록 가져오기
+    public static ArrayList<WorkVO> getBestRankingList(OkHttpClient httpClient, int type) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
 
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetBestRanking")
-                .get()
-                .build();
+        Request request ;
+        if(type == 0)
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetBestRanking")
+                    .get()
+                    .build();
+        }
+        else
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetBestRanking")
+                    .get()
+                    .build();
+        }
+
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -1756,13 +1768,25 @@ public class HttpClient {
         return resultList;
     }
 
-    public static ArrayList<WorkVO> getGenreRankingList(OkHttpClient httpClient, String strGenreID) {                              // 모든 작품 목록 가져오기
+    public static ArrayList<WorkVO> getGenreRankingList(OkHttpClient httpClient, String strGenreID, int type) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
 
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetGenreRanking&GENRE_ID=" + strGenreID)
-                .get()
-                .build();
+        Request request ;
+        if(type == 0)
+        {
+            request= new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetGenreRanking&GENRE_ID=" + strGenreID)
+                    .get()
+                    .build();
+        }
+        else
+        {
+            request= new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetGenreRanking&GENRE_ID=" + strGenreID)
+                    .get()
+                    .build();
+        }
+
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2186,13 +2210,25 @@ public class HttpClient {
         return resultList;
     }
 
-    public static ArrayList<WorkVO> getNewRankingList(OkHttpClient httpClient) {                              // 모든 작품 목록 가져오기
+    public static ArrayList<WorkVO> getNewRankingList(OkHttpClient httpClient, int type) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
 
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetNewRanking")
-                .get()
-                .build();
+        Request request;
+        if(type == 0)
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetNewRanking")
+                    .get()
+                    .build();
+        }
+        else
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetNewRanking")
+                    .get()
+                    .build();
+        }
+
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -2294,7 +2330,8 @@ public class HttpClient {
         map.put("GENRE_NAME", "전체");
         genreList.add(map);
 
-        Request request = new Request.Builder()
+        Request request ;
+        request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanApp.jsp?CMD=GetGenreList")
                 .get()
                 .build();
@@ -6064,13 +6101,25 @@ public class HttpClient {
         return mainCardList;
     }
 
-    public static ArrayList<WorkVO> getRealStoryRankingList(OkHttpClient httpClient) {                              // 모든 작품 목록 가져오기
+    public static ArrayList<WorkVO> getRealStoryRankingList(OkHttpClient httpClient, int type) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
 
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetRealStoryRanking")
-                .get()
-                .build();
+        Request request ;
+        if(type == 0)
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetRealStoryRanking")
+                    .get()
+                    .build();
+        }
+        else
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetRealStoryRanking")
+                    .get()
+                    .build();
+        }
+
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -6113,13 +6162,25 @@ public class HttpClient {
         return resultList;
     }
 
-    public static ArrayList<WorkVO> getFanFictionRankingList(OkHttpClient httpClient) {                              // 모든 작품 목록 가져오기
+    public static ArrayList<WorkVO> getFanFictionRankingList(OkHttpClient httpClient,int type) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
 
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetFanFictionRanking")
-                .get()
-                .build();
+        Request request ;
+        if(type == 0)
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetFanFictionRanking")
+                    .get()
+                    .build();
+        }
+        else
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetFanFictionRanking")
+                    .get()
+                    .build();
+        }
+
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
