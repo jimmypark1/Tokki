@@ -915,6 +915,7 @@ public class HttpClient {
                 marketVO.setMsg(object.getString("RECV_MESSAGE"));
                 marketVO.setWorkId(object.getString("WORK_ID"));
                 marketVO.setWriterId(object.getString("WRITER_ID"));
+                marketVO.setField(object.getString("FIELD"));
 
 
                 resultList.add(marketVO);
@@ -2000,11 +2001,11 @@ public class HttpClient {
     }
 
     //requestEpisodePost
-    public static int createRoomForWriterOnMarket(OkHttpClient httpClient, String userId,String partnerId,String workId) {                              // 모든 작품 목록 가져오기
+    public static int createRoomForWriterOnMarket(OkHttpClient httpClient, String userId,String partnerId,String workId, String field) {                              // 모든 작품 목록 가져오기
         ArrayList<MessageVO> resultList = new ArrayList<>();
 
         Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=CreateRoomForWriterOnMarket&USER_ID=" + userId +"&PARTNER_ID=" + partnerId + "&WORK_ID=" +workId )
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=CreateRoomForWriterOnMarket&USER_ID=" + userId +"&PARTNER_ID=" + partnerId + "&WORK_ID=" +workId +"&FIELD=" +field)
                 .get()
                 .build();
 
@@ -6496,10 +6497,10 @@ public class HttpClient {
 
         return resultList;
     }
-    public static boolean transactionComplete(OkHttpClient httpClient, String userID,String writerID,String workID, String carrot, String threadId) {
+    public static boolean transactionComplete(OkHttpClient httpClient, String userID,String writerID,String workID, String carrot, String threadId, String field) {
 
         Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=TransactionComplete&USER_ID=" + userID +"&WRITER_ID=" +writerID+"&WORK_ID=" + workID + "&CARROT=" + carrot + "&ROOM_ID=" + threadId)
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=TransactionComplete&USER_ID=" + userID +"&WRITER_ID=" +writerID+"&WORK_ID=" + workID + "&CARROT=" + carrot + "&ROOM_ID=" + threadId + "&FIELD="+field)
                 .get()
                 .build();
 

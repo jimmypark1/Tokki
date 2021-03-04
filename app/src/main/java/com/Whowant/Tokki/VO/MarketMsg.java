@@ -21,9 +21,15 @@ public class MarketMsg implements Serializable {
 
     private String writerId;
     private String workId;
+    private String field;
+
 
     public MarketMsg() {
 
+    }
+
+    public void setField(String field) {
+        this.field = field;
     }
 
     public void setWorkId(String workId) {
@@ -52,6 +58,10 @@ public class MarketMsg implements Serializable {
 
     public void setThreadID(String threadID) {
         this.threadID = threadID;
+    }
+
+    public String getField() {
+        return field;
     }
 
     public String getRecvname() {

@@ -65,6 +65,7 @@ public class MessageDetailActivity extends AppCompatActivity {
     String writeId = "";
     String workTitle = "";
     String workId = "";
+    String field = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class MessageDetailActivity extends AppCompatActivity {
         dealBt = findViewById(R.id.dealBtn);
 
         nThreadID = getIntent().getIntExtra("THREAD_ID", 0);
+        field = getIntent().getStringExtra("FIELD");
 
         type = getIntent().getIntExtra("MSG_TYPE", 0);
         if(type == 0)
@@ -220,7 +222,7 @@ public class MessageDetailActivity extends AppCompatActivity {
                     String strUserID = pref.getString("USER_ID", "Guest");
 
 
-                    HttpClient.transactionComplete(new OkHttpClient(),strUserID,writeId,workId,String.valueOf(nCarrot), String.valueOf(nThreadID));
+                    HttpClient.transactionComplete(new OkHttpClient(),strUserID,writeId,workId,String.valueOf(nCarrot), String.valueOf(nThreadID),field);
                    // transactionComplete(OkHttpClient httpClient, String userID,String writerID,String workID, String carrot)
 
                 } catch (JSONException e) {

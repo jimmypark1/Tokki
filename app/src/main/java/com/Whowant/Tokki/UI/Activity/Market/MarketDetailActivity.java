@@ -91,6 +91,8 @@ public class MarketDetailActivity extends AppCompatActivity {
             field.setText("영화");
 
         }
+
+        field.setText(market.getStrField());
         /*
           carrotNum.text = String(Int( nPrice! / 120)) + "개"
 
@@ -207,7 +209,7 @@ public class MarketDetailActivity extends AppCompatActivity {
 
                     if(oldThreadId == 0)
                     {
-                        final int threadId = HttpClient.createRoomForWriterOnMarket(new OkHttpClient(),userId,market.getWriteId(),market.getWorkId());
+                        final int threadId = HttpClient.createRoomForWriterOnMarket(new OkHttpClient(),userId,market.getWriteId(),market.getWorkId(),market.getStrField());
 
                         runOnUiThread(new Runnable() {
                             @Override
@@ -223,6 +225,8 @@ public class MarketDetailActivity extends AppCompatActivity {
                                 intent.putExtra("WRITER_ID", market.getWriterId());
                                 intent.putExtra("WORK_TITLE",market.getTitle());
                                 intent.putExtra("WORK_ID", market.getWorkId());
+                                intent.putExtra("FIELD", market.getStrField());
+
 
                                 intent.putExtra("THREAD_ID", threadId);
                                 intent.putExtra("MSG_TYPE", 1);
@@ -244,6 +248,7 @@ public class MarketDetailActivity extends AppCompatActivity {
                                 intent.putExtra("WRITER_ID", market.getWriterId());
                                 intent.putExtra("WORK_TITLE",market.getTitle());
                                 intent.putExtra("WORK_ID", market.getWorkId());
+                                intent.putExtra("FIELD", market.getStrField());
 
 
                                 intent.putExtra("THREAD_ID", oldThreadId);
