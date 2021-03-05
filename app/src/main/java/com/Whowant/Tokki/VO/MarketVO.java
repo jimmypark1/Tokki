@@ -27,10 +27,28 @@ public class MarketVO implements Serializable {
     private String strGenre;
     private String strTag;
     private int transactionPrice;
+    private String hopeTag;
+    private String hopeGenre;
 
 
     public MarketVO() {
 
+    }
+
+    public void setHopeGenre(String hopeGenre) {
+        this.hopeGenre = hopeGenre;
+    }
+
+    public void setHopeTag(String hopeTag) {
+        this.hopeTag = hopeTag;
+    }
+
+    public String getHopeGenre() {
+        return hopeGenre;
+    }
+
+    public String getHopeTag() {
+        return hopeTag;
     }
 
     public void setTransactionPrice(int transactionPrice) {

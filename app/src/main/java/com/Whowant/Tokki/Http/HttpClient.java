@@ -698,6 +698,9 @@ public class HttpClient {
                     marketVO.setTag(object.getString("TAGS"));
 
                 }
+                marketVO.setHopeGenre(object.getString("GENRE"));
+                marketVO.setHopeTag(object.getString("TAG"));
+
                 marketVO.setCopyright0(object.getString("COPYRIGHT0"));
                 marketVO.setCopyright1(object.getString("COPYRIGHT1"));
                 marketVO.setStrField(object.getString("FIELD"));
@@ -753,6 +756,9 @@ public class HttpClient {
                     marketVO.setTag(object.getString("TAGS"));
 
                 }
+                marketVO.setHopeTag(object.getString("TAG"));
+                marketVO.setHopeGenre(object.getString("GENRE"));
+
                 marketVO.setCopyright0(object.getString("COPYRIGHT0"));
                 marketVO.setCopyright1(object.getString("COPYRIGHT1"));
                 marketVO.setStrField(object.getString("FIELD"));
@@ -808,6 +814,9 @@ public class HttpClient {
                     marketVO.setTag(object.getString("TAGS"));
 
                 }
+                marketVO.setHopeTag(object.getString("TAG"));
+                marketVO.setHopeGenre(object.getString("GENRE"));
+
                 marketVO.setCopyright0(object.getString("COPYRIGHT0"));
                 marketVO.setCopyright1(object.getString("COPYRIGHT1"));
                 marketVO.setStrField(object.getString("FIELD"));
@@ -863,6 +872,9 @@ public class HttpClient {
                     marketVO.setTag(object.getString("TAGS"));
 
                 }
+                marketVO.setHopeTag(object.getString("TAG"));
+                marketVO.setHopeGenre(object.getString("GENRE"));
+
                 marketVO.setCopyright0(object.getString("COPYRIGHT0"));
                 marketVO.setCopyright1(object.getString("COPYRIGHT1"));
                 marketVO.setStrField(object.getString("FIELD"));

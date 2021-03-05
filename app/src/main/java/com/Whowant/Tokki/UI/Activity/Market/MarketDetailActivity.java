@@ -40,6 +40,10 @@ public class MarketDetailActivity extends AppCompatActivity {
 
     private TextView field;
     private TextView price;
+    private TextView genreView;
+    private TextView tagView;
+
+
     Button sendBt;
 
     TextView name;
@@ -69,7 +73,8 @@ public class MarketDetailActivity extends AppCompatActivity {
         field = findViewById(R.id.statusView);
         price = findViewById(R.id.priceView);
         sendBt = findViewById(R.id.send);
-
+        genreView= findViewById(R.id.genreView);
+        tagView= findViewById(R.id.tagView);
         String userId = SimplePreference.getStringPreference(MarketDetailActivity.this, "USER_INFO", "USER_ID", "Guest");
 
 
@@ -164,6 +169,15 @@ public class MarketDetailActivity extends AppCompatActivity {
             copyright1.setText("");
 
         }
+
+         tagView.setText(market.getHopeTag());
+        genreView.setText(market.getHopeGenre());
+
+        if(market.getHopeTag().contains( "null"))
+            tagView.setText("");
+
+        if(market.getHopeGenre().contains("null"))
+            genreView.setText("");
 
         String strCover = CommonUtils.strDefaultUrl + "images/" + market.getCover();
 

@@ -460,18 +460,19 @@
                     android:layout_marginTop="6dp"
 
                     />
+
                 <TextView
                     android:id="@+id/genreView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="11dp"
                     android:layout_below="@+id/line5"
+                    android:layout_marginTop="11dp"
                     android:layout_marginRight="10dp"
-                    android:textColor="#767676"
                     android:ellipsize="end"
-                    android:textSize="13sp"
                     android:maxLines="2"
-                    android:text="로맨스"/>
+                    android:text=""
+                    android:textColor="#767676"
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/tagLabel"
@@ -509,7 +510,7 @@
                     android:ellipsize="end"
                     android:textSize="13sp"
                     android:maxLines="2"
-                    android:text="#판타지"/>
+                    android:text=""/>
 
 
                 <TextView
