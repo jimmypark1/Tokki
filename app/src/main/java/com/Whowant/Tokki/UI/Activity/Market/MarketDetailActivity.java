@@ -80,7 +80,7 @@ public class MarketDetailActivity extends AppCompatActivity {
 
         market = (MarketVO) getIntent().getSerializableExtra("MARKET_DATA");
         if (market.getWriteId().contains(userId)) {
-            sendBt.setVisibility(View.GONE);
+        //    sendBt.setVisibility(View.GONE);
         }
         int nStatus = market.getStatus();
         if (nStatus == 0) {
