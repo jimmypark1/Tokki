@@ -1019,6 +1019,19 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 TextView synopsisView = holder.itemView.findViewById(R.id.synopsisView);
                 synopsisView.setText(workVO.getSynopsis());
 
+                TextView careerView = holder.itemView.findViewById(R.id.tv_career);
+
+                if(workVO.getStrCareer().equals("null") == false)
+                    careerView.setText(workVO.getStrCareer());
+                else
+                    careerView.setText("");
+
+
+
+
+
+                //
+
                 // [S] winhmoon
                 holder.itemView.findViewById(R.id.ll_work_main_rank).setOnClickListener((v) -> startActivity(new Intent(WorkMainActivity.this, RankActivity.class)));
                 TextView summary = holder.itemView.findViewById(R.id.tv_synopsis_row_summary);
@@ -1063,7 +1076,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 int nEpisode = workVO.getEpisodeList().size();
                 episodeCnt.setText("총"+ String.valueOf(nEpisode) +"개");
 
-                career.setText(strCareer);
+              //  career.setText(strCareer);
 
                 if(nOwner == 0)
                 {

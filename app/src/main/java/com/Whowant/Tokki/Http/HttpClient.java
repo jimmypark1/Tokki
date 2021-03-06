@@ -2425,11 +2425,12 @@ public class HttpClient {
         else
         {
             request = new Request.Builder()
-                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetAllRankingList")
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetAllRankingList&TARGET="+ String.valueOf(type))
                     .get()
                     .build();
 
         }
+
 
 
         try (Response response = httpClient.newCall(request).execute()) {
@@ -2438,7 +2439,7 @@ public class HttpClient {
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
-          //  if(type == 0)
+        //    if(type == 0)
             {
                 JSONArray recommandsonArray = resultObject.getJSONArray("RECOMMAND");
                 MainCardVO recommandVO = new MainCardVO();
@@ -2448,32 +2449,35 @@ public class HttpClient {
 
                 for (int i = 0; i < recommandsonArray.length(); i++) {
                     JSONObject object = recommandsonArray.getJSONObject(i);
+                    if( object.getInt("TARGET") == type)
+                    {
+                        WorkVO workVO = new WorkVO();
+                        workVO.setWorkID(object.getInt("WORK_ID"));
+                        workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                        workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                        workVO.setWriteID(object.getString("WRITER_ID"));
+                        workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                        workVO.setTitle(object.getString("WORK_TITLE"));
+                        workVO.setCoverFile(object.getString("COVER_IMG"));
 
-                    WorkVO workVO = new WorkVO();
-                    workVO.setWorkID(object.getInt("WORK_ID"));
-                    workVO.setCreatedDate(object.getString("CREATED_DATE"));
-                    workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-                    workVO.setWriteID(object.getString("WRITER_ID"));
-                    workVO.setStrWriterName(object.getString("WRITER_NAME"));
-                    workVO.setTitle(object.getString("WORK_TITLE"));
-                    workVO.setCoverFile(object.getString("COVER_IMG"));
+                        if (object.has("RECOMMEND_IMG") && object.getString("RECOMMEND_IMG").length() > 0 && !object.getString("RECOMMEND_IMG").equals("null"))
+                            workVO.setCoverFile(object.getString("RECOMMEND_IMG"));
 
-                    if (object.has("RECOMMEND_IMG") && object.getString("RECOMMEND_IMG").length() > 0 && !object.getString("RECOMMEND_IMG").equals("null"))
-                        workVO.setCoverFile(object.getString("RECOMMEND_IMG"));
+                        workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                        workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                        workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                        workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                        workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                        workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                        workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                        workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                        workVO.setnTarget(object.getInt("TARGET"));
+                        if(object.has("BACKGROUND") && object.getString("BACKGROUND").length() > 0)
+                            workVO.setStrCoverBlurFile(object.getString("BACKGROUND"));
 
-                    workVO.setnHitsCount(object.getInt("HITS_COUNT"));
-                    workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                    workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
-                    workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
-                    workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
-                    workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
-                    workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
-                    workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
-                    workVO.setnTarget(object.getInt("TARGET"));
-                    if(object.has("BACKGROUND") && object.getString("BACKGROUND").length() > 0)
-                        workVO.setStrCoverBlurFile(object.getString("BACKGROUND"));
+                        recommandWorkList.add(workVO);
+                    }
 
-                    recommandWorkList.add(workVO);
                 }
 
                 recommandVO.setAllItemInCard(recommandWorkList);
@@ -2513,26 +2517,28 @@ public class HttpClient {
 
             for (int i = 0; i < bestRankingJsonArray.length(); i++) {
                 JSONObject object = bestRankingJsonArray.getJSONObject(i);
+                if( object.getInt("TARGET") == type) {
+                    WorkVO workVO = new WorkVO();
+                    workVO.setWorkID(object.getInt("WORK_ID"));
+                    workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                    workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                    workVO.setWriteID(object.getString("WRITER_ID"));
+                    workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                    workVO.setTitle(object.getString("WORK_TITLE"));
+                    workVO.setCoverFile(object.getString("COVER_IMG"));
+                    workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                    workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                    workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                    workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                    workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                    workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                    workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                    workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                    workVO.setnTarget(object.getInt("TARGET"));
 
-                WorkVO workVO = new WorkVO();
-                workVO.setWorkID(object.getInt("WORK_ID"));
-                workVO.setCreatedDate(object.getString("CREATED_DATE"));
-                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-                workVO.setWriteID(object.getString("WRITER_ID"));
-                workVO.setStrWriterName(object.getString("WRITER_NAME"));
-                workVO.setTitle(object.getString("WORK_TITLE"));
-                workVO.setCoverFile(object.getString("COVER_IMG"));
-                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
-                workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
-                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
-                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
-                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
-                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
-                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
-                workVO.setnTarget(object.getInt("TARGET"));
+                    bestWorkList.add(workVO);
+                }
 
-                bestWorkList.add(workVO);
             }
 
             bestRankingVO.setAllItemInCard(bestWorkList);
@@ -2546,26 +2552,28 @@ public class HttpClient {
 
             for (int i = 0; i < genreRankingJsonArray.length(); i++) {
                 JSONObject object = genreRankingJsonArray.getJSONObject(i);
+                if( object.getInt("TARGET") == type) {
+                    WorkVO workVO = new WorkVO();
+                    workVO.setWorkID(object.getInt("WORK_ID"));
+                    workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                    workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                    workVO.setWriteID(object.getString("WRITER_ID"));
+                    workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                    workVO.setTitle(object.getString("WORK_TITLE"));
+                    workVO.setCoverFile(object.getString("COVER_IMG"));
+                    workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                    workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                    workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                    workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                    workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                    workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                    workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                    workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                    workVO.setnTarget(object.getInt("TARGET"));
 
-                WorkVO workVO = new WorkVO();
-                workVO.setWorkID(object.getInt("WORK_ID"));
-                workVO.setCreatedDate(object.getString("CREATED_DATE"));
-                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-                workVO.setWriteID(object.getString("WRITER_ID"));
-                workVO.setStrWriterName(object.getString("WRITER_NAME"));
-                workVO.setTitle(object.getString("WORK_TITLE"));
-                workVO.setCoverFile(object.getString("COVER_IMG"));
-                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
-                workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
-                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
-                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
-                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
-                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
-                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
-                workVO.setnTarget(object.getInt("TARGET"));
+                    genroWorkList.add(workVO);
+                }
 
-                genroWorkList.add(workVO);
             }
 
             genreRankingVO.setAllItemInCard(genroWorkList);
@@ -2583,27 +2591,29 @@ public class HttpClient {
 
             for (int i = 0; i < newJsonArray.length(); i++) {
                 JSONObject object = newJsonArray.getJSONObject(i);
+                if( object.getInt("TARGET") == type) {
+                    WorkVO workVO = new WorkVO();
+                    workVO.setWorkID(object.getInt("WORK_ID"));
+                    workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                    workVO.setStrUpdateDate(object.getString("UPDATE_DATE"));
+                    workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                    workVO.setWriteID(object.getString("WRITER_ID"));
+                    workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                    workVO.setTitle(object.getString("WORK_TITLE"));
+                    workVO.setCoverFile(object.getString("COVER_IMG"));
+                    workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                    workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                    workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                    workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                    workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                    workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                    workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                    workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                    workVO.setnTarget(object.getInt("TARGET"));
 
-                WorkVO workVO = new WorkVO();
-                workVO.setWorkID(object.getInt("WORK_ID"));
-                workVO.setCreatedDate(object.getString("CREATED_DATE"));
-                workVO.setStrUpdateDate(object.getString("UPDATE_DATE"));
-                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-                workVO.setWriteID(object.getString("WRITER_ID"));
-                workVO.setStrWriterName(object.getString("WRITER_NAME"));
-                workVO.setTitle(object.getString("WORK_TITLE"));
-                workVO.setCoverFile(object.getString("COVER_IMG"));
-                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
-                workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
-                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
-                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
-                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
-                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
-                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
-                workVO.setnTarget(object.getInt("TARGET"));
+                    newWorkList.add(workVO);
+                }
 
-                newWorkList.add(workVO);
             }
 
             newRankingVO.setAllItemInCard(newWorkList);
@@ -2617,26 +2627,28 @@ public class HttpClient {
 
             for (int i = 0; i < realStoryRankingJsonArray.length(); i++) {
                 JSONObject object = realStoryRankingJsonArray.getJSONObject(i);
+                if( object.getInt("TARGET") == type) {
+                    WorkVO workVO = new WorkVO();
+                    workVO.setWorkID(object.getInt("WORK_ID"));
+                    workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                    workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                    workVO.setWriteID(object.getString("WRITER_ID"));
+                    workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                    workVO.setTitle(object.getString("WORK_TITLE"));
+                    workVO.setCoverFile(object.getString("COVER_IMG"));
+                    workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                    workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                    workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                    workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                    workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                    workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                    workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                    workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                    workVO.setnTarget(object.getInt("TARGET"));
 
-                WorkVO workVO = new WorkVO();
-                workVO.setWorkID(object.getInt("WORK_ID"));
-                workVO.setCreatedDate(object.getString("CREATED_DATE"));
-                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-                workVO.setWriteID(object.getString("WRITER_ID"));
-                workVO.setStrWriterName(object.getString("WRITER_NAME"));
-                workVO.setTitle(object.getString("WORK_TITLE"));
-                workVO.setCoverFile(object.getString("COVER_IMG"));
-                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
-                workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
-                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
-                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
-                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
-                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
-                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
-                workVO.setnTarget(object.getInt("TARGET"));
+                    realStoryWorkList.add(workVO);
+                }
 
-                realStoryWorkList.add(workVO);
             }
 
             realStoryRankingVO.setAllItemInCard(realStoryWorkList);
@@ -2650,26 +2662,28 @@ public class HttpClient {
 
             for (int i = 0; i < fanFicRankingJsonArray.length(); i++) {
                 JSONObject object = fanFicRankingJsonArray.getJSONObject(i);
+                if( object.getInt("TARGET") == type) {
+                    WorkVO workVO = new WorkVO();
+                    workVO.setWorkID(object.getInt("WORK_ID"));
+                    workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                    workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                    workVO.setWriteID(object.getString("WRITER_ID"));
+                    workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                    workVO.setTitle(object.getString("WORK_TITLE"));
+                    workVO.setCoverFile(object.getString("COVER_IMG"));
+                    workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                    workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                    workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                    workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                    workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                    workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                    workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                    workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                    workVO.setnTarget(object.getInt("TARGET"));
 
-                WorkVO workVO = new WorkVO();
-                workVO.setWorkID(object.getInt("WORK_ID"));
-                workVO.setCreatedDate(object.getString("CREATED_DATE"));
-                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-                workVO.setWriteID(object.getString("WRITER_ID"));
-                workVO.setStrWriterName(object.getString("WRITER_NAME"));
-                workVO.setTitle(object.getString("WORK_TITLE"));
-                workVO.setCoverFile(object.getString("COVER_IMG"));
-                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
-                workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
-                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
-                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
-                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
-                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
-                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
-                workVO.setnTarget(object.getInt("TARGET"));
+                    fanFicWorkList.add(workVO);
+                }
 
-                fanFicWorkList.add(workVO);
             }
 
             fanFicRankingVO.setAllItemInCard(fanFicWorkList);
@@ -3678,6 +3692,9 @@ public class HttpClient {
             workVO.setnTarget(resultObject.getInt("TARGET"));
             workVO.setnDonationCarrot(resultObject.getInt("CARROT_DONATION"));
             workVO.setbComplete(resultObject.getString("COMPLETE").equals("Y") ? true : false);
+            workVO.setStrCareer(resultObject.getString("CAREER"));
+            workVO.setCopyright(resultObject.getInt("COPYRIGHT"));
+            workVO.setOwner(resultObject.getInt("OWNERSHIP"));
 
             if (resultObject.has("INTERACTION_EPISODE"))
                 workVO.setnInteractionEpisodeID(resultObject.getInt("INTERACTION_EPISODE"));
@@ -6176,10 +6193,20 @@ public class HttpClient {
                     .build();
         }
          */
-        request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "TokkiRecommendList.jsp?CMD=GetRecommendList&USER_ID=" + strUserID+"&TARGET=" + String.valueOf(type))
-                .get()
-                .build();
+        if(type == 0) {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "TokkiRecommendList.jsp?CMD=GetRecommendList&USER_ID=" + strUserID+"&TARGET=" + String.valueOf(type))
+                    .get()
+                    .build();
+        }
+        else
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "TokkiRecommendList.jsp?CMD=GetRecommendList2&USER_ID=" + strUserID+"&TARGET=" + String.valueOf(type))
+                    .get()
+                    .build();
+        }
+
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -6198,25 +6225,29 @@ public class HttpClient {
                 JSONObject object = newJsonArray.getJSONObject(i);
 
                 WorkVO workVO = new WorkVO();
-                workVO.setWorkID(object.getInt("WORK_ID"));
-                workVO.setCreatedDate(object.getString("CREATED_DATE"));
-                workVO.setStrUpdateDate(object.getString("UPDATE_DATE"));
-                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-                workVO.setWriteID(object.getString("WRITER_ID"));
-                workVO.setStrWriterName(object.getString("WRITER_NAME"));
-                workVO.setTitle(object.getString("WORK_TITLE"));
-                workVO.setCoverFile(object.getString("COVER_IMG"));
-                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
-                workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
-                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
-                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
-                workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
-                workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
-                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
-                workVO.setnTarget(object.getInt("TARGET"));
+                if(object.getInt("TARGET") == type)
+                {
+                    workVO.setWorkID(object.getInt("WORK_ID"));
+                    workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                    workVO.setStrUpdateDate(object.getString("UPDATE_DATE"));
+                    workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                    workVO.setWriteID(object.getString("WRITER_ID"));
+                    workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                    workVO.setTitle(object.getString("WORK_TITLE"));
+                    workVO.setCoverFile(object.getString("COVER_IMG"));
+                    workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                    workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                    workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                    workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                    workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                    workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                    workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                    workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                    workVO.setnTarget(object.getInt("TARGET"));
 
-                recommendWorkList.add(workVO);
+                    recommendWorkList.add(workVO);
+                }
+
             }
 
             personalRecommendVO.setAllItemInCard(recommendWorkList);
@@ -6244,8 +6275,9 @@ public class HttpClient {
         }
         else
         {
+
             request = new Request.Builder()
-                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetRealStoryRanking")
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetRealStoryRanking&TARGET=" + String.valueOf(type))
                     .get()
                     .build();
         }

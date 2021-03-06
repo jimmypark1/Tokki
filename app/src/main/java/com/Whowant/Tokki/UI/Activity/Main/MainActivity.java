@@ -286,7 +286,10 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 int pos = tab.getPosition();
 
-
+                if(pos == 2)
+                {
+                    pos = 3;
+                }
                 mainPagerAdapter.nType = pos;
                 mainPagerAdapter.updateMain();
                 mainPagerAdapter.notifyDataSetChanged();
