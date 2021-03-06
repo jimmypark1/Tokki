@@ -174,7 +174,7 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int bResult = HttpClient.requestAuthNum(new OkHttpClient(), inputPhoneNumView.getText().toString());
+                int bResult = HttpClient.requestAuthNum(new OkHttpClient(), inputPhoneNumView.getText().toString(),nAuthType);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -218,7 +218,7 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String strResult = HttpClient.requestAuth(new OkHttpClient(), inputPhoneNumView.getText().toString(), inputAuthNumView.getText().toString());
+                String strResult = HttpClient.requestAuth(new OkHttpClient(), inputPhoneNumView.getText().toString(), inputAuthNumView.getText().toString(),nAuthType);
 
                 runOnUiThread(new Runnable() {
                     @Override

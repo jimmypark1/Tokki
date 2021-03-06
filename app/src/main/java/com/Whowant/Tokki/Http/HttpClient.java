@@ -6073,11 +6073,24 @@ public class HttpClient {
         return okHttpClient.newBuilder().addNetworkInterceptor(interceptor).build();
     }
 
-    public static int requestAuthNum(OkHttpClient httpClient, String strPhoneNum) {
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "TokkiSmsAuth.jsp?CMD=RequestAuthNum&PHONE_NUM=" + strPhoneNum)
-                .get()
-                .build();
+    public static int requestAuthNum(OkHttpClient httpClient, String strPhoneNum, int type) {
+        Request request ;
+        if(type == 0)
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "TokkiSmsAuth.jsp?CMD=RequestAuthNum&PHONE_NUM=" + strPhoneNum)
+                    .get()
+                    .build();
+
+        }
+        else
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "TokkiSmsAuth.jsp?CMD=RequestAuthNum&PHONE_NUM=" + strPhoneNum +"&TYPE=FIND")
+                    .get()
+                    .build();
+
+        }
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -6100,11 +6113,24 @@ public class HttpClient {
         return -1;
     }
 
-    public static String requestAuth(OkHttpClient httpClient, String strPhoneNum, String authNum) {
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "TokkiSmsAuth.jsp?CMD=RequestAuth&PHONE_NUM=" + strPhoneNum + "&AUTH_NUM=" + authNum)
-                .get()
-                .build();
+    public static String requestAuth(OkHttpClient httpClient, String strPhoneNum, String authNum, int type) {
+        Request request;
+        if(type == 0)
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "TokkiSmsAuth.jsp?CMD=RequestAuth&PHONE_NUM=" + strPhoneNum + "&AUTH_NUM=" + authNum)
+                    .get()
+                    .build();
+
+        }
+        else
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "TokkiSmsAuth.jsp?CMD=RequestAuth&PHONE_NUM=" + strPhoneNum + "&AUTH_NUM=" + authNum + "&TYPE=FIND")
+                    .get()
+                    .build();
+
+        }
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
