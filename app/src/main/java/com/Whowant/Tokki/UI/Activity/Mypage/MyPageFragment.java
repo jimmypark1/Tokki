@@ -76,6 +76,7 @@ public class MyPageFragment extends Fragment {
     LinearLayout btnCarrot;
     LinearLayout btnWork;
     LinearLayout btnRead;
+    LinearLayout btnFollowing;
 
     private int nCurrentCarrot = 0;                                                         // 현재 당근 갯수
     private int nTotalUsedCarrot = 0;                                                       // 총 당근 갯수
@@ -146,6 +147,17 @@ public class MyPageFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MyPageFollowerActivity.class);
                 intent.putExtra("writerId", SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest"));
+                startActivity(intent);
+            }
+        });
+        btnFollowing = v.findViewById(R.id.btnFollowing);
+        btnFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MyPageFollowerActivity.class);
+                intent.putExtra("writerId", SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest"));
+                intent.putExtra("TYPE", 1);
+
                 startActivity(intent);
             }
         });
@@ -500,6 +512,8 @@ public class MyPageFragment extends Fragment {
 
                             String back = resultObject.getString("BACKGROUND");
 
+                            //
+                            String birth = resultObject.getString("BIRTHDAY");
 
                             if (!TextUtils.isEmpty(back)) {
                                 if (!back.startsWith("http"))
@@ -515,6 +529,8 @@ public class MyPageFragment extends Fragment {
                                 SharedPreferences.Editor editor = pref.edit();
                                 editor.putString("USER_BACKGROUND", back);
                                 editor.putString("USER_COMMENT", ret);
+                                editor.putString("USER_BIRTHDAY", birth);
+
                                 editor.putInt("USER_TYPE", nType);
                                 editor.putInt("IS_SNS", resultObject.getInt("IS_SNS"));
 

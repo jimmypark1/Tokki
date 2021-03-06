@@ -35,6 +35,7 @@ public class MyPageFollowerAdapter extends FragmentPagerAdapter {
         fragments.add(myPageFollowerFragment);
         fragments.add(myPageFollowingFragment);
 
+
         titles.add("팔로워");
         titles.add("팔로잉");
     }

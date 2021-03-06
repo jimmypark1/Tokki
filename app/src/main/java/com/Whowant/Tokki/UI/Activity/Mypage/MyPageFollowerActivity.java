@@ -18,11 +18,13 @@ public class MyPageFollowerActivity extends AppCompatActivity {
     private MyPageFollowerAdapter pagerAdapter;
 
     String writerId;
+    int type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_page_follower);
+        type = getIntent().getIntExtra("TYPE",0);
 
         getData();
         initView();
@@ -45,6 +47,7 @@ public class MyPageFollowerActivity extends AppCompatActivity {
 
         pagerAdapter = new MyPageFollowerAdapter(this, getSupportFragmentManager(), writerId);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setCurrentItem(type);
         tabLayout.setupWithViewPager(viewPager);
     }
 }

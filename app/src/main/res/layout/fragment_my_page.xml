@@ -268,7 +268,7 @@
                             android:layout_marginTop="1dp"
                             android:gravity="center_horizontal"
                             android:lineSpacingExtra="9sp"
-                            android:text="팔로우"
+                            android:text="팔로워"
                             android:textColor="#b3ffffff"
                             android:textSize="11sp"
                             android:textStyle="normal" />

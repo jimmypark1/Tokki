@@ -5605,8 +5605,15 @@ public class HttpClient {
         if(user.getPhone() != null && user.getPhone().length() > 0)
             builder.addFormDataPart("USER_PHONENUM", user.getPhone());
 
-        if(user.getBirthday() != null && user.getBirthday().length() > 0)
-            builder.addFormDataPart("USER_BIRTHDAY", user.getBirthday());
+        if(user.getBirthday() != null && user.getBirthday().length() > 0) {
+
+            String birthday = user.getBirthday().replace("년", "");
+            birthday = birthday.replace("월", "");
+            birthday = birthday.replace("일", "");
+            birthday = birthday.replace(" ", "");
+
+            builder.addFormDataPart("USER_BIRTHDAY", birthday);
+        }
 
 
         builder.addFormDataPart("TYPE", String.valueOf(user.getType()));

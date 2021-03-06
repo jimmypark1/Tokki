@@ -322,7 +322,8 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
             phoneEt.setText(SimplePreference.getStringPreference(this, "USER_INFO", "USER_PHONENUM", ""));
 
         }
-        introduction.setText(comment);
+        if(comment.equals("null") == false)
+            introduction.setText(comment);
 
         if(nUserType == 0)
         {
