@@ -128,6 +128,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         {
             nPage = 0;
         }
+
         page.setText(String.valueOf(nPage+1));
 
         if(novels.size() > 0)

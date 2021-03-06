@@ -76,6 +76,8 @@ public class WebWorkFragment extends Fragment {
 
     RelativeLayout starPointLayout;
 
+    int page = 0;
+
 
     ImageView backCk0,backCk1,backCk2,backCk3,backCk4,backCk5;
     ImageView fontCk0,fontCk1,fontCk2,fontCk3;
@@ -120,6 +122,11 @@ public class WebWorkFragment extends Fragment {
         {
             topMenu.setVisibility(View.INVISIBLE);
         }
+        else
+        {
+         //   webview.setPadding(120,60,120,40);
+
+        }
 
         if(show) {
             if(isAnim) {
@@ -131,6 +138,8 @@ public class WebWorkFragment extends Fragment {
             bottomMenu.setVisibility(View.VISIBLE);
             if(isCover == false)
                 topMenu.setVisibility(View.VISIBLE);
+
+
 
 
 /*
@@ -200,6 +209,8 @@ public class WebWorkFragment extends Fragment {
 
     public void onClickPrev(View view) {
 
+        if(page == 0)
+            return;
 
         WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
          parent.onClickPrev(view);
@@ -288,7 +299,7 @@ public class WebWorkFragment extends Fragment {
         }
 
         String text = "<html><head>"
-                + "<style type=\"text/css\">body{ background-color:#ffffff; color: black }"
+                + "<style type=\"text/css\">body{ background-color:#ffffff; color: black;padding:20px 20px 40px 20px; }"
                 + font
                 + fontFamily
                 + fontSize
@@ -357,9 +368,10 @@ public class WebWorkFragment extends Fragment {
 
         }
         String text = "<html><head>"
-                + "<style type=\"text/css\">body{ background-color:#efeff4; color: black }"
+                + "<style type=\"text/css\">body{ background-color:#efeff4; color: black; black;padding:20px 20px 40px 20px;  }"
                 + font+ fontFamily
                 + fontSize
+                + "body{padding:20px 20px 40px 20px; }"
                 + "</style></head>"
                 + "<body>"
                 + webWork.getRaw()
@@ -424,10 +436,11 @@ public class WebWorkFragment extends Fragment {
 
         }
         String text = "<html><head>"
-                + "<style type=\"text/css\">body{ background-color:#fcf3de; color: black }"
+                + "<style type=\"text/css\">body{ background-color:#fcf3de; color: black ; black;padding:20px 20px 40px 20px; }"
                 + font
                 + fontFamily
                 + fontSize
+                + "body{padding:20px 20px 40px 20px; }"
                 + "</style></head>"
                 + "<body>"
                 + webWork.getRaw()
@@ -492,10 +505,11 @@ public class WebWorkFragment extends Fragment {
 
         }
         String text = "<html><head>"
-                + "<style type=\"text/css\">body{ background-color:#edfdee; color: black }"
+                + "<style type=\"text/css\">body{ background-color:#edfdee; color: black; black;padding:20px 20px 40px 20px;  }"
                 + font
                 + fontFamily
                 + fontSize
+                + "body{padding:20px 20px 40px 20px; }"
                 + "</style></head>"
                 + "<body>"
                 + webWork.getRaw()
@@ -560,10 +574,11 @@ public class WebWorkFragment extends Fragment {
 
         }
         String text = "<html><head>"
-                + "<style type=\"text/css\">body{ background-color:#404040; color: white }"
+                + "<style type=\"text/css\">body{ background-color:#404040; color: white; black;padding:20px 20px 40px 20px;  }"
                 + font
                 + fontFamily
                 + fontSize
+                + "body{padding:20px 20px 40px 20px; }"
                 + "</style></head>"
                 + "<body>"
                 + webWork.getRaw()
@@ -639,10 +654,11 @@ public class WebWorkFragment extends Fragment {
 
         }
         String text = "<html><head>"
-                + "<style type=\"text/css\">body{ background-color:#191919; color: white }"
+                + "<style type=\"text/css\">body{ background-color:#191919; color: white; black;padding:20px 20px 40px 20px;  }"
                 + font
                 + fontFamily
                 + fontSize
+                + "body{padding:20px 20px 40px 20px; }"
                 + "</style></head>"
                 + "<body>"
                 + webWork.getRaw()
@@ -715,32 +731,32 @@ public class WebWorkFragment extends Fragment {
         String back = "";
         if(nBack == 0)
         {
-            back = "body{ background-color:#ffffff ;color:black}";
+            back = "body{ background-color:#ffffff ;color:black; black;padding:20px 20px 40px 20px; }";
 
         }
         else if(nBack == 1)
         {
-            back = "body{ background-color:#efeff4 ;color:black}";
+            back = "body{ background-color:#efeff4 ;color:black; black;padding:20px 20px 40px 20px; }";
 
         }
         else if(nBack == 2)
         {
-            back = "body{ background-color:#fcf3de ;color:black}";
+            back = "body{ background-color:#fcf3de ;color:black; black;padding:20px 20px 40px 20px; }";
 
         }
         else if(nBack == 3)
         {
-            back = "body{ background-color:#edfdee ;color:black}";
+            back = "body{ background-color:#edfdee ;color:black; black;padding:20px 20px 40px 20px; }";
 
         }
         else if(nBack == 4)
         {
-            back = "body{ background-color:#404040 ;color:white}";
+            back = "body{ background-color:#404040 ;color:white; black;padding:20px 20px 40px 20px; }";
 
         }
         else if(nBack == 5)
         {
-            back = "body{ background-color:#191919 ;color:white}";
+            back = "body{ background-color:#191919 ;color:white; black;padding:20px 20px 40px 20px; }";
 
         }
 
@@ -750,6 +766,7 @@ public class WebWorkFragment extends Fragment {
                 + "body{ font-family:NanumSquareOTFR }"
                 + back
                 + fontSize
+                + "body{padding:20px 20px 40px 20px; }"
                 + "</style></head>"
                 + "<body>"
                 + webWork.getRaw()
@@ -794,32 +811,32 @@ public class WebWorkFragment extends Fragment {
         String back = "";
         if(nBack == 0)
         {
-            back = "body{ background-color:#ffffff ;color:black}";
+            back = "body{ background-color:#ffffff ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 1)
         {
-            back = "body{ background-color:#efeff4 ;color:black}";
+            back = "body{ background-color:#efeff4 ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 2)
         {
-            back = "body{ background-color:#fcf3de ;color:black}";
+            back = "body{ background-color:#fcf3de ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 3)
         {
-            back = "body{ background-color:#edfdee ;color:black}";
+            back = "body{ background-color:#edfdee ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 4)
         {
-            back = "body{ background-color:#404040 ;color:white}";
+            back = "body{ background-color:#404040 ;color:white; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 5)
         {
-            back = "body{ background-color:#191919 ;color:white}";
+            back = "body{ background-color:#191919 ;color:white; black;padding:20px 20px 40px 20px;}";
 
         }
 
@@ -829,6 +846,7 @@ public class WebWorkFragment extends Fragment {
                 + "body{ font-family:NanumMyeongjoOTF }"
                 + back
                 + fontSize
+                + "body{padding:20px 20px 40px 20px; }"
                 + "</style></head>"
                 + "<body>"
                 + webWork.getRaw()
@@ -872,32 +890,32 @@ public class WebWorkFragment extends Fragment {
         String back = "";
         if(nBack == 0)
         {
-            back = "body{ background-color:#ffffff ;color:black}";
+            back = "body{ background-color:#ffffff ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 1)
         {
-            back = "body{ background-color:#efeff4 ;color:black}";
+            back = "body{ background-color:#efeff4 ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 2)
         {
-            back = "body{ background-color:#fcf3de ;color:black}";
+            back = "body{ background-color:#fcf3de ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 3)
         {
-            back = "body{ background-color:#edfdee ;color:black}";
+            back = "body{ background-color:#edfdee ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 4)
         {
-            back = "body{ background-color:#404040 ;color:white}";
+            back = "body{ background-color:#404040 ;color:white; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 5)
         {
-            back = "body{ background-color:#191919 ;color:white}";
+            back = "body{ background-color:#191919 ;color:white; black;padding:20px 20px 40px 20px;}";
 
         }
 
@@ -907,6 +925,7 @@ public class WebWorkFragment extends Fragment {
                 + back
                 + fontSize
                 + "body{ font-family:NanumSquareRoundOTFR }"
+                + "body{padding:20px 20px 40px 20px; }"
                 + "</style></head>"
                 + "<body>"
                 + webWork.getRaw()
@@ -951,32 +970,32 @@ public class WebWorkFragment extends Fragment {
         String back = "";
         if(nBack == 0)
         {
-            back = "body{ background-color:#ffffff ;color:black}";
+            back = "body{ background-color:#ffffff ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 1)
         {
-            back = "body{ background-color:#efeff4 ;color:black}";
+            back = "body{ background-color:#efeff4 ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 2)
         {
-            back = "body{ background-color:#fcf3de ;color:black}";
+            back = "body{ background-color:#fcf3de ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 3)
         {
-            back = "body{ background-color:#edfdee ;color:black}";
+            back = "body{ background-color:#edfdee ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 4)
         {
-            back = "body{ background-color:#404040 ;color:white}";
+            back = "body{ background-color:#404040 ;color:white; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 5)
         {
-            back = "body{ background-color:#191919 ;color:white}";
+            back = "body{ background-color:#191919 ;color:white; black;padding:20px 20px 40px 20px;}";
 
         }
 
@@ -986,6 +1005,7 @@ public class WebWorkFragment extends Fragment {
                 + "body{ font-family:SDMiSaeng }"
                 + back
                 + fontSize
+                + "body{padding:20px 20px 40px 20px; }"
                 + "</style></head>"
                 + "<body>"
                 + webWork.getRaw()
@@ -1016,7 +1036,7 @@ public class WebWorkFragment extends Fragment {
 
 
 
-         String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+         String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px }";
 
         String font= "  @font-face {\n" +
                 "        font-family: \"NanumSquareOTFR\";\n" +
@@ -1038,53 +1058,53 @@ public class WebWorkFragment extends Fragment {
         String fontFamily = "";
         if(nFont == 0)
         {
-            fontFamily =  "body{ font-family:NanumSquareOTFR }";
+            fontFamily =  "body{ font-family:NanumSquareOTFR ; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nFont == 1)
         {
-            fontFamily =  "body{ font-family:NanumMyeongjoOTF }";
+            fontFamily =  "body{ font-family:NanumMyeongjoOTF; black;padding:20px 20px 40px 20px; }";
 
         }
         else if(nFont == 2)
         {
-            fontFamily =  "body{ font-family:NanumSquareRoundOTFR }";
+            fontFamily =  "body{ font-family:NanumSquareRoundOTFR; black;padding:20px 20px 40px 20px; }";
 
         }
         else if(nFont == 3)
         {
-            fontFamily =  "body{ font-family:SDMiSaeng }";
+            fontFamily =  "body{ font-family:SDMiSaeng ; black;padding:20px 20px 40px 20px;}";
 
         }
         String back = "";
         if(nBack == 0)
         {
-            back = "body{ background-color:#ffffff ;color:black}";
+            back = "body{ background-color:#ffffff ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 1)
         {
-            back = "body{ background-color:#efeff4 ;color:black}";
+            back = "body{ background-color:#efeff4 ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 2)
         {
-            back = "body{ background-color:#fcf3de ;color:black}";
+            back = "body{ background-color:#fcf3de ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 3)
         {
-            back = "body{ background-color:#edfdee ;color:black}";
+            back = "body{ background-color:#edfdee ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 4)
         {
-            back = "body{ background-color:#404040 ;color:white}";
+            back = "body{ background-color:#404040 ;color:white; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 5)
         {
-            back = "body{ background-color:#191919 ;color:white}";
+            back = "body{ background-color:#191919 ;color:white; black;padding:20px 20px 40px 20px;}";
 
         }
 
@@ -1094,6 +1114,7 @@ public class WebWorkFragment extends Fragment {
                 + fontFamily
                 + back
                 + fontSize
+                + "body{padding:20px 20px 40px 20px; }"
                 + "</style></head>"
                 + "<body>"
                 + webWork.getRaw()
@@ -1117,7 +1138,7 @@ public class WebWorkFragment extends Fragment {
         defaultFontSize =   (1- 0.2f * fontSizeStep) * defaultFontSize;
 
         //  defaultFontSize =  defaultFontSize + (0.02f * (float)fontSizeStep) * defaultFontSize;
-        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px";
+        String fontSize = "body{ font-size:" + String.valueOf((int)defaultFontSize) + "px}";
 
         String font= "  @font-face {\n" +
                 "        font-family: \"NanumSquareOTFR\";\n" +
@@ -1139,53 +1160,53 @@ public class WebWorkFragment extends Fragment {
         String fontFamily = "";
         if(nFont == 0)
         {
-            fontFamily =  "body{ font-family:NanumSquareOTFR }";
+            fontFamily =  "body{ font-family:NanumSquareOTFR ; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nFont == 1)
         {
-            fontFamily =  "body{ font-family:NanumMyeongjoOTF }";
+            fontFamily =  "body{ font-family:NanumMyeongjoOTF; black;padding:20px 20px 40px 20px; }";
 
         }
         else if(nFont == 2)
         {
-            fontFamily =  "body{ font-family:NanumSquareRoundOTFR }";
+            fontFamily =  "body{ font-family:NanumSquareRoundOTFR; black;padding:20px 20px 40px 20px; }";
 
         }
         else if(nFont == 3)
         {
-            fontFamily =  "body{ font-family:SDMiSaeng }";
+            fontFamily =  "body{ font-family:SDMiSaeng; black;padding:20px 20px 40px 20px; }";
 
         }
         String back = "";
         if(nBack == 0)
         {
-            back = "body{ background-color:#ffffff ;color:black}";
+            back = "body{ background-color:#ffffff ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 1)
         {
-            back = "body{ background-color:#efeff4 ;color:black}";
+            back = "body{ background-color:#efeff4 ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 2)
         {
-            back = "body{ background-color:#fcf3de ;color:black}";
+            back = "body{ background-color:#fcf3de ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 3)
         {
-            back = "body{ background-color:#edfdee ;color:black}";
+            back = "body{ background-color:#edfdee ;color:black; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 4)
         {
-            back = "body{ background-color:#404040 ;color:white}";
+            back = "body{ background-color:#404040 ;color:white; black;padding:20px 20px 40px 20px;}";
 
         }
         else if(nBack == 5)
         {
-            back = "body{ background-color:#191919 ;color:white}";
+            back = "body{ background-color:#191919 ;color:white; black;padding:20px 20px 40px 20px;}";
 
         }
 
@@ -1195,6 +1216,7 @@ public class WebWorkFragment extends Fragment {
                 + fontFamily
                 + back
                 + fontSize
+                + "body{padding:20px 20px 40px 20px; }"
                 + "</style></head>"
                 + "<body>"
                 + webWork.getRaw()
@@ -1340,7 +1362,23 @@ public class WebWorkFragment extends Fragment {
             next.setText("다음화 >");
 
         initLayout();
-        webview.loadData(webWork.getRaw(), "text/html; charset=utf-8", "UTF-8");
+        //120,60,120,40
+        String style = "";
+        String html = webWork.getRaw();
+//   padding:10px 10px 10px 10px; /* 위 오른쪽 아래쪽 왼쪽 패딩속성 한번에 주기 */
+//
+        String text = "<html><head>"
+                + "<style type=\"text/css\">"
+                + "body{padding:20px 20px 40px 20px; }"
+                + "</style></head>"
+                + "<body>"
+                + webWork.getRaw()
+                + "</body></html>";
+
+
+        webview.loadDataWithBaseURL("file:///android_asset/",text,"text/html","utf-8",null);
+
+        // webview.loadData(text, "text/html; charset=utf-8", "UTF-8");
 
         webview.getSettings().setDomStorageEnabled(true);
 

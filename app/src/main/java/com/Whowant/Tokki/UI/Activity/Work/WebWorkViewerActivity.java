@@ -147,6 +147,9 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         {
             episodeIndex = episodeList.size() -1;
         }
+        if(episodeIndex == 0)
+            return;
+
         EpisodeVO episode = work.getEpisodeList().get(episodeIndex);
 
 
@@ -327,12 +330,14 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                     show = true;
 
                     WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
+                    fragment.page = position;
                     fragment.showMenu(true,false,true);
 
                 }
                 else
                 {
                     WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
+                    fragment.page = position;
                     fragment.showMenu(false, false,false);
 
                 }
