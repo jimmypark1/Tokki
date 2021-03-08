@@ -84,6 +84,8 @@ public class MyPageFragment extends Fragment {
 
     TextView followerCountTv;
 
+    RelativeLayout comment_layer;
+
 
     private int nCurrentCarrot = 0;                                                         // 현재 당근 갯수
     private int nTotalUsedCarrot = 0;                                                       // 총 당근 갯수
@@ -175,6 +177,7 @@ public class MyPageFragment extends Fragment {
         unfollowLayer  = v.findViewById(R.id.ll_writer_page_unfollow);
         btnCarrot = v.findViewById(R.id.btnCarrot);
         btnTokkiSNS = v.findViewById(R.id.btnTokkiSNS);
+        comment_layer = v.findViewById(R.id.comment_layer);
     //    followerCountTv = v.findViewById(R.id.tv_writer_page_follower_count);
 
         //
@@ -235,7 +238,12 @@ public class MyPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MyPageFollowerActivity.class);
-                intent.putExtra("writerId", SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest"));
+                if(type == 0)
+                    intent.putExtra("writerId", SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest"));
+                else
+                    intent.putExtra("writerId", writerId);
+                intent.putExtra("WRITER_TYPE", type);
+
                 startActivity(intent);
             }
         });
@@ -244,9 +252,15 @@ public class MyPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MyPageFollowerActivity.class);
-                intent.putExtra("writerId", SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest"));
-                intent.putExtra("TYPE", 1);
+             //   intent.putExtra("writerId", SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest"));
+                if(type == 0)
+                    intent.putExtra("writerId", SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest"));
+                else
+                    intent.putExtra("writerId", writerId);
 
+                intent.putExtra("TYPE", 1);
+                intent.putExtra("WRITER_TYPE", type);
+//WRITER_TYPE
                 startActivity(intent);
             }
         });
@@ -262,7 +276,8 @@ public class MyPageFragment extends Fragment {
         btnWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).moveViewpager(3);
+               // if(type == 0)
+               // ((MainActivity)getActivity()).moveViewpager(3);
             }
         });
 
@@ -283,7 +298,7 @@ public class MyPageFragment extends Fragment {
         return v;
     }
     private void getWriterInfo() {
-        CommonUtils.showProgressDialog(mActivity, "작가 정보를 가져오고 있습니다. 잠시만 기다려 주세요.");
+      //  CommonUtils.showProgressDialog(mActivity, "작가 정보를 가져오고 있습니다. 잠시만 기다려 주세요.");
 
         new Thread(new Runnable() {
             @Override
@@ -291,7 +306,7 @@ public class MyPageFragment extends Fragment {
                 String strMyID = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_ID", "Guest");
 
                 JSONObject resultObject = HttpClient.getWriterInfo(new OkHttpClient(), writerId, strMyID);
-                CommonUtils.hideProgressDialog();
+                //CommonUtils.hideProgressDialog();
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -664,11 +679,16 @@ public class MyPageFragment extends Fragment {
                             }
                             if(ret != "null")
                             {
+                                comment_layer.setVisibility(View.VISIBLE);
                                 introductionTv.setText(ret);
 
                             }
                             else
                             {
+                                ViewGroup.LayoutParams params = comment_layer.getLayoutParams();
+                                params.height = 0;
+
+                                comment_layer.setVisibility(View.GONE);
                                 introductionTv.setText("");
 
                             }

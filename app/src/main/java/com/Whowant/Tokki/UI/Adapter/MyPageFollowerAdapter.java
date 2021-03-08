@@ -19,13 +19,17 @@ public class MyPageFollowerAdapter extends FragmentPagerAdapter {
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private ArrayList<String> titles = new ArrayList<>();
 
-    public MyPageFollowerAdapter(Context context, @NonNull FragmentManager fm, String writerId) {
+
+    public MyPageFollowerAdapter(Context context, @NonNull FragmentManager fm, String writerId, int type) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         this.mContext = context;
 
         MyPageFollowerFragment myPageFollowerFragment = new MyPageFollowerFragment();
+
+        myPageFollowerFragment.type = type;
         MyPageFollowingFragment myPageFollowingFragment = new MyPageFollowingFragment();
+        myPageFollowingFragment.type = type;
 
         Bundle bundle = new Bundle();
         bundle.putString("writerId", writerId);

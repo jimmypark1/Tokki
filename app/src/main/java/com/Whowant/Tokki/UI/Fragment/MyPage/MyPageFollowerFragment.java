@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageFollowerActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterPageActivity;
 import com.Whowant.Tokki.UI.TypeOnClickListener;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -40,6 +41,7 @@ public class MyPageFollowerFragment extends Fragment {
     private ArrayList<WriterVO> writerList = new ArrayList<>();
 
     String writerId;
+    public int type;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,10 +65,19 @@ public class MyPageFollowerFragment extends Fragment {
         ItemClickSupport.addTo(recyclerView).setItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClick(RecyclerView parent, View view, int position, long id) {
-                WriterVO item = writerList.get(position);
 
+                WriterVO item = writerList.get(position);
+                /*
                 Intent intent = new Intent(getContext(), WriterPageActivity.class);
                 intent.putExtra("writerId", item.getStrWriterID());
+                startActivity(intent);
+
+                 */
+                Intent intent = new Intent(getActivity(), MyPageFollowerActivity.class);
+
+                intent.putExtra("writerId", item.getStrWriterID());
+                intent.putExtra("WRITER_TYPE", type);
+
                 startActivity(intent);
             }
         });
@@ -141,12 +152,23 @@ public class MyPageFollowerFragment extends Fragment {
 
                 viewHolder.nameTv.setText(item.getStrWriterName());
 
-                if (item.getnFollowcount() == 0) {
-                    viewHolder.followerLl.setVisibility(View.GONE);
-                    viewHolder.followingLl.setVisibility(View.VISIBLE);
-                } else {
-                    viewHolder.followerLl.setVisibility(View.VISIBLE);
+
+
+
+
+                if(type == 1)
+                {
                     viewHolder.followingLl.setVisibility(View.GONE);
+                }
+                else
+                {
+                    if (item.getnFollowcount() == 0) {
+                        viewHolder.followerLl.setVisibility(View.GONE);
+                        viewHolder.followingLl.setVisibility(View.VISIBLE);
+                    } else {
+                        viewHolder.followerLl.setVisibility(View.VISIBLE);
+                        viewHolder.followingLl.setVisibility(View.GONE);
+                    }
                 }
             }
         }
