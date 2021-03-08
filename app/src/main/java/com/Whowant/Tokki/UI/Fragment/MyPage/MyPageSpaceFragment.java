@@ -31,9 +31,11 @@ import android.widget.Toast;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Mypage.SpacePostCommentActivity;
+import com.Whowant.Tokki.UI.Fragment.Friend.MessageDetailActivity;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.SimplePreference;
+import com.Whowant.Tokki.VO.MessageThreadVO;
 import com.Whowant.Tokki.VO.SpaceVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -306,6 +308,8 @@ public class MyPageSpaceFragment extends Fragment {
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
                                     case R.id.message:
+                                        sendMessage(posterID);
+                                        break;
                                     case R.id.block:
                                         setBlockUser(posterID);
                                         break;
@@ -321,6 +325,37 @@ public class MyPageSpaceFragment extends Fragment {
                 }
             });
         }
+        void sendMessage(String recvId)
+        {
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (getActivity() == null) {
+                        isThreadRunning = false;
+                        return;
+                    }
+                    String userID =  SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest");
+
+                    MessageThreadVO ret = HttpClient.getMessageThreadByID(new OkHttpClient(), userID,recvId);
+
+                    int nThreadId = ret.getThreadID();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
+                            intent.putExtra("THREAD_ID", nThreadId);
+                            intent.putExtra("RECEIVER_ID", recvId);
+
+                            startActivity(intent);
+                        }
+                    });
+                }
+            }).start();
+        }
+
+
         void setBlockUser(String blockId)
         {
             new Thread(new Runnable() {
