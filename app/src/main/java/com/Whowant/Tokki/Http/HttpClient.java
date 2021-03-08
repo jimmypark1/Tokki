@@ -1663,7 +1663,7 @@ public class HttpClient {
         else
         {
             request = new Request.Builder()
-                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetBestRanking")
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetBestRanking&TARGET=" + String.valueOf(type))
                     .get()
                     .build();
         }
@@ -1795,7 +1795,7 @@ public class HttpClient {
         else
         {
             request= new Request.Builder()
-                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetGenreRanking&GENRE_ID=" + strGenreID)
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetGenreRanking&GENRE_ID=" + strGenreID + "&TARGET="+ String.valueOf(type))
                     .get()
                     .build();
         }
@@ -2274,7 +2274,7 @@ public class HttpClient {
         else
         {
             request = new Request.Builder()
-                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetNewRanking")
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetNewRanking&TARGET=" + String.valueOf(type))
                     .get()
                     .build();
         }
@@ -2321,13 +2321,25 @@ public class HttpClient {
         return resultList;
     }
 
-    public static ArrayList<WorkVO> getRecommandList(OkHttpClient httpClient) {                              // 모든 작품 목록 가져오기
+    public static ArrayList<WorkVO> getRecommandList(OkHttpClient httpClient, int type) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
 
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetRecommandRanking")
-                .get()
-                .build();
+        Request request ;
+        if(type == 0)
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetRecommandRanking")
+                    .get()
+                    .build();
+        }
+        else
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetRecommandRanking&TARGET=" + String.valueOf(type))
+                    .get()
+                    .build();
+        }
+
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
@@ -6338,7 +6350,7 @@ public class HttpClient {
         else
         {
             request = new Request.Builder()
-                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetFanFictionRanking")
+                    .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetFanFictionRanking&TARGET=" + String.valueOf(type))
                     .get()
                     .build();
         }
@@ -6422,11 +6434,11 @@ public class HttpClient {
         return resultList;
     }
 
-    public static ArrayList<SpaceVO> getSpacePosts(OkHttpClient httpClient, String order) {
+    public static ArrayList<SpaceVO> getSpacePosts(OkHttpClient httpClient, String order, String userId) {
         ArrayList<SpaceVO> resultList = new ArrayList<>();
 
         Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetSpacePosts&ORDER=" + order)
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetSpacePosts&ORDER=" + order + "&USER_ID=" + userId)
                 .get()
                 .build();
 
@@ -6459,6 +6471,106 @@ public class HttpClient {
         }
 
         return resultList;
+    }
+    public static Boolean setSpaceBlockUser(OkHttpClient httpClient,  String userId, String blockId) {
+        ArrayList<SpaceVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=SetSpaceBlockUser&USER_ID=" + userId + "&BLOCK_ID=" + blockId)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+             String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS")) {
+//                likeCount = resultJsonObject.getInt("COUNT");
+//                return likeCount;
+                return true;
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return  false;
+    }
+    public static Boolean requestSpaceReport(OkHttpClient httpClient, String userId, String postId, String reason) {
+        ArrayList<SpaceVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestSpaceReport&USER_ID=" + userId + "&POST_ID=" + postId + "&REASON=" + reason)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS")) {
+//                likeCount = resultJsonObject.getInt("COUNT");
+//                return likeCount;
+                return true;
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return  false;
+    }
+    public static Boolean requestWorkReport(OkHttpClient httpClient, String userId, String workId, String reason) {
+        ArrayList<SpaceVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestWorkReport&USER_ID=" + userId + "&WORK_ID=" + workId + "&REASON=" + reason)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS")) {
+//                likeCount = resultJsonObject.getInt("COUNT");
+//                return likeCount;
+                return true;
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return  false;
+    }
+    public static Boolean requestEpisodeReport(OkHttpClient httpClient, String userId, String episodeId, String reason) {
+        ArrayList<SpaceVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestEpisodeReport&USER_ID=" + userId + "&EPISODE_ID=" + episodeId + "&REASON=" + reason)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS")) {
+//                likeCount = resultJsonObject.getInt("COUNT");
+//                return likeCount;
+                return true;
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return  false;
     }
     public static ArrayList<MarketVO> getBuyerTransactionCompleted(OkHttpClient httpClient, String userID) {
         ArrayList<MarketVO> resultList = new ArrayList<>();

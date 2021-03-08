@@ -300,12 +300,16 @@ public class MyPageSpaceFragment extends Fragment {
                     } else {
                         // 신고 메뉴 (메시지 보내기, 사용자 차단, 게시물 신고)
                         popupMenu.getMenuInflater().inflate(R.menu.space_row_menu, popupMenu.getMenu());
+                        String posterID =  item.getUserID();
                         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
                                     case R.id.message:
                                     case R.id.block:
+                                        setBlockUser(posterID);
+                                        break;
+
                                     case R.id.report:
                                         break;
                                 }
@@ -316,6 +320,31 @@ public class MyPageSpaceFragment extends Fragment {
                     }
                 }
             });
+        }
+        void setBlockUser(String blockId)
+        {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (getActivity() == null) {
+                        isThreadRunning = false;
+                        return;
+                    }
+                    String userID =  SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest");
+
+                    boolean ret = HttpClient.setSpaceBlockUser(new OkHttpClient(), userID,blockId);
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                           getSpacePosts();
+                            Toast.makeText(getActivity(), "해당 사용자가 차단되었습니다.", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }
+            }).start();
         }
 
         @Override
@@ -464,10 +493,10 @@ public class MyPageSpaceFragment extends Fragment {
                     isThreadRunning = false;
                     return;
                 }
-
+                String userID =  SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest");
                 ArrayList<SpaceVO> arrayList;
                 String order = "desc";
-                arrayList = HttpClient.getSpacePosts(new OkHttpClient(), order);
+                arrayList = HttpClient.getSpacePosts(new OkHttpClient(), order,userID);
 
                 if (arrayList != null) {
                     postList.clear();

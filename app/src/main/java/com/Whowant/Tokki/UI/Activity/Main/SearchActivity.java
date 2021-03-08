@@ -151,7 +151,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         new Thread(new Runnable() {
             @Override
             public void run() {
-                recommendList.addAll(HttpClient.getRecommandList(new OkHttpClient()));
+                recommendList.addAll(HttpClient.getRecommandList(new OkHttpClient(), 0));
 
                 runOnUiThread(new Runnable() {
                     @Override
