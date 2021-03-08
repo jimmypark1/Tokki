@@ -283,7 +283,10 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
                 for(int i=0;i<novels.size();i++)
                 {
-                    boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),publishContent.get(i).getRaw(),String.valueOf(novels.size()),String.valueOf(i+1));
+
+                    String content= publishContent.get(i).getRaw().replace("\n", "<br>");
+
+                    boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content,String.valueOf(novels.size()),String.valueOf(i+1));
 
                     while(ret == false)
                     {

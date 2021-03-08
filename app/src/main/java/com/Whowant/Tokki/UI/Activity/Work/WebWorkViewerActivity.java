@@ -90,6 +90,9 @@ public class WebWorkViewerActivity extends AppCompatActivity{
     private float fStarPoint = 0;
     private int   nStarCount = 0;
 
+    String workID = "";
+
+
     int dpToPx(float dp)
     {
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -117,7 +120,25 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
         }
     }
+    private void sendViewing(final int nOrder) {
+        SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EpisodeVO vo = episodeList.get(episodeIndex);
+                int nWorkId = ViewerActivity.workVO.getnWorkID();
+                HttpClient.sendHitsWork(new OkHttpClient(),nWorkId, vo.getnEpisodeID(), pref.getString("USER_ID", "Guest"), lastOrder);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                  //      finish();
+                    }
+                });
+            }
+        }).start();
+    }
     public void nextEpisode()
     {
       //  episodeIndex = episodeIndex - episodeList.size() -1;
@@ -281,6 +302,8 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         episodeIndex = getIntent().getIntExtra("EPISODE_INDEX",0);
         lastOrder = getIntent().getIntExtra("LAST_ORDER",-1);
 
+        workID = getIntent().getStringExtra("WORK_ID");
+
         episodeListView = findViewById(R.id.episodeListView);
         top = findViewById(R.id.topBarLayout);
 
@@ -357,7 +380,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
             }
         });
 
-
+        sendViewing(lastOrder);
 
     }
 
