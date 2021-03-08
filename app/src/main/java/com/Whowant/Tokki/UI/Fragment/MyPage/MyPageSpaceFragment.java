@@ -30,7 +30,9 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Main.ChatActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.SpacePostCommentActivity;
+import com.Whowant.Tokki.UI.Activity.Work.ReportSelectActivity;
 import com.Whowant.Tokki.UI.Fragment.Friend.MessageDetailActivity;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -303,6 +305,8 @@ public class MyPageSpaceFragment extends Fragment {
                         // 신고 메뉴 (메시지 보내기, 사용자 차단, 게시물 신고)
                         popupMenu.getMenuInflater().inflate(R.menu.space_row_menu, popupMenu.getMenu());
                         String posterID =  item.getUserID();
+                        int nPostID =  item.getPostID();
+
                         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
@@ -315,6 +319,7 @@ public class MyPageSpaceFragment extends Fragment {
                                         break;
 
                                     case R.id.report:
+                                        report(String.valueOf(nPostID));
                                         break;
                                 }
                                 return true;
@@ -324,6 +329,14 @@ public class MyPageSpaceFragment extends Fragment {
                     }
                 }
             });
+        }
+
+        void report(String postId)
+        {
+            Intent intent = new Intent(getActivity(), ReportSelectActivity.class);
+            intent.putExtra("POST_ID", postId);
+            startActivity(intent);
+
         }
         void sendMessage(String recvId)
         {

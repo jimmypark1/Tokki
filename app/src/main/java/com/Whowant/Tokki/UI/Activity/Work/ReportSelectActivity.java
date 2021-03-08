@@ -36,12 +36,17 @@ public class ReportSelectActivity extends AppCompatActivity {                   
     private SharedPreferences pref;
     private Button reportBtn;
 
+    String postId = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_select);
 
         nCommentID = getIntent().getIntExtra("COMMENT_ID", -1);
+
+        postId = getIntent().getStringExtra("POST_ID");
+
         pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
 
         radio1 = findViewById(R.id.radio1);
@@ -205,24 +210,48 @@ public class ReportSelectActivity extends AppCompatActivity {                   
             @Override
             public void run() {
                 //OkHttpClient httpClient, String strUserID, String strAdminID, String strReason
-                final int nResult = HttpClient.requestCommentReport(new OkHttpClient(), pref.getString("USER_ID", "Guest"), nCommentID, strSendReason);
+                if(nCommentID > 0)
+                {
+                    final int nResult = HttpClient.requestCommentReport(new OkHttpClient(), pref.getString("USER_ID", "Guest"), nCommentID, strSendReason);
 //                boolean bResult = HttpClient.requestCommentReport(new OkHttpClient(), pref.getString("USER_ID", "Guest"), nCommentID, strReason);
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        CommonUtils.hideProgressDialog();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
 
-                        if(nResult == 0) {
-                            Toast.makeText(ReportSelectActivity.this, "신고되었습니다.", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else if(nResult == 1) {
-                            Toast.makeText(ReportSelectActivity.this, "이미 신고한 댓글입니다.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(ReportSelectActivity.this, "신고에 실패하였습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            if(nResult == 0) {
+                                Toast.makeText(ReportSelectActivity.this, "신고되었습니다.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else if(nResult == 1) {
+                                Toast.makeText(ReportSelectActivity.this, "이미 신고한 댓글입니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ReportSelectActivity.this, "신고에 실패하였습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
+                else if(postId.length() > 0)
+                {
+                    int nResult = HttpClient.requestSpaceReport(new OkHttpClient(), pref.getString("USER_ID", "Guest"), postId, strSendReason);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+
+                            if(nResult == 0) {
+                                Toast.makeText(ReportSelectActivity.this, "신고되었습니다.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else if(nResult == 1) {
+                                Toast.makeText(ReportSelectActivity.this, "이미 신고한 댓글입니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ReportSelectActivity.this, "신고에 실패하였습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+
+
             }
         }).start();
     }

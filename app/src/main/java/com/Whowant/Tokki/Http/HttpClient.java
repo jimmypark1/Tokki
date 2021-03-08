@@ -6497,7 +6497,7 @@ public class HttpClient {
 
         return  false;
     }
-    public static Boolean requestSpaceReport(OkHttpClient httpClient, String userId, String postId, String reason) {
+    public static int requestSpaceReport(OkHttpClient httpClient, String userId, String postId, String reason) {
         ArrayList<SpaceVO> resultList = new ArrayList<>();
 
         Request request = new Request.Builder()
@@ -6507,22 +6507,26 @@ public class HttpClient {
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
-                return false;
+                return -1;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
-            if (resultJsonObject.getString("RESULT").equals("SUCCESS")) {
-//                likeCount = resultJsonObject.getInt("COUNT");
-//                return likeCount;
-                return true;
-            }
-        } catch (IOException | JSONException e) {
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return 0;
+            else if (resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+                return 1;
+            else
+                return -1;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return  false;
+        return -1;
     }
-    public static Boolean requestWorkReport(OkHttpClient httpClient, String userId, String workId, String reason) {
+    public static int requestWorkReport(OkHttpClient httpClient, String userId, String workId, String reason) {
         ArrayList<SpaceVO> resultList = new ArrayList<>();
 
         Request request = new Request.Builder()
@@ -6532,22 +6536,26 @@ public class HttpClient {
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
-                return false;
+                return -1;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
-            if (resultJsonObject.getString("RESULT").equals("SUCCESS")) {
-//                likeCount = resultJsonObject.getInt("COUNT");
-//                return likeCount;
-                return true;
-            }
-        } catch (IOException | JSONException e) {
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return 0;
+            else if (resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+                return 1;
+            else
+                return -1;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return  false;
+        return -1;
     }
-    public static Boolean requestEpisodeReport(OkHttpClient httpClient, String userId, String episodeId, String reason) {
+    public static int requestEpisodeReport(OkHttpClient httpClient, String userId, String episodeId, String reason) {
         ArrayList<SpaceVO> resultList = new ArrayList<>();
 
         Request request = new Request.Builder()
@@ -6557,20 +6565,24 @@ public class HttpClient {
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)
-                return false;
+                return -1;
 
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
-            if (resultJsonObject.getString("RESULT").equals("SUCCESS")) {
-//                likeCount = resultJsonObject.getInt("COUNT");
-//                return likeCount;
-                return true;
-            }
-        } catch (IOException | JSONException e) {
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return 0;
+            else if (resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+                return 1;
+            else
+                return -1;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return  false;
+        return -1;
     }
     public static ArrayList<MarketVO> getBuyerTransactionCompleted(OkHttpClient httpClient, String userID) {
         ArrayList<MarketVO> resultList = new ArrayList<>();
