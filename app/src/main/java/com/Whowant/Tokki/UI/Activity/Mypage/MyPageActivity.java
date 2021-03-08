@@ -3,10 +3,13 @@ package com.Whowant.Tokki.UI.Activity.Mypage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.Whowant.Tokki.Http.HttpClient;
@@ -68,6 +72,8 @@ public class MyPageActivity extends AppCompatActivity {
     private int  nTotalAcquireCarrot = 0;
 
     private boolean isPopup = false;
+
+    RelativeLayout content;
     boolean isFirst = true;
 
     int[] levelRes = new int[]{
@@ -85,13 +91,22 @@ public class MyPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DeviceUtils.setStatusColor(this, "#b3000000", true);
+      //  DeviceUtils.setStatusColor(this, "#b3000000", true);
 
         setContentView(R.layout.activity_my_page);
+        content = findViewById(R.id.content);
+        String strWriterId = getIntent().getStringExtra("WRITER_ID");
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        MyPageFragment fragment =  new MyPageFragment();
+        fragment.type = 1;
+        fragment.writerId = strWriterId;
+        transaction.replace(R.id.content, fragment);
+        transaction.commit();
         mActivity = this;
 
-        initView();
+      //  initView();
 //        initData();
     }
 
@@ -103,6 +118,63 @@ public class MyPageActivity extends AppCompatActivity {
         myPageSpaceFragment.imageSetting(intent);
     }
 
+    private void getUserInfo() {
+//        CommonUtils.showProgressDialog(mActivity, "서버와 통신중입니다. 잠시만 기다려 주세요.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String userId = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_ID", "Guest");
+
+                JSONObject resultObject = HttpClient.getUserInfo(new OkHttpClient(), userId);
+                // JSONObject resultObject = HttpClient.getMyInfo(new OkHttpClient(), userId);
+                CommonUtils.hideProgressDialog();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+//                        CommonUtils.hideProgressDialog();
+
+                        try {
+                            if (resultObject == null) {
+                                return;
+                            }
+
+                            String ret = resultObject.getString("COMMENT");
+
+                            String name = resultObject.getString("NAME");
+
+                            nameTv.setText(name);
+
+                            String back = resultObject.getString("BACKGROUND");
+
+                            //
+                            String birth = resultObject.getString("BIRTHDAY");
+
+                            if (!TextUtils.isEmpty(back)) {
+                                if (!back.startsWith("http"))
+                                    back = CommonUtils.strDefaultUrl + "images/" + back;
+
+                                Glide.with(mActivity)
+                                        .asBitmap() // some .jpeg files are actually gif
+                                        .load(back)
+                                        .apply(new RequestOptions().centerCrop())
+                                        .into(backIv);
+
+
+
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -111,7 +183,7 @@ public class MyPageActivity extends AppCompatActivity {
 //            isPopup = false;
             return;
         }
-
+/*
         String strPhoto = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_PHOTO", "");
 
         if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
@@ -142,6 +214,12 @@ public class MyPageActivity extends AppCompatActivity {
         }
 
         initData();
+
+ */
+    }
+    public void onClickTopLeftBtn(View view) {
+
+        finish();
     }
 
     private void initView() {
@@ -156,9 +234,8 @@ public class MyPageActivity extends AppCompatActivity {
         backIv = findViewById(R.id.background);
         photoIv = findViewById(R.id.iv_my_page_photo);
         nameTv = findViewById(R.id.tv_my_page_name);
-        carrotTv = findViewById(R.id.tv_my_page_carrot);
-        levelIv = findViewById(R.id.iv_my_page_level);
-        levelTv = findViewById(R.id.tv_my_page_level);
+       // carrotTv = findViewById(R.id.tv_my_page_carrot);
+
 
         workCountTv = findViewById(R.id.tv_my_page_work_count);
         readCountTv = findViewById(R.id.tv_my_page_read);
@@ -384,13 +461,13 @@ public class MyPageActivity extends AppCompatActivity {
 //                                totalCarrotCountView.setText(CommonUtils.comma(nTotalAcquireCarrot));
                             }
 
-                            carrotTv.setText(new DecimalFormat("###,###").format(nCurrentCarrot) + " 개");
+                      //      carrotTv.setText(new DecimalFormat("###,###").format(nCurrentCarrot) + " 개");
 
                         //    nLevel = CommonUtils.getLevel(nDonationCarrot);
-                            nLevel = CommonUtils.getLevel(nCurrentCarrot   );
+                          //  nLevel = CommonUtils.getLevel(nCurrentCarrot   );
 
-                            levelIv.setImageResource(levelRes[nLevel - 1]);
-                            levelTv.setText(levelName[nLevel - 1]);
+                           // levelIv.setImageResource(levelRes[nLevel - 1]);
+                           // levelTv.setText(levelName[nLevel - 1]);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

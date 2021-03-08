@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
 import com.Whowant.Tokki.UI.Activity.Rank.RankActivity;
 import com.Whowant.Tokki.UI.Activity.Report.ReportActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterMainActivity;
@@ -1560,5 +1561,15 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 });
             }
         }
+    }
+    public void onClickProfile(View view) {
+
+        Intent intent = new Intent(WorkMainActivity.this, MyPageActivity.class);
+        ViewerActivity.workVO = workVO;
+        intent.putExtra("WRITER_ID", workVO.getStrWriterID());
+
+        //    intent.putExtra("WORK", (Serializable) workVO);
+
+        startActivity(intent);
     }
 }

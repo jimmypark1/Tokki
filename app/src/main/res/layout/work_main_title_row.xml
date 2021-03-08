@@ -49,7 +49,7 @@
                     android:id="@+id/iv_profile_photo"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-
+                    android:onClick="onClickProfile"
                     android:background="@drawable/user_icon" />
                 <TextView
                     android:id="@+id/writerNameView"

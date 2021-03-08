@@ -54,7 +54,8 @@ public class MyPageFeedFragment extends Fragment {
     ArrayList<WriterVO> followArrayList = new ArrayList<>();
 
     ArrayList<MyPageFeedVo> mArrayList = new ArrayList<>();
-    String writerId;
+    public String writerId;
+    public int type = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,11 +63,24 @@ public class MyPageFeedFragment extends Fragment {
 
         Bundle bundle = getArguments();
 
-        if (bundle != null) {
-            writerId = bundle.getString("writerId");
-        } else {
-            writerId = SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest");
+        if(type == 0)
+        {
+            if (bundle != null) {
+                writerId = bundle.getString("writerId");
+            } else {
+                writerId = SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest");
+            }
         }
+        else
+        {
+            String userId = SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest");
+            if(userId.equals(writerId))
+            {
+                writerId = userId;
+            }
+
+        }
+
     }
 
     @Nullable

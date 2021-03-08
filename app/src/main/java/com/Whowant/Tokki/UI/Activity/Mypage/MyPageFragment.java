@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -78,6 +79,12 @@ public class MyPageFragment extends Fragment {
     LinearLayout btnRead;
     LinearLayout btnFollowing;
 
+    LinearLayout followLayer;
+    LinearLayout unfollowLayer;
+
+    TextView followerCountTv;
+
+
     private int nCurrentCarrot = 0;                                                         // 현재 당근 갯수
     private int nTotalUsedCarrot = 0;                                                       // 총 당근 갯수
     private int nDonationCarrot = 0;                                                        // 후원받은 당근 갯수
@@ -91,6 +98,10 @@ public class MyPageFragment extends Fragment {
     SharedPreferences pref;
 
 
+    public int type = 0;
+    public String writerId = "";
+
+
     int[] levelRes = new int[]{
             R.drawable.ic_i_level_1, R.drawable.ic_i_level_2, R.drawable.ic_i_level_3, R.drawable.ic_i_level_4, R.drawable.ic_i_level_5,
             R.drawable.ic_i_level_6, R.drawable.ic_i_level_7, R.drawable.ic_i_level_8, R.drawable.ic_i_level_9, R.drawable.ic_i_level_10
@@ -102,7 +113,40 @@ public class MyPageFragment extends Fragment {
 
     Activity mActivity;
 
+/*
+         case R.id.ll_writer_page_follow:
+                requestFollow(writerId, false);
+                break;
+            case R.id.ll_writer_page_unfollow:
+                requestFollow(writerId, true);
+                break;
+ */
+    private void requestFollow(String strUserID, boolean bFollow) {
+        CommonUtils.showProgressDialog(mActivity, "서버와 통신중입니다.");
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String strMyID = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_ID", "Guest");
+
+                boolean bResult = HttpClient.requestFollow(new OkHttpClient(), strMyID, strUserID, bFollow);
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        if (bResult) {
+                            getWriterInfo();
+                        } else {
+                            Toast.makeText(mActivity, "서버와의 통신에 실패했습니다.", Toast.LENGTH_LONG).show();
+                            getWriterInfo();
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -123,23 +167,68 @@ public class MyPageFragment extends Fragment {
         photoIv = v.findViewById(R.id.iv_my_page_photo);
         nameTv = v.findViewById(R.id.tv_my_page_name);
         carrotTv = v.findViewById(R.id.tv_my_page_carrot);
-        levelIv = v.findViewById(R.id.iv_my_page_level);
-        levelTv = v.findViewById(R.id.tv_my_page_level);
+       // levelIv = v.findViewById(R.id.iv_my_page_level);
+       // levelTv = v.findViewById(R.id.tv_my_page_level);
         typeView    = v.findViewById(R.id.tv_my_page_typel);
+
+        followLayer  = v.findViewById(R.id.ll_writer_page_follow);
+        unfollowLayer  = v.findViewById(R.id.ll_writer_page_unfollow);
+        btnCarrot = v.findViewById(R.id.btnCarrot);
+        btnTokkiSNS = v.findViewById(R.id.btnTokkiSNS);
+    //    followerCountTv = v.findViewById(R.id.tv_writer_page_follower_count);
+
         //
+        //
+        if(type == 0)
+        {
+            followLayer.setVisibility(View.GONE);
+            unfollowLayer.setVisibility(View.GONE);
+            btnCarrot.setVisibility(View.VISIBLE);
+            btnTokkiSNS.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            followLayer.setVisibility(View.VISIBLE);
+            unfollowLayer.setVisibility(View.GONE);
+            btnCarrot.setVisibility(View.GONE);
+            btnTokkiSNS.setVisibility(View.GONE);
+
+        }
+
+
+        if(type == 1)
+        {
+            unfollowLayer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    requestFollow(writerId, true);
+
+                }
+            });
+
+            followLayer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    requestFollow(writerId, false);
+
+                }
+            });
+        }
 
         introductionTv = v.findViewById(R.id.comment);
 
         followingCountTv =v.findViewById(R.id.tv_my_page_followeing);
         //    TextView ;
 
-        btnTokkiSNS = v.findViewById(R.id.btnTokkiSNS);
         btnTokkiSNS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), TokkiSNSPopup.class));
             }
         });
+
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         btnFollower = v.findViewById(R.id.btnFollower);
         btnFollower.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +251,6 @@ public class MyPageFragment extends Fragment {
             }
         });
 
-        btnCarrot = v.findViewById(R.id.btnCarrot);
         btnCarrot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,7 +279,57 @@ public class MyPageFragment extends Fragment {
         followCountTv = v.findViewById(R.id.tv_my_page_follower);
 
 
+
         return v;
+    }
+    private void getWriterInfo() {
+        CommonUtils.showProgressDialog(mActivity, "작가 정보를 가져오고 있습니다. 잠시만 기다려 주세요.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String strMyID = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_ID", "Guest");
+
+                JSONObject resultObject = HttpClient.getWriterInfo(new OkHttpClient(), writerId, strMyID);
+                CommonUtils.hideProgressDialog();
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (resultObject == null) {
+                            Toast.makeText(mActivity, "서버와의 연결이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        try {
+                           boolean bFollow = resultObject.getBoolean("FOLLOW");
+                            int nDonationCarrotCount = resultObject.getInt("DONATION_CARROT");
+
+
+//                            nLevel = CommonUtils.getLevel(nDonationCarrotCount);
+//                            levelIv.setImageResource(levelRes[nLevel - 1]);
+//                            levelTv.setText(levelName[nLevel - 1]);
+
+//                            nameTv.setText(strName);
+                     //       followerCountTv.setText(CommonUtils.getPointCount(nFollowCount));
+
+                  //          workCountTv.setText(CommonUtils.getPointCount(resultObject.getInt("WORK_COUNT")));
+                  //          readCountTv.setText(CommonUtils.getPointCount(resultObject.getInt("READ_COUNT")));
+
+                            if (bFollow) {
+                                unfollowLayer.setVisibility(View.VISIBLE);
+                                followLayer.setVisibility(View.GONE);
+                            } else {
+                                unfollowLayer.setVisibility(View.GONE);
+                                followLayer.setVisibility(View.VISIBLE);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
@@ -223,41 +361,48 @@ public class MyPageFragment extends Fragment {
 //            isPopup = false;
             return;
         }
+/*
+        if(writerId.length() == 0)
+        {
+            String strPhoto = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_PHOTO", "");
 
-        String strPhoto = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_PHOTO", "");
+            if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
+                if (!strPhoto.startsWith("http"))
+                    strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
 
-        if (strPhoto != null && strPhoto.length() > 0 && !strPhoto.equals("null")) {
-            if (!strPhoto.startsWith("http"))
-                strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
+                Glide.with(mActivity)
+                        .asBitmap() // some .jpeg files are actually gif
+                        .placeholder(R.drawable.user_icon)
+                        .load(strPhoto)
+                        .apply(new RequestOptions().circleCrop())
+                        .into(photoIv);
+            } else {
+                photoIv.setImageResource(R.drawable.user_icon);
+            }
 
-            Glide.with(mActivity)
-                    .asBitmap() // some .jpeg files are actually gif
-                    .placeholder(R.drawable.user_icon)
-                    .load(strPhoto)
-                    .apply(new RequestOptions().circleCrop())
-                    .into(photoIv);
-        } else {
-            photoIv.setImageResource(R.drawable.user_icon);
-        }
+            String strBack = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_BACKGROUND", "");
 
-        String strBack = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_BACKGROUND", "");
+            if (strBack != null && strBack.length() > 0 && !strBack.equals("null")) {
+                if (!strBack.startsWith("http"))
+                    strBack = CommonUtils.strDefaultUrl + "images/" + strBack;
 
-        if (strBack != null && strBack.length() > 0 && !strBack.equals("null")) {
-            if (!strBack.startsWith("http"))
-                strBack = CommonUtils.strDefaultUrl + "images/" + strBack;
+                Glide.with(mActivity)
+                        .asBitmap() // some .jpeg files are actually gif
+                        .load(strBack)
+                        .apply(new RequestOptions().circleCrop())
+                        .into(backIv);
+            }
 
-            Glide.with(mActivity)
-                    .asBitmap() // some .jpeg files are actually gif
-                    .load(strBack)
-                    .apply(new RequestOptions().circleCrop())
-                    .into(backIv);
-        }
+       }
 
+ */
         initData();
+
     }
 
     private void initData() {
         // 마이 페이지 화면 갱신
+        /*
         String photoUrl = SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_PHOTO", "");
 
         if (!TextUtils.isEmpty(photoUrl)) {
@@ -286,6 +431,11 @@ public class MyPageFragment extends Fragment {
         }
 
         nameTv.setText(SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_NAME", ""));
+
+         */
+        if(type ==1)
+            getWriterInfo();
+
         getMyFollowInfo();
     }
 
@@ -307,13 +457,18 @@ public class MyPageFragment extends Fragment {
 
             this.mContext = context;
 
-            fragments.add(new MyPageFeedFragment());
+            MyPageFeedFragment feed = new MyPageFeedFragment();
+            feed.type = type;
+            feed.writerId = writerId;
+            fragments.add(feed);
             fragments.add(new MyPageSpaceFragment());
 
             titles.add("작품");
-            titles.add("스페이스");
+            if(type == 0)
+                titles.add("스페이스");
 
             appbar.setExpanded(true, true);
+
 
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
@@ -347,7 +502,7 @@ public class MyPageFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return fragments.size();
+            return titles.size();
         }
 
         @Nullable
@@ -364,6 +519,10 @@ public class MyPageFragment extends Fragment {
             @Override
             public void run() {
                 String userId = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_ID", "Guest");
+                if(type == 1)
+                {
+                    userId = writerId;
+                }
 
                 JSONObject resultObject = HttpClient.getMyFollowInfo(new OkHttpClient(), userId);
                 CommonUtils.hideProgressDialog();
@@ -408,6 +567,10 @@ public class MyPageFragment extends Fragment {
             public void run() {
                 String userId = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_ID", "Guest");
 
+                if(type == 1)
+                {
+                    userId = writerId;
+                }
                 JSONObject resultObject = HttpClient.getMyCarrotInfo(new OkHttpClient(), userId);
                // JSONObject resultObject = HttpClient.getMyInfo(new OkHttpClient(), userId);
                 CommonUtils.hideProgressDialog();
@@ -460,7 +623,10 @@ public class MyPageFragment extends Fragment {
             @Override
             public void run() {
                 String userId = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_ID", "Guest");
-
+                if(type == 1)
+                {
+                    userId = writerId;
+                }
                 JSONObject resultObject = HttpClient.getUserInfo(new OkHttpClient(), userId);
                 // JSONObject resultObject = HttpClient.getMyInfo(new OkHttpClient(), userId);
                 CommonUtils.hideProgressDialog();
@@ -514,6 +680,8 @@ public class MyPageFragment extends Fragment {
 
                             //
                             String birth = resultObject.getString("BIRTHDAY");
+                            String photo = resultObject.getString("PHOTO");
+
 
                             if (!TextUtils.isEmpty(back)) {
                                 if (!back.startsWith("http"))
@@ -536,6 +704,32 @@ public class MyPageFragment extends Fragment {
 
                                 editor.commit();
 
+                            }
+
+                            if (photo != null && photo.length() > 0 && !photo.equals("null")) {
+                                if (!photo.startsWith("http"))
+                                    photo = CommonUtils.strDefaultUrl + "images/" + photo;
+
+                                Glide.with(mActivity)
+                                        .asBitmap() // some .jpeg files are actually gif
+                                        .placeholder(R.drawable.user_icon)
+                                        .load(photo)
+                                        .apply(new RequestOptions().circleCrop())
+                                        .into(photoIv);
+                            } else {
+                                photoIv.setImageResource(R.drawable.user_icon);
+                            }
+
+
+                            if (back != null && back.length() > 0 && !back.equals("null")) {
+                                if (!back.startsWith("http"))
+                                    back = CommonUtils.strDefaultUrl + "images/" + back;
+
+                                Glide.with(mActivity)
+                                        .asBitmap() // some .jpeg files are actually gif
+                                        .load(back)
+                                        .apply(new RequestOptions().circleCrop())
+                                        .into(backIv);
                             }
 
 

@@ -20,12 +20,14 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.ChatActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageFollowerActivity;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageFragment;
 import com.Whowant.Tokki.UI.Activity.Report.ReportActivity;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageFeedFragment;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageTalkFragment;
@@ -84,7 +86,16 @@ public class WriterPageActivity extends AppCompatActivity implements View.OnClic
 
         mActivity = this;
 
-        getData();
+        String strWriterId = getIntent().getStringExtra("WRITER_ID");
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        MyPageFragment fragment =  new MyPageFragment();
+        fragment.type = 1;
+        fragment.writerId = strWriterId;
+        transaction.replace(R.id.content, fragment);
+        transaction.commit();
+
         initView();
 
         getWriterInfo();
