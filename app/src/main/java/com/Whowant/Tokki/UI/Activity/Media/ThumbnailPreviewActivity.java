@@ -22,6 +22,7 @@ import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkEditActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkRegActivity;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageSpaceFragment;
+import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
 import com.Whowant.Tokki.Utils.cropper.CropImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -90,6 +91,7 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
     }
 
     private void moveToNext() {
+        Boolean bException = false;
         Intent intent = null;
         if (nNextType == TYPE_PROFILE.ordinal()) {
             intent = new Intent(ThumbnailPreviewActivity.this, MyPageAccountSettingActivity.class);
@@ -128,8 +130,23 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
             intent.putExtra("EDIT", bEdit);
             intent.putExtra("ORDER", nOrder);
         } else if (nNextType == TYPE_SPACE_IMG.ordinal()) {
+            /*
             intent = new Intent(ThumbnailPreviewActivity.this, MyPageActivity.class);
             intent.putExtra("URI", resultUri);
+
+             */
+         //   finish();
+            intent = new Intent(ThumbnailPreviewActivity.this, MainActivity.class);
+            intent.putExtra("END", "YES");
+            intent.putExtra("URI", resultUri);
+
+           // bException = true;
+            MyPageSpaceFragment fragment = new MyPageSpaceFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("URI",resultUri);
+
+            fragment.setArguments(bundle);
+           // finish();
         } else if (nNextType == TYPE_PROFILE_BG.ordinal()) {
             intent = new Intent(ThumbnailPreviewActivity.this, MyPageAccountSettingActivity.class);
             intent.putExtra("BG_URI", resultUri);
@@ -137,9 +154,15 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
             intent = new Intent(ThumbnailPreviewActivity.this, CharacterRegActivity.class);
             intent.putExtra("URI", resultUri);
         }
+        if(intent != null)
+        {
+            if(bException == false)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
+            startActivity(intent);
+
+        }
+
 
         nNextType = -1;
         bInteraction = false;

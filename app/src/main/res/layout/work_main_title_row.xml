@@ -61,6 +61,7 @@
                     android:lineSpacingExtra="5sp"
                     android:text="달뮤가나"
                     android:layout_marginRight="10dp"
+                    android:onClick="onClickProfile"
                     android:textColor="#222222"
                     android:textSize="15sp"
                     android:textStyle="bold" />

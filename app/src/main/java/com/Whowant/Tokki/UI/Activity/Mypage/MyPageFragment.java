@@ -748,7 +748,6 @@ public class MyPageFragment extends Fragment {
                                 Glide.with(mActivity)
                                         .asBitmap() // some .jpeg files are actually gif
                                         .load(back)
-                                        .apply(new RequestOptions().circleCrop())
                                         .into(backIv);
                             }
 

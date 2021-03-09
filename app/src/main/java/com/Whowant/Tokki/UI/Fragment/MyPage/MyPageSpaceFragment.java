@@ -93,6 +93,23 @@ public class MyPageSpaceFragment extends Fragment {
         recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
+
+        Bundle extra = this.getArguments();
+        if(extra != null) {
+            extra = getArguments();
+            String path = extra.getString("URI");
+            if (path != null) {
+                strFilePath = CommonUtils.getRealPathFromURI(getActivity(), Uri.parse(path)); // 서버 전송할 때 쓸 것
+
+                Glide.with(MyPageSpaceFragment.this)
+                        .asBitmap()
+                        .load(path)
+                        .placeholder(R.drawable.circle_cccccc)
+                        .into(addPhotoBtn);
+            }
+
+        }
+
         imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
 
         recyclerView.setOnTouchListener(new View.OnTouchListener() {

@@ -477,6 +477,18 @@ public class MainActivity extends AppCompatActivity {
             faceView.setImageResource(R.drawable.user_icon);
             profileIv.setImageResource(R.drawable.user_icon);
         }
+        String end = getIntent().getStringExtra("END");
+        if(end != null )
+        {
+            if(end.equals("YES"))
+            {
+
+
+            //    viewPager.setCurrentItem(2);
+            }
+
+        }
+
     }
 
     @Override
@@ -544,10 +556,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickTopProfileBtn(View view) {
-        startActivityForResult(new Intent(this, MyPageActivity.class), 878);
+     //   startActivityForResult(new Intent(this, MyPageActivity.class), 878);
 //        startActivity(new Intent(this, TagRegActivity.class));
 //        startActivity(new Intent(this, WriterPageActivity.class));
 //        viewPager.setCurrentItem(5);
+
     }
 
     public void onClickTopReportBtn(View v) {
@@ -630,9 +643,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 drawer.closeDrawer(GravityCompat.START);
-//                viewPager.setCurrentItem(3);
-//                resetBottomBar(3);
-                startActivity(new Intent(MainActivity.this, MyPageActivity.class));
+                viewPager.setCurrentItem(2);
+                resetBottomBar(2);
+              //  startActivity(new Intent(MainActivity.this, MyPageActivity.class));
             }
         });
 
@@ -868,11 +881,14 @@ public class MainActivity extends AppCompatActivity {
         super.onNewIntent(intent);
 
         String strUri = intent.getStringExtra("URI");
+        /*
         MyFragment fragment = (MyFragment) mainPagerAdapter.getItem(3);
         fragment.setImage(strUri);
 
         MyPageSpaceFragment myPageSpaceFragment = (MyPageSpaceFragment) myPageAdapter.getItem(1);
         myPageSpaceFragment.imageSetting(intent);
+
+         */
     }
 
     public void setMenuPhoto() {                                                                            // 마이페이지에서 사진 설정시에 좌측 서랍의 사진도 함께 변경하기 위한 부분

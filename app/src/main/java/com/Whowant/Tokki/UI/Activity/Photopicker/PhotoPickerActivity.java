@@ -23,7 +23,9 @@ import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
+import com.Whowant.Tokki.UI.Activity.Work.CharacterRegActivity;
 import com.Whowant.Tokki.UI.Activity.Work.LiteratureWriteActivity;
+import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
 import com.Whowant.Tokki.Utils.cropper.CropImage;
 import com.Whowant.Tokki.Utils.cropper.CropImageView;
 import com.bumptech.glide.Glide;
@@ -67,6 +69,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_picker);
 
+
         ImageButton closeBtn = findViewById(R.id.closeBtn);
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +90,22 @@ public class PhotoPickerActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         reloadDatas();
+        String end = getIntent().getStringExtra("END");
+        if(end != null )
+        {
+            if(end.equals("YES"))
+            {
+
+                finish();
+                Intent intent = new Intent(PhotoPickerActivity.this, MediaSelectPopup.class);
+                intent.putExtra("END", "YES");
+             //   intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                startActivity(intent);
+            }
+
+        }
+
     }
 
     private void reloadDatas() {

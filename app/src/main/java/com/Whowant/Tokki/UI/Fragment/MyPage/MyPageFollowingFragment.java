@@ -73,7 +73,7 @@ public class MyPageFollowingFragment extends Fragment {
                 startActivity(intent);
 
                  */
-                       
+
                 Intent intent = new Intent(getActivity(), MyPageFollowerActivity.class);
 
                 intent.putExtra("writerId", item.getStrWriterID());

@@ -95,6 +95,19 @@ public class MyPageActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_my_page);
         content = findViewById(R.id.content);
+        String end = getIntent().getStringExtra("END");
+        if(end != null )
+        {
+            if(end.equals("YES"))
+            {
+
+                finish();
+                return;
+
+            }
+
+        }
+
         String strWriterId = getIntent().getStringExtra("WRITER_ID");
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -109,6 +122,8 @@ public class MyPageActivity extends AppCompatActivity {
       //  initView();
 //        initData();
     }
+
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -182,6 +197,17 @@ public class MyPageActivity extends AppCompatActivity {
         if (isPopup) {
 //            isPopup = false;
             return;
+        }
+        String end = getIntent().getStringExtra("END");
+        if(end != null )
+        {
+            if(end.equals("YES"))
+            {
+
+                finish();
+
+            }
+
         }
 /*
         String strPhoto = SimplePreference.getStringPreference(mActivity, "USER_INFO", "USER_PHOTO", "");

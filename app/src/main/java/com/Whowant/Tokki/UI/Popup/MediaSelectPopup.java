@@ -9,6 +9,7 @@ import android.view.View;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.TokkiGalleryActivity;
+import com.Whowant.Tokki.UI.Activity.Work.CharacterRegActivity;
 
 public class MediaSelectPopup extends AppCompatActivity {
     private int     nType = 0;
@@ -25,6 +26,25 @@ public class MediaSelectPopup extends AppCompatActivity {
         bEdit = getIntent().getBooleanExtra("EDIT", false);
         nOrder = getIntent().getIntExtra("ORDER", -1);
         bInteraction = getIntent().getBooleanExtra("INTERACTION", false);
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String end = getIntent().getStringExtra("END");
+        if(end != null )
+        {
+            if(end.equals("YES"))
+            {
+
+                finish();
+
+            }
+
+        }
+
     }
 
     @Override
