@@ -14,6 +14,7 @@ import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.AlarmVO;
 import com.Whowant.Tokki.VO.BillingLogVO;
+import com.Whowant.Tokki.VO.BlockUserVO;
 import com.Whowant.Tokki.VO.BookListVo;
 import com.Whowant.Tokki.VO.CarrotVO;
 import com.Whowant.Tokki.VO.CharacterVO;
@@ -941,6 +942,7 @@ public class HttpClient {
 
         return resultList;
     }
+
     public static ArrayList<MarketMsg> getTrading2(OkHttpClient httpClient, String userID) {
         ArrayList<MarketMsg> resultList = new ArrayList<>();
 
@@ -6455,6 +6457,64 @@ public class HttpClient {
             e.printStackTrace();
         }
         return  false;
+    }
+    public static boolean deleteSpaceBlockUser(OkHttpClient httpClient, String userId, String blockId) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=DeleteSpaceBlockUser&USER_ID=" + userId +"&BLOCK_ID=" + blockId )
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS")) {
+
+                return true;
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return  false;
+    }
+    //
+    public static ArrayList<BlockUserVO> getSpaceBlockUser(OkHttpClient httpClient, String userID) {
+        ArrayList<BlockUserVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetSpaceBlockUser&USER_ID=" + userID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("BLOCK");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                BlockUserVO marketVO = new BlockUserVO();
+                marketVO.setBlockId(object.getString("BLOCK_ID"));
+                marketVO.setBlockName(object.getString("BLOCK_NAME"));
+                marketVO.setBlockPhoto(object.getString("BLOCK_PHOTO"));
+
+                resultList.add(marketVO);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
     }
     public static ArrayList<SpaceVO> getSpacePosts(OkHttpClient httpClient, String order, String userId) {
         ArrayList<SpaceVO> resultList = new ArrayList<>();

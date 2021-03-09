@@ -213,7 +213,7 @@ public class WebWorkFragment extends Fragment {
             return;
 
         WebWorkViewerActivity parent =  (WebWorkViewerActivity)getActivity();
-         parent.onClickPrev(view);
+                 parent.onClickPrev(view);
 
     }
     public void onClickNext(View view) {

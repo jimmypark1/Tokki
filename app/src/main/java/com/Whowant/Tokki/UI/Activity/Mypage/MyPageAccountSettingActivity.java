@@ -537,7 +537,13 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
                 .check();
     }
 
-    // 저장
+    public void viewBlockList(View v) {
+
+        Intent intent = new Intent(MyPageAccountSettingActivity.this,BlockListActivity.class);
+        startActivity(intent);
+    }
+
+        // 저장
     public void btnSave(View v) {
 
 
