@@ -150,7 +150,10 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         if(episodeIndex < 0)
         {
             episodeIndex = 0;
+            return;
+
         }
+
 
         EpisodeVO episode = work.getEpisodeList().get(episodeIndex);
 
@@ -171,9 +174,9 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         if(episodeIndex > episodeList.size() -1)
         {
             episodeIndex = episodeList.size() -1;
-        }
-        if(episodeIndex == 0)
             return;
+        }
+           
 
         EpisodeVO episode = work.getEpisodeList().get(episodeIndex);
 
