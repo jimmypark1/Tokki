@@ -5710,6 +5710,7 @@ public class HttpClient {
         return false;
     }
 
+//
     public static boolean requestSendUserProfileImageDefault(OkHttpClient httpClient, String strUserID) {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM)
@@ -6433,7 +6434,27 @@ public class HttpClient {
 
         return resultList;
     }
+    public static boolean deleteSpacePost(OkHttpClient httpClient, String userId, String postId) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=DeleteSpacePost&USER_ID=" + userId + "&POST_ID=" + postId)
+                .get()
+                .build();
 
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS")) {
+
+                return true;
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return  false;
+    }
     public static ArrayList<SpaceVO> getSpacePosts(OkHttpClient httpClient, String order, String userId) {
         ArrayList<SpaceVO> resultList = new ArrayList<>();
 

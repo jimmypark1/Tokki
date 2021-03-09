@@ -308,11 +308,15 @@ public class MyPageSpaceFragment extends Fragment {
                     PopupMenu popupMenu = new PopupMenu(getActivity(), v);
                     if (item.getUserID().equals(SimplePreference.getStringPreference(context, "USER_INFO", "USER_ID", "Guest")) || SimplePreference.getStringPreference(context, "USER_INFO", "ADMIN", "N").equals("Y")) {
                         // 삭제 메뉴
+                        int nPostID =  item.getPostID();
+
                         popupMenu.getMenuInflater().inflate(R.menu.delete_menu, popupMenu.getMenu());
                         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
                                 if (item.getItemId() == R.id.delete) {
+
+                                    deletePost(String.valueOf(nPostID));
                                 }
                                 return true;
                             }
@@ -348,6 +352,34 @@ public class MyPageSpaceFragment extends Fragment {
             });
         }
 
+        void deletePost(String postID)
+        {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (getActivity() == null) {
+                        isThreadRunning = false;
+                        return;
+                    }
+                    String userID =  SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest");
+
+                    Boolean ret = HttpClient.deleteSpacePost(new OkHttpClient(), userID,postID);
+
+                     getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if(ret == true)
+                            {
+                                Toast.makeText(getActivity(), "해당 게시물이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                getSpacePosts();
+
+                            }
+                        }
+                    });
+                }
+            }).start();
+        }
         void report(String postId)
         {
             Intent intent = new Intent(getActivity(), ReportSelectActivity.class);
@@ -523,7 +555,7 @@ public class MyPageSpaceFragment extends Fragment {
 
                                 if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                     Toast.makeText(getActivity(), "등록되었습니다.", Toast.LENGTH_LONG).show();
-                                    addPhotoBtn.setImageResource(R.drawable.circle_cccccc);
+                                    addPhotoBtn.setImageResource(R.drawable.ic_i_plus_rec);
                                     editText.setText("");
                                     getSpacePosts();
                                 } else {
