@@ -881,6 +881,16 @@ public class MainActivity extends AppCompatActivity {
         super.onNewIntent(intent);
 
         String strUri = intent.getStringExtra("URI");
+
+        viewPager.setCurrentItem(2);
+        resetBottomBar(2);
+        MyPageFragment fragment = (MyPageFragment) mainPagerAdapter.getItem(2);
+   //     fragment.setImage(strUri);
+
+        MyPageSpaceFragment myPageSpaceFragment = (MyPageSpaceFragment) fragment.myPageAdapter.getItem(1);
+        myPageSpaceFragment.imageSetting(intent);
+
+
         /*
         MyFragment fragment = (MyFragment) mainPagerAdapter.getItem(3);
         fragment.setImage(strUri);

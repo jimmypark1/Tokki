@@ -53,7 +53,7 @@ public class MyPageFragment extends Fragment {
     TabLayout tabLayout;
     AppBarLayout appbar;
     ViewPager viewPager;
-    MyPageAdapter myPageAdapter;
+    public  MyPageAdapter myPageAdapter;
     Fragment fragment;
     MyPageSpaceFragment.MyPageSpaceAdapter myPageSpaceAdapter;
 
