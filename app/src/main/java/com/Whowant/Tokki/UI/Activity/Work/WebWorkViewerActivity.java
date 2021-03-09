@@ -59,6 +59,8 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
+import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING;
+
 public class WebWorkViewerActivity extends AppCompatActivity{
 
     WorkVO work;
@@ -91,6 +93,8 @@ public class WebWorkViewerActivity extends AppCompatActivity{
     private int   nStarCount = 0;
 
     String workID = "";
+
+    boolean drag = false;
 
 
     int dpToPx(float dp)
@@ -362,8 +366,10 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                     WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
                     fragment.page = position;
                     fragment.showMenu(false, false,false);
+                    fragment.getHtml();
 
                 }
+                drag = false;
 
             }
 
@@ -376,6 +382,16 @@ public class WebWorkViewerActivity extends AppCompatActivity{
             @Override
             public void onPageScrollStateChanged(int state)
             {
+                /*
+                 * @see ViewPager#SCROLL_STATE_IDLE
+                 * @see ViewPager#SCROLL_STATE_DRAGGING
+                 * @see ViewPager#SCROLL_STATE_SETTLING
+                 */
+                if(drag == false && state == SCROLL_STATE_DRAGGING)
+                {
+                    drag = true;
+
+                }
 
             }
         });
@@ -436,6 +452,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
     }
 
     public void onClickTopLeftBtn(View view) {
+        initVariables();
         finish();
     }
     public void onClickSettingsBtn(View view) {
@@ -455,6 +472,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         }
         else
         {
+            fragment.initSettings();
             fragment.showMenu(true, true,isCover);
             show = true;
         }
@@ -464,66 +482,181 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
         }
     }
+
+    public void initVariables()
+    {
+        SharedPreferences pref = getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putFloat("FONT_SIZE", 18.0f);
+        editor.putInt("BACK_TYPE", 0);
+        editor.putInt("FONT_TYPE", 0);
+
+        editor.commit();
+
+    }
     public void onClickBack0(View view) {
 
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
-
         fragment.setBack0();
+/*
+        for(int i = 0;i< webs.size();i++)
+        {
+            WebWorkVO data = webs.get(i);
+//            WebWorkFragment fragmet =  new WebWorkFragment();
+            WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(i);
+
+            fragment.setBack0();
+        }
+
+
+ */
+
 
     }
     public void onClickBack1(View view) {
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
         fragment.setBack1();
+        pagerAdapter.notifyDataSetChanged();
+        /*
+        for(int i = 0;i< webs.size();i++)
+        {
+            WebWorkVO data = webs.get(i);
+//            WebWorkFragment fragmet =  new WebWorkFragment();
+            WebWorkFragment fragment0 = (WebWorkFragment)pagerAdapter.getItem(i);
+
+            fragment0.getHtml();
+        }
+
+         */
 
     }
     public void onClickBack2(View view) {
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
         fragment.setBack2();
+        pagerAdapter.notifyDataSetChanged();
+
+        /*
+        for(int i = 0;i< webs.size();i++)
+        {
+            WebWorkVO data = webs.get(i);
+//            WebWorkFragment fragmet =  new WebWorkFragment();
+            WebWorkFragment fragment0 = (WebWorkFragment)pagerAdapter.getItem(i);
+
+            fragment0.getHtml();
+        }
+
+         */
+
 
     }
     public void onClickBack3(View view) {
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
         fragment.setBack3();
+        pagerAdapter.notifyDataSetChanged();
+
+        /*
+        for(int i = 0;i< webs.size();i++)
+        {
+            WebWorkVO data = webs.get(i);
+//            WebWorkFragment fragmet =  new WebWorkFragment();
+            WebWorkFragment fragment0 = (WebWorkFragment)pagerAdapter.getItem(i);
+
+            fragment0.getHtml();
+        }
+
+         */
+
 
     }
     public void onClickBack4(View view) {
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
         fragment.setBack4();
+        pagerAdapter.notifyDataSetChanged();
+
+        /*
+        for(int i = 0;i< webs.size();i++)
+        {
+            WebWorkVO data = webs.get(i);
+//            WebWorkFragment fragmet =  new WebWorkFragment();
+            WebWorkFragment fragment0 = (WebWorkFragment)pagerAdapter.getItem(i);
+
+            fragment0.getHtml();
+        }
+
+         */
+
 
     }
     public void onClickBack5(View view) {
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
         fragment.setBack5();
+        pagerAdapter.notifyDataSetChanged();
+
+        /*
+        for(int i = 0;i< webs.size();i++)
+        {
+            WebWorkVO data = webs.get(i);
+//            WebWorkFragment fragmet =  new WebWorkFragment();
+            WebWorkFragment fragment0 = (WebWorkFragment)pagerAdapter.getItem(i);
+
+            fragment0.getHtml();
+        }
+
+
+         */
 
     }
     public void onClickFont0(View view) {
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
         fragment.setFont0();
+        pagerAdapter.notifyDataSetChanged();
+
+        /*
+        for(int i = 0;i< webs.size();i++)
+        {
+            WebWorkVO data = webs.get(i);
+//            WebWorkFragment fragmet =  new WebWorkFragment();
+            WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(i);
+
+            fragment.setFont0();
+        }
+
+         */
+
 
     }
     public void onClickFont1(View view) {
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
         fragment.setFont1();
+        pagerAdapter.notifyDataSetChanged();
+
+
 
     }
     public void onClickFont2(View view) {
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
         fragment.setFont2();
+        pagerAdapter.notifyDataSetChanged();
+
 
     }
     public void onClickFont3(View view) {
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
-        fragment.setFont3();
+       fragment.setFont3();
+        pagerAdapter.notifyDataSetChanged();
+
 
     }
 
@@ -532,6 +665,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
         fragment.setDecreaseFont();
+        pagerAdapter.notifyDataSetChanged();
 
     }
 
@@ -540,6 +674,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         int pos = viewPager.getCurrentItem();
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
         fragment.setIncreaseFont();
+        pagerAdapter.notifyDataSetChanged();
 
     }
 

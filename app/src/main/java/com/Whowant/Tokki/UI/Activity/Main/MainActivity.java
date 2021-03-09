@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
 //                    rightBtn.setVisibility(View.VISIBLE);
                   //  rightBtn.setImageResource(R.drawable.i_dots_black);
                     addBtn.setVisibility(View.VISIBLE);
+                    addBtn.setImageResource(R.drawable.i_plus);
 //                    centerLogoView.setVisibility(View.INVISIBLE);
 //                    titleView.setText("마이 페이지");
 //                    rightBtn.setVisibility(View.VISIBLE);
