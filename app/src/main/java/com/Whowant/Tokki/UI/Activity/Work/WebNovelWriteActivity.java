@@ -8,7 +8,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -63,6 +65,33 @@ public class WebNovelWriteActivity extends AppCompatActivity {
     ArrayList<WebWorkVO> novels = new ArrayList<WebWorkVO>();
     ArrayList<WebWorkVO> publishContent = new ArrayList<WebWorkVO>();
 
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+    }
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(WebNovelWriteActivity.this);
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,14 +114,14 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
       //  oldIntent.putExtra("TITLE", strTitle);
 
-
+        setupUI(findViewById(R.id.editer));
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         // Enables Always-on
       //  imm.showSoftInput(content, 0);
         imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
      //   content.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
-        content.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        //content.setImeOptions(EditorInfo.IME_ACTION_DONE);
         content.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
 
@@ -128,24 +157,23 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         {
             nPage = 0;
         }
+        if(nPage < publishContent.size())
+        {
+          //  publishContent.remove(nPage);
+            WebWorkVO work =  publishContent.get(nPage);
+            String data = work.getRaw();
+            data = data.replace("<br>","\n");
+            content.setText(data);
+
+        }
+
 
         page.setText(String.valueOf(nPage+1));
-
+/*
         if(novels.size() > 0)
         {
             WebWorkVO work =  novels.get(nPage);
-            /*
-            if(content.getText().length() > 0)
-            {
-                WebWorkVO work0 = new WebWorkVO();
-                work0.setRaw(content.getText().toString());
-                work0.setContent(content.getText().toString());
 
-                novels.add(work0);
-                readPageCnt = novels.size();
-            }
-
-             */
             content.setText(work.getRaw());
         }
         if(publishContent.size() > 0)
@@ -155,6 +183,8 @@ public class WebNovelWriteActivity extends AppCompatActivity {
             }
         }
 
+ */
+
     }
     public void onClickNext(View view) {
 
@@ -162,15 +192,40 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
 
 
-        WebWorkVO work = new WebWorkVO();
-        work.setRaw(content.getText().toString());
-        work.setContent(content.getText().toString());
+
 
 
         nPage++;
+        if(nPage < publishContent.size())
+        {
+            //  publishContent.remove(nPage);
+            WebWorkVO work0 =  publishContent.get(nPage);
 
-        publishContent.add(work);
+            if(work0 != null)
+            {
+                String data = work0.getRaw();
+                data = data.replace("<br>","\n");
+                content.setText(data);
 
+            }
+
+
+        }
+        else
+        {
+            WebWorkVO work = new WebWorkVO();
+            String data = content.getText().toString();
+            work.setRaw(data);
+            work.setContent(content.getText().toString());
+            publishContent.add(work);
+            content.setText("");
+        }
+
+
+
+
+
+/*
         if(novels.size() > 0)
         {
             if(nPage < novels.size())
@@ -191,6 +246,8 @@ public class WebNovelWriteActivity extends AppCompatActivity {
             content.setText("");
 
         }
+
+ */
         page.setText(String.valueOf(nPage+1));
 
         /*
@@ -241,19 +298,20 @@ public class WebNovelWriteActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //createNovelEpisode String workId,String content,String pages,String page)
-                novels = HttpClient.getEpisodeNovelEditData(new OkHttpClient(),nEpisodeID);
+                publishContent = HttpClient.getEpisodeNovelEditData(new OkHttpClient(),nEpisodeID);
 
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(novels.size() > 0)
+                        if(publishContent.size() > 0)
                         {
-                            readPageCnt = novels.size();
 
-                            WebWorkVO work = novels.get(0);
-                            content.setText(work.getRaw());
-                            content.setSelection(work.getRaw().length() );
+                            WebWorkVO work = publishContent.get(0);
+                            String data = work.getRaw();
+                            data = data.replace("<br>","\n");
+                            content.setText(data);
+                            content.setSelection(data.length() );
                         }
                     }
                 });
@@ -281,7 +339,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
             public void run() {
                 //createNovelEpisode String workId,String content,String pages,String page)
 
-                for(int i=0;i<novels.size();i++)
+                for(int i=0;i<publishContent.size();i++)
                 {
 
                     String content= publishContent.get(i).getRaw().replace("\n", "<br>");

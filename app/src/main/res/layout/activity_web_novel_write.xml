@@ -22,16 +22,7 @@
             android:onClick="onClickTopLeftBtn"
             android:src="@drawable/ic_i_back" />
 
-        <ImageButton
-            android:id="@+id/rightBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:background="@null"
-            android:src="@drawable/ic_i_dots_black" />
-            <!--android:onClick="onClickTopRightBtn"-->
+
 
 
         <Button
@@ -52,7 +43,7 @@
             android:layout_height="28dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@+id/rightBtn"
+            android:layout_alignParentRight="true"
             android:onClick="onClickSubmitBtn"
             android:textSize="15sp"
             android:text="게시"
@@ -128,7 +119,7 @@
              android:hint="이곳을 탭해서 쓰기 시작하기"
             android:inputType="textMultiLine"
             android:maxLength="1024"
-            android:imeOptions="actionDone"
+           
             android:singleLine="false"
             android:background="@null"
             android:paddingLeft="20dp"

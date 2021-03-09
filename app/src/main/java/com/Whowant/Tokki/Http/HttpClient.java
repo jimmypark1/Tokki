@@ -5559,7 +5559,7 @@ public class HttpClient {
 
 
 
-       File saveFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/temp"); // 저장 경로
+     //  File saveFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/temp"); // 저장 경로
 // 폴더 생성
 
         if(!dir.exists()){ // 폴더 없을 경우
@@ -5605,6 +5605,7 @@ public class HttpClient {
             String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
 
+            saveFile0.delete();
             if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
                 return true;
             else
