@@ -18,6 +18,7 @@ public class MarketVO implements Serializable {
     private long price;
     private String career;
     private String workId;
+    private int workType;
     private String synopsis;
     private String name;
     private String genre;
@@ -33,6 +34,14 @@ public class MarketVO implements Serializable {
 
     public MarketVO() {
 
+    }
+
+    public void setWorkType(int workType) {
+        this.workType = workType;
+    }
+
+    public int getWorkType() {
+        return workType;
     }
 
     public void setHopeGenre(String hopeGenre) {

@@ -19,7 +19,9 @@ import android.widget.Toast;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
+import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkRegActivity;
+import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.MarketVO;
 import com.Whowant.Tokki.VO.WorkVO;
@@ -570,7 +572,11 @@ public class MarketAddEditActivity extends AppCompatActivity {
                     public void run() {
                         if(ret == true)
                         {
-                            finish();
+                       //     finish();
+                            Intent intent = new Intent(MarketAddEditActivity.this, MarketMainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                            startActivity(intent);
                         }
                         else
                         {

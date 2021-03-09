@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.DrawerMenu.AlarmActivity;
+import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.UI.Fragment.Friend.MessageDetailActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.SimplePreference;
@@ -50,6 +52,7 @@ public class MarketDetailActivity extends AppCompatActivity {
     ImageView cover;
     MarketVO market;
     int mode = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,14 +76,14 @@ public class MarketDetailActivity extends AppCompatActivity {
         field = findViewById(R.id.statusView);
         price = findViewById(R.id.priceView);
         sendBt = findViewById(R.id.send);
-        genreView= findViewById(R.id.genreView);
-        tagView= findViewById(R.id.tagView);
+        genreView = findViewById(R.id.genreView);
+        tagView = findViewById(R.id.tagView);
         String userId = SimplePreference.getStringPreference(MarketDetailActivity.this, "USER_INFO", "USER_ID", "Guest");
 
 
         market = (MarketVO) getIntent().getSerializableExtra("MARKET_DATA");
         if (market.getWriteId().contains(userId)) {
-        //    sendBt.setVisibility(View.GONE);
+            //    sendBt.setVisibility(View.GONE);
         }
         int nStatus = market.getStatus();
         if (nStatus == 0) {
@@ -159,24 +162,21 @@ public class MarketDetailActivity extends AppCompatActivity {
 
         career1.setText(market.getCareer());
         owner1.setText(market.getCopyright0());
-        if (market.getCopyright1() != null && market.getCopyright1().length() > 0)
-        {
+        if (market.getCopyright1() != null && market.getCopyright1().length() > 0) {
             copyright1.setText("본인소유");
 
-        }
-        else
-        {
+        } else {
             copyright1.setText("");
 
         }
 
-         tagView.setText(market.getHopeTag());
+        tagView.setText(market.getHopeTag());
         genreView.setText(market.getHopeGenre());
 
-        if(market.getHopeTag().contains( "null"))
+        if (market.getHopeTag().contains("null"))
             tagView.setText("");
 
-        if(market.getHopeGenre().contains("null"))
+        if (market.getHopeGenre().contains("null"))
             genreView.setText("");
 
         String strCover = CommonUtils.strDefaultUrl + "images/" + market.getCover();
@@ -191,21 +191,32 @@ public class MarketDetailActivity extends AppCompatActivity {
         setViews();
     }
 
-    void setViews()
-    {
+
+
+
+    void setViews() {
 
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Boolean ret = HttpClient.setViewsOnMarket(new OkHttpClient(),market.getWorkId());
+                Boolean ret = HttpClient.setViewsOnMarket(new OkHttpClient(), market.getWorkId());
 
 
             }
         }).start();
     }
 
-    public void onClickTopLeftBtn(View view) {
+    public void onClickWorkDetail(View view)
+    {
+        Intent intent = new Intent(MarketDetailActivity.this, WorkMainActivity.class);
+        intent.putExtra("WORK_ID", Integer.parseInt(market.getWorkId()));
+        intent.putExtra("WORK_TYPE", market.getWorkType());
+
+        startActivity(intent);
+    }
+    public void onClickTopLeftBtn(View view)
+    {
         finish();
     }
     public void onClickSendMsgBtn(View view) {

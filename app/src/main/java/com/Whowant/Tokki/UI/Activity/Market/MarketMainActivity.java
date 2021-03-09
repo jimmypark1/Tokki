@@ -201,6 +201,14 @@ public class MarketMainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(pagerAdapter != null)
+            pagerAdapter.notifyDataSetChanged();
+
+    }
+
     void scrollCenter()
     {
         mHorizontalView.smoothScrollToPosition(selectedIndex);

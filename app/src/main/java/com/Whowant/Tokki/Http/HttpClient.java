@@ -689,6 +689,10 @@ public class HttpClient {
                 marketVO.setCover(object.getString("COVER"));
                 marketVO.setSynopsis(object.getString("SYNOPSIS"));
                 marketVO.setName(object.getString("NAME"));
+                marketVO.setWorkId(object.getString("WORK_ID"));
+
+                marketVO.setWorkType(object.getInt("WORK_TYPE"));
+
                 if(object.getString("GENRES" ) != null)
                 {
                     marketVO.setGenre(object.getString("GENRES"));
@@ -708,8 +712,7 @@ public class HttpClient {
                 marketVO.setUserId(object.getString("USER_ID"));
                 marketVO.setWriterId(object.getString("USER_ID"));
 
-                marketVO.setWorkId(object.getString("WORK_ID"));
-                marketVO.setPrice(object.getInt("PRICE"));
+                 marketVO.setPrice(object.getInt("PRICE"));
                 marketVO.setStatus(object.getInt("STATUS"));
 
                 resultList.add(marketVO);
@@ -747,6 +750,7 @@ public class HttpClient {
                 marketVO.setCover(object.getString("COVER"));
                 marketVO.setSynopsis(object.getString("SYNOPSIS"));
                 marketVO.setName(object.getString("NAME"));
+                marketVO.setWorkType(object.getInt("WORK_TYPE"));
                 if(object.getString("GENRES" ) != null)
                 {
                     marketVO.setGenre(object.getString("GENRES"));
@@ -805,6 +809,7 @@ public class HttpClient {
                 marketVO.setCover(object.getString("COVER"));
                 marketVO.setSynopsis(object.getString("SYNOPSIS"));
                 marketVO.setName(object.getString("NAME"));
+                marketVO.setWorkType(object.getInt("WORK_TYPE"));
                 if(object.getString("GENRES" ) != null)
                 {
                     marketVO.setGenre(object.getString("GENRES"));
@@ -875,6 +880,7 @@ public class HttpClient {
                 }
                 marketVO.setHopeGenre(object.getString("GENRE"));
                 marketVO.setHopeTag(object.getString("TAG"));
+                marketVO.setWorkType(object.getInt("WORK_TYPE"));
 
                 marketVO.setCopyright0(object.getString("COPYRIGHT0"));
                 marketVO.setCopyright1(object.getString("COPYRIGHT1"));

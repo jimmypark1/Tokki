@@ -31,7 +31,6 @@
             android:textColor="#191919"
             android:text="작품 등록하기"/>
 
-
     </RelativeLayout>
 
     <ScrollView
