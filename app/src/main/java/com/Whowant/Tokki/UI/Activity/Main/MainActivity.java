@@ -190,10 +190,16 @@ public class MainActivity extends AppCompatActivity {
                     tabLayout.setVisibility(View.VISIBLE);
                     alarmBtn.setVisibility(View.VISIBLE);
                     marketBtn.setVisibility(View.VISIBLE);
+
+                    alarmNewView.setVisibility(View.VISIBLE);
+
+
                 } else if (position == 1) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("검색");
                     tabLayout.setVisibility(View.GONE);
+
+                    alarmNewView.setVisibility(View.INVISIBLE);
 
 //                    rightBtn.setVisibility(View.VISIBLE);
 //                    rightBtn.setImageResource(R.drawable.dot_menu);
@@ -204,6 +210,8 @@ public class MainActivity extends AppCompatActivity {
                     rightBtn.setImageResource(R.drawable.i_setting);
                     reportBtn.setVisibility(View.GONE);
                     tabLayout.setVisibility(View.GONE);
+                    alarmNewView.setVisibility(View.INVISIBLE);
+
                 } else if (position == 3) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("작품쓰기");
@@ -215,11 +223,15 @@ public class MainActivity extends AppCompatActivity {
 //                    rightBtn.setVisibility(View.VISIBLE);
 //                    rightBtn.setImageResource(R.drawable.gear_btn);
                     tabLayout.setVisibility(View.GONE);
+                    alarmNewView.setVisibility(View.INVISIBLE);
+
                 } else if (position == 4) {
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("친구");
                     inviteView.setVisibility(View.VISIBLE);
                     tabLayout.setVisibility(View.GONE);
+                    alarmNewView.setVisibility(View.INVISIBLE);
+
                 }
             }
 
