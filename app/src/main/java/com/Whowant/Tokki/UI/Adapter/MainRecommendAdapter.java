@@ -68,6 +68,7 @@ public class MainRecommendAdapter extends RecyclerView.Adapter<MainRecommendAdap
         WorkVO workVO = itemsList.get(position);
         String strImgUrl = workVO.getCoverFile();
 
+        String back = workVO.getStrCoverBlurFile();
         if (workVO.getnWorkID() == -1 && strImgUrl == "-1") {
             Glide.with(mContext)
                     .asBitmap() // some .jpeg files are actually gif
@@ -86,6 +87,14 @@ public class MainRecommendAdapter extends RecyclerView.Adapter<MainRecommendAdap
             strImgUrl = CommonUtils.strDefaultUrl + "images/" + strImgUrl;
         }
 
+        if(back != null && !back.startsWith("http")) {
+            back = CommonUtils.strDefaultUrl + "images/" + back;
+        }
+        else
+        {
+            back = "";
+        }
+
         if(nType >0)
         {
           //  String strBlurUrl = workVO.getStrCoverBlurFile();
@@ -95,11 +104,19 @@ public class MainRecommendAdapter extends RecyclerView.Adapter<MainRecommendAdap
 
             Glide.with(mContext)
                     .asBitmap() // some .jpeg files are actually gif
-                    .load(strImgUrl)
+                    .load(back)
                     //     .into(photoIv);
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+
+                            if(resource != null)
+                            {
+                                holder.blurView.setImageBitmap(resource);
+
+                            }
+
+                            /*
                             Bitmap blurredBitmap = GaussianBlur.with(mContext).size(300).radius(20).render(resource);
 //
                             if(blurredBitmap != null)
@@ -110,6 +127,8 @@ public class MainRecommendAdapter extends RecyclerView.Adapter<MainRecommendAdap
                             {
                                 holder.blurView.setImageBitmap(resource);
                             }
+
+                             */
 
 //                            photoIv.setImageBitmap(blurredBitmap);
 

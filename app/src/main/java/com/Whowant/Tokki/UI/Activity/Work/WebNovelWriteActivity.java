@@ -232,7 +232,12 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
 
 
+        if(content.getText().toString().length() == 0)
+        {
+            Toast.makeText(WebNovelWriteActivity.this, "글을 작성하시고 다음페이지로 넘기세요.", Toast.LENGTH_LONG).show();
 
+            return;
+        }
 
 
 

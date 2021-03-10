@@ -119,12 +119,15 @@ public class MainFragment extends Fragment {                                    
             return;
 
         CommonUtils.showProgressDialog(getActivity(), "최근 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
-//        mainCardList.clear();
+        mainCardList.clear();
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 mainCardList = HttpClient.getAllRankingList(new OkHttpClient(), nType);
+                SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
+                recommendCardList = HttpClient.getRecommendList(new OkHttpClient(), pref.getString("USER_ID", "Guest"),nType);
+
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -168,7 +171,34 @@ public class MainFragment extends Fragment {                                    
 
                                      */
                                     mainCardList.addAll(1, recommendCardList);
-                                    getRecommendData();
+                                   // getRecommendData();
+
+                                    if(getActivity() == null || mainCardList == null || mainCardList.size() == 0)
+                                        return;
+
+                                     if(mainCardList.size() > 0)
+                                    {
+                                        mainCardList.remove(1);
+
+                                    }
+                                    if(recommendCardList.size() > 0)
+                                    {
+                                        if(mainCardList.size() > 0)
+                                            mainCardList.addAll(1, recommendCardList);
+
+                                    }
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if(recommendCardList == null) {
+                                                Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                                                return;
+                                            }
+
+                                            adapter.setData(mainCardList);
+//                        adapter.notifyDataSetChanged();
+                                        }
+                                    });
 
                                 }
 
@@ -205,6 +235,8 @@ public class MainFragment extends Fragment {                                    
     }
 
     private void getRecommendData() {
+
+        recommendCardList.clear();
         new Thread(new Runnable() {
             @Override
             public void run() {
