@@ -1294,8 +1294,9 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 TextView startPointView = holder.itemView.findViewById(R.id.startPointView);
                 TextView hitsCountView = holder.itemView.findViewById(R.id.hitsCountView);
                 TextView commentCountView = holder.itemView.findViewById(R.id.commentCountView);
-                LinearLayout chatCountLayout = holder.itemView.findViewById(R.id.chatCountLayout);
-                TextView chatCountView = holder.itemView.findViewById(R.id.chatCountView);
+               // LinearLayout chatCountLayout = holder.itemView.findViewById(R.id.chatCountLayout);
+               // TextView chatCountView = holder.itemView.findViewById(R.id.chatCountView);
+                TextView hitCount = holder.itemView.findViewById(R.id.hitCount);
 
                 episodeTitleView.setText(vo.getStrTitle());
 
@@ -1326,13 +1327,16 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
 
                 dateTimeView.setText(vo.getStrDate().substring(0, 10));
                 startPointView.setText(String.format("%.1f", vo.getfStarPoint()));
-                hitsCountView.setText(CommonUtils.getPointCount(vo.getnTapCount()));
+                //hitsCountView.setText(CommonUtils.getPointCount(vo.getnTapCount()));
                 commentCountView.setText(CommonUtils.getPointCount(vo.getnCommentCount()));
+
+                hitCount.setText(CommonUtils.getPointCount(vo.getnTapCount()));
+
 
                 ImageView menuBtn = holder.itemView.findViewById(R.id.menuBtn);
 
                 if(pref.getString("ADMIN", "N").equals("N")) {
-                    chatCountLayout.setVisibility(View.GONE);
+                  //  chatCountLayout.setVisibility(View.GONE);
 
 
                     menuBtn.setVisibility(View.VISIBLE);
@@ -1386,7 +1390,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         }
                     });
                 } else {
-                    chatCountLayout.setVisibility(View.VISIBLE);
+                   // chatCountLayout.setVisibility(View.VISIBLE);
                     if(pref.getString("ADMIN", "N").equals("Y")) {
                         postAvailableView.setVisibility(View.VISIBLE);
                         if(vo.getStrSubmit().equals("N")) {
@@ -1408,7 +1412,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                         }
                     }
 
-                    chatCountView.setText("" + vo.getnChatCount());
+              //      chatCountView.setText("" + vo.getnChatCount());
 
                     menuBtn.setVisibility(View.VISIBLE);
                     menuBtn.setOnClickListener(new View.OnClickListener() {
