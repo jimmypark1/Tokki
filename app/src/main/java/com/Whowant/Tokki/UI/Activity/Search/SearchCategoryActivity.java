@@ -143,7 +143,7 @@ public class SearchCategoryActivity extends AppCompatActivity {
                 viewHolder.titleTv.setText(item.getWORK_TITLE());
                 viewHolder.writerTv.setText("by " + item.getWRITER_NAME());
                 viewHolder.heartTv.setText(CommonUtils.getPointCount(item.getKEEP_COUNT()));
-                viewHolder.tabTv.setText(CommonUtils.getPointCount(item.getTAB_COUNT()));
+                viewHolder.tabTv.setText(CommonUtils.getPointCount(item.getHITS_COUNT()));
                 viewHolder.synopsisTv.setText(item.getWORK_SYNOPSIS());
 
                 float fStarPoint = item.getSTAR_POINT();

@@ -1330,7 +1330,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 //hitsCountView.setText(CommonUtils.getPointCount(vo.getnTapCount()));
                 commentCountView.setText(CommonUtils.getPointCount(vo.getnCommentCount()));
 
-                hitCount.setText(CommonUtils.getPointCount(vo.getnTapCount()));
+                hitCount.setText(CommonUtils.getPointCount(vo.getnHitsCount()));
 
 
                 ImageView menuBtn = holder.itemView.findViewById(R.id.menuBtn);

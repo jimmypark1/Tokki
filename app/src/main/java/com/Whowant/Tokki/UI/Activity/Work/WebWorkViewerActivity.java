@@ -95,6 +95,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
     String workID = "";
 
     boolean drag = false;
+    ToggleButton settingBtn;
 
 
     int dpToPx(float dp)
@@ -330,6 +331,10 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
         episodeID = episode.getnEpisodeID();
 
+        settingBtn = findViewById(R.id.settingBtn);
+
+
+
         getEpisodeNovelData();
         ToggleButton episodeListBtn = findViewById(R.id.episodeListBtn);
         LinearLayout episodeListLayout = findViewById(R.id.episodeListLayout);
@@ -362,6 +367,8 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                     WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
                     fragment.page = position;
                     fragment.showMenu(true,false,true);
+                    settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
+
 
                 }
                 else
@@ -370,6 +377,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                     fragment.page = position;
                     fragment.showMenu(false, false,false);
                     fragment.getHtml();
+                    settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
 
                 }
                 drag = false;
@@ -469,12 +477,16 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
         if(fragment.bottomMenu.getVisibility() == View.VISIBLE)
         {
+            settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
+
             fragment.showMenu(false, true,isCover);
             show = false;
 
         }
         else
         {
+            settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
+
             fragment.initSettings();
             fragment.showMenu(true, true,isCover);
             show = true;

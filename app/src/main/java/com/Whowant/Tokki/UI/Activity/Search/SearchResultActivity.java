@@ -61,6 +61,12 @@ public class SearchResultActivity extends AppCompatActivity {
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         initView();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getData();
     }
 
@@ -195,7 +201,7 @@ public class SearchResultActivity extends AppCompatActivity {
                 viewHolder.titleTv.setText(item.getTitle());
                 viewHolder.writerTv.setText("by " + item.getStrWriterName());
                 viewHolder.heartTv.setText(CommonUtils.getPointCount(item.getnKeepcount()));
-                viewHolder.tabTv.setText(CommonUtils.getPointCount(item.getnTapCount()));
+                viewHolder.tabTv.setText(CommonUtils.getPointCount(item.getnHitsCount()));
                 viewHolder.synopsisTv.setText(item.getSynopsis());
 
                 float fStarPoint = item.getfStarPoint();

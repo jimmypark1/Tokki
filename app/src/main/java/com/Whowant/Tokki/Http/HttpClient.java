@@ -546,6 +546,8 @@ public class HttpClient {
                 workVO.setnTarget(object.getInt("TARGET"));
                 workVO.setnTapCount(object.getInt("TAB_COUNT"));
                 workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                //
                 workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
 
                 resultList.add(workVO);

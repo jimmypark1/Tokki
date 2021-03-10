@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -123,6 +124,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
         //content.setImeOptions(EditorInfo.IME_ACTION_DONE);
         content.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
 
 
         getEpisodeData();
