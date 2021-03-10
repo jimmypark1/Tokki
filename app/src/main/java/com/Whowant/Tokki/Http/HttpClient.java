@@ -714,6 +714,7 @@ public class HttpClient {
 
                  marketVO.setPrice(object.getInt("PRICE"));
                 marketVO.setStatus(object.getInt("STATUS"));
+                marketVO.setMarketId(object.getInt("MARKET_ID"));
 
                 resultList.add(marketVO);
             }
@@ -773,6 +774,7 @@ public class HttpClient {
                 marketVO.setWorkId(object.getString("WORK_ID"));
                 marketVO.setPrice(object.getInt("PRICE"));
                 marketVO.setStatus(object.getInt("STATUS"));
+                marketVO.setMarketId(object.getInt("MARKET_ID"));
 
                 resultList.add(marketVO);
             }
@@ -832,6 +834,7 @@ public class HttpClient {
                 marketVO.setWorkId(object.getString("WORK_ID"));
                 marketVO.setPrice(object.getInt("PRICE"));
                 marketVO.setStatus(object.getInt("STATUS"));
+                marketVO.setMarketId(object.getInt("MARKET_ID"));
 
                 resultList.add(marketVO);
             }
@@ -891,6 +894,7 @@ public class HttpClient {
                 marketVO.setWorkId(object.getString("WORK_ID"));
                 marketVO.setPrice(object.getInt("PRICE"));
                 marketVO.setStatus(object.getInt("STATUS"));
+                marketVO.setMarketId(object.getInt("MARKET_ID"));
 
                 resultList.add(marketVO);
             }
@@ -4657,6 +4661,81 @@ public class HttpClient {
 
         return false;
     }
+    public static boolean sendEmailToBuyer(OkHttpClient httpClient, String strUserEmail) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "SendEmail.jsp?EMAIL=" + strUserEmail)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public static boolean sendEmailToWriter(OkHttpClient httpClient, String strUserEmail) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "SendEmaiToAdmin.jsp?EMAIL=" + strUserEmail)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public static boolean sendEmailToAdmin(OkHttpClient httpClient, String marketId,String userId, String workId) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "SendEmaiToAdmin.jsp?MARKET_ID=" + marketId + "&USER_ID=" + userId + "&WORK_ID=" + workId)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
     public static boolean changePW(OkHttpClient httpClient, String userID,String password) {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM)
@@ -5387,6 +5466,29 @@ public class HttpClient {
     public static boolean requestMarketSendMailToWriter(OkHttpClient httpClient, String strMail) {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "SendEmaiToWriter.jsp?EMAIL=" + strMail)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return false;
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+            if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                return true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public static boolean buyCarrot(OkHttpClient httpClient, String userId, int carrot) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=BuyCarrot&USER_ID=" + userId + "&CARROT=" + String.valueOf(carrot))
                 .get()
                 .build();
 

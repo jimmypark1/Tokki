@@ -290,6 +290,7 @@ public class MarketDetailActivity extends AppCompatActivity {
         else
         {
             Intent intent = new Intent(MarketDetailActivity.this, MarketDealPopup2.class);
+            intent.putExtra("MARKET_DATA",market);
 
             startActivity(intent);
         }

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.UI.Fragment.Main.CoinPurchaseLogFragment;
@@ -48,6 +49,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
+
 import static com.android.billingclient.api.BillingClient.SkuType.INAPP;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -73,6 +76,7 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
 
     CarrotAdapter adapter;
     BillingClient billingClient;
+    int nCarrot = 0;
 
     void initCarrots()
     {
@@ -286,21 +290,43 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
 
     }
 
+    void buyItem(int carrot)
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Boolean ret = HttpClient.buyCarrot(new OkHttpClient(), "",10);
+
+
+            }
+        }).start();
+    }
 
 
     private void initiatePurchase(int i) {
         List<String> skuList = new ArrayList<>();
 
-        if(i == 0)
+        if(i == 0) {
             skuList.add("carrot_10");
-        if(i == 1)
+            nCarrot = 10;
+        }
+        if(i == 1) {
             skuList.add("carrot_45");
-        if(i == 2)
+            nCarrot = 45;
+        }
+        if(i == 2) {
             skuList.add("carrot_120");
-        if(i == 3)
+            nCarrot = 120;
+        }
+        if(i == 3){
             skuList.add("carrot_500");
-        if(i == 4)
+            nCarrot = 500;
+
+        }
+        if(i == 4) {
             skuList.add("carrot_2000");
+            nCarrot = 2000;
+        }
 
 
         SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
@@ -316,6 +342,9 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
                                         .setSkuDetails(skuDetailsList.get(0))
                                         .build();
                                 billingClient.launchBillingFlow(getActivity(), flowParams);
+                                buyItem(nCarrot);
+                                Toast.makeText(getApplicationContext(),"당근구매에 성공하셨습니다",Toast.LENGTH_SHORT).show();
+
                             }
                             else{
                                 //try to add item/product id "purchase" inside managed product in google play console

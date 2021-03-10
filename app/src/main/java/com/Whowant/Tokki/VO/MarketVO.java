@@ -31,9 +31,19 @@ public class MarketVO implements Serializable {
     private String hopeTag;
     private String hopeGenre;
 
+    private int marketId;
+
 
     public MarketVO() {
 
+    }
+
+    public void setMarketId(int marketId) {
+        this.marketId = marketId;
+    }
+
+    public int getMarketId() {
+        return marketId;
     }
 
     public void setWorkType(int workType) {
