@@ -537,7 +537,7 @@ public class WebWorkFragment extends Fragment {
             return;
 
 
-        defaultFontSize ++;
+        defaultFontSize += 1.2;
 
         pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
 
@@ -563,7 +563,8 @@ public class WebWorkFragment extends Fragment {
         if (defaultFontSize < 10 )
             return;
 
-        defaultFontSize --;
+     //   defaultFontSize --;
+        defaultFontSize -= 1.2;
 
 
         pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);

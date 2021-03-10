@@ -698,7 +698,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                         BookFlipPageTransformer bookFlipPageTransformer = new BookFlipPageTransformer();
 
                         bookFlipPageTransformer.setEnableScale(false);
-                        bookFlipPageTransformer.setScaleAmountPercent(2f);
+                     //   bookFlipPageTransformer.setScaleAmountPercent(2f);
                         viewPager.setPageTransformer( true,bookFlipPageTransformer);
                         pagerAdapter.notifyDataSetChanged();
                         viewPager.setCurrentItem(lastOrder);
