@@ -377,6 +377,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
             {
                 selectedPage = position;
+                lastOrder = position;
                 if(position == 0)
                 {
                     show = true;
@@ -441,7 +442,6 @@ public class WebWorkViewerActivity extends AppCompatActivity{
             }
         });
 
-        sendViewing(lastOrder);
 
         TextView moreView = findViewById(R.id.commentMoreView);
         moreView.setOnClickListener(new View.OnClickListener() {
@@ -699,6 +699,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                         bookFlipPageTransformer.setScaleAmountPercent(10f);
                         viewPager.setPageTransformer(true, bookFlipPageTransformer);
                         pagerAdapter.notifyDataSetChanged();
+                        viewPager.setCurrentItem(lastOrder);
 
 
 
@@ -711,6 +712,8 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
     public void onClickTopLeftBtn(View view) {
         initVariables();
+        sendViewing(lastOrder);
+
         finish();
     }
     public void onClickSettingsBtn(View view) {
