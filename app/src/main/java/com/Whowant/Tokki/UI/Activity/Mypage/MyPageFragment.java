@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
+import com.Whowant.Tokki.UI.Activity.Work.WebWorkViewerActivity;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageFeedFragment;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageSpaceFragment;
 import com.Whowant.Tokki.UI.Popup.TokkiSNSPopup;
@@ -89,6 +91,10 @@ public class MyPageFragment extends Fragment {
     RelativeLayout comment_layer;
 
     RelativeLayout topInfo;
+    RelativeLayout bottomInfo;
+
+    ImageView backBt;
+    ImageView settingsBt;
 
     private int nCurrentCarrot = 0;                                                         // 현재 당근 갯수
     private int nTotalUsedCarrot = 0;                                                       // 총 당근 갯수
@@ -182,7 +188,12 @@ public class MyPageFragment extends Fragment {
         btnTokkiSNS = v.findViewById(R.id.btnTokkiSNS);
         comment_layer = v.findViewById(R.id.comment_layer);
 
+        bottomInfo= v.findViewById(R.id.bottomInfo);
+
+        backBt = v.findViewById(R.id.back);
+
         topInfo = v.findViewById(R.id.topInfo);
+        settingsBt = v.findViewById(R.id.settings);
     //    followerCountTv = v.findViewById(R.id.tv_writer_page_follower_count);
 
         //
@@ -193,6 +204,9 @@ public class MyPageFragment extends Fragment {
             unfollowLayer.setVisibility(View.GONE);
             btnCarrot.setVisibility(View.VISIBLE);
             btnTokkiSNS.setVisibility(View.VISIBLE);
+            settingsBt.setVisibility(View.VISIBLE);
+            backBt.setVisibility(View.GONE);
+
         }
         else
         {
@@ -200,6 +214,8 @@ public class MyPageFragment extends Fragment {
             unfollowLayer.setVisibility(View.GONE);
             btnCarrot.setVisibility(View.GONE);
             btnTokkiSNS.setVisibility(View.GONE);
+            backBt.setVisibility(View.GONE);
+            settingsBt.setVisibility(View.GONE);
 
         }
 
@@ -373,6 +389,17 @@ public class MyPageFragment extends Fragment {
 //        MyPageSpaceFragment myPageSpaceFragment = (MyPageSpaceFragment) myPageAdapter.getItem(1);
 //        myPageSpaceFragment.imageSetting(intent);
 //    }
+    public void onClickSettingsBtn(View view) {                                                                                     // 페이지별로 우측 버튼 다르게 동작
+     //   startActivity(new Intent(getActivity(), MyPageAccountSettingActivity.class));
+
+        MainActivity parent =  (MainActivity)getActivity();
+        parent.onClickSettingsBtn(view);
+
+    }
+
+    private int dpToPx(Context context, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
 
     void initLayout()
     {
@@ -385,6 +412,43 @@ public class MyPageFragment extends Fragment {
         ViewGroup.LayoutParams params = topInfo.getLayoutParams();
         params.width = width;
         params.height = width;
+
+        int height = (width- (dpToPx(getActivity(),50) + dpToPx(getActivity(),20) ));
+
+        int compHeight = dpToPx(getActivity(),88) +  dpToPx(getActivity(),20) +  dpToPx(getActivity(),26) +  dpToPx(getActivity(),36);
+
+        int topMargin = (height - compHeight ) / 3 ;
+
+        ViewGroup.MarginLayoutParams p0 = (ViewGroup.MarginLayoutParams) photoIv.getLayoutParams();
+        ViewGroup.MarginLayoutParams p1 = (ViewGroup.MarginLayoutParams) nameTv.getLayoutParams();
+        ViewGroup.MarginLayoutParams p2 = (ViewGroup.MarginLayoutParams) introductionTv.getLayoutParams();
+        ViewGroup.MarginLayoutParams p3 = (ViewGroup.MarginLayoutParams) bottomInfo.getLayoutParams();
+
+        p0.topMargin = topMargin;
+      //  p1.topMargin = topMargin;
+     //   p2.topMargin = topMargin;
+        p3.topMargin = topMargin;
+
+        ViewGroup.LayoutParams params0 = btnWork.getLayoutParams();
+        ViewGroup.LayoutParams params1 = btnRead.getLayoutParams();
+        ViewGroup.LayoutParams params2 = btnFollower.getLayoutParams();
+        ViewGroup.LayoutParams params3 = btnFollowing.getLayoutParams();
+
+        int compWidth = (width - dpToPx(getActivity(),40) )/ 4;
+
+        params0.width = compWidth;
+        params1.width = compWidth;
+        params2.width = compWidth;
+        params3.width = compWidth;
+
+        /*
+        LinearLayout btnFollower;
+    LinearLayout btnCarrot;
+    LinearLayout btnWork;
+    LinearLayout btnRead;
+    LinearLayout btnFollowing;
+         */
+
 
     }
     @Override

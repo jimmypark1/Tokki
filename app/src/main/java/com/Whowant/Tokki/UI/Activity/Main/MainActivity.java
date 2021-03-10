@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
     MyPageFragment.MyPageAdapter myPageAdapter;
 
+    RelativeLayout topBarLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
        // tabLayout.addTab(tabLayout.newTab().setText("e소설"));
         tabLayout.addTab(tabLayout.newTab().setText("스토리"));
 
+        topBarLayout= findViewById(R.id.topBarLayout);
+
 
         pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
 
@@ -181,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
                 marketBtn.setVisibility(View.GONE);
 
                 if (position == 0) {
+                    topBarLayout.setVisibility(View.VISIBLE);
+
                     centerLogoView.setVisibility(View.VISIBLE);
                     titleView.setText("");
 //                    rightBtn.setVisibility(View.VISIBLE);
@@ -195,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 } else if (position == 1) {
+                    topBarLayout.setVisibility(View.VISIBLE);
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("검색");
                     tabLayout.setVisibility(View.GONE);
@@ -205,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
 //                    rightBtn.setImageResource(R.drawable.dot_menu);
                 } else if (position == 2) {
                     centerLogoView.setVisibility(View.INVISIBLE);
+                    /*
                     titleView.setText("마이 페이지");
                     rightBtn.setVisibility(View.VISIBLE);
                     rightBtn.setImageResource(R.drawable.i_setting);
@@ -212,7 +219,15 @@ public class MainActivity extends AppCompatActivity {
                     tabLayout.setVisibility(View.GONE);
                     alarmNewView.setVisibility(View.INVISIBLE);
 
+                     */
+                    topBarLayout.setVisibility(View.GONE);
+
+                    tabLayout.setVisibility(View.GONE);
+                    alarmNewView.setVisibility(View.INVISIBLE);
+
+
                 } else if (position == 3) {
+                    topBarLayout.setVisibility(View.VISIBLE);
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("작품쓰기");
 //                    rightBtn.setVisibility(View.VISIBLE);
@@ -227,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
                     alarmNewView.setVisibility(View.INVISIBLE);
 
                 } else if (position == 4) {
+                    topBarLayout.setVisibility(View.VISIBLE);
                     centerLogoView.setVisibility(View.INVISIBLE);
                     titleView.setText("친구");
                     inviteView.setVisibility(View.VISIBLE);
@@ -536,7 +552,10 @@ public class MainActivity extends AppCompatActivity {
     public void onClickTopLeftBtn(View view) {
         drawer.openDrawer(Gravity.LEFT);
     }
+    public void onClickSettingsBtn(View view) {                                                                                     // 페이지별로 우측 버튼 다르게 동작
+        startActivity(new Intent(MainActivity.this, MyPageAccountSettingActivity.class));
 
+    }
     public void onClickTopRightBtn(View view) {                                                                                     // 페이지별로 우측 버튼 다르게 동작
         int nPosition = viewPager.getCurrentItem();
 

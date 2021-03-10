@@ -41,12 +41,31 @@
 
                     android:layout_marginTop="10dp"
                     >
+                    <ImageView
+                        android:id="@+id/back"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="@drawable/i_back_white"
+                        android:layout_marginLeft="20dp"
+                        />
+                    <ImageView
+                        android:id="@+id/settings"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:onClick="onClickSettingsBtn"
+
+                        android:background="@drawable/i_setting_white"
+                       android:layout_marginLeft="20dp"
+                        />
                     <RelativeLayout
                         android:id="@+id/btnTokkiSNS"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_alignParentRight ="true"
-                        android:layout_marginRight="20dp"
+                        android:layout_toLeftOf="@+id/settings"
+
+
                         android:background="@drawable/round_18_ffffff_b1_33000000"
                         >
 
@@ -132,11 +151,14 @@
 
                 </RelativeLayout>
                 <RelativeLayout
+                    android:id="@+id/bottomInfo"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/comment_layer"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="0dp"
                     android:gravity="center"
+
 
                     >
                     <LinearLayout
@@ -144,7 +166,6 @@
                         android:layout_width="160dp"
                         android:layout_height="36dp"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
                         android:background="@drawable/round_18_ffffff_b1_33000000"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
@@ -186,7 +207,6 @@
                         android:layout_width="120dp"
                         android:layout_height="36dp"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
                         android:background="@drawable/round_18_ffffff_b1_33000000"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
@@ -216,7 +236,6 @@
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/round_18_5a9aff_b1_33000000"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -254,7 +273,6 @@
                         android:id="@+id/btnWork"
                         android:layout_width="60dp"
                         android:layout_height="50dp"
-                        android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/ll_my_page_read"
                         android:gravity="center"
                         android:orientation="vertical">
@@ -316,8 +334,7 @@
                         android:id="@+id/btnFollower"
                         android:layout_width="60dp"
                         android:layout_height="50dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@+id/ll_my_page_read"
+                         android:layout_toEndOf="@+id/ll_my_page_read"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -347,8 +364,7 @@
                         android:id="@+id/btnFollowing"
                         android:layout_width="60dp"
                         android:layout_height="50dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@+id/btnFollower"
+                       android:layout_toEndOf="@+id/btnFollower"
                         android:gravity="center"
                         android:orientation="vertical">
                         <TextView
@@ -382,15 +398,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-
-
-
-
-
-
-
-
 
 
                 <LinearLayout
@@ -439,16 +446,6 @@
                         android:layout_alignParentBottom="true"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="12dp"
-                            android:lineSpacingExtra="-2sp"
-                            android:text="오혜미"
-                            android:textColor="#ffffff"
-                            android:textSize="24sp"
-                            android:textStyle="normal" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
