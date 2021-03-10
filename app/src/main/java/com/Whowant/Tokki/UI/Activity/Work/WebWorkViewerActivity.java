@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -45,11 +47,15 @@ import com.Whowant.Tokki.UI.Activity.Market.MarketTagFragment;
 import com.Whowant.Tokki.UI.Popup.CarrotDoneActivity;
 import com.Whowant.Tokki.UI.Popup.StarPointPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
+import com.Whowant.Tokki.VO.CommentVO;
 import com.Whowant.Tokki.VO.EpisodeVO;
 import com.Whowant.Tokki.VO.WebWorkVO;
 import com.Whowant.Tokki.VO.WorkVO;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.wajahatkarim3.easyflipviewpager.BookFlipPageTransformer;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -96,7 +102,13 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
     boolean drag = false;
     ToggleButton settingBtn;
-
+    RelativeLayout dimLayerLayout;
+    TextView nextEpisodeBtn;
+    int selectedPage = 0;
+    private SharedPreferences pref;
+    private ArrayList<View> viewList;
+    private ArrayList<CommentVO> commentList;
+    private boolean bGetComment = false;
 
     int dpToPx(float dp)
     {
@@ -212,7 +224,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         new Thread(new Runnable() {
             @Override
             public void run() {
-                JSONObject resultObject = HttpClient.getEpisodeCommnet(new OkHttpClient(), work.getSortedEpisodeList().get(episodeIndex).getnEpisodeID(), 1, pref.getString("USER_ID", "Guest"));
+                JSONObject resultObject = HttpClient.getEpisodeCommnet(new OkHttpClient(), work.getEpisodeList().get(episodeIndex).getnEpisodeID(), 1, pref.getString("USER_ID", "Guest"));
 
                 if (resultObject != null) {
                     try {
@@ -253,7 +265,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                                 }
 
                                 Intent intent = new Intent(WebWorkViewerActivity.this, StarPointPopup.class);
-                                intent.putExtra("EPISODE_ID", work.getSortedEpisodeList().get(episodeIndex).getnEpisodeID());
+                                intent.putExtra("EPISODE_ID", work.getEpisodeList().get(episodeIndex).getnEpisodeID());
                                 startActivity(intent);
                             }
                         });
@@ -292,7 +304,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         }
 
         Intent intent = new Intent(WebWorkViewerActivity.this, StarPointPopup.class);
-        intent.putExtra("EPISODE_ID", work.getSortedEpisodeList().get(episodeIndex).getnEpisodeID());
+        intent.putExtra("EPISODE_ID", work.getEpisodeList().get(episodeIndex).getnEpisodeID());
         startActivity(intent);
     }
     @Override
@@ -304,8 +316,9 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
         title = findViewById(R.id.titleView );
 
+        dimLayerLayout= findViewById(R.id.dimLayerLayout );
 
-
+        dimLayerLayout.setVisibility(View.GONE);
         work = ViewerActivity.workVO;//(WorkVO)getIntent().getSerializableExtra("WORK");
         episodeIndex = getIntent().getIntExtra("EPISODE_INDEX",0);
         lastOrder = getIntent().getIntExtra("LAST_ORDER",-1);
@@ -317,6 +330,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
         episodeList = work.getEpisodeList();
 
+        pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
 
 
         ea = new WebEpisodeListAdapter(WebWorkViewerActivity.this, episodeList);
@@ -362,6 +376,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
             {
+                selectedPage = position;
                 if(position == 0)
                 {
                     show = true;
@@ -380,6 +395,13 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                     fragment.showMenu(false, false,false);
                     fragment.getHtml();
                     settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
+
+                    if(webs.size() == (position + 1)) {
+
+                    }
+                    else
+                        dimLayerLayout.setVisibility(View.GONE);
+
 
                 }
                 drag = false;
@@ -400,9 +422,19 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                  * @see ViewPager#SCROLL_STATE_DRAGGING
                  * @see ViewPager#SCROLL_STATE_SETTLING
                  */
-                if(drag == false && state == SCROLL_STATE_DRAGGING)
+                if(state == SCROLL_STATE_DRAGGING &&  webs.size() == (selectedPage + 1))
                 {
-                    drag = true;
+                    dimLayerLayout.setVisibility(View.VISIBLE);
+                    if(episodeIndex == 0) {         // 마지막 이라면
+
+                        nextEpisodeBtn.setVisibility(View.INVISIBLE);
+                    }
+                    else
+                    {
+                        nextEpisodeBtn.setVisibility(View.VISIBLE);
+                  //      setComment();
+
+                    }
 
                 }
 
@@ -411,9 +443,222 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
         sendViewing(lastOrder);
 
+        TextView moreView = findViewById(R.id.commentMoreView);
+        moreView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WebWorkViewerActivity.this, EpisodeCommentActivity.class);
+                intent.putExtra("EPISODE_ID", work.getEpisodeList().get(episodeIndex).getnEpisodeID());
+                startActivity(intent);
+            }
+        });
+
+         nextEpisodeBtn = findViewById(R.id.nextEpisodeBtn);
+        if(episodeIndex == 0) {         // 마지막 이라면
+
+
+            nextEpisodeBtn.setVisibility(View.INVISIBLE);
+        } else {
+            nextEpisodeBtn.setVisibility(View.VISIBLE);
+            nextEpisodeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    dimLayerLayout.setVisibility(View.INVISIBLE);
+
+                    nextEpisode();
+
+                }
+            });
+
+        }
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setComment();
+    }
 
+    public void onClickBottomBgView(View view) {
+     //   dimLayerLayout.setVisibility(View.GONE);
+
+    }
+    public void clickCloseBtn(View view) {
+          dimLayerLayout.setVisibility(View.GONE);
+
+    }
+
+    public void onClickNextEpisode(View view) {
+       // dimLayerLayout.setVisibility(View.GONE);
+
+    }
+    private void setComment() {
+        commentList = new ArrayList<>();
+        getCommentData();
+    }
+    private void getCommentData() {
+
+        if(bGetComment)
+            return;
+
+        bGetComment = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                bGetComment = false;
+            }
+        }, 1000);
+
+        CommonUtils.showProgressDialog(this, "댓글 목록을 가져오고 있습니다. 잠시만 기다려주세요.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                commentList.clear();
+                JSONObject resultObject = HttpClient.getEpisodeCommnet(new OkHttpClient(), work.getEpisodeList().get(episodeIndex).getnEpisodeID(), 1, pref.getString("USER_ID", "Guest"));
+
+                if(resultObject != null) {
+                    try {
+                        JSONArray resultArray = resultObject.getJSONArray("COMMENT_LIST");
+
+                        for(int i = 0 ; i < resultArray.length() ; i++) {
+                            JSONObject object = resultArray.getJSONObject(i);
+                            CommentVO vo = new CommentVO();
+                            vo.setCommentID(object.getInt("COMMENT_ID"));
+                            vo.setEpisodeID(object.getInt("EPISODE_ID"));
+                            vo.setParentID(object.getInt("PARENT_ID"));
+                            vo.setStrComment(object.getString("COMMENT"));
+                            vo.setRegisterDate(object.getString("REGISTER_DATE"));
+                            vo.setUserName(object.getString("USER_NAME"));
+                            vo.setUserPhoto(object.getString("USER_PHOTO"));
+                            vo.setChatID(object.getInt("CHAT_ID"));
+                            vo.setUserID(object.getString("USER_ID"));
+                            vo.setLikeCount(object.getInt("LIKE_COUNT"));
+
+                            commentList.add(vo);
+                        }
+
+                        fStarPoint = (float)resultObject.getDouble("STAR_POINT");
+                        nStarCount = resultObject.getInt("STAR_COUNT");
+                        fMyPoint = (float)resultObject.getDouble("MY_POINT");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        RatingBar smallRatingBar = findViewById(R.id.smallRatingBar);
+                        TextView starPointView = findViewById(R.id.starPointView);
+                        TextView starCountView = findViewById(R.id.starCountView);
+
+                        smallRatingBar.setRating(fStarPoint);
+                        starPointView.setText(String.format("%.1f", fStarPoint));
+                        starCountView.setText("(" + nStarCount + "명)");
+
+                        TextView rightView = findViewById(R.id.rightView);
+                        rightView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+
+                                if(fMyPoint > 0) {
+                                    Toast.makeText(WebWorkViewerActivity.this, "이미 평가한 작품입니다.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                Intent intent = new Intent(WebWorkViewerActivity.this, StarPointPopup.class);
+                                intent.putExtra("EPISODE_ID", work.getEpisodeList().get(episodeIndex).getnEpisodeID());
+                                startActivity(intent);
+                            }
+                        });
+
+                        LinearLayout container = findViewById(R.id.commentContainer);
+                        TextView noCommentView = findViewById(R.id.noCommentView);
+                        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                        if(viewList != null) {
+                            for(int i = 0 ; i < viewList.size() ; i++) {
+                                container.removeView(viewList.get(i));
+                            }
+                        }
+
+                        viewList = new ArrayList<>();
+                        if(commentList != null && commentList.size() > 0) {
+                            noCommentView.setVisibility(View.GONE);
+
+                            for(int i = 0 ; i < commentList.size() ; i ++) {
+                                if(i >= 2)
+                                    break;
+
+                                CommentVO vo = commentList.get(i);
+
+                                View view = inflater.inflate(R.layout.chat_comment_row, null);
+                                RelativeLayout bgView = view.findViewById(R.id.bgView);
+                                ImageView faceView = view.findViewById(R.id.faceView);
+                                TextView nameView = view.findViewById(R.id.nameView);
+                                TextView dateView = view.findViewById(R.id.dateTimeView);
+                                TextView commentView = view.findViewById(R.id.commentView);
+                                LinearLayout likeLayout = view.findViewById(R.id.likeLayout);
+                                TextView likeCountView = view.findViewById(R.id.likeCountView);
+                                TextView episodeNumView = view.findViewById(R.id.episodeNumView);
+                                ImageView thumbIconView = view.findViewById(R.id.thumbIconView);
+                                ImageView arrowBtn = view.findViewById(R.id.arrowBtn);
+                                TextView reportBtn = view.findViewById(R.id.reportBtn);
+                                TextView replyBtn = view.findViewById(R.id.replyBtn);
+
+                                if(vo.isHasChild()) {
+                                    arrowBtn.setVisibility(View.VISIBLE);
+                                } else {
+                                    arrowBtn.setVisibility(View.INVISIBLE);
+                                }
+
+                                if(vo.getUserID().equals(pref.getString("USER_ID", "Guest")) || pref.getString("ADMIN", "N").equals("Y")) {
+                                    reportBtn.setText("삭제");
+                                } else {
+                                    reportBtn.setText("신고");
+                                }
+
+                                String strPhoto = vo.getUserPhoto();
+                                if(strPhoto != null && !strPhoto.equals("null") && !strPhoto.equals("NULL") && strPhoto.length() > 0) {
+                                    if(!strPhoto.startsWith("http"))
+                                        strPhoto = CommonUtils.strDefaultUrl + "images/" + strPhoto;
+
+                                    Glide.with(WebWorkViewerActivity.this)
+                                            .asBitmap() // some .jpeg files are actually gif
+                                            .load(strPhoto)
+                                            .apply(new RequestOptions().circleCrop())
+                                            .into(faceView);
+                                } else {
+                                    Glide.with(WebWorkViewerActivity.this)
+                                            .asBitmap() // some .jpeg files are actually gif
+                                            .load(R.drawable.user_icon)
+                                            .apply(new RequestOptions().circleCrop())
+                                            .into(faceView);
+                                }
+
+                                nameView.setText(vo.getUserName());
+                                dateView.setText(CommonUtils.strGetTime(vo.getRegisterDate()));
+                                commentView.setText(vo.getStrComment());
+                                container.addView(view);
+                                viewList.add(view);
+
+
+                            }
+                        } else {
+                            noCommentView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
     void getEpisodeNovelData()
     {
 

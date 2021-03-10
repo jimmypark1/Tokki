@@ -103,6 +103,14 @@
             android:scrollbars="none"/>
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/dimLayerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <include layout="@layout/work_end_cell" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

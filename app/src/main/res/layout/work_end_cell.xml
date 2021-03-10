@@ -150,14 +150,14 @@
         <LinearLayout
             android:id="@+id/commentContainer"
             android:layout_width="match_parent"
-            android:layout_height="355dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/noCommentView"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="200dp"
                 android:text="댓글이 없습니다."
                 android:gravity="center"/>
         </LinearLayout>
