@@ -4309,11 +4309,24 @@ public class HttpClient {
         return false;
     }
 
-    public static boolean requestDeleteWork(OkHttpClient httpClient, int nWorkID) {
-        Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestDeleteWork&WORK_ID=" + nWorkID)
-                .get()
-                .build();
+    public static boolean requestDeleteWork(OkHttpClient httpClient, int nWorkID, int type) {
+        Request request ;
+
+        if(type == 0)
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestDeleteWork&WORK_ID=" + nWorkID)
+                    .get()
+                    .build();
+        }
+        else
+        {
+            request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestDeleteWork2&WORK_ID=" + nWorkID)
+                    .get()
+                    .build();
+        }
+
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (response.code() != 200)

@@ -157,7 +157,7 @@ public class AlarmActivity extends AppCompatActivity {
     }
 
     private void getAlarmList() {
-        CommonUtils.showProgressDialog(AlarmActivity.this, "알림 정보를 가져오고 있습니다.");
+     //   CommonUtils.showProgressDialog(AlarmActivity.this, "알림 정보를 가져오고 있습니다.");
         bestList.clear();
 
         new Thread(new Runnable() {
@@ -176,7 +176,7 @@ public class AlarmActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CommonUtils.hideProgressDialog();
+                     //   CommonUtils.hideProgressDialog();
 
                         if(list == null) {
                             Toast.makeText(AlarmActivity.this, "서버와의 연결이 실패하였습니다.", Toast.LENGTH_SHORT).show();

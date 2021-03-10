@@ -245,7 +245,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
         new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean bResult = HttpClient.requestDeleteWork(new OkHttpClient(), workVO.getnWorkID());
+                boolean bResult = HttpClient.requestDeleteWork(new OkHttpClient(), workVO.getnWorkID(),workVO.getnTarget());
 
                 runOnUiThread(new Runnable() {
                     @Override
