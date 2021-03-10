@@ -55,6 +55,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
     private TextView titleView;
 
 
+    TextView episodeNumView;
 
     private EditText content;
     TextView page;
@@ -62,6 +63,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
     int nPage = 0;
     int readPageCnt = 0;
+    int nEpisodeOrder = 0;
 
     ArrayList<WebWorkVO> novels = new ArrayList<WebWorkVO>();
     ArrayList<WebWorkVO> publishContent = new ArrayList<WebWorkVO>();
@@ -99,17 +101,23 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web_novel_write);
         titleView = findViewById(R.id.episodeTitleView);
         page = findViewById(R.id.page);
+        episodeNumView = findViewById(R.id.episodeNumView);
 
         content = findViewById(R.id.content);
 
         strTitle = getIntent().getStringExtra("EPISODE_TITLE");
         nWorkID = getIntent().getIntExtra("WORK_ID",0);
         nEpisodeID = getIntent().getIntExtra("EPISODE_ID", -1);
+        nEpisodeOrder = getIntent().getIntExtra("EPISODE_ORDER", 0);
+
+
 
         if(strTitle != null && strTitle.length() > 0)
         {
             titleView.setText(strTitle);
         }
+        episodeNumView.setText( nEpisodeOrder+ "화");
+
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setCancelable(false);

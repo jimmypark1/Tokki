@@ -317,6 +317,8 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
         episodeList = work.getEpisodeList();
 
+
+
         ea = new WebEpisodeListAdapter(WebWorkViewerActivity.this, episodeList);
         episodeListView.setAdapter(ea);
         episodeListView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

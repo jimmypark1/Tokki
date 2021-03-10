@@ -532,14 +532,25 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                         else if(nTarget == 1) // 웹소설
                         {
                             String strTitle = "";
+                            int nOrder = 0;
 
-                            Intent intent = new Intent(WorkWriteMainActivity.this, WebNovelWriteActivity.class);                              // 회차 생성 클릭하여 회차 생성하면서 작성창으로 이동
-                            intent.putExtra("EPISODE_ID", nEpisodeID);
-                            intent.putExtra("EPISODE_TITLE", strTitle);
-                            intent.putExtra("WORK_ID", workVO.getnWorkID());
+                            for (int i = 0; i < workVO.getEpisodeList().size(); i++) {
+                                EpisodeVO vo = workVO.getEpisodeList().get(i);
+                                if (nEpisodeID == vo.getnEpisodeID()) {
+                                    nOrder = i;
+                                    Intent intent = new Intent(WorkWriteMainActivity.this, WebNovelWriteActivity.class);                              // 회차 생성 클릭하여 회차 생성하면서 작성창으로 이동
+                                    intent.putExtra("EPISODE_ID", nEpisodeID);
+                                    intent.putExtra("EPISODE_TITLE", strTitle);
+                                    intent.putExtra("WORK_ID", workVO.getnWorkID());
+                                    intent.putExtra("EPISODE_ORDER", nOrder+1);
+                                    startActivity(intent);
+                                    break;
+                                }
+                            }
 
 
-                            startActivity(intent);
+
+
 
                         }
                         else if(nTarget == 2) // e소설
@@ -550,12 +561,21 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                         {
                             String strTitle = "";
 
-                            Intent intent = new Intent(WorkWriteMainActivity.this, WebNovelWriteActivity.class);
-                            intent.putExtra("EPISODE_ID", nEpisodeID);
-                            intent.putExtra("EPISODE_TITLE", strTitle);
-                            intent.putExtra("WORK_ID", workVO.getnWorkID());
+                            int nOrder = 0;
 
-                            startActivity(intent);
+                            for (int i = 0; i < workVO.getEpisodeList().size(); i++) {
+                                EpisodeVO vo = workVO.getEpisodeList().get(i);
+                                if (nEpisodeID == vo.getnEpisodeID()) {
+                                    nOrder = i;
+                                    Intent intent = new Intent(WorkWriteMainActivity.this, WebNovelWriteActivity.class);                              // 회차 생성 클릭하여 회차 생성하면서 작성창으로 이동
+                                    intent.putExtra("EPISODE_ID", nEpisodeID);
+                                    intent.putExtra("EPISODE_TITLE", strTitle);
+                                    intent.putExtra("WORK_ID", workVO.getnWorkID());
+                                    intent.putExtra("EPISODE_ORDER", nOrder+1);
+                                    startActivity(intent);
+                                    break;
+                                }
+                            }
 
                         }
 
@@ -908,6 +928,8 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                             Intent intent = new Intent(WorkWriteMainActivity.this, WebNovelWriteActivity.class);
                                             intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
                                             intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
+                                            intent.putExtra("EPISODE_ORDER", workVO.getEpisodeList().get(nPosition).getnOrder());
+
                                             intent.putExtra("WORK_ID", workVO.getnWorkID());
 
                                             startActivity(intent);
@@ -922,6 +944,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                             Intent intent = new Intent(WorkWriteMainActivity.this, WebNovelWriteActivity.class);
                                             intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
                                             intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
+                                            intent.putExtra("EPISODE_ORDER", workVO.getEpisodeList().get(nPosition).getnOrder());
                                             intent.putExtra("WORK_ID", workVO.getnWorkID());
                                             startActivity(intent);
 
@@ -950,6 +973,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                                 intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
                                                 intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
                                                 intent.putExtra("WORK_ID", workVO.getnWorkID());
+                                                intent.putExtra("EPISODE_ORDER", workVO.getEpisodeList().get(nPosition).getnOrder());
 
                                                 startActivity(intent);
 
@@ -964,6 +988,7 @@ public class WorkWriteMainActivity extends AppCompatActivity {                  
                                                 intent.putExtra("EPISODE_ID", workVO.getEpisodeList().get(nPosition).getnEpisodeID());
                                                 intent.putExtra("EPISODE_TITLE", workVO.getEpisodeList().get(nPosition).getStrTitle());
                                                 intent.putExtra("WORK_ID", workVO.getnWorkID());
+                                                intent.putExtra("EPISODE_ORDER", workVO.getEpisodeList().get(nPosition).getnOrder());
                                                 startActivity(intent);
 
                                             }
