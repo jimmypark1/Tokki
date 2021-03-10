@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                     alarmBtn.setVisibility(View.VISIBLE);
                     marketBtn.setVisibility(View.VISIBLE);
 
-                    alarmNewView.setVisibility(View.VISIBLE);
+                    alarmNewView.setVisibility(View.INVISIBLE);
 
 
                 } else if (position == 1) {
