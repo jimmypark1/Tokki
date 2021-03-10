@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +88,7 @@ public class MyPageFragment extends Fragment {
 
     RelativeLayout comment_layer;
 
+    RelativeLayout topInfo;
 
     private int nCurrentCarrot = 0;                                                         // 현재 당근 갯수
     private int nTotalUsedCarrot = 0;                                                       // 총 당근 갯수
@@ -178,6 +181,8 @@ public class MyPageFragment extends Fragment {
         btnCarrot = v.findViewById(R.id.btnCarrot);
         btnTokkiSNS = v.findViewById(R.id.btnTokkiSNS);
         comment_layer = v.findViewById(R.id.comment_layer);
+
+        topInfo = v.findViewById(R.id.topInfo);
     //    followerCountTv = v.findViewById(R.id.tv_writer_page_follower_count);
 
         //
@@ -293,6 +298,7 @@ public class MyPageFragment extends Fragment {
         readCountTv = v.findViewById(R.id.tv_my_page_read);
         followCountTv = v.findViewById(R.id.tv_my_page_follower);
 
+        initLayout();
 
 
         return v;
@@ -368,13 +374,26 @@ public class MyPageFragment extends Fragment {
 //        myPageSpaceFragment.imageSetting(intent);
 //    }
 
+    void initLayout()
+    {
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+
+
+        ViewGroup.LayoutParams params = topInfo.getLayoutParams();
+        params.width = width;
+        params.height = width;
+
+    }
     @Override
     public void onResume() {
         super.onResume();
 
         if (isPopup) {
 //            isPopup = false;
-            return;
+    //        return;
         }
 /*
         if(writerId.length() == 0)
