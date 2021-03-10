@@ -65,6 +65,8 @@ public class WebNovelWriteActivity extends AppCompatActivity {
     int readPageCnt = 0;
     int nEpisodeOrder = 0;
 
+    Boolean bPublish = false;
+
     ArrayList<WebWorkVO> novels = new ArrayList<WebWorkVO>();
     ArrayList<WebWorkVO> publishContent = new ArrayList<WebWorkVO>();
 
@@ -138,7 +140,36 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         getEpisodeData();
     }
     public void onClickTopLeftBtn(View view) {
-        finish();
+
+
+        if(bPublish == false)
+        {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //createNovelEpisode String workId,String content,String pages,String page)
+
+                    for(int i=0;i<publishContent.size();i++)
+                    {
+
+                        String content= publishContent.get(i).getRaw().replace("\n", "<br>");
+
+                        boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content,String.valueOf(novels.size()),String.valueOf(i+1));
+
+                        while(ret == false)
+                        {
+
+                        }
+                    }
+                    finish();
+
+                }
+            }).start();
+        }
+
+
+
+
     }
 
     public void clickEditTitleBtn(View view) {
@@ -361,6 +392,8 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
                     }
                 }
+
+
             //    boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content.getText().toString(),String.valueOf(1),String.valueOf(1));
 
 
@@ -379,6 +412,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
                             if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                 Toast.makeText(WebNovelWriteActivity.this, "게시되었습니다.", Toast.LENGTH_LONG).show();
+                                bPublish = true;
                                 finish();
                             } else {
                                 Toast.makeText(WebNovelWriteActivity.this, "게시에 실패하였습니다.", Toast.LENGTH_LONG).show();
