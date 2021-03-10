@@ -54,6 +54,7 @@ import com.Whowant.Tokki.VO.WorkVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.wajahatkarim3.easyflipviewpager.BookFlipPageTransformer;
+import com.wajahatkarim3.easyflipviewpager.BookFlipPageTransformer2;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,6 +67,7 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 
 import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING;
+import androidx.viewpager2.widget.ViewPager2;
 
 public class WebWorkViewerActivity extends AppCompatActivity{
 
@@ -695,9 +697,9 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                         // Create an object of page transformer
                         BookFlipPageTransformer bookFlipPageTransformer = new BookFlipPageTransformer();
 
-                        bookFlipPageTransformer.setEnableScale(true);
-                        bookFlipPageTransformer.setScaleAmountPercent(10f);
-                        viewPager.setPageTransformer(true, bookFlipPageTransformer);
+                        bookFlipPageTransformer.setEnableScale(false);
+                        bookFlipPageTransformer.setScaleAmountPercent(2f);
+                        viewPager.setPageTransformer( true,bookFlipPageTransformer);
                         pagerAdapter.notifyDataSetChanged();
                         viewPager.setCurrentItem(lastOrder);
 
