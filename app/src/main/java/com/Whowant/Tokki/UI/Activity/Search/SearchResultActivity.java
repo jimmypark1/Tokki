@@ -32,6 +32,7 @@ import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.ItemClickSupport;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
@@ -48,8 +49,10 @@ public class SearchResultActivity extends AppCompatActivity {
     ArrayList<WorkVO> mArrayList = new ArrayList<>();
 
     InputMethodManager imm;
+    private TabLayout tabLayout;
 
     Activity mActivity;
+    int target = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +61,57 @@ public class SearchResultActivity extends AppCompatActivity {
 
         mActivity = this;
 
+        tabLayout = findViewById(R.id.tabLayout);
+
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.addTab(tabLayout.newTab().setText("전체"));
+        tabLayout.addTab(tabLayout.newTab().setText("채팅소설"));
+        tabLayout.addTab(tabLayout.newTab().setText("웹소설"));
+        // tabLayout.addTab(tabLayout.newTab().setText("e소설"));
+        tabLayout.addTab(tabLayout.newTab().setText("스토리"));
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         initView();
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int pos = tab.getPosition();
+                if(pos == 0)
+                {
+                    //getGenreWorkList("");
+                    getSearchWorkList(searchEt.getText().toString(), 0);
+                }
+                else if(pos == 1)
+                {
+                    target = 0;
 
+                    getSearchWorkListTarget(searchEt.getText().toString(), 0);
+
+                  
+
+                }
+                else if(pos == 2)
+                {
+                    target = 1;
+                    getSearchWorkListTarget(searchEt.getText().toString(), 0);
+
+
+                }
+                else if(pos == 3)
+                {
+                    target = 3;
+                    getSearchWorkListTarget(searchEt.getText().toString(), 0);
+
+
+                }
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) { }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
+
+        });
     }
 
     @Override
@@ -234,7 +284,39 @@ public class SearchResultActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                //getSearchWorkListTarget
                 mArrayList.addAll(HttpClient.getSearchWorkList(new OkHttpClient(), serachKeyword, select));
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        if (mArrayList == null || mArrayList.size() == 0) {
+                            Toast.makeText(mActivity, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
+                        }
+
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }).start();
+    }
+    private void getSearchWorkListTarget(String serachKeyword, int select) {
+        mArrayList.clear();
+
+        if (serachKeyword.equals("")) {
+            Toast.makeText(mActivity, "검색어를 입력하세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        CommonUtils.showProgressDialog(mActivity, "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //getSearchWorkListTarget
+                mArrayList.addAll(HttpClient.getSearchWorkListTarget(new OkHttpClient(), serachKeyword, select, target));
 
                 runOnUiThread(new Runnable() {
                     @Override

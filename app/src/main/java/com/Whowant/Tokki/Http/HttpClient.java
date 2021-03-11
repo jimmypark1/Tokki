@@ -560,6 +560,53 @@ public class HttpClient {
 
         return resultList;
     }
+    public static ArrayList<WorkVO> getSearchWorkListTarget(OkHttpClient httpClient, String strKeyword, int nMode,int target) {                              // 모든 작품 목록 가져오기
+        ArrayList<WorkVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetSearchWorkListTarget&SEARCH_KEYWORD=" + strKeyword + "&MODE=" + nMode + "&TARGET=" + String.valueOf(target))
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                WorkVO workVO = new WorkVO();
+                workVO.setWorkID(object.getInt("WORK_ID"));
+                workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                workVO.setWriteID(object.getString("WRITER_ID"));
+                workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                workVO.setTitle(object.getString("WORK_TITLE"));
+                workVO.setCoverFile(object.getString("WORK_COVER_IMG"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                workVO.setnTarget(object.getInt("TARGET"));
+                workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                //
+                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+
+                resultList.add(workVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
     public static ArrayList<String> getFieldForWork(OkHttpClient httpClient, String workId) {
         ArrayList<String> resultList = new ArrayList<>();
 
