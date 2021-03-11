@@ -114,6 +114,9 @@ public class FriendListFragment extends Fragment {
                             intent.putExtra("RECEIVER_ID", vo.getPartnerID());
                         else
                             intent.putExtra("RECEIVER_ID", vo.getUserID());
+
+                        intent.putExtra("RECEIVER_NAME", vo.getUserName());
+
                         startActivity(intent);
                     }
                 });
