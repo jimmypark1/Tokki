@@ -44,6 +44,7 @@ import com.Whowant.Tokki.UI.Activity.DrawerMenu.NoticeActivity;
 import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
 import com.Whowant.Tokki.UI.Activity.Login.TermsActivity;
 import com.Whowant.Tokki.UI.Activity.Market.MarketMainActivity;
+import com.Whowant.Tokki.UI.Activity.Market.MarketPagerAdapter;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageAccountSettingActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
 import com.Whowant.Tokki.UI.Activity.Mypage.MyPageFragment;
@@ -52,6 +53,7 @@ import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkRegActivity;
 import com.Whowant.Tokki.UI.Adapter.MainViewpagerAdapter;
 import com.Whowant.Tokki.UI.Custom.CustomViewPager;
+import com.Whowant.Tokki.UI.Fragment.Main.MainFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.MyFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.StorageBoxFragment;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageSpaceFragment;
@@ -115,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout topBarLayout;
 
     int selectedPosition = 0;
+    private MainNovelPagerAdapter pagerAdapter;
 
 
     @Override
@@ -173,6 +176,14 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(mainPagerAdapter);
         //viewPager.getCurrentItem();
 
+
+
+       // pagerAdapter = new MainNovelPagerAdapter(getSupportFragmentManager());
+
+     //   viewPager.setAdapter(pagerAdapter);
+
+
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -193,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 marketBtn.setVisibility(View.GONE);
 
                 if (position == 0) {
+
                     topBarLayout.setVisibility(View.VISIBLE);
 
                     centerLogoView.setVisibility(View.VISIBLE);
@@ -321,10 +333,15 @@ public class MainActivity extends AppCompatActivity {
         requestAttendance();                                                                                                            // 출석체크. 무조건 전송하고, 1일 지났는지 성공/실패 여부는 서버에서 판단
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        //MainNovelPagerAdapter
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int pos = tab.getPosition();
+
+                MainFragment main = (MainFragment)mainPagerAdapter.getItem(0);
+              //  main.interruptRecommend();
 
                 if(pos == 2)
                 {

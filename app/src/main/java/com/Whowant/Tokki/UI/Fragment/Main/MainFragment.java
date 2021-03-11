@@ -32,6 +32,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 
 public class MainFragment extends Fragment {                                                            // 1번 탭 메인 페이지. RecyclerView 구조로 안에 다른 RecyclerView 로 이루어져 있음
@@ -44,6 +45,14 @@ public class MainFragment extends Fragment {                                    
     private boolean bVisible = false;
 
     public int nType = 0;
+
+    Thread recommendThread;
+    Thread mainThread;
+
+    OkHttpClient mainHttp;
+    OkHttpClient recommendHttp;
+
+
     public static Fragment newInstance() {
         MainFragment fragment = new MainFragment();
         return fragment;
@@ -101,6 +110,14 @@ public class MainFragment extends Fragment {                                    
         }
     }
 
+    public void interruptRecommend()
+    {
+        if(recommendThread != null)
+        {
+            recommendThread.interrupt();
+            recommendThread.stop();
+        }
+    }
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -119,14 +136,58 @@ public class MainFragment extends Fragment {                                    
             return;
 
         CommonUtils.showProgressDialog(getActivity(), "최근 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
-        mainCardList.clear();
 
-        new Thread(new Runnable() {
+
+
+      //  if(recommendThread != null)
+      //      recommendThread.interrupt();
+
+
+        if(mainCardList != null)
+            mainCardList.clear();
+
+        if(recommendCardList != null)
+            recommendCardList.clear();
+
+        if(recommendHttp != null)
+        {
+            for (Call call : recommendHttp.dispatcher().queuedCalls()) {
+                if (call.request().tag().equals("Recommend"))
+                    call.cancel();
+            }
+            for (Call call : recommendHttp.dispatcher().runningCalls()) {
+                if (call.request().tag().equals("Recommend"))
+                    call.cancel();
+            }
+        }
+        if(mainHttp != null)
+        {
+            for (Call call : mainHttp.dispatcher().queuedCalls()) {
+                if (call.request().tag().equals("Ranking"))
+                    call.cancel();
+            }
+            for (Call call : mainHttp.dispatcher().runningCalls()) {
+                if (call.request().tag().equals("Ranking"))
+                    call.cancel();
+            }
+        }
+        if(mainThread!= null)
+        {
+         //   mainThread.interrupt();
+        }
+        mainThread =new Thread(new Runnable() {
             @Override
             public void run() {
-                mainCardList = HttpClient.getAllRankingList(new OkHttpClient(), nType);
+
+                if(mainThread.isInterrupted())
+                    return;
+
+
+
+                mainHttp = new OkHttpClient();
+                mainCardList = HttpClient.getAllRankingList(mainHttp, nType);
                 SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
-                recommendCardList = HttpClient.getRecommendList(new OkHttpClient(), pref.getString("USER_ID", "Guest"),nType);
+           //     recommendCardList = HttpClient.getRecommendList(new OkHttpClient(), pref.getString("USER_ID", "Guest"),nType);
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -200,7 +261,9 @@ public class MainFragment extends Fragment {                                    
                                         }
                                     });
 
- */
+
+
+*/
 
                                 }
 
@@ -233,21 +296,38 @@ public class MainFragment extends Fragment {                                    
                     }
                 });
             }
-        }).start();
+        });
+        mainThread.start();
     }
 
     private void getRecommendData() {
 
         recommendCardList.clear();
-        new Thread(new Runnable() {
+
+
+
+        if(recommendThread != null)
+        {
+        //    recommendThread.interrupt();
+        }
+        recommendThread = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                if(recommendThread.isInterrupted())
+                    return;
+
                 if(getActivity() == null || mainCardList == null || mainCardList.size() == 0)
                     return;
 
                 SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
-                recommendCardList = HttpClient.getRecommendList(new OkHttpClient(), pref.getString("USER_ID", "Guest"),nType);
-                if(mainCardList.size() > 0)
+
+
+
+                recommendHttp = new OkHttpClient();
+
+                recommendCardList = HttpClient.getRecommendList(recommendHttp, pref.getString("USER_ID", "Guest"),nType);
+                if(mainCardList.size() > 0 )
                 {
                     mainCardList.remove(1);
 
@@ -255,7 +335,7 @@ public class MainFragment extends Fragment {                                    
                 if(recommendCardList.size() > 0)
                 {
                     if(mainCardList.size() > 0)
-                    mainCardList.addAll(1, recommendCardList);
+                        mainCardList.addAll(1, recommendCardList);
 
                 }
                 getActivity().runOnUiThread(new Runnable() {
@@ -270,7 +350,10 @@ public class MainFragment extends Fragment {                                    
 //                        adapter.notifyDataSetChanged();
                     }
                 });
+
+
             }
-        }).start();
+        });
+        recommendThread.start();
     }
 }

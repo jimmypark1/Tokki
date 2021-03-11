@@ -116,7 +116,7 @@ public class MyPageFeedFragment extends Fragment {
         super.onResume();
 
         mArrayList.clear();
-
+/*
         try {
             MyPageActivity activity = (MyPageActivity) getActivity();
             if(activity.isPopup()) {
@@ -127,6 +127,8 @@ public class MyPageFeedFragment extends Fragment {
             e.printStackTrace();
         }
 
+
+ */
         getAllWorkWithWriterID();
     }
 

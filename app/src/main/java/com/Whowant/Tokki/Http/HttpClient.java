@@ -62,6 +62,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -2490,12 +2491,15 @@ public class HttpClient {
     public static ArrayList<MainCardVO> getAllRankingList(OkHttpClient httpClient, int type) {                              // 모든 작품 목록 가져오기
         ArrayList<MainCardVO> mainCardList = new ArrayList<>();
 
+
+
         Request request;
         if(type == 0)
         {
             request = new Request.Builder()
                     .url(CommonUtils.strDefaultUrl + "PanbookGetRanking.jsp?CMD=GetAllRankingList")
                     .get()
+                    .tag("Ranking")
                     .build();
         }
         else
@@ -2503,6 +2507,7 @@ public class HttpClient {
             request = new Request.Builder()
                     .url(CommonUtils.strDefaultUrl + "PanbookGetRanking2.jsp?CMD=GetAllRankingList&TARGET="+ String.valueOf(type))
                     .get()
+                    .tag("Ranking")
                     .build();
 
         }
@@ -6407,10 +6412,17 @@ public class HttpClient {
                     .build();
         }
          */
+
+
+
+        //B) go through the running calls and cancel if the tag matches:
+
+
         if(type == 0) {
             request = new Request.Builder()
                     .url(CommonUtils.strDefaultUrl + "TokkiRecommendList.jsp?CMD=GetRecommendList&USER_ID=" + strUserID+"&TARGET=" + String.valueOf(type))
                     .get()
+                    .tag("Recommend")
                     .build();
         }
         else
@@ -6418,6 +6430,7 @@ public class HttpClient {
             request = new Request.Builder()
                     .url(CommonUtils.strDefaultUrl + "TokkiRecommendList.jsp?CMD=GetRecommendList2&USER_ID=" + strUserID+"&TARGET=" + String.valueOf(type))
                     .get()
+                    .tag("Recommend")
                     .build();
         }
 
