@@ -113,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
     MyPageFragment.MyPageAdapter myPageAdapter;
 
     RelativeLayout topBarLayout;
+
+    int selectedPosition = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setOffscreenPageLimit(5);
         mainPagerAdapter = new MainViewpagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mainPagerAdapter);
+        //viewPager.getCurrentItem();
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -174,7 +180,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageSelected(int position) {                                              // ViewPager 구조 이므로 화면이 전환될때 상단 메뉴의 상태 및 타이틀을 변경한다.
+            public void onPageSelected(int position) {
+
+                selectedPosition = position;
+                // ViewPager 구조 이므로 화면이 전환될때 상단 메뉴의 상태 및 타이틀을 변경한다.
                 rightBtn.setVisibility(View.GONE);
                 profileIv.setVisibility(View.GONE);
                 reportBtn.setVisibility(View.GONE);
@@ -196,7 +205,9 @@ public class MainActivity extends AppCompatActivity {
                     alarmBtn.setVisibility(View.VISIBLE);
                     marketBtn.setVisibility(View.VISIBLE);
 
-                    alarmNewView.setVisibility(View.INVISIBLE);
+                 //   alarmNewView.setVisibility(View.INVISIBLE);
+                        getAlarmList();
+
 
 
                 } else if (position == 1) {
@@ -353,6 +364,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getAlarmList() {                                                                                                       // 통신 1 - 알림 목록 가져오기
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -382,6 +394,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getNoticeData() {                                                                                                          // 통신 2 - 공지사항 가져오기
+
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -472,11 +486,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        noticeNewIconView.setVisibility(View.INVISIBLE);
+        //noticeNewIconView.setVisibility(View.INVISIBLE);
 //        alarmNewIconView.setVisibility(View.INVISIBLE);
         eventNewIconView.setVisibility(View.INVISIBLE);
-        alarmNewView.setVisibility(View.INVISIBLE);
-        getAlarmList();
+     //   alarmNewView.setVisibility(View.INVISIBLE);
+
+        if(selectedPosition == 0)
+            getAlarmList();
 
         strUserID = pref.getString("USER_ID", "Guest");
 

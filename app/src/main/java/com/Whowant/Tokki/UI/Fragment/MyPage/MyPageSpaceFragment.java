@@ -77,6 +77,9 @@ public class MyPageSpaceFragment extends Fragment {
 
     private InputMethodManager imm;
 
+    RelativeLayout plusFrame;
+    ImageView plusImg;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +125,10 @@ public class MyPageSpaceFragment extends Fragment {
         });
 
         addPhotoBtn = v.findViewById(R.id.contentsAddBtn);
+        plusFrame = v.findViewById(R.id.plusFrame);
+
+        plusImg = v.findViewById(R.id.plusImg);
+
         addPhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -500,6 +507,8 @@ public class MyPageSpaceFragment extends Fragment {
                     .load(imgUri)
                     .placeholder(R.drawable.circle_cccccc)
                     .into(addPhotoBtn);
+
+            plusImg.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -555,7 +564,11 @@ public class MyPageSpaceFragment extends Fragment {
 
                                 if (resultObject.getString("RESULT").equals("SUCCESS")) {
                                     Toast.makeText(getActivity(), "등록되었습니다.", Toast.LENGTH_LONG).show();
-                                    addPhotoBtn.setImageResource(R.drawable.ic_i_plus_rec);
+                                    plusImg.setVisibility(View.VISIBLE);
+
+                                    addPhotoBtn.setImageResource(R.drawable.round_blue_space_add);
+                                    plusImg.setImageResource(R.drawable.i_plus_white);
+                                    plusFrame.setBackgroundResource(R.drawable.round_blue_space_add);
                                     editText.setText("");
                                     getSpacePosts();
                                 } else {

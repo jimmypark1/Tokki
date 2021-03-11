@@ -171,8 +171,8 @@ public class MainFragment extends Fragment {                                    
 
                                      */
                                     mainCardList.addAll(1, recommendCardList);
-                                   // getRecommendData();
-
+                                    getRecommendData();
+/*
                                     if(getActivity() == null || mainCardList == null || mainCardList.size() == 0)
                                         return;
 
@@ -199,6 +199,8 @@ public class MainFragment extends Fragment {                                    
 //                        adapter.notifyDataSetChanged();
                                         }
                                     });
+
+ */
 
                                 }
 

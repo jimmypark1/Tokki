@@ -9,10 +9,8 @@
         android:id="@+id/bgView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="13dp"
         android:layout_marginTop="4dp"
-        android:layout_marginRight="13dp"
-        android:background="@drawable/round_shadow_btn_white_bg">
+        android:background="@drawable/round_shadow_btn_white_bg2">
 
         <RelativeLayout
             android:id="@+id/profileImgLayout"

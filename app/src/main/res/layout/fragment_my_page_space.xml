@@ -10,25 +10,47 @@
         android:background="@color/colorWhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="10dp"
+        android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingEnd="20dp"
         android:paddingBottom="10dp">
-
-        <ImageView
-            android:id="@+id/contentsAddBtn"
+        <RelativeLayout
+            android:id="@+id/plusFrame"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:layout_marginEnd="3dp"
-            android:background="@drawable/ic_i_plus_rec"
-            android:gravity="center">
+            android:gravity="center"
+            android:background="@drawable/round_blue_space_add"
+            android:layout_marginRight="10dp"
+            >
+            <ImageView
+                android:id="@+id/contentsAddBtn"
+
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:gravity="center"
+                 />
+            <ImageView
+                android:id="@+id/plusImg"
+
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+
+                android:src="@drawable/i_plus_white"
+                />
+
+
+        </RelativeLayout>
+
+
 
 <!--            <ImageView-->
 <!--                android:id="@+id/contentsAddImg"-->
 <!--                android:layout_width="wrap_content"-->
 <!--                android:layout_height="wrap_content"-->
 <!--                android:src="@drawable/ic_i_plus" />-->
-        </ImageView>
+
 
         <EditText
             android:id="@+id/inputTextView"
