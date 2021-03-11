@@ -435,12 +435,12 @@ public class MyPageFragment extends Fragment {
         ViewGroup.LayoutParams params3 = btnFollowing.getLayoutParams();
 
         int compWidth = (width - dpToPx(getActivity(),40) )/ 4;
-
+/*
         params0.width = compWidth;
         params1.width = compWidth;
         params2.width = compWidth;
         params3.width = compWidth;
-
+*/
         /*
         LinearLayout btnFollower;
     LinearLayout btnCarrot;

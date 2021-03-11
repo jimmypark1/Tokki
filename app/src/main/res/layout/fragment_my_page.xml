@@ -271,7 +271,7 @@
                     >
                     <LinearLayout
                         android:id="@+id/btnWork"
-                        android:layout_width="60dp"
+                        android:layout_width="35dp"
                         android:layout_height="50dp"
                         android:layout_toStartOf="@+id/ll_my_page_read"
                         android:gravity="center"
@@ -303,6 +303,7 @@
                         android:id="@+id/ll_my_page_read"
                         android:layout_width="60dp"
                         android:layout_height="50dp"
+                        android:layout_marginLeft="30dp"
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
                         android:orientation="vertical">
@@ -332,9 +333,10 @@
 
                     <LinearLayout
                         android:id="@+id/btnFollower"
-                        android:layout_width="60dp"
+                        android:layout_width="35dp"
                         android:layout_height="50dp"
-                         android:layout_toEndOf="@+id/ll_my_page_read"
+                        android:layout_marginLeft="30dp"
+                        android:layout_toEndOf="@+id/ll_my_page_read"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -362,9 +364,10 @@
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/btnFollowing"
-                        android:layout_width="60dp"
+                        android:layout_width="35dp"
                         android:layout_height="50dp"
                        android:layout_toEndOf="@+id/btnFollower"
+                        android:layout_marginLeft="30dp"
                         android:gravity="center"
                         android:orientation="vertical">
                         <TextView

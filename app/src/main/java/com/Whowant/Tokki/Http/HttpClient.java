@@ -6227,6 +6227,31 @@ public class HttpClient {
 
         return new ArrayList<>();
     }
+    public static ArrayList<WorkListVo> getGenreWorkListTarget(OkHttpClient httpClient, String genre, String order,int target) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetGenreWorkList2&GENRE=" + genre + "&ORDER=" + order + "&TARGET=" + String.valueOf(target))
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return new ArrayList<>();
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            ArrayList<WorkListVo> list = new Gson().fromJson(resultJsonObject.getJSONArray("WORK_LIST").toString(), new TypeToken<ArrayList<WorkListVo>>() {
+            }.getType());
+
+            return list;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
 //    GetMsgThreadList
 
     public static OkHttpClient addNetworkInterceptor(OkHttpClient okHttpClient) {

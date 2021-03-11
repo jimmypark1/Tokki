@@ -24,6 +24,7 @@ import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.ItemClickSupport;
 import com.Whowant.Tokki.VO.WorkListVo;
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
@@ -38,18 +39,65 @@ public class SearchCategoryActivity extends AppCompatActivity {
     String order = "UPDATE";
 
     Activity mActivity;
+    private TabLayout tabLayout;
 
+    int nTarget = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_category);
 
         mActivity = this;
+        tabLayout = findViewById(R.id.tabLayout);
+
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.addTab(tabLayout.newTab().setText("전체"));
+        tabLayout.addTab(tabLayout.newTab().setText("채팅소설"));
+        tabLayout.addTab(tabLayout.newTab().setText("웹소설"));
+        // tabLayout.addTab(tabLayout.newTab().setText("e소설"));
+        tabLayout.addTab(tabLayout.newTab().setText("스토리"));
 
         getData();
         initView();
 
         getGenreWorkList("");
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int pos = tab.getPosition();
+                if(pos == 0)
+                {
+                    getGenreWorkList("");
+
+                }
+                else if(pos == 1)
+                {
+                    nTarget = 0;
+                    getGenreWorkListTarget("");
+
+                }
+                else if(pos == 2)
+                {
+                    nTarget = 1;
+                    getGenreWorkListTarget("");
+
+                }
+                else if(pos == 3)
+                {
+                    nTarget = 3;
+                    getGenreWorkListTarget("");
+
+                }
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) { }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
+
+        });
+
     }
 
     private void getData() {
@@ -170,6 +218,23 @@ public class SearchCategoryActivity extends AppCompatActivity {
             @Override
             public void run() {
                 mArrayList.addAll(HttpClient.getGenreWorkList(new OkHttpClient(), genre, order));
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }).start();
+    }
+    private void getGenreWorkListTarget(String order) {
+        mArrayList.clear();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mArrayList.addAll(HttpClient.getGenreWorkListTarget(new OkHttpClient(), genre, order, nTarget));
 
                 runOnUiThread(new Runnable() {
                     @Override
