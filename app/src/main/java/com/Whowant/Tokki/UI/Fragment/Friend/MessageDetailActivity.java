@@ -340,14 +340,19 @@ public class MessageDetailActivity extends AppCompatActivity {
                 Button buyBt = convertView.findViewById(R.id.buy);
                 if(type == 0)
                 {
+                    TextView contentsView = convertView.findViewById(R.id.contentsTextView);
+
+
                     ViewGroup.LayoutParams params = buyBt.getLayoutParams();
 
                     params.height = 0;
 
                     ViewGroup.MarginLayoutParams lp0 = (ViewGroup.MarginLayoutParams) buyBt.getLayoutParams();
+                    ViewGroup.MarginLayoutParams lp1 = (ViewGroup.MarginLayoutParams) contentsView.getLayoutParams();
 
                     lp0.topMargin = 0;
                     lp0.bottomMargin = 0;
+                    lp1.topMargin = 0;
 
 
 

@@ -88,7 +88,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
                     getSearchWorkListTarget(searchEt.getText().toString(), 0);
 
-                  
+
 
                 }
                 else if(pos == 2)
