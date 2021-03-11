@@ -21,6 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
+import com.Whowant.Tokki.UI.Activity.Work.ViewerActivity;
+import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterPageActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.FriendVO;
@@ -179,9 +182,17 @@ public class FriendListFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     String writerId = vo.getUserId();
+                    /*
                     Intent intent = new Intent(getActivity(), WriterPageActivity.class);
-                    intent.putExtra("writerId", writerId);
+                    intent.putExtra("WRITER_ID", writerId);
                     startActivity(intent);
+
+                     */
+                    Intent intent = new Intent(getActivity(), MyPageActivity.class);
+                  //  ViewerActivity.workVO = vo;
+                    intent.putExtra("WRITER_ID", vo.getUserId());
+                    startActivity(intent);
+
                 }
             });
         }

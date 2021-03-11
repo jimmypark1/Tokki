@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterPageActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.FriendVO;
@@ -188,6 +189,11 @@ public class FriendSelectActivity extends AppCompatActivity {
 //                    Intent intent = new Intent(FriendSelectActivity.this, WriterPageActivity.class);
 //                    intent.putExtra("writerId", writerId);
 //                    startActivity(intent);
+
+                    Intent intent = new Intent(FriendSelectActivity.this, MyPageActivity.class);
+                    //  ViewerActivity.workVO = vo;
+                    intent.putExtra("WRITER_ID", vo.getUserId());
+                    startActivity(intent);
                 }
             });
         }

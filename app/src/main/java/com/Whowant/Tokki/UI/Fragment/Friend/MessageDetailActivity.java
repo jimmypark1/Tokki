@@ -45,6 +45,8 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
+import static android.view.View.TEXT_ALIGNMENT_TEXT_START;
+
 public class MessageDetailActivity extends AppCompatActivity {
     private int nThreadID;
     private String strReceiverID, strReceiverName;
@@ -353,6 +355,10 @@ public class MessageDetailActivity extends AppCompatActivity {
                     lp0.topMargin = 0;
                     lp0.bottomMargin = 0;
                     lp1.topMargin = 0;
+                    lp1.leftMargin = 0;
+                    lp1.rightMargin = 0;
+
+                    convertView.setTextAlignment(TEXT_ALIGNMENT_TEXT_START);
 
 
 

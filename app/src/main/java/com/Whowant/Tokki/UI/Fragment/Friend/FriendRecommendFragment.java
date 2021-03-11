@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Admin.CommentManagementActivity;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterMainActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterPageActivity;
 import com.Whowant.Tokki.UI.Fragment.Main.StorageBoxBookListFragment;
@@ -177,9 +178,16 @@ public class FriendRecommendFragment extends Fragment {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    /*
                     String writerId = vo.getUserId();
                     Intent intent = new Intent(getActivity(), WriterPageActivity.class);
                     intent.putExtra("writerId", writerId);
+                    startActivity(intent);
+
+                     */
+                    Intent intent = new Intent(getActivity(), MyPageActivity.class);
+                    //  ViewerActivity.workVO = vo;
+                    intent.putExtra("WRITER_ID", vo.getUserId());
                     startActivity(intent);
                 }
             });

@@ -2271,8 +2271,11 @@ public class HttpClient {
                 JSONObject object = resultArray.getJSONObject(i);
 
                 FriendVO vo = new FriendVO();
+                String name = object.getString("USER_NAME");
+                if(name.equals("null"))
+                    continue;
                 vo.setUserId(object.getString("USER_ID"));
-                vo.setUserName(object.getString("USER_NAME"));
+                vo.setUserName(name);
                 vo.setUserPhoto(object.getString("USER_PHOTO"));
                 vo.setFriend(object.getString("FRIEND").equals("Y") ? true : false);
                 resultList.add(vo);

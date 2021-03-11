@@ -66,7 +66,7 @@ public class FriendMessageFragment extends Fragment {
         SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
         messageList.clear();
 
-        CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다.");
+       // CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다.");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -75,7 +75,7 @@ public class FriendMessageFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CommonUtils.hideProgressDialog();
+                    //    CommonUtils.hideProgressDialog();
                         if(messageList == null) {
                             Toast.makeText(getActivity(), "서버와의 통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
                             return;
