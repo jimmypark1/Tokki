@@ -2176,7 +2176,7 @@ public class HttpClient {
         ArrayList<MessageThreadVO> resultList = new ArrayList<>();
 
         Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=                                                     &USER_ID=" + strUserID)
+                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=GetMsgThreadList&USER_ID=" + strUserID)
                 .get()
                 .build();
 
