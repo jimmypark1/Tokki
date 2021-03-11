@@ -348,6 +348,7 @@ public class MessageDetailActivity extends AppCompatActivity {
                     ViewGroup.LayoutParams params = buyBt.getLayoutParams();
 
                     params.height = 0;
+                    params.width = 0;
 
                     ViewGroup.MarginLayoutParams lp0 = (ViewGroup.MarginLayoutParams) buyBt.getLayoutParams();
                     ViewGroup.MarginLayoutParams lp1 = (ViewGroup.MarginLayoutParams) contentsView.getLayoutParams();
