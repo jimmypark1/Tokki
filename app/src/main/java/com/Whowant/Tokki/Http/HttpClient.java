@@ -713,7 +713,7 @@ public class HttpClient {
 
         return resultList;
     }
-//
+    //
     public static ArrayList<MarketVO> getWorksOnMarket(OkHttpClient httpClient) {
         ArrayList<MarketVO> resultList = new ArrayList<>();
 
@@ -762,7 +762,7 @@ public class HttpClient {
                 marketVO.setUserId(object.getString("USER_ID"));
                 marketVO.setWriterId(object.getString("USER_ID"));
 
-                 marketVO.setPrice(object.getInt("PRICE"));
+                marketVO.setPrice(object.getInt("PRICE"));
                 marketVO.setStatus(object.getInt("STATUS"));
                 marketVO.setMarketId(object.getInt("MARKET_ID"));
 
@@ -1255,7 +1255,7 @@ public class HttpClient {
 
         return false;
     }
-//VIEWS
+    //VIEWS
     public static ArrayList<String> getAllGenreList(OkHttpClient httpClient) {
         ArrayList<String> resultList = new ArrayList<>();
 
@@ -1827,9 +1827,9 @@ public class HttpClient {
                 WebWorkVO workVO = new WebWorkVO();
 
                 workVO.setContent(object.getString("CONTENT"));
-              //  workVO.setCover(object.getString("COVER"));
+                //  workVO.setCover(object.getString("COVER"));
                 workVO.setRaw(object.getString("RAW"));
-           //     workVO.setTitle(object.getString("TITLE"));
+                //     workVO.setTitle(object.getString("TITLE"));
 
                 resultList.add(workVO);
 
@@ -1910,7 +1910,7 @@ public class HttpClient {
         JSONObject jsonBody = new JSONObject();
 
         try {
-       //     strContents = URLEncoder.encode(strContents, "UTF-8");
+            //     strContents = URLEncoder.encode(strContents, "UTF-8");
             jsonBody.put("SENDER_ID", senderID);
             jsonBody.put("RECEIVER_ID", receiverID);
             jsonBody.put("CONTENTS", strContents);
@@ -2025,7 +2025,7 @@ public class HttpClient {
 
 
 //                msgThread.carrot = message["CARROT"].intValue
- //               msgThread.contract_complete = message["contract_complete"].stringValue
+                //               msgThread.contract_complete = message["contract_complete"].stringValue
 
 
                 resultList.add(vo);
@@ -2520,7 +2520,7 @@ public class HttpClient {
 
             String strResult = response.body().string();
             JSONObject resultObject = new JSONObject(strResult);
-        //    if(type == 0)
+            //    if(type == 0)
             {
                 JSONArray recommandsonArray = resultObject.getJSONArray("RECOMMAND");
                 MainCardVO recommandVO = new MainCardVO();
@@ -4275,7 +4275,7 @@ public class HttpClient {
         jsonBody.put("USER_PW", userInfoMap.get("USER_PW"));
         jsonBody.put("USER_NAME", userInfoMap.get("USER_NAME"));
         jsonBody.put("USER_EMAIL", userInfoMap.get("USER_EMAIL"));
-      //  jsonBody.put("USER_PHONENUM", userInfoMap.get("USER_PHONENUM"));
+        //  jsonBody.put("USER_PHONENUM", userInfoMap.get("USER_PHONENUM"));
         jsonBody.put("USER_BIRTHDAY", userInfoMap.get("USER_BIRTHDAY"));
         jsonBody.put("USER_GENDER", userInfoMap.get("USER_GENDER"));
         jsonBody.put("TYPE", Integer.valueOf(userInfoMap.get("TYPE")));
@@ -4809,8 +4809,8 @@ public class HttpClient {
     public static boolean changePW(OkHttpClient httpClient, String userID,String password) {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM)
-            .addFormDataPart("USER_PASSWORD", password)
-            .addFormDataPart("USER_ID", userID);
+                .addFormDataPart("USER_PASSWORD", password)
+                .addFormDataPart("USER_ID", userID);
 
 
         RequestBody requestBody = builder.build();
@@ -5725,13 +5725,13 @@ public class HttpClient {
                 .addFormDataPart("WORK_ID", workId);
 
 
-                //  File file = new File(strFilePath);
-      //  String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
+        //  File file = new File(strFilePath);
+        //  String filename = strFilePath.substring(strFilePath.lastIndexOf("/") + 1);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
         String currentDateandTime = sdf.format(new Date());
         String filename = currentDateandTime + ".html";
 
-        String foldername = Environment.getExternalStorageDirectory().getAbsolutePath();
+        String foldername = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/temp";
 
         File dir = new File (foldername);
 
@@ -5739,7 +5739,7 @@ public class HttpClient {
 
 
 
-     //  File saveFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/temp"); // 저장 경로
+         // 저장 경로
 // 폴더 생성
 
         if(!dir.exists()){ // 폴더 없을 경우
@@ -5747,7 +5747,9 @@ public class HttpClient {
         }
         try {
 
-            FileOutputStream fos = new FileOutputStream(foldername+"/"+filename, true);
+            File saveFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/temp/" + filename);
+            saveFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(foldername+"/"+filename, false);
             //파일쓰기
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
             writer.write(content);
@@ -5891,7 +5893,7 @@ public class HttpClient {
         return false;
     }
 
-//
+    //
     public static boolean requestSendUserProfileImageDefault(OkHttpClient httpClient, String strUserID) {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM)
@@ -6777,7 +6779,7 @@ public class HttpClient {
             if (response.code() != 200)
                 return false;
 
-             String strResult = response.body().string();
+            String strResult = response.body().string();
             JSONObject resultJsonObject = new JSONObject(strResult);
             if (resultJsonObject.getString("RESULT").equals("SUCCESS")) {
 //                likeCount = resultJsonObject.getInt("COUNT");
