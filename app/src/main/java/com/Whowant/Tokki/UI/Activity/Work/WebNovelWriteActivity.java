@@ -243,7 +243,31 @@ public class WebNovelWriteActivity extends AppCompatActivity {
                         }
                     }
  */
+                    if(content.getText().length() > 0  )
+                    {
+                        WebWorkVO work = new WebWorkVO();
+                        work.setRaw(content.getText().toString());
+                        work.setContent(content.getText().toString());
 
+                        publishContent.set(nPage, work);
+
+                        //    publishContent.add(work);
+                    }
+                    for(int i=0;i<publishContent.size();i++) {
+                        String data = publishContent.get(i).getRaw();
+                        if (data.equals("-1") == false) {
+                            String content = publishContent.get(i).getRaw().replace("\n", "<br>");
+
+                            boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(), String.valueOf(nEpisodeID), String.valueOf(nWorkID), content, String.valueOf(nPage), String.valueOf(i + 1));
+
+                            //   while(ret == false)
+                            {
+
+                            }
+                        } else {
+                            break;
+                        }
+                    }
                     finish();
 
                 }
@@ -298,6 +322,19 @@ public class WebNovelWriteActivity extends AppCompatActivity {
             content.setText(data);
         }
          */
+
+      //  WebWorkVO workPrev =  publishContent.get(nPage + 1);
+
+        if(content.getText().toString().length()> 0)
+        {
+            WebWorkVO work = new WebWorkVO();
+            work.setRaw(content.getText().toString());
+            work.setContent(content.getText().toString());
+
+            publishContent.set(nPage+1, work);
+
+            //    publishContent.add(work);
+        }
 
         WebWorkVO work0 =  publishContent.get(nPage);
         if(work0 != null && work0.getRaw().equals("-1") == false)
@@ -543,7 +580,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
             work.setRaw(content.getText().toString());
             work.setContent(content.getText().toString());
 
-            publishContent.set(nPage-1, work);
+            publishContent.set(nPage, work);
 
             //    publishContent.add(work);
         }
