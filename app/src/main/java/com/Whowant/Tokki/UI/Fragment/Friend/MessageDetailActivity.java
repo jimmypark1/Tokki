@@ -355,6 +355,9 @@ public class MessageDetailActivity extends AppCompatActivity {
 
                     lp0.topMargin = 0;
                     lp0.bottomMargin = 0;
+                    lp0.leftMargin = 0;
+                    lp0.rightMargin = 0;
+
                     lp1.topMargin = 0;
                     lp1.leftMargin = 0;
                     lp1.rightMargin = 0;

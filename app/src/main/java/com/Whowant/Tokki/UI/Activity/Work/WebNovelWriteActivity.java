@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -70,12 +71,22 @@ public class WebNovelWriteActivity extends AppCompatActivity {
     ArrayList<WebWorkVO> novels = new ArrayList<WebWorkVO>();
     ArrayList<WebWorkVO> publishContent = new ArrayList<WebWorkVO>();
 
+    ArrayList<String> tempContent = new ArrayList<String>();
+    RelativeLayout editer;
+
+
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);
+
+        View v =  activity.getCurrentFocus();
+        if(v != null)
+        {
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(), 0);
+        }
+
     }
     public void setupUI(View view) {
 
@@ -97,6 +108,11 @@ public class WebNovelWriteActivity extends AppCompatActivity {
             }
         }
     }
+
+    void initVariable()
+    {
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +121,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         page = findViewById(R.id.page);
         episodeNumView = findViewById(R.id.episodeNumView);
 
+        editer =  findViewById(R.id.editer);
         content = findViewById(R.id.content);
 
         strTitle = getIntent().getStringExtra("EPISODE_TITLE");
@@ -113,6 +130,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         nEpisodeOrder = getIntent().getIntExtra("EPISODE_ORDER", 0);
 
 
+        initVariable();
 
         if(strTitle != null && strTitle.length() > 0)
         {
@@ -125,8 +143,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
       //  oldIntent.putExtra("TITLE", strTitle);
 
-        setupUI(findViewById(R.id.editer));
-        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+       InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         // Enables Always-on
       //  imm.showSoftInput(content, 0);
         imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
@@ -137,10 +154,21 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
 
 
+
         getEpisodeData();
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupUI(editer);
+
+    }
+
     public void onClickTopLeftBtn(View view) {
 
+        initVariable();
 
         if(bPublish == false)
         {
@@ -231,6 +259,19 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         if(nPage < publishContent.size())
         {
           //  publishContent.remove(nPage);
+
+            String data0 = content.getText().toString();
+
+            if(data0.length() > 0)
+            {
+                WebWorkVO work0 = new WebWorkVO();
+                work0.setRaw(data0);
+                work0.setContent(content.getText().toString());
+                publishContent.set(nPage+1, work0);
+
+            }
+
+
             WebWorkVO work =  publishContent.get(nPage);
             String data = work.getRaw();
             data = data.replace("<br>","\n");
@@ -272,6 +313,30 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
 
         nPage++;
+        WebWorkVO work0 =  publishContent.get(nPage);
+
+        if(work0 != null)
+        {
+            String data = work0.getRaw();
+            if(data.equals("-1") == false)
+            {
+                data = data.replace("<br>","\n");
+                content.setText(data);
+            }
+            else
+            {
+                WebWorkVO work = new WebWorkVO();
+                String data1 = content.getText().toString();
+                work.setRaw(data1);
+                work.setContent(data1);
+                publishContent.set(nPage-1, work);
+                // publishContent.add(work);
+                content.setText("");
+            }
+
+
+        }
+        /*
         if(nPage < publishContent.size())
         {
             //  publishContent.remove(nPage);
@@ -280,8 +345,12 @@ public class WebNovelWriteActivity extends AppCompatActivity {
             if(work0 != null)
             {
                 String data = work0.getRaw();
-                data = data.replace("<br>","\n");
-                content.setText(data);
+                if(data.equals("-1") == false)
+                {
+                    data = data.replace("<br>","\n");
+                    content.setText(data);
+                }
+
 
             }
 
@@ -293,11 +362,12 @@ public class WebNovelWriteActivity extends AppCompatActivity {
             String data = content.getText().toString();
             work.setRaw(data);
             work.setContent(content.getText().toString());
-            publishContent.add(work);
+            publishContent.set(nPage-1, work);
+            // publishContent.add(work);
             content.setText("");
         }
 
-
+*/
 
 
 
@@ -376,6 +446,14 @@ public class WebNovelWriteActivity extends AppCompatActivity {
                 //createNovelEpisode String workId,String content,String pages,String page)
                 publishContent = HttpClient.getEpisodeNovelEditData(new OkHttpClient(),nEpisodeID);
 
+                for(int i=publishContent.size() - 1;i<1000;i++)
+                {
+                    WebWorkVO work = new WebWorkVO();
+                    String data = "-1";
+                    work.setRaw(data);
+                    work.setContent(data);
+                    publishContent.add(work);
+                }
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -385,9 +463,13 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
                             WebWorkVO work = publishContent.get(0);
                             String data = work.getRaw();
-                            data = data.replace("<br>","\n");
-                            content.setText(data);
-                            content.setSelection(data.length() );
+                            if(data.equals("-1") == false)
+                            {
+                                data = data.replace("<br>","\n");
+                                content.setText(data);
+                                content.setSelection(data.length() );
+                            }
+
                         }
                     }
                 });
@@ -400,13 +482,15 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         mProgressDialog.show();
 
 
-        if(content.getText().length() > 0)
+        if(content.getText().length() > 0  )
         {
             WebWorkVO work = new WebWorkVO();
             work.setRaw(content.getText().toString());
             work.setContent(content.getText().toString());
 
-            publishContent.add(work);
+            publishContent.set(nPage-1, work);
+
+            //    publishContent.add(work);
         }
 
 
@@ -417,15 +501,24 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
                 for(int i=0;i<publishContent.size();i++)
                 {
-
-                    String content= publishContent.get(i).getRaw().replace("\n", "<br>");
-
-                    boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content,String.valueOf(publishContent.size()),String.valueOf(i+1));
-
-                    while(ret == false)
+                    String data = publishContent.get(i).getRaw();
+                    if(data.equals("-1") == false)
                     {
+                        String content= publishContent.get(i).getRaw().replace("\n", "<br>");
 
+                        boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content,String.valueOf(publishContent.size()),String.valueOf(i+1));
+
+                        while(ret == false)
+                        {
+
+                        }
                     }
+                    else
+                    {
+                        break;
+                    }
+
+
                 }
 /*
                 if(nPage == 0 || nPage == (publishContent.size() - 1 ))
