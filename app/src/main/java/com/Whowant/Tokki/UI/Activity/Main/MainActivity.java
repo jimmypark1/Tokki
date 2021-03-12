@@ -506,7 +506,7 @@ public class MainActivity extends AppCompatActivity {
         //noticeNewIconView.setVisibility(View.INVISIBLE);
 //        alarmNewIconView.setVisibility(View.INVISIBLE);
         eventNewIconView.setVisibility(View.INVISIBLE);
-     //   alarmNewView.setVisibility(View.INVISIBLE);
+        alarmNewView.setVisibility(View.INVISIBLE);
 
         if(selectedPosition == 0)
             getAlarmList();
