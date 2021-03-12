@@ -146,7 +146,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         // Enables Always-on
       //  imm.showSoftInput(content, 0);
-        imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
+     //   imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
      //   content.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         //content.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -156,13 +156,22 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
 
         getEpisodeData();
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setupUI(editer);
+
+            }
+        });
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        setupUI(editer);
+
 
     }
 
@@ -178,7 +187,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     //createNovelEpisode String workId,String content,String pages,String page)
-
+/*
                     if( (content.getText().length() > 0))
                     {
                         WebWorkVO work = new WebWorkVO();
@@ -200,7 +209,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
                         }
                     }
 
-
+*/
 /*
                     if(nPage == 0 || nPage == (publishContent.size() - 1 ))
                     {
@@ -256,6 +265,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         {
             nPage = 0;
         }
+        /*
         if(nPage < publishContent.size())
         {
           //  publishContent.remove(nPage);
@@ -276,6 +286,14 @@ public class WebNovelWriteActivity extends AppCompatActivity {
             String data = work.getRaw();
             data = data.replace("<br>","\n");
             content.setText(data);
+
+        }
+         */
+
+        WebWorkVO work0 =  publishContent.get(nPage);
+        if(work0 != null && work0.getRaw().equals("-1") == false)
+        {
+            content.setText(work0.getRaw());
 
         }
 
@@ -312,7 +330,68 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
 
 
+
+        WebWorkVO work0 =  publishContent.get(nPage + 1);
+        if(work0 != null && work0.getRaw().equals("-1") == false)
+        {
+             content.setText(work0.getRaw());
+             /*
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //createNovelEpisode String workId,String content,String pages,String page)
+                    String content= publishContent.get(nPage + 1).getRaw().replace("\n", "<br>");
+
+               //     boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content,String.valueOf(publishContent.size()),String.valueOf(nPage + 2));
+
+
+                }
+            }).start();
+
+              */
+        }
+        else
+        {
+            WebWorkVO work = new WebWorkVO();
+            String data1 = content.getText().toString();
+            work.setRaw(data1);
+          //  work.setContent(data1);
+            publishContent.set(nPage, work);
+/*
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //createNovelEpisode String workId,String content,String pages,String page)
+                    String content= publishContent.get(nPage).getRaw().replace("\n", "<br>");
+
+                //    boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content,String.valueOf(nPage),String.valueOf(nPage));
+
+
+                }
+            }).start();
+
+ */
+            content.setText("");
+
+        }
         nPage++;
+
+        page.setText(String.valueOf(nPage+1));
+
+/*
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //createNovelEpisode String workId,String content,String pages,String page)
+
+                boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content,String.valueOf(publishContent.size()),String.valueOf(i+1));
+
+            }
+        }).start();
+
+ */
+
+        /*
         WebWorkVO work0 =  publishContent.get(nPage);
 
         if(work0 != null)
@@ -336,6 +415,8 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
 
         }
+
+         */
         /*
         if(nPage < publishContent.size())
         {
@@ -394,7 +475,6 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         }
 
  */
-        page.setText(String.valueOf(nPage+1));
 
         /*
         if(nPage < readPageCnt)
@@ -506,9 +586,9 @@ public class WebNovelWriteActivity extends AppCompatActivity {
                     {
                         String content= publishContent.get(i).getRaw().replace("\n", "<br>");
 
-                        boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content,String.valueOf(publishContent.size()),String.valueOf(i+1));
+                        boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content,String.valueOf(nPage),String.valueOf(i+1));
 
-                        while(ret == false)
+                     //   while(ret == false)
                         {
 
                         }
@@ -520,6 +600,8 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
 
                 }
+
+
 /*
                 if(nPage == 0 || nPage == (publishContent.size() - 1 ))
                 {

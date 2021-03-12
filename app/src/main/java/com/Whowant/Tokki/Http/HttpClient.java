@@ -5731,7 +5731,7 @@ public class HttpClient {
         String currentDateandTime = sdf.format(new Date());
         String filename = currentDateandTime + ".html";
 
-        String foldername = Environment.getExternalStorageDirectory().getAbsolutePath()+"/temp";
+        String foldername = Environment.getExternalStorageDirectory().getAbsolutePath();
 
         File dir = new File (foldername);
 
