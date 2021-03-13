@@ -54,7 +54,7 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
         TextView title = findViewById(R.id.titleView);
         if(nAuthType == 1)
         {
-            title.setText("비밀번호 찾기");
+            title.setText("비밀번호 재설정");
         }
 
         authNumBtn.setEnabled(false);
