@@ -158,6 +158,7 @@ public class FriendSelectActivity extends AppCompatActivity {
                 Glide.with(FriendSelectActivity.this)
                         .asBitmap() // some .jpeg files are actually gif
                         .load(strPhoto)
+                        .placeholder(R.drawable.user_icon)
                         .apply(new RequestOptions().circleCrop())
                         .into(viewHolder.photoIv);
             } else {
