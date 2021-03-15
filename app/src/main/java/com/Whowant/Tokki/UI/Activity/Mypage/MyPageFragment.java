@@ -297,8 +297,8 @@ public class MyPageFragment extends Fragment {
         btnWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // if(type == 0)
-               // ((MainActivity)getActivity()).moveViewpager(3);
+               if(type == 0)
+                ((MainActivity)getActivity()).moveViewpager(3);
             }
         });
 
