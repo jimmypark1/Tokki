@@ -50,6 +50,7 @@ public class MarketTagFragment extends Fragment {
 
     public int position = 0;
     public int topPosition = 0;
+    TextView desc;
 
     public MarketTagFragment() {
         // Required empty public constructor
@@ -111,6 +112,7 @@ public class MarketTagFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_market_contents, container, false);
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        desc = v.findViewById(R.id.desc);
 
 
         return v;//inflater.inflate(R.layout.fragment_market_tag, container, false);
@@ -133,6 +135,15 @@ public class MarketTagFragment extends Fragment {
 
                         //       CommonUtils.hideProgressDialog();
 
+                        if(markets.size() == 0)
+                        {
+                            desc.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            desc.setVisibility(View.INVISIBLE);
+
+                        }
 
 
                         getActivity().runOnUiThread(new Runnable() {
@@ -173,6 +184,15 @@ public class MarketTagFragment extends Fragment {
 
                         //       CommonUtils.hideProgressDialog();
 
+                        if(markets.size() == 0)
+                        {
+                            desc.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            desc.setVisibility(View.INVISIBLE);
+
+                        }
 
 
                         getActivity().runOnUiThread(new Runnable() {

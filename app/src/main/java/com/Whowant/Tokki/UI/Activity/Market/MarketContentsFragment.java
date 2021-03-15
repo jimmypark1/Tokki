@@ -77,6 +77,8 @@ public class MarketContentsFragment extends Fragment {
     public int position = 0;
     public int topPosition = 0;
 
+    TextView desc;
+
     public MarketContentsFragment() {
         // Required empty public constructor
     }
@@ -114,6 +116,8 @@ public class MarketContentsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_market_contents, container, false);
         recyclerView = v.findViewById(R.id.recyclerView);
+        desc = v.findViewById(R.id.desc);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
@@ -169,7 +173,15 @@ public class MarketContentsFragment extends Fragment {
                     public void run() {
 
                         //       CommonUtils.hideProgressDialog();
+                        if(markets.size() == 0)
+                        {
+                            desc.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            desc.setVisibility(View.INVISIBLE);
 
+                        }
 
 
                         getActivity().runOnUiThread(new Runnable() {
@@ -210,7 +222,15 @@ public class MarketContentsFragment extends Fragment {
 
                  //       CommonUtils.hideProgressDialog();
 
+                        if(markets.size() == 0)
+                        {
+                            desc.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            desc.setVisibility(View.INVISIBLE);
 
+                        }
 
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -251,7 +271,14 @@ public class MarketContentsFragment extends Fragment {
 
             View v = LayoutInflater.from(context).inflate(R.layout.market_row, parent, false);
 
+            if(arrayList.size() == 0)
+            {
 
+            }
+            else
+            {
+
+            }
 
             return new MarketViewHolder(v);
         }
@@ -355,6 +382,7 @@ public class MarketContentsFragment extends Fragment {
         ImageView cover;
         TextView price;
         ImageView carrot;
+
         ItemClickListener itemClickListener;
 
 
@@ -371,6 +399,7 @@ public class MarketContentsFragment extends Fragment {
             carrot= itemView.findViewById(R.id.carrot);
 
             price = itemView.findViewById(R.id.price);
+
 
             itemView.setOnClickListener(this);
 

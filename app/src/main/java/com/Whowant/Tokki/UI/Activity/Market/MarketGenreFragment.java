@@ -50,6 +50,7 @@ public class MarketGenreFragment extends Fragment {
 
     public int position = 0;
     public int topPosition = 0;
+    TextView desc;
 
 
     public MarketGenreFragment() {
@@ -113,6 +114,7 @@ public class MarketGenreFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_market_contents, container, false);
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        desc = v.findViewById(R.id.desc);
 
 
         return v;//inflater.inflate(R.layout.fragment_market_genre, container, false);
@@ -136,6 +138,15 @@ public class MarketGenreFragment extends Fragment {
 
                         //       CommonUtils.hideProgressDialog();
 
+                        if(markets.size() == 0)
+                        {
+                            desc.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            desc.setVisibility(View.INVISIBLE);
+
+                        }
 
 
                         getActivity().runOnUiThread(new Runnable() {
@@ -176,7 +187,15 @@ public class MarketGenreFragment extends Fragment {
 
                         //       CommonUtils.hideProgressDialog();
 
+                        if(markets.size() == 0)
+                        {
+                            desc.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            desc.setVisibility(View.INVISIBLE);
 
+                        }
 
                         getActivity().runOnUiThread(new Runnable() {
                             @Override

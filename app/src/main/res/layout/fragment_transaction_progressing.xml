@@ -11,5 +11,16 @@
 
         android:layout_height="match_parent"
         />
+    <TextView
+        android:id="@+id/desc"
 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "거래내역이 없습니다. "
+        android:textSize="17sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        />
 </FrameLayout>

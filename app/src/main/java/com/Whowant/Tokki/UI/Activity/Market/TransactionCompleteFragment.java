@@ -55,6 +55,7 @@ public class TransactionCompleteFragment extends Fragment {
     private TransactionCompleteAdapter adapter;
     private ArrayList<MarketVO> markets;
 
+    TextView desc;
 
     public TransactionCompleteFragment() {
         // Required empty public constructor
@@ -114,6 +115,15 @@ public class TransactionCompleteFragment extends Fragment {
 
                         //       CommonUtils.hideProgressDialog();
 
+                        if(markets.size() == 0)
+                        {
+                            desc.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            desc.setVisibility(View.INVISIBLE);
+
+                        }
 
 
                         getActivity().runOnUiThread(new Runnable() {
@@ -144,6 +154,8 @@ public class TransactionCompleteFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_market_contents, container, false);
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        desc = v.findViewById(R.id.desc);
+        desc.setText("거래내역이 없습니다.");
 
         return v;
     }

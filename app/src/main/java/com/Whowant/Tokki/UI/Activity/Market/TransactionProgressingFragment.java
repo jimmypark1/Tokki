@@ -53,6 +53,7 @@ public class TransactionProgressingFragment extends Fragment {
 
     RecyclerView recyclerView;
 
+    TextView desc;
     private TransactionProgressingAdapter adapter;
     private ArrayList<MarketMsg> marketMsgs;
     public TransactionProgressingFragment() {
@@ -94,6 +95,7 @@ public class TransactionProgressingFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_transaction_progressing, container, false);
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        desc = v.findViewById(R.id.desc);
 
         return v;
     }
@@ -142,7 +144,15 @@ public class TransactionProgressingFragment extends Fragment {
                     public void run() {
 
                         //       CommonUtils.hideProgressDialog();
+                        if(marketMsgs.size() == 0)
+                        {
+                            desc.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            desc.setVisibility(View.INVISIBLE);
 
+                        }
 
 
                         getActivity().runOnUiThread(new Runnable() {
