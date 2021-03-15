@@ -143,7 +143,7 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="사업화 컨텐츠를 선택하세요"
+                        android:text="사업화 콘텐츠를 선택하세요"
                         android:textStyle="normal"
                         android:textSize="15sp"
                         android:textColor="#191919"
@@ -329,7 +329,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="당근을 통한 거래는 최대 100만원까지 가능합니다.\n작가와 매칭은 메신저를 통해 진행됩니다.\n100만원 초과 시 토끼 매니저가 거래를 중개합니다."
+                android:text="당근을 통한 거래는 최대 100만원까지 가능합니다.\n작가와 매칭은 메신저를 통해 진행됩니다.\n100만원 초과 시 토 매니저가 거래를 중개합니다."
                 android:textStyle="bold"
                 android:textSize="15sp"
                 android:textColor="#767676"
@@ -462,7 +462,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"
-                    android:text="거래 성사시 토끼 매니저가 계약을 중재합니다."
+                    android:text="거래 성사시 토키 매니저가 계약을 중재합니다."
                     android:textColor="#000"
                     android:textSize="15sp"
                     android:textStyle="normal"

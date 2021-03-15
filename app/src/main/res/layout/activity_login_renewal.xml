@@ -102,7 +102,7 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginTop="20dp"
-                android:text="토끼 회원가입"
+                android:text="토키 회원가입"
                android:textSize="15sp"
                 android:enabled="true"
                 android:layout_centerHorizontal="true"

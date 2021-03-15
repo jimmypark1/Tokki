@@ -380,7 +380,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
                                 popup.getMenu().removeItem(R.id.screen);
 
                             }
-                            else if(field.equals("펜픽"))
+                            else if(field.equals("팬픽"))
                             {
                                 popup.getMenu().removeItem(R.id.publish);
 

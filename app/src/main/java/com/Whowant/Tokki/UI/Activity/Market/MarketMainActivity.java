@@ -51,7 +51,7 @@ public class MarketMainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
-        tabLayout.addTab(tabLayout.newTab().setText("컨텐츠별"));
+        tabLayout.addTab(tabLayout.newTab().setText("콘텐츠별"));
         tabLayout.addTab(tabLayout.newTab().setText("장르별"));
         tabLayout.addTab(tabLayout.newTab().setText("소재별"));
 
@@ -126,7 +126,7 @@ public class MarketMainActivity extends AppCompatActivity {
                     data.add(new HorizontalData( "호러",1));
                     data.add(new HorizontalData( "로맨스",2));
                     data.add(new HorizontalData( "액션",3));
-                    data.add(new HorizontalData( "펜픽",4));
+                    data.add(new HorizontalData( "팬픽",4));
                     data.add(new HorizontalData( "BL",5));
                     mAdapter.setData(data);
                     mAdapter.notifyDataSetChanged();
