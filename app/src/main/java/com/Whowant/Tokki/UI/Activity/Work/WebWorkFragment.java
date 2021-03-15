@@ -436,9 +436,18 @@ public class WebWorkFragment extends Fragment {
         fontCk1.setVisibility(View.INVISIBLE);
         fontCk2.setVisibility(View.INVISIBLE);
         fontCk3.setVisibility(View.INVISIBLE);
+
+
+
         nFont = 0;
 
         pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
+        int nFontTemp = pref.getInt("FONT_TYPE",0);
+
+        if(nFontTemp == 3)
+        {
+            defaultFontSize -= 7;
+        }
 
         SharedPreferences.Editor editor = pref.edit();
 
@@ -464,8 +473,15 @@ public class WebWorkFragment extends Fragment {
 
         nFont = 1;
 
+
         pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
 
+        int nFontTemp = pref.getInt("FONT_TYPE",0);
+
+        if(nFontTemp == 3)
+        {
+            defaultFontSize -= 7;
+        }
         SharedPreferences.Editor editor = pref.edit();
 
         editor.putInt("FONT_TYPE", nFont);
@@ -491,6 +507,12 @@ public class WebWorkFragment extends Fragment {
 
         pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
 
+        int nFontTemp = pref.getInt("FONT_TYPE",0);
+
+        if(nFontTemp == 3)
+        {
+            defaultFontSize -= 7;
+        }
         SharedPreferences.Editor editor = pref.edit();
 
         editor.putInt("FONT_TYPE", nFont);
@@ -514,7 +536,12 @@ public class WebWorkFragment extends Fragment {
 
         nFont = 3;
         pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
+        int nFontTemp = pref.getInt("FONT_TYPE",0);
 
+        if(nFontTemp == 3)
+        {
+            defaultFontSize += 7;
+        }
         SharedPreferences.Editor editor = pref.edit();
 
         editor.putInt("FONT_TYPE", nFont);
@@ -537,7 +564,7 @@ public class WebWorkFragment extends Fragment {
             return;
 
 
-        defaultFontSize += 1.2;
+        defaultFontSize += 1;
 
         pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
 
@@ -564,7 +591,7 @@ public class WebWorkFragment extends Fragment {
             return;
 
      //   defaultFontSize --;
-        defaultFontSize -= 1.2;
+        defaultFontSize -= 1;
 
 
         pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
