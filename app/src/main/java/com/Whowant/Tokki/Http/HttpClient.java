@@ -900,8 +900,16 @@ public class HttpClient {
     public static ArrayList<MarketVO> getWorksSorByTagOnMarket(OkHttpClient httpClient,String genre) {
         ArrayList<MarketVO> resultList = new ArrayList<>();
 
+     //   String strUrl = URLEncoder.encode(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWorksSorByTagOnMarket&TAG="+ genre, "UTF-8");
+
+        String encTag = genre;
+        try {
+            encTag = URLEncoder.encode(encTag, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         Request request = new Request.Builder()
-                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWorksSorByTagOnMarket&TAG="+ genre)
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWorksSorByTagOnMarket&TAG="+ encTag)
                 .get()
                 .build();
 
