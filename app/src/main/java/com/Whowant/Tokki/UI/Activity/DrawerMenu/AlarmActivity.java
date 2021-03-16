@@ -168,16 +168,16 @@ public class AlarmActivity extends AppCompatActivity {
                 if(list != null)
                     bestList.addAll(list);
 
-                if (list.size() == 0 || list == null) {
-                    TextView emptyView = findViewById(R.id.emptyView);
-                    emptyView.setVisibility(View.VISIBLE);
-                }
+
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                      //   CommonUtils.hideProgressDialog();
-
+                        if (list.size() == 0 || list == null) {
+                            TextView emptyView = findViewById(R.id.emptyView);
+                            emptyView.setVisibility(View.VISIBLE);
+                        }
                         if(list == null) {
                             Toast.makeText(AlarmActivity.this, "서버와의 연결이 실패하였습니다.", Toast.LENGTH_SHORT).show();
                             return;
