@@ -520,7 +520,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
 //registerWorkOnMarket
 
         String price = priceInput.getText().toString();
-        if(price.length() == 0  || field.getText().toString().length() == 0 || strGenre.length() > 0 || strTag.length() == 0) {
+        if(price.length() == 0  || field.getText().toString().length() == 0 || strGenre.length() == 0 || strTag.length() == 0) {
             Toast.makeText(MarketAddEditActivity.this, "모든 정보를 입력하세요.", Toast.LENGTH_SHORT).show();
 
             return;
