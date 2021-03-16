@@ -112,6 +112,8 @@ public class WebWorkViewerActivity extends AppCompatActivity{
     private ArrayList<CommentVO> commentList;
     private boolean bGetComment = false;
 
+    boolean sortType = true;
+
     int dpToPx(float dp)
     {
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -161,13 +163,26 @@ public class WebWorkViewerActivity extends AppCompatActivity{
     public void nextEpisode()
     {
       //  episodeIndex = episodeIndex - episodeList.size() -1;
-        episodeIndex --;
-        if(episodeIndex < 0)
+        if(sortType == true)
         {
-            episodeIndex = 0;
-            return;
+            episodeIndex --;
+            if(episodeIndex < 0)
+            {
+                episodeIndex = 0;
+                return;
 
+            }
         }
+        else
+        {
+            episodeIndex ++;
+            if(episodeIndex > episodeList.size() -1)
+            {
+                episodeIndex = episodeList.size() -1;
+                return;
+            }
+        }
+
 
 
         EpisodeVO episode = work.getEpisodeList().get(episodeIndex);
@@ -185,12 +200,26 @@ public class WebWorkViewerActivity extends AppCompatActivity{
     public void prevEpisode()
     {
       //  episodeIndex = episodeIndex - episodeList.size() -1;
-        episodeIndex ++;
-        if(episodeIndex > episodeList.size() -1)
+        if(sortType == true)
         {
-            episodeIndex = episodeList.size() -1;
-            return;
+            episodeIndex ++;
+            if(episodeIndex > episodeList.size() -1)
+            {
+                episodeIndex = episodeList.size() -1;
+                return;
+            }
         }
+        else
+        {
+            episodeIndex --;
+            if(episodeIndex < 0)
+            {
+                episodeIndex = 0;
+                return;
+
+            }
+        }
+
            
 
         EpisodeVO episode = work.getEpisodeList().get(episodeIndex);
@@ -325,7 +354,16 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         episodeIndex = getIntent().getIntExtra("EPISODE_INDEX",0);
         lastOrder = getIntent().getIntExtra("LAST_ORDER",-1);
 
+        sortType = getIntent().getBooleanExtra("EPISODE_SORT",true);
+
+
         workID = getIntent().getStringExtra("WORK_ID");
+
+
+        if(episodeIndex == 0)
+        {
+
+        }
 
         episodeListView = findViewById(R.id.episodeListView);
         top = findViewById(R.id.topBarLayout);
@@ -386,7 +424,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
                     WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
                     fragment.page = position;
-                    fragment.showMenu(true,false,true);
+                    fragment.showMenu(true,false,true,episodeIndex, episodeList.size(),sortType);
                     settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
 
 
@@ -395,7 +433,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                 {
                     WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
                     fragment.page = position;
-                    fragment.showMenu(false, false,false);
+                    fragment.showMenu(false, false,false,episodeIndex,episodeList.size(),sortType);
                     fragment.getHtml();
                     settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
 
@@ -731,7 +769,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         {
             settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
 
-            fragment.showMenu(false, true,isCover);
+            fragment.showMenu(false, true,isCover,episodeIndex,episodeList.size(),sortType);
             show = false;
 
         }
@@ -740,7 +778,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
             settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
 
             fragment.initSettings();
-            fragment.showMenu(true, true,isCover);
+            fragment.showMenu(true, true,isCover,episodeIndex,episodeList.size(),sortType);
             show = true;
         }
         if(pos > 0)

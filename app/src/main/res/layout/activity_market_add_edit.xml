@@ -366,7 +366,7 @@
                     android:lineSpacingExtra="5sp"
                     android:gravity="center"
                     android:layout_toRightOf="@+id/change_back_frame"
-                    android:text="100망원 이하"
+                    android:text="100만원 이하"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="8dp"
                     android:onClick="onClickBelow100"

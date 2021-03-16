@@ -28,6 +28,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.Whowant.Tokki.Http.HttpClient;
@@ -56,6 +58,7 @@ import com.Whowant.Tokki.UI.Custom.CustomViewPager;
 import com.Whowant.Tokki.UI.Fragment.Main.MainFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.MyFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.StorageBoxFragment;
+import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageFeedFragment;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageSpaceFragment;
 import com.Whowant.Tokki.UI.Popup.EpisodeAproveCancelPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
@@ -550,6 +553,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+      //  mainPagerAdapter.notifyDataSetChanged();
+
+
 
     }
 
@@ -586,7 +592,7 @@ public class MainActivity extends AppCompatActivity {
         drawer.openDrawer(Gravity.LEFT);
     }
     public void onClickSettingsBtn(View view) {                                                                                     // 페이지별로 우측 버튼 다르게 동작
-        startActivity(new Intent(MainActivity.this, MyPageAccountSettingActivity.class));
+        startActivityForResult(new Intent(MainActivity.this, MyPageAccountSettingActivity.class), 3333);
 
     }
     public void onClickTopRightBtn(View view) {                                                                                     // 페이지별로 우측 버튼 다르게 동작
@@ -1086,7 +1092,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView myImgView = findViewById(R.id.myImgView);
 
         homeImgView.setBackgroundResource(R.drawable.i_tapbar_1_1);
-        searchView.setImageResource(R.drawable.ic_i_tapbar_2_1);
+        searchView.setImageResource(R.drawable.i_tapbar_2_1);
         storageImgView.setBackgroundResource(R.drawable.i_tapbar_3_1);
         writeImgView.setBackgroundResource(R.drawable.i_tapbar_4_1);
         myImgView.setBackgroundResource(R.drawable.i_tapbar_5_1);
@@ -1121,6 +1127,18 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(type);
                 resetBottomBar(type);
             }
+        }
+        else if(requestCode == 3333)
+        {
+            resetBottomBar(2);
+            viewPager.setCurrentItem(2);
+
+            MyPageFragment my =  (MyPageFragment)mainPagerAdapter.getItem(2);
+
+            my.refresh();
+
+
+
         }
     }
 

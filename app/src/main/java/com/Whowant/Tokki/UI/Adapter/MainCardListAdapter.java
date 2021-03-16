@@ -35,7 +35,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
     private Activity mContext;
     private Timer timer;
     private int nCurrentItem = 0;
-    private final int TIMER_SEC = 2500;
+    private final int TIMER_SEC = 3500;
     private ArrayList singleSectionItems;
     private ArrayList<RecentListAdapter> adapterList;
 

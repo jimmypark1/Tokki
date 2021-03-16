@@ -1,5 +1,6 @@
 package com.Whowant.Tokki.UI.Activity.Mypage;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,10 +23,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.Whowant.Tokki.Http.HttpClient;
@@ -40,6 +45,7 @@ import com.Whowant.Tokki.Utils.SimplePreference;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
@@ -77,6 +83,7 @@ public class MyPageFragment extends Fragment {
     TextView typeView;
 
     RelativeLayout btnTokkiSNS;
+    RelativeLayout level;
     LinearLayout btnFollower;
     LinearLayout btnCarrot;
     LinearLayout btnWork;
@@ -96,6 +103,8 @@ public class MyPageFragment extends Fragment {
     ImageView backBt;
     ImageView settingsBt;
 
+    CoordinatorLayout collapse;
+
     private int nCurrentCarrot = 0;                                                         // 현재 당근 갯수
     private int nTotalUsedCarrot = 0;                                                       // 총 당근 갯수
     private int nDonationCarrot = 0;                                                        // 후원받은 당근 갯수
@@ -106,6 +115,7 @@ public class MyPageFragment extends Fragment {
     boolean isFirst = true;
 
     private FragmentActivity myContext;
+    RelativeLayout bottomFrame;
     SharedPreferences pref;
 
 
@@ -189,11 +199,14 @@ public class MyPageFragment extends Fragment {
         comment_layer = v.findViewById(R.id.comment_layer);
 
         bottomInfo= v.findViewById(R.id.bottomInfo);
+        collapse= v.findViewById(R.id.collapse);
 
         backBt = v.findViewById(R.id.back);
+        level = v.findViewById(R.id.level);
 
         topInfo = v.findViewById(R.id.topInfo);
         settingsBt = v.findViewById(R.id.settings);
+        bottomFrame = v.findViewById(R.id.bottomFrame);
     //    followerCountTv = v.findViewById(R.id.tv_writer_page_follower_count);
 
         //
@@ -314,7 +327,6 @@ public class MyPageFragment extends Fragment {
         readCountTv = v.findViewById(R.id.tv_my_page_read);
         followCountTv = v.findViewById(R.id.tv_my_page_follower);
 
-        initLayout();
 
 
         return v;
@@ -401,7 +413,7 @@ public class MyPageFragment extends Fragment {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
-    void initLayout()
+    void initLayout(String comment)
     {
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -413,21 +425,50 @@ public class MyPageFragment extends Fragment {
         params.width = width;
         params.height = width;
 
-        int height = (width- (dpToPx(getActivity(),50) + dpToPx(getActivity(),20) ));
+        int height = (width- dpToPx(getActivity(),50) - dpToPx(getActivity(),20) ) ;
 
-        int compHeight = dpToPx(getActivity(),88) +  dpToPx(getActivity(),20) +  dpToPx(getActivity(),26) +  dpToPx(getActivity(),36);
+        ViewGroup.LayoutParams params00 = introductionTv.getLayoutParams();
 
-        int topMargin = (height - compHeight ) / 3 ;
+
+        //   int compHeight = dpToPx(getActivity(),88) +  dpToPx(getActivity(),20) +  dpToPx(getActivity(),26) +  dpToPx(getActivity(),36);
+        int compHeight = dpToPx(getActivity(),88) +  dpToPx(getActivity(),8) +  dpToPx(getActivity(),26) +  dpToPx(getActivity(),10)
+                +  dpToPx(getActivity(),30)  +  dpToPx(getActivity(),36)+  dpToPx(getActivity(),10);
+
+        int topMargin = (height - compHeight ) / 2 ;
 
         ViewGroup.MarginLayoutParams p0 = (ViewGroup.MarginLayoutParams) photoIv.getLayoutParams();
         ViewGroup.MarginLayoutParams p1 = (ViewGroup.MarginLayoutParams) nameTv.getLayoutParams();
         ViewGroup.MarginLayoutParams p2 = (ViewGroup.MarginLayoutParams) introductionTv.getLayoutParams();
         ViewGroup.MarginLayoutParams p3 = (ViewGroup.MarginLayoutParams) bottomInfo.getLayoutParams();
 
-        p0.topMargin = topMargin;
+        int height00 = introductionTv.getMeasuredHeight();
+        if(comment.length() == 0)
+        {
+            params00.height = 0;
+            p2.topMargin = 0;
+            p3.topMargin = 0;
+            compHeight = photoIv.getMeasuredHeight() + (nameTv.getMeasuredHeight()  ) + ( level.getMeasuredHeight() / 2 ) +  dpToPx(getActivity(),10)
+                    +  bottomInfo.getMeasuredHeight() +  dpToPx(getActivity(),10) ;//+ height00;
+
+            topMargin = (height - compHeight ) / 2 ;
+
+            p0.topMargin = topMargin;
+
+        }
+        else
+        {
+            introductionTv.setText(comment);
+            compHeight = photoIv.getMeasuredHeight() + (nameTv.getMeasuredHeight()  ) + ( level.getMeasuredHeight() / 2 ) +  dpToPx(getActivity(),10)
+                    +  bottomInfo.getMeasuredHeight() +  2 * dpToPx(getActivity(),10) + height00;
+
+            topMargin = (height - compHeight ) / 2 ;
+
+            p0.topMargin = topMargin;
+        }
+
+
       //  p1.topMargin = topMargin;
      //   p2.topMargin = topMargin;
-        p3.topMargin = topMargin;
 
         ViewGroup.LayoutParams params0 = btnWork.getLayoutParams();
         ViewGroup.LayoutParams params1 = btnRead.getLayoutParams();
@@ -494,7 +535,43 @@ public class MyPageFragment extends Fragment {
        }
 
  */
+        /*
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+        ft.detach(this).attach(this).commit();
+
+         */
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        //   collapse.setScrollY(0);
+
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
+     //   params.height = width ; // HEIGHT
+
+
+        ViewGroup.LayoutParams params0 = (ViewGroup.LayoutParams) collapse.getLayoutParams();
+        params0.height = height; // HEIGHT
+
+        myPageAdapter = new MyPageAdapter(getContext(), getChildFragmentManager());
+        myPageAdapter.notifyDataSetChanged();
+
+/*
+        appbar.setLayoutParams(params);
+        appbar.setExpanded(true);
+        appbar.setExpanded(true, true);
+
+        myPageAdapter.notifyDataSetChanged();
+
+
+
+ */
         initData();
+
+
 
     }
 
@@ -651,6 +728,7 @@ public class MyPageFragment extends Fragment {
 
                         getMyCarrotInfo();
                         getUserInfo();
+
                     }
                 });
             }
@@ -714,7 +792,54 @@ public class MyPageFragment extends Fragment {
             }
         }).start();
     }
-    private void getUserInfo() {
+    public void refresh()
+    {
+
+    //    appbar.setExpanded(true, true);
+        /*
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+
+     //   collapse.setScrollY(0);
+
+        myPageAdapter.notifyDataSetChanged();
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
+        params.height = width; // HEIGHT
+
+        appbar.setLayoutParams(params);
+        appbar.setExpanded(true);
+        */
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+        ft.detach(this).attach(this).commit();
+      //  appbar.setScrollY(200);
+
+        /*
+        appbar.setExpanded(true, true);
+
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
+        final AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+        if (behavior != null) {
+            ValueAnimator valueAnimator = ValueAnimator.ofInt();
+            valueAnimator.setInterpolator(new DecelerateInterpolator());
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    behavior.setTopAndBottomOffset((Integer) animation.getAnimatedValue());
+                    appbar.requestLayout();
+                }
+            });
+            valueAnimator.setIntValues(0, 900);
+            valueAnimator.setDuration(400);
+            valueAnimator.start();
+        }
+
+         */
+
+    }
+    public void getUserInfo() {
 //        CommonUtils.showProgressDialog(mActivity, "서버와 통신중입니다. 잠시만 기다려 주세요.");
 
         new Thread(new Runnable() {
@@ -741,6 +866,9 @@ public class MyPageFragment extends Fragment {
 
                             String ret = resultObject.getString("COMMENT");
                             int nType = resultObject.getInt("TYPE");
+
+
+
                             if(nType == 0 )
                             {
                                 typeView.setText("독자");
@@ -760,9 +888,11 @@ public class MyPageFragment extends Fragment {
                                 typeView.setBackgroundResource(R.drawable.round_my_red);
 
                             }
+                            comment_layer.setVisibility(View.VISIBLE);
+
                             if(ret != "null")
                             {
-                                comment_layer.setVisibility(View.VISIBLE);
+                            //    comment_layer.setVisibility(View.VISIBLE);
                                 introductionTv.setText(ret);
 
                             }
@@ -771,7 +901,7 @@ public class MyPageFragment extends Fragment {
                                 ViewGroup.LayoutParams params = comment_layer.getLayoutParams();
                                 params.height = 0;
 
-                                comment_layer.setVisibility(View.GONE);
+                              //  comment_layer.setVisibility(View.GONE);
                                 introductionTv.setText("");
 
                             }
@@ -833,6 +963,9 @@ public class MyPageFragment extends Fragment {
                                         .load(back)
                                         .into(backIv);
                             }
+
+                            initLayout(ret);
+
 
 
                         } catch (JSONException e) {

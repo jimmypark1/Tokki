@@ -25,11 +25,15 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Login.EmailAuthActivity;
+import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.UI.Activity.Main.UserProfileActivity;
+import com.Whowant.Tokki.UI.Activity.Market.MarketAddEditActivity;
+import com.Whowant.Tokki.UI.Activity.Market.MarketMainActivity;
 import com.Whowant.Tokki.UI.Activity.Media.ThumbnailPreviewActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
 import com.Whowant.Tokki.UI.Custom.MyDatePickerDialogFragment;
@@ -261,10 +265,24 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
         userInfo.setType(nUserType);
 
     }
+    void goMain()
+    {
+        Intent intent = new Intent(MyPageAccountSettingActivity.this, MainActivity.class);
+
+        setResult(3333, intent);
+        finish();
+    }
     private void initView() {
         ((TextView) findViewById(R.id.tv_top_layout_title)).setText("계정 설정");
 
-        findViewById(R.id.ib_top_layout_back).setOnClickListener((v) -> finish());
+
+        findViewById(R.id.ib_top_layout_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goMain();
+
+                            }
+        });
         findViewById(R.id.ib_top_layout_back).setVisibility(View.VISIBLE);
 
        // levelIv = findViewById(R.id.iv_my_page_account_setting_level);
@@ -582,7 +600,7 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
 
 
          */
-        if(introduction.getText().toString().length() > 0)
+       // if(introduction.getText().toString().length() > 0)
             userInfo.setComment(introduction.getText().toString());
 
         CommonUtils.showProgressDialog(MyPageAccountSettingActivity.this, "데이터를 전송하고 있습니다.");
@@ -632,7 +650,9 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
 
                         editor.commit();
 
-                        finish();
+
+                        goMain();
+                       // finish();
 
                     }
                 });
@@ -640,6 +660,8 @@ public class MyPageAccountSettingActivity extends AppCompatActivity {
         }).start();
 
     }
+
+
 
     private void getMyCarrotInfo() {
         CommonUtils.showProgressDialog(mActivity, "서버와 통신중입니다. 잠시만 기다려 주세요.");

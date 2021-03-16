@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -387,6 +388,7 @@ public class MyPageSpaceFragment extends Fragment {
                 }
             }).start();
         }
+
         void report(String postId)
         {
             Intent intent = new Intent(getActivity(), ReportSelectActivity.class);

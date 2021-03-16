@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/collapse"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,6 +13,7 @@
         android:theme="@style/ThemeOverlay.AppCompat">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -39,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
 
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="30dp"
                     >
                     <ImageView
                         android:id="@+id/back"
@@ -101,7 +103,7 @@
                         android:id="@+id/tv_my_page_typel"
 
                         android:layout_width="45dp"
-                        android:layout_height="16sp"
+                        android:layout_height="16dp"
                         android:background="@drawable/round_my_blue"
                         android:textAlignment="center"
                         android:text="작가"
@@ -150,7 +152,7 @@
                         android:layout_marginRight="20dp"
                         android:text="test1234"
                         android:textColor="#fff"
-                        android:textSize="11sp"
+                        android:textSize="14sp"
                         android:maxLines="2"
                         android:singleLine="false"
                         />
@@ -162,7 +164,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/comment_layer"
-                    android:layout_marginTop="0dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
 
 
@@ -266,6 +268,8 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/bottomFrame"
+
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginBottom="20dp"

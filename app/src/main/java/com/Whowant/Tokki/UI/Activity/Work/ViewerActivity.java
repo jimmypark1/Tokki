@@ -266,9 +266,12 @@ public class ViewerActivity extends AppCompatActivity {                         
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     if(nEpisodeIndex >= workVO.getSortedEpisodeList().size()-1) {
-                        nextBtn.setVisibility(View.INVISIBLE);
+                    //    nextBtn.setVisibility(View.INVISIBLE);
+                        nextBtn.setTextColor(Color.parseColor("#D4D4D8"));
+
                     } else if (nEpisodeIndex == 0) {
-                        previousBtn.setVisibility(View.INVISIBLE);
+                      //  previousBtn.setVisibility(View.INVISIBLE);
+                        previousBtn.setTextColor(Color.parseColor("#D4D4D8"));
                     }
                     settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
 
@@ -2151,6 +2154,10 @@ public class ViewerActivity extends AppCompatActivity {                         
     }
 
     public void onClickPreviousEpisode(View view) {
+
+        if(nEpisodeIndex == 0)
+            return;
+
         Intent intent = new Intent(ViewerActivity.this, ViewerActivity.class);
         intent.putExtra("EPISODE_INDEX", nEpisodeIndex-1);
         intent.putExtra("INTERACTION", bInteraction);
@@ -2159,6 +2166,9 @@ public class ViewerActivity extends AppCompatActivity {                         
     }
 
     public void onClickNextEpisode(View view) {
+
+        if(nEpisodeIndex >= workVO.getSortedEpisodeList().size()-1)
+            return;
 
         EpisodeVO episodeVO = workVO.getSortedEpisodeList().get(nEpisodeIndex + 1);
         if(workVO.getnInteractionEpisodeID() > 0 && episodeVO.getnEpisodeID() > workVO.getnInteractionEpisodeID()) {                // 클릭한 에피소드가 분기보다 위의 에피소드 라면. 즉, 분기 이후의 에피소드 라면

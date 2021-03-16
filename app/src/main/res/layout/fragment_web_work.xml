@@ -39,10 +39,10 @@
             <TextView
                 android:id="@+id/prev"
 
-                android:layout_width="47dp"
+                android:layout_width="50dp"
                 android:layout_height="36dp"
                 android:textSize="13sp"
-                android:text="이전화 "
+                android:text="&lt; 이전화 "
 
                 android:textColor="@color/colorBlack"
                 android:layout_marginLeft="20dp"
@@ -53,11 +53,12 @@
                 />
             <TextView
                 android:id="@+id/next"
-                android:layout_width="47dp"
+                android:layout_width="50dp"
                 android:layout_height="36dp"
                 android:textSize="13sp"
-                android:text="다음화"
+                android:text="다음화 &gt; "
                 android:layout_marginRight="20dp"
+                android:textColor="@color/colorBlack"
                 android:layout_alignParentEnd="true"
                 android:gravity="center_vertical"
                 android:onClick="onClickNext"

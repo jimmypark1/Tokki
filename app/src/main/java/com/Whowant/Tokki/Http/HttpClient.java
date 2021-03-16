@@ -742,7 +742,9 @@ public class HttpClient {
                 marketVO.setName(object.getString("NAME"));
                 marketVO.setWorkId(object.getString("WORK_ID"));
 
-                marketVO.setWorkType(object.getInt("WORK_TYPE"));
+              //  if(object.getInt("WORK_TYPE"))
+                if(object.has("WORK_TYPE") )
+                    marketVO.setWorkType(object.getInt("WORK_TYPE"));
 
                 if(object.getString("GENRES" ) != null)
                 {
@@ -802,7 +804,8 @@ public class HttpClient {
                 marketVO.setCover(object.getString("COVER"));
                 marketVO.setSynopsis(object.getString("SYNOPSIS"));
                 marketVO.setName(object.getString("NAME"));
-                marketVO.setWorkType(object.getInt("WORK_TYPE"));
+                if(object.has("WORK_TYPE") )
+                    marketVO.setWorkType(object.getInt("WORK_TYPE"));
                 if(object.getString("GENRES" ) != null)
                 {
                     marketVO.setGenre(object.getString("GENRES"));
@@ -862,7 +865,8 @@ public class HttpClient {
                 marketVO.setCover(object.getString("COVER"));
                 marketVO.setSynopsis(object.getString("SYNOPSIS"));
                 marketVO.setName(object.getString("NAME"));
-                marketVO.setWorkType(object.getInt("WORK_TYPE"));
+                if(object.has("WORK_TYPE") )
+                    marketVO.setWorkType(object.getInt("WORK_TYPE"));
                 if(object.getString("GENRES" ) != null)
                 {
                     marketVO.setGenre(object.getString("GENRES"));
@@ -942,7 +946,8 @@ public class HttpClient {
                 }
                 marketVO.setHopeGenre(object.getString("GENRE"));
                 marketVO.setHopeTag(object.getString("TAG"));
-                marketVO.setWorkType(object.getInt("WORK_TYPE"));
+                if(object.has("WORK_TYPE") )
+                    marketVO.setWorkType(object.getInt("WORK_TYPE"));
 
                 marketVO.setCopyright0(object.getString("COPYRIGHT0"));
                 marketVO.setCopyright1(object.getString("COPYRIGHT1"));
@@ -5820,7 +5825,7 @@ public class HttpClient {
             builder.addFormDataPart("USER_ID", user.getStrUserID());
 
 
-        if(user.getComment() != null && user.getComment().length() > 0)
+        if(user.getComment() != null )
             builder.addFormDataPart("USER_COMMENT", user.getComment());
 
         if(user.getStrUserEmail() != null && user.getStrUserEmail().length() > 0)

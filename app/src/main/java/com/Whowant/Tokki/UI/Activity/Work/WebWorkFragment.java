@@ -113,7 +113,7 @@ public class WebWorkFragment extends Fragment {
         return fragment;
     }
 
-    public void showMenu(Boolean show, Boolean isAnim, Boolean isCover )
+    public void showMenu(Boolean show, Boolean isAnim, Boolean isCover, int episodeIndex , int total, Boolean sortType)
     {
         translateDown = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_bottom_down);
         translateUp = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_bottom_up);
@@ -121,6 +121,23 @@ public class WebWorkFragment extends Fragment {
         translateTopDown = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_down);
         translateTopUp = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_up);
 
+
+        if(episodeIndex == 0)
+        {
+            if(sortType == true)
+                next.setTextColor(Color.parseColor("#D4D4D8"));
+            else
+                prev.setTextColor(Color.parseColor("#D4D4D8"));
+
+        }
+        else if(episodeIndex == total - 1)
+        {
+            if(sortType == true)
+                prev.setTextColor(Color.parseColor("#D4D4D8"));
+            else
+                next.setTextColor(Color.parseColor("#D4D4D8"));
+
+        }
         if(isCover)
         {
             topMenu.setVisibility(View.INVISIBLE);
@@ -194,7 +211,7 @@ public class WebWorkFragment extends Fragment {
         display.getSize(size);
         int width = size.x;
 
-        int offset = ( width -  dpToPx(20 * 2) - 2 * dpToPx(20) - 2 * dpToPx(47) - 3 * dpToPx(36)) / 5;
+        int offset = ( width -  dpToPx(20 * 2) - 2 * dpToPx(20) - 2 * dpToPx(50) - 3 * dpToPx(36)) / 5;
 
 
         ViewGroup.MarginLayoutParams lp0 = (ViewGroup.MarginLayoutParams) comment.getLayoutParams();
@@ -844,8 +861,14 @@ public class WebWorkFragment extends Fragment {
 
         initTopUI();
         initSettings();
-        prev.setText("< 이전화");
-            next.setText("다음화 >");
+      //  prev.setText("< 이전화");
+      //      next.setText("다음화 >");
+
+        if(page == 0)
+        {
+     //       prev.setTextColor(Color.parseColor("#D4D4D8"));
+
+        }
 
         initLayout();
         //120,60,120,40

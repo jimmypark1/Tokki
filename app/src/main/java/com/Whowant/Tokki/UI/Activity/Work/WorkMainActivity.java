@@ -1552,9 +1552,11 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                 if (!bDesc) {
                                 //    intent.putExtra("EPISODE_INDEX", nIndex);
                                     intent.putExtra("EPISODE_INDEX", workVO.getEpisodeList().size() - nIndex - 1);
+                                    intent.putExtra("EPISODE_SORT", bDesc);
 
                                 } else {
                                     intent.putExtra("EPISODE_INDEX", workVO.getEpisodeList().size() - nIndex - 1);
+                                    intent.putExtra("EPISODE_SORT", bDesc);
                                 }
                             //    intent.putExtra("WORK", (Serializable) workVO);
 
