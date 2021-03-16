@@ -231,23 +231,42 @@ public class ViewerActivity extends AppCompatActivity {                         
                     autoScrollSpeed = 1;
                     bShowingAutoscroll = true;
                     scrollBtn.setBackgroundResource(R.drawable.ic_i_scroll);
-                    Toast.makeText(ViewerActivity.this, "자동 스크롤을 시작합니다.", Toast.LENGTH_SHORT).show();
+               //     Toast.makeText(ViewerActivity.this, "자동 스크롤을 시작합니다.", Toast.LENGTH_SHORT).show();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ViewerActivity.this, "1배속 자동스크롤을 시작합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     startAutoScroll(1);
                 } else if (autoScrollSpeed == 1) {
                     autoScrollSpeed = 2;
                     bShowingAutoscroll = true;
                     scrollBtn.setBackgroundResource(R.drawable.ic_i_autoscroll_3);
-                    startAutoScroll(2);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ViewerActivity.this, "2배속 자동스크롤을 시작합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                   startAutoScroll(2);
                 } else if (autoScrollSpeed == 2) {
                     autoScrollSpeed = 3;
                     bShowingAutoscroll = true;
                     scrollBtn.setBackgroundResource(R.drawable.ic_i_autoscroll_stop);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ViewerActivity.this, "3배속 자동스크롤을 시작합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     startAutoScroll(3);
                 } else if (autoScrollSpeed == 3) {
                     autoScrollSpeed = 0;
                     bShowingAutoscroll = false;
                     scrollBtn.setBackgroundResource(R.drawable.ic_i_autoscroll_1);
-                    Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
                     if (autoScrollTimer != null) {
                         autoScrollTimer.cancel();
                         autoScrollTimer = null;
@@ -913,7 +932,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                 Log.d("TOUCH", "자동스크롤을 정지합니다");
                 autoScrollTimer.cancel();
                 autoScrollTimer = null;
-                Toast.makeText(ViewerActivity.this, "자동스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(ViewerActivity.this, "자동스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
             }
 
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -2095,14 +2114,18 @@ public class ViewerActivity extends AppCompatActivity {                         
     }
 
     public void onClickAutoScrolLevel1(View view) {
+
+
         startAutoScroll(1);
     }
 
     public void onClickAutoScrolLevel2(View view) {
+
         startAutoScroll(2);
     }
 
     public void onClickAutoScrolLevel3(View view) {
+
         startAutoScroll(3);
     }
 
