@@ -98,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="7sp"
-                        android:text="#태그를 10가지 이내로 입력하세요"
+                        android:text="최대 10개까지 입력하세요"
                         android:textColor="#222222"
                         android:textSize="13sp"
                         android:textStyle="normal" />

@@ -222,7 +222,7 @@
                     android:layout_marginRight="65dp"
                     android:clickable="false"
                     android:focusable="false"
-                    android:hint="3가지 장르를 선택해주세요"
+                    android:hint="최대 3개까지 선택해주세요"
                     android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:textColor="@color/colorBlack"

@@ -172,7 +172,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"
                     android:singleLine="true"
-                    android:hint="3가지 장르를 선택해 주세요."/>
+                    android:hint="최대 3개까지 선택해주세요."/>
             </LinearLayout>
 
             <LinearLayout
