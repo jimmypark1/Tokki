@@ -187,7 +187,7 @@
                         android:background="@android:color/transparent"
                         android:inputType="text"
                         android:lineSpacingExtra="5sp"
-                        android:hint="소개글입니다."
+                        android:hint="입력하여 본인을 소개해주세요."
                         android:textColorHint = "#d4d4d8"
                         android:textColor="#d4d4d8"
                         android:textSize="15sp"
