@@ -1550,7 +1550,9 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                 Intent intent = new Intent(WorkMainActivity.this, WebWorkViewerActivity.class);
                                 ViewerActivity.workVO = workVO;
                                 if (!bDesc) {
-                                    intent.putExtra("EPISODE_INDEX", nIndex);
+                                //    intent.putExtra("EPISODE_INDEX", nIndex);
+                                    intent.putExtra("EPISODE_INDEX", workVO.getEpisodeList().size() - nIndex - 1);
+
                                 } else {
                                     intent.putExtra("EPISODE_INDEX", workVO.getEpisodeList().size() - nIndex - 1);
                                 }
