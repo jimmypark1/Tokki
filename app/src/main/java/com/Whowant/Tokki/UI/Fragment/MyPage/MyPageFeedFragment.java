@@ -42,6 +42,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 
 public class MyPageFeedFragment extends Fragment {
@@ -56,7 +57,9 @@ public class MyPageFeedFragment extends Fragment {
     ArrayList<MyPageFeedVo> mArrayList = new ArrayList<>();
     public String writerId;
     public int type = 0;
-
+    OkHttpClient keepHttp;
+    OkHttpClient readHttp;
+    OkHttpClient allHttp;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -467,13 +470,48 @@ public class MyPageFeedFragment extends Fragment {
        //     mArrayList.add(desc);
         }
 
+
+        if(allHttp != null)
+        {
+            for (Call call : allHttp.dispatcher().queuedCalls()) {
+                if (call.request().tag().equals("ALL_WORK"))
+                    call.cancel();
+            }
+            for (Call call : allHttp.dispatcher().runningCalls()) {
+                if (call.request().tag().equals("ALL_WORK"))
+                    call.cancel();
+            }
+        }
+        if(readHttp != null)
+        {
+            for (Call call : readHttp.dispatcher().queuedCalls()) {
+                if (call.request().tag().equals("READ_WORK"))
+                    call.cancel();
+            }
+            for (Call call : readHttp.dispatcher().runningCalls()) {
+                if (call.request().tag().equals("READ_WORK"))
+                    call.cancel();
+            }
+        }
+        if(keepHttp != null)
+        {
+            for (Call call : keepHttp.dispatcher().queuedCalls()) {
+                if (call.request().tag().equals("KEEP_WORK"))
+                    call.cancel();
+            }
+            for (Call call : keepHttp.dispatcher().runningCalls()) {
+                if (call.request().tag().equals("KEEP_WORK"))
+                    call.cancel();
+            }
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
                 if (getActivity() == null)
                     return;
 
-                myArrayList = HttpClient.GetAllWorkListWithWriterID(new OkHttpClient(), writerId);
+                allHttp = new OkHttpClient();
+                myArrayList = HttpClient.GetAllWorkListWithWriterID(allHttp, writerId);
 
                 if (myArrayList != null) {
                     for (int i = 0; i < myArrayList.size(); i++) {
@@ -510,10 +548,12 @@ public class MyPageFeedFragment extends Fragment {
 //        CommonUtils.showProgressDialog(getActivity(), "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
         readArrayList.clear();
 
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                ArrayList<WorkVO> responseVo = HttpClient.getReadWorkList(new OkHttpClient(), writerId, "UPDATE");
+                readHttp = new OkHttpClient();
+                ArrayList<WorkVO> responseVo = HttpClient.getReadWorkList(readHttp, writerId, "UPDATE");
                 if (responseVo != null) {
                     readArrayList.addAll(responseVo);
                 }
@@ -553,12 +593,14 @@ public class MyPageFeedFragment extends Fragment {
 
         keepArrayList.clear();
 
+
         new Thread(new Runnable() {
             @Override
             public void run() {
 
 
-                keepArrayList = HttpClient.getKeepWorkList(new OkHttpClient(), writerId, "UPDATE");
+                keepHttp = new OkHttpClient();
+                keepArrayList = HttpClient.getKeepWorkList(keepHttp, writerId, "UPDATE");
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override

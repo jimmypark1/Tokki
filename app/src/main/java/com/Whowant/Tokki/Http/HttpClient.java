@@ -82,6 +82,7 @@ public class HttpClient {
 
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetAllWorkList")
+                .tag("ALL_WORK")
                 .get()
                 .build();
 
@@ -1108,8 +1109,10 @@ public class HttpClient {
     public static ArrayList<WorkVO> getKeepWorkList(OkHttpClient httpClient, String strUserID, String strOrder) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
 
-        Request request = new Request.Builder()
+        Request request ;
+        request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetKeepWorkList&USER_ID=" + strUserID + "&ORDER=" + strOrder)
+                .tag("KEEP_WORK")
                 .get()
                 .build();
 
@@ -1156,6 +1159,7 @@ public class HttpClient {
 
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetMyReadWorkList&USER_ID=" + strUserID + "&ORDER=" + strOrder)
+                .tag("READ_WORK")
                 .get()
                 .build();
 
