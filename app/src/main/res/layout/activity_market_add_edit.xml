@@ -418,7 +418,7 @@
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="가격을 입력하세요."
+                android:hint="판매희망가를 입력하세요."
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="40dp"
 
