@@ -943,7 +943,9 @@ public class WorkRegActivity extends AppCompatActivity {
             String currentDateandTime = sdf.format(new Date());
             String filename0 = currentDateandTime ;
 
-            String savePath = saveBitmapToJpeg(this,blurredBitmap,filename0);
+            String savePath = "";
+            if(blurredBitmap != null)
+                savePath =  saveBitmapToJpeg(this,blurredBitmap,filename0);
 
             MultipartBody.Builder builder = new MultipartBody.Builder();
             SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);

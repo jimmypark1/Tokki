@@ -39,6 +39,9 @@ public class WorkVO implements Serializable {
 
     private String strTag;                           //
     private String strCoverBlurFile;                            // 커버 이미지 파일명
+    private String genres;
+    private String tags;
+
 
 
     public WorkVO() {

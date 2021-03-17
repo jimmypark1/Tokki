@@ -643,6 +643,24 @@ public class WorkEditActivity extends AppCompatActivity {
 
             MultipartBody.Builder builder = new MultipartBody.Builder();
             SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+/*
+  multipartFormData.append(data.workID.data(using: String.Encoding.utf8)!, withName: "WORK_ID")
+            multipartFormData.append(userID.data(using: String.Encoding.utf8)!, withName: "WRITER_ID")
+            multipartFormData.append(data.title.data(using: String.Encoding.utf8)!, withName: "WORK_TITLE")
+            multipartFormData.append(data.synopsis.data(using: String.Encoding.utf8)!, withName: "WORK_SYNOPSIS")
+            multipartFormData.append(String(data.type).data(using: String.Encoding.utf8)!, withName: "WORK_TARGET")
+            multipartFormData.append(String(data.status).data(using: String.Encoding.utf8)!, withName: "STATUS")
+            multipartFormData.append(String(data.type).data(using: String.Encoding.utf8)!, withName: "WORK_TARGET")
+
+            multipartFormData.append("N".data(using: String.Encoding.utf8)!, withName: "WORK_COMPLETE")
+            multipartFormData.append("N".data(using: String.Encoding.utf8)!, withName: "DELETE_THUMBNAIL")
+            multipartFormData.append("N".data(using: String.Encoding.utf8)!, withName: "DELETE_POSTER")
+
+            multipartFormData.append(data.career.data(using: String.Encoding.utf8)!, withName: "CAREER")
+            multipartFormData.append(String(data.ownership).data(using: String.Encoding.utf8)!, withName: "OWNERSHIP")
+            multipartFormData.append(String(data.copyright).data(using: String.Encoding.utf8)!, withName: "COPYRIGHT")
+
+ */
 
             builder.setType(MultipartBody.FORM)
                     .addFormDataPart("WORK_ID", "" + workVO.getnWorkID())
@@ -650,9 +668,16 @@ public class WorkEditActivity extends AppCompatActivity {
                     .addFormDataPart("WORK_TITLE", inputTitleView.getText().toString())
                     .addFormDataPart("WORK_SYNOPSIS", inputSynopsisView.getText().toString())
                     .addFormDataPart("WORK_COMPLETE", bComplete == true ? "Y" : "N")
-                    .addFormDataPart("WORK_TARGET", "")
+                    .addFormDataPart("WORK_TARGET", String.valueOf(workVO.getnTarget()))
                     .addFormDataPart("DELETE_THUMBNAIL", isDeleteThumbnail == true ? "Y" : "N")
-                    .addFormDataPart("DELETE_POSTER", isDeletePoster == true ? "Y" : "N");
+                    .addFormDataPart("DELETE_POSTER", isDeletePoster == true ? "Y" : "N")
+                    .addFormDataPart("DELETE_POSTER", isDeletePoster == true ? "Y" : "N")
+                    .addFormDataPart("CAREER", workVO.getStrCareer())
+                    .addFormDataPart("OWNERSHIP", String.valueOf(workVO.getOwner()))
+                    .addFormDataPart("COPYRIGHT", String.valueOf(workVO.getCopyright()))
+                    .addFormDataPart("STATUS", "" + workVO.getStatus());
+
+
 
             //
 
@@ -673,6 +698,10 @@ public class WorkEditActivity extends AppCompatActivity {
                 builder.addFormDataPart("WORK_GENRE", strGenres);
             }
 
+            if(workVO.getStrCoverBlurFile().length() > 0)
+            {
+
+            }
             if (coverImgUri != null) {
                 strFilePath = CommonUtils.getRealPathFromURI(WorkEditActivity.this, coverImgUri);
                 sourceFile = new File(strFilePath);
