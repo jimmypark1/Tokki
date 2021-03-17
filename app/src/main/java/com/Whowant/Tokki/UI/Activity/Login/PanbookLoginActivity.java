@@ -10,14 +10,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,6 +81,10 @@ public class PanbookLoginActivity extends AppCompatActivity {
     private int snsNum;                                 // sns 로그인 시의 SNS 값   0 - 펜북 회원가입, 1 - Kakaotalk, 2 - Naver, 3 - Daum, 4 - FAcebook, 5 - Google
     private boolean bFinish = false;                    //  백버튼 두번 클릭에 사용하기 위한 flag
 
+
+    Button loginBtn;
+    Button registerBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +99,67 @@ public class PanbookLoginActivity extends AppCompatActivity {
 
         inputIDView = findViewById(R.id.inputIDView);
         inputPWView = findViewById(R.id.inputPWView);
+
+        loginBtn = findViewById(R.id.loginBtn);
+        registerBtn = findViewById(R.id.registerBtn);
+
+        initUI();
+
+        inputIDView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(inputIDView.getText().toString().length() > 0) {
+
+                    loginBtn.setBackgroundResource(R.drawable.login_btn_en_bg);
+                    loginBtn.setTextColor(Color.parseColor("#ffffff"));
+                    registerBtn.setBackgroundResource(R.drawable.login_register_bt);
+                    registerBtn.setTextColor(Color.parseColor("#6ca5ff"));
+
+                    inputIDView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg_en);
+                    //
+                }
+                else
+                {
+                    initUI();
+                    inputIDView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg);
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        inputPWView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(inputPWView.getText().toString().length() > 0) {
+                    inputPWView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg_en);
+
+                }
+                else
+                {
+                    inputPWView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg);
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         inputIDView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -152,6 +222,17 @@ public class PanbookLoginActivity extends AppCompatActivity {
         }
     }
 
+    void initUI()
+    {
+
+        registerBtn.setBackgroundResource(R.drawable.login_btn_en_bg);
+        registerBtn.setTextColor(Color.parseColor("#ffffff"));
+        loginBtn.setBackgroundResource(R.drawable.login_btn_dis);
+        loginBtn.setTextColor(Color.parseColor("#d4d4d8"));
+
+        //login_register_bt
+
+    }
     public void clickReserPassword(View view)
     {
         Intent intent = new Intent(PanbookLoginActivity.this,PhoneNumAuthActivity.class);
