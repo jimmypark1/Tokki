@@ -266,7 +266,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                     autoScrollSpeed = 0;
                     bShowingAutoscroll = false;
                     scrollBtn.setBackgroundResource(R.drawable.ic_i_autoscroll_1);
-                    //Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewerActivity.this, "자동 스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
                     if (autoScrollTimer != null) {
                         autoScrollTimer.cancel();
                         autoScrollTimer = null;
@@ -932,7 +932,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                 Log.d("TOUCH", "자동스크롤을 정지합니다");
                 autoScrollTimer.cancel();
                 autoScrollTimer = null;
-              //  Toast.makeText(ViewerActivity.this, "자동스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewerActivity.this, "자동스크롤을 정지합니다.", Toast.LENGTH_SHORT).show();
             }
 
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
