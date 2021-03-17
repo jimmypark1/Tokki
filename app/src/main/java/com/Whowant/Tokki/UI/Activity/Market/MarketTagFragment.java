@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 
 /**
@@ -51,6 +52,9 @@ public class MarketTagFragment extends Fragment {
     public int position = 0;
     public int topPosition = 0;
     TextView desc;
+
+    OkHttpClient allHttp;
+    OkHttpClient sortHttp;
 
     public MarketTagFragment() {
         // Required empty public constructor
@@ -123,11 +127,23 @@ public class MarketTagFragment extends Fragment {
         if(markets != null)
             markets.clear();
 
+        if(allHttp != null)
+        {
+            for (Call call : allHttp.dispatcher().queuedCalls()) {
+                if (call.request().tag().equals("SORT_ALL"))
+                    call.cancel();
+            }
+            for (Call call : allHttp.dispatcher().runningCalls()) {
+                if (call.request().tag().equals("SORT_ALL"))
+                    call.cancel();
+            }
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                markets = HttpClient.getWorksOnMarket(new OkHttpClient());
+                allHttp = new OkHttpClient();
+                markets = HttpClient.getWorksOnMarket(allHttp);
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -172,11 +188,24 @@ public class MarketTagFragment extends Fragment {
         if(markets != null)
             markets.clear();
 
+        if(sortHttp != null)
+        {
+            for (Call call : sortHttp.dispatcher().queuedCalls()) {
+                if (call.request().tag().equals("SORT_TAG"))
+                    call.cancel();
+            }
+            for (Call call : sortHttp.dispatcher().runningCalls()) {
+                if (call.request().tag().equals("SORT_TAG"))
+                    call.cancel();
+            }
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                markets = HttpClient.getWorksSorByTagOnMarket(new OkHttpClient(),genre);
+                sortHttp = new OkHttpClient();
+
+                markets = HttpClient.getWorksSorByTagOnMarket(sortHttp,genre);
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override

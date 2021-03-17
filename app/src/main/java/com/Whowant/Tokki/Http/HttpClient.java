@@ -720,6 +720,7 @@ public class HttpClient {
 
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWorksOnMarket")
+                .tag("SORT_ALL")
                 .get()
                 .build();
 
@@ -846,6 +847,7 @@ public class HttpClient {
 
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWorksSorByGenreOnMarket&GENRE="+ genre)
+                .tag("SORT_GENRE")
                 .get()
                 .build();
 
@@ -916,6 +918,7 @@ public class HttpClient {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWorksSorByTagOnMarket&TAG="+ encTag)
                 .get()
+                .tag("SORT_TAG")
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {

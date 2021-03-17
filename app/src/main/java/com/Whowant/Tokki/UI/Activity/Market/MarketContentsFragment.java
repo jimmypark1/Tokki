@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 
 /**
@@ -78,6 +79,10 @@ public class MarketContentsFragment extends Fragment {
     public int topPosition = 0;
 
     TextView desc;
+
+    OkHttpClient sortHttp;
+    OkHttpClient allHttp;
+
 
     public MarketContentsFragment() {
         // Required empty public constructor
@@ -162,11 +167,26 @@ public class MarketContentsFragment extends Fragment {
         if(markets != null)
             markets.clear();
 
+
+        if(sortHttp != null)
+        {
+            for (Call call : sortHttp.dispatcher().queuedCalls()) {
+                if (call.request().tag().equals("SORT_CONTENT"))
+                    call.cancel();
+            }
+            for (Call call : sortHttp.dispatcher().runningCalls()) {
+                if (call.request().tag().equals("SORT_CONTENT"))
+                    call.cancel();
+            }
+        }
+
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                markets = HttpClient.getWorksSorByContentOnMarket(new OkHttpClient(),field);
+                //SORT_CONTENT
+                sortHttp = new OkHttpClient();
+                markets = HttpClient.getWorksSorByContentOnMarket(sortHttp,field);
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -210,11 +230,25 @@ public class MarketContentsFragment extends Fragment {
         if(markets != null)
         markets.clear();
 
+        if(allHttp != null)
+        {
+            for (Call call : allHttp.dispatcher().queuedCalls()) {
+                if (call.request().tag().equals("SORT_ALL"))
+                    call.cancel();
+            }
+            for (Call call : allHttp.dispatcher().runningCalls()) {
+                if (call.request().tag().equals("SORT_ALL"))
+                    call.cancel();
+            }
+        }
+
+
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                markets = HttpClient.getWorksOnMarket(new OkHttpClient());
+                allHttp = new OkHttpClient();
+                markets = HttpClient.getWorksOnMarket(allHttp);
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
