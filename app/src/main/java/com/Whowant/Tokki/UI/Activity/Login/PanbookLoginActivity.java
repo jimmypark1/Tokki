@@ -20,6 +20,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -63,7 +64,7 @@ import okhttp3.OkHttpClient;
 
 import static com.Whowant.Tokki.Utils.CommonUtils.getNetworkState;
 
-public class PanbookLoginActivity extends AppCompatActivity {
+public class PanbookLoginActivity extends AppCompatActivity  {
     private EditText inputIDView;
     private EditText inputPWView;
 
@@ -197,6 +198,58 @@ public class PanbookLoginActivity extends AppCompatActivity {
             }
         });
 
+        inputIDView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View arg0, boolean hasfocus) {
+                if (hasfocus) {
+
+                    if(inputPWView.getText().toString().length() > 0)
+                    {
+                        inputPWView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg_en);
+
+                    }
+                    else
+                    {
+                        inputPWView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg);
+
+                    }
+                    loginBtn.setBackgroundResource(R.drawable.login_btn_en_bg);
+                    loginBtn.setTextColor(Color.parseColor("#ffffff"));
+                    registerBtn.setBackgroundResource(R.drawable.login_register_bt);
+                    registerBtn.setTextColor(Color.parseColor("#6ca5ff"));
+
+                    inputIDView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg_en);
+
+                } else {
+
+                }
+            }
+        });
+        inputPWView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View arg0, boolean hasfocus) {
+
+                if(hasfocus) {
+                    if(inputIDView.getText().toString().length() > 0)
+                    {
+                        inputIDView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg_en);
+
+                    }
+                    else
+                    {
+                        inputIDView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg);
+
+                    }
+                    inputPWView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg_en);
+
+                }
+                else
+                {
+                    inputPWView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg);
+
+                }
+            }
+        });
         mContext = this;
 
         // 로그인 이력이 있다면 자동 로그인 진행
