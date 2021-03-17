@@ -257,12 +257,12 @@ public class MarketAddEditActivity extends AppCompatActivity {
                                 popup.getMenu().removeItem(R.id.publish);
 
                             }
-                            else if(field.equals("만화(웹툰)"))
+                            else if(field.equals("웹툰"))
                             {
                                 popup.getMenu().removeItem(R.id.comic);
 
                             }
-                            else if(field.equals("애니매이션"))
+                            else if(field.equals("애니메이션"))
                             {
                                 popup.getMenu().removeItem(R.id.animation);
 
@@ -390,7 +390,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
                                 popup.getMenu().removeItem(R.id.comic);
 
                             }
-                            else if(field.equals("애니매이션"))
+                            else if(field.equals("애니메이션"))
                             {
                                 popup.getMenu().removeItem(R.id.animation);
 

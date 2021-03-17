@@ -785,6 +785,7 @@ public class HttpClient {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetWorksSorByContentOnMarket&FIELD="+ field)
                 .get()
+                .tag("SORT_CONTENT")
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {

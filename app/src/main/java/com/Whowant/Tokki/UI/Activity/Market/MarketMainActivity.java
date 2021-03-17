@@ -67,13 +67,24 @@ public class MarketMainActivity extends AppCompatActivity {
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
-
+/*
+marketSubs.append("전체")
+            marketSubs.append("드라마")
+            marketSubs.append("웹드라마")
+            marketSubs.append("영화")
+            marketSubs.append("출판")
+            marketSubs.append("웹툰")
+            marketSubs.append("애니메이션")
+            marketSubs.append("공연")
+ */
         data.add(new HorizontalData( "전체",0));
         data.add(new HorizontalData( "드라마",1));
         data.add(new HorizontalData( "웹드라마",2));
         data.add(new HorizontalData( "영화",3));
         data.add(new HorizontalData( "출판",4));
-        data.add(new HorizontalData( "만화",5));
+        data.add(new HorizontalData( "웹툰",5));
+        data.add(new HorizontalData( "애니메이션",6));
+        data.add(new HorizontalData( "공연",7));
 
 
         // set Data
@@ -106,7 +117,9 @@ public class MarketMainActivity extends AppCompatActivity {
                     data.add(new HorizontalData( "웹드라마",2));
                     data.add(new HorizontalData( "영화",3));
                     data.add(new HorizontalData( "출판",4));
-                    data.add(new HorizontalData( "만화",5));
+                    data.add(new HorizontalData( "웹툰",5));
+                    data.add(new HorizontalData( "애니메이션",6));
+                    data.add(new HorizontalData( "공연",7));
                     mAdapter.setData(data);
                     mAdapter.notifyDataSetChanged();
 
