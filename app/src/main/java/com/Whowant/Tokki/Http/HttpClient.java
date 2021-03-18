@@ -1929,6 +1929,14 @@ public class HttpClient {
         boolean bResult = false;
 
         JSONObject jsonBody = new JSONObject();
+/*
+      "SENDER_ID" : senderID,
+            "RECEIVER_ID" : receiverID,
+            "CONTENTS" : strContents,
+            "THREAD_ID" : String(threadID),
+            "CARROT" : String(carrot),
+            "contract_complete" : complete,
+ */
 
         try {
             //     strContents = URLEncoder.encode(strContents, "UTF-8");

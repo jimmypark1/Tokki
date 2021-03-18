@@ -1,5 +1,6 @@
 package com.Whowant.Tokki.UI.Activity.Market;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,9 @@ import android.view.View;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageAccountSettingActivity;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageFragment;
 import com.Whowant.Tokki.UI.Adapter.FriendAdapter;
 import com.Whowant.Tokki.VO.MyPageFeedVo;
 import com.Whowant.Tokki.VO.WorkVO;
@@ -263,10 +267,38 @@ marketSubs.append("전체")
         //   TransactionActivity
         //
         Intent intent = new Intent(this, MarketAddActivity.class);
+      //  intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        startActivity(intent);
+        startActivityForResult(intent, 777);
+
+
+
+
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+
+        if(requestCode == 777)
+        {
+
+            int result = data.getIntExtra("RESULT_TYPE",0);
+            if(result == 1)
+            {
+                Intent intent = new Intent(MarketMainActivity.this, MainActivity.class);
+                //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("MAIN_RESULT_TYPE", 1);
+
+                setResult(777,intent);
+                finish();
+            }
+
+
+
+        }
+    }
     class HorizontalAdapter extends RecyclerView.Adapter<HorizontalViewHolder> {
 
         private ArrayList<HorizontalData> HorizontalDatas;

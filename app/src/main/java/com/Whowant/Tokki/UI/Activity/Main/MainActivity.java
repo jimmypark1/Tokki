@@ -701,7 +701,9 @@ public class MainActivity extends AppCompatActivity {
 
     //
     public void onClickMarketBtn(View v) {
-        startActivity(new Intent(MainActivity.this, MarketMainActivity.class));
+        ///   startActivityForResult(intent, 777);
+        startActivityForResult(new Intent(MainActivity.this, MarketMainActivity.class),777);
+       // startActivity(new Intent(MainActivity.this, MarketMainActivity.class));
     }
 
     public void onClickAlarmBtn(View v) {
@@ -1136,6 +1138,19 @@ public class MainActivity extends AppCompatActivity {
             MyPageFragment my =  (MyPageFragment)mainPagerAdapter.getItem(2);
 
             my.refresh();
+
+
+
+        }
+        else if(requestCode == 777)
+        {
+            int result = data.getIntExtra("MAIN_RESULT_TYPE",0);
+
+            if(result == 1)
+            {
+                resetBottomBar(3);
+                viewPager.setCurrentItem(3);
+            }
 
 
 

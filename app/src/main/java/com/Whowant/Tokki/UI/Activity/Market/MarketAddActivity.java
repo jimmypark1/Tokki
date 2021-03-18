@@ -1,6 +1,7 @@
 package com.Whowant.Tokki.UI.Activity.Market;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,11 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.MarketVO;
 import com.Whowant.Tokki.VO.WorkVO;
@@ -35,22 +38,56 @@ public class MarketAddActivity extends AppCompatActivity {
     private ArrayList<WorkVO> works;
 
     WorktAdapter adapter;
+    RelativeLayout empty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_add);
 
+        empty = findViewById(R.id.empty_frame);
+        empty.setVisibility(View.INVISIBLE);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         getWorkstData();
 
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if(requestCode == 1111)
+        {
+           // Intent intent = new Intent(MarketAddActivity.this, MarketMainActivity.class);
+            //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+           // setResult(777,intent);
+            Intent intent = new Intent(MarketAddActivity.this, MarketMainActivity.class);
+            //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+            setResult(8888,intent);
+
+            finish();
+
+        }
+    }
     public void onClickTopLeftBtn(View view) {
         finish();
     }
+    public void onClickGoWriteList(View view) {
+        Intent intent = new Intent(MarketAddActivity.this, MarketMainActivity.class);
+      //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+       // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("RESULT_TYPE", 1);
 
+        setResult(777,intent);
+        finish();
+      //  startActivity(intent);
+    }
     private void getWorkstData() {
 //        CommonUtils.showProgressDialog(getActivity(), "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
 
@@ -69,7 +106,11 @@ public class MarketAddActivity extends AppCompatActivity {
                     public void run() {
 
                         //       CommonUtils.hideProgressDialog();
+                        if(works.size() == 0)
+                        {
+                            empty.setVisibility(View.VISIBLE);
 
+                        }
 
 
                         runOnUiThread(new Runnable() {
@@ -246,7 +287,7 @@ public class MarketAddActivity extends AppCompatActivity {
             intent.putExtra("WORK", work);
 
             //MarketDetailActivity
-            startActivity(intent);
+            startActivityForResult(intent,1111);
 
 
         }

@@ -573,10 +573,12 @@ public class MarketAddEditActivity extends AppCompatActivity {
                         if(ret == true)
                         {
                        //     finish();
-                            Intent intent = new Intent(MarketAddEditActivity.this, MarketMainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            Intent intent = new Intent(MarketAddEditActivity.this, MarketAddActivity.class);
+                           // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-                            startActivity(intent);
+                            setResult(1111,intent);
+                            finish();
+                            //startActivity(intent);
                         }
                         else
                         {
