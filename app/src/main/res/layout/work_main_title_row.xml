@@ -42,62 +42,88 @@
             android:layout_marginTop="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp">
+            <LinearLayout
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="vertical"
+
+                >
                 <ImageView
                     android:id="@+id/iv_profile_photo"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="20dp"
                     android:onClick="onClickProfile"
                     android:background="@drawable/user_icon" />
-                <TextView
-                    android:id="@+id/writerNameView"
-                    android:layout_below="@+id/iv_profile_photo"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center_horizontal"
-                    android:lineSpacingExtra="5sp"
-                    android:text="달뮤가나"
-                    android:layout_marginRight="10dp"
-                    android:onClick="onClickProfile"
-                    android:textColor="#222222"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-                <ImageView
-                    android:layout_below="@+id/iv_profile_photo"
+                    android:gravity="center"
+                    android:layout_marginTop="14dp"
+                    android:orientation="horizontal"
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@+id/writerNameView"
-                    android:src="@drawable/ic_i_right_arrow" />
-            </RelativeLayout>
+                    >
+                    <TextView
+                        android:id="@+id/writerNameView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="5sp"
+                        android:text="달뮤가나"
+                        android:onClick="onClickProfile"
+                        android:textColor="#222222"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                    <ImageView
 
-
-
-
-            <LinearLayout
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:background="@drawable/circle_fafafa_2_33000000"
-                android:gravity="center"
-                android:layout_marginLeft="30dp"
-
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/i_carrot_orange" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                         android:layout_gravity="center"
+                        android:layout_toEndOf="@+id/writerNameView"
+                        android:src="@drawable/ic_i_right_arrow" />
+                </LinearLayout>
             </LinearLayout>
 
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+            <LinearLayout
+                android:layout_width="162dp"
+                android:layout_height="44dp"
+                android:background="@drawable/circle_fafafa_2_33000000"
+                android:gravity="center_vertical"
+
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+
+                    android:src="@drawable/i_carrot_orange" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="5sp"
+                    android:text="응원하기"
+                    android:textColor="#222222"
+                    android:textSize="15sp"
+                    android:layout_marginRight="34dp"
+
+                    android:textStyle="bold" />
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                >
 
                 <TextView
                     android:id="@+id/tv_carrot"
@@ -106,25 +132,26 @@
                     android:lineSpacingExtra="0sp"
                     android:text="2,300 개"
                     android:textColor="#ff5800"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="10dp"
                     android:lineSpacingExtra="7sp"
                     android:text="응원받은 작품이예요"
                     android:textColor="#222222"
                     android:textSize="13sp"
                     android:textStyle="normal" />
             </LinearLayout>
-        </LinearLayout>
 
+        </LinearLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="22dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 

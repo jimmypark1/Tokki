@@ -10,7 +10,7 @@
         android:background="#ffffff"
         android:orientation="horizontal"
         android:paddingStart="20dp"
-        android:paddingTop="12dp"
+        android:paddingTop="10dp"
         android:paddingEnd="20dp"
         android:paddingBottom="12dp">
 
@@ -18,11 +18,12 @@
             android:id="@+id/iv_row_friend_message_photo"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
             android:background="@drawable/circle_cccccc" />
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
@@ -33,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:layout_weight="1"
                 android:lineSpacingExtra="5sp"
                 android:text="닉네임"
@@ -44,7 +46,7 @@
                 android:id="@+id/tv_row_friend_message_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="5sp"
+                android:layout_marginTop="2dp"
                 android:text="안녕하세요"
                 android:textColor="#999999"
                 android:maxLines="1"

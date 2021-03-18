@@ -118,8 +118,8 @@
 
     <ImageButton
         android:id="@+id/marketBtn"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_centerVertical="true"
         android:layout_marginEnd="12dp"
         android:layout_toStartOf="@+id/alarmBtn"
@@ -129,8 +129,8 @@
 
     <ImageButton
         android:id="@+id/alarmBtn"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="17.5dp"

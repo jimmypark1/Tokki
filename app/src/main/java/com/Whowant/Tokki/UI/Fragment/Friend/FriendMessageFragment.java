@@ -26,7 +26,11 @@ import com.Whowant.Tokki.VO.MessageThreadVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 
@@ -87,7 +91,51 @@ public class FriendMessageFragment extends Fragment {
             }
         }).start();
     }
+    public String covertTimeToText(String dataDate) {
 
+        String convTime = null;
+
+        String prefix = "";
+        String suffix = "전";
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date pasTime = dateFormat.parse(dataDate);
+
+            Date nowTime = new Date();
+
+            long dateDiff = nowTime.getTime() - pasTime.getTime();
+
+            long second = TimeUnit.MILLISECONDS.toSeconds(dateDiff);
+            long minute = TimeUnit.MILLISECONDS.toMinutes(dateDiff);
+            long hour   = TimeUnit.MILLISECONDS.toHours(dateDiff);
+            long day  = TimeUnit.MILLISECONDS.toDays(dateDiff);
+
+            if (second < 60) {
+                convTime = second + "초 " + suffix;
+            } else if (minute < 60) {
+                convTime = minute + "분 "+suffix;
+            } else if (hour < 24) {
+                convTime = hour + "시간 "+suffix;
+            } else if (day >= 7) {
+                if (day > 360) {
+                    convTime = (day / 360) + "년 " + suffix;
+                } else if (day > 30) {
+                    convTime = (day / 30) + "달 " + suffix;
+                } else {
+                    convTime = (day / 7) + "주 " + suffix;
+                }
+            } else if (day < 7) {
+                convTime = day+"일 "+suffix;
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            // Log.e("ConvTimeE", e.getMessage());
+        }
+
+        return convTime;
+    }
     public class FriendMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private Context context;
@@ -144,7 +192,9 @@ public class FriendMessageFragment extends Fragment {
 //                viewHolder.itemView.setVisibility(View.GONE);
 //                viewHolder.commentTv.setText("");
 
-            viewHolder.dateTv.setText(vo.getCreatedDate());
+            String strDate = vo.getCreatedDate();
+            String convDate = covertTimeToText(strDate);
+            viewHolder.dateTv.setText(convDate);
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -304,7 +304,7 @@ public class TransactionProgressingFragment extends Fragment {
             } else if (minute < 60) {
                 convTime = minute + "분 "+suffix;
             } else if (hour < 24) {
-                convTime = hour + " Hours "+suffix;
+                convTime = hour + "시간 "+suffix;
             } else if (day >= 7) {
                 if (day > 360) {
                     convTime = (day / 360) + "년 " + suffix;

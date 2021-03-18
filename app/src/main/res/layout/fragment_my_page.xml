@@ -39,7 +39,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="28dp"
 
                     android:layout_marginTop="30dp"
                     >
@@ -52,8 +52,8 @@
                         />
                     <ImageView
                         android:id="@+id/settings"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_marginRight="20dp"
                         android:layout_alignParentEnd="true"
                         android:onClick="onClickSettingsBtn"
@@ -63,18 +63,15 @@
                         />
                     <RelativeLayout
                         android:id="@+id/btnTokkiSNS"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_toLeftOf="@+id/settings"
-
-
-                        android:background="@drawable/round_18_ffffff_b1_33000000"
                         >
 
                         <ImageView
                             android:id="@+id/logoView"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
                             android:background="@drawable/i_tokki_button"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"/>

@@ -861,7 +861,12 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                 });
 
                 TextView carrotTv = holder.itemView.findViewById(R.id.tv_carrot);
-                carrotTv.setText(new DecimalFormat("###,###").format(workVO.getnDonationCarrot()) + " 개");
+
+              //  CommonUtils.getPointCount(workVO.getnDonationCarrot())
+
+                //carrotTv.setText(new DecimalFormat("###,###").format(workVO.getnDonationCarrot()) + " 개");
+                carrotTv.setText(CommonUtils.getPointCount(workVO.getnDonationCarrot()) + " 개");
+
 
                 ImageView profilePhotoIv = holder.itemView.findViewById(R.id.iv_profile_photo);
                 profilePhotoIv.setClipToOutline(true);
