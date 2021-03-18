@@ -161,8 +161,31 @@ public class LiteratureFragment extends Fragment {                              
             TextView titleView = convertView.findViewById(R.id.tv_row_literature_title);
             TextView synopsisView = convertView.findViewById(R.id.tv_row_literature_contents);
 //            TextView writerNameView = convertView.findViewById(R.id.writerNameView);
+
+           int type = workVO.getnTarget();
+            String strType = "";
+            if(type == 0)
+            {
+                strType = "채팅소설";
+            }
+            else if(type == 1)
+            {
+                strType = "웹소설";
+
+            }
+            else if(type == 3)
+            {
+                strType = "스토리";
+
+            }
+
             TextView dateView = convertView.findViewById(R.id.tv_row_literature_date);
             coverImgView.setClipToOutline(true);
+
+            String strDate = workVO.getCreatedDate().substring(0, 10);
+            dateView.setText(strType + " | " + strDate);
+
+
 //            ImageView coverImgView = convertView.findViewById(R.id.coverImgView);
 //            TextView titleView = convertView.findViewById(R.id.titleView);
 //            TextView synopsisView = convertView.findViewById(R.id.synopsisView);
@@ -194,7 +217,6 @@ public class LiteratureFragment extends Fragment {                              
             titleView.setText(workVO.getTitle());
             synopsisView.setText(workVO.getSynopsis());
 //            writerNameView.setText("by " + workVO.getStrWriterName());
-            dateView.setText(workVO.getCreatedDate().substring(0, 10));
 
             return convertView;
         }

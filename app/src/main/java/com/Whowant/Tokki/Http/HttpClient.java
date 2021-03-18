@@ -6945,6 +6945,9 @@ public class HttpClient {
                 marketVO.setPrice(object.getInt("PRICE"));
                 marketVO.setStatus(object.getInt("STATUS"));
 
+                marketVO.setWorkType(object.getInt("TARGET"));
+
+
                 marketVO.setTransactionPrice(object.getInt("transaction_price"));
 
                 resultList.add(marketVO);
@@ -7003,6 +7006,8 @@ public class HttpClient {
                 marketVO.setPrice(object.getInt("PRICE"));
                 marketVO.setStatus(object.getInt("STATUS"));
                 marketVO.setTransactionPrice(object.getInt("transaction_price"));
+                marketVO.setWorkType(object.getInt("TARGET"));
+
 //
                 resultList.add(marketVO);
             }

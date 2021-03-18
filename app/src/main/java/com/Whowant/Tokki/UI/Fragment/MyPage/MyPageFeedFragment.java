@@ -260,7 +260,25 @@ public class MyPageFeedFragment extends Fragment {
                 }
 
                 viewHolder.titleTv.setText(item.getTitle());
-                viewHolder.writerTv.setText("by " + item.getStrWriterName());
+
+                String name = item.getStrWriterName();
+                int type = item.getnTarget();
+                String strType = "채팅소설";
+                if(type == 0)
+                {
+                    strType= "채팅소설";
+                }
+                else if(type == 1)
+                {
+                    strType= "웹소설";
+
+                }
+                else if(type == 3)
+                {
+                    strType= "스토리";
+
+                }
+                viewHolder.writerTv.setText("by " + name + " | " + strType);
                 viewHolder.heartTv.setText(CommonUtils.getPointCount(item.getnKeepcount()));
                 viewHolder.tabTv.setText(CommonUtils.getPointCount(item.getnHitsCount()));
                 viewHolder.synopsisTv.setText(item.getSynopsis());

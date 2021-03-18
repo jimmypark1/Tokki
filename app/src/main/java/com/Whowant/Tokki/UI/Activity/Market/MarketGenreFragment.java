@@ -286,7 +286,28 @@ public class MarketGenreFragment extends Fragment {
             viewHolder.title.setText(data.getTitle());
             viewHolder.sypnopsis.setText(data.getSypnopsis());
 
-            viewHolder.tag.setText(data.getTag());
+            //viewHolder.tag.setText(data.getTag());
+            int type = data.getWorkType();
+//            viewHolder.tag.setText(data.getTag());
+
+            String name = data.getName();
+            if(type == 0)
+            {
+                viewHolder.tag.setText(name + " | " + "채팅소설");
+
+            }
+            else if(type == 1)
+            {
+                viewHolder.tag.setText(name + " | " + "웹소설");
+
+            }
+            else if(type == 3)
+            {
+                viewHolder.tag.setText(name + " | " + "스토리");
+
+            }
+
+
             viewHolder.copyright0.setText("저작권 : " + data.getCopyright0());
             if(data.getStrField()!= null && data.getStrField().length() > 0)
                 viewHolder.copyright1.setText("판권 :" + data.getStrField());
