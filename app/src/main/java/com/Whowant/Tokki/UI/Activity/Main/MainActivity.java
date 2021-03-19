@@ -1144,12 +1144,16 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(requestCode == 777)
         {
-            int result = data.getIntExtra("MAIN_RESULT_TYPE",0);
-
-            if(result == 1)
+            if(data != null)
             {
-                resetBottomBar(3);
-                viewPager.setCurrentItem(3);
+                int result = data.getIntExtra("MAIN_RESULT_TYPE",0);
+
+                if(result == 1)
+                {
+                    resetBottomBar(3);
+                    viewPager.setCurrentItem(3);
+                }
+
             }
 
 

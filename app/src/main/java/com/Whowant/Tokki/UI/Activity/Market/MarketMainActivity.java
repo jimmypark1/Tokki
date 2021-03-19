@@ -283,17 +283,21 @@ marketSubs.append("전체")
         if(requestCode == 777)
         {
 
-            int result = data.getIntExtra("RESULT_TYPE",0);
-            if(result == 1)
+            if(data != null)
             {
-                Intent intent = new Intent(MarketMainActivity.this, MainActivity.class);
-                //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("MAIN_RESULT_TYPE", 1);
+                int result = data.getIntExtra("RESULT_TYPE",0);
+                if(result == 1)
+                {
+                    Intent intent = new Intent(MarketMainActivity.this, MainActivity.class);
+                    //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("MAIN_RESULT_TYPE", 1);
 
-                setResult(777,intent);
-                finish();
+                    setResult(777,intent);
+                    finish();
+                }
             }
+
 
 
 
