@@ -380,6 +380,12 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         WebWorkVO work0 =  publishContent.get(nPage + 1);
         if(work0 != null && work0.getRaw().equals("-1") == false)
         {
+
+            WebWorkVO work = new WebWorkVO();
+            String data1 = content.getText().toString();
+            work.setRaw(data1);
+            //  work.setContent(data1);
+            publishContent.set(nPage, work);
             String content0= work0.getRaw().replace("<br>", "\n");
 
             content.setText(content0);
