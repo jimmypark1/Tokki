@@ -131,6 +131,8 @@ public class PWRegisterActivity extends AppCompatActivity {
                             {
                                 Intent intent = new Intent(PWRegisterActivity.this, PanbookLoginActivity.class);
                                 startActivity(intent);
+                                Toast.makeText(PWRegisterActivity.this, "비밀번호가 재설정 되었습니다.", Toast.LENGTH_SHORT).show();
+
 
                             }
                             else
