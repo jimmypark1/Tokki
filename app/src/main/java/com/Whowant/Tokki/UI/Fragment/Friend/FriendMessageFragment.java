@@ -117,7 +117,10 @@ public class FriendMessageFragment extends Fragment {
                 convTime = minute + "분 "+suffix;
             } else if (hour < 24) {
                 convTime = hour + "시간 "+suffix;
-            } else if (day >= 7) {
+            } else if (day == 7) {
+                convTime = "1주 전";
+
+                /*
                 if (day > 360) {
                     convTime = (day / 360) + "년 " + suffix;
                 } else if (day > 30) {
@@ -125,7 +128,35 @@ public class FriendMessageFragment extends Fragment {
                 } else {
                     convTime = (day / 7) + "주 " + suffix;
                 }
-            } else if (day < 7) {
+
+                 */
+            }
+            else if (day > 7) {
+                if(day <= 360)
+                {
+                    SimpleDateFormat sdf = new SimpleDateFormat("M월 d일");
+                    convTime = sdf.format(pasTime);
+
+                }
+                else
+                {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 M월 d일");
+                    convTime = sdf.format(pasTime);
+
+                }
+
+                /*
+                if (day > 360) {
+                    convTime = (day / 360) + "년 " + suffix;
+                } else if (day > 30) {
+                    convTime = (day / 30) + "달 " + suffix;
+                } else {
+                    convTime = (day / 7) + "주 " + suffix;
+                }
+
+                 */
+            }
+            else if (day < 7) {
                 convTime = day+"일 "+suffix;
             }
 
