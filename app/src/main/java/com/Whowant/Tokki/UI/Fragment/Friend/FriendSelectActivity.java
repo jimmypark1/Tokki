@@ -191,6 +191,19 @@ public class FriendSelectActivity extends AppCompatActivity {
 //                    intent.putExtra("writerId", writerId);
 //                    startActivity(intent);
 
+
+                }
+            });
+            viewHolder.photoIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String strID = vo.getUserId();
+              
+//                    String writerId = vo.getUserId();
+//                    Intent intent = new Intent(FriendSelectActivity.this, WriterPageActivity.class);
+//                    intent.putExtra("writerId", writerId);
+//                    startActivity(intent);
+
                     Intent intent = new Intent(FriendSelectActivity.this, MyPageActivity.class);
                     //  ViewerActivity.workVO = vo;
                     intent.putExtra("WRITER_ID", vo.getUserId());
