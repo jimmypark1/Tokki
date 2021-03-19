@@ -73,10 +73,14 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
                     authNumBtn.setEnabled(false);
                     authNumBtn.setBackgroundResource(R.drawable.common_btn_disable_bg);
                     authNumBtn.setTextColor(Color.parseColor("#999999"));
+                    inputPhoneNumView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg);
+
                 } else {
                     authNumBtn.setEnabled(true);
                     authNumBtn.setBackgroundResource(R.drawable.common_btn_bg);
                     authNumBtn.setTextColor(Color.parseColor("#ffffff"));
+                    inputPhoneNumView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg_en);
+
                 }
             }
 
@@ -98,10 +102,14 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
                     nextBtn.setEnabled(false);
                     nextBtn.setBackgroundResource(R.drawable.common_btn_disable_bg);
                     nextBtn.setTextColor(Color.parseColor("#999999"));
+                    inputAuthNumView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg);
+
                 } else {
                     nextBtn.setEnabled(true);
                     nextBtn.setBackgroundResource(R.drawable.common_btn_bg);
                     nextBtn.setTextColor(Color.parseColor("#ffffff"));
+                    inputAuthNumView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg_en);
+
                 }
             }
 
@@ -111,6 +119,43 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
         };
 
         inputAuthNumView.addTextChangedListener(inputAuthNumTextWatcher);
+
+        inputPhoneNumView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View arg0, boolean hasfocus) {
+                if (hasfocus) {
+                    inputPhoneNumView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg_en);
+
+
+
+
+                } else {
+                   // inputPhoneNumView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg);
+
+                }
+            }
+        });
+        inputAuthNumView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View arg0, boolean hasfocus) {
+
+                if(hasfocus) {
+                    if(inputAuthNumView.getText().toString().length() > 0)
+                    {
+                        inputAuthNumView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg_en);
+
+                    }
+                    else
+                    {
+                        inputAuthNumView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg);
+
+                    }
+                    inputPhoneNumView.setBackgroundResource(R.drawable.round_square_gray_stroke_bg_en);
+
+                }
+
+            }
+        });
     }
 
     @Override

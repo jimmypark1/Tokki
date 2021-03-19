@@ -198,7 +198,7 @@ public class FriendSelectActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     String strID = vo.getUserId();
-              
+
 //                    String writerId = vo.getUserId();
 //                    Intent intent = new Intent(FriendSelectActivity.this, WriterPageActivity.class);
 //                    intent.putExtra("writerId", writerId);
