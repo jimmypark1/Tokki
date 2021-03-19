@@ -702,8 +702,8 @@ public class MainActivity extends AppCompatActivity {
     //
     public void onClickMarketBtn(View v) {
         ///   startActivityForResult(intent, 777);
-        startActivityForResult(new Intent(MainActivity.this, MarketMainActivity.class),777);
-       // startActivity(new Intent(MainActivity.this, MarketMainActivity.class));
+      //  startActivityForResult(new Intent(MainActivity.this, MarketMainActivity.class),777);
+        startActivity(new Intent(MainActivity.this, MarketMainActivity.class));
     }
 
     public void onClickAlarmBtn(View v) {

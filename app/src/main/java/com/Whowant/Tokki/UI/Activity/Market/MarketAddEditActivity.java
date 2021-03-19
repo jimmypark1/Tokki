@@ -20,12 +20,17 @@ import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.UI.Activity.Photopicker.PhotoPickerActivity;
+import com.Whowant.Tokki.UI.Activity.Work.WorkEditActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkRegActivity;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.VO.MarketVO;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.bumptech.glide.Glide;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -36,7 +41,11 @@ public class MarketAddEditActivity extends AppCompatActivity {
     WorkVO work;
     TextView title;
     TextView synopsis;
-    TextView date;
+//    TextView date;
+
+    TextView name;
+    TextView infoGenre;
+    TextView infoTag;
 
     ImageView cover;
 
@@ -64,8 +73,69 @@ public class MarketAddEditActivity extends AppCompatActivity {
     String strGenre = "";
     String strTag = "";
 
+    String tags = "";
+    String genres = "";
+    private ArrayList<String> tagList, genreList;
 
+    void getTagData() {
+        tagList = new ArrayList<>();
+        genreList = new ArrayList<>();
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject resultObject = HttpClient.getWorkTagWithID(new OkHttpClient(), "" + work.getnWorkID());
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (resultObject == null) {
+                            CommonUtils.hideProgressDialog();
+                            Toast.makeText(MarketAddEditActivity.this, "작품 정보를 가져오는데 실패했습니다.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        try {
+                            JSONArray tagArray = resultObject.getJSONArray("TAG_LIST");
+
+                            for (int i = 0; i < tagArray.length(); i++) {
+                                JSONObject object = tagArray.getJSONObject(i);
+                               // tagList.add(object.getString("TAG_TITLE"));
+                                tags =tags + object.getString("TAG_TITLE");
+                            }
+
+                            JSONArray genreArray = resultObject.getJSONArray("GENRE_LIST");
+                            for (int i = 0; i < genreArray.length(); i++) {
+                                JSONObject object = genreArray.getJSONObject(i);
+                               // genreList.add(object.getString("GENRE_NAME"));
+                            }
+
+                            String strGenre = "";
+                            for ( String genre : genreList) {
+                                if (strGenre.length() > 0)
+                                    strGenre += " / ";
+
+                                strGenre += genre;
+                            }
+//                            initViews();
+                            infoGenre.setText(strGenre);
+
+                            String strTags = "";
+                            for ( String tag : tagList) {
+                                if (strTags.length() > 0)
+                                    strTags += " ";
+                                strTags += tag;
+                            }
+
+                            infoTag.setText(strTags);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +144,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
         title = findViewById(R.id.tv_row_literature_title);
         cover = findViewById(R.id.iv_row_literature_photo);
 
-        date = findViewById(R.id.tv_row_literature_date);
+       // date = findViewById(R.id.tv_row_literature_date);
 
         below100Ck = findViewById(R.id.price0_ck);
         above100Ck = findViewById(R.id.price1_ck);
@@ -94,15 +164,38 @@ public class MarketAddEditActivity extends AppCompatActivity {
         priceDetail= findViewById(R.id.price_info1);
         tag = findViewById(R.id.tag);
 
+        name = findViewById(R.id.name);
+        infoGenre = findViewById(R.id.info_genre);
+        infoTag = findViewById(R.id.info_tag);
+
 
         synopsis = findViewById(R.id.tv_row_literature_contents);
         work = (WorkVO)getIntent().getSerializableExtra("WORK");
 
 
+        getTagData();
         title.setText(work.getStrTitle());
         synopsis.setText(work.getSynopsis());
-        date.setText(work.getCreatedDate());
+        //date.setText(work.getCreatedDate());
+        String strType = "";
+        int nType = work.getnTarget();
+        if(nType == 0)
+        {
+            strType = "채팅소설";
+        }
+        else if(nType == 1)
+        {
+            strType = "웹소설";
 
+        }
+        else if(nType == 3)
+        {
+            strType = "스토리";
+
+        }
+        String strName = work.getStrWriterName();
+
+        name.setText(strName + " | " + strType);
         String strCover = CommonUtils.strDefaultUrl + "images/" + work.getCoverFile();
 
 

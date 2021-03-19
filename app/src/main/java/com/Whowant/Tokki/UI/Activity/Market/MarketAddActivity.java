@@ -304,7 +304,8 @@ public class MarketAddActivity extends AppCompatActivity {
             intent.putExtra("WORK", work);
 
             //MarketDetailActivity
-            startActivityForResult(intent,1111);
+           // startActivityForResult(intent,1111);
+            startActivity(intent);
 
 
         }
