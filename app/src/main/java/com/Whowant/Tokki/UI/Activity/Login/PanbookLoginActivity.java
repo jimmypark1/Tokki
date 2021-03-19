@@ -197,7 +197,7 @@ public class PanbookLoginActivity extends AppCompatActivity  {
                 return false;
             }
         });
-
+/*
         inputIDView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View arg0, boolean hasfocus) {
@@ -250,6 +250,8 @@ public class PanbookLoginActivity extends AppCompatActivity  {
                 }
             }
         });
+        
+ */
         mContext = this;
 
         // 로그인 이력이 있다면 자동 로그인 진행

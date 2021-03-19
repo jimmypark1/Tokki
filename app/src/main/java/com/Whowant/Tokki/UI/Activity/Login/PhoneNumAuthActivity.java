@@ -119,7 +119,7 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
         };
 
         inputAuthNumView.addTextChangedListener(inputAuthNumTextWatcher);
-
+/*
         inputPhoneNumView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View arg0, boolean hasfocus) {
@@ -156,6 +156,8 @@ public class PhoneNumAuthActivity extends AppCompatActivity {
 
             }
         });
+
+ */
     }
 
     @Override
