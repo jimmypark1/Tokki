@@ -149,7 +149,7 @@ public class MarketAddActivity extends AppCompatActivity {
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 
-            View v = LayoutInflater.from(context).inflate(R.layout.row_literature, parent, false);
+            View v = LayoutInflater.from(context).inflate(R.layout.row_literature2, parent, false);
 
 
 
@@ -169,7 +169,24 @@ public class MarketAddActivity extends AppCompatActivity {
             viewHolder.title.setText(data.getTitle());
             viewHolder.sypnopsis.setText(data.getSynopsis());
 
-            viewHolder.date.setText(data.getStrUpdateDate());
+ //           String name = data.getCreatedDate();
+            String strDate = data.getCreatedDate().substring(0, 10);
+
+            int nType = data.getnTarget();
+            String strType = "";
+            if(nType == 0)
+            {
+                strType = "채팅소설";
+            }
+            else if(nType == 1)
+            {
+                strType = "웹소설";
+            }
+            else if(nType == 3)
+            {
+                strType = "스토리";
+            }
+            viewHolder.date.setText(strType + " | " + strDate);
 
 
             String strCover = CommonUtils.strDefaultUrl + "images/" + data.getCoverFile();
