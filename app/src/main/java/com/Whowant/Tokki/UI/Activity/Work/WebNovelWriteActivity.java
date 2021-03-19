@@ -339,7 +339,9 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         WebWorkVO work0 =  publishContent.get(nPage);
         if(work0 != null && work0.getRaw().equals("-1") == false)
         {
-            content.setText(work0.getRaw());
+            String content0= work0.getRaw().replace("<br>", "\n");
+
+            content.setText(content0);
 
         }
 
@@ -378,7 +380,9 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         WebWorkVO work0 =  publishContent.get(nPage + 1);
         if(work0 != null && work0.getRaw().equals("-1") == false)
         {
-            content.setText(work0.getRaw());
+            String content0= work0.getRaw().replace("<br>", "\n");
+
+            content.setText(content0);
              /*
             new Thread(new Runnable() {
                 @Override
