@@ -172,7 +172,10 @@ public class MarketAddEditActivity extends AppCompatActivity {
         synopsis = findViewById(R.id.tv_row_literature_contents);
         work = (WorkVO)getIntent().getSerializableExtra("WORK");
 
+        priceFrame0.setVisibility(View.INVISIBLE);
+        priceFrame1.setVisibility(View.INVISIBLE);
 
+        preceAboveInfoFrame.setVisibility(View.INVISIBLE);
         getTagData();
         title.setText(work.getStrTitle());
         synopsis.setText(work.getSynopsis());
@@ -225,9 +228,9 @@ public class MarketAddEditActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.i("TAG","text = "+priceInput.getText().toString());
 
-                int nCarrot = Integer.parseInt( priceInput.getText().toString() )/ 120;
-                int nPrice = Integer.parseInt(priceInput.getText().toString());
-                float div =  nPrice / 1000000.0f;
+                Double nCarrot = Double.parseDouble( priceInput.getText().toString() )/ 120;
+                Double nPrice = Double.parseDouble(priceInput.getText().toString());
+                double div =  nPrice / 1000000;
                 if(div > 1)
                 {
                     proceeAbove100();
@@ -292,13 +295,27 @@ public class MarketAddEditActivity extends AppCompatActivity {
     }
     void processBelow100()
     {
-        below100Ck.setImageResource(R.drawable.i_radio_2);
 
-        above100Ck.setImageResource(R.drawable.i_radio_1);
+        Double nCarrot = Double.parseDouble( priceInput.getText().toString() )/ 120;
+        Double nPrice = Double.parseDouble(priceInput.getText().toString());
+        double div =  nPrice / 1000000;
+        if(div > 1)
+        {
+            Toast.makeText(MarketAddEditActivity.this, "100만원 이하 금액을 입력하시고 체크하세요", Toast.LENGTH_SHORT).show();
 
-        priceFrame0.setVisibility(View.VISIBLE);
-        priceFrame1.setVisibility(View.VISIBLE);
-        preceAboveInfoFrame.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            below100Ck.setImageResource(R.drawable.i_radio_2);
+
+            above100Ck.setImageResource(R.drawable.i_radio_1);
+
+            priceFrame0.setVisibility(View.VISIBLE);
+            priceFrame1.setVisibility(View.VISIBLE);
+            preceAboveInfoFrame.setVisibility(View.INVISIBLE);
+        }
+
+
     }
     public void onClickBelow100(View view) {
 

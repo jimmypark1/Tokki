@@ -511,6 +511,7 @@ public class MyPageSpaceFragment extends Fragment {
                     .into(addPhotoBtn);
 
             plusImg.setVisibility(View.INVISIBLE);
+
         }
     }
 

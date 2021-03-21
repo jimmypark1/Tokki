@@ -61,6 +61,7 @@ import com.Whowant.Tokki.UI.Fragment.Main.StorageBoxFragment;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageFeedFragment;
 import com.Whowant.Tokki.UI.Fragment.MyPage.MyPageSpaceFragment;
 import com.Whowant.Tokki.UI.Popup.EpisodeAproveCancelPopup;
+import com.Whowant.Tokki.UI.Popup.ProfileEmailPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
 import com.Whowant.Tokki.VO.AlarmVO;
@@ -961,6 +962,9 @@ public class MainActivity extends AppCompatActivity {
    //     fragment.setImage(strUri);
 
         MyPageSpaceFragment myPageSpaceFragment = (MyPageSpaceFragment) fragment.myPageAdapter.getItem(1);
+
+
+        //fragment.myPageAdapter.notifyDataSetChanged();
         myPageSpaceFragment.imageSetting(intent);
 
 
