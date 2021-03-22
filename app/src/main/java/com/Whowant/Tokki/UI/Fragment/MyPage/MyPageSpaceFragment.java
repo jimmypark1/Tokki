@@ -262,6 +262,8 @@ public class MyPageSpaceFragment extends Fragment {
             }
 
             String userPhoto = item.getUserPhoto();
+            String recvName =  item.getUserName();
+
 
             if (!TextUtils.isEmpty(userPhoto)) {
                 if (!userPhoto.startsWith("http"))
@@ -364,7 +366,7 @@ public class MyPageSpaceFragment extends Fragment {
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
                                     case R.id.message:
-                                        sendMessage(posterID);
+                                        sendMessage(posterID,recvName);
                                         break;
                                     case R.id.block:
                                         setBlockUser(posterID);
@@ -448,7 +450,7 @@ public class MyPageSpaceFragment extends Fragment {
             startActivity(intent);
 
         }
-        void sendMessage(String recvId)
+        void sendMessage(String recvId, String name)
         {
 
             new Thread(new Runnable() {
@@ -470,6 +472,9 @@ public class MyPageSpaceFragment extends Fragment {
                             Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
                             intent.putExtra("THREAD_ID", nThreadId);
                             intent.putExtra("RECEIVER_ID", recvId);
+                            intent.putExtra("RECEIVER_NAME", name);
+
+
 
                             startActivity(intent);
                         }
