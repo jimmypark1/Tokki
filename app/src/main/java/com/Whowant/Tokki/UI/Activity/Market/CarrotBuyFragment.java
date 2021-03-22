@@ -186,8 +186,8 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
                                 Toast.makeText(getApplicationContext(),"Purchase Item not Found",Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(),
-                                    " Error "+billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(getApplicationContext(),
+                           //         " Error "+billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -343,7 +343,6 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
                                         .build();
                                 billingClient.launchBillingFlow(getActivity(), flowParams);
                                 buyItem(nCarrot);
-                                Toast.makeText(getApplicationContext(),"당근구매에 성공하셨습니다",Toast.LENGTH_SHORT).show();
 
                             }
                             else{
@@ -351,8 +350,8 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
                                 Toast.makeText(getApplicationContext(),"Purchase Item not Found",Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(),
-                                    " Error "+billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
+                         //   Toast.makeText(getApplicationContext(),
+                         //           " Error "+billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -385,7 +384,7 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
         }
         // Handle any other error msgs
         else {
-            Toast.makeText(getApplicationContext(),"Error "+billingResult.getDebugMessage(),Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getApplicationContext(),"Error "+billingResult.getDebugMessage(),Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -426,6 +425,9 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
 
                      */
                 }
+
+                Toast.makeText(getApplicationContext(),"당근구매에 성공하셨습니다",Toast.LENGTH_SHORT).show();
+
             }
             //if purchase is pending
             else if(  purchase.getPurchaseState() == Purchase.PurchaseState.PENDING)
