@@ -141,12 +141,15 @@ public class ThumbnailPreviewActivity extends AppCompatActivity {
             intent.putExtra("URI", resultUri);
 
            // bException = true;
+/*
             MyPageSpaceFragment fragment = new MyPageSpaceFragment();
             Bundle bundle = new Bundle();
             bundle.putString("URI",resultUri);
 
             fragment.setArguments(bundle);
-           // finish();
+*/
+
+            finish();
         } else if (nNextType == TYPE_PROFILE_BG.ordinal()) {
             intent = new Intent(ThumbnailPreviewActivity.this, MyPageAccountSettingActivity.class);
             intent.putExtra("BG_URI", resultUri);

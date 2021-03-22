@@ -512,8 +512,9 @@ public class MainActivity extends AppCompatActivity {
         eventNewIconView.setVisibility(View.INVISIBLE);
         alarmNewView.setVisibility(View.INVISIBLE);
 
-        if(selectedPosition == 0)
-            getAlarmList();
+        //if(selectedPosition == 0)
+
+         getAlarmList();
 
         strUserID = pref.getString("USER_ID", "Guest");
 
@@ -956,16 +957,19 @@ public class MainActivity extends AppCompatActivity {
 
         String strUri = intent.getStringExtra("URI");
 
-        viewPager.setCurrentItem(2);
-        resetBottomBar(2);
+        MyPageSpaceFragment.strUri = strUri;
+
+      //  viewPager.setCurrentItem(2);
+      //  resetBottomBar(2);
         MyPageFragment fragment = (MyPageFragment) mainPagerAdapter.getItem(2);
    //     fragment.setImage(strUri);
 
         MyPageSpaceFragment myPageSpaceFragment = (MyPageSpaceFragment) fragment.myPageAdapter.getItem(1);
 
 
+
         //fragment.myPageAdapter.notifyDataSetChanged();
-        myPageSpaceFragment.imageSetting(intent);
+        //myPageSpaceFragment.imageSetting(intent);
 
 
         /*

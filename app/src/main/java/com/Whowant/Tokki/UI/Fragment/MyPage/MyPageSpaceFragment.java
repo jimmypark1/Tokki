@@ -81,6 +81,8 @@ public class MyPageSpaceFragment extends Fragment {
     RelativeLayout plusFrame;
     ImageView plusImg;
 
+    public static String strUri;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,6 +174,25 @@ public class MyPageSpaceFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        String latitude = "";
+        if(getArguments() != null)
+        {
+  //          strUri =  getArguments().getString("URI");
+        }
+
+        if(strUri != null)
+        {
+            strFilePath = CommonUtils.getRealPathFromURI(getActivity(), Uri.parse(strUri)); // 서버 전송할 때 쓸 것
+
+            Glide.with(MyPageSpaceFragment.this)
+                    .asBitmap()
+                    .load(strUri)
+                    .placeholder(R.drawable.circle_cccccc)
+                    .into(addPhotoBtn);
+
+            plusImg.setVisibility(View.INVISIBLE);
+
+        }
         getSpacePosts();
     }
 
@@ -501,6 +522,7 @@ public class MyPageSpaceFragment extends Fragment {
     public void imageSetting(Intent intent) {
         String imgUri = intent.getStringExtra("URI");
 
+        /*
         if (imgUri != null) {
             strFilePath = CommonUtils.getRealPathFromURI(getActivity(), Uri.parse(imgUri)); // 서버 전송할 때 쓸 것
 
@@ -513,6 +535,8 @@ public class MyPageSpaceFragment extends Fragment {
             plusImg.setVisibility(View.INVISIBLE);
 
         }
+
+         */
     }
 
     private void CreateSpacePost() {
