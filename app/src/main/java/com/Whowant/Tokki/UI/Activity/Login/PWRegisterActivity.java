@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
@@ -25,6 +26,10 @@ public class PWRegisterActivity extends AppCompatActivity {
 
     private EditText inputPWView;
     private EditText inputPWCheckView;
+
+    private TextView desc0;
+    private TextView desc1;
+
     private Button nextBtn;
     private String strID;
     private String strEmail;
@@ -52,8 +57,18 @@ public class PWRegisterActivity extends AppCompatActivity {
 
         inputPWView = findViewById(R.id.inputPWView);
         inputPWCheckView = findViewById(R.id.inputPWCheckView);
+        desc0 = findViewById(R.id.desc0);
+        desc1 = findViewById(R.id.desc1);
+
         nextBtn = findViewById(R.id.nextBtn);
         nextBtn.setEnabled(false);
+
+        String enableDescColor = "#6c8fff";
+        String disableDescColor = "#ff5f0a";
+
+        String enableBorderColor = "#6c8fff";
+        String disableBorderColor = "#ff5800";
+
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -66,7 +81,104 @@ public class PWRegisterActivity extends AppCompatActivity {
                     nextBtn.setEnabled(true);
                     nextBtn.setBackgroundResource(R.drawable.common_btn_bg);
                     nextBtn.setTextColor(Color.parseColor("#ffffff"));
+                    String passWord = inputPWView.getText().toString().trim();
+                    String passWord1 = inputPWCheckView.getText().toString().trim();
+
+                    if(passWord.equals(passWord1) && passWord.length() > 0 && passWord1.length() > 0)
+                    {
+                        desc0.setTextColor(Color.parseColor(enableDescColor));
+                        desc1.setTextColor(Color.parseColor(enableDescColor));
+
+                        inputPWView.setBackgroundResource(R.drawable.round_pw_stroke_bg);
+                        inputPWCheckView.setBackgroundResource(R.drawable.round_pwcheck_stroke_bg);
+
+                        desc0.setText("적절합니다");
+                        desc1.setText("적절합니다");
+
+                    }
+                    else
+                    {
+                        desc0.setTextColor(Color.parseColor(disableDescColor));
+                        desc1.setTextColor(Color.parseColor(disableDescColor));
+
+                        inputPWView.setBackgroundResource(R.drawable.round_pw_stroke_dis_bg);
+                        inputPWCheckView.setBackgroundResource(R.drawable.round_pwcheck_dis_stroke_bg);
+
+                        desc0.setText("*영문, 숫자를 포함한 9-15자 조합");
+                        desc1.setText("*비밀번호가 같지 않습니다");
+
+                    }
+                    if (!passWord.matches(pwValidation)) {
+                        desc0.setTextColor(Color.parseColor(disableDescColor));
+                        inputPWView.setBackgroundResource(R.drawable.round_pw_stroke_dis_bg);
+
+                    }
+                    else
+                    {
+                        desc0.setTextColor(Color.parseColor(enableDescColor));
+                        inputPWView.setBackgroundResource(R.drawable.round_pw_stroke_bg);
+
+                    }
+                    if (!passWord1.matches(pwValidation)) {
+                        desc1.setTextColor(Color.parseColor(disableDescColor));
+                        inputPWCheckView.setBackgroundResource(R.drawable.round_pwcheck_dis_stroke_bg);
+                    }
+                    else
+                    {
+                        desc1.setTextColor(Color.parseColor(enableDescColor));
+                        inputPWCheckView.setBackgroundResource(R.drawable.round_pwcheck_stroke_bg);
+
+                    }
+
                 } else {
+                    String passWord = inputPWView.getText().toString().trim();
+                    String passWord1 = inputPWCheckView.getText().toString().trim();
+
+                    if(passWord.equals(passWord1) && passWord.length() > 0 && passWord1.length() > 0)
+                    {
+                        desc0.setTextColor(Color.parseColor(enableDescColor));
+                        desc1.setTextColor(Color.parseColor(enableDescColor));
+
+                        inputPWView.setBackgroundResource(R.drawable.round_pw_stroke_bg);
+                        inputPWCheckView.setBackgroundResource(R.drawable.round_pwcheck_stroke_bg);
+
+                        desc0.setText("적절합니다");
+                        desc1.setText("적절합니다");
+
+                    }
+                    else
+                    {
+                        desc0.setTextColor(Color.parseColor(disableDescColor));
+                        desc1.setTextColor(Color.parseColor(disableDescColor));
+
+                        inputPWView.setBackgroundResource(R.drawable.round_pw_stroke_dis_bg);
+                        inputPWCheckView.setBackgroundResource(R.drawable.round_pwcheck_dis_stroke_bg);
+
+                        desc0.setText("*영문, 숫자를 포함한 9-15자 조합");
+                        desc1.setText("*비밀번호가 같지 않습니다");
+
+                    }
+                    if (!passWord.matches(pwValidation)) {
+                        desc0.setTextColor(Color.parseColor(disableDescColor));
+                        inputPWView.setBackgroundResource(R.drawable.round_pw_stroke_dis_bg);
+
+                    }
+                    else
+                    {
+                        desc0.setTextColor(Color.parseColor(enableDescColor));
+                        inputPWView.setBackgroundResource(R.drawable.round_pw_stroke_bg);
+
+                    }
+                    if (!passWord1.matches(pwValidation)) {
+                        desc1.setTextColor(Color.parseColor(disableDescColor));
+                        inputPWCheckView.setBackgroundResource(R.drawable.round_pwcheck_dis_stroke_bg);
+                    }
+                    else
+                    {
+                        desc1.setTextColor(Color.parseColor(enableDescColor));
+                        inputPWCheckView.setBackgroundResource(R.drawable.round_pwcheck_stroke_bg);
+
+                    }
                     nextBtn.setEnabled(false);
                     nextBtn.setBackgroundResource(R.drawable.common_btn_disable_bg);
                     nextBtn.setTextColor(Color.parseColor("#999999"));
