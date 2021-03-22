@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
@@ -37,15 +38,28 @@ public class ReportSelectActivity extends AppCompatActivity {                   
     private Button reportBtn;
 
     String postId = "";
+    TextView titleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_select);
 
+
+        titleView = findViewById(R.id.titleView);
+
         nCommentID = getIntent().getIntExtra("COMMENT_ID", -1);
 
         postId = getIntent().getStringExtra("POST_ID");
+
+        if(nCommentID != -1)
+        {
+            titleView.setText("댓글 신고");
+        }
+        else if(postId.length() > 0)
+        {
+            titleView.setText("게시물 신고");
+        }
 
         pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
 
