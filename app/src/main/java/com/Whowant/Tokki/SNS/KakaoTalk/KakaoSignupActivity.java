@@ -39,6 +39,7 @@ public class KakaoSignupActivity extends AppCompatActivity {
         requestMe();
     }
 
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);

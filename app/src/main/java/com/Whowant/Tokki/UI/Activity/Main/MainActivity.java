@@ -479,7 +479,7 @@ public class MainActivity extends AppCompatActivity {
                                 String strToday = sdf.format(date);
 
                                 String strDate = pref.getString("" + nEventID, "");
-
+/*
                                 if (nEventID == -10 && strDate.length() == 0) {
                                     EventPopupActivity.eventList = eventList;
                                     startActivity(new Intent(MainActivity.this, EventPopupActivity.class));
@@ -489,6 +489,8 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(new Intent(MainActivity.this, EventPopupActivity.class));
                                     break;
                                 }
+
+ */
                             }
                         }
                     }

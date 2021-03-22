@@ -32,6 +32,7 @@ public class AgreementActivity extends AppCompatActivity {
     private LinearLayout totalAgreeLayout;
     private Button addBtn;
     private boolean bShowTemrs1, bShowTerms2;
+    private Intent oldIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class AgreementActivity extends AppCompatActivity {
         if (!(handler instanceof CustomUncaughtExceptionHandler)) {
             Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
         }
+
 
         bShowTemrs1 = false;
         bShowTerms2 = false;
@@ -67,6 +69,7 @@ public class AgreementActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
         super.onBackPressed();
     }
 
@@ -188,7 +191,7 @@ public class AgreementActivity extends AppCompatActivity {
             intent.putExtra("USER_NAME", strNickName);
             intent.putExtra("USER_EMAIL", strEmail);
             intent.putExtra("USER_PHOTO", strPhoto);
-            startActivity(intent);
+            startActivityForResult(intent,RESULT_OK);
         }
         else
         {
@@ -205,6 +208,8 @@ public class AgreementActivity extends AppCompatActivity {
     }
 
     public void onClickTopLeftBtn(View view) {
+        setResult(2323, oldIntent);
+
         finish();
     }
 }

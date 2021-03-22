@@ -5724,10 +5724,13 @@ public class HttpClient {
 //                                    activity.startActivity(intent);
                                 } else {                                                                    // 신규 가입 해야할 때
                                     Intent intent = new Intent(activity, CommonPopup.class);
+                                  //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                     intent.putExtra("TITLE", "회원 가입 안내");
                                     intent.putExtra("CONTENTS", "회원가입 되지 않은 소셜 계정입니다.\n간편 회원가입 하시겠습니까?");
                                     intent.putExtra("TWOBTN", true);
                                     activity.startActivityForResult(intent, 1010);
+                                   // activity.startActivity(intent);
+
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

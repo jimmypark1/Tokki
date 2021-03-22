@@ -460,28 +460,34 @@ public class PanbookLoginActivity extends AppCompatActivity  {
         } else if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1010) {                              // SNS 로그인 시도시 회원가입 되어있지 않을 때 회원가입 여부를 묻는 팝업에서 OK 클릭했을 경우 들어오는 부분
                 Intent intent = new Intent(PanbookLoginActivity.this, AgreementActivity.class);
+             //   intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+              //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                 intent.putExtra("SNS", snsNum);
                 intent.putExtra("SNS_ID", snsID);
                 intent.putExtra("USER_NAME", name);
                 intent.putExtra("USER_EMAIL", email);
                 intent.putExtra("USER_PHOTO", photoUrl);
-                startActivity(intent);
+
+                startActivityForResult(intent,7878);
+
 //                startActivity(new Intent(PanbookLoginActivity.this, AgreementActivity.class));
             } else if (requestCode == 1000) {                       // Naver 로그인 결과를 받아오는 부분. RESULT_OK 라면 로그인 성공으로 MainActivity 로 이동
                 Intent intent = new Intent(PanbookLoginActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-            } else if (requestCode == RC_SIGN_IN) {                 // 그 외의 경우는 구글 로그인 성공 했을 경우로 판단하여 Firebase Login 으로 이행
-                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-                try {
-                    GoogleSignInAccount account = task.getResult(ApiException.class);
-                    firebaseAuthWithGoogle(account);
-                } catch (ApiException e) {
-                    // Google Sign In failed, update UI appropriately
-                    e.printStackTrace();
-                    Log.w("Google Login", "Google sign in failed", e);
-                }
+            }
+        }
+        else if (requestCode == RC_SIGN_IN) {                 // 그 외의 경우는 구글 로그인 성공 했을 경우로 판단하여 Firebase Login 으로 이행
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                e.printStackTrace();
+                Log.w("Google Login", "Google sign in failed", e);
             }
         }
     }
@@ -877,11 +883,13 @@ public class PanbookLoginActivity extends AppCompatActivity  {
                                 } else {
                                     if(bRegi) {
                                         Intent intent = new Intent(PanbookLoginActivity.this, CommonPopup.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                                         intent.putExtra("TITLE", "회원 가입 안내");
                                         intent.putExtra("CONTENTS", "회원가입 되지 않은 소셜 계정입니다.\n간편 회원가입 하시겠습니까?");
                                         intent.putExtra("TWOBTN", true);
                                         startActivityForResult(intent, 1010);
-//                                        Toast.makeText(PanbookLoginActivity.this, "소셜 로그인에 실패했습니다. 회원 가입 화면으로 이동됩니다.", Toast.LENGTH_LONG).show();
+                                          Toast.makeText(PanbookLoginActivity.this, "소셜 로그인에 실패했습니다. 회원 가입 화면으로 이동됩니다.", Toast.LENGTH_LONG).show();
                                     } else {
                                         Toast.makeText(PanbookLoginActivity.this, "소셜 로그인에 실패했습니다. 잠시후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
                                     }

@@ -733,11 +733,11 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                         }
                         viewPager.setAdapter(pagerAdapter);
                         // Create an object of page transformer
-                        BookFlipPageTransformer bookFlipPageTransformer = new BookFlipPageTransformer();
+                      //  BookFlipPageTransformer bookFlipPageTransformer = new BookFlipPageTransformer();
 
-                        bookFlipPageTransformer.setEnableScale(false);
-                     //   bookFlipPageTransformer.setScaleAmountPercent(2f);
-                        viewPager.setPageTransformer( true,bookFlipPageTransformer);
+                     //   bookFlipPageTransformer.setEnableScale(false);
+
+                     //   viewPager.setPageTransformer( true,bookFlipPageTransformer);
                         pagerAdapter.notifyDataSetChanged();
                         viewPager.setCurrentItem(lastOrder);
 

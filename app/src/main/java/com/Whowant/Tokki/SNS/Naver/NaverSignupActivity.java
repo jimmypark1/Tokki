@@ -59,6 +59,8 @@ public class NaverSignupActivity extends AppCompatActivity {
         if (requestCode == 1010) {
             if (resultCode == Activity.RESULT_OK) {
                 Intent intent = new Intent(NaverSignupActivity.this, AgreementActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
                 /*
                 strEmail = null;
                 if(response.getKakaoAccount().hasEmail().getBoolean() == true)
@@ -75,10 +77,14 @@ public class NaverSignupActivity extends AppCompatActivity {
                 intent.putExtra("USER_NAME", strNickName);
                 intent.putExtra("USER_PHOTO", strPhoto);
                 intent.putExtra("SNS", 2);
-                startActivity(intent);
+                startActivityForResult(intent,2323);
             } else {
                 finish();
             }
+        }
+        if(requestCode == 2323)
+        {
+            finish();
         }
     }
 
@@ -118,6 +124,7 @@ public class NaverSignupActivity extends AppCompatActivity {
 
                                             SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
                                             HttpClient.checkSocialLogin(NaverSignupActivity.this, strSNSID, pref.getString("FCM_TOKEN", ""));
+
 
                                         }
                                         else
