@@ -10,9 +10,18 @@ public class EventVO {
     String strEventPopupFile;
     String strRegisterDate;
     private boolean bRead;
+    private int viewType;
 
     public EventVO() {
 
+    }
+
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
+    }
+
+    public int getViewType() {
+        return viewType;
     }
 
     public void setnEventID(int nEventID) {

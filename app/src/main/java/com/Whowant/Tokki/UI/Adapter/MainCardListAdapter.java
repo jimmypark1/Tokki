@@ -23,6 +23,7 @@ import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.NewRankingActivity;
 import com.Whowant.Tokki.UI.Activity.Main.PopularActivity;
 import com.Whowant.Tokki.UI.Custom.PopularDecoration;
+import com.Whowant.Tokki.VO.EventVO;
 import com.Whowant.Tokki.VO.MainCardVO;
 import com.Whowant.Tokki.VO.WorkVO;
 
@@ -59,7 +60,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
 
         adapterList = new ArrayList<>();
 
-        for (int i = 0 ; i < 7 ; i++) {
+        for (int i = 0 ; i < 8 ; i++) {
             adapterList.add(null);
         }
 
@@ -69,8 +70,12 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_popular_viewpager, viewGroup, false);
         else if (viewType == 2)
             v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_card, viewGroup, false);
-        else
+        else if (viewType == 3)
             v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_recommend, viewGroup, false);
+
+        else if (viewType == 7)
+            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_banner, viewGroup, false);
+
 
         MainCardHolder mh = new MainCardHolder(v);
         return mh;
@@ -183,6 +188,10 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             singleSectionItems = mainCardList.get(position).getAllItemInCard();
 
             itemRowHolder.headerTitle.setText(sectionName);
+            if(position == adapterList.size())
+            {
+                return;
+            }
             if (adapterList.get(position) == null) {
                 RecentListAdapter recentListAdapter = new RecentListAdapter(mContext, singleSectionItems, mainCardList.get(position).getViewType());
                 adapterList.add(position, recentListAdapter);
@@ -215,7 +224,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
                     }
                 }
             });
-        } else { // 추천작
+        } else  if (viewType == 3){ // 추천작
             final String sectionName = mainCardList.get(position).getStrHeaderTitle();
             singleSectionItems = mainCardList.get(position).getAllItemInCard();
 
@@ -253,7 +262,25 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
                 }
             });
         }
+        else  if (viewType == 7){ // 추천작
+            ArrayList<EventVO> events = mainCardList.get(position).getEvents();
 
+            if(events.size() > 0)
+            {
+                EventVO event = events.get(0);
+                String banner = event.getStrEventContentsFile();
+              //  adapterList.get(position).setData(events);
+               // singleSectionItems = mainCardList.get(position).getAllItemInCard();
+              //  adapterList.get(position).setData(singleSectionItems);
+                MainBannerAdapter adapter = new MainBannerAdapter(mContext, events,nType);
+                itemRowHolder.recyclerView.setHasFixedSize(true);
+                LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+                itemRowHolder.recyclerView.setAdapter(adapter);
+
+            }
+
+
+        }
     }
 
     @Override

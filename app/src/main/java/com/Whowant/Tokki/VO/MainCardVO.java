@@ -6,9 +6,18 @@ public class MainCardVO {               // 메인화면 리스트의 카드 한�
     private String strHeaderTitle;
     private ArrayList<WorkVO> allItemInCard;
     private int viewType;
+    private ArrayList<EventVO> events;
 
     public MainCardVO() {
 
+    }
+
+    public void setEvents(ArrayList<EventVO> events) {
+        this.events = events;
+    }
+
+    public ArrayList<EventVO> getEvents() {
+        return events;
     }
 
     public MainCardVO(String strHeaderTitle, ArrayList<WorkVO> allItemInCard) {

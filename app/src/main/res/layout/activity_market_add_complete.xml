@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".UI.Activity.Market.MarketAddCompleteActivity">
+
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:background="@null"
+            android:onClick="onClickTopLeftBtn"
+            android:src="@drawable/i_back"/>
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"
+            android:layout_centerInParent="true"
+            android:textSize="17sp"
+            android:textColor="#191919"
+            android:text="마켓등록"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/topBarLayout"
+        android:background="#e4eeff"
+        android:id="@+id/info"
+
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="18sp"
+            android:layout_centerInParent="true"
+            android:textSize="13sp"
+            android:textColor="#6ca5ff"
+            android:text="등록된 작품 중에 마켓에 등록할 작품을 선택해 주세요."/>
+
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_below="@+id/info"
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/empty_frame"
+
+        android:layout_below="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:gravity="center"
+        >
+        <ImageView
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"  android:src="@drawable/i_empty_box"
+            />
+        <TextView
+            android:id="@+id/empty_desc"
+            android:layout_below="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
+            android:text = "등록된 작품이 없습니다.\n마켓에 판매하기 위해서는 작품 쓰기를 통해\n판매할 작품 기본정보를 등록하셔야 합니다."
+            />
+
+        <Button
+            android:layout_below="@+id/empty_desc"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="100dp"
+            android:text="작품 쓰기"
+            android:textSize="15sp"
+            android:enabled="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/login_btn_en_bg"
+            android:textColor="#ffffff"
+            android:onClick="onClickGoWriteList"
+            />
+
+    </RelativeLayout>
+</RelativeLayout>

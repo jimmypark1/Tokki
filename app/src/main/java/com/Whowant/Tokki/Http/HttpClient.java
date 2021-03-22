@@ -1395,6 +1395,7 @@ public class HttpClient {
             for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject object = resultArray.getJSONObject(i);
 
+
                 EventVO vo = new EventVO();
                 vo.setnEventID(object.getInt("EVENT_ID"));
                 vo.setStrUserID(object.getString("USER_ID"));
@@ -1421,6 +1422,49 @@ public class HttpClient {
         }
 
         return resultList;
+    }
+    public static MainCardVO getEventList2(OkHttpClient httpClient) {
+        ArrayList<EventVO> resultList = new ArrayList<>();
+        MainCardVO banner = new MainCardVO();
+        banner.setViewType(7);
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanApp.jsp?CMD=GetEventListNew")
+                .tag("BANNER_EVENT")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+
+            JSONArray resultArray = resultObject.getJSONArray("EVENT_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+                EventVO vo = new EventVO();
+                vo.setStrEventContentsFile(object.getString("BANNER"));
+
+                resultList.add(vo);
+
+
+            }
+            banner.setEvents(resultList);
+
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return banner;
     }
 
     public static ArrayList<NoticeVO> getNoticeList(OkHttpClient httpClient, Context context) {
@@ -2549,8 +2593,6 @@ public class HttpClient {
 
     public static ArrayList<MainCardVO> getAllRankingList(OkHttpClient httpClient, int type) {                              // 모든 작품 목록 가져오기
         ArrayList<MainCardVO> mainCardList = new ArrayList<>();
-
-
 
         Request request;
         if(type == 0)

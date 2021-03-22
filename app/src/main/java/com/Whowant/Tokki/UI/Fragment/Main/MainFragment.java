@@ -26,6 +26,7 @@ import com.Whowant.Tokki.UI.Activity.Login.InputRecommendCodeActivity;
 import com.Whowant.Tokki.UI.Activity.Main.SearchActivity;
 import com.Whowant.Tokki.UI.Adapter.MainCardListAdapter;
 import com.Whowant.Tokki.Utils.CommonUtils;
+import com.Whowant.Tokki.VO.EventVO;
 import com.Whowant.Tokki.VO.MainCardVO;
 import com.Whowant.Tokki.VO.WorkVO;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -38,6 +39,10 @@ import okhttp3.OkHttpClient;
 public class MainFragment extends Fragment {                                                            // 1번 탭 메인 페이지. RecyclerView 구조로 안에 다른 RecyclerView 로 이루어져 있음
     private ArrayList<MainCardVO> mainCardList;                                                         // MainCardVO 가 한 줄 단위의 row 를 이룬다
     private ArrayList<MainCardVO> recommendCardList;
+    private ArrayList<EventVO> bannerList;
+    private MainCardVO banneCard;
+
+
     private RecyclerView mainRecyclerView;
     private SwipeRefreshLayout refreshLayout;
     private MainCardListAdapter adapter;
@@ -48,9 +53,11 @@ public class MainFragment extends Fragment {                                    
 
     Thread recommendThread;
     Thread mainThread;
+    Thread bannerThread;
 
     OkHttpClient mainHttp;
     OkHttpClient recommendHttp;
+    OkHttpClient bannerHttp;
 
 
     public static Fragment newInstance() {
@@ -104,10 +111,14 @@ public class MainFragment extends Fragment {                                    
     @Override
     public void onResume() {
         super.onResume();
-
+/*
         if(bVisible) {
             getMainData();
         }
+
+
+ */
+        getMainData();
     }
 
     public void interruptRecommend()
@@ -233,6 +244,8 @@ public class MainFragment extends Fragment {                                    
                                      */
                                     mainCardList.addAll(1, recommendCardList);
                                     getRecommendData();
+
+                             //
 /*
                                     if(getActivity() == null || mainCardList == null || mainCardList.size() == 0)
                                         return;
@@ -299,7 +312,61 @@ public class MainFragment extends Fragment {                                    
         });
         mainThread.start();
     }
+    public void getBannerData() {
 
+
+
+        if(bannerList != null)
+            bannerList.clear();
+
+        if(bannerHttp != null)
+        {
+            for (Call call : bannerHttp.dispatcher().queuedCalls()) {
+                if (call.request().tag().equals("Recommend"))
+                    call.cancel();
+            }
+            for (Call call : bannerHttp.dispatcher().runningCalls()) {
+                if (call.request().tag().equals("Recommend"))
+                    call.cancel();
+            }
+        }
+
+        bannerThread =new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                if(bannerThread.isInterrupted())
+                    return;
+
+
+
+                bannerHttp = new OkHttpClient();
+                banneCard = HttpClient.getEventList2(bannerHttp);
+                SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
+                //     recommendCardList = HttpClient.getRecommendList(new OkHttpClient(), pref.getString("USER_ID", "Guest"),nType);
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if(banneCard == null ) {
+
+
+                            return;
+                        }
+                      //  mainCardList.add(banneCard);
+                       mainCardList.add(2,banneCard);
+
+                      //  adapter.setData(mainCardList);
+                        adapter.setData(mainCardList);
+
+                    }
+                });
+
+            }
+        });
+        bannerThread.start();
+    }
     private void getRecommendData() {
 
         recommendCardList.clear();
@@ -348,6 +415,8 @@ public class MainFragment extends Fragment {                                    
 
                         adapter.setData(mainCardList);
 //                        adapter.notifyDataSetChanged();
+
+                        getBannerData();
                     }
                 });
 

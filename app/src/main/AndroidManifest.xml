@@ -4,6 +4,8 @@
     package="com.Whowant.Tokki">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -25,11 +27,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UI.Activity.Mypage.BlockListActivity"
+
+        <!--
+               Set to true if your app is Standalone, that is, it does not require the handheld
+               app to run.
+        -->
+        <meta-data
+            android:name="com.google.android.wearable.standalone"
+            android:value="true" />
+
+        <activity
+            android:name=".UI.Activity.Market.MarketAddCompleteActivity"
             android:configChanges="screenSize|orientation"
             android:theme="@style/Theme.AppCompat.Translucent"
             android:windowSoftInputMode="adjustResize"
             />
+
+
+        <activity
+            android:name=".UI.Activity.Mypage.BlockListActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".UI.Activity.Market.MarketDealPopup2"
             android:configChanges="screenSize|orientation"
@@ -407,11 +426,7 @@
             android:name=".UI.Activity.Work.InteractionWriteActivity"
             android:configChanges="screenSize|orientation|keyboard|keyboardHidden"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".UI.Popup.InteractionSpeakerSelectActivity"
-            android:configChanges="screenSize|orientation"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".UI.Activity.Media.VideoPlayerActivity"
             android:configChanges="screenSize|orientation"

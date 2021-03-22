@@ -14,14 +14,31 @@
         android:layout_marginTop="10dp"
         android:divider="#eeeeee"
         android:dividerHeight="1dp" />
+ <RelativeLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:gravity="center"
+     android:id="@+id/emptyFrame"
 
-    <TextView
-        android:id="@+id/emptyView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="내가 쓴 작품이 없습니다."
-        android:textColor="@color/colorTextGray"
-        android:textSize="18sp" />
+     >
+
+
+    <ImageView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/i_empty_box"
+        />
+
+        <TextView
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/empty"
+            android:layout_marginBottom="50dp"
+            android:gravity="center"
+            android:text="등록된 작품이 없습니다.\n새 작품을 올려보세요~!"
+            android:textColor="#191919"
+            android:textSize="15sp" />
+ </RelativeLayout>
 </RelativeLayout>

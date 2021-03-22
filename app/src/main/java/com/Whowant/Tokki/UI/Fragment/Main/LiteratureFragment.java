@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -37,6 +38,7 @@ public class LiteratureFragment extends Fragment {                              
     private CWorkListAdapter aa;
     private boolean bVisible = false;
     int nTarget = 0;
+    RelativeLayout emptyFrame;
 
     public static Fragment newInstance() {
         LiteratureFragment fragment = new LiteratureFragment();
@@ -57,7 +59,8 @@ public class LiteratureFragment extends Fragment {                              
 
         listView = inflaterView.findViewById(R.id.listView);
         emptyView = inflaterView.findViewById(R.id.emptyView);
-        emptyView.setVisibility(View.INVISIBLE);
+        emptyFrame = inflaterView.findViewById(R.id.emptyFrame);
+        emptyFrame.setVisibility(View.INVISIBLE);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -112,7 +115,7 @@ public class LiteratureFragment extends Fragment {                              
                     //    CommonUtils.hideProgressDialog();
 
                         if(workList == null) {
-                            emptyView.setVisibility(View.VISIBLE);
+                            emptyFrame.setVisibility(View.VISIBLE);
                             CommonUtils.hideProgressDialog();
 
                             return;
@@ -123,9 +126,9 @@ public class LiteratureFragment extends Fragment {                              
                         listView.setAdapter(aa);
 
                         if(workList.size() == 0) {
-                            emptyView.setVisibility(View.VISIBLE);
+                            emptyFrame.setVisibility(View.VISIBLE);
                         } else {
-                            emptyView.setVisibility(View.INVISIBLE);
+                            emptyFrame.setVisibility(View.INVISIBLE);
                         }
 
                     }
