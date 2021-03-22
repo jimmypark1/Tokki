@@ -66,18 +66,53 @@ public class AlarmActivity extends AppCompatActivity {
 
                 String strWorkID = vo.getStrObjectID();
                 setRead(vo.getnAlarmID());
-                try{
-                    int nWorkID = Integer.valueOf(strWorkID);
-                    Intent intent = new Intent(AlarmActivity.this, WorkMainActivity.class);
-                    intent.putExtra("WORK_ID", nWorkID);
-                 //   intent.putExtra("WORK_TYPE", vo.getnTarget());
 
-                    startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int ret = HttpClient.isWork(new OkHttpClient(), strWorkID);
+                        if(ret > 0)
+                        {
+                            try{
 
-                    Toast.makeText(AlarmActivity.this, "알림의 동작이 없습니다.", Toast.LENGTH_LONG).show();
-                }
+
+
+
+                                int nWorkID = Integer.valueOf(strWorkID);
+                                Intent intent = new Intent(AlarmActivity.this, WorkMainActivity.class);
+                                intent.putExtra("WORK_ID", nWorkID);
+                                //   intent.putExtra("WORK_TYPE", vo.getnTarget());
+
+                                startActivity(intent);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //   CommonUtils.hideProgressDialog();
+                                        Toast.makeText(AlarmActivity.this, "알림의 동작이 없습니다.", Toast.LENGTH_LONG).show();
+
+                                    }
+                                });
+                            }
+                        }
+                        else
+                        {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //   CommonUtils.hideProgressDialog();
+                                    Toast.makeText(AlarmActivity.this, "작품이 삭제되었습니다.", Toast.LENGTH_LONG).show();
+
+                                }
+                            });
+                        }
+                    }
+                }).start();
+
+
             }
         });
 

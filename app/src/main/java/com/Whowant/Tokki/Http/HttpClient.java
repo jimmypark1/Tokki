@@ -2104,6 +2104,36 @@ public class HttpClient {
     }
 
     //requestEpisodePost
+    public static int isWork(OkHttpClient httpClient, String workId) {                              // 모든 작품 목록 가져오기
+        ArrayList<MessageVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=isWork&WORK_ID=" +workId )
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return 0;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            if (resultObject.getString("RESULT").equals("SUCCESS")) {
+
+                int nThreadId= resultObject.getInt("THREAD_ID");
+                return nThreadId;
+            }
+            return 1;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
     public static int createRoomForWriterOnMarket(OkHttpClient httpClient, String userId,String partnerId,String workId, String field) {                              // 모든 작품 목록 가져오기
         ArrayList<MessageVO> resultList = new ArrayList<>();
 
