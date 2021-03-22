@@ -196,7 +196,7 @@ public class MainFragment extends Fragment {                                    
                         if(mainCardList == null || mainCardList.size() == 0) {
                             CommonUtils.hideProgressDialog();
 
-                            Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
 
 
                             return;
