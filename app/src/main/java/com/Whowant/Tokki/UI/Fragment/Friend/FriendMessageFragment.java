@@ -111,6 +111,7 @@ public class FriendMessageFragment extends Fragment {
             long hour   = TimeUnit.MILLISECONDS.toHours(dateDiff);
             long day  = TimeUnit.MILLISECONDS.toDays(dateDiff);
 
+            /*
             if (second < 60) {
                 convTime = second + "초 " + suffix;
             } else if (minute < 60) {
@@ -120,18 +121,22 @@ public class FriendMessageFragment extends Fragment {
             } else if (day == 7) {
                 convTime = "1주 전";
 
-                /*
-                if (day > 360) {
-                    convTime = (day / 360) + "년 " + suffix;
-                } else if (day > 30) {
-                    convTime = (day / 30) + "달 " + suffix;
-                } else {
-                    convTime = (day / 7) + "주 " + suffix;
-                }
 
-                 */
             }
-            else if (day > 7) {
+            */
+            if (day == 0) {
+
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                convTime = sdf.format(pasTime);
+
+            }
+            if (day >= 1 && day<=6 ) {
+
+              //  SimpleDateFormat sdf = new SimpleDateFormat("M월 d일");
+                convTime =  String.valueOf(day) + "일 전";
+
+            }
+            else if (day >=7) {
                 if(day <= 360)
                 {
                     SimpleDateFormat sdf = new SimpleDateFormat("M월 d일");
@@ -156,9 +161,7 @@ public class FriendMessageFragment extends Fragment {
 
                  */
             }
-            else if (day < 7) {
-                convTime = day+"일 "+suffix;
-            }
+
 
         } catch (ParseException e) {
             e.printStackTrace();
