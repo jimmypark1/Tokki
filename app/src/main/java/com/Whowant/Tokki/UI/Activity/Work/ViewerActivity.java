@@ -784,7 +784,15 @@ public class ViewerActivity extends AppCompatActivity {                         
                             max = chattingList.size();
                             seekBar.setMax(max);
                             seekBar.setProgress(nShoingIndex);
-                            seekBar_value.setText(String.valueOf(seekBar.getProgress() * 100 / max));
+                            if(nShoingIndex == chattingList.size() - 1)
+                            {
+                                seekBar_value.setText("100");
+                            }
+                            else
+                            {
+                                seekBar_value.setText(String.valueOf(seekBar.getProgress() * 100 / max));
+
+                            }
                         }
                     }
                 });
