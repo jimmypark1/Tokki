@@ -39,11 +39,10 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:background="@drawable/ic_i_setting"
-            android:onClick="onClickSettingsBtn"
 
             android:textOff=""
             android:textOn=""
-            tools:ignore="OnClick" />
+             />
 
         <ToggleButton
             android:id="@+id/episodeListBtn"

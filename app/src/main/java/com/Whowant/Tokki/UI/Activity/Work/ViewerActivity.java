@@ -296,6 +296,15 @@ public class ViewerActivity extends AppCompatActivity {                         
         settingBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isSettings = isChecked;
+                if(isEpisode == true)
+                {
+                    //    isEpisode = false;
+                    episodeListBtn.setChecked(false);
+                    episodeListLayout.startAnimation(translateUp);
+                    episodeListLayout.setVisibility(View.INVISIBLE);
+
+                }
                 if (isChecked) {
 
 
@@ -316,19 +325,13 @@ public class ViewerActivity extends AppCompatActivity {                         
                     navBar.setVisibility(View.VISIBLE);
                     fontControlLayout.setVisibility(View.VISIBLE);
 
-                    isSettings = true;
 
-                    if(isEpisode == true)
-                    {
-                        isEpisode = false;
-                        episodeListLayout.startAnimation(translateUp);
-                        episodeListLayout.setVisibility(View.INVISIBLE);
 
-                    }
 
                 } else {
 
-                    isSettings = false;
+
+
                     navBar.startAnimation(translateBottomDown);
                     fontControlLayout.startAnimation(translateTopUp);
 
@@ -391,26 +394,30 @@ public class ViewerActivity extends AppCompatActivity {                         
         episodeListBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isEpisode = isChecked;
+                if(isSettings)
+                {
+                    settingBtn.setChecked(false);
+                    navBar.startAnimation(translateBottomDown);
+                    fontControlLayout.startAnimation(translateTopUp);
+
+                    navBar.setVisibility(View.INVISIBLE);
+                    fontControlLayout.setVisibility(View.INVISIBLE);
+                    starPointLayout.setVisibility(View.INVISIBLE);
+                    settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
+                }
                 if (isChecked) {
 
-                    if(isSettings)
-                    {
-                        isSettings = false;
-                        navBar.startAnimation(translateBottomDown);
-                        fontControlLayout.startAnimation(translateTopUp);
 
-                        navBar.setVisibility(View.INVISIBLE);
-                        fontControlLayout.setVisibility(View.INVISIBLE);
-                        starPointLayout.setVisibility(View.INVISIBLE);
-                        settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
-                    }
+
 
                     episodeListLayout.setVisibility(View.VISIBLE);
                     translateDown.setFillAfter(true);
                     episodeListLayout.startAnimation(translateDown);
-                    isEpisode = true;
+
                 } else {
-                    isEpisode = false;
+
+                 //   isEpisode = false;
                     episodeListLayout.startAnimation(translateUp);
                     episodeListLayout.setVisibility(View.INVISIBLE);
                 }

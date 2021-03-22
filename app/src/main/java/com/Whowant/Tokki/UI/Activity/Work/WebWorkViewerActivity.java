@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -113,7 +114,8 @@ public class WebWorkViewerActivity extends AppCompatActivity{
     private boolean bGetComment = false;
 
     boolean sortType = true;
-
+    boolean isSettings = false;
+    boolean isEpisode = false;
     int dpToPx(float dp)
     {
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -388,11 +390,13 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         episodeID = episode.getnEpisodeID();
 
         settingBtn = findViewById(R.id.settingBtn);
+        ToggleButton episodeListBtn = findViewById(R.id.episodeListBtn);
 
 
+        settingBtn.setChecked(false);
+        episodeListBtn.setChecked(false);
 
         getEpisodeNovelData();
-        ToggleButton episodeListBtn = findViewById(R.id.episodeListBtn);
         LinearLayout episodeListLayout = findViewById(R.id.episodeListLayout);
         translateDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_down);
         translateUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_up);
@@ -400,6 +404,23 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         episodeListBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                isEpisode = isChecked;
+                int pos = viewPager.getCurrentItem();
+                Boolean isCover = false;
+                if(pos==0)
+                {
+                    isCover = true;
+                }
+                WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+                if(fragment.bottomMenu.getVisibility() == View.VISIBLE)
+                {
+                    settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
+
+                    fragment.showMenu(false, true,isCover,episodeIndex,episodeList.size(),sortType);
+                    show = false;
+
+                }
                 if (isChecked) {
                     episodeListLayout.setVisibility(View.VISIBLE);
                     translateDown.setFillAfter(true);
@@ -410,6 +431,53 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                 }
             }
         });
+
+
+        settingBtn.setChecked(false);
+        settingBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isSettings = isChecked;
+                if(isEpisode == true)
+                {
+                    //    isEpisode = false;
+                    episodeListBtn.setChecked(false);
+                    episodeListLayout.startAnimation(translateUp);
+                    episodeListLayout.setVisibility(View.INVISIBLE);
+
+                }
+                int pos = viewPager.getCurrentItem();
+                Boolean isCover = false;
+                if(pos==0)
+                {
+                    isCover = true;
+                }
+                WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+                if(fragment.bottomMenu.getVisibility() == View.VISIBLE)
+                {
+                    settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
+
+                    fragment.showMenu(false, true,isCover,episodeIndex,episodeList.size(),sortType);
+                    show = false;
+
+                }
+                else
+                {
+                    settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
+
+                    fragment.initSettings();
+                    fragment.showMenu(true, true,isCover,episodeIndex,episodeList.size(),sortType);
+                    show = true;
+                }
+                if(pos > 0)
+                {
+                    // fragment.showMenu(show);
+
+                }
+
+            }
+        });
+
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
         {
@@ -424,6 +492,8 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
                     WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
                     fragment.page = position;
+              //      settingBtn.setChecked(true);
+
                     fragment.showMenu(true,false,true,episodeIndex, episodeList.size(),sortType);
                     settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
 
@@ -433,6 +503,7 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                 {
                     WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
                     fragment.page = position;
+               //     settingBtn.setChecked(true);
                     fragment.showMenu(false, false,false,episodeIndex,episodeList.size(),sortType);
                     fragment.getHtml();
                     settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
@@ -756,8 +827,41 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
         finish();
     }
-    public void onClickSettingsBtn(View view) {
 
+    void viewSettings()
+    {
+        int pos = viewPager.getCurrentItem();
+        Boolean isCover = false;
+        if(pos==0)
+        {
+            isCover = true;
+        }
+        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(pos);
+        if(fragment.bottomMenu.getVisibility() == View.VISIBLE)
+        {
+            settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
+
+            fragment.showMenu(false, true,isCover,episodeIndex,episodeList.size(),sortType);
+            show = false;
+
+        }
+        else
+        {
+            settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
+
+            fragment.initSettings();
+            fragment.showMenu(true, true,isCover,episodeIndex,episodeList.size(),sortType);
+            show = true;
+        }
+        if(pos > 0)
+        {
+            // fragment.showMenu(show);
+
+        }
+    }
+
+    public void onClickSettingsBtn(View view) {
+/*
         int pos = viewPager.getCurrentItem();
         Boolean isCover = false;
         if(pos==0)
@@ -786,6 +890,8 @@ public class WebWorkViewerActivity extends AppCompatActivity{
            // fragment.showMenu(show);
 
         }
+
+ */
     }
 
     public void initVariables()
