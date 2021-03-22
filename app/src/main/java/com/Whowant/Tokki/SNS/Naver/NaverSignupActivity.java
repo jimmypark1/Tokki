@@ -7,10 +7,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.SNS.KakaoTalk.KakaoSDKAdapter;
 import com.Whowant.Tokki.UI.Activity.Login.AgreementActivity;
+import com.Whowant.Tokki.UI.Activity.Login.PanbookLoginActivity;
+import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
+import com.Whowant.Tokki.Utils.CommonUtils;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 
@@ -100,13 +105,35 @@ public class NaverSignupActivity extends AppCompatActivity {
                                         JSONObject object = resultObject.getJSONObject("response");
 
                                         strSNSID = object.getString("id");
-                                        strEmail = object.getString("email");
-                                        strNickName = object.getString("name");
-                                        strPhoto = object.getString("profile_image");
 
-                                        SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
-                                        HttpClient.checkSocialLogin(NaverSignupActivity.this, strSNSID, pref.getString("FCM_TOKEN", ""));
-                                    } else {
+
+
+
+                                        if(object.isNull("email") == false && object.isNull("name") == false )
+                                        {
+                                            strEmail = object.getString("email");
+                                            strNickName = object.getString("name");
+                                            if( object.isNull("profile_image") == false )
+                                                strPhoto = object.getString("profile_image");
+
+                                            SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+                                            HttpClient.checkSocialLogin(NaverSignupActivity.this, strSNSID, pref.getString("FCM_TOKEN", ""));
+
+                                        }
+                                        else
+                                        {
+                                             runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(NaverSignupActivity.this, "네이버에서 개인정보취금 동의를 하셔야 가입을 할 수 있습니다.", Toast.LENGTH_SHORT).show();
+                                                    finish();
+                                                    return;
+                                                }
+                                            });
+                                        }
+
+
+                                      } else {
 
                                     }
                                 } catch (JSONException e) {

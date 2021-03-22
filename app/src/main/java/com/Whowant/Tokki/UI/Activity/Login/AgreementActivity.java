@@ -178,14 +178,30 @@ public class AgreementActivity extends AppCompatActivity {
             return;
         }
 
-        Intent intent = new Intent(AgreementActivity.this, PWRegisterActivity.class);                 // 약관 동의시 개인정보 입력화면으로 이동
-        intent.putExtra("ID", strID);
-        intent.putExtra("SNS", nSNS);
-        intent.putExtra("SNS_ID", strSNSID);
-        intent.putExtra("USER_NAME", strNickName);
-        intent.putExtra("USER_EMAIL", strEmail);
-        intent.putExtra("USER_PHOTO", strPhoto);
-        startActivity(intent);
+        if(nSNS != 0)
+        {
+            Intent intent = new Intent(AgreementActivity.this, PersonalInfoActivity.class);
+            intent.putExtra("ID", strID);
+         //   intent.putExtra("PASSWORD", strPW);
+            intent.putExtra("SNS", nSNS);
+            intent.putExtra("SNS_ID", strSNSID);
+            intent.putExtra("USER_NAME", strNickName);
+            intent.putExtra("USER_EMAIL", strEmail);
+            intent.putExtra("USER_PHOTO", strPhoto);
+            startActivity(intent);
+        }
+        else
+        {
+            Intent intent = new Intent(AgreementActivity.this, PWRegisterActivity.class);                 // 약관 동의시 개인정보 입력화면으로 이동
+            intent.putExtra("ID", strID);
+            intent.putExtra("SNS", nSNS);
+            intent.putExtra("SNS_ID", strSNSID);
+            intent.putExtra("USER_NAME", strNickName);
+            intent.putExtra("USER_EMAIL", strEmail);
+            intent.putExtra("USER_PHOTO", strPhoto);
+            startActivity(intent);
+        }
+
     }
 
     public void onClickTopLeftBtn(View view) {
