@@ -60,8 +60,8 @@ public class AgreementActivity extends AppCompatActivity {
         checkBtn1 = findViewById(R.id.checkBtn1);
         checkBtn2 = findViewById(R.id.checkBtn2);
 
-        bCheck1 = true;
-        bCheck2 = true;
+        bCheck1 = false;
+        bCheck2 = false;
         initViews();
     }
 
