@@ -481,28 +481,54 @@ public class MyPageSpaceFragment extends Fragment {
 
         void setBlockUser(String blockId)
         {
-            new Thread(new Runnable() {
+
+
+
+            getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (getActivity() == null) {
-                        isThreadRunning = false;
-                        return;
-                    }
-                    String userID =  SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest");
 
-                    boolean ret = HttpClient.setSpaceBlockUser(new OkHttpClient(), userID,blockId);
-
-                    getActivity().runOnUiThread(new Runnable() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("사용자 차단 알림");
+                    builder.setMessage("이 사용자를 정말 차단하시겠습니까?");
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                         @Override
-                        public void run() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (getActivity() == null) {
+                                        isThreadRunning = false;
+                                        return;
+                                    }
+                                    String userID =  SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest");
 
-                           getSpacePosts();
-                            Toast.makeText(getActivity(), "해당 사용자가 차단되었습니다.", Toast.LENGTH_SHORT).show();
+                                    boolean ret = HttpClient.setSpaceBlockUser(new OkHttpClient(), userID,blockId);
 
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            getSpacePosts();
+                                            Toast.makeText(getActivity(), "해당 사용자가 차단되었습니다.", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+                                }
+                            }).start();
                         }
                     });
+
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
                 }
-            }).start();
+            });
+
         }
 
         @Override
