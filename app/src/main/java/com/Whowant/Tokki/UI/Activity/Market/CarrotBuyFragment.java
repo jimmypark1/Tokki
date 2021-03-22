@@ -183,7 +183,7 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
                             }
                             else{
                                 //try to add item/product id "purchase" inside managed product in google play console
-                                Toast.makeText(getApplicationContext(),"Purchase Item not Found",Toast.LENGTH_SHORT).show();
+                              //  Toast.makeText(getApplicationContext(),"Purchase Item not Found",Toast.LENGTH_SHORT).show();
                             }
                         } else {
                            // Toast.makeText(getApplicationContext(),
@@ -380,7 +380,7 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
         }
         //if purchase cancelled
         else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
-            Toast.makeText(getApplicationContext(),"Purchase Canceled",Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getApplicationContext(),"Purchase Canceled",Toast.LENGTH_SHORT).show();
         }
         // Handle any other error msgs
         else {
@@ -453,7 +453,7 @@ public class CarrotBuyFragment extends Fragment implements PurchasesUpdatedListe
                 //if purchase is acknowledged
                 // Grant entitlement to the user. and restart activity
                // savePurchaseValueToPref(true);
-                Toast.makeText(getApplicationContext(), "Item Purchased", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(getApplicationContext(), "Item Purchased", Toast.LENGTH_SHORT).show();
                 getActivity().recreate();
             }
         }
