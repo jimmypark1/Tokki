@@ -182,6 +182,12 @@ public class TagRegActivity extends AppCompatActivity {
     private void addTagSelected(String tagName) {
         boolean isCheck = false;
 
+        if(tagList.size() == 10)
+        {
+            Toast.makeText(mActivity, "최대 10개까지 입력이 가능합니다.", Toast.LENGTH_SHORT).show();
+
+            return;
+        }
         for (TagSelectVo vo : tagList) {
             if (tagName.equals(vo.getName())) {
                 isCheck = true;
