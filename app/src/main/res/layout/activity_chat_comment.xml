@@ -40,7 +40,7 @@
             android:layout_marginRight="17dp"
             android:background="@null"
             android:onClick="onClickTopRightBtn"
-            android:src="@drawable/i_setting"/>
+            android:src="@drawable/ic_i_filter"/>
     </RelativeLayout>
 
     <ExpandableListView
