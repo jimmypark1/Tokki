@@ -163,6 +163,10 @@ public class ViewerActivity extends AppCompatActivity {                         
         setFont0();
     }
 
+    boolean isSettings = false;
+    boolean isEpisode = false;
+
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -279,11 +283,23 @@ public class ViewerActivity extends AppCompatActivity {                         
         navBar = findViewById(R.id.navBar);
         starPointLayout = findViewById(R.id.starPointLayout);
         fontControlLayout = findViewById(R.id.fontControlLayout);
+        LinearLayout episodeListLayout = findViewById(R.id.episodeListLayout);
+        ToggleButton episodeListBtn = findViewById(R.id.episodeListBtn);
+        translateDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_down);
+        translateUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_up);
+
+        translateTopDown = AnimationUtils.loadAnimation(this, R.anim.translate_down);
+        translateTopUp = AnimationUtils.loadAnimation(this, R.anim.translate_up);
+        translateBottomDown = AnimationUtils.loadAnimation(this, R.anim.translate_bottom_down);
+        translateBottomUp = AnimationUtils.loadAnimation(this, R.anim.translate_bottom_up);
 
         settingBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+
+
+
                     if(nEpisodeIndex >= workVO.getSortedEpisodeList().size()-1) {
                     //    nextBtn.setVisibility(View.INVISIBLE);
                         nextBtn.setTextColor(Color.parseColor("#D4D4D8"));
@@ -300,8 +316,19 @@ public class ViewerActivity extends AppCompatActivity {                         
                     navBar.setVisibility(View.VISIBLE);
                     fontControlLayout.setVisibility(View.VISIBLE);
 
+                    isSettings = true;
+
+                    if(isEpisode == true)
+                    {
+                        isEpisode = false;
+                        episodeListLayout.startAnimation(translateUp);
+                        episodeListLayout.setVisibility(View.INVISIBLE);
+
+                    }
+
                 } else {
 
+                    isSettings = false;
                     navBar.startAnimation(translateBottomDown);
                     fontControlLayout.startAnimation(translateTopUp);
 
@@ -358,15 +385,6 @@ public class ViewerActivity extends AppCompatActivity {                         
             }
         });
 
-        LinearLayout episodeListLayout = findViewById(R.id.episodeListLayout);
-        ToggleButton episodeListBtn = findViewById(R.id.episodeListBtn);
-        translateDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_down);
-        translateUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_up);
-
-        translateTopDown = AnimationUtils.loadAnimation(this, R.anim.translate_down);
-        translateTopUp = AnimationUtils.loadAnimation(this, R.anim.translate_up);
-        translateBottomDown = AnimationUtils.loadAnimation(this, R.anim.translate_bottom_down);
-        translateBottomUp = AnimationUtils.loadAnimation(this, R.anim.translate_bottom_up);
 
 
 
@@ -374,10 +392,25 @@ public class ViewerActivity extends AppCompatActivity {                         
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+
+                    if(isSettings)
+                    {
+                        isSettings = false;
+                        navBar.startAnimation(translateBottomDown);
+                        fontControlLayout.startAnimation(translateTopUp);
+
+                        navBar.setVisibility(View.INVISIBLE);
+                        fontControlLayout.setVisibility(View.INVISIBLE);
+                        starPointLayout.setVisibility(View.INVISIBLE);
+                        settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
+                    }
+
                     episodeListLayout.setVisibility(View.VISIBLE);
                     translateDown.setFillAfter(true);
                     episodeListLayout.startAnimation(translateDown);
+                    isEpisode = true;
                 } else {
+                    isEpisode = false;
                     episodeListLayout.startAnimation(translateUp);
                     episodeListLayout.setVisibility(View.INVISIBLE);
                 }
@@ -513,6 +546,12 @@ public class ViewerActivity extends AppCompatActivity {                         
         public boolean onTouch(View view, MotionEvent motionEvent) {
 
             if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+
+                if(isSettings || isEpisode)
+                {
+                    return false;
+                }
+
                 fX = motionEvent.getX();
                 fY = motionEvent.getY();
 
@@ -784,7 +823,7 @@ public class ViewerActivity extends AppCompatActivity {                         
                             max = chattingList.size();
                             seekBar.setMax(max);
                             seekBar.setProgress(nShoingIndex);
-                            if(nShoingIndex == chattingList.size() - 1)
+                            if(showingList.size()  == chattingList.size())
                             {
                                 seekBar_value.setText("100");
                             }

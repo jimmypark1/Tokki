@@ -2,7 +2,9 @@ package com.Whowant.Tokki.UI.Fragment.MyPage;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -381,7 +383,7 @@ public class MyPageSpaceFragment extends Fragment {
             });
         }
 
-        void deletePost(String postID)
+        void deleteProcess(String postID)
         {
             new Thread(new Runnable() {
                 @Override
@@ -394,7 +396,7 @@ public class MyPageSpaceFragment extends Fragment {
 
                     Boolean ret = HttpClient.deleteSpacePost(new OkHttpClient(), userID,postID);
 
-                     getActivity().runOnUiThread(new Runnable() {
+                    getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
@@ -408,6 +410,35 @@ public class MyPageSpaceFragment extends Fragment {
                     });
                 }
             }).start();
+        }
+        void deletePost(String postID)
+        {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("게시물 삭제 알림");
+                    builder.setMessage("게시물을 정말 삭제하시겠습니까?");
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            deleteProcess(postID);
+                        }
+                    });
+
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            });
+
+
         }
 
         void report(String postId)
