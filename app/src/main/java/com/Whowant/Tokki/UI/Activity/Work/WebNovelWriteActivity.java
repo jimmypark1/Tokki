@@ -314,6 +314,33 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         //PanAppCreateNovelEpisode
         sendEpisodePost();
     }
+
+    private void requestDeleteEpisode(final int nEpisodeID) {
+        CommonUtils.showProgressDialog(WebNovelWriteActivity.this, "작품 삭제를 요청중입니다.");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String strResult = HttpClient.requestDeleteEpisode(new OkHttpClient(), nEpisodeID);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.hideProgressDialog();
+
+                        if (strResult.equals("SUCCESS")) {
+                            Toast.makeText(WebNovelWriteActivity.this, "회차가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else if (strResult.equals("INTERACTION")) {
+                            Toast.makeText(WebNovelWriteActivity.this, "해당 회차에 인터렉션이 설정되어 있습니다. 인터렉션을 먼저 삭제해 주세요.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(WebNovelWriteActivity.this, "회차 삭제를 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
     public void onClickMoreBtn(View view) {
         PopupMenu popup = new PopupMenu(WebNovelWriteActivity.this, moreBt);
 
@@ -338,7 +365,23 @@ public class WebNovelWriteActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.delete:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(WebNovelWriteActivity.this);
+                        builder.setMessage("에피소드를 삭제하시겠습니까?");
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                requestDeleteEpisode(nEpisodeID);
+                            }
+                        });
 
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
                         break;
 
                 }
