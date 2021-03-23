@@ -79,6 +79,7 @@ public class MarketAddActivity extends AppCompatActivity {
         finish();
     }
     public void onClickGoWriteList(View view) {
+        /*
         Intent intent = new Intent(MarketAddActivity.this, MarketMainActivity.class);
       //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
        // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -87,6 +88,15 @@ public class MarketAddActivity extends AppCompatActivity {
         setResult(777,intent);
         finish();
       //  startActivity(intent);
+
+         */
+        Intent intent = new Intent(MarketAddActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        intent.putExtra("MOVE", true);
+       // setResult(8282,intent);
+        startActivity(intent);
+        finish();
     }
     private void getWorkstData() {
 //        CommonUtils.showProgressDialog(getActivity(), "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");

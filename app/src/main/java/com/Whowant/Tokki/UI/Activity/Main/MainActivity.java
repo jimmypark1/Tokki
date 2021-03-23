@@ -970,6 +970,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        Boolean isMove = intent.getBooleanExtra("MOVE",false);
+        if(isMove == true)
+        {
+            moveViewpager(3);
+        }
+
         //fragment.myPageAdapter.notifyDataSetChanged();
         //myPageSpaceFragment.imageSetting(intent);
 
