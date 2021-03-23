@@ -88,7 +88,7 @@ public class MyPageFollowingFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        getMyFollowingList();
+        //getMyFollowingList();
     }
 
     public class MyPageFollowingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -112,10 +112,10 @@ public class MyPageFollowingFragment extends Fragment {
 
                     switch (type) {
                         case 0:
-                            requestFollow(item.getStrWriterID(), false);
+                       //     requestFollow(item.getStrWriterID(), false);
                             break;
                         case 1:
-                            requestFollow(item.getStrWriterID(), true);
+                         //   requestFollow(item.getStrWriterID(), true);
                             break;
                     }
                 }
@@ -202,74 +202,5 @@ public class MyPageFollowingFragment extends Fragment {
         }
     }
 
-    private void getMyFollowingList() {
-        CommonUtils.showProgressDialog(getActivity(), "팔로우 리스트를 가져오고 있습니다.");
-        writerList.clear();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String userId = SimplePreference.getStringPreference(getContext(), "USER_INFO", "USER_ID", "Guest");
-
-                if(userId.equals(writerId)) {
-                    writerList.addAll(HttpClient.getMyFollowingList(new OkHttpClient(), writerId));
-                } else {
-                    writerList.addAll(HttpClient.getWriterFollowingList(new OkHttpClient(), userId, writerId));
-                }
-
-                for (int i = 0; i < writerList.size(); i++) {
-                    WriterVO vo = writerList.get(i);
-                    if (vo.getStrWriterID().equals(writerId)) {
-                        writerList.remove(i);
-                    }
-                }
-
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        CommonUtils.hideProgressDialog();
-
-                        if (writerList == null) {
-                            Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        if (writerList.size() == 0) {
-                            TextView textView = getView().findViewById(R.id.emptyViewFollowing);
-                            textView.setVisibility(View.VISIBLE);
-                        }
-
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        }).start();
-    }
-
-    private void requestFollow(String strUserID, boolean bFollow) {
-        CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다.");
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String strMyID = SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest");
-
-                boolean bResult = HttpClient.requestFollow(new OkHttpClient(), strMyID, strUserID, bFollow);
-
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        CommonUtils.hideProgressDialog();
-
-                        if (bResult) {
-                            getMyFollowingList();
-                        } else {
-                            Toast.makeText(getActivity(), "서버와의 통신에 실패했습니다.", Toast.LENGTH_LONG).show();
-                            getMyFollowingList();
-                        }
-                    }
-                });
-            }
-        }).start();
-    }
 }

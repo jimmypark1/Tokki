@@ -212,11 +212,14 @@ public class ViewerActivity extends AppCompatActivity {                         
         episodeListView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         episodeListView.getLayoutManager().scrollToPosition(episodeList.size() - nEpisodeIndex - 1);
 
+
         if(workVO.getSortedEpisodeList() == null) {
             Toast.makeText(this, "작품을 읽어오는 중 문제가 발생했습니다. 다시 로딩해 주세요.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
+
+
 
         TextView titleView = findViewById(R.id.titleView);
         titleView.setText(workVO.getSortedEpisodeList().get(nEpisodeIndex).getStrTitle());

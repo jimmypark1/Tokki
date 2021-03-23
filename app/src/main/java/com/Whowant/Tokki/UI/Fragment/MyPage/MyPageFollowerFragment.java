@@ -231,12 +231,12 @@ public class MyPageFollowerFragment extends Fragment {
                             Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-
+/*
                         if (writerList.size() == 0) {
                             TextView textView = getView().findViewById(R.id.emptyViewFollower);
                             textView.setVisibility(View.VISIBLE);
                         }
-
+*/
                         for (int i = 0; i < writerList.size(); i++) {
                             WriterVO vo = writerList.get(i);
                             if (vo.getStrWriterID().equals(writerId)) {

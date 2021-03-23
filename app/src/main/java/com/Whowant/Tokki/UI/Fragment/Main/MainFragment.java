@@ -355,10 +355,14 @@ public class MainFragment extends Fragment {                                    
                             return;
                         }
                       //  mainCardList.add(banneCard);
-                       mainCardList.add(2,banneCard);
+                        if(mainCardList.size() > 2)
+                        {
+                            mainCardList.add(2,banneCard);
 
-                      //  adapter.setData(mainCardList);
-                        adapter.setData(mainCardList);
+                            //  adapter.setData(mainCardList);
+                            adapter.setData(mainCardList);
+                        }
+
 
                     }
                 });

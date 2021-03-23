@@ -751,6 +751,7 @@ public class LiteratureWriteActivity extends AppCompatActivity implements View.O
                         intent = new Intent(LiteratureWriteActivity.this, ViewerActivity.class);
                         ViewerActivity.workVO = workVO;
                         intent.putExtra("EPISODE_INDEX", nInteractionIndex);
+                        workVO.setSortedEpisodeList(workVO.getEpisodeList());
                         intent.putExtra("INTERACTION", workVO.getEpisodeList().get(nInteractionIndex).getIsDistractor());
                         intent.putExtra("PREVIEW", true);
                         startActivity(intent);

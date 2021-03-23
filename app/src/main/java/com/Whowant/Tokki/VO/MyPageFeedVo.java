@@ -8,6 +8,15 @@ public class MyPageFeedVo {
     public ArrayList<WriterVO> follow = new ArrayList<>();
     public String noti;
     public String userDesc;
+    public int viewType;
+
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
+    }
+
+    public int getViewType() {
+        return viewType;
+    }
 
     public int getType() {
         return type;

@@ -41,8 +41,16 @@ public class WorkVO implements Serializable {
     private String strCoverBlurFile;                            // 커버 이미지 파일명
     private String genres;
     private String tags;
+    private int viewType;
 
 
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
+    }
+
+    public int getViewType() {
+        return viewType;
+    }
 
     public WorkVO() {
 

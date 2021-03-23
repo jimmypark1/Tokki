@@ -295,7 +295,48 @@ public class HttpClient {
 
         return resultList;
     }
+    public static ArrayList<WorkVO> GetAllWorkListWithWriterID2(OkHttpClient httpClient, String strUserID) {                              // 모든 작품 목록 가져오기
+        ArrayList<WorkVO> resultList = new ArrayList<>();
 
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetAllWorkWithWriterID&USER_ID=" + strUserID)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                WorkVO workVO = new WorkVO();
+                workVO.setWorkID(object.getInt("WORK_ID"));
+                workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                workVO.setWriteID(object.getString("WRITER_ID"));
+                workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                workVO.setTitle(object.getString("WORK_TITLE"));
+                workVO.setCoverFile(object.getString("WORK_COVER_IMG"));
+                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                workVO.setnTarget(object.getInt("TARGET"));
+                workVO.setViewType(1);
+
+                resultList.add(workVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
     public static ArrayList<WorkVO> GetAllWorkListWithID(OkHttpClient httpClient, String strUserID) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
 
@@ -1170,6 +1211,54 @@ public class HttpClient {
 
         return resultList;
     }
+    public static ArrayList<WorkVO> getKeepWorkList2(OkHttpClient httpClient, String strUserID, String strOrder) {                              // 모든 작품 목록 가져오기
+        ArrayList<WorkVO> resultList = new ArrayList<>();
+
+        Request request ;
+        request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetKeepWorkList&USER_ID=" + strUserID + "&ORDER=" + strOrder)
+                .tag("KEEP_WORK")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                WorkVO workVO = new WorkVO();
+                workVO.setWorkID(object.getInt("WORK_ID"));
+                workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                workVO.setWriteID(object.getString("WRITER_ID"));
+                workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                workVO.setTitle(object.getString("WORK_TITLE"));
+                workVO.setCoverFile(object.getString("WORK_COVER_IMG"));
+                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                workVO.setnTarget(object.getInt("TARGET"));
+                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setViewType(2);
+                resultList.add(workVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
 
     public static ArrayList<WorkVO> getReadWorkList(OkHttpClient httpClient, String strUserID, String strOrder) {                              // 모든 작품 목록 가져오기
         ArrayList<WorkVO> resultList = new ArrayList<>();
@@ -1221,7 +1310,57 @@ public class HttpClient {
 
         return resultList;
     }
+    public static ArrayList<WorkVO> getReadWorkList2(OkHttpClient httpClient, String strUserID, String strOrder) {                              // 모든 작품 목록 가져오기
+        ArrayList<WorkVO> resultList = new ArrayList<>();
 
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=GetMyReadWorkList&USER_ID=" + strUserID + "&ORDER=" + strOrder)
+                .tag("READ_WORK")
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return null;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            JSONArray resultArray = resultObject.getJSONArray("WORK_LIST");
+
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject object = resultArray.getJSONObject(i);
+
+                WorkVO workVO = new WorkVO();
+
+                if (object.getString("WORK_ID") == null || object.getInt("WORK_ID") == 0)
+                    continue;
+
+                workVO.setWorkID(object.getInt("WORK_ID"));
+                workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                workVO.setWriteID(object.getString("WRITER_ID"));
+                workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                workVO.setTitle(object.getString("WORK_TITLE"));
+                workVO.setCoverFile(object.getString("WORK_COVER_IMG"));
+                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                workVO.setnTarget(object.getInt("TARGET"));
+                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                workVO.setViewType(1);
+                resultList.add(workVO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
     public static void sendTap(OkHttpClient httpClient, int nEpisodeID) {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=SendTap&EPISODE_ID=" + nEpisodeID)
@@ -1973,14 +2112,7 @@ public class HttpClient {
         boolean bResult = false;
 
         JSONObject jsonBody = new JSONObject();
-/*
-      "SENDER_ID" : senderID,
-            "RECEIVER_ID" : receiverID,
-            "CONTENTS" : strContents,
-            "THREAD_ID" : String(threadID),
-            "CARROT" : String(carrot),
-            "contract_complete" : complete,
- */
+
 
         try {
             //     strContents = URLEncoder.encode(strContents, "UTF-8");
@@ -1991,11 +2123,6 @@ public class HttpClient {
             jsonBody.put("CARROT", "" + carrot);
 
             jsonBody.put("contract_complete", complete);
-
-//            Request request = new Request.Builder()
-//                    .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=SendMsg&SENDER_ID=" + senderID + "&RECEIVER_ID=" + receiverID + "&CONTENTS=" + strContents + "&THREAD_ID=" + nThreadID)
-//                    .get()
-//                    .build();
 
             String jsonString = jsonBody.toString();
             RequestBody requestBody = RequestBody.create(JSON, jsonString);
@@ -2027,7 +2154,50 @@ public class HttpClient {
 
         return bResult;
     }
+    public static boolean sendFCMNChat(OkHttpClient httpClient, String senderID, String receiverID, String strContents, int nThreadID) {
+        boolean bResult = false;
 
+        JSONObject jsonBody = new JSONObject();
+
+
+        try {
+            //     strContents = URLEncoder.encode(strContents, "UTF-8");
+            jsonBody.put("SENDER", senderID);
+            jsonBody.put("RECV", receiverID);
+            jsonBody.put("MSG", strContents);
+            jsonBody.put("THREAD_ID", "" + nThreadID);
+          ;
+
+            String jsonString = jsonBody.toString();
+            RequestBody requestBody = RequestBody.create(JSON, jsonString);
+
+            Request request = new Request.Builder()
+                    .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=SendMsgFCM")
+                    .post(requestBody)
+                    .build();
+
+            try (Response response = httpClient.newCall(request).execute()) {
+                if (response.code() != 200)
+                    return false;
+
+                String strResult = response.body().string();
+                JSONObject resultJsonObject = new JSONObject(strResult);
+
+                if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+                    return true;
+                else
+                    return false;
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return bResult;
+    }
 //    public static boolean requestSendMessage(OkHttpClient httpClient, String senderID, String receiverID, String strContents, int nThreadID) {
 //        JSONObject jsonBody = new JSONObject();
 //

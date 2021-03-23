@@ -262,11 +262,23 @@ public class MessageDetailActivity extends AppCompatActivity {
                             Toast.makeText(MessageDetailActivity.this, "서버와의 통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-
+                        requestSendFCMMessage(strText);
                         getMessageList();
                         inputTextView.setText("");
+
                     }
                 });
+            }
+        }).start();
+    }
+    private void requestSendFCMMessage(String strText) {
+        SharedPreferences pref = getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final boolean bResult = HttpClient.sendFCMNChat(new OkHttpClient(), pref.getString("USER_ID", "Guest"), strReceiverID, strText, nThreadID);
+
+
             }
         }).start();
     }
