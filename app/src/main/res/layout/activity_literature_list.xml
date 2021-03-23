@@ -35,10 +35,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/empty"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="20dp"
+
             android:gravity="center"
             android:text="등록된 작품이 없습니다.\n새 작품을 올려보세요~!"
             android:textColor="#191919"
             android:textSize="15sp" />
+
+     <Button
+         android:layout_below="@+id/emptyView"
+         android:id="@+id/add"
+         android:layout_width="match_parent"
+         android:layout_height="44dp"
+         android:layout_marginLeft="40dp"
+         android:layout_marginRight="40dp"
+         android:layout_marginTop="40dp"
+         android:layout_marginBottom="100dp"
+         android:text="작품 쓰기"
+         android:textSize="15sp"
+         android:enabled="true"
+         android:layout_centerHorizontal="true"
+         android:background="@drawable/login_btn_en_bg"
+         android:textColor="#ffffff"
+         android:onClick="onClickMoveToMarket"
+
+         />
  </RelativeLayout>
 </RelativeLayout>
