@@ -25,6 +25,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
 import com.Whowant.Tokki.UI.Popup.CommonPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
+import com.Whowant.Tokki.Utils.SimplePreference;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -67,6 +70,11 @@ import static com.Whowant.Tokki.Utils.CommonUtils.getNetworkState;
 public class PanbookLoginActivity extends AppCompatActivity  {
     private EditText inputIDView;
     private EditText inputPWView;
+
+    ImageView sns0;
+    ImageView sns1;
+    ImageView sns2;
+    ImageView sns3;
 
     // KakaoTalk Login
     private PanbookLoginActivity.SessionCallback kakaoCallback;
@@ -104,7 +112,55 @@ public class PanbookLoginActivity extends AppCompatActivity  {
         loginBtn = findViewById(R.id.loginBtn);
         registerBtn = findViewById(R.id.registerBtn);
 
+        sns0  = findViewById(R.id.sns0);
+        sns1  = findViewById(R.id.sns1);
+        sns2  = findViewById(R.id.sns2);
+        sns3  = findViewById(R.id.sns3);
+
+        sns0.setVisibility(View.INVISIBLE);
+        sns1.setVisibility(View.INVISIBLE);
+        sns2.setVisibility(View.INVISIBLE);
+        sns3.setVisibility(View.INVISIBLE);
+
         initUI();
+
+        int nSns = SimplePreference.getIntegerPreference(PanbookLoginActivity.this, "USER_INFO", "SNS_TYPE", 0);
+        SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+        int nRegisterSNS = pref.getInt("REGISTER_SNS", 0);
+
+        if(nSns > 0)
+        {
+            sns0.setVisibility(View.INVISIBLE);
+            sns1.setVisibility(View.INVISIBLE);
+            sns2.setVisibility(View.INVISIBLE);
+            sns3.setVisibility(View.INVISIBLE);
+            if(nSns == 1)
+            {
+                sns0.setVisibility(View.VISIBLE);
+
+            }
+            else if(nSns == 2)
+            {
+                sns1.setVisibility(View.VISIBLE);
+
+            }
+            else if(nSns == 4)
+            {
+                sns2.setVisibility(View.VISIBLE);
+
+            }
+            else if(nSns == 5)
+            {
+                sns3.setVisibility(View.VISIBLE);
+
+            }
+
+        }
+        else
+        {
+
+        }
+
 
         inputIDView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -255,8 +311,8 @@ public class PanbookLoginActivity extends AppCompatActivity  {
         mContext = this;
 
         // 로그인 이력이 있다면 자동 로그인 진행
-        SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
-        int nRegisterSNS = pref.getInt("REGISTER_SNS", 0);
+       // SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+       // int nRegisterSNS = pref.getInt("REGISTER_SNS", 0);
         String strUserID = pref.getString("USER_ID", "Guest");
         String strUserPW = pref.getString("USER_PW", "");
 
@@ -383,6 +439,8 @@ public class PanbookLoginActivity extends AppCompatActivity  {
 
                                     SharedPreferences.Editor editor = pref.edit();
 
+                                    editor.putInt("SNS_TYPE", 0);
+
                                     editor.putString("USER_ID", strID);
                                     editor.putString("USER_PW", strPW);
                                     editor.putString("USER_NAME", strUserName);
@@ -463,6 +521,7 @@ public class PanbookLoginActivity extends AppCompatActivity  {
              //   intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
               //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
+
                 intent.putExtra("SNS", snsNum);
                 intent.putExtra("SNS_ID", snsID);
                 intent.putExtra("USER_NAME", name);
@@ -473,6 +532,16 @@ public class PanbookLoginActivity extends AppCompatActivity  {
 
 //                startActivity(new Intent(PanbookLoginActivity.this, AgreementActivity.class));
             } else if (requestCode == 1000) {                       // Naver 로그인 결과를 받아오는 부분. RESULT_OK 라면 로그인 성공으로 MainActivity 로 이동
+
+
+                final SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = pref.edit();
+
+                editor.putInt("SNS_TYPE", 2);
+
+                editor.commit();
+
                 Intent intent = new Intent(PanbookLoginActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -484,6 +553,7 @@ public class PanbookLoginActivity extends AppCompatActivity  {
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
+
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 e.printStackTrace();
@@ -633,6 +703,14 @@ public class PanbookLoginActivity extends AppCompatActivity  {
                             PanbookLoginActivity.this.photoUrl = photoUrl;
                             PanbookLoginActivity.this.snsID = user.getUid();
 
+                            final SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+
+                            SharedPreferences.Editor editor = pref.edit();
+
+                            editor.putInt("SNS_TYPE", 5);
+
+                            editor.commit();
+
                             requestSNSLogin(email, user.getUid(), true);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -656,6 +734,8 @@ public class PanbookLoginActivity extends AppCompatActivity  {
             String strSNSID = pref.getString("SNS_ID", "");
 
             if(strUserID.length() > 0 && strSNSID.length() > 0 && !strUserID.equals("Guest")) {
+
+
                 requestPanbookLogin(strSNSID);
                 return;
             }
@@ -874,7 +954,10 @@ public class PanbookLoginActivity extends AppCompatActivity  {
                                     editor.putString("USER_DESC", strUserDesc);
                                     editor.putString("USER_BIRTHDAY", strBirthday);
                                     editor.putInt("USER_GENDER", nGender);
+
                                     editor.commit();
+
+
 
                                     Intent intent = new Intent(PanbookLoginActivity.this, MainActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

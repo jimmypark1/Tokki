@@ -68,6 +68,15 @@ public class KakaoSignupActivity extends AppCompatActivity {
                 intent.putExtra("USER_NAME", strNickName);
                 intent.putExtra("USER_PHOTO", strPhoto);
                 intent.putExtra("SNS", 1);
+
+                final SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = pref.edit();
+
+                editor.putInt("SNS_TYPE", 1);
+
+                editor.commit();
+
                 startActivity(intent);
             } else {
                 KakaoSDKAdapter.unregisterKakaoTalk(KakaoSignupActivity.this);

@@ -89,6 +89,15 @@ public class FacebookSignupActivity extends AppCompatActivity implements GetUser
                 intent.putExtra("USER_NAME", strNickName);
                 intent.putExtra("USER_PHOTO", strPhoto);
                 intent.putExtra("SNS", 4);
+
+
+                final SharedPreferences pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = pref.edit();
+
+                editor.putInt("SNS_TYPE", 4);
+
+                editor.commit();
                 startActivity(intent);
             } else {
                 finish();
