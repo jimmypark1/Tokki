@@ -680,6 +680,7 @@ public class MarketAddEditActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        /*
                         if(ret == true)
                         {
                        //     finish();
@@ -695,6 +696,13 @@ public class MarketAddEditActivity extends AppCompatActivity {
                             Toast.makeText(MarketAddEditActivity.this, "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
 
                         }
+
+                         */
+                        Intent intent = new Intent(MarketAddEditActivity.this, MarketAddCompleteActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                        startActivity(intent);
+                        finish();
 
                     }
                 });
