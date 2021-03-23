@@ -3,17 +3,20 @@ package com.Whowant.Tokki.UI.Activity.Work;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,11 +24,15 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Admin.AproveWaitingEpisodeListActivity;
 import com.Whowant.Tokki.UI.Popup.ChangeTitlePopup;
+import com.Whowant.Tokki.UI.Popup.EpisodeAproveCancelPopup;
 import com.Whowant.Tokki.UI.Popup.MediaSelectPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.ExcelReader;
@@ -73,6 +80,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
     int nEpisodeOrder = 0;
 
     Boolean bPublish = false;
+    Button moreBt;
 
     ArrayList<WebWorkVO> novels = new ArrayList<WebWorkVO>();
     ArrayList<WebWorkVO> publishContent = new ArrayList<WebWorkVO>();
@@ -144,7 +152,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         titleView = findViewById(R.id.episodeTitleView);
         page = findViewById(R.id.page);
         episodeNumView = findViewById(R.id.episodeNumView);
-
+        moreBt = findViewById(R.id.moreBtn);
         editer =  findViewById(R.id.editer);
         content = findViewById(R.id.content);
 
@@ -200,6 +208,78 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
 
     }
+    void save()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                if(content.getText().length() > 0  )
+                {
+                    WebWorkVO work = new WebWorkVO();
+                    work.setRaw(content.getText().toString());
+                    work.setContent(content.getText().toString());
+
+                    publishContent.set(nPage, work);
+
+                    //    publishContent.add(work);
+                }
+                for(int i=0;i<publishContent.size();i++) {
+                    String data = publishContent.get(i).getRaw();
+                    if (data.equals("-1") == false) {
+                        String content = publishContent.get(i).getRaw().replace("\n", "<br>");
+
+                        boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(), String.valueOf(nEpisodeID), String.valueOf(nWorkID), content, String.valueOf(nPage), String.valueOf(i + 1));
+
+                        //   while(ret == false)
+                        {
+
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                finish();
+
+            }
+        }).start();
+    }
+    void save0()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                if(content.getText().length() > 0  )
+                {
+                    WebWorkVO work = new WebWorkVO();
+                    work.setRaw(content.getText().toString());
+                    work.setContent(content.getText().toString());
+
+                    publishContent.set(nPage, work);
+
+                    //    publishContent.add(work);
+                }
+                for(int i=0;i<publishContent.size();i++) {
+                    String data = publishContent.get(i).getRaw();
+                    if (data.equals("-1") == false) {
+                        String content = publishContent.get(i).getRaw().replace("\n", "<br>");
+
+                        boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(), String.valueOf(nEpisodeID), String.valueOf(nWorkID), content, String.valueOf(nPage), String.valueOf(i + 1));
+
+                        //   while(ret == false)
+                        {
+
+                        }
+                    } else {
+                        break;
+                    }
+                }
+
+
+            }
+        }).start();
+    }
 
     public void onClickTopLeftBtn(View view) {
 
@@ -209,69 +289,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
         {
 
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    //createNovelEpisode String workId,String content,String pages,String page)
-/*
-                    if( (content.getText().length() > 0))
-                    {
-                        WebWorkVO work = new WebWorkVO();
-                        work.setRaw(content.getText().toString());
-                        work.setContent(content.getText().toString());
-                        publishContent.add(work);
-                    }
-                    for(int i=0;i<publishContent.size();i++)
-                    {
-                        String content= publishContent.get(i).getRaw().replace("\n", "<br>");
-                        boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),content,String.valueOf(publishContent.size()),String.valueOf(i+1));
-                        while(ret == false)
-                        {
-                        }
-                    }
-*/
-/*
-                    if(nPage == 0 || nPage == (publishContent.size() - 1 ))
-                    {
-                        String temp =  content.getText().toString();
-                        if(temp.length() > 0)
-                        {
-                            boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(),String.valueOf(nEpisodeID), String.valueOf(nWorkID),temp,String.valueOf(publishContent.size()+1),String.valueOf(nPage + 1));
-                            while(ret == false)
-                            {
-                            }
-                        }
-                    }
- */
-                    if(content.getText().length() > 0  )
-                    {
-                        WebWorkVO work = new WebWorkVO();
-                        work.setRaw(content.getText().toString());
-                        work.setContent(content.getText().toString());
-
-                        publishContent.set(nPage, work);
-
-                        //    publishContent.add(work);
-                    }
-                    for(int i=0;i<publishContent.size();i++) {
-                        String data = publishContent.get(i).getRaw();
-                        if (data.equals("-1") == false) {
-                            String content = publishContent.get(i).getRaw().replace("\n", "<br>");
-
-                            boolean ret = HttpClient.createNovelEpisode(new OkHttpClient(), String.valueOf(nEpisodeID), String.valueOf(nWorkID), content, String.valueOf(nPage), String.valueOf(i + 1));
-
-                            //   while(ret == false)
-                            {
-
-                            }
-                        } else {
-                            break;
-                        }
-                    }
-                    finish();
-
-                }
-            }).start();
+            save();
         }
 
 
@@ -295,6 +313,40 @@ public class WebNovelWriteActivity extends AppCompatActivity {
          */
         //PanAppCreateNovelEpisode
         sendEpisodePost();
+    }
+    public void onClickMoreBtn(View view) {
+        PopupMenu popup = new PopupMenu(WebNovelWriteActivity.this, moreBt);
+
+
+         popup.getMenuInflater().inflate(R.menu.web_more_menu, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+
+
+                switch(item.getItemId()) {
+                    case R.id.preview:
+                        Intent intent = new Intent(WebNovelWriteActivity.this, WebWorkViewerActivity.class);
+                     //   ViewerActivity.workVO = workVO;
+                        //  intent.putExtra("WORK", (Serializable) workVO);
+                       // ViewerActivity.workVO;
+                        save0();
+                        int index = ViewerActivity.workVO.getEpisodeList().size() - nEpisodeOrder ;
+                        intent.putExtra("EPISODE_INDEX", index);
+
+                        intent.putExtra("LAST_ORDER", 0);
+                        startActivity(intent);
+                        break;
+                    case R.id.delete:
+
+                        break;
+
+                }
+                return true;
+            }
+        });
+
+        popup.show();//showing popup menu
     }
 
     public void onClickPrev(View view) {

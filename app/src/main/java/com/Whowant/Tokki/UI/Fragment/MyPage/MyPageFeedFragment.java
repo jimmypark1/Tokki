@@ -248,29 +248,37 @@ public class MyPageFeedFragment extends Fragment {
                 @Override
                 public void run() {
                  //   readHttp = new OkHttpClient();
-                    if(viewType == 0)
-                    {
-                        myArrayList = HttpClient.GetAllWorkListWithWriterID2(new OkHttpClient(), writerId);
-                        workAdater = new MyPageWorkAdapter(getContext(), myArrayList,0);
-                        viewHoder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                        viewHoder.recyclerView.setAdapter(workAdater);
+                    myArrayList = HttpClient.GetAllWorkListWithWriterID2(new OkHttpClient(), writerId);
+                    readArrayList = HttpClient.getReadWorkList2(new OkHttpClient(), writerId, "UPDATE");
+                    keepArrayList = HttpClient.getKeepWorkList2(new OkHttpClient(), writerId, "UPDATE");
 
-                    }
-                    else if(viewType == 1)
-                    {
-                        readArrayList = HttpClient.getReadWorkList2(new OkHttpClient(), writerId, "UPDATE");
-                        workAdater2 = new MyPageWorkAdapter(getContext(), readArrayList,1);
-                        viewHoder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                        viewHoder.recyclerView.setAdapter(workAdater2);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(viewType == 0)
+                            {
+                                 workAdater = new MyPageWorkAdapter(getContext(), myArrayList,0);
+                                viewHoder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                                viewHoder.recyclerView.setAdapter(workAdater);
 
-                    }
-                    else
-                    {
-                        keepArrayList = HttpClient.getKeepWorkList2(new OkHttpClient(), writerId, "UPDATE");
-                        workAdater3 = new MyPageWorkAdapter(getContext(), keepArrayList,2);
-                        viewHoder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                        viewHoder.recyclerView.setAdapter(workAdater3);
-                    }
+                            }
+                            else if(viewType == 1)
+                            {
+                                workAdater2 = new MyPageWorkAdapter(getContext(), readArrayList,1);
+                                viewHoder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                                viewHoder.recyclerView.setAdapter(workAdater2);
+
+                            }
+                            else
+                            {
+                                workAdater3 = new MyPageWorkAdapter(getContext(), keepArrayList,2);
+                                viewHoder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                                viewHoder.recyclerView.setAdapter(workAdater3);
+                            }
+                        }
+                    });
+
+
 
 
                 }
