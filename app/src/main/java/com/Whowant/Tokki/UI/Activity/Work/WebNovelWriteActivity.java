@@ -360,6 +360,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
                         save0();
                         int index = ViewerActivity.workVO.getEpisodeList().size() - nEpisodeOrder ;
                         intent.putExtra("EPISODE_INDEX", index);
+                        intent.putExtra("EPISODE_SORT", false);
 
                         intent.putExtra("LAST_ORDER", 0);
                         startActivity(intent);
