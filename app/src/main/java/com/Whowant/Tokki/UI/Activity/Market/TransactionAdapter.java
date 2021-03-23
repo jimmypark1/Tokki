@@ -29,11 +29,21 @@ public class TransactionAdapter extends FragmentStatePagerAdapter {
 
     List<Fragment> fragments=new ArrayList<>();
 
-    public TransactionAdapter(FragmentManager fm) {
+    public TransactionAdapter(FragmentManager fm, int type) {
         super(fm);
         fragments.add(new TransactionProgressingFragment());
         fragments.add(new TransactionCompleteFragment());
-        fragments.add(new CarrotBuyFragment());
+        if(type == 0)
+        {
+            fragments.add(new CarrotBuyFragment());
+
+        }
+        else
+        {
+            fragments.add(new CalculeteInfoFragment());
+
+        }
+        //
     }
 
     @Override

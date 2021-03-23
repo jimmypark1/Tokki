@@ -118,24 +118,6 @@ public class TransactionProgressingFragment extends Fragment {
             public void run() {
                 String userId = SimplePreference.getStringPreference(getActivity(), "USER_INFO", "USER_ID", "Guest");
 
-            //    userId = "1511869881";
-            //    boolean isWriter =  HttpClient.isWriter(new OkHttpClient(),userId,"");
-/*
-                if(isWriter)
-                {
-                    //let userId = UserDefaults.standard.string(forKey: "USER_ID")
-
-
-                    marketMsgs = HttpClient.getTrading(new OkHttpClient(),userId);
-
-                }
-                else
-                {
-                    marketMsgs = HttpClient.getTrading2(new OkHttpClient(),userId);
-
-                }
-
- */
                 marketMsgs = HttpClient.getTrading(new OkHttpClient(),userId);
 
 
@@ -165,27 +147,10 @@ public class TransactionProgressingFragment extends Fragment {
                                 adapter = new TransactionProgressingAdapter(getActivity(),marketMsgs);
                                 recyclerView.setAdapter(adapter);
 
-                                //                       marketAdapter.notifyDataSetChanged();
-                            }
-                        });
-
-//                        recyclerView.notifyAll();
-
-                        //  recyclerView.setAdapter(aa);
-                        // adapter = new MyPageFeedFragment.MyPageFeedAdapter(getContext(), mArrayList);
-                        /*
-                        aa = new MarketAdapter(getActivity());
-
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                        recyclerView.setAdapter(aa);
-                        ItemClickSupport.addTo(recyclerView).setItemClickListener(new ItemClickSupport.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(RecyclerView parent, View view, int position, long id) {
 
                             }
                         });
 
-                         */
 
                     }
                 });

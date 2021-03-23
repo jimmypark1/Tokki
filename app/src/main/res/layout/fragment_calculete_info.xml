@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Activity.Market.CalculeteInfoFragment">
+
+    <RelativeLayout
+        android:id="@+id/top"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ImageView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="150dp"
+            android:gravity="center"
+
+            android:src="@drawable/i_success"
+            />
+        <TextView
+            android:layout_below="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:textColor="#191919"
+            android:textSize="15sp"
+
+            android:text="정산내역 및 출금은\n토키 웹 PC 버전에서\n확인하실 수 있습니다."
+            android:textAlignment="center"
+            />
+        <RelativeLayout
+            android:layout_below="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_marginTop="80dp"
+            android:layout_height="100dp"
+            android:background="#fafafa"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:gravity="center"
+
+
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                 android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+
+                android:gravity="center"
+                android:textColor="#767676"
+                android:textSize="13sp"
+                android:background="@drawable/round_market_info"
+                android:text="정산관련 문의\nwhowant@whowant.kr"
+                android:textAlignment="center"
+                />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>
