@@ -106,7 +106,7 @@ public class TransactionActivity extends AppCompatActivity {
 
                             String ret = resultObject.getString("COMMENT");
                             int nType = resultObject.getInt("TYPE");
-                            if(nType == 0 ||nType == 1)
+                            if(nType != 1 )
                             {
 
                                 tabLayout.addTab(tabLayout.newTab().setText("거래중"));
