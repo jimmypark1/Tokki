@@ -103,6 +103,9 @@ public class MyPageFeedFragment extends Fragment {
     OkHttpClient keepHttp;
     OkHttpClient readHttp;
     OkHttpClient allHttp;
+
+    LinearLayout empty;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,8 +140,9 @@ public class MyPageFeedFragment extends Fragment {
 
         recyclerView = v.findViewById(R.id.recyclerView);
 
+        empty  = v.findViewById(R.id.empty);
 
-
+        empty.setVisibility(View.INVISIBLE);
         CategoryData data = new CategoryData();
 
         data.title = "쓰고있는 작품";
@@ -255,6 +259,15 @@ public class MyPageFeedFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            if(myArrayList.size() == 0 && readArrayList.size() == 0 && keepArrayList.size() == 0)
+                            {
+                                category.clear();
+                                adapter0.notifyDataSetChanged();
+                                empty.setVisibility(View.VISIBLE);
+
+                                return;
+                            }
+
                             if(viewType == 0)
                             {
                                  workAdater = new MyPageWorkAdapter(getContext(), myArrayList,0);

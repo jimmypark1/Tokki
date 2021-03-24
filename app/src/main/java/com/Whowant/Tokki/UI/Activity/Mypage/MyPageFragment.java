@@ -649,8 +649,20 @@ public class MyPageFragment extends Fragment {
 
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
-                    if (!isFirst) {
+                    int pos = tab.getPosition();
+
+
+                    if(pos == 1)
+                    {
                         appbar.setExpanded(false, true);
+
+                    }
+                    else
+                    {
+                        appbar.setExpanded(true, true);
+
+                    }
+                    if (!isFirst) {
                     }
 
                     isFirst = false;
