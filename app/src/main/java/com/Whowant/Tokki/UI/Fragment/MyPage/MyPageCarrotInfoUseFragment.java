@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +34,7 @@ public class MyPageCarrotInfoUseFragment extends Fragment {
     ArrayList<CarrotVO> mArrayList = new ArrayList<>();
 
     TextView carrotCountTv;
+   // LinearLayout container;
 
     @Nullable
     @Override
@@ -40,9 +44,11 @@ public class MyPageCarrotInfoUseFragment extends Fragment {
         carrotCountTv = v.findViewById(R.id.tv_carrot_info_use_carrot_count);
 
         recyclerView = v.findViewById(R.id.recyclerView);
-        adapter = new MyPageCarrotInfoUseAdapter(getContext(), mArrayList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(adapter);
+     //   container =  v.findViewById(R.id.container);
+        FragmentManager childFragmentManager =  getChildFragmentManager();
+        childFragmentManager.beginTransaction()
+                .add(0,new MyPageCarrotInfoGetFragment())
+                .commit();
 
         return v;
     }
@@ -50,6 +56,12 @@ public class MyPageCarrotInfoUseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+     //   getUsedCarrot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         getUsedCarrot();
     }
 
@@ -127,8 +139,11 @@ public class MyPageCarrotInfoUseFragment extends Fragment {
                             CarrotVO vo = mArrayList.get(0);
                             carrotCountTv.setText(CommonUtils.comma(vo.getnTotalPoint()));
                         }
-
+                        adapter = new MyPageCarrotInfoUseAdapter(getContext(), mArrayList);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                        recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
+
                     }
                 });
             }

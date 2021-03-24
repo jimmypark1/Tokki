@@ -40,18 +40,23 @@ public class MyPageCarrotInfoGetFragment extends Fragment {
         carrotCountTv = v.findViewById(R.id.tv_carrot_info_get_carrot_count);
 
         recyclerView = v.findViewById(R.id.recyclerView);
-        adapter = new MyPageCarrotInfoGetAdapter(getContext(), mArrayList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(adapter);
+
 
         return v;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
         getUsedCarrot();
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //getUsedCarrot();
+    }
+
 
     public class MyPageCarrotInfoGetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -142,7 +147,11 @@ public class MyPageCarrotInfoGetFragment extends Fragment {
                             CarrotVO vo = mArrayList.get(0);
                             carrotCountTv.setText(CommonUtils.comma(vo.getnTotalPoint()));
                         }
+                        adapter = new MyPageCarrotInfoGetAdapter(getContext(), mArrayList);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                        recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
+                        ;
                     }
                 });
             }

@@ -68,8 +68,11 @@ public class MainFragment extends Fragment {                                    
     public void Clear()
     {
       //  mainRecyclerView.smoothScrollToPosition(0);
-        mainCardList.clear();
-        recommendCardList.clear();
+        if(mainCardList != null)
+            mainCardList.clear();
+
+        if(recommendCardList != null)
+            recommendCardList.clear();
 
     }
     @Override
