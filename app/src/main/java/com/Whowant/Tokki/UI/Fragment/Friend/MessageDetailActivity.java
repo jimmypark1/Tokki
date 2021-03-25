@@ -1,10 +1,12 @@
 package com.Whowant.Tokki.UI.Fragment.Friend;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,9 +28,17 @@ import android.widget.Toast;
 
 import com.Whowant.Tokki.Http.HttpClient;
 import com.Whowant.Tokki.R;
+import com.Whowant.Tokki.UI.Activity.Admin.AproveWaitingEpisodeListActivity;
+import com.Whowant.Tokki.UI.Activity.Admin.CommentManagementActivity;
 import com.Whowant.Tokki.UI.Activity.Admin.MemberManagementActivity;
 import com.Whowant.Tokki.UI.Activity.Market.MainCompletePopup;
 import com.Whowant.Tokki.UI.Activity.Market.MarketDealPopup;
+import com.Whowant.Tokki.UI.Activity.Mypage.MyPageActivity;
+import com.Whowant.Tokki.UI.Activity.Report.ReportActivity;
+import com.Whowant.Tokki.UI.Activity.Work.ReportSelectActivity;
+import com.Whowant.Tokki.UI.Activity.Work.ViewerActivity;
+import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
+import com.Whowant.Tokki.UI.Popup.EpisodeAproveCancelPopup;
 import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.SimplePreference;
 import com.Whowant.Tokki.VO.ContestVO;
@@ -58,6 +69,7 @@ public class MessageDetailActivity extends AppCompatActivity {
     private TextView titleView;
 
     TextView dealBt;
+    ImageButton moreBtn;
     private InputMethodManager imm;
     Button buyBt;
     private float fX, fY;                               // 롱클릭 등을 위해 터치 좌표 저장
@@ -78,6 +90,7 @@ public class MessageDetailActivity extends AppCompatActivity {
         messageListView = findViewById(R.id.chattingListView);
         titleView = findViewById(R.id.titleView);
         dealBt = findViewById(R.id.dealBtn);
+        moreBtn= findViewById(R.id.moreBtn);
 
         nThreadID = getIntent().getIntExtra("THREAD_ID", 0);
         field = getIntent().getStringExtra("FIELD");
@@ -86,6 +99,13 @@ public class MessageDetailActivity extends AppCompatActivity {
         if(type == 0)
         {
             dealBt.setVisibility(View.INVISIBLE);
+            moreBtn.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            dealBt.setVisibility(View.VISIBLE);
+            moreBtn.setVisibility(View.INVISIBLE);
+
         }
 
         workId = getIntent().getStringExtra("WORK_ID");
@@ -284,7 +304,89 @@ public class MessageDetailActivity extends AppCompatActivity {
     }
 
     public void onClickTopLeftBtn(View view) {
+
         finish();
+    }
+
+    void deleteMessage()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int ret = HttpClient.deleteMessage(new OkHttpClient(), String.valueOf(nThreadID));
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        getMessageList();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    void showAlert()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MessageDetailActivity.this);
+        builder.setTitle("대화 삭제");
+        builder.setMessage("대화내용을 모두 삭제하시겠습니까?");
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                deleteMessage();
+            }
+        });
+
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+    public void onClickTopMoreBtn(View view) {
+        PopupMenu popup = new PopupMenu(MessageDetailActivity.this, moreBtn);
+
+        popup.getMenuInflater().inflate(R.menu.message_menu, popup.getMenu());
+
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MessageDetailActivity.this);
+                AlertDialog alertDialog = null;
+
+                switch(item.getItemId()) {
+                    case R.id.profile: {
+                        //    builder.setTitle("작품 게시 승인");
+                        Intent intent = new Intent(MessageDetailActivity.this, MyPageActivity.class);
+
+                        intent.putExtra("WRITER_ID", strReceiverID);
+
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.delete:
+
+                        showAlert();
+                        break;
+                    case R.id.report: {
+                        Intent intent = new Intent(MessageDetailActivity.this, ReportSelectActivity.class);
+                        intent.putExtra("THREAD_ID", nThreadID);
+
+
+                        startActivity(intent);
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+
+        popup.show();//showing popup menu
+
     }
 
     private void getMessageList() {

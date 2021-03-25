@@ -26,12 +26,12 @@ public class FCMService extends FirebaseMessagingService {
         boolean bAlarm = pref.getBoolean("ALARM_SETTING", true);
         boolean bSound = pref.getBoolean("SOUND_SETTING", true);
 
-        if(!bAlarm)
-            return;
+   //     if(!bAlarm)
+    //        return;
 
-        if(pref.getString("USER_ID", "").length() == 0) {
-            return;
-        }
+      //  if(pref.getString("USER_ID", "").length() == 0) {
+      //      return;
+       // }
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         Intent introIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -52,11 +52,19 @@ public class FCMService extends FirebaseMessagingService {
             builder = new Notification.Builder(this);
         }
 
+
+    //    if(remoteMessage.getData().get("TYPE") == null)
+    //        return;
+
         int nType = Integer.valueOf(remoteMessage.getData().get("TYPE"));
         int nObjectID = Integer.valueOf(remoteMessage.getData().get("OBJECT_ID"));
 
         introIntent.putExtra("TYPE", nType);
         introIntent.putExtra("OBJECT_ID", nObjectID);
+
+
+     //   introIntent.putExtra("TYPE", 33);
+     //   introIntent.putExtra("OBJECT_ID", 163);
         introIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0, introIntent, PendingIntent.FLAG_UPDATE_CURRENT);

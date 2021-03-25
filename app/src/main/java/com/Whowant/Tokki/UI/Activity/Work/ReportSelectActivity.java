@@ -31,9 +31,14 @@ public class ReportSelectActivity extends AppCompatActivity {                   
     private RadioButton radio5;
     private RadioButton radio6;
     private RadioButton radio7;
+    private RadioButton radio8;
+
     private ArrayList<RadioButton> buttonList;
     private EditText reportReasonInputView;
     private int nCommentID;
+    private int nEpisodeID;
+    private int nThreadID;
+
     private SharedPreferences pref;
     private Button reportBtn;
 
@@ -52,15 +57,27 @@ public class ReportSelectActivity extends AppCompatActivity {                   
 
         postId = getIntent().getStringExtra("POST_ID");
 
+        nEpisodeID = getIntent().getIntExtra("EPISODE_ID", -1);
+
+        nThreadID = getIntent().getIntExtra("THREAD_ID", -1);
+
         if(nCommentID != -1)
         {
             titleView.setText("댓글 신고");
         }
-        else if(postId.length() > 0)
+        else if(postId != null && postId.length() > 0)
         {
             titleView.setText("게시물 신고");
         }
+        else if(nEpisodeID != -1)
+        {
+            titleView.setText("작품 신고");
+        }
+        else
+        {
+            titleView.setText("신고");
 
+        }
         pref = getSharedPreferences("USER_INFO", MODE_PRIVATE);
 
         radio1 = findViewById(R.id.radio1);
@@ -70,6 +87,7 @@ public class ReportSelectActivity extends AppCompatActivity {                   
         radio5 = findViewById(R.id.radio5);
         radio6 = findViewById(R.id.radio6);
         radio7 = findViewById(R.id.radio7);
+        radio8 = findViewById(R.id.radio8);
         reportBtn = findViewById(R.id.reportBtn);
         reportReasonInputView = findViewById(R.id.reportReasonInputView);
         reportReasonInputView.setEnabled(false);
@@ -82,6 +100,7 @@ public class ReportSelectActivity extends AppCompatActivity {                   
         buttonList.add(radio5);
         buttonList.add(radio6);
         buttonList.add(radio7);
+        buttonList.add(radio8);
 
         reportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,13 +145,13 @@ public class ReportSelectActivity extends AppCompatActivity {                   
     }
 
     private void initRadioBtn() {
-        for(int i = 0 ; i < 7 ; i++) {
+        for(int i = 0 ; i < 8 ; i++) {
             buttonList.get(i).setChecked(false);
         }
 
         buttonList.get(nSelectedIndex-1).setChecked(true);
 
-        if(nSelectedIndex < 7) {
+        if(nSelectedIndex != 8) {
             reportReasonInputView.setText("");
             reportReasonInputView.setEnabled(false);
             reportBtn.setEnabled(true);
@@ -184,6 +203,10 @@ public class ReportSelectActivity extends AppCompatActivity {                   
         nSelectedIndex = 7;
         initRadioBtn();
     }
+    public void onClickList8(View view) {
+        nSelectedIndex = 8;
+        initRadioBtn();
+    }
 
     public void requestReport() {
         String strReason = "";
@@ -208,6 +231,9 @@ public class ReportSelectActivity extends AppCompatActivity {                   
                 strReason = "같은 내용 도배";
                 break;
             case 7:
+                strReason = "저작권";
+                break;
+            case 8:
                 strReason = reportReasonInputView.getText().toString();
                 break;
         }
@@ -245,7 +271,7 @@ public class ReportSelectActivity extends AppCompatActivity {                   
                         }
                     });
                 }
-                else if(postId.length() > 0)
+                else if(postId != null && postId.length() > 0)
                 {
                     int nResult = HttpClient.requestSpaceReport(new OkHttpClient(), pref.getString("USER_ID", "Guest"), postId, strSendReason);
                     runOnUiThread(new Runnable() {
@@ -257,13 +283,35 @@ public class ReportSelectActivity extends AppCompatActivity {                   
                                 Toast.makeText(ReportSelectActivity.this, "신고되었습니다.", Toast.LENGTH_SHORT).show();
                                 finish();
                             } else if(nResult == 1) {
-                                Toast.makeText(ReportSelectActivity.this, "이미 신고한 댓글입니다.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ReportSelectActivity.this, "이미 신고한 게시입니다.", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(ReportSelectActivity.this, "신고에 실패하였습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 }
+                else if(nThreadID > 0)
+                {
+                    final int nResult = HttpClient.requestMessageReport(new OkHttpClient(), pref.getString("USER_ID", "Guest"), nThreadID, strSendReason);
+//                boolean bResult = HttpClient.requestCommentReport(new OkHttpClient(), pref.getString("USER_ID", "Guest"), nCommentID, strReason);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+
+                            if(nResult == 0) {
+                                Toast.makeText(ReportSelectActivity.this, "신고되었습니다.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else if(nResult == 1) {
+                                Toast.makeText(ReportSelectActivity.this, "이미 신고한 대화입니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ReportSelectActivity.this, "신고에 실패하였습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+                //
 
 
             }

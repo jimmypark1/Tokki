@@ -1,5 +1,6 @@
 package com.Whowant.Tokki.UI.Activity.Main;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,6 +56,7 @@ import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkRegActivity;
 import com.Whowant.Tokki.UI.Adapter.MainViewpagerAdapter;
 import com.Whowant.Tokki.UI.Custom.CustomViewPager;
+import com.Whowant.Tokki.UI.Fragment.Friend.MessageDetailActivity;
 import com.Whowant.Tokki.UI.Fragment.Main.MainFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.MyFragment;
 import com.Whowant.Tokki.UI.Fragment.Main.StorageBoxFragment;
@@ -66,6 +68,7 @@ import com.Whowant.Tokki.Utils.CommonUtils;
 import com.Whowant.Tokki.Utils.CustomUncaughtExceptionHandler;
 import com.Whowant.Tokki.VO.AlarmVO;
 import com.Whowant.Tokki.VO.EventVO;
+import com.Whowant.Tokki.VO.MessageThreadVO;
 import com.Whowant.Tokki.VO.NoticeVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
     int selectedPosition = 0;
     private MainNovelPagerAdapter pagerAdapter;
+    ArrayList<MessageThreadVO> messageList = new ArrayList<>();
 
 
     @Override
@@ -289,11 +293,54 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.app_name, R.string.app_name);
         drawer.addDrawerListener(drawerToggle);
 
-        if (nType > 0) {                                                                                         // FCM 클릭해서 앱 진입시 페이지 이동
+        if (nType > 0) {                                                                                         // FCM 클릭해서 앱 진입시 페이지 이동\
             int nObjectID = getIntent().getIntExtra("OBJECT_ID", -1);
-            Intent intent = new Intent(MainActivity.this, WorkMainActivity.class);
-            intent.putExtra("WORK_ID", nObjectID);
-            startActivity(intent);
+
+            if(nType != 33)
+            {
+                Intent intent = new Intent(MainActivity.this, WorkMainActivity.class);
+
+                intent.putExtra("WORK_ID", nObjectID);
+                startActivity(intent);
+            }
+            else
+            {
+                SharedPreferences pref = getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
+
+                // CommonUtils.showProgressDialog(getActivity(), "서버와 통신중입니다.");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        String userId =  pref.getString("USER_ID", "Guest");
+                        messageList = HttpClient.getMessageThreadList(new OkHttpClient(),userId);
+
+                        Intent intent = new Intent(MainActivity.this, MessageDetailActivity.class);
+                        int nThreadID = nObjectID;
+                        intent.putExtra("THREAD_ID", nThreadID);
+
+                        for(int i=0;i<messageList.size();i++)
+                        {
+                            MessageThreadVO msg = messageList.get(i);
+                            if( msg.getThreadID() == nObjectID)
+                            {
+                                if(userId.equals(msg.getUserID()))
+                                    intent.putExtra("RECEIVER_ID", msg.getPartnerID());
+                                else
+                                    intent.putExtra("RECEIVER_ID", msg.getUserID());
+
+                                startActivity(intent);
+
+                                break;
+                            }
+                        }
+
+                    }
+                }).start();
+
+
+            }
+
         }
 
         if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {                                               // 링크 클릭해서 앱 진입시 페이지 이동
@@ -365,6 +412,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
     public void requestAttendance() {
         new Thread(new Runnable() {
@@ -513,6 +561,9 @@ public class MainActivity extends AppCompatActivity {
 //        alarmNewIconView.setVisibility(View.INVISIBLE);
         eventNewIconView.setVisibility(View.INVISIBLE);
         alarmNewView.setVisibility(View.INVISIBLE);
+
+        int nType = getIntent().getIntExtra("TYPE", -1);                                // FCM 메시지를 통해서 들어왔는지 여부를 판단하는 변수
+
 
         //if(selectedPosition == 0)
 

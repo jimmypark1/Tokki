@@ -41,7 +41,16 @@
             android:textColor="#6ca5ff"
 
             />
-
+        <ImageButton
+            android:id="@+id/moreBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"
+            android:background="@null"
+            android:onClick="onClickTopMoreBtn"
+            android:src="@drawable/i_dots_black"/>
     </RelativeLayout>
 
     <ListView

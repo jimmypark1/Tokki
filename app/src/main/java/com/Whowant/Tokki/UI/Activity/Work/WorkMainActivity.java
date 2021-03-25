@@ -1370,7 +1370,7 @@ public class WorkMainActivity extends AppCompatActivity implements AdapterView.O
                                             builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int id) {
-                                                    Intent intent = new Intent(WorkMainActivity.this, EpisodeReportSelectActivity.class);
+                                                    Intent intent = new Intent(WorkMainActivity.this, ReportSelectActivity.class);
                                                     intent.putExtra("EPISODE_ID", vo.getnEpisodeID());
                                                     startActivity(intent);
                                                 }

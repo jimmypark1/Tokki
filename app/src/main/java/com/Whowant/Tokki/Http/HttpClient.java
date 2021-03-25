@@ -2317,7 +2317,36 @@ public class HttpClient {
         return resultList;
     }
 
-    //requestEpisodePost
+    public static int deleteMessage(OkHttpClient httpClient, String threadId) {                              // 모든 작품 목록 가져오기
+        ArrayList<MessageVO> resultList = new ArrayList<>();
+
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "TokkiDM.jsp?CMD=DeleteMessage&THREAD_ID=" + threadId )
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return 0;
+
+            String strResult = response.body().string();
+            JSONObject resultObject = new JSONObject(strResult);
+
+            if (resultObject.getString("RESULT").equals("SUCCESS")) {
+
+                int nThreadId= resultObject.getInt("THREAD_ID");
+                return nThreadId;
+            }
+            return 1;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
     public static int isWork(OkHttpClient httpClient, String workId) {                              // 모든 작품 목록 가져오기
         ArrayList<MessageVO> resultList = new ArrayList<>();
 
@@ -5597,7 +5626,34 @@ public class HttpClient {
 
         return false;
     }
+//
+public static int requestMessageReport(OkHttpClient httpClient, String strUserID, int nThreadID, String strReason) {
+    Request request = new Request.Builder()
+            .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestMessageReport&THREAD_ID=" + String.valueOf(nThreadID )+"&USER_ID="+ strUserID +"&REASON=" + strReason)
+            .get()
+            .build();
 
+    try (Response response = httpClient.newCall(request).execute()) {
+        if (response.code() != 200)
+            return -1;
+
+        String strResult = response.body().string();
+        JSONObject resultJsonObject = new JSONObject(strResult);
+
+        if (resultJsonObject.getString("RESULT").equals("SUCCESS"))
+            return 0;
+        else if (resultJsonObject.getString("RESULT").equals("DUPLICATE"))
+            return 1;
+        else
+            return -1;
+    } catch (IOException e) {
+        e.printStackTrace();
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
+
+    return -1;
+}
     public static int requestCommentReport(OkHttpClient httpClient, String strUserID, int nCommentID, String strReason) {
         Request request = new Request.Builder()
                 .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=RequestCommentReport&USER_ID=" + strUserID + "&COMMENT_ID=" + nCommentID + "&REASON=" + strReason)

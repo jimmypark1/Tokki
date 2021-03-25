@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:background="#ffffff"
     android:layout_marginTop="20dp"
+    android:id="@+id/row"
+
     android:orientation="horizontal">
 
     <LinearLayout
@@ -17,7 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="5sp"
-            android:text="쓰고있는 작품"
+            android:text="
+"
             android:layout_marginLeft="20dp"
 
             android:layout_marginTop="10dp"

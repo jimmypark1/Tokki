@@ -30,9 +30,9 @@ public class ReportActivity extends AppCompatActivity {
     // Edit
     EditText reportEditEt;
 
-    ImageView[] radioButtons = new ImageView[6];
+    ImageView[] radioButtons = new ImageView[7];
     int[] radioRes = new int[]{
-            R.id.iv_report_radio_0, R.id.iv_report_radio_1, R.id.iv_report_radio_2, R.id.iv_report_radio_3, R.id.iv_report_radio_4, R.id.iv_report_radio_5
+            R.id.iv_report_radio_0, R.id.iv_report_radio_1, R.id.iv_report_radio_2, R.id.iv_report_radio_3, R.id.iv_report_radio_4, R.id.iv_report_radio_5, R.id.iv_report_radio_6
     };
 
     @Override

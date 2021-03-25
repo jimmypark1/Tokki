@@ -268,26 +268,109 @@ public class MyPageFeedFragment extends Fragment {
                                 return;
                             }
 
-                            if(viewType == 0)
+                            if(myArrayList.size() > 0)
                             {
-                                 workAdater = new MyPageWorkAdapter(getContext(), myArrayList,0);
-                                viewHoder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                                viewHoder.recyclerView.setAdapter(workAdater);
+                                if(viewType == 0)
+                                {
+                                    workAdater = new MyPageWorkAdapter(getContext(), myArrayList,0);
+                                    viewHoder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                                    viewHoder.recyclerView.setAdapter(workAdater);
+                                    viewHoder.title.setText("쓰고있는 작품");
+                                    ViewGroup.LayoutParams params = viewHoder.title.getLayoutParams();
+
+                                 //   params.height = 20;
+
+
+                                }
+                            }
+                            else
+                            {
+                                if(viewType == 0)
+                                {
+                                    ViewGroup.LayoutParams params = viewHoder.title.getLayoutParams();
+
+                                    params.height = 0;
+                                    viewHoder.title.setText("");
+
+                                    ViewGroup.MarginLayoutParams lp1 = (ViewGroup.MarginLayoutParams) viewHoder.row.getLayoutParams();
+
+                                    lp1.topMargin = 0;
+                                    lp1.bottomMargin = 0;
+
+                                }
+
 
                             }
-                            else if(viewType == 1)
+                            if(readArrayList.size() > 0)
                             {
-                                workAdater2 = new MyPageWorkAdapter(getContext(), readArrayList,1);
-                                viewHoder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                                viewHoder.recyclerView.setAdapter(workAdater2);
+                                if(viewType == 1)
+                                {
+                                    workAdater2 = new MyPageWorkAdapter(getContext(), readArrayList,1);
+                                    viewHoder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                                    viewHoder.recyclerView.setAdapter(workAdater2);
+                                    viewHoder.title.setText("읽고있는 작품");
+                                    ViewGroup.LayoutParams params = viewHoder.title.getLayoutParams();
+
+                                //    params.height = 20;
+
+                                }
+
 
                             }
                             else
                             {
-                                workAdater3 = new MyPageWorkAdapter(getContext(), keepArrayList,2);
-                                viewHoder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                                viewHoder.recyclerView.setAdapter(workAdater3);
+                                if(viewType == 1)
+                                {
+                                    ViewGroup.LayoutParams params = viewHoder.title.getLayoutParams();
+
+                                    params.height = 0;
+                                    viewHoder.title.setText("");
+                                    ViewGroup.MarginLayoutParams lp1 = (ViewGroup.MarginLayoutParams) viewHoder.row.getLayoutParams();
+
+                                    lp1.topMargin = 0;
+                                    lp1.bottomMargin = 0;
+
+                                }
+
+
+
                             }
+                            if(keepArrayList.size() > 0)
+                            {
+                                if(viewType == 2 )
+                                {
+                                    workAdater3 = new MyPageWorkAdapter(getContext(), keepArrayList,2);
+                                    viewHoder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                                    viewHoder.recyclerView.setAdapter(workAdater3);
+                                    viewHoder.title.setText("찜한 작품");
+                                    ViewGroup.LayoutParams params = viewHoder.title.getLayoutParams();
+
+                                 //   params.height = 20;
+
+                                }
+
+                            }
+                            else
+                            {
+                                if(viewType == 2 )
+                                {
+                                    ViewGroup.LayoutParams params = viewHoder.title.getLayoutParams();
+
+                                    params.height = 0;
+                                    viewHoder.title.setText("");
+                                    ViewGroup.MarginLayoutParams lp1 = (ViewGroup.MarginLayoutParams) viewHoder.row.getLayoutParams();
+
+                                    lp1.topMargin = 0;
+                                    lp1.bottomMargin = 0;
+
+                                }
+
+
+                            }
+
+
+
+
                         }
                     });
 
@@ -302,11 +385,10 @@ public class MyPageFeedFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
             CategoryData data = arrayList.get(position);
             CategoryViewHolder viewHolder = (CategoryViewHolder) holder;
             viewHolder.title.setText(data.getTitle());
-            //   workAdater = new MyPageWorkAdapter(getContext(), myArrayList, 0);
-
 
 
         }
@@ -327,6 +409,7 @@ public class MyPageFeedFragment extends Fragment {
 
         TextView title;
         TextView sypnopsis;
+        LinearLayout row;
         TextView date;
 
         ImageView cover;
@@ -340,6 +423,7 @@ public class MyPageFeedFragment extends Fragment {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             recyclerView = itemView.findViewById(R.id.row_recyclerView);
+            row = itemView.findViewById(R.id.row);
 
 
         }
