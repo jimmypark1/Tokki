@@ -4751,6 +4751,28 @@ public class HttpClient {
 
         return "FAIL";
     }
+    public static String requestDeleteWebNovelEpisode(OkHttpClient httpClient, int nEpisodeID) {
+        Request request = new Request.Builder()
+                .url(CommonUtils.strDefaultUrl + "PanAppWork.jsp?CMD=DeleteEpisodeNovelData&EPISODE_ID=" + String.valueOf(nEpisodeID))
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.code() != 200)
+                return "FAIL";
+
+            String strResult = response.body().string();
+            JSONObject resultJsonObject = new JSONObject(strResult);
+
+            return resultJsonObject.getString("RESULT");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return "FAIL";
+    }
 
     public static JSONObject requestDeleteMessage(OkHttpClient httpClient, int nEpisodeID, int nChatID, int nOrder) {
         Request request = new Request.Builder()

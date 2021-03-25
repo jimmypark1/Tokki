@@ -316,25 +316,35 @@ public class WebNovelWriteActivity extends AppCompatActivity {
     }
 
     private void requestDeleteEpisode(final int nEpisodeID) {
-        CommonUtils.showProgressDialog(WebNovelWriteActivity.this, "작품 삭제를 요청중입니다.");
+       // CommonUtils.showProgressDialog(WebNovelWriteActivity.this, "작품 삭제를 요청중입니다.");
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String strResult = HttpClient.requestDeleteEpisode(new OkHttpClient(), nEpisodeID);
+                String strResult = HttpClient.requestDeleteWebNovelEpisode(new OkHttpClient(), nEpisodeID);
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CommonUtils.hideProgressDialog();
+                      //  CommonUtils.hideProgressDialog();
 
                         if (strResult.equals("SUCCESS")) {
-                            Toast.makeText(WebNovelWriteActivity.this, "회차가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else if (strResult.equals("INTERACTION")) {
-                            Toast.makeText(WebNovelWriteActivity.this, "해당 회차에 인터렉션이 설정되어 있습니다. 인터렉션을 먼저 삭제해 주세요.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(WebNovelWriteActivity.this, "회차 삭제를 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WebNovelWriteActivity.this, "내용이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                            getEpisodeData();
+                           // finish();
+                        }
+                         else {
+
+                            content.setText("");
+                            nPage = 0;
+                            page.setText(String.valueOf(nPage+1));
+                        //    publishContent.clear();
+                            getEpisodeData();
+
+                            Toast.makeText(WebNovelWriteActivity.this, "내용이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+
+
+                            //   Toast.makeText(WebNovelWriteActivity.this, "내용삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -367,7 +377,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
                         break;
                     case R.id.delete:
                         AlertDialog.Builder builder = new AlertDialog.Builder(WebNovelWriteActivity.this);
-                        builder.setMessage("에피소드를 삭제하시겠습니까?");
+                        builder.setMessage("작성한 내용을 전체 삭제하시겠습니까?");
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
@@ -638,13 +648,18 @@ public class WebNovelWriteActivity extends AppCompatActivity {
 
     void getEpisodeData()
     {
+        if(publishContent != null)
+        {
+            publishContent.clear();
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
                 //createNovelEpisode String workId,String content,String pages,String page)
                 publishContent = HttpClient.getEpisodeNovelEditData(new OkHttpClient(),nEpisodeID);
 
-                for(int i=publishContent.size() - 1;i<1000;i++)
+                int start = publishContent.size();
+                for(int i=start - 1;i<1000;i++)
                 {
                     WebWorkVO work = new WebWorkVO();
                     String data = "-1";
@@ -656,7 +671,7 @@ public class WebNovelWriteActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(publishContent.size() > 0)
+                        if(publishContent.size() > 0 && start != 0)
                         {
 
                             WebWorkVO work = publishContent.get(0);
@@ -668,6 +683,14 @@ public class WebNovelWriteActivity extends AppCompatActivity {
                                 content.setSelection(data.length() );
                             }
 
+                        }
+                        else
+                        {
+                            if(start == 0)
+                            {
+                                content.setText("");
+
+                            }
                         }
                     }
                 });
