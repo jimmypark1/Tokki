@@ -227,7 +227,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             itemRowHolder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if ("장르별 순위".equals(sectionName)) {
+                    if ("장르별 ".equals(sectionName)) {
                         Intent intent = new Intent(mContext, PopularActivity.class);
 
                         intent.putExtra("NOVEL_TYPE", nType);
