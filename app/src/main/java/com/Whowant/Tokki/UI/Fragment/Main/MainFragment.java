@@ -201,7 +201,6 @@ public class MainFragment extends Fragment {                                    
                 mainHttp = new OkHttpClient();
                 mainCardList = HttpClient.getAllRankingList(mainHttp, nType);
                 SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
-           //     recommendCardList = HttpClient.getRecommendList(new OkHttpClient(), pref.getString("USER_ID", "Guest"),nType);
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -209,8 +208,6 @@ public class MainFragment extends Fragment {                                    
 
                         if(mainCardList == null || mainCardList.size() == 0) {
                             CommonUtils.hideProgressDialog();
-
-                          //  Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
 
 
                             return;
@@ -232,54 +229,9 @@ public class MainFragment extends Fragment {                                    
 
                                 if(mainCardList.size() < 7)
                                 {
-                                    /*
-                                    if(nType == 0)
-                                    {
-                                        mainCardList.addAll(1, recommendCardList);
 
-                                    }
-                                    else
-                                    {
-                                        mainCardList.addAll(0, recommendCardList);
-
-                                    }
-
-                                     */
                                     mainCardList.addAll(1, recommendCardList);
                                     getRecommendData();
-
-                             //
-/*
-                                    if(getActivity() == null || mainCardList == null || mainCardList.size() == 0)
-                                        return;
-
-                                     if(mainCardList.size() > 0)
-                                    {
-                                        mainCardList.remove(1);
-
-                                    }
-                                    if(recommendCardList.size() > 0)
-                                    {
-                                        if(mainCardList.size() > 0)
-                                            mainCardList.addAll(1, recommendCardList);
-
-                                    }
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if(recommendCardList == null) {
-                                                Toast.makeText(getActivity(), "서버와의 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
-                                                return;
-                                            }
-
-                                            adapter.setData(mainCardList);
-//                        adapter.notifyDataSetChanged();
-                                        }
-                                    });
-
-
-
-*/
 
                                 }
 
@@ -287,9 +239,8 @@ public class MainFragment extends Fragment {                                    
 
                             } else {
                                 mainCardList.addAll(1, recommendCardList);
-                         //       recommendCardList.clear();
 
-                            //    getRecommendData();
+
                                 CommonUtils.hideProgressDialog();
 
                             }
@@ -299,16 +250,6 @@ public class MainFragment extends Fragment {                                    
                         }
 
 
-
-
-//                        mainRecyclerView.setHasFixedSize(true);
-//                        adapter = new MainCardListAdapter(getActivity(), mainCardList);
-//                        mainRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-//                        mainRecyclerView.setAdapter(adapter);
-//                        adapter.notifyDataSetChanged();
-
-//                        adapter.setData(mainCardList);
-//                        getRecommendData();
                     }
                 });
             }
@@ -358,9 +299,9 @@ public class MainFragment extends Fragment {                                    
                             return;
                         }
                       //  mainCardList.add(banneCard);
-                        if(mainCardList.size() > 2)
+                        if(mainCardList.size() > 3)
                         {
-                            mainCardList.add(2,banneCard);
+                            mainCardList.add(3,banneCard);
 
                             //  adapter.setData(mainCardList);
                             adapter.setData(mainCardList);

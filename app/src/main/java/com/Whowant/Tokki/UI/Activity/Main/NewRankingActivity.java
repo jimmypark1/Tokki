@@ -63,7 +63,7 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
 
         listView.setOnItemClickListener(this);
 
-        if ("인기작".equals(title)) {
+        if ("인기".equals(title)) {
             getGenreRankingData();
         } else if (title.contains("님을 위한") && bestList != null && bestList.size() > 0) {
             aa = new CNewRankingArrayAdapter(NewRankingActivity.this, R.layout.best_row, bestList);
@@ -91,7 +91,28 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
     }
 
     private void initView() {
-        ((TextView) findViewById(R.id.tv_top_layout_title)).setText(title);
+
+        String end = "채팅소설";
+        if(type == 1)
+        {
+            end = "웹소설";
+        }
+        else if(type == 3)
+        {
+            end = "스토리";
+        }
+        if (title.contains("님을 위한"))
+        {
+            ((TextView) findViewById(R.id.tv_top_layout_title)).setText(title );
+
+        }
+        else
+        {
+            ((TextView) findViewById(R.id.tv_top_layout_title)).setText(title + end);
+
+        }
+
+
 
         findViewById(R.id.ib_top_layout_back).setVisibility(View.VISIBLE);
         findViewById(R.id.ib_top_layout_back).setOnClickListener((v) -> finish());
@@ -200,7 +221,17 @@ public class NewRankingActivity extends AppCompatActivity implements AdapterView
             }
 
             writerNameView.setText(vo.getStrWriterName());
-            titleView.setText(vo.getTitle());
+
+            String end = "채팅소설";
+            if(type == 1)
+            {
+                end = "웹소설";
+            }
+            else if(type == 3)
+            {
+                end = "스토리";
+            }
+            titleView.setText(vo.getTitle() + end);
             synopsisView.setText(vo.getSynopsis());
 
             float fStarPoint = vo.getfStarPoint();

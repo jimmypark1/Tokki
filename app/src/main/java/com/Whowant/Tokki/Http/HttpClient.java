@@ -2890,45 +2890,10 @@ public class HttpClient {
 
 
 
-            JSONArray bestRankingJsonArray = resultObject.getJSONArray("BEST_RANKING");
-            MainCardVO bestRankingVO = new MainCardVO();
-            ArrayList<WorkVO> bestWorkList = new ArrayList<>();
-            bestRankingVO.setStrHeaderTitle("장르별 순위");
-            bestRankingVO.setViewType(2);
-
-            for (int i = 0; i < bestRankingJsonArray.length(); i++) {
-                JSONObject object = bestRankingJsonArray.getJSONObject(i);
-                if( object.getInt("TARGET") == type) {
-                    WorkVO workVO = new WorkVO();
-                    workVO.setWorkID(object.getInt("WORK_ID"));
-                    workVO.setCreatedDate(object.getString("CREATED_DATE"));
-                    workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-                    workVO.setWriteID(object.getString("WRITER_ID"));
-                    workVO.setStrWriterName(object.getString("WRITER_NAME"));
-                    workVO.setTitle(object.getString("WORK_TITLE"));
-                    workVO.setCoverFile(object.getString("COVER_IMG"));
-                    workVO.setnHitsCount(object.getInt("HITS_COUNT"));
-                    workVO.setnTapCount(object.getInt("TAB_COUNT"));
-                    workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
-                    workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
-                    workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
-                    workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
-                    workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
-                    workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
-                    workVO.setnTarget(object.getInt("TARGET"));
-
-                    bestWorkList.add(workVO);
-                }
-
-            }
-
-            bestRankingVO.setAllItemInCard(bestWorkList);
-            mainCardList.add(bestRankingVO);
-
             JSONArray genreRankingJsonArray = resultObject.getJSONArray("GENRE_RANKING");
             MainCardVO genreRankingVO = new MainCardVO();
             ArrayList<WorkVO> genroWorkList = new ArrayList<>();
-            genreRankingVO.setStrHeaderTitle("인기작");
+            genreRankingVO.setStrHeaderTitle("인기 ");
             genreRankingVO.setViewType(2);
 
             for (int i = 0; i < genreRankingJsonArray.length(); i++) {
@@ -2960,14 +2925,48 @@ public class HttpClient {
             genreRankingVO.setAllItemInCard(genroWorkList);
             mainCardList.add(genreRankingVO);
 
-            /*
-            {"NEW_WORK":["value", "value", "value"]}
-             */
+
+
+
+            JSONArray bestRankingJsonArray = resultObject.getJSONArray("BEST_RANKING");
+            MainCardVO bestRankingVO = new MainCardVO();
+            ArrayList<WorkVO> bestWorkList = new ArrayList<>();
+            bestRankingVO.setStrHeaderTitle("장르별 ");
+            bestRankingVO.setViewType(2);
+
+            for (int i = 0; i < bestRankingJsonArray.length(); i++) {
+                JSONObject object = bestRankingJsonArray.getJSONObject(i);
+                if( object.getInt("TARGET") == type) {
+                    WorkVO workVO = new WorkVO();
+                    workVO.setWorkID(object.getInt("WORK_ID"));
+                    workVO.setCreatedDate(object.getString("CREATED_DATE"));
+                    workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
+                    workVO.setWriteID(object.getString("WRITER_ID"));
+                    workVO.setStrWriterName(object.getString("WRITER_NAME"));
+                    workVO.setTitle(object.getString("WORK_TITLE"));
+                    workVO.setCoverFile(object.getString("COVER_IMG"));
+                    workVO.setnHitsCount(object.getInt("HITS_COUNT"));
+                    workVO.setnTapCount(object.getInt("TAB_COUNT"));
+                    workVO.setfStarPoint((float) object.getDouble("STAR_POINT"));
+                    workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
+                    workVO.setnCommentCount(object.getInt("COMMENT_COUNT"));
+                    workVO.setStrThumbFile(object.getString("WORK_COVER_THUMBNAIL"));
+                    workVO.setbPosterThumbnail(object.getString("POSTER_THUMB_YN").equals("Y") ? true : false);
+                    workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
+                    workVO.setnTarget(object.getInt("TARGET"));
+
+                    bestWorkList.add(workVO);
+                }
+
+            }
+
+            bestRankingVO.setAllItemInCard(bestWorkList);
+            mainCardList.add(bestRankingVO);
 
             JSONArray newJsonArray = resultObject.getJSONArray("NEW_WORK");
             MainCardVO newRankingVO = new MainCardVO();
             ArrayList<WorkVO> newWorkList = new ArrayList<>();
-            newRankingVO.setStrHeaderTitle("최신작");
+            newRankingVO.setStrHeaderTitle("최신 ");
             newRankingVO.setViewType(2);
 
             for (int i = 0; i < newJsonArray.length(); i++) {
@@ -2999,7 +2998,7 @@ public class HttpClient {
 
             newRankingVO.setAllItemInCard(newWorkList);
             mainCardList.add(newRankingVO);
-
+/*
             JSONArray realStoryRankingJsonArray = resultObject.getJSONArray("REALSTORY_WORK");
             MainCardVO realStoryRankingVO = new MainCardVO();
             ArrayList<WorkVO> realStoryWorkList = new ArrayList<>();
@@ -3070,34 +3069,8 @@ public class HttpClient {
             fanFicRankingVO.setAllItemInCard(fanFicWorkList);
             mainCardList.add(fanFicRankingVO);
 
-//            JSONArray recommandsonArray = resultObject.getJSONArray("RECOMMAND");
-//            MainCardVO recommandVO = new MainCardVO();
-//            ArrayList<WorkVO> recommandWorkList = new ArrayList<>();
-//            recommandVO.setStrHeaderTitle("추천");
-//            recommandVO.setViewType(3);
-//
-//            for(int i = 0 ; i < recommandsonArray.length() ; i++) {
-//                JSONObject object = recommandsonArray.getJSONObject(i);
-//
-//                WorkVO workVO = new WorkVO();
-//                workVO.setWorkID(object.getInt("WORK_ID"));
-//                workVO.setCreatedDate(object.getString("CREATED_DATE"));
-//                workVO.setStrSynopsis(object.getString("WORK_SYNOPSIS"));
-//                workVO.setWriteID(object.getString("WRITER_ID"));
-//                workVO.setStrWriterName(object.getString("WRITER_NAME"));
-//                workVO.setTitle(object.getString("WORK_TITLE"));
-//                workVO.setCoverFile(object.getString("COVER_IMG"));
-//                workVO.setnHitsCount(object.getInt("HITS_COUNT"));
-//                workVO.setfStarPoint((float)object.getDouble("STAR_POINT"));
-//                workVO.setnKeepcount(object.getInt("KEEP_COUNT"));
-//                workVO.setbDistractor(object.getString("DISTRACTOR").equals("Y") ? true : false);
-//                workVO.setnTarget(object.getInt("TARGET"));
-//
-//                recommandWorkList.add(workVO);
-//            }
-//
-//            recommandVO.setAllItemInCard(recommandWorkList);
-//            mainCardList.add(recommandVO);
+ */
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -6799,7 +6772,8 @@ public static int requestMessageReport(OkHttpClient httpClient, String strUserID
             JSONArray newJsonArray = resultObject.getJSONArray("WORK_LIST");
             MainCardVO personalRecommendVO = new MainCardVO();
             ArrayList<WorkVO> recommendWorkList = new ArrayList<>();
-            personalRecommendVO.setStrHeaderTitle("님을 위한 추천 작품");
+
+            personalRecommendVO.setStrHeaderTitle("님을 위한 ");
             personalRecommendVO.setViewType(3);
 
             for (int i = 0; i < newJsonArray.length(); i++) {

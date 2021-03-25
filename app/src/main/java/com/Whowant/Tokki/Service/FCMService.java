@@ -11,8 +11,18 @@ import android.util.Log;
 
 import com.Whowant.Tokki.R;
 import com.Whowant.Tokki.UI.Activity.Main.MainActivity;
+import com.Whowant.Tokki.VO.MessageThreadVO;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Map;
+
+import okhttp3.Response;
 
 public class FCMService extends FirebaseMessagingService {
 
@@ -56,8 +66,22 @@ public class FCMService extends FirebaseMessagingService {
     //    if(remoteMessage.getData().get("TYPE") == null)
     //        return;
 
-        int nType = Integer.valueOf(remoteMessage.getData().get("TYPE"));
-        int nObjectID = Integer.valueOf(remoteMessage.getData().get("OBJECT_ID"));
+    //    String objectId = remoteMessage.getData().get("Bundle").get("gcm.notification.OBJECT_ID");
+
+        ;
+
+
+        RemoteMessage.Notification  _type =  remoteMessage.getNotification();
+        Map<String, String> data = remoteMessage.getData();
+
+        String type =  data.get("TYPE").toString();
+
+        String objectId =  data.get("OBJECT_ID").toString();
+
+
+
+        int nType = Integer.valueOf(type);
+        int nObjectID = Integer.valueOf(objectId);
 
         introIntent.putExtra("TYPE", nType);
         introIntent.putExtra("OBJECT_ID", nObjectID);
@@ -101,4 +125,5 @@ public class FCMService extends FirebaseMessagingService {
     private void sendRegistrationToServer(String token) {
         // TODO: Implement this method to send token to your app server.
     }
+
 }

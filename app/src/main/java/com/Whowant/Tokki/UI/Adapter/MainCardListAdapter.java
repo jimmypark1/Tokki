@@ -43,6 +43,13 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
     private SharedPreferences pref;
     public int nType = 0;
 
+
+    int recommendIndex = 1;
+    int bestIndex = 2;
+    int bannerIndex = 3;
+    int genreIndex = 4;
+    int latelyIndex = 5;
+
     public MainCardListAdapter(Activity context, ArrayList<MainCardVO> itemsList, int type) {
         this.mContext = context;
         this.mainCardList = itemsList;
@@ -60,7 +67,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
 
         adapterList = new ArrayList<>();
 
-        for (int i = 0 ; i < 8 ; i++) {
+        for (int i = 0 ; i < 6 ; i++) {
             adapterList.add(null);
         }
 
@@ -186,8 +193,19 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
         } else if (viewType == 2) {                                    // 최신작, 인기작, 장르별 순위
             final String sectionName = mainCardList.get(position).getStrHeaderTitle();
             singleSectionItems = mainCardList.get(position).getAllItemInCard();
+            String end = "채팅소설";
+            if(nType == 1)
+            {
+                end = "웹소설";
+            }
+            else if(nType == 3)
+            {
+                end = "스토리";
+            }
 
-            itemRowHolder.headerTitle.setText(sectionName);
+
+        //    itemRowHolder.headerTitle.setText(title);
+            itemRowHolder.headerTitle.setText(sectionName + end);
             if(position == adapterList.size())
             {
                 return;
@@ -231,7 +249,19 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
             pref = mContext.getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
             String strUSerID = pref.getString("USER_NAME", "Guest");
 
-            String title = strUSerID + "님을 위한 추천 작품";
+            String end = "채팅소설";
+            if(nType == 1)
+            {
+                end = "웹소설";
+            }
+            else if(nType == 3)
+            {
+                end = "스토리";
+            }
+            String title = strUSerID + "님을 위한 " + end;
+
+
+
             itemRowHolder.headerTitle.setText(title);
 
             if (adapterList.get(position) == null) {
@@ -262,7 +292,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
                 }
             });
         }
-        else  if (viewType == 7){ // 추천작
+        else  if (viewType == 7){ // 배너
             ArrayList<EventVO> events = mainCardList.get(position).getEvents();
 
             if(events.size() > 0)

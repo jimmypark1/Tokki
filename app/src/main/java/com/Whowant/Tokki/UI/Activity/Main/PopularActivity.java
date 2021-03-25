@@ -42,7 +42,17 @@ public class PopularActivity extends AppCompatActivity {                    // �
     }
 
     private void initView() {
-        ((TextView) findViewById(R.id.tv_top_layout_title)).setText("장르별 순위");
+
+        String end = "채팅소설";
+        if(type == 1)
+        {
+            end = "웹소설";
+        }
+        else if(type == 3)
+        {
+            end = "스토리";
+        }
+        ((TextView) findViewById(R.id.tv_top_layout_title)).setText("장르별 " + end);
 
         (findViewById(R.id.ib_top_layout_back)).setVisibility(View.VISIBLE);
         (findViewById(R.id.ib_top_layout_back)).setOnClickListener((v) -> finish());
