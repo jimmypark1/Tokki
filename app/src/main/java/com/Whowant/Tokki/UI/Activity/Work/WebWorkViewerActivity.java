@@ -116,6 +116,9 @@ public class WebWorkViewerActivity extends AppCompatActivity{
     boolean sortType = true;
     boolean isSettings = false;
     boolean isEpisode = false;
+
+    boolean isPreview = false;
+
     int dpToPx(float dp)
     {
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -359,6 +362,8 @@ public class WebWorkViewerActivity extends AppCompatActivity{
         sortType = getIntent().getBooleanExtra("EPISODE_SORT",true);
 
 
+        isPreview = getIntent().getBooleanExtra("PREVIEW",false);
+
         workID = getIntent().getStringExtra("WORK_ID");
 
 
@@ -395,6 +400,13 @@ public class WebWorkViewerActivity extends AppCompatActivity{
 
         settingBtn.setChecked(false);
         episodeListBtn.setChecked(false);
+
+
+        if(isPreview == true)
+        {
+            settingBtn.setVisibility(View.INVISIBLE);
+            episodeListBtn.setVisibility(View.INVISIBLE);
+        }
 
         getEpisodeNovelData();
         LinearLayout episodeListLayout = findViewById(R.id.episodeListLayout);
@@ -486,33 +498,37 @@ public class WebWorkViewerActivity extends AppCompatActivity{
             {
                 selectedPage = position;
                 lastOrder = position;
-                if(position == 0)
+                if(isPreview == false)
                 {
-                    show = true;
+                    if(position == 0)
+                    {
+                        show = true;
 
-                    WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
-                    fragment.page = position;
-              //      settingBtn.setChecked(true);
+                        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
+                        fragment.page = position;
+                        //      settingBtn.setChecked(true);
 
-                    fragment.showMenu(true,false,true,episodeIndex, episodeList.size(),sortType);
-                    settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
+                        fragment.showMenu(true,false,true,episodeIndex, episodeList.size(),sortType);
+                        settingBtn.setBackgroundResource(R.drawable.ic_i_setting_blue);
 
-
-                }
-                else
-                {
-                    WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
-                    fragment.page = position;
-               //     settingBtn.setChecked(true);
-                    fragment.showMenu(false, false,false,episodeIndex,episodeList.size(),sortType);
-                    fragment.getHtml();
-                    settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
-
-                    if(webs.size() == (position + 1)) {
 
                     }
                     else
-                        dimLayerLayout.setVisibility(View.GONE);
+                    {
+                        WebWorkFragment fragment = (WebWorkFragment)pagerAdapter.getItem(position);
+                        fragment.page = position;
+                        //     settingBtn.setChecked(true);
+                        fragment.showMenu(false, false,false,episodeIndex,episodeList.size(),sortType);
+                        fragment.getHtml();
+                        settingBtn.setBackgroundResource(R.drawable.ic_i_setting);
+
+                        if(webs.size() == (position + 1)) {
+
+                        }
+                        else
+                            dimLayerLayout.setVisibility(View.GONE);
+
+                    }
 
 
                 }
@@ -536,17 +552,21 @@ public class WebWorkViewerActivity extends AppCompatActivity{
                  */
                 if(state == SCROLL_STATE_DRAGGING &&  webs.size() == (selectedPage + 1))
                 {
-                    dimLayerLayout.setVisibility(View.VISIBLE);
-                    if(episodeIndex == 0) {         // 마지막 이라면
-
-                        nextEpisodeBtn.setVisibility(View.INVISIBLE);
-                    }
-                    else
+                    if(isPreview == false)
                     {
-                        nextEpisodeBtn.setVisibility(View.VISIBLE);
-                  //      setComment();
+                        dimLayerLayout.setVisibility(View.VISIBLE);
+                        if(episodeIndex == 0) {         // 마지막 이라면
 
+                            nextEpisodeBtn.setVisibility(View.INVISIBLE);
+                        }
+                        else
+                        {
+                            nextEpisodeBtn.setVisibility(View.VISIBLE);
+                            //      setComment();
+
+                        }
                     }
+
 
                 }
 
