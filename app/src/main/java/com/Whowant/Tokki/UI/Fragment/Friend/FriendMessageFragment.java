@@ -29,6 +29,8 @@ import com.bumptech.glide.request.RequestOptions;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -84,7 +86,11 @@ public class FriendMessageFragment extends Fragment {
                             Toast.makeText(getActivity(), "서버와의 통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-
+                        Collections.sort(messageList, new Comparator<MessageThreadVO>() {
+                            public int compare(MessageThreadVO o1, MessageThreadVO o2) {
+                                return o1.getCreatedDate().compareTo(o2.getCreatedDate())*(-1);
+                            }
+                        });
                         adapter.setData(messageList);
                     }
                 });

@@ -1,6 +1,22 @@
 package com.Whowant.Tokki.VO;
 
-public class MessageThreadVO {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import org.apache.poi.ss.formula.functions.T;
+
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
+
+public  class MessageThreadVO  {
     private int threadID;
     private String partnerID;
     private String userID;
@@ -64,4 +80,6 @@ public class MessageThreadVO {
     public void setLastMsg(String lastMsg) {
         this.lastMsg = lastMsg;
     }
+
+
 }

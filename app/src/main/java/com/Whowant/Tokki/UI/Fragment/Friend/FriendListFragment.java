@@ -26,12 +26,15 @@ import com.Whowant.Tokki.UI.Activity.Work.ViewerActivity;
 import com.Whowant.Tokki.UI.Activity.Work.WorkMainActivity;
 import com.Whowant.Tokki.UI.Activity.Writer.WriterPageActivity;
 import com.Whowant.Tokki.Utils.CommonUtils;
+import com.Whowant.Tokki.Utils.SortArraylist;
 import com.Whowant.Tokki.VO.FriendVO;
 import com.Whowant.Tokki.VO.MessageThreadVO;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import okhttp3.OkHttpClient;
 
@@ -95,7 +98,7 @@ public class FriendListFragment extends Fragment {
             public void run() {
                 MessageThreadVO vo = HttpClient.getMessageThreadByID(new OkHttpClient(), pref.getString("USER_ID", "Guest"), strPartnerID);
 
-                getActivity().runOnUiThread(new Runnable() {
+                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         CommonUtils.hideProgressDialog();
@@ -103,6 +106,7 @@ public class FriendListFragment extends Fragment {
                             Toast.makeText(getActivity(), "서버와의 통신에 실패했습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
+                       // Collections.sort(vo, new SortArraylist());
 
                         SharedPreferences pref = getActivity().getSharedPreferences("USER_INFO", Activity.MODE_PRIVATE);
                         String strMyID = pref.getString("USER_ID", "Guest");
