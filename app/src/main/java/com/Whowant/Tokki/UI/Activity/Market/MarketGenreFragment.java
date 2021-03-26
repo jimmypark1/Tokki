@@ -127,7 +127,11 @@ public class MarketGenreFragment extends Fragment {
 //        CommonUtils.showProgressDialog(getActivity(), "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
 
         if(markets != null)
+        {
             markets.clear();
+            marketGenreAdapter.notifyDataSetChanged();
+
+        }
 
         if(allHttp != null)
         {
@@ -189,8 +193,11 @@ public class MarketGenreFragment extends Fragment {
 //        CommonUtils.showProgressDialog(getActivity(), "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
 
         if(markets != null)
+        {
             markets.clear();
+            marketGenreAdapter.notifyDataSetChanged();
 
+        }
         if(sortHttp != null)
         {
             for (Call call : sortHttp.dispatcher().queuedCalls()) {

@@ -83,6 +83,8 @@ public class MarketContentsFragment extends Fragment {
     OkHttpClient sortHttp;
     OkHttpClient allHttp;
 
+    Boolean bBlock = false;
+
 
     public MarketContentsFragment() {
         // Required empty public constructor
@@ -137,11 +139,12 @@ public class MarketContentsFragment extends Fragment {
         {
             if(pos > 0)
             {
-
+                bBlock = true;
                 getMarketDataSort(content);
             }
             else
             {
+                bBlock = true;
                 getMarketData();
             }
         }
@@ -164,8 +167,10 @@ public class MarketContentsFragment extends Fragment {
     private void getMarketDataSort(String field) {
 //        CommonUtils.showProgressDialog(getActivity(), "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
 
-        if(markets != null)
+        if(markets != null) {
             markets.clear();
+            marketAdapter.notifyDataSetChanged();
+        }
 
 
         if(sortHttp != null)
@@ -228,7 +233,11 @@ public class MarketContentsFragment extends Fragment {
 //        CommonUtils.showProgressDialog(getActivity(), "서버에서 데이터를 가져오고 있습니다. 잠시만 기다려주세요.");
 
         if(markets != null)
-        markets.clear();
+        {
+            markets.clear();
+            marketAdapter.notifyDataSetChanged();
+
+        }
 
         if(allHttp != null)
         {
@@ -293,6 +302,7 @@ public class MarketContentsFragment extends Fragment {
         Context context;
         ArrayList<MarketVO> arrayList;
 
+        Boolean bBlock = false;
 
         public MarketAdapter(Context context,ArrayList<MarketVO> arrayList) {
             this.context = context;
@@ -327,6 +337,11 @@ public class MarketContentsFragment extends Fragment {
 
 
 
+            if(bBlock)
+            {
+                bBlock = false;
+                return;
+            }
             MarketVO data = arrayList.get(position);
 
 
