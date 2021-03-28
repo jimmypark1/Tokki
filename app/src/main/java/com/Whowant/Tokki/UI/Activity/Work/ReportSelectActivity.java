@@ -38,6 +38,7 @@ public class ReportSelectActivity extends AppCompatActivity {                   
     private int nCommentID;
     private int nEpisodeID;
     private int nThreadID;
+    private int nWorkID;
 
     private SharedPreferences pref;
     private Button reportBtn;
@@ -60,6 +61,7 @@ public class ReportSelectActivity extends AppCompatActivity {                   
         nEpisodeID = getIntent().getIntExtra("EPISODE_ID", -1);
 
         nThreadID = getIntent().getIntExtra("THREAD_ID", -1);
+        nWorkID = getIntent().getIntExtra("WORK_ID", -1);
 
         if(nCommentID != -1)
         {
@@ -69,7 +71,7 @@ public class ReportSelectActivity extends AppCompatActivity {                   
         {
             titleView.setText("게시물 신고");
         }
-        else if(nEpisodeID != -1)
+        else if(nEpisodeID != -1 || nWorkID != -1)
         {
             titleView.setText("작품 신고");
         }
@@ -311,10 +313,52 @@ public class ReportSelectActivity extends AppCompatActivity {                   
                         }
                     });
                 }
-                //
+                //requestWorkReport
+                else if(nWorkID > 0)
+                {
+                    final int nResult = HttpClient.requestWorkReport(new OkHttpClient(), pref.getString("USER_ID", "Guest"), String.valueOf(nWorkID), strSendReason);
+//                boolean bResult = HttpClient.requestCommentReport(new OkHttpClient(), pref.getString("USER_ID", "Guest"), nCommentID, strReason);
 
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+
+                            if(nResult == 0) {
+                                Toast.makeText(ReportSelectActivity.this, "신고되었습니다.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else if(nResult == 1) {
+                                Toast.makeText(ReportSelectActivity.this, "이미 신고한 댓글입니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ReportSelectActivity.this, "신고에 실패하였습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+                else if(nEpisodeID > 0)
+                {
+                    final int nResult = HttpClient.requestEpisodeReport(new OkHttpClient(), pref.getString("USER_ID", "Guest"), String.valueOf(nEpisodeID), strSendReason);
+//                boolean bResult = HttpClient.requestCommentReport(new OkHttpClient(), pref.getString("USER_ID", "Guest"), nCommentID, strReason);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.hideProgressDialog();
+
+                            if(nResult == 0) {
+                                Toast.makeText(ReportSelectActivity.this, "신고되었습니다.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else if(nResult == 1) {
+                                Toast.makeText(ReportSelectActivity.this, "이미 신고한 댓글입니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ReportSelectActivity.this, "신고에 실패하였습니다. 잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
 
             }
+
         }).start();
     }
 }
